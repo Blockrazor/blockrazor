@@ -14,6 +14,19 @@ Template.addCoin.events({
   'submit form': function(data){
   var d = data.target;
 
+  var insert = {
+    currencyName: d.currencyName.value,
+    currencySymbol: d.currencySymbol.value,
+    genesisTimestamp: Date.parse(d.genesisYear.value + "-" + d.genesisMonth.value + "-" + d.genesisDay.value),
+    premine: d.premine.value,
+    maxCoins: d.maxCoins.value,
+    consensusSecurity: d.consensusSecurity.value,
+    hashAlgorithm: d.hashAlgorithm.value,
+    gitRepo: d.gitRepo.value,
+    createdAt: new Date(), // current time
+  };
+
+
   // Currencies.insert({
   //   currencyName: d.currencyName.value,
   //   currencySymbol: d.currencySymbol.value,
@@ -27,7 +40,7 @@ Template.addCoin.events({
   // });
     data.preventDefault();
     //console.log(d.currencyName.value);
-    Meteor.call('addCoin', d.currencyName.value, d.currencySymbol.value, function(error, result){
+    Meteor.call('addCoin', insert, function(error, result){
       if(error) {
         console.log(error);
       } else {

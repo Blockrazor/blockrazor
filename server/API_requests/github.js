@@ -5,7 +5,7 @@ import { HTTP } from 'meteor/http';
 SyncedCron.add({
   name: 'Update from CoinMarketCap',
   schedule: function(parser) {
-    return parser.text('every 1 minutes');
+    return parser.text('every 10 minutes');
   },
   job: function() {
     Meteor.call('updateMarketCap');
@@ -46,8 +46,7 @@ Meteor.methods({
              gitCommits: last4weeks,
              gitUpdate: time
            }
-         },
-         { validate: false, filter: false, autoConvert: false, removeEmptyStrings: false, getAutoValues: false }
+         }
          )
 
        }
@@ -64,7 +63,7 @@ var allcurrencies = Currencies.find({}, { sort: { createdAt: -1 }}).fetch();
           for (var currency in allcurrencies) {//i = 0; i < Currencies.find({}, { sort: { createdAt: -1 }}).count(); i++) {
             if (result.data[key].name.toLowerCase() == allcurrencies[currency].currencyName.toLowerCase() || result.data[key].name == allcurrencies[currency].currencySymbol) {
             console.log("Updating: " + allcurrencies[currency].currencyName);
-            Currencies.upsert(allcurrencies[currency]._id, { bypassCollection2: true },
+            Currencies.upsert(allcurrencies[currency]._id,
             {
               $set: {
                 marketCap: Math.round(result.data[key].market_cap_usd),
