@@ -1,0 +1,118 @@
+<template name="addCoin">
+<form name="addCurrency" id="addCurrency">
+  <div class="form-group">
+  <div class="card border-primary mb-3 float-left" style="max-width:600px;">
+  <div class="card-body">
+    <h5>Rules:</h5>
+<div class="row">
+    <ul class="required list-group" style="width: 260px;margin-right:10px;margin-left:10px;">
+      <li class="list-group-item bg-info">
+        <b>Coin Basics</b><br />
+        <input type="text" name="currencyName" placeholder="Currency Name" style="width: 100%">
+        <input type="text" name="currencySymbol" placeholder="SYMBOL" style="width: 100%">
+  <div style="width:30%" class="float-left">Genesis</div>
+  <div style="width:70%" class="float-right text-right"><input type="number" min="2008" max="2020" name="genesisYear" placeholder="YYYY" style="width:62px"><input type="number" min="1" max="12" name="genesisMonth" placeholder="MM" style="width: 44px"><input type="number" min="1" max="31" name="genesisDay" placeholder="DD" style="width: 44px"></div>
+  <input type="number" min="0" name="premine" placeholder="Premine amount" style="width: 100%">
+  <input type="number" name="maxCoins" placeholder="Maximum Coins" style="width: 100%">
+</li></ul>
+
+  <div class="float-right">
+  <ul class="list-group" style="width: 250px;margin-right:10px;margin-left:10px;">
+  <li class="list-group-item bg-danger"><div class="form-group">
+    <b>Security</b><br />
+    <select class="form-control" id="exampleFormControlSelect1" name="consensusSecurity">
+      <option>Proof of Work</option>
+      <option>Proof of Stake</option>
+      <option>Hybrid</option>
+      <option>Proof of Vitalik</option>
+    </select>
+  </div>
+ <div class="form-group">
+    <select class="form-control" id="exampleFormControlSelect1" name="hashAlgorithm">
+      <option>SHA256</option>
+      <option>Scrypt</option>
+      <option>X11</option>
+      <option>Quark</option>
+      <option>Groestl</option>
+      <option>Blake-256</option>
+      <option>NeoScrypt</option>
+      <option>Lyra2REv2</option>
+      <option>CryptoNight</option>
+      <option>EtHash</option>
+      <option>Equihash</option>
+      <option>Cuckoo16</option>
+      <option>Cuckoo30</option>
+    </select>
+  </div>
+</li></ul>
+
+  </div>
+</div>
+<div class="row">
+  <div class="float-left">
+  &nbsp;
+  <ul class="list-group" style="width: 260px;margin-right:10px;margin-left:10px;">
+  <li class="list-group-item bg-success">
+    <b>Community</b><br />
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" placeholder="Github repository for main node software" name="gitRepo"></textarea>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" placeholder="Official website" name="website"></textarea>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" placeholder="Reddit" name="reddit"></textarea>
+  </li>
+  </ul>
+  </div>
+
+  <div class="float-right">
+  &nbsp;
+  <ul class="list-group" style="width: 260px;margin-right:10px;margin-left:10px;">
+  <li class="list-group-item bg-primary">
+    <b>Features</b><br />
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" placeholder="Feature tags separated with commas (,). Look to the right for examples =>" name="feature-tags"></textarea>
+    The block time is <input type="text" name="blockTime" placeholder="" style="width:60px;"> seconds.
+    Exchanges usually require <input type="text" name="confirmations" placeholder="" style="width: 40px;"> confirmations.
+
+  </li>
+  </ul>
+  </div>
+</div>
+
+<div class="row">
+  <div class="float-left">
+  &nbsp;
+  <ul class="list-group" style="width: 260px;margin-right:10px;margin-left:10px;">
+  <li class="list-group-item bg-info">
+    <b>History</b><br />
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" placeholder="Past names separated with commas (,)" name="pastNames"></textarea>
+    <label><input type="checkbox" name="ICO" value="ICO"> This was an ICO</label><br>
+    <label><input type="checkbox" name="BTCFork" value="BTCFork"> This is a Bitcoin fork</label><br>
+  </li>
+  </ul>
+  </div>
+
+  <div class="float-right">
+  &nbsp;
+  <ul class="list-group" style="width: 260px;margin-right:10px;margin-left:10px;">
+  <li class="list-group-item bg-warning">
+    <b>Exchanges</b><br />
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" placeholder="Exchanges separated with commas (,). Look to the right for examples =>" name="feature-tags"></textarea>
+  </li>
+  </ul>
+  </div>
+</div>
+<div class="row">
+  &nbsp;
+<ul class="list-group" style="width: 100%;margin-right:10px;margin-left:10px;">
+<li class="list-group-item bg-primary">
+  <b>Additional information</b><br />
+  <textarea class="form-control" id="exampleFormControlTextarea1" rows="6" placeholder="You can add a message here and it will be seen by the person responsible for fact-checking and approval." name="notes"></textarea>
+</li>
+</ul>
+</div>
+
+
+
+</div>
+<div class="float-left" style="margin-right:10px;margin-left:10px;margin-bottom:10px;">
+  <button type="submit" class="btn btn-primary" id="submit">Add Coin</button>
+  <button class="btn btn-danger" id="cancel">Cancel</button>
+</div></div></div></form>
+</template>

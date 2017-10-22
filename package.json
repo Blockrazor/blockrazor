@@ -1,0 +1,12 @@
+{
+  "name": "blockrazor",
+  "private": true,
+  "scripts": {
+    "start": "meteor run"
+  },
+  "dependencies": {
+    "babel-runtime": "^6.26.0",
+    "later": "^1.2.0",
+    "meteor-node-stubs": "~0.2.4"
+  }
+}

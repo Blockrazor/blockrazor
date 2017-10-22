@@ -1,0 +1,23 @@
+<template name="currencyDetail">
+  {{#with thiscurrency}}
+  <div class="card text-white bg-warning mb-3" style="min-width:300px;">
+  <div class="card-header"><b>{{currencyName}} ({{currencySymbol}})</b></div>
+  <div class="card-body">
+    <blockquote class="blockquote text-center">
+  <p>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and</p>
+</blockquote>
+  <div class="float-left">
+  <ul class="list-group" style="max-width: 300px;">
+  <li class="list-group-item bg-success"><b>Secured by:</b><br /><i class="fa fa-gavel"></i> {{consensusSecurity}} <a href="#" class="text-warning">consensus</a><br /><i class="fa fa-bolt"></i><i class="fa fa-bolt"></i> {{hashpower}} W/s of <a href="#" class="text-warning">hashpower</a></li>
+  <li class="list-group-item bg-success"><b>16,602,662</b> {{currencySymbol}} are currently priced at <b>$4,314.56</b> each for a total of <b>$71,634,177,518</b></li>
+  <li class="list-group-item bg-success">
+    <i class="fa fa-clock-o" aria-hidden="true"></i> {{launchDate}} <a href={{link}} class="text-warning">{{linktext}}</a></li>
+  </ul>
+  </div>
+
+    <div class="float-left"><canvas id="distribution" style="border-style: solid; max-width:300px;"></canvas>
+    </div>
+    <div><canvas id="radar"></canvas><a href="#">?</a></div>
+  </div></div>
+  {{/with}}
+</template>
