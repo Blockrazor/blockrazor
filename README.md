@@ -2,9 +2,9 @@
 To build:   
 Install Meteor:   
 curl https://install.meteor.com/ | sh   
-Clone repository   
-`meteor install`   
+Clone repository    
 `meteor`   
+You will probably be asked to install some additional NPM packages on the first run.   
 
 ## Contributing
 Pull requests that are *correct patches* as per the [C4](https://rfc.zeromq.org/spec:42/C4) *will* be merged.
