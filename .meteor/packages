@@ -27,3 +27,4 @@ http
 percolate:synced-cron
 aldeed:collection2
 session
+raix:handlebar-helpers
