@@ -98,7 +98,7 @@ Template.addCoin.events({
   if(d.hashAlgorithm) {addToInsert(d.hashAlgorithm.value, "hashAlgorithm")};
   if(d.icocurrency) {addToInsert(d.icocurrency.value, "icocurrency")};
   if(d.ICOfundsRaised) {addToInsert(parseInt(d.ICOfundsRaised.value), "ICOfundsRaised")};
-  if(d.icocurrency) {addToInsert(parseInt(d.icocurrency.value), "icocurrency")};
+  if(d.icocurrency) {addToInsert(d.icocurrency.value, "icocurrency")};
   if(d.genesisYear) {addToInsert(Date.parse(d.genesisYear.value + "-" + d.genesisMonth.value + "-" + d.genesisDay.value), "genesisTimestamp")};
 
     data.preventDefault(); //this goes after the 'insert' array is built, strange things happen when it's used too early
