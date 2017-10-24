@@ -5,13 +5,52 @@
   <div class="card-body">
     <h5>Rules:</h5>
 <div class="row">
+  <label class="custom-control custom-checkbox active">
+  <input type="checkbox" name="exists" value="exists" class="custom-control-input exists" checked="checked">
+  <span class="custom-control-indicator"></span>
+  <span class="custom-control-description noselect">This blockchain has been launched (genesis block has been mined)</span>
+</label>
+  <label class="custom-control custom-checkbox">
+  <input type="checkbox" name="ICO" value="ICO" class="custom-control-input isICO">
+  <span class="custom-control-indicator"></span>
+  <span class="custom-control-description noselect">{{icoText}}</span>
+</label>
+<label class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input btcfork" name="BTCFork" value="BTCFork">
+<span class="custom-control-indicator"></span>
+<span class="custom-control-description noselect">{{btcForkText}}</span>
+</label>
     <ul class="required list-group" style="width: 260px;margin-right:10px;margin-left:10px;">
       <li class="list-group-item bg-info">
         <b>Coin Basics</b><br />
         <input type="text" name="currencyName" placeholder="Currency Name" style="width: 100%">
         <input type="text" name="currencySymbol" placeholder="SYMBOL" style="width: 100%">
-  <div style="width:30%" class="float-left">Genesis</div>
-  <div style="width:70%" class="float-right text-right"><input type="number" min="2008" max="2020" name="genesisYear" placeholder="YYYY" style="width:62px"><input type="number" min="1" max="12" name="genesisMonth" placeholder="MM" style="width: 44px"><input type="number" min="1" max="31" name="genesisDay" placeholder="DD" style="width: 44px"></div>
+
+{{ #if $.Session.equals 'isICO' true }}
+{{ #if $.Session.equals 'coinExists' true }}
+<input type="number" min="0" name="ICOfundsRaised" placeholder="Funds raised in ICO" style="width:80%">
+<select class="form-control icocurrency" id="icocurrency" name="icocurrency" style="width: 80px;">
+  <option disabled selected>---</option>
+  <option>USD</option>
+  <option>BTC</option>
+  <option>ETC</option>
+</select>
+{{ /if }}
+{{ /if }}
+
+{{ #if $.Session.equals 'btcfork' false }}
+  <div class="float-right" style="width:100%; display:flex;">
+    Genesis:&nbsp;<input type="number" min="2008" max="2020" name="genesisYear" placeholder="YYYY" style="width:62px">
+    <input type="number" min="1" max="12" name="genesisMonth" placeholder="MM" style="width: 44px">
+    <input type="number" min="1" max="31" name="genesisDay" placeholder="DD" style="width: 44px">
+  </div>
+{{ /if }}
+
+{{ #if $.Session.equals 'btcfork' true }}
+  <input type="text" name="forkParent" placeholder="Fork Parent (make dropdown)" style="width: 100%">
+  <input type="number" min="478500" max="600000" name="forkHeight" style="width: 100%;" placeholder="Fork Height">
+{{ /if }}
+
   <input type="number" min="0" name="premine" placeholder="Premine amount" style="width: 100%">
   <input type="number" name="maxCoins" placeholder="Maximum Coins" style="width: 100%">
 </li></ul>
@@ -21,29 +60,22 @@
   <li class="list-group-item bg-danger"><div class="form-group">
     <b>Security</b><br />
     <select class="form-control consensus" id="consensusType" name="consensusSecurity">
-      <option>Proof of Work</option>
-      <option>Proof of Stake</option>
-      <option>Hybrid</option>
-      <option>Proof of Vitalik</option>
+      <option disabled selected>--Select One--</option>
+      {{#each security}}
+       <option>{{name}}</option>
+      {{ /each }}
     </select>
   </div>
+  {{#if $.Session.equals 'POWSelect' true}}
  <div class="form-group">
     <select class="form-control" id="exampleFormControlSelect1" name="hashAlgorithm">
-      <option>SHA256</option>
-      <option>Scrypt</option>
-      <option>X11</option>
-      <option>Quark</option>
-      <option>Groestl</option>
-      <option>Blake-256</option>
-      <option>NeoScrypt</option>
-      <option>Lyra2REv2</option>
-      <option>CryptoNight</option>
-      <option>EtHash</option>
-      <option>Equihash</option>
-      <option>Cuckoo16</option>
-      <option>Cuckoo30</option>
+      <option disabled selected>--Select One--</option>
+      {{#each subsecurity}}
+      <option>{{name}}</option>
+      {{ /each }}
     </select>
   </div>
+  {{/if}}
 </li></ul>
 
   </div>
@@ -75,6 +107,7 @@
   </div>
 </div>
 
+{{#if $.Session.equals 'coinExists' true}}
 <div class="row">
   <div class="float-left">
   &nbsp;
@@ -82,11 +115,10 @@
   <li class="list-group-item bg-info">
     <b>History</b><br />
     <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" placeholder="Previous names separated with commas (,)" name="previousNames"></textarea>
-    <label><input type="checkbox" name="ICO" value="ICO"> This was an ICO</label><br>
-    <label><input type="checkbox" name="BTCFork" value="BTCFork"> This is a Bitcoin fork</label><br>
   </li>
   </ul>
   </div>
+
 
   <div class="float-right">
   &nbsp;
@@ -98,6 +130,8 @@
   </ul>
   </div>
 </div>
+{{/if}}
+
 <div class="row">
   &nbsp;
 <ul class="list-group" style="width: 100%;margin-right:10px;margin-left:10px;">
