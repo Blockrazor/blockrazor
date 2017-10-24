@@ -4,9 +4,15 @@ import { FormData } from '../lib/database/FormData.js'; //database
 //Functions to help with client side validation and data manipulation
 var makeTagArrayFrom = function(string) {
   if (!string) {return new Array()};
-  var array = string.split(",");
-  console.log($.map(array, $.trim));
-  return $.map(array, $.trim).filter(function(v){return v!==''});
+  array = $.map(string.split(","), $.trim).filter(function(v){return v!==''});
+  var namedArray = new Array();
+  for (i in array) {
+    var string = array[i].toString().replace(/[^\w\s]/gi, '');
+    if(string) {
+      namedArray.push({"tag": string});
+    }
+  }
+  return namedArray;
 }
 
 Template.addCoin.onRendered(function() {
@@ -45,12 +51,8 @@ Template.addCoin.events({
   'submit form': function(data){
     data.preventDefault();
   var d = data.target;
-  //initiate empty variables for form items which may not exist, keep within local scope only
+
   launchTags = new Array();
-  var forkHeight = false;
-  var forkParent = false;
-
-
   if (d.ICO.checked || d.BTCFork.checked) {
     if (d.ICO.checked) {launchTags.push({"tag": "ICO"})};
     if (d.BTCFork.checked) {launchTags.push({"tag": "Bitcoin Fork"})};
@@ -65,20 +67,15 @@ Template.addCoin.events({
   var insert = {
     currencyName: d.currencyName.value,
     currencySymbol: d.currencySymbol.value.toUpperCase(),
-    //genesisTimestamp: Date.parse(d.genesisYear.value + "-" + d.genesisMonth.value + "-" + d.genesisDay.value),
     premine: d.premine.value ? parseInt(d.premine.value) : 0,
     maxCoins: parseInt(d.maxCoins.value),
     consensusSecurity: d.consensusSecurity.value,
     gitRepo: d.gitRepo.value,
     officialSite: d.officialSite.value,
     reddit: d.reddit.value,
-    //previousNames: makeTagArrayFrom(d.previousNames.value),
     featureTags: makeTagArrayFrom(d.featureTags.value),
-    //exchanges: makeTagArrayFrom(d.exchanges.value),
-    blockTime: parseInt(d.blockTime.value),
     confirmations: parseInt(d.confirmations.value),
     approvalNotes: d.notes.value,
-
     createdAt: new Date(), // current time
   };
 
@@ -91,14 +88,17 @@ Template.addCoin.events({
   }
 
 // Start inserting data that may or may not exist
+
+  if(d.previousNames) {addToInsert(makeTagArrayFrom(d.previousNames.value), "previousNames")};
+  if(d.exchanges) {addToInsert(makeTagArrayFrom(d.exchanges.value), "exchanges")};
   addToInsert("launchTags");
-  addToInsert("forkHeight");
-  //addToInsert("forkParent");
-  //console.log(d.hashAlgorithm.value);
+  if(d.blockTime) {addToInsert(parseInt(d.blockTime.value), "blockTime")};
+  if(d.forkHeight) {addToInsert(d.forkHeight.value, "forkHeight")};
+  if(d.forkParent) {addToInsert(d.forkParent.value, "forkParent")};
   if(d.hashAlgorithm) {addToInsert(d.hashAlgorithm.value, "hashAlgorithm")};
   if(d.icocurrency) {addToInsert(d.icocurrency.value, "icocurrency")};
+  if(d.genesisYear) {addToInsert(Date.parse(d.genesisYear.value + "-" + d.genesisMonth.value + "-" + d.genesisDay.value), "genesisTimestamp")};
 
-  //console.log(insert);
     data.preventDefault(); //this goes after the 'insert' array is built, strange things happen when it's used too early
 
 //Send everything to the server for fuckery prevention and database insertion
@@ -106,8 +106,7 @@ Template.addCoin.events({
       if(error) {
         console.log(error);
       } else {
-        console.log(result);
-        //FlowRouter.go('/');
+        FlowRouter.go('/');
       }
     });
 
