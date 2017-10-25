@@ -20,10 +20,63 @@ Template.addCoin.onRendered(function() {
   Session.set('POWSelect', false);
   Session.set('btcfork', false);
   Session.set('isICO', false);
+//Set form help text display variables
+  Session.set('currencyName', false);
+  Session.set('currencySymbol', false);
+  Session.set('ICOfundsRaised', false);
+  Session.set('genesis', false);
+  Session.set('forkParent', false);
+  Session.set('forkHeight', false);
+  Session.set('premine', false);
+  Session.set('maxCoins', false);
+  Session.set('gitRepo', false);
+  Session.set('officialSite', false);
+  Session.set('reddit', false);
+  Session.set('featureTags', false);
+  Session.set('blockTime', false);
+  Session.set('confirmations', false);
+  Session.set('previousNames', false);
+  Session.set('exchanges', false);
+
 });
 
 //Events
 Template.addCoin.events({
+  //Show and hide form help
+  'focus #currencyName': function(){Session.set('currencyName', true)},
+  'blur #currencyName': function(){Session.set('currencyName', false)},
+  'focus #currencySymbol': function(){Session.set('currencySymbol', true)},
+  'blur #currencySymbol': function(){Session.set('currencySymbol', false)},
+  'focus #ICOfundsRaised': function(){Session.set('ICOfundsRaised', true)},
+  'blur #ICOfundsRaised': function(){Session.set('ICOfundsRaised', false)},
+  'focus #genesis': function(){Session.set('genesis', true)},
+  'blur #genesis': function(){Session.set('genesis', false)},
+  'focus #forkParent': function(){Session.set('forkParent', true)},
+  'blur #forkParent': function(){Session.set('forkParent', false)},
+  'focus #forkHeight': function(){Session.set('forkHeight', true)},
+  'blur #forkHeight': function(){Session.set('forkHeight', false)},
+  'focus #premine': function(){Session.set('premine', true)},
+  'blur #premine': function(){Session.set('premine', false)},
+  'focus #maxCoins': function(){Session.set('maxCoins', true)},
+  'blur #maxCoins': function(){Session.set('maxCoins', false)},
+  'focus #gitRepo': function(){Session.set('gitRepo', true)},
+  'blur #gitRepo': function(){Session.set('gitRepo', false)},
+  'focus #officialSite': function(){Session.set('officialSite', true)},
+  'blur #officialSite': function(){Session.set('officialSite', false)},
+  'focus #reddit': function(){Session.set('reddit', true)},
+  'blur #reddit': function(){Session.set('reddit', false)},
+  'focus #featureTags': function(){Session.set('featureTags', true)},
+  'blur #featureTags': function(){Session.set('featureTags', false)},
+  'focus #blockTime': function(){Session.set('blockTime', true)},
+  'blur #blockTime': function(){Session.set('blockTime', false)},
+  'focus #confirmations': function(){Session.set('confirmations', true)},
+  'blur #confirmations': function(){Session.set('confirmations', false)},
+  'focus #previousNames': function(){Session.set('previousNames', true)},
+  'blur #previousNames': function(){Session.set('previousNames', false)},
+  'focus #exchanges': function(){Session.set('exchanges', true)},
+  'blur #exchanges': function(){Session.set('exchanges', false)},
+
+//Select form elements to display to user based on their selection
   'change .isICO': function(dataFromForm) {
     Session.set('isICO', dataFromForm.target.checked);
   },
