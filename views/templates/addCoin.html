@@ -23,13 +23,16 @@
     <ul class="required list-group" style="width: 260px;margin-right:10px;margin-left:10px;">
       <li class="list-group-item bg-info">
         <b>Coin Basics</b><br />
-        <input type="text" name="currencyName" placeholder="Currency Name" style="width: 100%">
-        <input type="text" name="currencySymbol" placeholder="SYMBOL" style="width: 100%">
+        <input type="text" id="currencyName" name="currencyName" placeholder="Currency Name" style="width: 100%">
+         {{ #if $.Session.equals 'currencyName' true }}{{> currencyName}}{{/if}}
+        <input type="text" id="currencySymbol" name="currencySymbol" placeholder="SYMBOL" style="width: 100%">
+        {{ #if $.Session.equals 'currencySymbol' true }}{{> currencSymbol}}{{/if}}
 
 {{ #if $.Session.equals 'isICO' true }}
 {{ #if $.Session.equals 'coinExists' true }}
-<input type="number" min="0" name="ICOfundsRaised" placeholder="Funds raised in ICO" style="width:80%">
-<select class="form-control icocurrency" id="icocurrency" name="icocurrency" style="width: 80px;">
+<input type="number" min="0" name="ICOfundsRaised" id="ICOfundsRaised" placeholder="Funds raised in ICO">
+{{ #if $.Session.equals 'ICOfundsRaised' true }}{{> ICOfundsRaised}}{{/if}}
+Currency: <select class="form-control icocurrency" id="icocurrency" name="icocurrency" style="width: 80px;">
   <option disabled selected>---</option>
   <option>USD</option>
   <option>BTC</option>
@@ -40,19 +43,24 @@
 
 {{ #if $.Session.equals 'btcfork' false }}
   <div class="float-right" style="width:100%; display:flex;">
-    Genesis:&nbsp;<input type="number" min="2008" max="2020" name="genesisYear" placeholder="YYYY" style="width:62px">
+    Genesis:&nbsp;<input type="number" min="2008" max="2020" name="genesisYear" placeholder="YYYY" id="genesis" style="width:62px">
     <input type="number" min="1" max="12" name="genesisMonth" placeholder="MM" style="width: 44px">
     <input type="number" min="1" max="31" name="genesisDay" placeholder="DD" style="width: 44px">
   </div>
+{{ #if $.Session.equals 'genesis' true }}{{> genesis}}{{/if}}
 {{ /if }}
 
 {{ #if $.Session.equals 'btcfork' true }}
-  <input type="text" name="forkParent" placeholder="Fork Parent (make dropdown)" style="width: 100%">
-  <input type="number" min="478500" max="600000" name="forkHeight" style="width: 100%;" placeholder="Fork Height">
+  <input type="text" name="forkParent" placeholder="Fork Parent (make dropdown)" style="width: 100%" id="forkParent">
+  {{ #if $.Session.equals 'forkParent' true }}{{> forkParent}}{{/if}}
+  <input type="number" min="478500" max="600000" name="forkHeight" id="forkHeight" style="width: 100%;" placeholder="Fork Height">
+  {{ #if $.Session.equals 'forkHeight' true }}{{> forkHeight}}{{/if}}
 {{ /if }}
 
-  <input type="number" min="0" name="premine" placeholder="Premine amount" style="width: 100%">
-  <input type="number" name="maxCoins" placeholder="Maximum Coins" style="width: 100%">
+  <input type="number" min="0" name="premine" id="premine" placeholder="Premine amount" style="width: 100%">
+  {{ #if $.Session.equals 'premine' true }}{{> premine}}{{/if}}
+  <input type="number" name="maxCoins" id="maxCoins" placeholder="Maximum Coins" style="width: 100%">
+  {{ #if $.Session.equals 'maxCoins' true }}{{> maxCoins}}{{/if}}
 </li></ul>
 
   <div class="float-right">
@@ -86,9 +94,12 @@
   <ul class="list-group" style="width: 260px;margin-right:10px;margin-left:10px;">
   <li class="list-group-item bg-success">
     <b>Community</b><br />
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" placeholder="Github repository for main node software" name="gitRepo"></textarea>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" placeholder="Official website" name="officialSite"></textarea>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" placeholder="Reddit" name="reddit"></textarea>
+    <textarea class="form-control" id="gitRepo" rows="2" placeholder="Github repository for main node software" name="gitRepo"></textarea>
+    {{ #if $.Session.equals 'gitRepo' true }}{{> gitRepo}}{{/if}}
+    <textarea class="form-control" id="officialSite" rows="2" placeholder="Official website" name="officialSite"></textarea>
+    {{ #if $.Session.equals 'officialSite' true }}{{> officialSite}}{{/if}}
+    <textarea class="form-control" id="reddit" rows="2" placeholder="Reddit" name="reddit"></textarea>
+    {{ #if $.Session.equals 'reddit' true }}{{> reddit}}{{/if}}
   </li>
   </ul>
   </div>
@@ -98,10 +109,12 @@
   <ul class="list-group" style="width: 260px;margin-right:10px;margin-left:10px;">
   <li class="list-group-item bg-primary">
     <b>Features</b><br />
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" placeholder="Feature tags separated with commas (,). Look to the right for examples =>" name="featureTags"></textarea>
-    The block time is <input type="text" name="blockTime" placeholder="" style="width:60px;"> seconds.
-    Exchanges usually require <input type="text" name="confirmations" placeholder="" style="width: 40px;"> confirmations.
-
+    <textarea class="form-control" id="featureTags" rows="4" placeholder="Feature tags separated with commas (,). Look to the right for examples =>" name="featureTags"></textarea>
+    {{ #if $.Session.equals 'featureTags' true }}{{> featureTags}}{{/if}}
+    Block time: <input type="text" id="blockTime" name="blockTime" placeholder="" style="width:60px;"> (seconds) <br />
+    {{ #if $.Session.equals 'blockTime' true }}{{> blockTime}}{{/if}}
+    Confirmations: <input type="text" id="confirmations" name="confirmations" placeholder="" style="width: 40px;">
+    {{ #if $.Session.equals 'confirmations' true }}{{> confirmations}}{{/if}}
   </li>
   </ul>
   </div>
@@ -114,7 +127,8 @@
   <ul class="list-group" style="width: 260px;margin-right:10px;margin-left:10px;">
   <li class="list-group-item bg-info">
     <b>History</b><br />
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" placeholder="Previous names separated with commas (,)" name="previousNames"></textarea>
+    <textarea class="form-control" id="previousNames" rows="2" placeholder="Previous names separated with commas (,)" name="previousNames"></textarea>
+    {{ #if $.Session.equals 'previousNames' true }}{{> previousNames}}{{/if}}
   </li>
   </ul>
   </div>
@@ -125,7 +139,8 @@
   <ul class="list-group" style="width: 260px;margin-right:10px;margin-left:10px;">
   <li class="list-group-item bg-warning">
     <b>Exchanges</b><br />
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" placeholder="Exchanges separated with commas (,). Look to the right for examples =>" name="exchanges"></textarea>
+    <textarea class="form-control" id="exchanges" rows="4" placeholder="Exchanges separated with commas (,). Look to the right for examples =>" name="exchanges"></textarea>
+    {{ #if $.Session.equals 'exchanges' true }}{{> exchanges}}{{/if}}
   </li>
   </ul>
   </div>
