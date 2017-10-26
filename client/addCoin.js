@@ -102,34 +102,26 @@ Template.addCoin.events({
     FlowRouter.go('/');
   },
   'submit form': function(data){
-    data.preventDefault();
+  var insert = {}; //clear insert dataset
   var d = data.target;
-
+console.log(data.target);
   launchTags = new Array();
-  if (d.ICO.checked || d.BTCFork.checked) {
     if (d.ICO.checked) {launchTags.push({"tag": "ICO"})};
     if (d.BTCFork.checked) {launchTags.push({"tag": "Bitcoin Fork"})};
-  } else if (launchTags.length == 0) {
-    launchTags.push({"tag": "Altcoin"})
-  }
-
-  if(!d.exists.checked) {
-    launchTags.push({"tag": "proposal"})
-  }
+    if (!d.BTCFork.checked) {launchTags.push({"tag": "Altcoin"})};
+    if(!d.exists.checked) {launchTags.push({"tag": "proposal"})};
 
   var insert = {
     currencyName: d.currencyName.value,
     currencySymbol: d.currencySymbol.value.toUpperCase(),
     premine: d.premine.value ? parseInt(d.premine.value) : 0,
-    maxCoins: parseInt(d.maxCoins.value),
+    maxCoins: d.maxCoins.value ? parseInt(d.maxCoins.value) : 0,
     consensusSecurity: d.consensusSecurity.value,
     gitRepo: d.gitRepo.value,
     officialSite: d.officialSite.value,
-    reddit: d.reddit.value,
+    reddit: d.reddit.value ? d.reddit.value : false,
     featureTags: makeTagArrayFrom(d.featureTags.value),
-    confirmations: parseInt(d.confirmations.value),
-    approvalNotes: d.notes.value,
-    createdAt: new Date(), // current time
+    approvalNotes: d.notes.value
   };
 
   var addToInsert = function(value, key) {
@@ -141,11 +133,11 @@ Template.addCoin.events({
   }
 
 // Start inserting data that may or may not exist
-
+  if(d.confirmations) {addToInsert(d.confirmations.value ? parseInt(d.confirmations.value) : 0, "confirmations")};
   if(d.previousNames) {addToInsert(makeTagArrayFrom(d.previousNames.value), "previousNames")};
   if(d.exchanges) {addToInsert(makeTagArrayFrom(d.exchanges.value), "exchanges")};
   addToInsert("launchTags");
-  if(d.blockTime) {addToInsert(parseInt(d.blockTime.value), "blockTime")};
+  if(d.blockTime) {addToInsert(d.blockTime.value ? parseInt(d.blockTime.value) : 0, "blockTime")};
   if(d.forkHeight) {addToInsert(d.forkHeight.value, "forkHeight")};
   if(d.forkParent) {addToInsert(d.forkParent.value, "forkParent")};
   if(d.hashAlgorithm) {addToInsert(d.hashAlgorithm.value, "hashAlgorithm")};
@@ -153,13 +145,13 @@ Template.addCoin.events({
   if(d.ICOfundsRaised) {addToInsert(parseInt(d.ICOfundsRaised.value), "ICOfundsRaised")};
   if(d.icocurrency) {addToInsert(d.icocurrency.value, "icocurrency")};
   if(d.genesisYear) {addToInsert(Date.parse(d.genesisYear.value + "-" + d.genesisMonth.value + "-" + d.genesisDay.value), "genesisTimestamp")};
+  //if(!insert.genesisTimestamp) {insert.genesisTimestamp = 0};
 
     data.preventDefault(); //this goes after the 'insert' array is built, strange things happen when it's used too early
-
 //Send everything to the server for fuckery prevention and database insertion
     Meteor.call('addCoin', insert, function(error, result){
       if(error) {
-        console.log(error);
+        console.log(error.error);
       } else {
         FlowRouter.go('/');
       }

@@ -25,6 +25,5 @@ staringatlights:fast-render
 underscore
 http
 percolate:synced-cron
-aldeed:collection2
 session
 raix:handlebar-helpers

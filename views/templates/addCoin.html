@@ -33,7 +33,7 @@
 <input type="number" min="0" name="ICOfundsRaised" id="ICOfundsRaised" placeholder="Funds raised in ICO">
 {{ #if $.Session.equals 'ICOfundsRaised' true }}{{> ICOfundsRaised}}{{/if}}
 Currency: <select class="form-control icocurrency" id="icocurrency" name="icocurrency" style="width: 80px;">
-  <option disabled selected>---</option>
+  <option disabled selected>----</option>
   <option>USD</option>
   <option>BTC</option>
   <option>ETC</option>
@@ -42,12 +42,15 @@ Currency: <select class="form-control icocurrency" id="icocurrency" name="icocur
 {{ /if }}
 
 {{ #if $.Session.equals 'btcfork' false }}
+{{ #if $.Session.equals 'coinExists' true }}Genesis Block Date{{ /if }}
+{{ #if $.Session.equals 'coinExists' false }}Intended Launch Date{{ /if }}
   <div class="float-right" style="width:100%; display:flex;">
-    Genesis:&nbsp;<input type="number" min="2008" max="2020" name="genesisYear" placeholder="YYYY" id="genesis" style="width:62px">
-    <input type="number" min="1" max="12" name="genesisMonth" placeholder="MM" style="width: 44px">
-    <input type="number" min="1" max="31" name="genesisDay" placeholder="DD" style="width: 44px">
+    <input type="number" min="2008" max="2020" name="genesisYear" placeholder="YYYY" id="genesis" style="width:80px">
+    <input type="number" min="1" max="12" name="genesisMonth" placeholder="MM" id="genesis" style="width: 60px">
+    <input type="number" min="1" max="31" name="genesisDay" placeholder="DD" id="genesis" style="width: 60px">
   </div>
-{{ #if $.Session.equals 'genesis' true }}{{> genesis}}{{/if}}
+{{ #if $.Session.equals 'coinExists' true }}{{ #if $.Session.equals 'genesis' true }}{{> genesisTimestamp}}{{/if}}{{/if}}
+{{ #if $.Session.equals 'coinExists' false }}{{ #if $.Session.equals 'genesis' true }}{{> intendedLaunch}}{{/if}}{{/if}}
 {{ /if }}
 
 {{ #if $.Session.equals 'btcfork' true }}
@@ -84,7 +87,14 @@ Currency: <select class="form-control icocurrency" id="icocurrency" name="icocur
     </select>
   </div>
   {{/if}}
+  {{ #if $.Session.equals 'btcfork' true }}
+  Does this fork have two-way replay protection?
+  <label class="radio-inline"><input type="radio" name="replayProtection"> Yes</label>&nbsp;&nbsp;&nbsp;
+  <label class="radio-inline"><input type="radio" name="noReplayProtection"> No</label>
+  {{/if}}
 </li></ul>
+
+
 
   </div>
 </div>
@@ -111,10 +121,12 @@ Currency: <select class="form-control icocurrency" id="icocurrency" name="icocur
     <b>Features</b><br />
     <textarea class="form-control" id="featureTags" rows="4" placeholder="Feature tags separated with commas (,). Look to the right for examples =>" name="featureTags"></textarea>
     {{ #if $.Session.equals 'featureTags' true }}{{> featureTags}}{{/if}}
+  {{#if $.Session.equals 'coinExists' true}}
     Block time: <input type="text" id="blockTime" name="blockTime" placeholder="" style="width:60px;"> (seconds) <br />
     {{ #if $.Session.equals 'blockTime' true }}{{> blockTime}}{{/if}}
     Confirmations: <input type="text" id="confirmations" name="confirmations" placeholder="" style="width: 40px;">
     {{ #if $.Session.equals 'confirmations' true }}{{> confirmations}}{{/if}}
+  {{/if}}
   </li>
   </ul>
   </div>
@@ -122,6 +134,7 @@ Currency: <select class="form-control icocurrency" id="icocurrency" name="icocur
 
 {{#if $.Session.equals 'coinExists' true}}
 <div class="row">
+{{ #if $.Session.equals 'btcfork' false }}
   <div class="float-left">
   &nbsp;
   <ul class="list-group" style="width: 260px;margin-right:10px;margin-left:10px;">
@@ -132,7 +145,7 @@ Currency: <select class="form-control icocurrency" id="icocurrency" name="icocur
   </li>
   </ul>
   </div>
-
+{{/if}}
 
   <div class="float-right">
   &nbsp;
