@@ -129,7 +129,11 @@ Meteor.methods({
   if (error.length != 0) {throw new Meteor.Error(error)}
   if(error.length == 0 && _.size(data) == _.size(allowed)){
     console.log("----inserting------");
-    Currencies.insert(data, function(error, result){
+    var insert = _.extend(data, {
+      createdAt: new Date().getTime(),
+      approved: false
+    })
+    Currencies.insert(insert, function(error, result){
     if (!result) {
     console.log(error);
     //return error;
