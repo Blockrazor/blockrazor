@@ -27,3 +27,5 @@ http
 percolate:synced-cron
 session
 raix:handlebar-helpers
+accounts-ui
+accounts-password

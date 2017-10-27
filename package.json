@@ -6,8 +6,9 @@
   },
   "dependencies": {
     "babel-runtime": "^6.26.0",
+    "bcrypt": "^1.0.3",
     "later": "^1.2.0",
     "meteor-node-stubs": "~0.2.4",
-    "simpl-schema": "^0.3.2"
+    "underscore": "^1.8.3"
   }
 }
