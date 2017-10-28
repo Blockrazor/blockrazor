@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 //import * as jobs from './API_requests/github.js';
 
 FastRender.route('/', function(){
-this.subscribe('currencies');
+this.subscribe('approvedcurrencies');
 });
 
 Meteor.startup(() => {

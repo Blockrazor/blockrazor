@@ -1,5 +1,4 @@
 import { Template } from 'meteor/templating';
-//import { Currencies } from '../lib/database/Currencies.js'; //database
 
 Template.edit.events({
 

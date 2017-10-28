@@ -1,6 +1,5 @@
 import { Template } from 'meteor/templating';
-//import { Currencies } from '../database/currencies.js';
-Template.pendingCurrency.onRendered(function (){
+Template.userPendingCurrency.onRendered(function (){
 
   var ctx = document.getElementById(this.data._id + "distribution").getContext('2d');
 ctx.canvas.width = 200;
@@ -101,9 +100,9 @@ radar.canvas.height = 300;
 
 });
 
-Template.pendingCurrency.events({});
+Template.userPendingCurrency.events({});
 
-Template.pendingCurrency.helpers({
+Template.userPendingCurrency.helpers({
   finalValue () {
     if (this.maxCoins && this.marketCap) {
     return Math.round(this.marketCap / this.maxCoins).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

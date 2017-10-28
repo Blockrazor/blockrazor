@@ -1,8 +1,12 @@
-import { Template } from 'meteor/templating';
-//import { Currencies } from '../database/currencies.js';
-Template.currency.onRendered(function (){
 
-  var ctx = document.getElementById(this.data._id + "distribution").getContext('2d');
+import { Template } from 'meteor/templating';
+import { Currencies } from '../../lib/database/Currencies.js';
+
+Template.currencyDetail.onRendered(function (){
+var data = Currencies.findOne({_id: FlowRouter.getParam("_id")});
+console.log(data.premine);
+
+  var ctx = document.getElementById("distribution").getContext('2d');
 ctx.canvas.width = 200;
 ctx.canvas.height = 260;
   var chart = new Chart(ctx, {
@@ -12,9 +16,9 @@ ctx.canvas.height = 260;
 
       // The data for our dataset
       data: {
-          labels: ["Founder(s) share: " + this.data.premine, "Mined coins: " + this.data.circulating, "Not yet mined: " + (this.data.maxCoins - this.data.circulating)],
+          labels: ["Founder(s) share: " + data.premine, "Mined coins: " + data.circulating, "Not yet mined: " + (data.maxCoins - data.circulating)],
           datasets: [{
-              data: [(((this.data.premine / this.data.maxCoins) * 100).toFixed()), ((((this.data.circulating - this.data.premine) / this.data.maxCoins) * 100).toFixed()), ((((this.data.maxCoins - this.data.circulating)/this.data.maxCoins) * 100).toFixed())],
+              data: [(((data.premine / data.maxCoins) * 100).toFixed()), ((((data.circulating - data.premine) / data.maxCoins) * 100).toFixed()), ((((data.maxCoins - data.circulating)/data.maxCoins) * 100).toFixed())],
               backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f"]
           }]
       },
@@ -35,34 +39,34 @@ ctx.canvas.height = 260;
       }
   });
 
-var radar = document.getElementById(this.data._id + "-radar").getContext('2d');
+var radar = document.getElementById("radar").getContext('2d');
 radar.canvas.width = 400;
 radar.canvas.height = 300;
   var radarchart = new Chart(radar, {
       type: 'radar',
       data: {
-        labels: ["Ongoing Development", "Code Quality", "Community", "Hash Power", "Ease of Use", "Coin Distribution", "Transactions"],
+        labels: ["Ongoing Development", "Code Quality", "Hash Power", "Ease of Use", "Coin Distribution", "Transactions"],
         datasets: [
           {
             label: "1950",
             fill: true,
-            backgroundColor: "rgba(255,120,50,0.2)",
-            borderColor: "#FF6600",
+            backgroundColor: "rgba(179,181,198,0.2)",
+            borderColor: "rgba(179,181,198,1)",
             pointBorderColor: "#fff",
-            pointStyle: "dot",
-            pointBackgroundColor: "#FF0000",
-            data: [6,7,2,2,8,1,3]
+            pointStyle: "star",
+            pointBackgroundColor: "rgba(179,181,198,1)",
+            data: [6,7,2,8,1,3]
           },
           {
             label: "2",
             fill: false,
             backgroundColor: "#fff",
-            borderColor: "#ccc",
+            borderColor: "#fff",
             pointBorderColor: "#fff",
             borderWidth: 4,
             pointRadius: 0,
             pointBackgroundColor: "#fff",
-            data: [10,10,10,10,10,10,10]
+            data: [10,10,10,10,10,10]
           },
           {
             label: "3",
@@ -72,7 +76,7 @@ radar.canvas.height = 300;
             borderWidth: 1,
             pointBorderColor: "#fff",
             pointBackgroundColor: "#fff",
-            data: [0,0,0,0,0,0,0]
+            data: [0,0,0,0,0,0]
           }
         ]
       },
@@ -101,23 +105,14 @@ radar.canvas.height = 300;
 
 });
 
-Template.currency.events({});
+Template.currencyDetail.events({});
 
-Template.currency.helpers({
-  finalValue () {
-    if (this.maxCoins && this.marketCap) {
-    return Math.round(this.marketCap / this.maxCoins).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  } else {
-    return "calculating..."
-  }
-  },
-  marketCap () {
-    return Math.round(this.marketCap).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  },
-  circulating () {
-    return Math.round(this.circulating).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+Template.currencyDetail.helpers({
+  thiscurrency () {
+    return Currencies.findOne({_id: FlowRouter.getParam("_id")});
   },
   launchDate () {
+    console.log(FlowRouter.getParam("_id"));
     if (this.genesisTimestamp) {
     return "Launched " + moment(this.genesisTimestamp).fromNow();
   } else {

@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { FormData } from '../lib/database/FormData.js'; //database
+import { FormData } from '../../lib/database/FormData.js'; //database
 
 
 //Functions to help with client side validation and data manipulation
