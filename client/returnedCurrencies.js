@@ -2,7 +2,7 @@ import { Template } from 'meteor/templating';
 import { Currencies } from '../lib/database/Currencies.js';
 
 Template.returnedCurrencies.onCreated(function bodyOnCreated() {
-  Meteor.subscribe('currencies');
+  Meteor.subscribe('approvedcurrencies');
 });
 
 Template.returnedCurrencies.onRendered( function () {

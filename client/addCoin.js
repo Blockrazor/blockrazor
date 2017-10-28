@@ -156,11 +156,9 @@ console.log(data.target);
               error.error,
               'error');
       } else {
-        FlowRouter.go('/');
+        FlowRouter.go('/pending');
       }
     });
-
-    // document.getElementById("addCurrency").reset();
       }
 });
 
