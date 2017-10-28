@@ -4,6 +4,9 @@ import { Currencies } from '../../lib/database/Currencies.js';
 if (Meteor.isServer) {
 Meteor.methods({
   addCoin(data) {
+  //Check that user is logged in
+  if (!Meteor.userId()) {throw new Meteor.Error("Please log in first")};
+
    //Initialize arrays to store which data.<item>s pass or fail validation
     var allowed = [];
     var error = [];
@@ -131,7 +134,9 @@ Meteor.methods({
     console.log("----inserting------");
     var insert = _.extend(data, {
       createdAt: new Date().getTime(),
-      approved: false
+      approved: false,
+      owner: Meteor.userId(),
+      username: Meteor.user().username
     })
     Currencies.insert(insert, function(error, result){
     if (!result) {

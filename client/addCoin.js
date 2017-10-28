@@ -1,6 +1,7 @@
 import { Template } from 'meteor/templating';
 import { FormData } from '../lib/database/FormData.js'; //database
 
+
 //Functions to help with client side validation and data manipulation
 var makeTagArrayFrom = function(string) {
   if (!string) {return new Array()};
@@ -151,7 +152,9 @@ console.log(data.target);
 //Send everything to the server for fuckery prevention and database insertion
     Meteor.call('addCoin', insert, function(error, result){
       if(error) {
-        console.log(error.error);
+        swal('Ruh Roh',
+              error.error,
+              'error');
       } else {
         FlowRouter.go('/');
       }
