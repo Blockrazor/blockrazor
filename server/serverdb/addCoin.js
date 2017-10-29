@@ -1,5 +1,5 @@
 
-import { Currencies } from '../../lib/database/Currencies.js';
+import { PendingCurrencies } from '../../lib/database/Currencies.js';
 
 if (Meteor.isServer) {
 Meteor.methods({
@@ -57,9 +57,10 @@ Meteor.methods({
     if (data.consensusSecurity != "--Select One--") {
       checkSanity(data.consensusSecurity, "consensusSecurity", "string", 6, 20);
       } else {error.push("consensusSecurity")};
-    if (data.hashAlgorithm) { if (data.hashAlgorithm != "--Select One--") {
+    if (data.hashAlgorithm) { if (data.hashAlgorithm == "--Select One--") {
+      error.push("hashAlgorithm")} else {
       checkSanity(data.hashAlgorithm, "hashAlgorithm", "string", 3, 40, true);
-    }} else { error.push("hashAlgorithm")};
+    }};
 
     //Check thing that are always optional
     checkSanity(data.reddit, "reddit", "string", 12, 300, true);
@@ -134,11 +135,9 @@ Meteor.methods({
     console.log("----inserting------");
     var insert = _.extend(data, {
       createdAt: new Date().getTime(),
-      approved: false,
-      owner: Meteor.userId(),
-      username: Meteor.user().username
+      owner: Meteor.userId()
     })
-    Currencies.insert(insert, function(error, result){
+    PendingCurrencies.insert(insert, function(error, result){
     if (!result) {
     console.log(error);
     //return error;

@@ -152,11 +152,9 @@ console.log(data.target);
 //Send everything to the server for fuckery prevention and database insertion
     Meteor.call('addCoin', insert, function(error, result){
       if(error) {
-        swal('Ruh Roh',
-              error.error,
-              'error');
+        console.log(error)
       } else {
-        FlowRouter.go('/pending');
+        FlowRouter.go('/mypending');
       }
     });
       }
