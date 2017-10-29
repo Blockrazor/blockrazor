@@ -1,8 +1,15 @@
 
 import { PendingCurrencies } from '../../lib/database/Currencies.js';
+import { Currencies } from '../../lib/database/Currencies.js';
 
 if (Meteor.isServer) {
 Meteor.methods({
+  isCurrencyNameUnique(name) {
+    console.log(name);
+    if (PendingCurrencies.findOne({currencyName: name}) || Currencies.findOne({currencyName: name})) {
+      throw new Meteor.Error("Looks like " + name + " is already listed or pending approval on Blockrazor!");
+    } else {return "OK"};
+  },
   addCoin(data) {
   //Check that user is logged in
   if (!Meteor.userId()) {throw new Meteor.Error("Please log in first")};

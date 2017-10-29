@@ -24,6 +24,7 @@
       <li class="list-group-item bg-info">
         <b>Coin Basics</b><br />
         <input type="text" id="currencyName" name="currencyName" placeholder="Currency Name" style="width: 100%">
+        {{$.Session.get 'currencyNameMessage'}}
          {{ #if $.Session.equals 'currencyName' true }}{{> currencyName}}{{/if}}
         <input type="text" id="currencySymbol" name="currencySymbol" placeholder="SYMBOL" style="width: 100%">
         {{ #if $.Session.equals 'currencySymbol' true }}{{> currencSymbol}}{{/if}}
