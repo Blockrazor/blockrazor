@@ -1,5 +1,5 @@
 import { Mongo } from 'meteor/mongo';
-var UserData = new Mongo.Collection('userdata');
+export var UserData = new Mongo.Collection('userdata');
 
 Meteor.methods({
   initializeUser: function() {
