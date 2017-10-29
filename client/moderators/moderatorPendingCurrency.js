@@ -100,7 +100,12 @@ radar.canvas.height = 300;
 
 });
 
-Template.moderatorPendingCurrency.events({});
+Template.moderatorPendingCurrency.events({
+  'click #approve': function() {
+    console.log(this._id);
+    Meteor.call('approveCurrency', this._id)
+  }
+});
 
 Template.moderatorPendingCurrency.helpers({
   finalValue () {
