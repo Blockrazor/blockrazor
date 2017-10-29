@@ -45,7 +45,13 @@ Template.addCoin.onRendered(function() {
 Template.addCoin.events({
   //Show and hide form help
   'focus #currencyName': function(){Session.set('currencyName', true)},
-  'blur #currencyName': function(){Session.set('currencyName', false)},
+  'blur #currencyName': function(e){
+    Session.set('currencyName', false);
+    Meteor.call('isCurrencyNameUnique', e.currentTarget.value);
+    Meteor.call('isCurrencyNameUnique', e.currentTarget.value, function(error, result){
+      if(error) {Session.set('currencyNameMessage', error.error)} else {Session.set('currencyNameMessage', null)};
+    });
+    },
   'focus #currencySymbol': function(){Session.set('currencySymbol', true)},
   'blur #currencySymbol': function(){Session.set('currencySymbol', false)},
   'focus #ICOfundsRaised': function(){Session.set('ICOfundsRaised', true)},
