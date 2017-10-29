@@ -1,10 +1,17 @@
-# blockrazor
+# Blockrazor
+
 To build:   
 Install Meteor:   
 curl https://install.meteor.com/ | sh   
 Clone repository    
+`meteor npm install`
 `meteor`   
-You will probably be asked to install some additional NPM packages on the first run.   
+
+### Mongo errors   
+If Mongo exists with status 1:
+Quick fix: `export LC_ALL=C`   
+Proper fix: something is wrong with your OS locales, good luck.
+
 
 ## Contributing
 Pull requests that are *correct patches* as per the [C4](https://rfc.zeromq.org/spec:42/C4) *will* be merged.
