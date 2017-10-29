@@ -1,8 +1,14 @@
 import { Meteor } from 'meteor/meteor';
 //import * as jobs from './API_requests/github.js';
 
+Accounts.onLogin(function(user){
+  if (user.type != "resume") {
+    Meteor.call('initializeUser');
+  }
+});
+
 FastRender.route('/', function(){
-this.subscribe('currencies');
+this.subscribe('approvedcurrencies');
 });
 
 Meteor.startup(() => {

@@ -1,7 +1,8 @@
 import { Template } from 'meteor/templating';
-import { Currencies } from '../lib/database/Currencies.js';
+import { Currencies } from '../../lib/database/Currencies.js';
 
 Template.returnedCurrencies.onCreated(function bodyOnCreated() {
+  Meteor.subscribe('approvedcurrencies');
 });
 
 Template.returnedCurrencies.onRendered( function () {
@@ -16,5 +17,4 @@ Template.returnedCurrencies.helpers({
     } else {
         return Currencies.find({}, { sort: { createdAt: -1 }, limit: 20});
       }}
-
 });

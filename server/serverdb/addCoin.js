@@ -1,9 +1,12 @@
 
-import { Currencies } from '../../lib/database/Currencies.js';
+import { PendingCurrencies } from '../../lib/database/Currencies.js';
 
 if (Meteor.isServer) {
 Meteor.methods({
   addCoin(data) {
+  //Check that user is logged in
+  if (!Meteor.userId()) {throw new Meteor.Error("Please log in first")};
+
    //Initialize arrays to store which data.<item>s pass or fail validation
     var allowed = [];
     var error = [];
@@ -54,9 +57,10 @@ Meteor.methods({
     if (data.consensusSecurity != "--Select One--") {
       checkSanity(data.consensusSecurity, "consensusSecurity", "string", 6, 20);
       } else {error.push("consensusSecurity")};
-    if (data.hashAlgorithm) { if (data.hashAlgorithm != "--Select One--") {
+    if (data.hashAlgorithm) { if (data.hashAlgorithm == "--Select One--") {
+      error.push("hashAlgorithm")} else {
       checkSanity(data.hashAlgorithm, "hashAlgorithm", "string", 3, 40, true);
-    }} else { error.push("hashAlgorithm")};
+    }};
 
     //Check thing that are always optional
     checkSanity(data.reddit, "reddit", "string", 12, 300, true);
@@ -129,7 +133,11 @@ Meteor.methods({
   if (error.length != 0) {throw new Meteor.Error(error)}
   if(error.length == 0 && _.size(data) == _.size(allowed)){
     console.log("----inserting------");
-    Currencies.insert(data, function(error, result){
+    var insert = _.extend(data, {
+      createdAt: new Date().getTime(),
+      owner: Meteor.userId()
+    })
+    PendingCurrencies.insert(insert, function(error, result){
     if (!result) {
     console.log(error);
     //return error;

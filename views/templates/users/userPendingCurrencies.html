@@ -1,0 +1,8 @@
+<template name="userPendingCurrencies">
+<div class="alert alert-info" role="alert">
+  <a href="/">HOME</a> | <a href="/addcoin">ADD ANOTHER CURRENCY</a> <h5>Your pending currencies are shown below</h5>
+</div>
+  {{#each currencies}}
+      {{> userPendingCurrency}}
+  {{/each}}
+</template>
