@@ -6,7 +6,19 @@ Template.moderatorDash.onCreated(function bodyOnCreated() {
 });
 
 Template.moderatorDash.onRendered( function () {
+Session.set('reject', false);
+});
 
+Template.moderatorDash.events({
+  'submit form': function (data) {
+    data.preventDefault();
+    Meteor.call('rejectCurrency', Session.get('currencyName'), Session.get('currentlyRejecting'), Session.get('owner'), data.target.reason.value, Meteor.userId());
+    Session.set('reject', false);
+    Session.set('currentlyRejecting', null);
+    Session.set('submittername', null);
+    Session.set('owner', null);
+    Session.set('currencyName', null);
+  }
 });
 
 Template.moderatorDash.helpers({

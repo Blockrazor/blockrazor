@@ -20,7 +20,6 @@ Template.activityLog.helpers({
 
 Template.messageitem.helpers({
   time() {
-    console.log(this)
         return moment(this.time).fromNow();
       }
 });

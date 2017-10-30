@@ -11,6 +11,6 @@ Template.userPendingCurrencies.onRendered( function () {
 
 Template.userPendingCurrencies.helpers({
   currencies() {
-        return PendingCurrencies.find();
+        return PendingCurrencies.find({owner: this.userId});
       }
 });

@@ -1,5 +1,15 @@
 <template name="moderatorDash">
+  {{#if $.Session.equals 'reject' false}}
+  Moderation Queue
   {{#each pendingCurrencies}}
-      {{> moderatorPendingCurrency}}
+       {{> moderatorPendingCurrency}}
   {{/each}}
+  {{/if}}
+  {{#if $.Session.equals 'reject' true}}
+  <form>
+    <h5>Please tell {{ $.Session.get 'submittername' }} what was wrong with their entry so that they can do better next time:</h5>
+    <textarea class="form-control" rows="6" placeholder="Please tell the user why this currency was rejected" name="reason"></textarea>
+    <button type="submit" class="btn btn-primary" id="submit">Send</button>
+  </form>
+  {{/if}}
 </template>
