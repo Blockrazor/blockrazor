@@ -1,0 +1,17 @@
+<template name="activityLog">
+{{#each logs}}
+{{> messageitem}}
+{{/each}}
+</template>
+
+<template name="messageitem">
+  <div class="card">
+  <div class="card-block">
+    <p class="card-text">{{message}}</p>
+  </div>
+  <div class="card-footer text-muted">
+    Recieved {{time}} from {{from}}
+  </div>
+</div>
+
+</template>
