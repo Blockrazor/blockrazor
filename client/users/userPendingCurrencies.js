@@ -11,6 +11,6 @@ Template.userPendingCurrencies.onRendered( function () {
 
 Template.userPendingCurrencies.helpers({
   currencies() {
-        return PendingCurrencies.find({owner: this.userId});
+        return PendingCurrencies.find({owner: Meteor.user()._id});
       }
 });
