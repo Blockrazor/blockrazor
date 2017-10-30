@@ -100,7 +100,6 @@ Template.addCoin.events({
     } else {
       Session.set('POWSelect', false);
     }
-    console.log(Session.get('consensusType'))
   },
 
 

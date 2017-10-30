@@ -4,6 +4,7 @@ import { Meteor } from 'meteor/meteor';
 Accounts.onLogin(function(user){
   if (user.type != "resume") {
     Meteor.call('initializeUser');
+    Meteor.call('initializeActivityLog');
   }
 });
 
