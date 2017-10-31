@@ -70,6 +70,7 @@ Meteor.methods({
 
     //Check things that are always optional
     checkSanity(data.reddit, "reddit", "string", 12, 300, true);
+    checkSanity(data.blockExplorer, "blockExplorer", "string", 6, 300, true);
     checkSanity(data.approvalNotes, "approvalNotes", "string", 0, 1000, true);
 
     //If this is a normal altcoin that already exists:

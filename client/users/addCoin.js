@@ -126,6 +126,7 @@ Template.addCoin.events({
     gitRepo: d.gitRepo.value,
     officialSite: d.officialSite.value,
     reddit: d.reddit.value ? d.reddit.value : false,
+    blockExplorer: d.blockExplorer.value ? d.blockExplorer.value : false,
     featureTags: makeTagArrayFrom(d.featureTags.value),
     approvalNotes: d.notes.value
   };
