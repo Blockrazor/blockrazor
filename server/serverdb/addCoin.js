@@ -90,12 +90,22 @@ Meteor.methods({
       }
     }
 
-
-    //If this is an ICO that already exists
-    if (ico && !proposal) {
+//If this is an ICO (launched or not)
+    if (ico) {
+      checkSanity(data.ICOcoinsProduced, "ICOcoinsProduced", "number", 1, 15);
       checkSanity(data.ICOfundsRaised, "ICOfundsRaised", "number", 1, 15);
       checkSanity(data.icocurrency, "icocurrency", "string", 3, 3);
-      if (data.premine < 1000) {
+      if (data.premine < data.ICOcoinsProduced) {
+        error.push("premine");
+        allowed = allowed.filter(function(i) {return i != "premine"})
+      };
+    }
+
+    //If this is an ICO that hasnt launched yet
+    if (ico && proposal) {
+      checkSanity(data.ICOcoinsIntended, "ICOcoinsIntended", "number", 1, 15);
+      checkSanity(data.ICOnextRound, "ICOnextRound", "number", 13, 16);
+      if (data.premine < data.ICOcoinsProduced + data.ICOcoinsIntended) {
         error.push("premine");
         allowed = allowed.filter(function(i) {return i != "premine"})
       };

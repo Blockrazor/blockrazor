@@ -30,21 +30,40 @@
         {{ #if $.Session.equals 'currencySymbol' true }}{{> currencSymbol}}{{/if}}
 
 {{ #if $.Session.equals 'isICO' true }}
-{{ #if $.Session.equals 'coinExists' true }}
-<input type="number" min="0" name="ICOfundsRaised" id="ICOfundsRaised" placeholder="Funds raised in ICO">
+
+Completed ICO funding
+<input type="number" min="0" name="ICOcoinsProduced" id="ICOcoinsProduced" placeholder="Coins allocated" style="width: 100%">
+<input type="number" min="0" name="ICOfundsRaised" id="ICOfundsRaised" placeholder="Funds raised in total" style="width: 100%">
 {{ #if $.Session.equals 'ICOfundsRaised' true }}{{> ICOfundsRaised}}{{/if}}
 Currency: <select class="form-control icocurrency" id="icocurrency" name="icocurrency" style="width: 80px;">
   <option disabled selected>----</option>
   <option>USD</option>
   <option>BTC</option>
+  <option>ETH</option>
   <option>ETC</option>
 </select>
+{{ #if $.Session.equals 'coinExists' false }}
+Planned rounds (total)
+<input type="number" min="0" name="ICOcoinsIntended" id="ICOcoinsIntended" placeholder="Coins to be allocated" style="width: 100%">
+Start time (GMT)
+<div class="float-right" style="width:100%; display:flex;">
+  <input type="number" min="2017" max="2020" name="ICOyear" placeholder="YYYY" id="icodate" style="width:80px">
+  <input type="number" min="1" max="12" name="ICOmonth" placeholder="MM" id="icodate" style="width: 60px">
+  <input type="number" min="1" max="31" name="ICOday" placeholder="DD" id="icodate" style="width: 60px">
+  <input type="number" min="0" max="23" name="ICOhour" placeholder="HH" id="icodate" style="width: 60px">
+  <input type="number" min="0" max="59" name="ICOminute" placeholder="MM" id="icodate" style="width: 60px">
+  <input type="number" min="0" max="59" name="ICOsecond" placeholder="SS" id="icodate" style="width: 60px">
+</div>
 {{ /if }}
+
+
+
 {{ /if }}
+
 
 {{ #if $.Session.equals 'btcfork' false }}
 {{ #if $.Session.equals 'coinExists' true }}Genesis Block Date{{ /if }}
-{{ #if $.Session.equals 'coinExists' false }}Intended Launch Date{{ /if }}
+{{ #if $.Session.equals 'coinExists' false }}Genesis Block ETA{{ /if }}
   <div class="float-right" style="width:100%; display:flex;">
     <input type="number" min="2008" max="2020" name="genesisYear" placeholder="YYYY" id="genesis" style="width:80px">
     <input type="number" min="1" max="12" name="genesisMonth" placeholder="MM" id="genesis" style="width: 60px">

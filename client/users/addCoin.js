@@ -148,9 +148,11 @@ Template.addCoin.events({
   if(d.forkHeight) {addToInsert(parseInt(d.forkHeight.value), "forkHeight")};
   if(d.forkParent) {addToInsert(d.forkParent.value, "forkParent")};
   if(d.hashAlgorithm) {addToInsert(d.hashAlgorithm.value, "hashAlgorithm")};
-  if(d.icocurrency) {addToInsert(d.icocurrency.value, "icocurrency")};
-  if(d.ICOfundsRaised) {addToInsert(parseInt(d.ICOfundsRaised.value), "ICOfundsRaised")};
-  if(d.icocurrency) {addToInsert(d.icocurrency.value, "icocurrency")};
+  if(d.ICOfundsRaised) {if (d.ICOfundsRaised.value) {addToInsert(parseInt(d.ICOfundsRaised.value), "ICOfundsRaised")}};
+  if(d.icocurrency){if (d.icocurrency.value != "----") {addToInsert(d.icocurrency.value, "icocurrency")}};
+  if(d.ICOcoinsProduced) {if(d.ICOcoinsProduced.value) {addToInsert(parseInt(d.ICOcoinsProduced.value), "ICOcoinsProduced")}};
+  if(d.ICOcoinsIntended) {if(d.ICOcoinsIntended.value) {addToInsert(parseInt(d.ICOcoinsIntended.value), "ICOcoinsIntended")}};
+  if(d.ICOyear) {if (d.ICOyear.value) {addToInsert(Date.parse(new Date(Date.UTC(d.ICOyear.value, d.ICOmonth.value - 1, d.ICOday.value, d.ICOhour.value, d.ICOminute.value, d.ICOsecond.value))), "ICOnextRound")}};
   if(d.genesisYear) {addToInsert(Date.parse(d.genesisYear.value + "-" + d.genesisMonth.value + "-" + d.genesisDay.value), "genesisTimestamp")};
   //if(!insert.genesisTimestamp) {insert.genesisTimestamp = 0};
 
