@@ -108,9 +108,9 @@ Template.addCoin.events({
     FlowRouter.go('/');
   },
   'submit form': function(data){
+    data.preventDefault();
   var insert = {}; //clear insert dataset
   var d = data.target;
-console.log(data.target);
   launchTags = new Array();
     if (d.ICO.checked) {launchTags.push({"tag": "ICO"})};
     if (d.BTCFork.checked) {launchTags.push({"tag": "Bitcoin Fork"})};
@@ -126,6 +126,7 @@ console.log(data.target);
     gitRepo: d.gitRepo.value,
     officialSite: d.officialSite.value,
     reddit: d.reddit.value ? d.reddit.value : false,
+    blockExplorer: d.blockExplorer.value ? d.blockExplorer.value : false,
     featureTags: makeTagArrayFrom(d.featureTags.value),
     approvalNotes: d.notes.value
   };
@@ -143,17 +144,21 @@ console.log(data.target);
   if(d.previousNames) {addToInsert(makeTagArrayFrom(d.previousNames.value), "previousNames")};
   if(d.exchanges) {addToInsert(makeTagArrayFrom(d.exchanges.value), "exchanges")};
   addToInsert("launchTags");
+  if(d.replayProtection) {addToInsert(d.replayProtection.value, "replayProtection")};
   if(d.blockTime) {addToInsert(d.blockTime.value ? parseInt(d.blockTime.value) : 0, "blockTime")};
-  if(d.forkHeight) {addToInsert(d.forkHeight.value, "forkHeight")};
-  if(d.forkParent) {addToInsert(d.forkParent.value, "forkParent")};
+  if(d.forkHeight) {addToInsert(parseInt(d.forkHeight.value), "forkHeight")};
+  if(d.forkParent) {if (d.forkParent.value != "-Select Fork Parent-") {addToInsert(d.forkParent.value, "forkParent")}};
   if(d.hashAlgorithm) {addToInsert(d.hashAlgorithm.value, "hashAlgorithm")};
-  if(d.icocurrency) {addToInsert(d.icocurrency.value, "icocurrency")};
-  if(d.ICOfundsRaised) {addToInsert(parseInt(d.ICOfundsRaised.value), "ICOfundsRaised")};
-  if(d.icocurrency) {addToInsert(d.icocurrency.value, "icocurrency")};
+  if(d.ICOfundsRaised) {if (d.ICOfundsRaised.value) {addToInsert(parseInt(d.ICOfundsRaised.value), "ICOfundsRaised")}};
+  if(d.icocurrency){if (d.icocurrency.value != "----") {addToInsert(d.icocurrency.value, "icocurrency")}};
+  if(d.ICOcoinsProduced) {if(d.ICOcoinsProduced.value) {addToInsert(parseInt(d.ICOcoinsProduced.value), "ICOcoinsProduced")}};
+  if(d.ICOcoinsIntended) {if(d.ICOcoinsIntended.value) {addToInsert(parseInt(d.ICOcoinsIntended.value), "ICOcoinsIntended")}};
+  if(d.ICOyear) {if (d.ICOyear.value) {addToInsert(Date.parse(new Date(Date.UTC(d.ICOyear.value, d.ICOmonth.value - 1, d.ICOday.value, d.ICOhour.value, d.ICOminute.value, d.ICOsecond.value))), "ICOnextRound")}};
   if(d.genesisYear) {addToInsert(Date.parse(d.genesisYear.value + "-" + d.genesisMonth.value + "-" + d.genesisDay.value), "genesisTimestamp")};
   //if(!insert.genesisTimestamp) {insert.genesisTimestamp = 0};
 
     data.preventDefault(); //this goes after the 'insert' array is built, strange things happen when it's used too early
+    console.log(insert);
 //Send everything to the server for fuckery prevention and database insertion
     Meteor.call('addCoin', insert, function(error, result){
       if(error) {

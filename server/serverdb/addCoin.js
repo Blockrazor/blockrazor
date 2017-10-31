@@ -5,7 +5,6 @@ import { Currencies } from '../../lib/database/Currencies.js';
 if (Meteor.isServer) {
 Meteor.methods({
   isCurrencyNameUnique(name) {
-    console.log(name);
     if (PendingCurrencies.findOne({currencyName: name}) || Currencies.findOne({currencyName: name})) {
       throw new Meteor.Error("Looks like " + name + " is already listed or pending approval on Blockrazor!");
     } else {return "OK"};
@@ -69,8 +68,9 @@ Meteor.methods({
       checkSanity(data.hashAlgorithm, "hashAlgorithm", "string", 3, 40, true);
     }};
 
-    //Check thing that are always optional
+    //Check things that are always optional
     checkSanity(data.reddit, "reddit", "string", 12, 300, true);
+    checkSanity(data.blockExplorer, "blockExplorer", "string", 6, 300, true);
     checkSanity(data.approvalNotes, "approvalNotes", "string", 0, 1000, true);
 
     //If this is a normal altcoin that already exists:
@@ -91,20 +91,31 @@ Meteor.methods({
       }
     }
 
-
-    //If this is an ICO that already exists
-    if (ico && !proposal) {
+//If this is an ICO (launched or not)
+    if (ico) {
+      checkSanity(data.ICOcoinsProduced, "ICOcoinsProduced", "number", 1, 15);
       checkSanity(data.ICOfundsRaised, "ICOfundsRaised", "number", 1, 15);
       checkSanity(data.icocurrency, "icocurrency", "string", 3, 3);
-      if (data.premine < 1000) {
+      if (data.premine < data.ICOcoinsProduced) {
+        error.push("premine");
+        allowed = allowed.filter(function(i) {return i != "premine"})
+      };
+    }
+
+    //If this is an ICO that hasnt launched yet
+    if (ico && proposal) {
+      checkSanity(data.ICOcoinsIntended, "ICOcoinsIntended", "number", 1, 15);
+      checkSanity(data.ICOnextRound, "ICOnextRound", "number", 13, 16);
+      if (data.premine < data.ICOcoinsProduced + data.ICOcoinsIntended) {
         error.push("premine");
         allowed = allowed.filter(function(i) {return i != "premine"})
       };
     }
     //If this is a bitcoin fork (planned or existing)
     if (btcfork) {
-      checkSanity(data.forkParent, "forkParent", "string", 15, 20);
-      checkSanity(data.forkHeight, "forkHeight", "number", 6, 6);
+      checkSanity(data.forkParent, "forkParent", "string", 6, 20, false);
+      checkSanity(data.forkHeight, "forkHeight", "number", 6, 6, false);
+      checkSanity(data.replayProtection, "replayProtection", "string", 4, 5, false)
     }
     //If this is not proposal
     if (!proposal) {
