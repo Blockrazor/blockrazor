@@ -147,7 +147,7 @@ Template.addCoin.events({
   if(d.replayProtection) {addToInsert(d.replayProtection.value, "replayProtection")};
   if(d.blockTime) {addToInsert(d.blockTime.value ? parseInt(d.blockTime.value) : 0, "blockTime")};
   if(d.forkHeight) {addToInsert(parseInt(d.forkHeight.value), "forkHeight")};
-  if(d.forkParent) {addToInsert(d.forkParent.value, "forkParent")};
+  if(d.forkParent) {if (d.forkParent.value != "-Select Fork Parent-") {addToInsert(d.forkParent.value, "forkParent")}};
   if(d.hashAlgorithm) {addToInsert(d.hashAlgorithm.value, "hashAlgorithm")};
   if(d.ICOfundsRaised) {if (d.ICOfundsRaised.value) {addToInsert(parseInt(d.ICOfundsRaised.value), "ICOfundsRaised")}};
   if(d.icocurrency){if (d.icocurrency.value != "----") {addToInsert(d.icocurrency.value, "icocurrency")}};

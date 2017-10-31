@@ -113,7 +113,7 @@ Meteor.methods({
     }
     //If this is a bitcoin fork (planned or existing)
     if (btcfork) {
-      checkSanity(data.forkParent, "forkParent", "string", 15, 20, false);
+      checkSanity(data.forkParent, "forkParent", "string", 6, 20, false);
       checkSanity(data.forkHeight, "forkHeight", "number", 6, 6, false);
       checkSanity(data.replayProtection, "replayProtection", "string", 4, 5, false)
     }

@@ -74,7 +74,11 @@ Start time (GMT)
 {{ /if }}
 
 {{ #if $.Session.equals 'btcfork' true }}
-  <input type="text" name="forkParent" placeholder="Fork Parent (make dropdown)" style="width: 100%" id="forkParent">
+<select class="form-control forkParent" id="forkParent" name="forkParent">
+  <option disabled selected>--Select Fork Parent--</option>
+  <option>Bitcoin</option>
+  <option>Bitcoin Cash</option>
+</select>
   {{ #if $.Session.equals 'forkParent' true }}{{> forkParent}}{{/if}}
   <input type="number" min="478500" max="600000" name="forkHeight" id="forkHeight" style="width: 100%;" placeholder="Fork Height">
   {{ #if $.Session.equals 'forkHeight' true }}{{> forkHeight}}{{/if}}
