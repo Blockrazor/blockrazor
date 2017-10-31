@@ -5,7 +5,6 @@ import { Currencies } from '../../lib/database/Currencies.js';
 if (Meteor.isServer) {
 Meteor.methods({
   isCurrencyNameUnique(name) {
-    console.log(name);
     if (PendingCurrencies.findOne({currencyName: name}) || Currencies.findOne({currencyName: name})) {
       throw new Meteor.Error("Looks like " + name + " is already listed or pending approval on Blockrazor!");
     } else {return "OK"};
@@ -69,7 +68,7 @@ Meteor.methods({
       checkSanity(data.hashAlgorithm, "hashAlgorithm", "string", 3, 40, true);
     }};
 
-    //Check thing that are always optional
+    //Check things that are always optional
     checkSanity(data.reddit, "reddit", "string", 12, 300, true);
     checkSanity(data.approvalNotes, "approvalNotes", "string", 0, 1000, true);
 
@@ -103,8 +102,9 @@ Meteor.methods({
     }
     //If this is a bitcoin fork (planned or existing)
     if (btcfork) {
-      checkSanity(data.forkParent, "forkParent", "string", 15, 20);
-      checkSanity(data.forkHeight, "forkHeight", "number", 6, 6);
+      checkSanity(data.forkParent, "forkParent", "string", 15, 20, false);
+      checkSanity(data.forkHeight, "forkHeight", "number", 6, 6, false);
+      checkSanity(data.replayProtection, "replayProtection", "string", 4, 5, false)
     }
     //If this is not proposal
     if (!proposal) {

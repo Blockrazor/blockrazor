@@ -108,9 +108,9 @@ Template.addCoin.events({
     FlowRouter.go('/');
   },
   'submit form': function(data){
+    data.preventDefault();
   var insert = {}; //clear insert dataset
   var d = data.target;
-console.log(data.target);
   launchTags = new Array();
     if (d.ICO.checked) {launchTags.push({"tag": "ICO"})};
     if (d.BTCFork.checked) {launchTags.push({"tag": "Bitcoin Fork"})};
@@ -143,8 +143,9 @@ console.log(data.target);
   if(d.previousNames) {addToInsert(makeTagArrayFrom(d.previousNames.value), "previousNames")};
   if(d.exchanges) {addToInsert(makeTagArrayFrom(d.exchanges.value), "exchanges")};
   addToInsert("launchTags");
+  if(d.replayProtection) {addToInsert(d.replayProtection.value, "replayProtection")};
   if(d.blockTime) {addToInsert(d.blockTime.value ? parseInt(d.blockTime.value) : 0, "blockTime")};
-  if(d.forkHeight) {addToInsert(d.forkHeight.value, "forkHeight")};
+  if(d.forkHeight) {addToInsert(parseInt(d.forkHeight.value), "forkHeight")};
   if(d.forkParent) {addToInsert(d.forkParent.value, "forkParent")};
   if(d.hashAlgorithm) {addToInsert(d.hashAlgorithm.value, "hashAlgorithm")};
   if(d.icocurrency) {addToInsert(d.icocurrency.value, "icocurrency")};
@@ -154,6 +155,7 @@ console.log(data.target);
   //if(!insert.genesisTimestamp) {insert.genesisTimestamp = 0};
 
     data.preventDefault(); //this goes after the 'insert' array is built, strange things happen when it's used too early
+    console.log(insert);
 //Send everything to the server for fuckery prevention and database insertion
     Meteor.call('addCoin', insert, function(error, result){
       if(error) {

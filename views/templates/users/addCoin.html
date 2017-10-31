@@ -90,8 +90,8 @@ Currency: <select class="form-control icocurrency" id="icocurrency" name="icocur
   {{/if}}
   {{ #if $.Session.equals 'btcfork' true }}
   Does this fork have two-way replay protection?
-  <label class="radio-inline"><input type="radio" name="replayProtection"> Yes</label>&nbsp;&nbsp;&nbsp;
-  <label class="radio-inline"><input type="radio" name="noReplayProtection"> No</label>
+  <label class="radio-inline"><input type="radio" name="replayProtection" value="true" id="replaytrue"> Yes</label>&nbsp;&nbsp;&nbsp;
+  <label class="radio-inline"><input type="radio" name="replayProtection" value="false" id="replayfalse"> No</label>
   {{/if}}
 </li></ul>
 
