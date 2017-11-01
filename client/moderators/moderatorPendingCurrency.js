@@ -5,8 +5,9 @@ Template.moderatorPendingCurrency.onRendered(function (){
   });
 
 Template.moderatorPendingCurrency.events({
-  'click #approve': function() {
-    Meteor.call('approveCurrency', this._id)
+  'click #approve': function(data) {
+    data.preventDefault();
+    Meteor.call('approveCurrency', this._id);
   },
   'click #reject': function(data) {
     data.preventDefault();
