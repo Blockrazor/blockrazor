@@ -5,6 +5,7 @@ Accounts.onLogin(function(user){
   if (user.type != "resume") {
     Meteor.call('initializeUser');
     Meteor.call('initializeActivityLog');
+    Meteor.call('initializeWallet');
   }
 });
 

@@ -2,6 +2,9 @@ import { Mongo } from 'meteor/mongo';
 export var UserData = new Mongo.Collection('userdata');
 
 Meteor.methods({
+  getBalance: function() {
+    return UserData.findOne({_id: Meteor.user()._id}).balance;
+  },
   initializeUser: function() {
     if (_.size(UserData.findOne({_id: Meteor.user()._id})) == 0) {
       UserData.insert({
