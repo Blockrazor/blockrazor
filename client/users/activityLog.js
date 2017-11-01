@@ -10,12 +10,9 @@ Template.activityLog.onRendered( function () {
 });
 
 Template.activityLog.helpers({
-  logs() {
-        //var message = ActivityLog.findOne({});
-        //console.log(ActivityLog.findOne({}).message);
-        //return ActivityLog.findOne({});
-        return ActivityLog.findOne({}).message;
-      }
+  message(){
+    return ActivityLog.find({type: "message"}, {sort: {time: -1 }});
+  }
 });
 
 Template.messageitem.helpers({

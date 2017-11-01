@@ -1,5 +1,5 @@
 <template name="activityLog">
-{{#each logs}}
+{{#each message}}
 {{> messageitem}}
 {{/each}}
 </template>
@@ -7,7 +7,7 @@
 <template name="messageitem">
   <div class="card">
   <div class="card-block">
-    <p class="card-text">{{message}}</p>
+    <p class="card-text">{{content}}</p>
   </div>
   <div class="card-footer text-muted">
     Recieved {{time}} from {{from}}
