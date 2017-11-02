@@ -5,3 +5,7 @@
 .bg-bad {
   background-color: #FF729F;
 }
+
+#dash {
+  cursor: pointer;
+}

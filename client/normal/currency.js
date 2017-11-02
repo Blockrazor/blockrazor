@@ -100,7 +100,12 @@ radar.canvas.height = 300;
 
 });
 
-Template.currency.events({});
+Template.currency.events({
+  'click #dash': function() {
+    var route = "/currency/" + this._id;
+    FlowRouter.go(route);
+  }
+});
 
 Template.currency.helpers({
   finalValue () {
