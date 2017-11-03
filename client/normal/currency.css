@@ -9,3 +9,15 @@
 #dash {
   cursor: pointer;
 }
+
+.currencyDetailHeading {
+  margin-top: 10px;
+}
+
+.currencyDetailBox {
+  border-bottom: solid 1px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+
+}
