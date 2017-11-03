@@ -5,6 +5,7 @@
   </h4><h4 class="pull-right">RazorRank: {{razorRank}}</h4></div>
     <div class="card-body" style="display:{{bodydisplay}};">
       {{#with thiscurrency}}{{> fundamentalMetrics}}{{/with}}
+      {{#with thiscurrency}}{{> features}}{{/with}}
       <div class="row">
         <div class="col-md-12 col-lg-12">
           <div class="card">
@@ -57,12 +58,29 @@
 </div>
 </div>
 <div class="col-lg-9">
-
   {{#each metrics}}
-
   <div id={{_id}} style="display:none;" class="">{{currencyName}} {{name}} text <br /> <hr /> {{metricDescription}}</div>
   {{/each}}
+</div>
+</div>
+</div>
+</template>
 
+<template name="features">
+<div class="currencyDetailBox">
+  <h5 class="text-center currencyDetailHeading">Features</h5>
+  <div class="row" style="margin-top:10px;">
+<div class="col-lg-3">
+  <div class="btn-group-vertical">
+{{#each features}}
+<button id="name" type="button" class="btn btn-secondary">{{name}}</button>
+{{/each}}
+</div>
+</div>
+<div class="col-lg-9">
+  {{#each features}}
+  <div id={{_id}} style="display:none;" class="">{{currencyName}} {{name}} text <br /> <hr /> {{featureDescription}}</div>
+  {{/each}}
 </div>
 </div>
 </div>

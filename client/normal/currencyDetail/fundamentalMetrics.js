@@ -109,6 +109,46 @@ Template.fundamentalMetrics.helpers({
   }
 });
 
+Template.features.helpers({
+  featureDescription: function () {
+    return this.featureTag; //find metricTag data from collection
+  },
+  features: function() {
+    var features = [{
+      _id: "3456435",
+      currencyName: "Bitcoin",
+      name: "Seggregated Witness",
+      commitsYear: 1245,
+      commits60day: 244,
+      featureTag: "segwit"
+    },
+    {
+      _id: "3456546",
+      name: "Side Chains",
+      featureTag: "sideChain"
+    },
+    {
+      _id: "3456346",
+      name: "Another Feature",
+      commitsYear: 1245,
+      commits60day: 244
+    }];
+
+    return features; // will later be a database call instead
+    }
+});
+
+Template.features.events({
+  'click #name': function () {
+    if(Session.get('lastId')){document.getElementById(Session.get('lastId')).style.display = "none";}
+    document.getElementById(this._id).style.display = "block";
+    Session.set('lastId', this._id);
+
+
+  }
+});
+
+
 //
 // Template.metricContent.onRendered(function (){
 //   // Session.set('thisId', this.data._id);
