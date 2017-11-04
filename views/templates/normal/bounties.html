@@ -1,6 +1,12 @@
 <template name="bounties">
+  {{#if $.Session.equals 'workingBounty' false}}
   bounties
   {{#each bounties}}{{> bountyRender}}{{/each}}
+  {{/if}}
+
+  {{#if $.Session.equals 'workingBounty' true}}
+  {{#with activebounty}}{{> activeBounty}}{{/with}}
+  {{/if}}
 </template>
 
 <template name="bountyRender">
@@ -16,4 +22,8 @@
   </div>
 </div>
 
+</template>
+
+<template name="activeBounty">
+  <div class="float-right" style="display:inline-flex;clear:both;"><button type="button" class="btn btn-danger cancel">Cancel</button></div>
 </template>

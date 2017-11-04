@@ -2,6 +2,7 @@ import { Template } from 'meteor/templating';
 const REWARDCOEFFICIENT = 100000000;
 
 Template.bounties.onRendered(function(){
+  Session.set('workingBounty', false);
   Meteor.setInterval(function() {
       Session.set('now', Date.now());
   }, 10);
@@ -9,6 +10,16 @@ Template.bounties.onRendered(function(){
 
 
 Template.bounties.helpers({
+  activebounty: function () {
+    return [{
+      _id: "23562356",
+      currencyName: "Bitcoin",
+      bountyType: "API",
+      creationTime: 1509781011000,
+      currentlyAvailable: true,
+      currentUsername: null
+    }];
+  },
   bounties: function() {
     return [{
       _id: "23562356",
@@ -51,21 +62,19 @@ Template.bountyRender.helpers({
   },
   reward: function () {
     return ((Session.get('now') - this.creationTime) / REWARDCOEFFICIENT).toFixed(6);
-  },
-  bounties: function() {
-    return [{
-      _id: "23562356",
-      currencyName: "Bitcoin",
-      bountyType: "API",
-      creationTime: 1509781011000,
-      currentlyAvailable: true,
-      currentUsername: null
-    }];
   }
 });
 
 Template.bountyRender.events({
   'click .takeBounty': function() {
-
+    Session.set('workingBounty', true);
+    Session.set('bountyItem', this._id);
   }
 })
+
+Template.activeBounty.helpers({});
+Template.activeBounty.events({
+  'click .cancel': function() {
+    Session.set('workingBounty', false);
+  }
+});
