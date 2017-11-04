@@ -40,7 +40,7 @@ radar.canvas.height = 300;
   var radarchart = new Chart(radar, {
       type: 'radar',
       data: {
-        labels: ["Ongoing Development", "Code Quality", "Community", "Hash Power", "Ease of Use", "Coin Distribution", "Transactions"],
+        labels: ["Ongoing Development", "Code Quality", "Community", "Hash Power", "Settlement Speed", "Ease of Use", "Coin Distribution", "Transactions"],
         datasets: [
           {
             label: "1950",
@@ -50,7 +50,7 @@ radar.canvas.height = 300;
             pointBorderColor: "#fff",
             pointStyle: "dot",
             pointBackgroundColor: "#FF0000",
-            data: [6,7,2,2,8,1,3]
+            data: [6,7,2,2,7,8,1,3]
           },
           {
             label: "2",
@@ -61,7 +61,7 @@ radar.canvas.height = 300;
             borderWidth: 4,
             pointRadius: 0,
             pointBackgroundColor: "#fff",
-            data: [10,10,10,10,10,10,10]
+            data: [10,10,10,10,10,10,10,10]
           },
           {
             label: "3",
@@ -71,7 +71,7 @@ radar.canvas.height = 300;
             borderWidth: 1,
             pointBorderColor: "#fff",
             pointBackgroundColor: "#fff",
-            data: [0,0,0,0,0,0,0]
+            data: [0,0,0,0,0,0,0,0]
           }
         ]
       },
@@ -100,7 +100,12 @@ radar.canvas.height = 300;
 
 });
 
-Template.currency.events({});
+Template.currency.events({
+  'click #dash': function() {
+    var route = "/currency/" + this._id;
+    FlowRouter.go(route);
+  }
+});
 
 Template.currency.helpers({
   finalValue () {

@@ -5,3 +5,54 @@
 .bg-bad {
   background-color: #FF729F;
 }
+
+#dash {
+  cursor: pointer;
+}
+
+.currencyDetailHeading {
+  margin-top: 10px;
+}
+
+.currencyDetailBox {
+  border-bottom: solid 1px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+
+}
+
+.bigCommentBox {
+  display:inline-flex;
+  width:auto;
+  height:auto;
+}
+
+.commentRating {
+  width:30px;
+  height:100px;
+  float:left;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.commentBody {
+  height:100px;
+  width:90%;
+  border-style: solid;
+  border-width: 1px;
+  text-align: justify;
+  padding: 3px;
+}
+
+.commentAnalysis {
+  width:30px;
+  height:100px;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.commentResponse {
+  clear:both;
+  margin-left:10%;
+}

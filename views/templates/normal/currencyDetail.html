@@ -1,23 +1,83 @@
 <template name="currencyDetail">
-  {{#with thiscurrency}}
-  <div class="card text-white bg-warning mb-3" style="min-width:300px;">
-  <div class="card-header"><b>{{currencyName}} ({{currencySymbol}})</b></div>
-  <div class="card-body">
-    <blockquote class="blockquote text-center">
-  <p>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and</p>
-</blockquote>
-  <div class="float-left">
-  <ul class="list-group" style="max-width: 300px;">
-  <li class="list-group-item bg-success"><b>Secured by:</b><br /><i class="fa fa-gavel"></i> {{consensusSecurity}} <a href="#" class="text-warning">consensus</a><br /><i class="fa fa-bolt"></i><i class="fa fa-bolt"></i> {{hashpower}} W/s of <a href="#" class="text-warning">hashpower</a></li>
-  <li class="list-group-item bg-success"><b>16,602,662</b> {{currencySymbol}} are currently priced at <b>$4,314.56</b> each for a total of <b>$71,634,177,518</b></li>
-  <li class="list-group-item bg-success">
-    <i class="fa fa-clock-o" aria-hidden="true"></i> {{launchDate}} <a href={{link}} class="text-warning">{{linktext}}</a></li>
-  </ul>
-  </div>
 
-    <div class="float-left"><canvas id="distribution" style="border-style: solid; max-width:300px;"></canvas>
+    <div class="card border-secondary mb-3 mb-3" style="min-width:300px;overflow:hidden;">
+    <div class="card-header" style="height:50px"><h4 class="pull-left">{{currencyName}} {{#with thiscurrency}}({{currencySymbol}}) {{/with}}
+  </h4><h4 class="pull-right">RazorRank: {{razorRank}}</h4></div>
+    <div class="card-body" style="display:{{bodydisplay}};">
+      {{#with thiscurrency}}{{> fundamentalMetrics}}{{/with}}
+      {{#with thiscurrency}}{{> features}}{{/with}}
+      {{#with thiscurrency}}{{> discussion}}{{/with}}
+    </div></div>
+
+
+</template>
+
+<template name="fundamentalMetrics">
+  <div class="currencyDetailBox">
+  <h5 class="text-center currencyDetailHeading">Fundamental Metrics</h5>
+  <div style="width:100%"><canvas class="mx-auto" id="radar"></canvas></div>
+  <div class="row" style="margin-top:10px;">
+<div class="col-lg-3">
+  <div class="btn-group-vertical">
+{{#each metrics}}
+<button id="name" type="button" class="btn btn-secondary">{{name}}</button>
+{{/each}}
+</div>
+</div>
+<div class="col-lg-9">
+  {{#each metrics}}
+  <div id={{_id}} style="display:none;" class="">{{currencyName}} {{name}} text <br /> <hr /> {{metricDescription}}</div>
+  {{/each}}
+</div>
+</div>
+</div>
+</template>
+
+<template name="features">
+<div class="currencyDetailBox">
+  <h5 class="text-center currencyDetailHeading">Features</h5>
+  <div class="row" style="margin-top:10px;">
+<div class="col-lg-3">
+  <div class="btn-group-vertical">
+{{#each features}}
+<button id="name" type="button" class="btn btn-secondary">{{name}}</button>
+{{/each}}
+</div>
+</div>
+<div class="col-lg-9">
+  {{#each features}}
+  <div id={{_id}} style="display:none;" class="">{{currencyName}} {{name}} text <br /> <hr /> {{featureDescription}}</div>
+  {{/each}}
+</div>
+</div>
+</div>
+</template>
+
+<template name="discussion">
+<div class="currencyDetailBox">
+  <h5 class="text-center currencyDetailHeading">Discussion</h5>
+  {{#each topComment}}
+  <div class="commentThread">
+    <div class="bigCommentBox">
+      <div class="commentRating"></div>
+      <div class="commentBody">
+        <div class="commentText">{{commentText}}</div>
+        <div class="commentAuthor">{{authorName}}</div>
+      </div>
+      <div class="commentAnalysis"></div>
     </div>
-    <div><canvas id="radar"></canvas><a href="#">?</a></div>
-  </div></div>
-  {{/with}}
+    {{#each topReply}}
+    <div class="commentResponse">
+    <div class="commentRating"></div>
+    <div class="commentBody">
+      <div class="commentText">{{commentText}}</div>
+      <div class="commentAuthor">{{authorName}}</div>
+    </div>
+    </div>
+    {{/each}}
+  </div>
+  {{/each}}
+  <div class="text-right">{{totalComments}} more</div>
+</div>
+
 </template>

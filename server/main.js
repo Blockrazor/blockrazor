@@ -9,9 +9,9 @@ Accounts.onLogin(function(user){
   }
 });
 
-FastRender.route('/', function(){
-this.subscribe('approvedcurrencies');
-});
+// FastRender.route('/', function(){
+// this.subscribe('approvedcurrencies');
+// });
 
 Meteor.startup(() => {
 //jobs.initiate_later();
