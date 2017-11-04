@@ -35,19 +35,19 @@ Template.bountyRender.helpers({
         return this.currentUsername + " is working on this right now!";
     } else { return null;}
   },
-  outline: function() {
+  buttonClass: function() {
     if(this.currentlyAvailable == true) {
-        return "btn-outline-primary";
+        return "btn-outline-primary takeBounty";
     } else { return "btn-outline-secondary";}
   },
   bountyTypeHeading: function () {
     return "Find and provide API call details"; //find the description for this.bountyType bounty type in DB
   },
   problem: function () {
-    return "Blockrazor doesn't know the current hash power or number of transactions per hour for";
+    return "Blockrazor doesn't know the current hash power or number of transactions per hour for"; //find problem description for this.bountyType from DB
   },
   solution: function () {
-    return "provide the API call and response object details so that Blockrazor can keep itself updated";
+    return "find a block explorer or open node and provide the API call (and the response object details) so that Blockrazor can keep itself updated"; //as above
   },
   reward: function () {
     return ((Session.get('now') - this.creationTime) / REWARDCOEFFICIENT).toFixed(6);
@@ -63,3 +63,9 @@ Template.bountyRender.helpers({
     }];
   }
 });
+
+Template.bountyRender.events({
+  'click .takeBounty': function() {
+
+  }
+})
