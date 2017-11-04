@@ -99,6 +99,12 @@ Template.fundamentalMetrics.helpers({
       commits60day: 244
     },
     {
+      _id: "635756745",
+      name: "Coin Distribution",
+      commitsYear: 1245,
+      commits60day: 244
+    },
+    {
       _id: "73567567",
       name: "Community",
       commitsYear: 1245,
@@ -136,6 +142,31 @@ Template.features.helpers({
 
     return features; // will later be a database call instead
     }
+});
+
+Template.discussion.helpers({
+  totalComments: function () {
+    return 123;
+  },
+  topComment: function() {
+    return [{
+      _id: "3456435",
+      commentText: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies.",
+      currencyId: "56735836736",
+      authorName: "bitcoinfan",
+      authorId: "985273948"
+    }];
+
+  },
+  topReply: function() {
+    return [{
+      _id: "83958374",
+      parentId: "3456435",
+      commentText: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient.",
+       authorName: "dashfan",
+       authorId: "2345354"
+    }]
+  }
 });
 
 Template.features.events({

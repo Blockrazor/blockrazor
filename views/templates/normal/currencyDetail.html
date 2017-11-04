@@ -6,40 +6,7 @@
     <div class="card-body" style="display:{{bodydisplay}};">
       {{#with thiscurrency}}{{> fundamentalMetrics}}{{/with}}
       {{#with thiscurrency}}{{> features}}{{/with}}
-      <div class="row">
-        <div class="col-md-12 col-lg-12">
-          <div class="card">
-            <div class="card-block" style="padding: 10px;">
-              <h5 class="card-title"><i class="fa fa-thumbs-up" style="color:#205482;" aria-hidden="true"></i> The Good</h5>
-              <p class="card-text text-justify">The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog. Junk MTV quiz graced by fox whelps. Bawds jog, flick quartz <i class="fa fa-comments" style="color: #5bc0de;" aria-hidden="true"></i></p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-12 col-lg-12">
-          <div class="card">
-            <div class="card-block" style="padding: 10px;">
-              <h5 class="card-title"><i class="fa fa-exclamation-triangle" style="color:#FFBC42;" aria-hidden="true"></i> The Bad</h5>
-              <p class="card-text text-justify">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et ma <i class="fa fa-comments" style="color: #5bc0de;" aria-hidden="true"></i></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="clearfix"></div>
-    <div class="float-left">
-    <ul class="list-group" style="max-width: 300px;">
-    <li class="list-group-item border-secondary"><b>Secured by:</b><br /><i class="fa fa-gavel"></i> {{consensusSecurity}} <a href="#" class="text-info">consensus</a><br /><i class="fa fa-bolt"></i><i class="fa fa-bolt"></i> {{hashpower}} W/s of <a href="#" class="text-info">hashpower</a></li>
-    <li class="list-group-item border-secondary"><b>{{circulating}} {{currencySymbol}}</b> are currently priced at <b>${{price}}</b> each for a total of <b>${{marketCap}}</b> <br />
-      If all future {{currencySymbol}} were on the market today, the price would be <b>${{finalValue}}</b>.
-    </li>
-    <li class="list-group-item border-secondary">
-      <i class="fa fa-clock-o" aria-hidden="true"></i> {{launchDate}} <a href={{link}} class="text-info">{{linktext}}</a></li>
-    </ul>
-    </div>
-
-      <div class="float-left"><canvas id="distribution" style="max-width:300px;border-style:solid;"></canvas>
-      </div>
-      <div><canvas id="{{_id}}-radar" style="border-style:solid;"></canvas></div>
-      <div class="float-left" style="width: 300px; height: 100px;"><a href={{gitRepo}}>github</a></div>
+      {{#with thiscurrency}}{{> discussion}}{{/with}}
     </div></div>
 
 
@@ -48,7 +15,7 @@
 <template name="fundamentalMetrics">
   <div class="currencyDetailBox">
   <h5 class="text-center currencyDetailHeading">Fundamental Metrics</h5>
-  <canvas class="mx-auto" id="radar"></canvas>
+  <div style="width:100%"><canvas class="mx-auto" id="radar"></canvas></div>
   <div class="row" style="margin-top:10px;">
 <div class="col-lg-3">
   <div class="btn-group-vertical">
@@ -84,4 +51,33 @@
 </div>
 </div>
 </div>
+</template>
+
+<template name="discussion">
+<div class="currencyDetailBox">
+  <h5 class="text-center currencyDetailHeading">Discussion</h5>
+  {{#each topComment}}
+  <div class="commentThread">
+    <div class="bigCommentBox">
+      <div class="commentRating"></div>
+      <div class="commentBody">
+        <div class="commentText">{{commentText}}</div>
+        <div class="commentAuthor">{{authorName}}</div>
+      </div>
+      <div class="commentAnalysis"></div>
+    </div>
+    {{#each topReply}}
+    <div class="commentResponse">
+    <div class="commentRating"></div>
+    <div class="commentBody">
+      <div class="commentText">{{commentText}}</div>
+      <div class="commentAuthor">{{authorName}}</div>
+    </div>
+    </div>
+    {{/each}}
+  </div>
+  {{/each}}
+  <div class="text-right">{{totalComments}} more</div>
+</div>
+
 </template>
