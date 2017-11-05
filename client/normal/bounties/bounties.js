@@ -41,6 +41,12 @@ Template.bounties.helpers({
 });
 
 Template.bountyRender.helpers({
+  id: function() {
+    return this._id;
+  },
+  bountyDetails: function () {
+    return "After clicking start, you will have 30 minutes to complete this bounty. You need to: [1] find a block explorer or open node which can provide the current network hash rate, [2] construct an API call to get the current hash rate, and [3] tell Blockrazor how to consume the response so that the final result is an integer."//DB call to get bounty details for this bounty type
+  },
   workingText: function () {
     if(this.currentlyAvailable == false) {
         return this.currentUsername + " is working on this right now!";
@@ -55,7 +61,7 @@ Template.bountyRender.helpers({
     return "Find and provide API call details"; //find the description for this.bountyType bounty type in DB
   },
   problem: function () {
-    return "Blockrazor doesn't know the current hash power or number of transactions per hour for"; //find problem description for this.bountyType from DB
+    return "Blockrazor doesn't know how to get the current hash power for"; //find problem description for this.bountyType from DB
   },
   solution: function () {
     return "find a block explorer or open node and provide the API call (and the response object details) so that Blockrazor can keep itself updated"; //as above
@@ -67,7 +73,9 @@ Template.bountyRender.helpers({
 
 Template.bountyRender.events({
   'click .takeBounty': function() {
-    Session.set('workingBounty', true);
+    $('#' + this._id).show();
+    $('#takeBounty' + this._id).hide();
+    //Session.set('workingBounty', true);
     Session.set('bountyItem', this._id);
   }
 })
