@@ -109,6 +109,17 @@ Template.activeBounty.helpers({
 Template.activeBounty.events({});
 
 Template.APIbounty.events({
+  'click .submit': function () {
+    if ($('#apiCall').val() == "https://moneroblocks.info/api/get_stats") {
+      sAlert.error("Looks like you haven't updated the form and you're trying to submit the example data! Please try again.", {stack: false, position: 'top'});
+    } else if (!$('#hashrate-result').text()) {
+      sAlert.error("Looks like you haven't found the hashrate! Please try again.", {stack: false, position: 'top'});
+    } else if (typeof parseInt($('#hashrate-result').text()) != "number") {
+      sAlert.error("That hashrate doesn't looke like a number.", {stack: false, position: 'top'});
+    } else {
+      console.log("hashate ok");
+    }
+;  },
   'click .fetch': function() {
     var d = $('#apiCall').val();
     var parser = $('#hashrate').val();
@@ -118,6 +129,12 @@ Template.APIbounty.events({
   return result.json();
 }).then(function(data) {
   //$('#result').html("");
+  $('#hashrate-result').text(" ");
+  $('#height-result').text(" ");
+  $('#timestamp-result').text(" ");
+  $('#reward-result').text(" ");
+  $('#emission-result').text(" ");
+
   $('#hashrate-result').text(Math.round(eval($('#hashrate').val())));
   $('#height-result').text(eval($('#height').val()));
   $('#timestamp-result').text(eval($('#timestamp').val()));

@@ -42,6 +42,7 @@
 </template>
 
 <template name="APIbounty">
+  {{> sAlert}}
 <h4>API Bounty</h4>
 <p><b>Instructions:</b> find a block explorer or an open node for {{currencyName}} which has an API.
   Look at the API's documentation to find out how to construct an API call. It's possible (but unlikely) that you may need to register for an API key and include it in the call.
@@ -64,7 +65,7 @@ Please also fill these out if they exist. Make them blank if the JSON data doesn
   <li>Total coins in existence: <input id="emission" type="text" style="width:300px;" value="data.total_emission"> </li>
 </ul>
 <b>Most currencies report coins in 'atomic units'</b>, e.g. Bitcoin uses the Satoshi. Look at any coin counts (e.g. the block reward) in the JSON data below and compare this to what is reported on the block explorer website to see if they move the decimal point.
-Move decimal this many places: <input id="decimal" type="text" style="width:30px;" value="12"> <br />
+Move decimal this many places to the left: <input id="decimal" type="text" style="width:30px;" value="12"> <br />
 <button class="btn btn-warning fetch">Execute API Call</button> <br />
 <b>Parsed Response (should look like a number):</b>
 <div>
