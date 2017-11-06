@@ -1,4 +1,5 @@
 <template name="editAnything">
+  {{> sAlert}}
   {{#if $not currentUser}}<div class="alert alert-danger" role="alert">
   <h5 class="text-center">You're not logged in!</h5><div class="float-left" style="margin-top:-30px;">{{> loginButtons}}</div>
 </div>{{/if}}

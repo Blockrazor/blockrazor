@@ -108,6 +108,14 @@ Template.activeBounty.helpers({
 });
 Template.activeBounty.events({});
 
+Template.APIbounty.helpers({
+  bountyData () {
+    return {
+      name: "Bitcoin"
+    }; //make this a database call
+  }
+});
+
 Template.APIbounty.events({
   'click .submit': function () {
     //Functions to check data:
@@ -158,14 +166,17 @@ Template.APIbounty.events({
     checkTimestamp();
     checkBlockReward();
     checkTotalCoins();
-    Meteor.call('completeAPIbounty', apiData, function(error, result) {
-      if (error) {
-        sAlert.error(error.reason, {stack: false, position: 'top'});
-      } else if (result) {
-        FlowRouter.go("/mypendingbounties");
-      }
+    if (hashrateCall) {
+      Meteor.call('completeAPIbounty', apiData, function(error, result) {
+        if (error) {
+          sAlert.error(error.reason, {stack: false, position: 'top'});
+        } else if (result) {
+          FlowRouter.go("/mypendingbounties");
+        }
 
-    });
+      })  
+    };
+
 
   },
   'click .fetch': function() {
