@@ -110,16 +110,64 @@ Template.activeBounty.events({});
 
 Template.APIbounty.events({
   'click .submit': function () {
-    if ($('#apiCall').val() == "https://moneroblocks.info/api/get_stats") {
-      sAlert.error("Looks like you haven't updated the form and you're trying to submit the example data! Please try again.", {stack: false, position: 'top'});
-    } else if (!$('#hashrate-result').text()) {
-      sAlert.error("Looks like you haven't found the hashrate! Please try again.", {stack: false, position: 'top'});
-    } else if (typeof parseInt($('#hashrate-result').text()) != "number") {
-      sAlert.error("That hashrate doesn't looke like a number.", {stack: false, position: 'top'});
-    } else {
-      console.log("hashate ok");
+    //Functions to check data:
+    //Hashrate
+    var checkHashrateCall = function () {
+      if ($('#apiCall').val() == "https://moneroblocks.info/api/get_stats") {
+        sAlert.error("Looks like you haven't updated the form and you're trying to submit the example data! Please try again.", {stack: false, position: 'top'});
+      } else if (!parseInt($('#hashrate-result').text())) {
+        sAlert.error("Looks like you haven't found the hashrate! Please try again.", {stack: false, position: 'top'});
+      } else {
+        hashrateCall = true;
+        apiData.apiCall = $('#apiCall').val();
+        apiData.hashrate = $('#hashrate').val();
+        apiData.bountyId = FlowRouter.getParam("_id");
+      }
+    };
+    // Blockchain height
+    var checkBlockchainHeight = function () {
+      if ($('#height-result').text()) {
+        apiData.height = $('#height').val();
+      }
+    };
+    // Timestamp
+    var checkTimestamp = function () {
+      if ($('#timestamp-result').text()) {
+        apiData.timestamp = $('#timestamp').val();
+      }
+    };
+    //Block Reward
+    var checkBlockReward = function () {
+      if ($('#reward-result').text()) {
+        apiData.reward = $('#reward').val();
+        apiData.decimal = Math.pow(10, parseInt($('#decimal').val()));
+      }
+    };
+    //Total Coins
+    var checkTotalCoins = function () {
+      if ($('#emission-result').text()) {
+        apiData.emissions = $('#emission').val();
+        apiData.decimal = Math.pow(10, parseInt($('#decimal').val()));
+      }
     }
-;  },
+
+    var apiData = {};
+    var hashrateCall = false;
+    checkHashrateCall();
+    checkBlockchainHeight();
+    checkTimestamp();
+    checkBlockReward();
+    checkTotalCoins();
+    Meteor.call('completeAPIbounty', apiData, function(error, result) {
+      if (error) {
+        sAlert.error(error.reason, {stack: false, position: 'top'});
+      } else if (result) {
+        FlowRouter.go("/mypendingbounties");
+      }
+
+    });
+
+  },
   'click .fetch': function() {
     var d = $('#apiCall').val();
     var parser = $('#hashrate').val();
