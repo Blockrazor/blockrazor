@@ -14,13 +14,15 @@
 <template name="bountyRender">
   <div class="card" style="margin-top:10px;">
   <div class="card-block">
-    <h4 class="card-title">{{bountyTypeHeading}} for {{currencyName}} <div class="float-right" style="display:inline-flex"><div style="width:120px;margin-left:6px;">{{reward}}</div> KZR</div></h4>
+    <h4 class="card-title">{{types.heading}} for {{currencyName}} <div class="float-right" style="display:inline-flex"><div style="width:120px;margin-left:6px;">{{reward}}</div> KZR</div></h4>
     <h6 class="card-subtitle mb-2 text-muted"></h6>
-    <div class="card-text"><b>Problem:</b> {{problem}} {{currencyName}}.</div>
+
+    <div class="card-text"><b>Problem:</b> {{problem}}.</div>
     <div class="card-text"><b>Solution:</b> {{solution}}.</div>
     <div class="card-text" id={{id}} style="display:none;margin-top:10px;">
       <h5>Bounty Details</h5>
-      {{bountyDetails}}
+      {{types.rules}}
+
       <div class="float-right" style="display:inline-flex;clear:both;margin-top:10px;">
         <button type="button" class="btn btn-danger cancel">Cancel</button>
         <button type="button" class="btn btn-primary start" style="margin-left:10px;">Start</button>
@@ -34,15 +36,17 @@
 </template>
 
 <template name="activeBounty">
-{{#if $.Session.equals 'bountyType' 'API'}}{{> APIbounty}}{{/if}}
+  <div class="alert alert-danger" role="alert">
+  <h5 class="text-center">{{timeRemaining}}</h5></div>
+{{#if $.Session.equals 'bountyType' 'HashrateAPI'}}{{> HashrateAPI}}{{/if}}
 {{#if $.Session.equals 'bountyType' 'hashpower'}}{{> hashpower}}{{/if}}
 {{#if $.Session.equals 'bountyType' 'userExperience'}}{{> userExperience}}{{/if}}
 {{#if $.Session.equals 'bountyType' 'codeQuality'}}{{> codeQuality}}{{/if}}
 {{#if $.Session.equals 'bountyType' 'community'}}{{> community}}{{/if}}
 </template>
 
-<template name="APIbounty">
-<h4>API Bounty for {{bountyData.name}}</h4>
+<template name="HashrateAPI">
+<h4>API Bounty for {{thisbounty.currencyName}}</h4>
 <p><b>Instructions:</b> find a block explorer or an open node for {{currencyName}} which has an API.
   Look at the API's documentation to find out how to construct an API call. It's possible (but unlikely) that you may need to register for an API key and include it in the call.
   Construct the API call in the box below, and examine the response. <b>Hint:</b> open your browser's javascript console for diagnostic information.
