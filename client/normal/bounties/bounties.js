@@ -99,31 +99,11 @@ Template.activeBounty.onCreated(function(){
 
 Template.activeBounty.helpers({
   timeRemaining () {
-    // if(Bounties.findOne({_id: Cookies.get('bountyItem')}).expiresAt - Session.get('now')) {
-    //   if(Bounties.findOne({_id: Cookies.get('bountyItem')}).expiresAt - Session.get('now') <= 0) {
-    //     Cookies.set('workingBounty', false);
-    //     Cookies.set('bountyItem', null);
-    //     Cookies.set('bountyType', null);
-    //     Meteor.call('cancelBounty', FlowRouter.getParam("_id"));
-    //     FlowRouter.go("/bounties");
-    //   }
-    // }
+
     return "Time remaining: " + Math.round((Bounties.findOne({
       _id: Cookies.get('bountyItem')
     }).expiresAt - Session.get('now'))/1000/60) + " minutes.";
-    //
-    // var minutes = Math.round((Bounties.findOne({_id: Cookies.get('bountyItem')}).expiresAt - Session.get('now'))/1000/60);
-    // var fulltext = "Time remaining: " + minutes + " minutes.";
-    // if (minutes > 0) {
-    //   return fulltext;
-    // } else if (minutes <= 0) {
-    //   FlowRouter.go("/bounties");
-    //}
-
   }
-  // thisbounty () {
-  //   return FlowRouter.getParam("_id");
-  // }
 });
 Template.activeBounty.events({
   'click .cancel': function () {
@@ -199,10 +179,13 @@ Template.HashrateAPI.events({
       Meteor.call('completeAPIbounty', apiData, function(error, result) {
         if (error) {
           sAlert.error(error.reason, {stack: false, position: 'top'});
-        } else if (result) {
-          FlowRouter.go("/mypendingbounties");
-        }
-
+        };
+        Cookies.set('workingBounty', false);
+        Cookies.set('bountyItem', null);
+        Cookies.set('bountyType', null);
+        Cookies.set('expiresAt', null);
+        //Meteor.call('cancelBounty', FlowRouter.getParam("_id"));
+        FlowRouter.go("/mypending");
       })
     };
 
