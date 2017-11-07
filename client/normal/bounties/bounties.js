@@ -53,13 +53,21 @@ Template.bountyRender.helpers({
 
 Template.bountyRender.events({
   'click .start': function () {
-    Session.set('workingBounty', true);
-    //Session.set('bountyItem', this._id);
-    Cookies.set('bountyItem', this._id, { expires: 1});
-    Cookies.set('bountyType', this.bountyType, { expires: 1});
-    Session.set('bountyType', this.bountyType);
-    Meteor.call('startBounty', this._id); //Make a meteor call to change the status of the bounty to being worked on by <username> and add "working on bounty" to their profile so they cant take another one at the same time.
-    FlowRouter.go("/bounties/" + this._id);
+    if(Cookies.get('workingBounty') != "true") {
+      console.log(Cookies.get('workingBounty'))
+      Session.set('workingBounty', true);
+      Cookies.set('workingBounty', true, { expires: 1 });
+      //Session.set('bountyItem', this._id);
+      Cookies.set('bountyItem', this._id, { expires: 1});
+      Cookies.set('bountyType', this.bountyType, { expires: 1});
+      Session.set('bountyType', this.bountyType);
+      Meteor.call('startBounty', this._id);
+      FlowRouter.go("/bounties/" + this._id);
+    } else if (Cookies.get('workingBounty') == "true") {
+      sAlert.error("You already have a bounty in progress!");
+      FlowRouter.go("/bounties/" + Cookies.get('bountyItem'));
+    }
+
   },
   'click .cancel': function() {
     $('#' + this._id).hide();
