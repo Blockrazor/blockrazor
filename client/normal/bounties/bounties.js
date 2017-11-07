@@ -107,7 +107,11 @@ Template.activeBounty.helpers({
   //   return FlowRouter.getParam("_id");
   // }
 });
-Template.activeBounty.events({});
+Template.activeBounty.events({
+  'click .cancel': function () {
+    Meteor.call('cancelBounty', FlowRouter.getParam("_id"))
+  }
+});
 
 Template.HashrateAPI.helpers({
   expires () {
