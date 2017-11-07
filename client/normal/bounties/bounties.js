@@ -94,7 +94,7 @@ Template.activeBounty.onCreated(function(){
 
 Template.activeBounty.helpers({
   timeRemaining () {
-    var minutes = Math.round((Bounties.findOne().expiresAt - Session.get('now'))/1000/60);
+    var minutes = Math.round((Bounties.findOne({_id: Cookies.get('bountyItem')}).expiresAt - Session.get('now'))/1000/60);
     var fulltext = "Time remaining: " + minutes + " minutes.";
     if (minutes > 0) {
       return fulltext;
