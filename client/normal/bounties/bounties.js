@@ -54,9 +54,9 @@ Template.bountyRender.helpers({
 Template.bountyRender.events({
   'click .start': function () {
     if(Cookies.get('workingBounty') != "true") {
-      console.log(Cookies.get('workingBounty'))
       Session.set('workingBounty', true);
       Cookies.set('workingBounty', true, { expires: 1 });
+      Cookies.set('expiresAt', Date.now() + 3600000, { expires: 1 }); //
       //Session.set('bountyItem', this._id);
       Cookies.set('bountyItem', this._id, { expires: 1});
       Cookies.set('bountyType', this.bountyType, { expires: 1});
@@ -84,23 +84,41 @@ Template.activeBounty.onRendered(function(){
   Meteor.setInterval(function() {
       Session.set('now', Date.now());
   }, 1000);
+  Meteor.setInterval(function() {
+      if(Date.now() >= Cookies.get('expiresAt')) {
+        FlowRouter.go("/bounties");
+      }
+  }, 1000);
 });
 
 Template.activeBounty.onCreated(function(){
   this.autorun(() => {
     this.subscribe('bounties', FlowRouter.getParam("_id"));
   });
-});
+});Session.set('activeBountyRendered', true);
 
 Template.activeBounty.helpers({
   timeRemaining () {
-    var minutes = Math.round((Bounties.findOne({_id: Cookies.get('bountyItem')}).expiresAt - Session.get('now'))/1000/60);
-    var fulltext = "Time remaining: " + minutes + " minutes.";
-    if (minutes > 0) {
-      return fulltext;
-    } else if (minutes <= 0) {
-      FlowRouter.go("/bounties");
-    }
+    // if(Bounties.findOne({_id: Cookies.get('bountyItem')}).expiresAt - Session.get('now')) {
+    //   if(Bounties.findOne({_id: Cookies.get('bountyItem')}).expiresAt - Session.get('now') <= 0) {
+    //     Cookies.set('workingBounty', false);
+    //     Cookies.set('bountyItem', null);
+    //     Cookies.set('bountyType', null);
+    //     Meteor.call('cancelBounty', FlowRouter.getParam("_id"));
+    //     FlowRouter.go("/bounties");
+    //   }
+    // }
+    return "Time remaining: " + Math.round((Bounties.findOne({
+      _id: Cookies.get('bountyItem')
+    }).expiresAt - Session.get('now'))/1000/60) + " minutes.";
+    //
+    // var minutes = Math.round((Bounties.findOne({_id: Cookies.get('bountyItem')}).expiresAt - Session.get('now'))/1000/60);
+    // var fulltext = "Time remaining: " + minutes + " minutes.";
+    // if (minutes > 0) {
+    //   return fulltext;
+    // } else if (minutes <= 0) {
+    //   FlowRouter.go("/bounties");
+    //}
 
   }
   // thisbounty () {
@@ -109,7 +127,12 @@ Template.activeBounty.helpers({
 });
 Template.activeBounty.events({
   'click .cancel': function () {
-    Meteor.call('cancelBounty', FlowRouter.getParam("_id"))
+    Cookies.set('workingBounty', false);
+    Cookies.set('bountyItem', null);
+    Cookies.set('bountyType', null);
+    Cookies.set('expiresAt', null);
+    Meteor.call('cancelBounty', FlowRouter.getParam("_id"));
+    FlowRouter.go("/");
   }
 });
 
