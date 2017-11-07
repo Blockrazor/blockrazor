@@ -53,6 +53,7 @@
   Construct the API call in the box below, and examine the response. <b>Hint:</b> open your browser's javascript console for diagnostic information.
   The result is returned as a JSON object called "data". Please navigate to the correct place in the JSON object using dot notation and only use square brackets if dot notation is not possible.
 </p>
+<p>If you cannot find an API providing network hashpower directly, you may need to use difficulty instead and work out what to do with the difficulty number in order to get the hashpower (you can use standard javascript math operators).</p>
 <p><b>The form has been pre-filled with a working example for Monero to help get you started.</b></p>
 <div style="display:inline-flex;">fetch(<input id="apiCall" type="text" style="width:600px;" placeholder="Add the entire API call here starting with http..." value="https://moneroblocks.info/api/get_stats">)</div><br />
 .then<span style="color: blue">(</span>function(result) { <br />

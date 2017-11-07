@@ -19,7 +19,7 @@ Template.bounties.onRendered(function(){
 
 Template.bounties.helpers({
   bounties: function() {
-    return Bounties.find();
+    return Bounties.find({pendingApproval: false});
   }
 });
 
@@ -130,7 +130,7 @@ Template.HashrateAPI.events({
     //Functions to check data:
     //Hashrate
     var checkHashrateCall = function () {
-      if ($('#apiCall').val() == "https://moneroblocks.info/api/get_stats") {
+      if ($('#apiCall').val() == "https://moneroblocks.info/api/get_statsm") {
         sAlert.error("Looks like you haven't updated the form and you're trying to submit the example data! Please try again.", {stack: false, position: 'top'});
       } else if (!parseInt($('#hashrate-result').text())) {
         sAlert.error("Looks like you haven't found the hashrate! Please try again.", {stack: false, position: 'top'});
@@ -185,7 +185,7 @@ Template.HashrateAPI.events({
         Cookies.set('bountyType', null);
         Cookies.set('expiresAt', null);
         //Meteor.call('cancelBounty', FlowRouter.getParam("_id"));
-        FlowRouter.go("/mypending");
+        //FlowRouter.go("/mypending");
       })
     };
 

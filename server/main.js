@@ -1,11 +1,12 @@
 import { Meteor } from 'meteor/meteor';
-  import {generateBounties, createtypes} from '../lib/database/Bounties.js';
+  import {generateBounties, createtypes, fetchHashrate} from '../lib/database/Bounties.js';
 //import * as jobs from './API_requests/github.js';
 
 Accounts.onLogin(function(user){
 
   //generateBounties();
   //createtypes();
+  //fetchHashrate("t9u2tSq9o8CMPzCAu");
   if (user.type != "resume") {
     Meteor.call('initializeUser');
     Meteor.call('initializeActivityLog');
