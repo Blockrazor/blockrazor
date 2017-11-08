@@ -119,7 +119,7 @@ Template.activeBounty.events({
 Template.HashrateAPI.helpers({
   hashpowerunits () {
     return "units";
-  }
+  },
   expires () {
     return moment(Bounties.findOne().expiresAt).fromNow();
   },
@@ -133,7 +133,7 @@ Template.HashrateAPI.events({
     //Functions to check data:
     //Hashrate
     var checkHashrateCall = function () {
-      if ($('#apiCall').val() == "https://moneroblocks.info/api/get_statsm") {
+      if ($('#apiCall').val() == "https://moneroblocks.info/api/get_stats") {
         sAlert.error("Looks like you haven't updated the form and you're trying to submit the example data! Please try again.", {stack: false, position: 'top'});
       } else if (!parseInt($('#hashrate-result').text())) {
         sAlert.error("Looks like you haven't found the hashrate! Please try again.", {stack: false, position: 'top'});
