@@ -54,12 +54,13 @@
   The result is returned as a JSON object called "data". Please navigate to the correct place in the JSON object using dot notation and only use square brackets if dot notation is not possible.
 </p>
 <p>If you cannot find an API providing network hashpower directly, you may need to use difficulty instead and work out what to do with the difficulty number in order to get the hashpower (you can use standard javascript math operators).</p>
+<p>Do <b>not</b> use an API from a third party site like coinwarz or bitinfocarts, you must use a native block explorer or an open node</p>
 <p><b>The form has been pre-filled with a working example for Monero to help get you started.</b></p>
 <div style="display:inline-flex;">fetch(<input id="apiCall" type="text" style="width:600px;" placeholder="Add the entire API call here starting with http..." value="https://moneroblocks.info/api/get_stats">)</div><br />
 .then<span style="color: blue">(</span>function(result) { <br />
 &nbsp;&nbsp;&nbsp;&nbsp;return result.json(); <br />
 }<span style="color: blue">)</span>.then<span style="color: blue">(</span>function(<span style="color: red">data</span>) { <br />
-console.log(Math.round(<input id="hashrate" type="text" style="width:300px;" value="data.hashrate">)); <br />
+console.log(Math.round(<input id="hashrate" type="text" style="width:300px;" value="data.hashrate">)); // in {{hashpowerunits}}/s.<br />
 }<span style="color: blue">)</span>; <br />
 <b>Sometimes the same API might have some other data:</b> <br />
 Please also fill these out if they exist. Make them blank if the JSON data doesn't exist.<br />

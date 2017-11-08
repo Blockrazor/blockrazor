@@ -117,6 +117,9 @@ Template.activeBounty.events({
 });
 
 Template.HashrateAPI.helpers({
+  hashpowerunits () {
+    return "units";
+  }
   expires () {
     return moment(Bounties.findOne().expiresAt).fromNow();
   },
