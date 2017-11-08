@@ -1,8 +1,10 @@
 import { Template } from 'meteor/templating';
 import { PendingCurrencies } from '../../lib/database/Currencies.js';
+import { Bounties } from '../../lib/database/Bounties.js';
 
 Template.moderatorDash.onCreated(function bodyOnCreated() {
   Meteor.subscribe('pendingcurrencies');
+  Meteor.subscribe('bounties');
 });
 
 Template.moderatorDash.onRendered( function () {
@@ -22,6 +24,9 @@ Template.moderatorDash.events({
 });
 
 Template.moderatorDash.helpers({
+  pendingBounties() {
+    return Bounties.find({pendingApproval: true});
+  },
   pendingCurrencies() {
         return PendingCurrencies.find({}, { sort: { createdAt: -1 }, limit: 20});
       }

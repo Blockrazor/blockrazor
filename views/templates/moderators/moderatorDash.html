@@ -4,6 +4,7 @@
   {{#each pendingCurrencies}}
        {{> moderatorPendingCurrency}}
   {{/each}}
+  {{#each pendingBounties}}{{> moderatorPendingBounty}}{{/each}}
   {{/if}}
   {{#if $.Session.equals 'reject' true}}
   <form>
