@@ -10,7 +10,7 @@ SyncedCron.add({
   job: function() {
     Meteor.call('updateMarketCap');
   }
-});
+}); 
 
 SyncedCron.add({
   name: 'Update from Github',

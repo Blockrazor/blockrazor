@@ -69,6 +69,8 @@ Template.moderatorPendingAPIBounty.events({
   },
   'click #reject': function(data) {
     data.preventDefault();
+    var reason = $('#reason').val();
+    Meteor.call('rejectBounty', this._id, reason);
     // Meteor.call('setRejected', this._id, true);
     // Session.set('currentlyRejecting', this._id);
     // Session.set('reject', true);

@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import './rainbow.js';
-import { Bounties, BountyTypes } from '../../../lib/database/Bounties.js';
+import { Bounties, BountyTypes, REWARDCOEFFICIENT } from '../../../lib/database/Bounties.js';
 
 Template.bounties.onCreated(function(){
   this.autorun(() => {
