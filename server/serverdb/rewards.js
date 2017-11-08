@@ -23,17 +23,19 @@ var getRewardFor = function(itemType, creationTime) {
   }
 };
 
-export var creditUserWith = function(amount, owner, reason) {
-    UserData.upsert({_id: owner}, {$inc: {balance: amount}});
+export var creditUserWith = function(amount, userId, reason) {
+  if(Meteor.isServer) {
+    UserData.upsert({_id: userId}, {$inc: {balance: amount}});
     Wallet.insert({
       time: new Date().getTime(),
-      owner: owner,
+      owner: userId,
       type: "transaction",
-      from: "System",
-      message: "Congratulations! You've been awarded " + amount + " ZRQ for " + reason,
+      from: "Blockrazor",
+      message: "Congratulations! You've been awarded " + amount + " KZR for " + reason,
       amount: amount
     });
     return true;
+  }
 };
 
 export var rewardCurrencyCreator = function(launchTags, owner, currencyName) {

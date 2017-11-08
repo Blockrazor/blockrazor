@@ -62,10 +62,10 @@ Template.moderatorPendingCurrency.helpers({
 });
 
 
-Template.moderatorPendingBounty.events({
+Template.moderatorPendingAPIBounty.events({
   'click #approve': function(data) {
     data.preventDefault();
-    //Meteor.call('approveCurrency', this._id);
+    Meteor.call('approveAPIbounty', this._id);
   },
   'click #reject': function(data) {
     data.preventDefault();
