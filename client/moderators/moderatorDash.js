@@ -24,8 +24,8 @@ Template.moderatorDash.events({
 });
 
 Template.moderatorDash.helpers({
-  pendingBounties() {
-    return Bounties.find({pendingApproval: true});
+  pendingAPIBounties() {
+    return Bounties.find({pendingApproval: true, bountyType: "HashrateAPI"});
   },
   pendingCurrencies() {
         return PendingCurrencies.find({}, { sort: { createdAt: -1 }, limit: 20});
