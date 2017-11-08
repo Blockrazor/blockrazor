@@ -1,19 +1,109 @@
 <template name="bounties">
+  <!-- {{#if $.Session.equals 'workingBounty' false}} -->
   bounties
-  {{#each bounties}}{{> bountyRender}}{{/each}}
+    {{#each bounties}}
+    {{> bountyRender}}
+    {{/each}}
+  <!-- {{/if}}
+
+  {{#if $.Session.equals 'workingBounty' true}}
+  {{#each activebounty}}{{> activeBounty}}{{/each}}
+  {{/if}} -->
 </template>
 
 <template name="bountyRender">
   <div class="card" style="margin-top:10px;">
   <div class="card-block">
-    <h4 class="card-title">{{bountyTypeHeading}} for {{currencyName}} <div class="float-right" style="display:inline-flex"><div style="width:120px;margin-left:6px;">{{reward}}</div> KZR</div></h4>
+    <h4 class="card-title">{{types.heading}} for {{currencyName}} <div class="float-right" style="display:inline-flex"><div style="width:120px;margin-left:6px;">{{reward}}</div> KZR</div></h4>
     <h6 class="card-subtitle mb-2 text-muted"></h6>
-    <div class="card-text"><b>Problem:</b> {{problem}} {{currencyName}}.</div>
-    <div class="card-text"><b>Solution:</b> {{solution}}.</div>
-    <div class="float-right" style="display:inline-flex;clear:both;"><button type="button" class="btn {{outline}}">Take Bounty</button></div>
-    <div class="float-right" style="display:inline-flex;clear:both;"><i>{{workingText}}</i></div>
 
+    <div class="card-text"><b>Problem:</b> {{problem}}.</div>
+    <div class="card-text"><b>Solution:</b> {{solution}}.</div>
+    <div class="card-text" id={{id}} style="display:none;margin-top:10px;">
+      <h5>Bounty Details</h5>
+      {{types.rules}}
+
+      <div class="float-right" style="display:inline-flex;clear:both;margin-top:10px;">
+        <button type="button" class="btn btn-danger cancel">Cancel</button>
+        <button type="button" class="btn btn-primary start" style="margin-left:10px;">Start</button>
+      </div>
+    </div>
+    <div class="float-right" style="display:inline-flex;clear:both;" id="takeBounty{{id}}"><button type="button" class="btn {{buttonClass}}">Take Bounty</button></div>
+    <div class="float-right" style="display:inline-flex;clear:both;"><i>{{workingText}}</i></div>
   </div>
 </div>
 
+</template>
+
+<template name="activeBounty">
+  <div class="alert alert-danger" role="alert">
+  <h5 class="text-center">{{timeRemaining}}</h5></div>
+  <button class="btn btn-danger float-right cancel">Get me out of here, I can't do this!</button>
+{{#if $.Session.equals 'bountyType' 'HashrateAPI'}}{{> HashrateAPI}}{{/if}}
+{{#if $.Session.equals 'bountyType' 'hashpower'}}{{> hashpower}}{{/if}}
+{{#if $.Session.equals 'bountyType' 'userExperience'}}{{> userExperience}}{{/if}}
+{{#if $.Session.equals 'bountyType' 'codeQuality'}}{{> codeQuality}}{{/if}}
+{{#if $.Session.equals 'bountyType' 'community'}}{{> community}}{{/if}}
+</template>
+
+<template name="HashrateAPI">
+<h4>API Bounty for {{thisbounty.currencyName}}</h4>
+<p><b>Instructions:</b> find a block explorer or an open node for {{currencyName}} which has an API.
+  Look at the API's documentation to find out how to construct an API call. It's possible (but unlikely) that you may need to register for an API key and include it in the call.
+  Construct the API call in the box below, and examine the response. <b>Hint:</b> open your browser's javascript console for diagnostic information.
+  The result is returned as a JSON object called "data". Please navigate to the correct place in the JSON object using dot notation and only use square brackets if dot notation is not possible.
+</p>
+<p>If you cannot find an API providing network hashpower directly, you may need to use difficulty instead and work out what to do with the difficulty number in order to get the hashpower (you can use standard javascript math operators).</p>
+<p>Do <b>not</b> use an API from a third party site like coinwarz or bitinfocarts, you must use a native block explorer or an open node</p>
+<p><b>The form has been pre-filled with a working example for Monero to help get you started.</b></p>
+<div style="display:inline-flex;">fetch(<input id="apiCall" type="text" style="width:600px;" placeholder="Add the entire API call here starting with http..." value="https://moneroblocks.info/api/get_stats">)</div><br />
+.then<span style="color: blue">(</span>function(result) { <br />
+&nbsp;&nbsp;&nbsp;&nbsp;return result.json(); <br />
+}<span style="color: blue">)</span>.then<span style="color: blue">(</span>function(<span style="color: red">data</span>) { <br />
+console.log(Math.round(<input id="hashrate" type="text" style="width:300px;" value="data.hashrate">)); // in {{hashpowerunits}}/s.<br />
+}<span style="color: blue">)</span>; <br />
+<b>Sometimes the same API might have some other data:</b> <br />
+Please also fill these out if they exist. Make them blank if the JSON data doesn't exist.<br />
+<ul>
+  <li>Blockchain Height: <input id="height" type="text" style="width:300px;" value="data.height"> </li>
+  <li>Timestamp: <input id="timestamp" type="text" style="width:300px;" value="data.last_timestamp"> </li>
+  <li>Block reward: <input id="reward" type="text" style="width:300px;" value="data.last_reward"> </li>
+  <li>Total coins in existence: <input id="emission" type="text" style="width:300px;" value="data.total_emission"> </li>
+</ul>
+<b>Most currencies report coins in 'atomic units'</b>, e.g. Bitcoin uses the Satoshi. Look at any coin counts (e.g. the block reward) in the JSON data below and compare this to what is reported on the block explorer website to see if they move the decimal point.
+Move decimal this many places to the left: <input id="decimal" type="text" style="width:30px;" value="12"> <br />
+<button class="btn btn-warning fetch">Execute API Call</button> <br />
+<b>Parsed Response (should look like a number):</b>
+<div>
+  <ul>
+    <li>Hashrate: <span id="hashrate-result"></span> </li>
+    <li>Blockchain Height: <span id="height-result"></span> </li>
+    <li>Timestamp: <span id="timestamp-result"></span> </li>
+    <li>Block reward: <span id="reward-result"></span> </li>
+    <li>Total coins in existence: <span id="emission-result"></span> </li>
+  </ul>
+<button class="btn btn-primary submit">This looks good!</button>
+</div>
+<h5 style="margin-top: 10px;">Full JSON response:</h5>
+<div id="result">JSON data will display here</div>
+</template>
+
+
+<template name="hashpower">
+hashpower
+</template>
+
+
+<template name="userExperience">
+userExperience
+</template>
+
+
+<template name="codeQuality">
+codeQuality
+</template>
+
+
+<template name="community">
+community
 </template>
