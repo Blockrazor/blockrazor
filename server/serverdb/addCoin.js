@@ -122,6 +122,7 @@ Meteor.methods({
       checkSanity(data.exchanges, "exchanges", "object", 0, 15);
       checkSanity(data.blockTime, "blockTime", "number", 1, 4);
       checkSanity(data.confirmations, "confirmations", "number", 1, 4);
+
     }
 
 
@@ -153,7 +154,11 @@ Meteor.methods({
     console.log("----inserting------");
     var insert = _.extend(data, {
       createdAt: new Date().getTime(),
-      owner: Meteor.userId()
+      owner: Meteor.userId(),
+      proposal: proposal,
+      altcon: altcoin,
+      ico: ico,
+      btcfork: btcfork
     })
     PendingCurrencies.insert(insert, function(error, result){
     if (!result) {
