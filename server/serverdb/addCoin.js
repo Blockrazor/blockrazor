@@ -158,7 +158,8 @@ Meteor.methods({
       proposal: proposal,
       altcon: altcoin,
       ico: ico,
-      btcfork: btcfork
+      btcfork: btcfork,
+      bountiesCreated: false
     })
     PendingCurrencies.insert(insert, function(error, result){
     if (!result) {
