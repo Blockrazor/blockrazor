@@ -1,7 +1,6 @@
 import { Template } from 'meteor/templating';
 import './rainbow.js';
 import { Bounties, BountyTypes } from '../../../lib/database/Bounties.js';
-const REWARDCOEFFICIENT = 60000000;
 
 Template.bounties.onCreated(function(){
   this.autorun(() => {
