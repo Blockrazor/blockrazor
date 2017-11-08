@@ -6,7 +6,9 @@ Accounts.onLogin(function(user){
 
   //generateBounties();
   //createtypes();
-  //fetchHashrate("t9u2tSq9o8CMPzCAu");
+  // console.log("-----")
+  // console.log(fetchHashrate("t9u2tSq9o8CMPzCAu"));
+  // console.log("end")
   if (user.type != "resume") {
     Meteor.call('initializeUser');
     Meteor.call('initializeActivityLog');
