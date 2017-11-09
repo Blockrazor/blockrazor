@@ -115,29 +115,69 @@ Template.fundamentalMetrics.helpers({
   }
 });
 
+Template.feature.onRendered(function(){
+})
+Template.feature.helpers({
+  comments: function() { //return database showing comments with parent: this._id
+    return [{
+      _id: "4346563456",
+      coinId: "6onKzomxFLsAdaBXA",
+      parentId: "234567890987654",
+      comment: "Mutable Blockchain sucks",
+      appeal: 10,
+      appealNumber: 1,
+      appealVoted: ["2Hqity2h2S6jvnSbT"],
+      createdAt: 1510152258000,
+      author: "frank"
+    }];
+  }
+});
+
+
 Template.features.helpers({
   featureDescription: function () {
     return this.featureTag; //find metricTag data from collection
   },
   features: function() {
     var features = [{
-      _id: "3456435",
-      currencyName: "Bitcoin",
-      name: "Seggregated Witness",
-      commitsYear: 1245,
-      commits60day: 244,
-      featureTag: "segwit"
+      _id: "234567890987654",
+      coinId: "6onKzomxFLsAdaBXA",
+      featureName: "Mutable Blockchain in Mutable Blockchain Mutable Blockchain Mutable Blockchain Mutable Blockchain ",
+      appeal: 10,
+      appealNumber: 1,
+      appealVoted: ["2Hqity2h2S6jvnSbT"],
+      createdAt: 1510152258000,
+      author: "gareth"
     },
     {
-      _id: "3456546",
-      name: "Side Chains",
-      featureTag: "sideChain"
+      _id: "234567890987654",
+      coinId: "6onKzomxFLsAdaBXA",
+      featureName: "Mutable Blockchain",
+      appeal: 10,
+      appealNumber: 1,
+      appealVoted: ["2Hqity2h2S6jvnSbT"],
+      createdAt: 1510152258000,
+      author: "gareth"
     },
     {
-      _id: "3456346",
-      name: "Another Feature",
-      commitsYear: 1245,
-      commits60day: 244
+      _id: "234567890987654",
+      coinId: "6onKzomxFLsAdaBXA",
+      featureName: "Mutable Blockchain",
+      appeal: 10,
+      appealNumber: 1,
+      appealVoted: ["2Hqity2h2S6jvnSbT"],
+      createdAt: 1510152258000,
+      author: "gareth"
+    },
+    {
+      _id: "234567890987654",
+      coinId: "6onKzomxFLsAdaBXA",
+      featureName: "Mutable Blockchain",
+      appeal: 10,
+      appealNumber: 1,
+      appealVoted: ["2Hqity2h2S6jvnSbT"],
+      createdAt: 1510152258000,
+      author: "gareth"
     }];
 
     return features; // will later be a database call instead

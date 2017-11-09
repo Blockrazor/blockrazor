@@ -1,0 +1,36 @@
+<template name="features">
+<div class="currencyDetailBox">
+  <h5 class="text-center currencyDetailHeading">Features</h5>
+    <div class="row commentThread">
+    {{#each features}}<div class="col-lg-6">{{> feature}}</div>{{/each}}
+</div>
+</div>
+</template>
+
+<template name="feature">
+
+    <div class="bigCommentBox">
+      <div class="commentBody">
+        <div class="commentText">{{featureName}}<small class="text-muted" style="white-space:nowrap;">  &#x2015;added by {{author}}</small></div>
+      </div>
+      <div class="commentFooter"><div class="pull-left">{{> starsRating id='rating' mutable=true}}</div><div class="pull-right"><i class="fa fa-flag" aria-hidden="true"></i><i class="fa fa-comments-o" aria-hidden="true" style="margin-left:10px;">126</i></div></div>
+    </div>
+{{#each comments}}{{> comment}}{{/each}}
+</template>
+
+<template name="comment">
+
+    <div class="bigCommentBox" style="width:90%;">
+      <div class="commentBody">
+        <div class="commentText">{{comment}} <small class="text-muted" style="white-space:nowrap;">&#x2015;{{author}}</small>
+
+      </div>
+
+
+
+
+      </div>
+<div class="commentFooter"><div class="pull-left">{{> starsRating id='rating' mutable=true}}</div><div class="pull-right"><i class="fa fa-flag" aria-hidden="true"></i>    <i class="fa fa-reply" aria-hidden="true" style="margin-left:10px;"></i></div></div>
+    </div>
+
+</template>
