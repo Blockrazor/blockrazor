@@ -118,6 +118,9 @@ Template.fundamentalMetrics.helpers({
 Template.feature.onRendered(function(){
 })
 Template.feature.helpers({
+  parentId: function() {
+    return this.parentId;
+  },
   comments: function() { //return database showing comments with parent: this._id
     return [{
       _id: "4346563456",
@@ -133,6 +136,11 @@ Template.feature.helpers({
   }
 });
 
+Template.feature.events({
+  'click .reply': function() {
+    $("." + this._id).toggle();
+  }
+});
 
 Template.features.helpers({
   featureDescription: function () {
@@ -150,7 +158,7 @@ Template.features.helpers({
       author: "gareth"
     },
     {
-      _id: "234567890987654",
+      _id: "56735674357",
       coinId: "6onKzomxFLsAdaBXA",
       featureName: "Mutable Blockchain",
       appeal: 10,
@@ -160,7 +168,7 @@ Template.features.helpers({
       author: "gareth"
     },
     {
-      _id: "234567890987654",
+      _id: "547567564",
       coinId: "6onKzomxFLsAdaBXA",
       featureName: "Mutable Blockchain",
       appeal: 10,
@@ -170,7 +178,7 @@ Template.features.helpers({
       author: "gareth"
     },
     {
-      _id: "234567890987654",
+      _id: "53474567567",
       coinId: "6onKzomxFLsAdaBXA",
       featureName: "Mutable Blockchain",
       appeal: 10,

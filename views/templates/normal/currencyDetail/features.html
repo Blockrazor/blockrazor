@@ -13,14 +13,14 @@
       <div class="commentBody">
         <div class="commentText">{{featureName}}<small class="text-muted" style="white-space:nowrap;">  &#x2015;added by {{author}}</small></div>
       </div>
-      <div class="commentFooter"><div class="pull-left">{{> starsRating id='rating' mutable=true}}</div><div class="pull-right"><i class="fa fa-flag" aria-hidden="true"></i><i class="fa fa-comments-o" aria-hidden="true" style="margin-left:10px;">126</i></div></div>
+      <div class="commentFooter"><div class="pull-left">{{> starsRating id='rating' mutable=true}}</div><div class="pull-right"><i class="fa fa-flag flag" aria-hidden="true"></i><i class="fa fa-comments-o reply" aria-hidden="true" style="margin-left:10px;">126</i></div></div>
     </div>
 {{#each comments}}{{> comment}}{{/each}}
 </template>
 
 <template name="comment">
 
-    <div class="bigCommentBox" style="width:90%;">
+    <div class="bigCommentBox {{parentId}}" style="width:90%;display:none;">
       <div class="commentBody">
         <div class="commentText">{{comment}} <small class="text-muted" style="white-space:nowrap;">&#x2015;{{author}}</small>
 
@@ -30,7 +30,7 @@
 
 
       </div>
-<div class="commentFooter"><div class="pull-left">{{> starsRating id='rating' mutable=true}}</div><div class="pull-right"><i class="fa fa-flag" aria-hidden="true"></i>    <i class="fa fa-reply" aria-hidden="true" style="margin-left:10px;"></i></div></div>
+<div class="commentFooter"><div class="pull-left">{{> starsRating id='rating' mutable=true}}</div><div class="pull-right"><i class="fa fa-flag flag" aria-hidden="true"></i>    <i class="fa fa-reply reply" aria-hidden="true" style="margin-left:10px;"></i></div></div>
     </div>
 
 </template>
