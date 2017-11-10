@@ -94,7 +94,7 @@ Template.activeBounty.onCreated(function(){
   this.autorun(() => {
     this.subscribe('bounties', FlowRouter.getParam("_id"));
   });
-});Session.set('activeBountyRendered', true);
+});//Session.set('activeBountyRendered', true);
 
 Template.activeBounty.helpers({
   timeRemaining () {

@@ -1,8 +1,7 @@
 import { Template } from 'meteor/templating';
+import { Features } from '../../../lib/database/Features.js';
 
 Template.fundamentalMetrics.onRendered(function (){
-
-
   var radar = document.getElementById("radar").getContext('2d');
   radar.canvas.width = 800;
   radar.canvas.height = 600;
@@ -142,11 +141,22 @@ Template.feature.events({
   }
 });
 
+Template.features.onCreated(function(){
+  console.log(FlowRouter.getParam("_id"));
+  this.autorun(() => {
+    this.subscribe('features', FlowRouter.getParam("_id"));
+  });
+});
+
 Template.features.helpers({
   featureDescription: function () {
     return this.featureTag; //find metricTag data from collection
   },
   features: function() {
+    console.log(Features.find({}).fetch())
+    return Features.find({}).fetch();
+  },
+  featuresold: function() {
     var features = [{
       _id: "234567890987654",
       coinId: "6onKzomxFLsAdaBXA",
@@ -218,6 +228,36 @@ Template.discussion.helpers({
 });
 
 Template.features.events({
+  'keyup #featureName': function() {
+    $('#field').keyup(function () {
+  var max = 500;
+  var len = $(this).val().length;
+  if (len >= max) {
+    $('#charNum').text(' you have reached the limit');
+  } else {
+    var char = max - len;
+    $('#charNum').text(char + ' characters left');
+  }
+});
+
+  },
+  'click .submitNewFeature': function () {
+    if(!Meteor.user()) {
+      sAlert.error("You must be logged in to add a new feature!");
+    }
+    var data = $('#featureName').val();
+    if(data.length < 6 || data.length > 80) {
+      sAlert.error("That entry is too short, or too long.");
+    } else {
+      Meteor.call('newFeature', this._id, data);
+      $('#featureName').val(" ");
+      $('#addNewFeature').toggle();
+      sAlert.success("Thanks! That feature has been added!");
+    }
+  },
+  'click .showAddNewFeature': function() {
+    $('#addNewFeature').toggle();
+  },
   'click #name': function () {
     if(Session.get('lastId')){document.getElementById(Session.get('lastId')).style.display = "none";}
     document.getElementById(this._id).style.display = "block";
