@@ -1,24 +1,75 @@
 <template name="features">
-<div class="currencyDetailBox">
+
+  <div class="modal fade" id="addFeatureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Adding a new feature</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          You're adding a {{currencyName}} feature. You will be credited with a bounty of {{bountyamount}} ZZR in 7 days as long as it:
+          <ul>
+            <li>Maintains 3 or more stars</li>
+            <li>Is not sent to the Sin Bin by a moderator</li>
+          </ul>
+          Here's an example feature from Monero:<br />
+          <i>Privacy - all transactions made with Monero are private and untraceable.</i>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Thanks, don't show this again</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="modal fade" id="featureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add a new feature</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        It looks like {{currencyName}} has only recently been added to Blockrazor and
+        its features have not yet been added. This is a great opportunity for you to
+        add one of {{currencyName}}'s features and earn some Krazor!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Thanks, don't show this again</button>
+      </div>
+    </div>
+  </div>
+</div>
+{{featureModal}}
+
+<div class="currencyDetailBox" >
   <h5 class="text-center currencyDetailHeading">Features</h5>
     <div class="row commentThread">
     {{#each features}}<div class="col-lg-6">{{> feature}}</div>{{/each}}
 
-</div><div class="col-lg-6 pull-right" style="margin-top: 10px;"><h5 class="pull-right showAddNewFeature"><i class="fa fa-plus" aria-hidden="true"> <a href="#">Add another feature</a></i></h5>
+</div><div class="col-lg-6 pull-right" style="margin-top: 10px;"><h5 class="pull-right showAddNewFeature"><i class="fa fa-plus" aria-hidden="true"> <a href="#">Add a feature</a></i></h5>
   <div id="addNewFeature" style="display:none;">
     <b>Rules:</b><br />
     <ul>
-      <li>Use clear language</li>
+      <li>Use clear language, keep it as short as possible</li>
       <li>No jokes (people new to crypto will just be confused)</li>
+      <li>Any claims must be factually correct</li>
     </ul>
-    <textarea class="" id="featureName" style="width:100%" maxlength="80" minlength="6"></textarea><br />
-    <button class="btn btn-primary submitNewFeature">Submit</button>
+    <textarea class="" id="featureName" style="width:100%" maxlength="140" minlength="6"></textarea><br />
+    <div style="display:flex;"><button class="btn btn-primary float-left submitNewFeature">Submit</button><h4>&nbsp;&nbsp;<i class="fa fa-question-circle help" aria-hidden="true"></i></h4><div class="float-right" id="charNum" style="position:absolute;right:0; bottom:20px;margin-right:20px;"></div></div>
   </div></div>
 
 </div>
 </template>
 
 <template name="feature">
+
+
 
     <div class="bigCommentBox">
       <div class="commentBody">

@@ -117,6 +117,9 @@ Template.fundamentalMetrics.helpers({
 Template.feature.onRendered(function(){
 })
 Template.feature.helpers({
+  bountyamount: function () {
+    return "<FIXME>"; //FIXME
+  },
   parentId: function() {
     return this.parentId;
   },
@@ -136,6 +139,8 @@ Template.feature.helpers({
 });
 
 Template.feature.events({
+  'mouseover .reply': function() {
+  },
   'click .reply': function() {
     $("." + this._id).toggle();
   }
@@ -153,53 +158,8 @@ Template.features.helpers({
     return this.featureTag; //find metricTag data from collection
   },
   features: function() {
-    console.log(Features.find({}).fetch())
     return Features.find({}).fetch();
-  },
-  featuresold: function() {
-    var features = [{
-      _id: "234567890987654",
-      coinId: "6onKzomxFLsAdaBXA",
-      featureName: "Mutable Blockchain in Mutable Blockchain Mutable Blockchain Mutable Blockchain Mutable Blockchain ",
-      appeal: 10,
-      appealNumber: 1,
-      appealVoted: ["2Hqity2h2S6jvnSbT"],
-      createdAt: 1510152258000,
-      author: "gareth"
-    },
-    {
-      _id: "56735674357",
-      coinId: "6onKzomxFLsAdaBXA",
-      featureName: "Mutable Blockchain",
-      appeal: 10,
-      appealNumber: 1,
-      appealVoted: ["2Hqity2h2S6jvnSbT"],
-      createdAt: 1510152258000,
-      author: "gareth"
-    },
-    {
-      _id: "547567564",
-      coinId: "6onKzomxFLsAdaBXA",
-      featureName: "Mutable Blockchain",
-      appeal: 10,
-      appealNumber: 1,
-      appealVoted: ["2Hqity2h2S6jvnSbT"],
-      createdAt: 1510152258000,
-      author: "gareth"
-    },
-    {
-      _id: "53474567567",
-      coinId: "6onKzomxFLsAdaBXA",
-      featureName: "Mutable Blockchain",
-      appeal: 10,
-      appealNumber: 1,
-      appealVoted: ["2Hqity2h2S6jvnSbT"],
-      createdAt: 1510152258000,
-      author: "gareth"
-    }];
-
-    return features; // will later be a database call instead
-    }
+  }
 });
 
 Template.discussion.helpers({
@@ -228,9 +188,29 @@ Template.discussion.helpers({
 });
 
 Template.features.events({
+  'click .help': function() {
+    $('#addFeatureModal').modal('show');
+  },
+  'mouseover .help': function() {
+    $('.help').css('cursor', 'pointer');
+  },
+  'focus #featureName': function() {
+    if(Cookies.get('addFeatureModal') != "true") {
+      console.log("fdgdsgfds");
+      $('#addFeatureModal').modal('show');
+      Cookies.set('addFeatureModal', true);
+    }
+  },
+  'mouseover .currencyDetailBox': function() {
+    if(_.size(Features.find({}).fetch()) == 0 && !Cookies.get('featureModal')) {
+      $('#featureModal').modal('show');
+      Cookies.set('featureModal', true);
+      console.log("0");
+    }
+  },
   'keyup #featureName': function() {
-    $('#field').keyup(function () {
-  var max = 500;
+    $('#featureName').keyup(function () {
+  var max = 140;
   var len = $(this).val().length;
   if (len >= max) {
     $('#charNum').text(' you have reached the limit');
@@ -239,14 +219,13 @@ Template.features.events({
     $('#charNum').text(char + ' characters left');
   }
 });
-
   },
   'click .submitNewFeature': function () {
     if(!Meteor.user()) {
       sAlert.error("You must be logged in to add a new feature!");
     }
     var data = $('#featureName').val();
-    if(data.length < 6 || data.length > 80) {
+    if(data.length < 6 || data.length > 140) {
       sAlert.error("That entry is too short, or too long.");
     } else {
       Meteor.call('newFeature', this._id, data);
