@@ -113,7 +113,13 @@ Template.fundamentalMetrics.helpers({
     return metrics;
   }
 });
-
+Template.feature.onCreated(function() {
+  console.log("ID");
+  console.log(this.data._id);
+  this.autorun(() => {
+    this.subscribe('comments', this._id);
+  });
+});
 Template.feature.onRendered(function(){
 })
 Template.feature.helpers({
@@ -124,26 +130,72 @@ Template.feature.helpers({
     return this.parentId;
   },
   comments: function() { //return database showing comments with parent: this._id
-    return [{
-      _id: "4346563456",
-      coinId: "6onKzomxFLsAdaBXA",
-      parentId: "234567890987654",
-      comment: "Mutable Blockchain sucks",
-      appeal: 10,
-      appealNumber: 1,
-      appealVoted: ["2Hqity2h2S6jvnSbT"],
-      createdAt: 1510152258000,
-      author: "frank"
-    }];
+    return Features.find({parentId: this._id}).fetch();
   }
 });
 
 Template.feature.events({
+  'click .submitNewComment': function () {
+    if(!Meteor.user()) {
+      sAlert.error("You must be logged in to comment!");
+    }
+    var data = $('#replyText-' + this._id).val();
+    if(data.length < 6 || data.length > 140) {
+      sAlert.error("That entry is too short, or too long.");
+    } else {
+      Meteor.call('newComment', this._id, data, 1);
+      $('#replyText-' + this._id).val(" ");
+      $(".newcomment-" + this._id).hide();
+      Cookies.set("submitted" + this._id, true);
+      $(".commentParent-" + this._id).hide();
+      Session.set("showingComments" + this._id, "false")
+      sAlert.success("Thanks! Your comment has been posted!");
+    }
+  },
+  'keyup .replyText': function() {
+    $('.replyText').keyup(function () {
+  var max = 140;
+  var len = $(this).val().length;
+  if (len >= max) {
+    $('#replyCharNum' + this._id).text(' you have reached the limit');
+  } else {
+    var char = max - len;
+    $("#replyCharNum" + this._id).text(char + ' characters left');
+  }
+});
+  },
+  'focus .replyText': function() {
+    $(".replyFooter-" + this._id).show();
+    $('#replyText-' + this._id).height(60);
+    $('#replyText-' + this._id).attr("placeholder", "Comments should be friendly, useful to others, and factually correct. If you see bad behavior, don't encourage it by replying, simply flag it and move on.");
+  },
+  'click .comments': function() {
+    if(Cookies.get("submitted" + this._id) != "true") {
+    $(".newcomment-" + this._id).show();
+  };
+  if(Session.get("showingComments" + this._id) != "true") {
+    $(".commentParent-" + this._id).show();
+    Session.set("showingComments" + this._id, "true")
+  } else {
+    $(".commentParent-" + this._id).hide();
+    Session.set("showingComments" + this._id, "false")
+  }
+
+  },
+  'mouseover .comments': function() {
+    $('.comments').css('cursor', 'pointer');
+  },
   'mouseover .reply': function() {
   },
   'click .reply': function() {
     $("." + this._id).toggle();
-  }
+  },
+  'click .wymihelp': function() {
+    $('#wymiModal').modal('show');
+  },
+  'mouseover .wymihelp': function() {
+    $('.wymihelp').css('cursor', 'pointer');
+  },
 });
 
 Template.features.onCreated(function(){
@@ -158,7 +210,7 @@ Template.features.helpers({
     return this.featureTag; //find metricTag data from collection
   },
   features: function() {
-    return Features.find({}).fetch();
+    return Features.find({currencyId: FlowRouter.getParam("_id")}).fetch();
   }
 });
 

@@ -25,6 +25,37 @@
     </div>
   </div>
 
+  <div class="modal fade" id="wymiModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Commenting</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>You'll be asked how much <i>wymi</i> you want to give your comment. </p>
+          <p>You must have enough avalable balance in your wallet to fund the amount you choose.</p>
+          <p>If your comment becomes the <i>top comment</i> in the thread, you get <i>triple</i> your wymi back!
+          If not, your wymi is <i>returned to you in full</i>. Comments sent to the Sin Bin for violating
+          the rules shall forfeit their wymi.</p>
+          <p>The wymi is currently optional but a minimum amount may be implimented in future depending on how much spam etc there is.</p>
+          <h5>Rules</h5>
+          If you think you're doing the right thing, you probably are.
+          <ul>
+            <li>No spamming</li>
+            <li>No personal attacks or abuse</li>
+            <li>Warning people about scams etc is perfectly fine, but <i>malicious</i> FUD is not.</li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 <div class="modal fade" id="featureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -68,24 +99,28 @@
 </template>
 
 <template name="feature">
-
-
-
     <div class="bigCommentBox">
       <div class="commentBody">
         <div class="commentText">{{featureName}}<small class="text-muted" style="white-space:nowrap;">  &#x2015;added by {{author}}</small></div>
       </div>
-      <div class="commentFooter"><div class="pull-left">{{> starsRating id='rating' mutable=true}}</div><div class="pull-right"><i class="fa fa-flag flag" aria-hidden="true"></i><i class="fa fa-comments-o reply" aria-hidden="true" style="margin-left:10px;">126</i></div></div>
+      <div class="commentFooter"><div class="pull-left">{{> starsRating id='rating' mutable=true}}</div><div class="pull-right"><i class="fa fa-flag flag" aria-hidden="true"></i><i class="fa fa-comments-o comments" aria-hidden="true" style="margin-left:10px;"><small>126</small></i></div></div>
     </div>
+    <div class="newcomment-{{_id}}" style="display:none;">
+    <textarea id="replyText-{{_id}}" class="replyText" style="width:100%;height:30px;" maxlength="140" minlength="6" placeholder="reply"></textarea><br />
+    <div class="replyFooter-{{_id}}" style="display:none;">Wymi amount<i class="fa fa-question-circle wymihelp" aria-hidden="true"></i>:<input class="mwymi" style="width:40px; margin-right: 4px;"><button class="btn btn-primary submitNewComment">Submit</button><div class="float-right" id="replyCharNum{{_id}}" style="position:absolute;right:0; bottom:0px;margin-right:20px;"></div></div>
+  </div>
 {{#each comments}}{{> comment}}{{/each}}
 </template>
 
+
+
+
 <template name="comment">
-    <div class="bigCommentBox {{parentId}}" style="width:90%;display:none;">
+    <div class="bigCommentBox commentParent-{{parentId}}" style="width:90%;display:none;">
       <div class="commentBody">
         <div class="commentText">{{comment}} <small class="text-muted" style="white-space:nowrap;">&#x2015;{{author}}</small>
       </div>
       </div>
-<div class="commentFooter"><div class="pull-left">{{> starsRating id='rating' mutable=true}}</div><div class="pull-right"><i class="fa fa-flag flag" aria-hidden="true"></i>    <i class="fa fa-reply reply" aria-hidden="true" style="margin-left:10px;"></i></div></div>
+<div class="commentFooter"><div class="pull-left">{{> starsRating id='rating' mutable=true}}</div><div class="pull-right"><i class="fa fa-flag flag" aria-hidden="true"></i></div></div>
     </div>
 </template>
