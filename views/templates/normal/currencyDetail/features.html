@@ -109,6 +109,28 @@
     <textarea id="replyText-{{_id}}" class="replyText" style="width:100%;height:30px;" maxlength="140" minlength="6" placeholder="reply"></textarea><br />
     <div class="replyFooter-{{_id}}" style="display:none;">Wymi amount<i class="fa fa-question-circle wymihelp" aria-hidden="true"></i>:<input class="mwymi" style="width:40px; margin-right: 4px;"><button class="btn btn-primary submitNewComment">Submit</button><div class="float-right" id="replyCharNum{{_id}}" style="position:absolute;right:0; bottom:0px;margin-right:20px;"></div></div>
   </div>
+
+  <div class="modal fade" id="flagModal-{{_id}}" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">You are flagging:</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p><b><i>"{{featureName}}"</i></b></p>
+          Written by: {{author}}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger flagButton">Report</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 {{#each comments}}{{> comment}}{{/each}}
 </template>
 
@@ -122,5 +144,27 @@
       </div>
       </div>
 <div class="commentFooter"><div class="pull-left">{{> starsRating id='rating' mutable=true}}</div><div class="pull-right"><i class="fa fa-flag flag" aria-hidden="true"></i></div></div>
+    </div>
+
+
+    <div class="modal fade" id="flagModal-{{_id}}" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">You are flagging:</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p><b><i>"{{comment}}"</i></b></p>
+            Written by: {{author}}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger commentFlag">Report</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
     </div>
 </template>
