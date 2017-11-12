@@ -114,8 +114,6 @@ Template.fundamentalMetrics.helpers({
   }
 });
 Template.feature.onCreated(function() {
-  console.log("ID");
-  console.log(this.data._id);
   this.autorun(() => {
     this.subscribe('comments', this._id);
   });
@@ -136,6 +134,9 @@ Template.feature.helpers({
 });
 
 Template.feature.events({
+  'mouseover .flag': function() {
+    $('.flag').css('cursor', 'pointer');
+  },
   'click .flag': function() {
     $('#flagModal-' + this._id).modal('show');
   },
@@ -257,6 +258,16 @@ Template.discussion.helpers({
 });
 
 Template.features.events({
+  'click .showFlagged': function() {
+    if(Session.get('showflagged') == false) {
+      Session.set('showflagged', true);
+      $('.showFlagged').text("Hide flagged");
+      $('.flag').css("color", "#FF6600");
+    } else {
+      Session.set('showflagged', false);
+      $('.showFlagged').text("Show flagged");
+    }
+  },
   'click .help': function() {
     $('#addFeatureModal').modal('show');
   },
@@ -265,7 +276,6 @@ Template.features.events({
   },
   'focus #featureName': function() {
     if(Cookies.get('addFeatureModal') != "true") {
-      console.log("fdgdsgfds");
       $('#addFeatureModal').modal('show');
       Cookies.set('addFeatureModal', true);
     }
@@ -274,7 +284,6 @@ Template.features.events({
     if(_.size(Features.find({}).fetch()) == 0 && !Cookies.get('featureModal')) {
       $('#featureModal').modal('show');
       Cookies.set('featureModal', true);
-      console.log("0");
     }
   },
   'keyup #featureName': function() {
