@@ -213,7 +213,7 @@ Template.feature.events({
 });
 
 Template.features.onCreated(function(){
-  console.log(FlowRouter.getParam("_id"));
+  Session.set('showflagged', false);
   this.autorun(() => {
     this.subscribe('features', FlowRouter.getParam("_id"));
   });
@@ -225,6 +225,9 @@ Template.features.helpers({
   },
   features: function() {
     return Features.find({currencyId: FlowRouter.getParam("_id"), flagRatio: {$lt: 0.6}}).fetch();
+  },
+  flaggedfeatures: function() {
+    return Features.find({currencyId: FlowRouter.getParam("_id"), flagRatio: {$gt: 0.6}}).fetch();
   }
 });
 
@@ -297,11 +300,20 @@ Template.features.events({
       Meteor.call('newFeature', this._id, data);
       $('#featureName').val(" ");
       $('#addNewFeature').toggle();
+      $('.featuresheading').text("Features");
+      Session.set('addingnewfeature', false);
       sAlert.success("Thanks! That feature has been added!");
     }
   },
   'click .showAddNewFeature': function() {
     $('#addNewFeature').toggle();
+    if(!Session.get('addingnewfeature')) {
+      $('.featuresheading').text("Add a new feature");
+      Session.set('addingnewfeature', true);
+    } else {
+      $('.featuresheading').text("Features");
+      Session.set('addingnewfeature', false);
+    }
   },
   'click #name': function () {
     if(Session.get('lastId')){document.getElementById(Session.get('lastId')).style.display = "none";}
