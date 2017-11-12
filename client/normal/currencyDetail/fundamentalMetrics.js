@@ -131,7 +131,7 @@ Template.feature.helpers({
     return this.parentId;
   },
   comments: function() { //return database showing comments with parent: this._id
-    return Features.find({parentId: this._id}).fetch();
+    return Features.find({parentId: this._id, flagRatio: {$lt: 0.6}}).fetch();
   }
 });
 
