@@ -121,6 +121,7 @@ Template.feature.onCreated(function() {
   });
 });
 Template.feature.onRendered(function(){
+
 })
 Template.feature.helpers({
   bountyamount: function () {
@@ -223,7 +224,7 @@ Template.features.helpers({
     return this.featureTag; //find metricTag data from collection
   },
   features: function() {
-    return Features.find({currencyId: FlowRouter.getParam("_id")}).fetch();
+    return Features.find({currencyId: FlowRouter.getParam("_id"), flagRatio: {$lt: 0.6}}).fetch();
   }
 });
 
