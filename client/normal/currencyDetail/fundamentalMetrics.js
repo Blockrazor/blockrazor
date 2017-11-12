@@ -114,15 +114,17 @@ Template.fundamentalMetrics.helpers({
   }
 });
 Template.feature.onCreated(function() {
-  console.log("ID");
-  console.log(this.data._id);
   this.autorun(() => {
     this.subscribe('comments', this._id);
   });
 });
 Template.feature.onRendered(function(){
+
 })
 Template.feature.helpers({
+  starsid: function() {
+    return "star-" + this._id
+  },
   bountyamount: function () {
     return "<FIXME>"; //FIXME
   },
@@ -130,11 +132,34 @@ Template.feature.helpers({
     return this.parentId;
   },
   comments: function() { //return database showing comments with parent: this._id
-    return Features.find({parentId: this._id}).fetch();
+    return Features.find({parentId: this._id, flagRatio: {$lt: 0.6}}).fetch();
   }
 });
 
 Template.feature.events({
+  'click .fa-thumbs-down': function(event) {
+    Meteor.call('vote', this._id, "down", function(error,result) {
+      if(!error) {
+        $(event.currentTarget).parent().html('<i class="fa fa-check" aria-hidden="true"></i>');
+      } else {sAlert.error(error.reason)};
+    });
+  },
+  'click .fa-thumbs-up': function(event) {
+    Meteor.call('vote', this._id, "up", function(error,result) {
+      if(!error) {
+        $(event.currentTarget).parent().html('<i class="fa fa-check" aria-hidden="true"></i>');
+      } else {sAlert.error(error.reason)};
+    });
+  },
+  'mouseover .fa-thumbs-down': function() {
+    $('.fa-thumbs-down').css('cursor', 'pointer');
+  },
+  'mouseover .fa-thumbs-up': function() {
+    $('.fa-thumbs-up').css('cursor', 'pointer');
+  },
+  'mouseover .flag': function() {
+    $('.flag').css('cursor', 'pointer');
+  },
   'click .flag': function() {
     $('#flagModal-' + this._id).modal('show');
   },
@@ -156,13 +181,19 @@ Template.feature.events({
     if(data.length < 6 || data.length > 140) {
       sAlert.error("That entry is too short, or too long.");
     } else {
-      Meteor.call('newComment', this._id, data, 1);
-      $('#replyText-' + this._id).val(" ");
-      $(".newcomment-" + this._id).hide();
-      Cookies.set("submitted" + this._id, true);
-      $(".commentParent-" + this._id).hide();
-      Session.set("showingComments" + this._id, "false")
-      sAlert.success("Thanks! Your comment has been posted!");
+      Meteor.call('newComment', this._id, data, 1, function(error, result) {
+        if(!error) {
+          $('#replyText-' + this._id).val(" ");
+          $(".newcomment-" + this._id).hide();
+          Cookies.set("submitted" + this._id, true);
+          $(".commentParent-" + this._id).hide();
+          Session.set("showingComments" + this._id, "false")
+          sAlert.success("Thanks! Your comment has been posted!");
+        } else {
+          sAlert.error(error.reason);
+        }
+      });
+
     }
   },
   'keyup .replyText': function() {
@@ -212,7 +243,7 @@ Template.feature.events({
 });
 
 Template.features.onCreated(function(){
-  console.log(FlowRouter.getParam("_id"));
+  Session.set('showflagged', false);
   this.autorun(() => {
     this.subscribe('features', FlowRouter.getParam("_id"));
   });
@@ -223,7 +254,10 @@ Template.features.helpers({
     return this.featureTag; //find metricTag data from collection
   },
   features: function() {
-    return Features.find({currencyId: FlowRouter.getParam("_id")}).fetch();
+    return Features.find({currencyId: FlowRouter.getParam("_id"), flagRatio: {$lt: 0.6}}).fetch();
+  },
+  flaggedfeatures: function() {
+    return Features.find({currencyId: FlowRouter.getParam("_id"), flagRatio: {$gt: 0.6}}).fetch();
   }
 });
 
@@ -253,6 +287,16 @@ Template.discussion.helpers({
 });
 
 Template.features.events({
+  'click .showFlagged': function() {
+    if(Session.get('showflagged') == false) {
+      Session.set('showflagged', true);
+      $('.showFlagged').text("Hide flagged");
+      $('.flag').css("color", "#FF6600");
+    } else {
+      Session.set('showflagged', false);
+      $('.showFlagged').text("Show flagged");
+    }
+  },
   'click .help': function() {
     $('#addFeatureModal').modal('show');
   },
@@ -261,7 +305,6 @@ Template.features.events({
   },
   'focus #featureName': function() {
     if(Cookies.get('addFeatureModal') != "true") {
-      console.log("fdgdsgfds");
       $('#addFeatureModal').modal('show');
       Cookies.set('addFeatureModal', true);
     }
@@ -270,7 +313,6 @@ Template.features.events({
     if(_.size(Features.find({}).fetch()) == 0 && !Cookies.get('featureModal')) {
       $('#featureModal').modal('show');
       Cookies.set('featureModal', true);
-      console.log("0");
     }
   },
   'keyup #featureName': function() {
@@ -296,11 +338,20 @@ Template.features.events({
       Meteor.call('newFeature', this._id, data);
       $('#featureName').val(" ");
       $('#addNewFeature').toggle();
+      $('.featuresheading').text("Features");
+      Session.set('addingnewfeature', false);
       sAlert.success("Thanks! That feature has been added!");
     }
   },
   'click .showAddNewFeature': function() {
     $('#addNewFeature').toggle();
+    if(!Session.get('addingnewfeature')) {
+      $('.featuresheading').text("Add a new feature");
+      Session.set('addingnewfeature', true);
+    } else {
+      $('.featuresheading').text("Features");
+      Session.set('addingnewfeature', false);
+    }
   },
   'click #name': function () {
     if(Session.get('lastId')){document.getElementById(Session.get('lastId')).style.display = "none";}

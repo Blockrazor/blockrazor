@@ -1,5 +1,7 @@
 <template name="features">
 
+
+
   <div class="modal fade" id="addFeatureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -79,21 +81,47 @@
 {{featureModal}}
 
 <div class="currencyDetailBox" >
-  <h5 class="text-center currencyDetailHeading">Features</h5>
-    <div class="row commentThread">
-    {{#each features}}<div class="col-lg-6">{{> feature}}</div>{{/each}}
+  <div style="display:flex;width:100%;">
+    <div style="width:20%; float:left;">
+      <button class="btn btn-primary pull-left showFlagged" style="margin-top:6px;">
+        <i class="fa fa-flag" aria-hidden="true"></i> Show flagged
+      </button>
+    </div>
+    <div style="width:60%">
+      <h5 class="text-center currencyDetailHeading featuresheading">Features</h5>
+      <div id="addNewFeature" style="display:none;margin-bottom:10px;">
+        <b>Rules:</b><br />
+        <ul>
+          <li>Use clear language, keep it as short as possible</li>
+          <li>No jokes (people new to crypto will just be confused)</li>
+          <li>Any claims must be factually correct</li>
+        </ul>
+        <textarea class="" id="featureName" style="width:100%" maxlength="140" minlength="6"></textarea><br />
+        <div style="display:flex;"><button class="btn btn-primary float-left submitNewFeature">Submit</button>
+          <h4>&nbsp;&nbsp;<i class="fa fa-question-circle help" aria-hidden="true"></i></h4>
+          <div class="float-right" id="charNum" style="margin-left:50px;"></div>
+        </div>
+      </div>
+    </div>
+    <div style="width:20%;float:right;">
+      <button class="btn btn-primary pull-right showAddNewFeature" style="margin-top:6px;">
+        <i class="fa fa-plus" aria-hidden="true"></i> Add a feature
+      </button>
+    </div>
+  </div>
 
-</div><div class="col-lg-6 pull-right" style="margin-top: 10px;"><h5 class="pull-right showAddNewFeature"><i class="fa fa-plus" aria-hidden="true"> <a href="#">Add a feature</a></i></h5>
-  <div id="addNewFeature" style="display:none;">
-    <b>Rules:</b><br />
-    <ul>
-      <li>Use clear language, keep it as short as possible</li>
-      <li>No jokes (people new to crypto will just be confused)</li>
-      <li>Any claims must be factually correct</li>
-    </ul>
-    <textarea class="" id="featureName" style="width:100%" maxlength="140" minlength="6"></textarea><br />
-    <div style="display:flex;"><button class="btn btn-primary float-left submitNewFeature">Submit</button><h4>&nbsp;&nbsp;<i class="fa fa-question-circle help" aria-hidden="true"></i></h4><div class="float-right" id="charNum" style="position:absolute;right:0; bottom:20px;margin-right:20px;"></div></div>
-  </div></div>
+    <div class="row commentThread">
+    {{#if $.Session.equals 'showflagged' false}}
+      {{#each features}}<div class="col-lg-6">{{> feature}}</div>{{/each}}
+    {{/if}}
+
+    {{#if $.Session.equals 'showflagged' true}}
+      {{#each flaggedfeatures}}<div class="col-lg-6">{{> feature}}</div>{{/each}}
+    {{/if}}
+  </div>
+
+
+
 
 </div>
 </template>
@@ -103,7 +131,7 @@
       <div class="commentBody">
         <div class="commentText">{{featureName}}<small class="text-muted" style="white-space:nowrap;">  &#x2015;added by {{author}}</small></div>
       </div>
-      <div class="commentFooter"><div class="pull-left">{{> starsRating id='rating' mutable=true}}</div><div class="pull-right"><i class="fa fa-flag flag" aria-hidden="true"></i><i class="fa fa-comments-o comments" aria-hidden="true" style="margin-left:10px;"><small>126</small></i></div></div>
+      <div class="commentFooter"><div class="pull-left"><i class="fa fa-thumbs-down" aria-hidden="true"></i>  <i class="fa fa-thumbs-up fa-flip-horizontal" aria-hidden="true"></i></div><div class="pull-right"><i class="fa fa-flag flag" aria-hidden="true"></i><i class="fa fa-comments-o comments" aria-hidden="true" style="margin-left:10px;"><small>126</small></i></div></div>
     </div>
     <div class="newcomment-{{_id}}" style="display:none;">
     <textarea id="replyText-{{_id}}" class="replyText" style="width:100%;height:30px;" maxlength="140" minlength="6" placeholder="reply"></textarea><br />
