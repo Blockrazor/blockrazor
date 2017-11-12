@@ -122,6 +122,9 @@ Template.feature.onRendered(function(){
 
 })
 Template.feature.helpers({
+  starsid: function() {
+    return "star-" + this._id
+  },
   bountyamount: function () {
     return "<FIXME>"; //FIXME
   },
@@ -134,6 +137,26 @@ Template.feature.helpers({
 });
 
 Template.feature.events({
+  'click .fa-thumbs-down': function(event) {
+    Meteor.call('vote', this._id, "down", function(error,result) {
+      if(!error) {
+        $(event.currentTarget).parent().html('<i class="fa fa-check" aria-hidden="true"></i>');
+      } else {sAlert.error(error.reason)};
+    });
+  },
+  'click .fa-thumbs-up': function(event) {
+    Meteor.call('vote', this._id, "up", function(error,result) {
+      if(!error) {
+        $(event.currentTarget).parent().html('<i class="fa fa-check" aria-hidden="true"></i>');
+      } else {sAlert.error(error.reason)};
+    });
+  },
+  'mouseover .fa-thumbs-down': function() {
+    $('.fa-thumbs-down').css('cursor', 'pointer');
+  },
+  'mouseover .fa-thumbs-up': function() {
+    $('.fa-thumbs-up').css('cursor', 'pointer');
+  },
   'mouseover .flag': function() {
     $('.flag').css('cursor', 'pointer');
   },
