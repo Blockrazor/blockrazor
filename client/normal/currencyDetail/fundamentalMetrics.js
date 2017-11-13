@@ -122,6 +122,9 @@ Template.feature.onRendered(function(){
 
 })
 Template.feature.helpers({
+  numComments: function() {
+    return _.size(Features.find({parentId: this._id}).fetch());
+  },
   starsid: function() {
     return "star-" + this._id
   },
@@ -132,7 +135,7 @@ Template.feature.helpers({
     return this.parentId;
   },
   comments: function() { //return database showing comments with parent: this._id
-    return Features.find({parentId: this._id, flagRatio: {$lt: 0.6}}).fetch();
+    return Features.find({parentId: this._id, flagRatio: {$lt: 0.6}}, {sort: {rating: -1, appealNumber: -1}});
   }
 });
 
@@ -178,22 +181,24 @@ Template.feature.events({
       sAlert.error("You must be logged in to comment!");
     }
     var data = $('#replyText-' + this._id).val();
+    var ifnoterror = function(){
+    }
     if(data.length < 6 || data.length > 140) {
       sAlert.error("That entry is too short, or too long.");
     } else {
       Meteor.call('newComment', this._id, data, 1, function(error, result) {
         if(!error) {
-          $('#replyText-' + this._id).val(" ");
-          $(".newcomment-" + this._id).hide();
-          Cookies.set("submitted" + this._id, true);
-          $(".commentParent-" + this._id).hide();
-          Session.set("showingComments" + this._id, "false")
           sAlert.success("Thanks! Your comment has been posted!");
         } else {
           sAlert.error(error.reason);
+          return;
         }
       });
-
+      $('#replyText-' + this._id).val(" ");
+      $(".newcomment-" + this._id).hide();
+      Cookies.set("submitted" + this._id, true);
+      $(".commentParent-" + this._id).hide();
+      Session.set("showingComments" + this._id, "false")
     }
   },
   'keyup .replyText': function() {
@@ -254,10 +259,10 @@ Template.features.helpers({
     return this.featureTag; //find metricTag data from collection
   },
   features: function() {
-    return Features.find({currencyId: FlowRouter.getParam("_id"), flagRatio: {$lt: 0.6}}).fetch();
+    return Features.find({currencyId: FlowRouter.getParam("_id"), flagRatio: {$lt: 0.6}}, {sort: {rating: -1, appealNumber: -1}});
   },
   flaggedfeatures: function() {
-    return Features.find({currencyId: FlowRouter.getParam("_id"), flagRatio: {$gt: 0.6}}).fetch();
+    return Features.find({currencyId: FlowRouter.getParam("_id"), flagRatio: {$gt: 0.6}});
   }
 });
 
