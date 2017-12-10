@@ -1,7 +1,18 @@
 <template name="ratings">
-  {{> currencyChooser}}
+  {{> currencyChoices}}
 </template>
 
-<template name="currencyChooser">
-  <input id="currencyName">
+<template name="currencyChoices">
+  {{md5}}
+  {{#each currencies}}
+    {{> currencyChoice}}
+  {{/each}}
+</template>
+
+<template name="currencyChoice">
+  <p>
+    <a href="#">{{currencyName}}</a><br />
+    <input type='file'>
+    <button id="click">click</button>
+  </p>
 </template>
