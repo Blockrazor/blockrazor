@@ -1,30 +1,20 @@
 import { Meteor } from 'meteor/meteor';
+var valid = false;
 
 Meteor.methods({
-    checkuploaduser: function (userId) {
+    uploadImage: function (userId, md5) {
         if (userId !=null && this.userId == userId) {
             valid = true;
-            picid = userId;
+            md5 = md5;
         }
     }
 });
 
-var fs = Npm.require('fs');
-
-Meteor.methods({
-  click(){
-    console.log("start");
-    var fs = Npm.require('fs');
-    var wstream = fs.createWriteStream('/Users/gareth/Desktop/test/test.txt');
-    wstream.write('Hello worldddd!\n');
-      wstream.write('Another line\n');
-      wstream.end();
-      console.log("end");
-  }
-});
-
 //using interal webapp or iron:router
 WebApp.connectHandlers.use('/uploadSomeWhere',function(req,res){
+  console.log(valid);
+  console.log(this.userId);
+if(valid){
   res.setHeader("Access-Control-Allow-Methods", "PUT");
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -46,7 +36,8 @@ WebApp.connectHandlers.use('/uploadSomeWhere',function(req,res){
       res.writeHead(400);
       res.end();
     }
-    var filename = ('/Users/gareth/git/blockrazor/temp/static/' + (Math.floor(Math.random() * 10000)) + '.' + type)
+    var filename = ('/Users/gareth/git/blockrazor/temp/static/' + (Math.floor(Math.random() * 10000)) + '.' + type);
+    var fs = Npm.require('fs');
     var file = fs.createWriteStream(filename);
 
     file.on('error',function(error){console.log(error)});
@@ -57,5 +48,7 @@ WebApp.connectHandlers.use('/uploadSomeWhere',function(req,res){
     });
     req.pipe(file); //pipe the request to the file
     console.log(filename);
-  }
+    console.log(md5);
+    console.log(valid);
+  }}
 });
