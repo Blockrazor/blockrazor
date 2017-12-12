@@ -3,15 +3,34 @@
 </template>
 
 <template name="currencyChoices">
-  {{md5}}
+  Please select any currencies that you have a wallet installed for.
+  <div class="row">
   {{#each currencies}}
+  <div class="col-sm-4 col-md-4 col-lg-4">
     {{> currencyChoice}}
+  </div>
+  {{> upload}}
   {{/each}}
+</div>
+  <button>Next</button>
 </template>
 
 <template name="currencyChoice">
-  <p>
-    <a href="#">{{currencyName}}</a><br />
-    <input type='file'>
-  </p>
+    <a href="#" id="toggle{{_id}}">{{currencyName}}</a>
+
+</template>
+
+<template name="upload">
+  <div class="row" style="display:none;" id="upload{{_id}}">
+    <div style="padding-left:50px;padding-right:50px;">
+      <h4>Upload {{currencyName}} images</h4>
+    <p>Please take screen-shots of the wallet you're using for {{currencyName}}. Please crop the image(s) so only the wallet is shown, and <em>blank out any data you consider personal or sensitive.</em></p>
+    <p><b>Do not</b> use pictures found on the internet or any ratings you provide will be invalid and your account will recieve a flag.</p>
+    <p>Main wallet screen/page or transaction history<br />
+      <input type='file' id='main'></p>
+    <p>Send coins or create transaction screen<br />
+      <input type='file' id='transaction'></p>
+    <p>Configuration or options<br />
+      <input type='file' id='config'></p>
+  </div></div>
 </template>
