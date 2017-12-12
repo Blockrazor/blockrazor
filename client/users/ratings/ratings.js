@@ -20,20 +20,18 @@ Template.currencyChoice.events({
     Meteor.call('click');
   },
   'change input': function(event){
-    var md5 = false;
    var file = event.target.files[0];
-        console.log("safdas");
    var reader = new FileReader();
-   reader.onload = function(event){
-     var binary = event.target.result;
-     let md5 = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(binary)).toString();
-     Meteor.call('uploadImage', Meteor.userId(), md5);
+   reader.onload = function(fileLoadEvent){
+     //var binary = event.target.result;
+     var binary = reader.result;
+     var md5 = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(binary)).toString();
      console.log(md5);
+     Meteor.call('uploadImage', file.name, reader.result, md5, function(error, result){
+       console.log(error);
+       console.log(result);
+     });
    }
    reader.readAsBinaryString(file);
-   var xhr = new XMLHttpRequest();
-   xhr.open('PUT', '/uploadSomeWhere', true);
-   xhr.onload = function(event){}
-   xhr.send(file);
 }
 });
