@@ -16,9 +16,6 @@ Template.currencyChoices.helpers({
 });
 
 Template.currencyChoice.events({
-  'click #click': function(event){
-    Meteor.call('click');
-  },
   'change input': function(event){
    var file = event.target.files[0];
    var reader = new FileReader();
