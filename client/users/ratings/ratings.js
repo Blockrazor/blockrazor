@@ -22,6 +22,16 @@ Template.currencyChoices.helpers({
       }//}
 });
 
+Template.currencyChoices.events({
+  'click #populateRatings': function(){
+    Meteor.call('populateRatings', function(error,result){
+      if(error){
+        console.log(error.reason);
+      }
+    })
+  }
+});
+
 Template.upload.events({
   'change input': function(event){
    var instance = this;
