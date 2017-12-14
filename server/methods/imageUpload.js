@@ -22,15 +22,29 @@ Meteor.methods({
        //and be verified unique for this user.
         var dec_i = parseInt("0x" + CryptoJS.MD5(currencies[i]).toString().slice(0,10), 16);
         var dec_j = parseInt("0x" + CryptoJS.MD5(currencies[j]).toString().slice(0,10), 16);
-        console.log(dec_i + dec_j + userInt);
-        //console.log(hex_i);
-        // try{
-        //   Ratings.insert({
-        //     _id: CryptoJS.MD5(currencies[i] + ).toString(),
-        //   })
-        // } catch(error) {
-        //   console.log(error);
-        // }
+        //collect data for insert
+        var _id = dec_i + dec_j + userInt; //add truncated MD5 of currencyId's and userId to prevent duplicates
+
+
+        try{
+          Ratings.insert({
+            _id: _id,
+            'owner': Meteor.user()._id,
+            'currency0': currencies[i],
+            'currency1': currencies[j],
+            'winner': null,
+            'createdAt': new Date().getTime(),
+            'processedAd': null,
+            'processed': false,
+            //'catagory':
+            // 'type':
+            // 'questionText':
+            // 'answeredAt':
+            // 'Answered':
+          })
+        } catch(error) {
+          console.log(error);
+        }
         //console.log(currencies[i] + " + " + currencies[j]);
       }
     }
@@ -48,7 +62,7 @@ Meteor.methods({
           return false;
         }
         var fs = Npm.require('fs');
-        var filename = ('/Users/gareth/git/blockrazor/temp/static/images/wallets/' + md5 + '.' + 'jpg');
+        var filename = ('/Users/gareth/git/blockrazor/temp/static/images/wallets/' + md5 + '.' + 'jpg'); //FIXME
         var insert = false;
         //var currency = Currencies.findOne({_id:currencyId}).currencyName;
         if(!Currencies.findOne({_id:currencyId}).currencyName){
