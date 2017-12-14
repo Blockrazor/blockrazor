@@ -2,8 +2,22 @@ import { Meteor } from 'meteor/meteor';
 import { WalletImages } from '../../lib/database/Images.js';
 import { Currencies } from '../../lib/database/Currencies.js';
 import { Ratings } from '../../lib/database/Ratings.js';
+import { RatingsTemplates } from '../../lib/database/Ratings.js';
 
 Meteor.methods({
+  'addRatingQuestion': function(question, catagory) {
+    if(!Meteor.user()._id){throw new Meteor.Error('error', 'please log in')};
+    var id = parseInt("0x" + CryptoJS.MD5(question).toString().slice(0,10), 16);
+    var id = id.toString();
+    console.log(id);
+    RatingsTemplates.insert({
+      _id: id,
+      'question': question,
+      'catagory': catagory,
+      'createdBy': Meteor.user()._id,
+      'createdAt': new Date().getTime()
+    });
+  },
   'populateRatings': function() {
     var images = WalletImages.find({createdBy: Meteor.user()._id}).fetch();
     var currencies = [];
@@ -12,7 +26,8 @@ Meteor.methods({
     }
     var currencies = _.uniq(currencies);
     console.log(currencies);
-    var userInt = parseInt("0x" + CryptoJS.MD5(Meteor.user()._id).toString().slice(0,10), 16)
+    var userInt = parseInt("0x" + CryptoJS.MD5(Meteor.user()._id).toString().slice(0,10), 16);
+
 //Cycle through all possible combinations of currencies that this user has a wallet for
     for (i = 0; i < currencies.length - 1; i++) {
       for (j = i + 1; j < currencies.length; j++) {
