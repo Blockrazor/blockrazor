@@ -19,13 +19,16 @@ Meteor.methods({
     });
   },
   'populateRatings': function() {
+    //fetch all the currencies this user uses:
     var images = WalletImages.find({createdBy: Meteor.user()._id}).fetch();
     var currencies = [];
     for (i in images) {
       currencies.push(images[i].currencyId);
     }
     var currencies = _.uniq(currencies);
-    console.log(currencies);
+
+    //fetch the questions that will be asked of the user
+    var ratingTemplates = RatingsTemplates.find({catagory:"wallet"}).fetch();
     var userInt = parseInt("0x" + CryptoJS.MD5(Meteor.user()._id).toString().slice(0,10), 16);
 
 //Cycle through all possible combinations of currencies that this user has a wallet for
@@ -37,29 +40,38 @@ Meteor.methods({
        //and be verified unique for this user.
         var dec_i = parseInt("0x" + CryptoJS.MD5(currencies[i]).toString().slice(0,10), 16);
         var dec_j = parseInt("0x" + CryptoJS.MD5(currencies[j]).toString().slice(0,10), 16);
-        //collect data for insert
-        var _id = dec_i + dec_j + userInt; //add truncated MD5 of currencyId's and userId to prevent duplicates
-
-
-        try{
-          Ratings.insert({
-            _id: _id,
-            'owner': Meteor.user()._id,
-            'currency0': currencies[i],
-            'currency1': currencies[j],
-            'winner': null,
-            'createdAt': new Date().getTime(),
-            'processedAd': null,
-            'processed': false,
-            //'catagory':
-            // 'type':
-            // 'questionText':
-            // 'answeredAt':
-            // 'Answered':
-          })
-        } catch(error) {
-          console.log(error);
+        //add truncated MD5 of currencyId's and userId to prevent duplicates
+        var _id = dec_i + dec_j + userInt;
+        //add question truncated MD5 Int to the _id
+        for (k in ratingTemplates) {
+          console.log(currencies[i] + " " + currencies[j] + " " + ratingTemplates[k]._id)
+          id = (_id + parseInt(ratingTemplates[k]._id, 10)).toString();
+          console.log(id);
+          try{
+            Ratings.insert({
+              _id: id,
+              'owner': Meteor.user()._id,
+              'currency0': currencies[i],
+              'currency1': currencies[j],
+              'winner': null,
+              'questionId': ratingTemplates[k]._id,
+              'questionText': ratingTemplates[k].question,
+              'createdAt': new Date().getTime(),
+              'processedAd': null,
+              'processed': false,
+              'catagory': ratingTemplates[k].catagory,
+              'type': "wallet",
+              'answeredAt': null,
+              'Answered': false
+            })
+          } catch(error) {
+            //FIXME log errors
+          }
         }
+        //create new Ratings item for each question and each currency pair for this userId
+
+
+
         //console.log(currencies[i] + " + " + currencies[j]);
       }
     }
