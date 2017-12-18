@@ -1,7 +1,16 @@
 import { Template } from 'meteor/templating';
 import { Currencies } from '../../../lib/database/Currencies.js';
+import { Ratings } from '../../../lib/database/Ratings.js';
 
 Template.ratings.onCreated(function bodyOnCreated() {
+  Meteor.subscribe('approvedcurrencies');
+});
+
+Template.displayRatings.onCreated(function bodyOnCreated() {
+  Meteor.subscribe('ratings');
+});
+
+Template.question.onCreated(function bodyOnCreated() {
   Meteor.subscribe('approvedcurrencies');
 });
 
@@ -27,8 +36,36 @@ Template.currencyChoices.events({
     Meteor.call('populateRatings', function(error,result){
       if(error){
         console.log(error.reason);
+      } else {
+        $('#displayRatings').show();
+        $('#currencyChoices').hide();
       }
     })
+  }
+});
+
+Template.displayRatings.helpers({
+  questions(){
+    return Ratings.findOne({});
+  }
+});
+
+Template.question.helpers({
+  currency0Name(){
+    return Currencies.findOne({_id: this.currency0Id}).currencyName
+  },
+  currency1Name(){
+    return Currencies.findOne({_id: this.currency1Id}).currencyName
+  }
+});
+
+Template.question.events({
+  'mouseover .choice': function(){
+    $('.choice').css('cursor', 'pointer');
+  },
+  'click .choice': function(event){
+    Meteor.call('answerRating', this._id, event.currentTarget.id);
+    console.log(this._id);
   }
 });
 

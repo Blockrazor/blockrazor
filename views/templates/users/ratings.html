@@ -1,5 +1,10 @@
 <template name="ratings">
-  {{> currencyChoices}}
+  <div id="currencyChoices" style="display:block;">
+    {{> currencyChoices}}
+  </div>
+  <div id="displayRatings" style="display:none;" class="text-center">
+    {{> displayRatings}}
+  </div>
 </template>
 
 <template name="currencyChoices">
@@ -14,6 +19,24 @@
 </div>
   <button id="populateRatings">Next</button>
 </template>
+
+<template name="displayRatings">
+  {{#with questions}}
+  {{> question}}
+  {{/with}}
+</template>
+
+<template name="question">
+  <h3 style="margin-top:50px;">{{questionText}}?</h3>
+  <div class="row" style="margin-top:50px;">
+    <div class="col-4 text-center choice" id={{currency0Id}}><h3>{{currency0Name}}<br />
+      <img src="https://raw.githubusercontent.com/reactjs/redux/master/logo/logo.png" width="100px" /></h3></div>
+    <div class="col-4 text-center choice" id="tie"><br />Both are about the same<br /></div>
+    <div class="col-4 text-center choice" id={{currency1Id}}><h3>{{currency1Name}}<br />
+      <img src="https://raw.githubusercontent.com/reactjs/redux/master/logo/logo.png" width="100px" /></h3></div>
+</div>
+</template>
+
 
 <template name="currencyChoice">
     <a href="#" id="toggle{{_id}}">{{currencyName}}</a>

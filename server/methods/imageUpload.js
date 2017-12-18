@@ -5,6 +5,15 @@ import { Ratings } from '../../lib/database/Ratings.js';
 import { RatingsTemplates } from '../../lib/database/Ratings.js';
 
 Meteor.methods({
+  'answerRating': function(ratingId, winner) {
+    Ratings.upsert({_id:ratingId}, {
+      $set: {
+        answered: true,
+        winner: winner,
+        answeredAt: new Date().getTime()
+      }}
+    )
+  },
   'addRatingQuestion': function(question, catagory) {
     if(!Meteor.user()._id){throw new Meteor.Error('error', 'please log in')};
     var id = parseInt("0x" + CryptoJS.MD5(question).toString().slice(0,10), 16);
@@ -51,18 +60,18 @@ Meteor.methods({
             Ratings.insert({
               _id: id,
               'owner': Meteor.user()._id,
-              'currency0': currencies[i],
-              'currency1': currencies[j],
+              'currency0Id': currencies[i],
+              'currency1Id': currencies[j],
               'winner': null,
               'questionId': ratingTemplates[k]._id,
               'questionText': ratingTemplates[k].question,
               'createdAt': new Date().getTime(),
-              'processedAd': null,
+              'processedAt': null,
               'processed': false,
               'catagory': ratingTemplates[k].catagory,
               'type': "wallet",
               'answeredAt': null,
-              'Answered': false
+              'answered': false
             })
           } catch(error) {
             //FIXME log errors
