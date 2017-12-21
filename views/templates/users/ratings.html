@@ -1,5 +1,9 @@
 <template name="ratings">
-  <div id="currencyChoices" style="display:block;">
+  {{populateUI}}
+  <div id="outstandingRatings" class="text-center">You have {{outstandingRatings}} questions in your queue.
+  {{> displayRatings}}
+  </div>
+  <div id="currencyChoices" style="display:none;">
     {{> currencyChoices}}
   </div>
   <div id="displayRatings" style="display:none;" class="text-center">
