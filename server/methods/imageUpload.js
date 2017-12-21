@@ -27,6 +27,8 @@ Meteor.methods({
       'createdAt': new Date().getTime()
     });
   },
+  //this will populate the ratings database for this user with any new Currencies
+  //they have added, or if an admin has added new questions for their existing currencies.
   'populateRatings': function() {
     //fetch all the currencies this user uses:
     var images = WalletImages.find({createdBy: Meteor.user()._id}).fetch();

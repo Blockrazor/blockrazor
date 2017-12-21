@@ -22,6 +22,36 @@ Template.currencyChoice.onRendered(function () {
   });
 });
 
+Template.ratings.onRendered(function(){
+  Meteor.subscribe('ratings', function(onReady){
+    console.log("ready!");
+    var length = Ratings.find({}).fetch().length;
+    console.log(length);
+    if (length == 0) {
+      $("#outstandingRatings").hide();
+      $("#currencyChoices").show();
+    };
+    if (length > 0) {
+      $("#outstandingRatings").show();
+      $("#currencyChoices").hide();
+    }
+  });
+
+});
+
+Template.ratings.helpers({
+  populateUI() {
+  },
+  outstandingRatings() {
+    var length = Ratings.find({}).fetch().length;
+    if (length == 0) {
+      $("#outstandingRatings").hide();
+      $("#currencyChoices").show();
+    };
+    return length;
+  }
+});
+
 Template.currencyChoices.helpers({
   md5() {
     return CryptoJS.MD5('Message').toString();
@@ -37,8 +67,7 @@ Template.currencyChoices.events({
       if(error){
         console.log(error.reason);
       } else {
-        $('#displayRatings').show();
-        $('#currencyChoices').hide();
+        window.location.reload();
       }
     })
   }
