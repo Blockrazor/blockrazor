@@ -5,11 +5,12 @@
        {{> moderatorPendingCurrency}}
   {{/each}}
   {{#each pendingAPIBounties}}{{> moderatorPendingAPIBounty}}{{/each}}
+  {{#each pendingWalletImages}}{{> approveWalletImage}}{{/each}}
   {{/if}}
   {{#if $.Session.equals 'reject' true}}
   <form>
     <h5>Please tell {{ $.Session.get 'submittername' }} what was wrong with their entry so that they can do better next time:</h5>
-    <textarea class="form-control" rows="6" placeholder="Please tell the user why this currency was rejected" name="reason"></textarea>
+    <textarea class="form-control" rows="6" placeholder="Please tell the user why this was rejected" name="reason"></textarea>
     <button type="submit" class="btn btn-primary" id="submit">Send</button>
   </form>
   {{/if}}

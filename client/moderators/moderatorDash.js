@@ -1,10 +1,12 @@
 import { Template } from 'meteor/templating';
 import { PendingCurrencies } from '../../lib/database/Currencies.js';
+import { WalletImages } from '../../lib/database/Images.js';
 import { Bounties } from '../../lib/database/Bounties.js';
 
 Template.moderatorDash.onCreated(function bodyOnCreated() {
   Meteor.subscribe('pendingcurrencies');
   Meteor.subscribe('bounties');
+  Meteor.subscribe('walletimages');
 });
 
 Template.moderatorDash.onRendered( function () {
@@ -24,6 +26,9 @@ Template.moderatorDash.events({
 });
 
 Template.moderatorDash.helpers({
+  pendingWalletImages() {
+    return WalletImages.find({approved: false});
+  },
   pendingAPIBounties() {
     return Bounties.find({pendingApproval: true, bountyType: "HashrateAPI"});
   },

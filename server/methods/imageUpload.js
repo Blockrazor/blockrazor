@@ -67,6 +67,8 @@ Meteor.methods({
               'currency0Id': currencies[i],
               'currency1Id': currencies[j],
               'winner': null,
+              'currency0approved': false,
+              'currency1approved': false,
               'questionId': ratingTemplates[k]._id,
               'questionText': ratingTemplates[k].question,
               'createdAt': new Date().getTime(),
@@ -78,6 +80,7 @@ Meteor.methods({
               'answered': false
             })
           } catch(error) {
+            console.log("the combination of " + currencies[i] + " and " + currencies[j] + " exists!")
             //FIXME log errors
           }
         }
@@ -120,7 +123,7 @@ Meteor.methods({
             'approved': false
           });
         } catch(error) {
-          throw new Meteor.Error('Error', 'That image has already been used on Blockrazor. You must take your own original screenshot.');
+          throw new Meteor.Error('Error', 'That image has already been used on Blockrazor. You must take your own original screenshot of the wallet.');
         }
         if(insert != md5) {throw new Meteor.Error('Error', 'Something is wrong, please contact help.');}
 
