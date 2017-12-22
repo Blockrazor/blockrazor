@@ -6,13 +6,15 @@ import { RatingsTemplates } from '../../lib/database/Ratings.js';
 
 Meteor.methods({
   'answerRating': function(ratingId, winner) {
-    Ratings.upsert({_id:ratingId}, {
-      $set: {
-        answered: true,
-        winner: winner,
-        answeredAt: new Date().getTime()
-      }}
-    )
+    if (Ratings.findOne({_id:ratingId}).owner == Meteor.user()._id) {
+      Ratings.upsert({_id:ratingId}, {
+        $set: {
+          answered: true,
+          winner: winner,
+          answeredAt: new Date().getTime()
+        }}
+      )
+    }
   },
   'addRatingQuestion': function(question, catagory) {
     if(!Meteor.user()._id){throw new Meteor.Error('error', 'please log in')};
