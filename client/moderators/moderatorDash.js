@@ -36,3 +36,10 @@ Template.moderatorDash.helpers({
         return PendingCurrencies.find({}, { sort: { createdAt: -1 }, limit: 20});
       }
 });
+
+Template.approveWalletImage.events({
+  'click #approve': function(event){
+    Meteor.call('approveWalletImage', this._id);
+    console.log(this.currencyName)
+  }
+})

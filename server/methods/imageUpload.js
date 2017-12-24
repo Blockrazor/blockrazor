@@ -5,6 +5,16 @@ import { Ratings } from '../../lib/database/Ratings.js';
 import { RatingsTemplates } from '../../lib/database/Ratings.js';
 
 Meteor.methods({
+  'approveWalletImage': function(imageId) {
+    if(!Meteor.user()._id){throw new Meteor.Error('error', 'please log in')};
+    if(WalletImages.findOne({_id: imageId}).createdBy == Meteor.user()._id) {
+      throw new Meteor.Error('error', "You can't approve your own item.")
+    };
+    WalletImages.update(imageId, {
+      $set: {approved: true, approvedBy: Meteor.user()._id}, 
+      $inc: {likes: 1}
+    });
+  },
   'answerRating': function(ratingId, winner) {
     if (Ratings.findOne({_id:ratingId}).owner == Meteor.user()._id) {
       Ratings.upsert({_id:ratingId}, {
@@ -120,6 +130,7 @@ Meteor.methods({
             'createdAt': new Date().getTime(),
             'createdBy': Meteor.user()._id,
             'flags': 0,
+            'likes': 0,
             'approved': false
           });
         } catch(error) {

@@ -1,6 +1,8 @@
 <template name="moderatorDash">
+
   {{#if $.Session.equals 'reject' false}}
   Moderation Queue
+  <br />
   {{#each pendingCurrencies}}
        {{> moderatorPendingCurrency}}
   {{/each}}
