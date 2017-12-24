@@ -5,6 +5,13 @@ import { Ratings } from '../../lib/database/Ratings.js';
 import { RatingsTemplates } from '../../lib/database/Ratings.js';
 
 Meteor.methods({
+  'flagWalletImage': function(imageId) {
+    if(!Meteor.user()._id){throw new Meteor.Error('error', 'please log in')};
+    WalletImages.update(imageId, {
+      $addToSet: {flaglikers: Meteor.userId()},
+      $inc: {flags: 1}
+    });
+  },
   'approveWalletImage': function(imageId) {
     if(!Meteor.user()._id){throw new Meteor.Error('error', 'please log in')};
     if(WalletImages.findOne({_id: imageId}).createdBy == Meteor.user()._id) {
@@ -130,6 +137,7 @@ Meteor.methods({
             'createdBy': Meteor.user()._id,
             'flags': 0,
             'likes': 0,
+            'flaglikers': [],
             'approved': false
           });
         } catch(error) {
