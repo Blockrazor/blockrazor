@@ -11,7 +11,7 @@ Meteor.methods({
       throw new Meteor.Error('error', "You can't approve your own item.")
     };
     WalletImages.update(imageId, {
-      $set: {approved: true, approvedBy: Meteor.user()._id}, 
+      $set: {approved: true, approvedBy: Meteor.user()._id},
       $inc: {likes: 1}
     });
   },
@@ -30,7 +30,6 @@ Meteor.methods({
     if(!Meteor.user()._id){throw new Meteor.Error('error', 'please log in')};
     var id = parseInt("0x" + CryptoJS.MD5(question).toString().slice(0,10), 16);
     var id = id.toString();
-    console.log(id);
     RatingsTemplates.insert({
       _id: id,
       'question': question,
