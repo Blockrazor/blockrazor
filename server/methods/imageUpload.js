@@ -5,20 +5,38 @@ import { Ratings } from '../../lib/database/Ratings.js';
 import { RatingsTemplates } from '../../lib/database/Ratings.js';
 
 Meteor.methods({
+  'flagWalletImage': function(imageId) {
+    if(!Meteor.user()._id){throw new Meteor.Error('error', 'please log in')};
+    WalletImages.update(imageId, {
+      $addToSet: {flaglikers: Meteor.userId()},
+      $inc: {flags: 1}
+    });
+  },
+  'approveWalletImage': function(imageId) {
+    if(!Meteor.user()._id){throw new Meteor.Error('error', 'please log in')};
+    if(WalletImages.findOne({_id: imageId}).createdBy == Meteor.user()._id) {
+      throw new Meteor.Error('error', "You can't approve your own item.")
+    };
+    WalletImages.update(imageId, {
+      $set: {approved: true, approvedBy: Meteor.user()._id},
+      $inc: {likes: 1}
+    });
+  },
   'answerRating': function(ratingId, winner) {
-    Ratings.upsert({_id:ratingId}, {
-      $set: {
-        answered: true,
-        winner: winner,
-        answeredAt: new Date().getTime()
-      }}
-    )
+    if (Ratings.findOne({_id:ratingId}).owner == Meteor.user()._id) {
+      Ratings.upsert({_id:ratingId}, {
+        $set: {
+          answered: true,
+          winner: winner,
+          answeredAt: new Date().getTime()
+        }}
+      )
+    }
   },
   'addRatingQuestion': function(question, catagory) {
     if(!Meteor.user()._id){throw new Meteor.Error('error', 'please log in')};
     var id = parseInt("0x" + CryptoJS.MD5(question).toString().slice(0,10), 16);
     var id = id.toString();
-    console.log(id);
     RatingsTemplates.insert({
       _id: id,
       'question': question,
@@ -65,6 +83,8 @@ Meteor.methods({
               'currency0Id': currencies[i],
               'currency1Id': currencies[j],
               'winner': null,
+              'currency0approved': false,
+              'currency1approved': false,
               'questionId': ratingTemplates[k]._id,
               'questionText': ratingTemplates[k].question,
               'createdAt': new Date().getTime(),
@@ -76,6 +96,7 @@ Meteor.methods({
               'answered': false
             })
           } catch(error) {
+            console.log("the combination of " + currencies[i] + " and " + currencies[j] + " exists!")
             //FIXME log errors
           }
         }
@@ -115,10 +136,12 @@ Meteor.methods({
             'createdAt': new Date().getTime(),
             'createdBy': Meteor.user()._id,
             'flags': 0,
+            'likes': 0,
+            'flaglikers': [],
             'approved': false
           });
         } catch(error) {
-          throw new Meteor.Error('Error', 'That image has already been used on Blockrazor. You must take your own original screenshot.');
+          throw new Meteor.Error('Error', 'That image has already been used on Blockrazor. You must take your own original screenshot of the wallet.');
         }
         if(insert != md5) {throw new Meteor.Error('Error', 'Something is wrong, please contact help.');}
 

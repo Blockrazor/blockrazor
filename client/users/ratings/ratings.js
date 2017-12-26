@@ -94,7 +94,6 @@ Template.question.events({
   },
   'click .choice': function(event){
     Meteor.call('answerRating', this._id, event.currentTarget.id);
-    console.log(this._id);
   }
 });
 
