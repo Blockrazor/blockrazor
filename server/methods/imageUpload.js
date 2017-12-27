@@ -121,7 +121,7 @@ Meteor.methods({
           return false;
         }
         var fs = Npm.require('fs');
-        var filename = ('/Users/gareth/git/blockrazor/temp/static/images/wallets/' + md5 + '.' + 'jpg'); //FIXME
+        var filename = ('/var/www/static/images/wallets/' + md5 + '.' + 'jpg'); //FIXME
         var insert = false;
         //var currency = Currencies.findOne({_id:currencyId}).currencyName;
         if(!Currencies.findOne({_id:currencyId}).currencyName){
