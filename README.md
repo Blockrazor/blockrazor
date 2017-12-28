@@ -4,6 +4,7 @@ To build:
 Install Meteor:   
 curl https://install.meteor.com/ | sh   
 Clone repository    
+`meteor npm install --save core-js`   
 `meteor npm install`   
 `meteor`   
 
