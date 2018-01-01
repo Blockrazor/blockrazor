@@ -39,6 +39,12 @@ Template.ratings.onRendered(function(){
 
 });
 
+Template.ratings.events({
+  'click #elo': function() {
+      Meteor.call('tabulateElo');
+  }
+})
+
 Template.ratings.helpers({
   populateUI() {
   },

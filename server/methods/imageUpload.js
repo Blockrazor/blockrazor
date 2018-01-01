@@ -24,10 +24,18 @@ Meteor.methods({
   },
   'answerRating': function(ratingId, winner) {
     if (Ratings.findOne({_id:ratingId}).owner == Meteor.user()._id) {
+      var loser = Ratings.findOne({_id:ratingId}).currency0Id;
+      if(loser == winner) {
+        loser = Ratings.findOne({_id:ratingId}).currency1Id;
+      }
+      if(winner == "tie") {
+        loser = "tie";
+      }
       Ratings.upsert({_id:ratingId}, {
         $set: {
           answered: true,
           winner: winner,
+          loser: loser,
           answeredAt: new Date().getTime()
         }}
       )
@@ -83,6 +91,7 @@ Meteor.methods({
               'currency0Id': currencies[i],
               'currency1Id': currencies[j],
               'winner': null,
+              'loser': null,
               'currency0approved': false,
               'currency1approved': false,
               'questionId': ratingTemplates[k]._id,
