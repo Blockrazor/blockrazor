@@ -42,6 +42,9 @@ Template.ratings.onRendered(function(){
 Template.ratings.events({
   'click #elo': function() {
       Meteor.call('tabulateElo');
+  },
+  'click #wallets': function() {
+      Meteor.call('averageEloWallet');
   }
 })
 

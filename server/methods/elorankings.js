@@ -3,6 +3,34 @@ import { Currencies } from '../../lib/database/Currencies.js';
 
 
 Meteor.methods({
+  'averageEloWallet': function() {
+    var currencies = Currencies.find().fetch();
+    for (c in currencies) {
+      var ratings = EloRankings.find({currencyId: currencies[c]._id}).fetch();
+      var length = ratings.length;
+      var ratingArray = [];
+      var final = 0;
+      for (r in ratings) {
+        ratingArray.push(ratings[r].ranking);
+        //console.log(parseInt(r) + 1);
+        //console.log(length);
+        //console.log("----------");
+        if(parseInt(r) + 1 == length) {
+          //average the total array
+          var sum = _.reduce(ratingArray, function(memo, num){ return memo + num; }, 0);
+          final = Math.floor(sum / (length));
+          console.log(final);
+          Currencies.upsert({_id: currencies[c]._id}, {$set: {
+            walletRanking: final
+          }})
+        }
+      }
+    }
+     //{catagory: "wallet"}
+    //for (w in wallets) {
+      //console.log(wallets[w].currencyName + " " + wallets[w].ranking);
+
+  },
   'tabulateElo': function() {
     //Import Elo ranking logic
     var Elo = require('../libs/elo.js');
@@ -26,6 +54,7 @@ Meteor.methods({
             currencyId: cid,
             question: questions[q].question,
             questionId: qid,
+            catagory: questions[q].catagory,
             ranking: 400
             })
         } catch(err) {
@@ -33,8 +62,6 @@ Meteor.methods({
         }
       }
     }
-
-
 
     var ratings = Ratings.find({processed: false, answered: true }).fetch();
     for (item in ratings) {
@@ -62,3 +89,6 @@ Meteor.methods({
       }
   }
 })
+
+//Add method to average all elo rankings for each currency in different
+//catagories (wallet, community, codebase) and denormalize results into currency databse
