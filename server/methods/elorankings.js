@@ -1,15 +1,18 @@
 import { EloRankings, Ratings, RatingsTemplates } from '../../lib/database/Ratings.js';
 import { Currencies } from '../../lib/database/Currencies.js';
+import { GraphData } from '../../lib/database/GraphData.js'
 
 
 Meteor.methods({
   'averageEloWallet': function() {
     var currencies = Currencies.find().fetch();
+    var allRatings = [];
     for (c in currencies) {
       var ratings = EloRankings.find({currencyId: currencies[c]._id}).fetch();
       var length = ratings.length;
       var ratingArray = [];
       var final = 0;
+
       for (r in ratings) {
         ratingArray.push(ratings[r].ranking);
         //console.log(parseInt(r) + 1);
@@ -19,13 +22,17 @@ Meteor.methods({
           //average the total array
           var sum = _.reduce(ratingArray, function(memo, num){ return memo + num; }, 0);
           final = Math.floor(sum / (length));
-          console.log(final);
+          allRatings.push(final);
           Currencies.upsert({_id: currencies[c]._id}, {$set: {
             walletRanking: final
           }})
         }
       }
     }
+    GraphData.upsert({_id: "elodata"}, {$set: {
+      minElo: _.min(allRatings),
+      maxElo: _.max(allRatings)
+    }})
      //{catagory: "wallet"}
     //for (w in wallets) {
       //console.log(wallets[w].currencyName + " " + wallets[w].ranking);
