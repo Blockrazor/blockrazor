@@ -30,8 +30,8 @@ Meteor.methods({
       }
     }
     GraphData.upsert({_id: "elodata"}, {$set: {
-      minElo: _.min(allRatings),
-      maxElo: _.max(allRatings)
+      walletMinElo: _.min(allRatings),
+      walletMaxElo: _.max(allRatings)
     }})
      //{catagory: "wallet"}
     //for (w in wallets) {
