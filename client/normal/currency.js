@@ -1,6 +1,11 @@
 import { Template } from 'meteor/templating';
-Template.currency.onRendered(function (){
+import { GraphData } from '../../lib/database/GraphData.js';
 
+Template.currency.onCreated(function bodyOnCreated(){
+  Meteor.subscribe('graphdata');
+});
+
+Template.currency.onRendered(function (){
   var ctx = document.getElementById(this.data._id + "distribution").getContext('2d');
 ctx.canvas.width = 200;
 ctx.canvas.height = 260;
@@ -37,6 +42,8 @@ ctx.canvas.height = 260;
 var radar = document.getElementById(this.data._id + "-radar").getContext('2d');
 radar.canvas.width = 400;
 radar.canvas.height = 300;
+var wallet = this.data.walletRanking / GraphData.findOne({_id: "elodata"}).walletMaxElo * 10;
+var datanums = [6,7,2,2,7,wallet,1,3];
   var radarchart = new Chart(radar, {
       type: 'radar',
       data: {
@@ -50,7 +57,7 @@ radar.canvas.height = 300;
             pointBorderColor: "#fff",
             pointStyle: "dot",
             pointBackgroundColor: "#FF0000",
-            data: [6,7,2,2,7,8,1,3]
+            data: datanums
           },
           {
             label: "2",
