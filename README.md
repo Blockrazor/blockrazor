@@ -38,5 +38,7 @@ Plase read the C4, but most notably:
 * A patch commit message MUST consist of a single short (less than 50 characters) line stating the problem ("Problem: ...") being solved, followed by a blank line and then the proposed solution ("Solution: ...").
 * With your first pull request, please add your name to the AUTHORS file.
 
+You may also want to read the [more descriptive version](https://hintjens.gitbooks.io/social-architecture/content/chapter4.html) of the C4 which explains the rationale behind each line of the protocol.
+
 ## License
 This project is licensed under the [MPL v2.0 license](LICENSE) and copyright [AUTHORS](AUTHORS).
