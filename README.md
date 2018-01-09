@@ -30,15 +30,43 @@ Proper fix: something is wrong with your OS locales, good luck.
 
 
 ## Contributing
-Pull requests that are *correct patches* as per the [C4](https://rfc.zeromq.org/spec:42/C4) *will* be merged.
+Contributing to Blockrazor should be a fun experience. To try and keep it fun (as well as maintain quality) we follow the [Collective Code Construction Contract (C4)](/CONTRIBUTING.MD), which is essentially a hill climbing algorithm applied to the github fork+pull model. Please respect others involved in this project by reading the contract before sending a pull request.
 
-Plase read the C4, but most notably:   
-* A patch SHOULD be a *minimal* and *accurate* answer to exactly one problem.
-* A patch MUST compile cleanly and pass project self-tests on at least the principle target platform.
-* A patch commit message MUST consist of a single short (less than 50 characters) line stating the problem ("Problem: ...") being solved, followed by a blank line and then the proposed solution ("Solution: ...").
-* With your first pull request, please add your name to the AUTHORS file.
+Pull requests that contain *correct patches* as per the [C4](/CONTRIBUTING.MD) will be merged.
 
-You may also want to read the [more descriptive version](https://hintjens.gitbooks.io/social-architecture/content/chapter4.html) of the C4 which explains the rationale behind each line of the protocol.
+If you're wondering why any of the rules in the C4 are there, take a look at the [line by line explanation](/DESCRIPTIVE_C4.MD) of everything in the C4, this explains the rationale behind everything in the protocol.
+
+### Contributing FAQ
+#### Q: How do I get started?   
+0. Read the [contribution protocol](/CONTRIBUTING.MD) and the [line by line explanation](/DESCRIPTIVE_C4.MD) of the protocol.
+1. Fork this github repository under your own github account.    
+2. Clone _your_ fork locally on your development machine.   
+3. Choose _one_ problem to solve. If you aren't solving a problem that's already in the issue tracker you should describe the problem there (and your idea of the solution) first to see if anyone else has something to say about it (maybe someone is already working on a solution, or maybe you're doing somthing wrong).
+3. Add the Blockrazor repository as an upstream source and pull any changes:    
+```
+@: git remote add upstream git://github.com/blockrazor/blockrazor //only needs to be done once
+@: git checkout master //just to make sure you're on the correct branch
+@: git pull upstream master //this grabs any code that has changed, you want to be working on the latest 'version'
+```
+4. Create a local branch on your machine `git checkout -b branch_name`(it's usually a good idea to call the branch something that describes the problem you are solving).
+5. Solve the problem in the absolute most simple possible way with the smallest number of changes humanly possible. Tell other people what you're doing by putting very clear and descriptive comments in your code every 2-3 lines. Add your name to the AUTHORS file.
+6. Commit your changes to your own fork:    
+```
+@: git add changed_file.js //repeat for each file you changed
+@: git commit -m 'problem: very short description of problem //do not close the '', press ENTER two (2) times
+>
+>solution: short description of how you solved the problem.' //Now you can close the ''. Also mention the issue number if there is one (e.g. #6)    
+@: git push //this will send your changes to your fork on Github
+```    
+7. Go to your fork on Github and select the branch you just worked on. Click "pull request" to send a pull request back to the Blockrazor repository.
+8. Send the pull request.    
+
+#### Q: What happens after I send a pull request?    
+If your pull request contains a correct patch (read the C4) a maintainer should merge it.    
+If you want to work on another problem in the meantime simply repeat the above steps starting at:    
+```
+@: git checkout master 
+```
 
 ## License
 This project is licensed under the [MPL v2.0 license](LICENSE) and copyright [AUTHORS](AUTHORS).
