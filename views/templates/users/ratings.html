@@ -9,12 +9,17 @@
   <div id="displayRatings" style="display:none;" class="text-center">
     {{> displayRatings}}
   </div>
+  <hr />
+  <h5>ADMIN SHORTCUTS (will later be automatic cron jobs)</h5>
   <button id="elo" class="btn btn-danger">ELO</button>
+  <button id="wallets" class="btn btn-danger">WALLETS</button>
 </template>
 
 <template name="currencyChoices">
-  Please select any currencies that you have a wallet installed for.
-  <div class="row">
+  <b>Please select any currencies that you actually use (you must have a wallet installed).</b> <br />
+  If you don't see your currency, you might want to <a href="/addcoin">add it</a>. <br />
+  [ADD NAME SEARCH/FILTER FORM HERE]
+  <div class="row" style="margin-top: 15px;">
   {{#each currencies}}
   <div class="col-sm-4 col-md-4 col-lg-4">
     {{> currencyChoice}}
