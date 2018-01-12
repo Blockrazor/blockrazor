@@ -2,7 +2,10 @@ import { Template } from 'meteor/templating';
 import { GraphData } from '../../lib/database/GraphData.js';
 
 Template.currency.onCreated(function bodyOnCreated(){
-  Meteor.subscribe('graphdata');
+  var self = this
+  self.autorun(function(){
+    self.subscribe('graphdata');
+  })
 });
 
 Template.currency.onRendered(function (){

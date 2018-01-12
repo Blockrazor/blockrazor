@@ -3,15 +3,25 @@ import { Currencies } from '../../../lib/database/Currencies.js';
 import { Ratings } from '../../../lib/database/Ratings.js';
 
 Template.ratings.onCreated(function bodyOnCreated() {
-  Meteor.subscribe('approvedcurrencies');
+  var self = this
+  self.autorun(function(){
+    self.subscribe('approvedcurrencies');
+    self.subscribe('ratings')
+  })
 });
 
 Template.displayRatings.onCreated(function bodyOnCreated() {
-  Meteor.subscribe('ratings');
+  var self = this
+  self.autorun(function(){
+    self.subscribe('ratings');
+  })
 });
 
 Template.question.onCreated(function bodyOnCreated() {
-  Meteor.subscribe('approvedcurrencies');
+  var self = this
+  self.autorun(function(){
+    self.subscribe('approvedcurrencies');
+  })
 });
 
 Template.currencyChoice.onRendered(function () {
@@ -23,20 +33,20 @@ Template.currencyChoice.onRendered(function () {
 });
 
 Template.ratings.onRendered(function(){
-  Meteor.subscribe('ratings', function(onReady){
-    console.log("ready!");
-    var length = Ratings.find({}).fetch().length;
-    console.log(length);
-    if (length == 0) {
-      $("#outstandingRatings").hide();
-      $("#currencyChoices").show();
-    };
-    if (length > 0) {
-      $("#outstandingRatings").show();
-      $("#currencyChoices").hide();
+  this.autorun(function(){
+    if (Template.instance().subscriptionsReady()){
+      var length = Ratings.find({}).fetch().length;
+      console.log(length);
+      if (length == 0) {
+        $("#outstandingRatings").hide();
+        $("#currencyChoices").show();
+      };
+      if (length > 0) {
+        $("#outstandingRatings").show();
+        $("#currencyChoices").hide();
+      }
     }
-  });
-
+  })
 });
 
 Template.ratings.events({
