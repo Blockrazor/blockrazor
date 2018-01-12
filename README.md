@@ -32,13 +32,11 @@ Proper fix: something is wrong with your OS locales, good luck.
 ## Contributing
 Contributing to Blockrazor should be a fun experience. To try and keep it fun (as well as maintain quality) we follow the [Collective Code Construction Contract (C4)](/CONTRIBUTING.MD), which is essentially a hill climbing algorithm applied to the github fork+pull model. Please respect others involved in this project by reading the contract before sending a pull request.
 
-Pull requests that contain *correct patches* as per the [C4](/CONTRIBUTING.MD) will be merged.
-
 If you're wondering why any of the rules in the C4 are there, take a look at the [line by line explanation](/DESCRIPTIVE_C4.MD) of everything in the C4, this explains the rationale behind everything in the protocol.
 
 ### Contributing FAQ
 #### Q: How do I get started?   
-0. Read the [contribution protocol](/CONTRIBUTING.MD) and the [line by line explanation](/DESCRIPTIVE_C4.MD) of the protocol.
+0. Read the [contribution protocol](/CONTRIBUTING.MD) and the [line by line explanation](/DESCRIPTIVE_C4.MD) of the protocol. Seriously, read it, don't be lazy.
 1. Fork this github repository under your own github account.    
 2. Clone _your_ fork locally on your development machine.   
 3. Choose _one_ problem to solve. If you aren't solving a problem that's already in the issue tracker you should describe the problem there (and your idea of the solution) first to see if anyone else has something to say about it (maybe someone is already working on a solution, or maybe you're doing somthing wrong). If the issue is in the issue tracker, you should comment on the issue to say you're working on the solution so that other people don't work on the same thing.
@@ -65,8 +63,11 @@ If you're wondering why any of the rules in the C4 are there, take a look at the
 If your pull request contains a correct patch (read the C4) a maintainer should merge it.    
 If you want to work on another problem in the meantime simply repeat the above steps starting at:    
 ```
-@: git checkout master 
+@: git checkout master
 ```
+
+#### Q: Can I be paid to contribute to Blockrazor?
+Possibly. Your first step is to very carefully read and understand everything above, then send your first pull request. The quality of your code is less important than understanding and following the process. Make sure you follow the project on Github so you get updates. Contact Blockrazor's BDFL (Benevolent Dictator For Life): gareth.hayes AT gmail.com for payment related questions.
 
 ## License
 This project is licensed under the [MPL v2.0 license](LICENSE) and copyright [AUTHORS](AUTHORS).
