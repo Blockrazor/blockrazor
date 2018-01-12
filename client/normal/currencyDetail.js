@@ -3,8 +3,10 @@ import { Template } from 'meteor/templating';
 import { Currencies } from '../../lib/database/Currencies.js';
 
 Template.currencyDetail.onCreated(function bodyOnCreated() {
-  Meteor.subscribe('approvedcurrencies');
-
+  var self = this
+  self.autorun(function(){
+    self.subscribe('approvedcurrencies');
+  })
 });
 
 Template.currencyDetail.onRendered(function (){

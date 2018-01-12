@@ -3,9 +3,12 @@ import { PendingCurrencies, RejectedCurrencies } from '../../lib/database/Curren
 import { Bounties } from '../../lib/database/Bounties.js';
 
 Template.userPendingCurrencies.onCreated(function bodyOnCreated() {
-  Meteor.subscribe('bounties');
-  Meteor.subscribe('pendingcurrencies');
-  Meteor.subscribe('rejectedcurrencies');
+  var self = this
+  self.autorun(function() {
+    self.subscribe('bounties');
+    self.subscribe('pendingcurrencies');
+    self.subscribe('rejectedcurrencies');
+  })
 });
 
 Template.userPendingCurrencies.onRendered( function () {

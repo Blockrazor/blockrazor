@@ -4,9 +4,12 @@ import { WalletImages } from '../../lib/database/Images.js';
 import { Bounties } from '../../lib/database/Bounties.js';
 
 Template.moderatorDash.onCreated(function bodyOnCreated() {
-  Meteor.subscribe('pendingcurrencies');
-  Meteor.subscribe('bounties');
-  Meteor.subscribe('walletimages');
+  var self = this;
+  self.autorun(function(){
+    self.subscribe('pendingcurrencies');
+    self.subscribe('bounties');
+    self.subscribe('walletimages');
+  })
 });
 
 Template.moderatorDash.onRendered( function () {
