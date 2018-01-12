@@ -38,8 +38,6 @@ accounts-facebook
 facebook-config-ui
 accounts-github
 github-config-ui
-semantic:ui
-juliancwirko:postcss
 less
 jquery
 service-configuration
