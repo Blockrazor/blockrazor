@@ -22,6 +22,9 @@ Note: if you want to edit things and send a pull request you should _fork_ this 
 #### Run meteor
 `meteor`   
 (use `meteor --production` to minify everything and simulate production speeds    
+While meteor is running, in a new shell from within the Blockrazor directory run:
+`mongorestore -h 127.0.0.1 --port 3001 -d meteor dump/meteor`   
+(You will need Mongo to be installed so you have mongorestore on your system).
 
 ### Mongo errors   
 If Mongo exists with status 1:
