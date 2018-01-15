@@ -120,6 +120,21 @@ Template.upload.events({
   'change input': function(event){
    var instance = this;
    var file = event.target.files[0];
+   var uploadError = false;
+
+  //check if filesize of image exceeds the global limit
+  if (file.size > _walletFileSizeLimit) {
+      sAlert.error("Image must be under 2mb");
+      uploadError = true;
+  }
+
+ if(!_supportedFileTypes.includes(file.type)){
+      sAlert.error("File must be an image");
+      uploadError = true;
+  }
+
+//Only upload if above validation are true
+if(!uploadError){
    var reader = new FileReader();
    reader.onload = function(fileLoadEvent){
      //var binary = event.target.result;
@@ -134,5 +149,6 @@ Template.upload.events({
      });
    }
    reader.readAsBinaryString(file);
+ }
 }
 });

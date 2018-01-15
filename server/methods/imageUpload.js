@@ -130,8 +130,19 @@ Meteor.methods({
           return false;
         }
         var fs = Npm.require('fs');
-        var filename = ('/var/www/static/images/wallets/' + md5 + '.' + 'jpg'); //FIXME
+        var mime = Npm.require('mime-types');
+        var filename = (_walletUpoadDirectory + md5 + '.' + 'jpg'); //FIXME
         var insert = false;
+
+        //get mimetpe of uploaded file
+        var mimetype = mime.lookup(fileName);
+        var validFile = _supportedFileTypes.includes(mimetype);
+
+        if (!validFile) {
+            throw new Meteor.Error('Error', 'File type not supported, png, gif and jpeg supported');
+            return false;
+        }
+
         //var currency = Currencies.findOne({_id:currencyId}).currencyName;
         if(!Currencies.findOne({_id:currencyId}).currencyName){
           throw new Meteor.Error('error', 'error 135');
