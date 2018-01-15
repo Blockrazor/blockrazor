@@ -42,7 +42,9 @@ If you're wondering why any of the rules in the C4 are there, take a look at the
 0. Read the [contribution protocol](/CONTRIBUTING.MD) and the [line by line explanation](/DESCRIPTIVE_C4.MD) of the protocol. Seriously, read it, don't be lazy.
 1. Fork this github repository under your own github account.    
 2. Clone _your_ fork locally on your development machine.   
-3. Choose _one_ problem to solve. If you aren't solving a problem that's already in the issue tracker you should describe the problem there (and your idea of the solution) first to see if anyone else has something to say about it (maybe someone is already working on a solution, or maybe you're doing somthing wrong). If the issue is in the issue tracker, you should comment on the issue to say you're working on the solution so that other people don't work on the same thing.
+3. Choose _one_ problem to solve. If you aren't solving a problem that's already in the issue tracker you should describe the problem there (and your idea of the solution) first to see if anyone else has something to say about it (maybe someone is already working on a solution, or maybe you're doing somthing wrong).
+
+**If the issue is in the issue tracker, you should comment on the issue to say you're working on the solution so that other people don't work on the same thing.**
 3. Add the Blockrazor repository as an upstream source and pull any changes:    
 ```
 @: git remote add upstream git://github.com/blockrazor/blockrazor //only needs to be done once
