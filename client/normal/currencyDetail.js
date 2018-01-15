@@ -5,7 +5,8 @@ import { Currencies } from '../../lib/database/Currencies.js';
 Template.currencyDetail.onCreated(function bodyOnCreated() {
   var self = this
   self.autorun(function(){
-    self.subscribe('approvedcurrencies');
+    // Gets the _id of the current currency and only subscribes to that particular currency
+    self.subscribe('approvedcurrency', FlowRouter.getParam('_id'))
   })
 });
 
