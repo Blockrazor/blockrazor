@@ -6,6 +6,16 @@ Template.activityLog.onCreated(function bodyOnCreated() {
   self.autorun(function() {
     self.subscribe('activitylog');
   })
+
+//mark all notification as read
+    Meteor.call('markNotificationsAsRead',
+        (error, result) => {
+            if (error) {
+                console.error(error)
+            }
+        }
+    );
+
 });
 
 Template.activityLog.onRendered( function () {
