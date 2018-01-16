@@ -1,6 +1,7 @@
 
 import { PendingCurrencies } from '../../lib/database/Currencies.js';
 import { Currencies } from '../../lib/database/Currencies.js';
+import { Random } from 'meteor/random'
 
 if (Meteor.isServer) {
 Meteor.methods({
@@ -58,6 +59,7 @@ Meteor.methods({
     checkSanity(data.gitRepo, "gitRepo", "string", 18, 300);
     checkSanity(data.officialSite, "officialSite", "string", 6, 200);
     checkSanity(data.featureTags, "featureTags", "object", 0, 50);
+    checkSanity(data.maxCoins, "currencyLogo", "number", 4, 32);
 
     //Check the self-populating dropdowns
     if (data.consensusSecurity != "--Select One--") {
@@ -172,10 +174,43 @@ Meteor.methods({
       return "OK";
     }
     });
-  } else {console.log("did not run insert function")}
+  } else {console.log(error)}
 
 
 
-  }
+  },
+   'uploadCoinImage': function (fileName, imageOf, currencyId, binaryData,md5) {
+      var error = function(error) {throw new Meteor.Error('error', error);}
+
+        if (!this.userId) {
+          throw new Meteor.Error('error', 'You must be logged in to do this.');
+          return false;
+        }
+
+        var md5validate = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(binaryData)).toString();
+        if(md5validate != md5) {
+          throw new Meteor.Error('connection error', 'failed to validate md5 hash');
+          return false;
+        }
+
+        var fs = Npm.require('fs');
+        //get mimetpe of uploaded file
+        var mime = Npm.require('mime-types');
+        var mimetype = mime.lookup(fileName);
+        var validFile = _supportedFileTypes.includes(mimetype);
+        var fileExtension = mime.extension(mimetype);
+        var filename = (_coinUpoadDirectory + md5 + '.' + fileExtension); 
+
+        var insert = false;
+
+        if (!validFile) {
+            throw new Meteor.Error('Error', 'File type not supported, png, gif and jpeg supported');
+            return false;
+        }
+
+
+
+
+      }
 });
 }
