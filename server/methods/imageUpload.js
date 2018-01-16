@@ -130,13 +130,15 @@ Meteor.methods({
           return false;
         }
         var fs = Npm.require('fs');
-        var mime = Npm.require('mime-types');
-        var filename = (_walletUpoadDirectory + md5 + '.' + 'jpg'); //FIXME
-        var insert = false;
 
         //get mimetpe of uploaded file
+        var mime = Npm.require('mime-types');
         var mimetype = mime.lookup(fileName);
         var validFile = _supportedFileTypes.includes(mimetype);
+        var fileExtension = mime.extension(mimetype);
+        var filename = (_walletUpoadDirectory + md5 + '.' + fileExtension); 
+
+        var insert = false;
 
         if (!validFile) {
             throw new Meteor.Error('Error', 'File type not supported, png, gif and jpeg supported');
@@ -157,6 +159,7 @@ Meteor.methods({
             'createdBy': Meteor.user()._id,
             'flags': 0,
             'likes': 0,
+            'extension': fileExtension,
             'flaglikers': [],
             'approved': false
           });
