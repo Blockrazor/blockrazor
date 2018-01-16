@@ -143,9 +143,14 @@ if(!uploadError){
      console.log(md5);
      Meteor.call('uploadWalletImage', file.name, event.target.id, instance._id, reader.result, md5, function(error, result){
        if(error){
-         //salert
+        console.log(error)
+    sAlert.error(error.message);
+       }else{
+
+    sAlert.success('Upload Success');
+
        }
-       //console.log(result);
+
      });
    }
    reader.readAsBinaryString(file);
