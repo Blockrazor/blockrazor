@@ -40,16 +40,6 @@ Accounts.onLogin(function(user){
   }
 });
 
-ServiceConfiguration.configurations.upsert({
-    service: "facebook"
-}, {
-    $set: {
-        loginStyle: "popup",
-        appId: Meteor.isDevelopment ? "dev_app_id" : "prod_app_id",
-        secret: Meteor.isDevelopment ? "dev_secret_key" : "prod_secret_key",
-    }
-});
-
 Accounts.onCreateUser(( options, user ) => {
     // If a username is set in the user's profile field, then copy it in user.username
     if  ( user.services && user.services.facebook && user.services.facebook.name ) {
