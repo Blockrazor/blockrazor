@@ -41,3 +41,5 @@ github-config-ui
 less
 jquery
 service-configuration
+ostrio:logger
+ostrio:loggermongo

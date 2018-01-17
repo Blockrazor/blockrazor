@@ -1,6 +1,30 @@
 import { Meteor } from 'meteor/meteor';
-  import {generateBounties, createtypes, fetchHashrate} from '../lib/database/Bounties.js';
+import {generateBounties, createtypes, fetchHashrate} from '../lib/database/Bounties.js';
+import { Logger } from 'meteor/ostrio:logger';
+import { LoggerMongo } from 'meteor/ostrio:loggermongo';
 //import * as jobs from './API_requests/github.js';
+
+log = new Logger();
+(new LoggerMongo(log)).enable();
+
+
+Accounts.validateLoginAttempt(function(result){
+
+var user = result.user;
+
+if(result.error){
+  var message = result.error.reason;
+  var data = {'user': user, 'connection': result.connection}
+  log.error(message, data);
+}else{
+  var message = 'login event';
+  var data = {'user': user, 'connection': result.connection}
+  log.info(message, data);
+}
+
+  return true;
+
+});
 
 Accounts.onLogin(function(user){
 
@@ -31,6 +55,10 @@ Accounts.onCreateUser(( options, user ) => {
     if  ( user.services && user.services.facebook && user.services.facebook.name ) {
         user.username = user.services.facebook.name;
     }
+
+  var message = 'user created';
+  var data = {'user': user}
+  log.info(message, data,user._id);
 
     return ( user );
 });
