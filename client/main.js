@@ -8,7 +8,7 @@ Accounts.ui.config({
 //Global helper to easily get session values in templates
 Template.registerHelper( 'session', ( name ) => {
   return Session.get(name);
-};
+});
 
 Accounts.onLogin(function(options) {
 
