@@ -5,7 +5,7 @@
   <a href="/addcoin">Add New Coin</a><br />
   <a href="/mypending">My Pending Coins and Changes</a><br />
   <a href="/moderator">Moderator Dashboard</a><br />
-  <a href="/notifications">Notifications</a> {{#if totalNotifications}}<a href="#" class="badge badge-success">{{totalNotifications}}</a>{{/if}} <br />
+  <a href="/notifications">Notifications</a> {{#if currentUser }}{{#if totalNotifications}}<a href="#" class="badge badge-success">{{totalNotifications}}</a>{{/if}}{{/if}} <br />
   <a href="/wallet">My Wallet</a><br />
   <a href="/bounties">Bounties</a><br />
   <a href="/ratings">Ratings</a><br />

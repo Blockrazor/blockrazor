@@ -13,20 +13,20 @@ Template.menu.events({
 
 Template.menu.helpers({
     totalNotifications() {
-        return Template.instance().totalNotificatins.get();
+        return Session.get('notificationCount');
     }
 });
 
 Template.menu.onCreated(function() {
 
-    this.totalNotificatins = new ReactiveVar(0);
+    Session.set('notificationCount',0);
 
     Meteor.call('getNotificationCount',
         (error, result) => {
             if (error) {
                 console.error(error)
             } else {
-                this.totalNotificatins.set(result);
+                Session.set('notificationCount',result);
             }
         }
     );
