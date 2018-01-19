@@ -20,3 +20,8 @@ Accounts.onLogin(function(options) {
         }
     );
 });
+
+//get public coin image location
+Template.registerHelper( '_coinUpoadDirectory', ( string ) => {
+  return _coinUpoadDirectory;
+});

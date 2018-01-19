@@ -1,7 +1,8 @@
-
 import { PendingCurrencies } from '../../lib/database/Currencies.js';
 import { Currencies } from '../../lib/database/Currencies.js';
-import { Random } from 'meteor/random'
+import { Random } from 'meteor/random';
+import { Logger } from 'meteor/ostrio:logger';
+import { LoggerMongo } from 'meteor/ostrio:loggermongo';
 
 if (Meteor.isServer) {
 Meteor.methods({
@@ -60,6 +61,7 @@ Meteor.methods({
     checkSanity(data.officialSite, "officialSite", "string", 6, 200);
     checkSanity(data.featureTags, "featureTags", "object", 0, 50);
     checkSanity(data.maxCoins, "currencyLogo", "number", 4, 32);
+    
 
     //Check the self-populating dropdowns
     if (data.consensusSecurity != "--Select One--") {
@@ -207,6 +209,12 @@ Meteor.methods({
             throw new Meteor.Error('Error', 'File type not supported, png, gif and jpeg supported');
             return false;
         }
+
+        fs.writeFile(filename, binaryData, {encoding: 'binary'}, function(error){
+            if(error){console.log(error)};
+
+
+        });
 
 
 
