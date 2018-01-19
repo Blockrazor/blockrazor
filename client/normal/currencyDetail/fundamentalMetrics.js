@@ -1,5 +1,6 @@
 import { Template } from 'meteor/templating';
 import { Features } from '../../../lib/database/Features.js';
+import { WalletImages } from '../../../lib/database/Images.js';
 
 Template.fundamentalMetrics.onRendered(function (){
   var radar = document.getElementById("radar").getContext('2d');
@@ -382,6 +383,21 @@ Template.comment.events({
     });
   }
 
+});
+
+Template.walletimages.onCreated(function(){
+  this.autorun(() => {
+    this.subscribe('walletimages', FlowRouter.getParam("_id"));
+  });
+});
+
+Template.walletimages.helpers({
+  walletimages: function () {
+    return WalletImages.find({currencyId: FlowRouter.getParam("_id")});
+  },
+  walletimagesdir(){
+    return _walletUpoadDirectoryPublic;
+  }
 });
 
 //
