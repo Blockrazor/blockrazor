@@ -1,7 +1,7 @@
 <template name="currencyDetail">
 
     <div class="card border-secondary mb-3 mb-3" style="min-width:300px;overflow:hidden;">
-    <div class="card-header" style="height:50px"><h4 class="pull-left">{{currencyName}} {{#with thiscurrency}}({{currencySymbol}}) {{/with}}
+    <div class="card-header" style="height:50px"><img src="{{_coinUpoadDirectory}}{{thiscurrency.currencyLogo}}" style="height:50px;width:50px" class="pull-left"><h4 class="pull-left">{{currencyName}} {{#with thiscurrency}}({{currencySymbol}}) {{/with}}
   </h4><h4 class="pull-right">RazorRank: {{razorRank}}</h4></div>
     <div class="card-body" style="display:{{bodydisplay}};">
       {{#with thiscurrency}}{{> fundamentalMetrics}}{{/with}}
