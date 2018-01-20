@@ -3,12 +3,12 @@ export var UserData = new Mongo.Collection('userdata');
 
 Meteor.methods({
   getBalance: function() {
-    return UserData.findOne({_id: Meteor.user()._id}).balance;
+    return UserData.findOne({_id: this.userId}).balance;
   },
   initializeUser: function() {
-    if (_.size(UserData.findOne({_id: Meteor.user()._id})) == 0) {
+    if (_.size(UserData.findOne({_id: this.userId})) == 0) {
       UserData.insert({
-        _id: Meteor.user()._id,
+        _id: this.userId,
         moderator: 0,
         balance: 0,
         approvedCurrencies: 0,
@@ -20,14 +20,14 @@ Meteor.methods({
         }]
       })
     }
-  // if(UserData.findOne({_id: Meteor.user()._id})){
-  //   UserData.upsert(Meteor.user()._id, {
+  // if(UserData.findOne({_id: this.userId})){
+  //   UserData.upsert(this.userId, {
   //     $set: {userName: Meteor.user().username} //
   //   })
   // }
 
 
   console.log("new user login")
-  console.log(Meteor.user()._id);
+  console.log(this.userId);
   }
 });
