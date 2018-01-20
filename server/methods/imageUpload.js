@@ -6,24 +6,24 @@ import { RatingsTemplates } from '../../lib/database/Ratings.js';
 
 Meteor.methods({
   'flagWalletImage': function(imageId) {
-    if(!Meteor.user()._id){throw new Meteor.Error('error', 'please log in')};
+    if(!this.userId){throw new Meteor.Error('error', 'please log in')};
     WalletImages.update(imageId, {
       $addToSet: {flaglikers: Meteor.userId()},
       $inc: {flags: 1}
     });
   },
   'approveWalletImage': function(imageId) {
-    if(!Meteor.user()._id){throw new Meteor.Error('error', 'please log in')};
-    if(WalletImages.findOne({_id: imageId}).createdBy == Meteor.user()._id) {
+    if(!this.userId){throw new Meteor.Error('error', 'please log in')};
+    if(WalletImages.findOne({_id: imageId}).createdBy == this.userId) {
       throw new Meteor.Error('error', "You can't approve your own item.")
     };
     WalletImages.update(imageId, {
-      $set: {approved: true, approvedBy: Meteor.user()._id},
+      $set: {approved: true, approvedBy: this.userId},
       $inc: {likes: 1}
     });
   },
   'answerRating': function(ratingId, winner) {
-    if (Ratings.findOne({_id:ratingId}).owner == Meteor.user()._id) {
+    if (Ratings.findOne({_id:ratingId}).owner == this.userId) {
       var loser = Ratings.findOne({_id:ratingId}).currency0Id;
       if(loser == winner) {
         loser = Ratings.findOne({_id:ratingId}).currency1Id;
@@ -42,14 +42,14 @@ Meteor.methods({
     }
   },
   'addRatingQuestion': function(question, catagory) {
-    if(!Meteor.user()._id){throw new Meteor.Error('error', 'please log in')};
+    if(!this.userId){throw new Meteor.Error('error', 'please log in')};
     var id = parseInt("0x" + CryptoJS.MD5(question).toString().slice(0,10), 16);
     var id = id.toString();
     RatingsTemplates.insert({
       _id: id,
       'question': question,
       'catagory': catagory,
-      'createdBy': Meteor.user()._id,
+      'createdBy': this.userId,
       'createdAt': new Date().getTime()
     });
   },
@@ -57,7 +57,7 @@ Meteor.methods({
   //they have added, or if an admin has added new questions for their existing currencies.
   'populateRatings': function() {
     //fetch all the currencies this user uses:
-    var images = WalletImages.find({createdBy: Meteor.user()._id}).fetch();
+    var images = WalletImages.find({createdBy: this.userId}).fetch();
     var currencies = [];
     for (i in images) {
       currencies.push(images[i].currencyId);
@@ -66,7 +66,7 @@ Meteor.methods({
 
     //fetch the questions that will be asked of the user
     var ratingTemplates = RatingsTemplates.find({catagory:"wallet"}).fetch();
-    var userInt = parseInt("0x" + CryptoJS.MD5(Meteor.user()._id).toString().slice(0,10), 16);
+    var userInt = parseInt("0x" + CryptoJS.MD5(this.userId).toString().slice(0,10), 16);
 
 //Cycle through all possible combinations of currencies that this user has a wallet for
     for (i = 0; i < currencies.length - 1; i++) {
@@ -87,7 +87,7 @@ Meteor.methods({
           try{
             Ratings.insert({
               _id: id,
-              'owner': Meteor.user()._id,
+              'owner': this.userId,
               'currency0Id': currencies[i],
               'currency1Id': currencies[j],
               'winner': null,
@@ -156,7 +156,7 @@ Meteor.methods({
             'currencyName': Currencies.findOne({_id:currencyId}).currencyName,
             'imageOf': imageOf,
             'createdAt': new Date().getTime(),
-            'createdBy': Meteor.user()._id,
+            'createdBy': this.userId,
             'flags': 0,
             'likes': 0,
             'extension': fileExtension,
