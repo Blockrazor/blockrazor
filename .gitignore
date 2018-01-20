@@ -57,3 +57,6 @@ typings/
 # dotenv environment variables file
 .env
 
+# don't include local public directory for images
+public
+

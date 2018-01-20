@@ -128,7 +128,8 @@ Template.addCoin.events({
     reddit: d.reddit.value ? d.reddit.value : false,
     blockExplorer: d.blockExplorer.value ? d.blockExplorer.value : false,
     featureTags: makeTagArrayFrom(d.featureTags.value),
-    approvalNotes: d.notes.value
+    approvalNotes: d.notes.value,
+    currencyLogo: d.currencyLogoFilename.value
   };
 
   var addToInsert = function(value, key) {
@@ -167,7 +168,47 @@ Template.addCoin.events({
         FlowRouter.go('/mypending');
       }
     });
-      }
+      },
+       'change #currencyLogoInput': function(event){
+   var instance = this;
+   var file = event.target.files[0];
+   var fileExtension = file.name.split('.').pop();
+   var uploadError = false;
+
+  //check if filesize of image exceeds the global limit
+  if (file.size > _coinFileSizeLimit) {
+      sAlert.error("Image must be under 2mb");
+      uploadError = true;
+  }
+
+ if(!_supportedFileTypes.includes(file.type)){
+      sAlert.error("File must be an image");
+      uploadError = true;
+  }
+
+//Only upload if above validation are true
+if(!uploadError){
+   var reader = new FileReader();
+   reader.onload = function(fileLoadEvent){
+     //var binary = event.target.result;
+     var binary = reader.result;
+     var md5 = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(binary)).toString();
+
+     Meteor.call('uploadCoinImage', file.name, event.target.id, instance._id, reader.result,md5, function(error, result){
+       if(error){
+        console.log(error)
+    sAlert.error(error.message);
+       }else{
+    sAlert.success('Upload Success');
+    $("#currencyLogoFilename").val(md5+'.'+fileExtension);
+
+       }
+
+     });
+   }
+   reader.readAsBinaryString(file);
+ }
+}
 });
 
 
