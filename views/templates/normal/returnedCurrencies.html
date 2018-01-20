@@ -1,5 +1,28 @@
 <template name="returnedCurrencies">
+	{{> currencyFilter}}
   {{#each currencies}}
       {{> currency}}
   {{/each}}
+</template>
+
+
+<template name="currencyFilter">
+
+	<button type="button" id="toggle"><i class="fa fa-filter" aria-hidden="true"></i></button>
+	<br />
+	<div id="currencyFilterContainer" class="hidden">
+	<form id="currencyFilter" name="currencyFilter">
+
+    <input type="input" id="currencyName" name="currencyName" placeholder="Currency Name" style="width:30%"> <br />
+    <input type="input" id="currencySymbol" name="currencySymbol" placeholder="Currency Symbol" style="width:30%"> <br />
+    <input type="number" id="premine" name="premine" placeholder="Premine Greater Than" style="width:30%"> <br />
+    <input type="number" id="circulating" name="circulating" placeholder="Circulating Greater Than" style="width:30%"> <br />
+
+
+<button type="submit" id="filter">Filter</button> 
+<button type="button" id="clear">Clear</button> Found {{filterCount}} results
+<br />
+
+	</form>
+</div>
 </template>

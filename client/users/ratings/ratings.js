@@ -35,13 +35,12 @@ Template.currencyChoice.onRendered(function () {
 Template.ratings.onRendered(function(){
   this.autorun(function(){
     if (Template.instance().subscriptionsReady()){
-      var length = Ratings.find({}).fetch().length;
-      console.log(length);
-      if (length == 0) {
+      var count = Ratings.find({}).count();
+      
+      if (!count) {
         $("#outstandingRatings").hide();
         $("#currencyChoices").show();
-      };
-      if (length > 0) {
+      }else{
         $("#outstandingRatings").show();
         $("#currencyChoices").hide();
       }
@@ -62,12 +61,12 @@ Template.ratings.helpers({
   populateUI() {
   },
   outstandingRatings() {
-    var length = Ratings.find({}).fetch().length;
-    if (length == 0) {
+    var count = Ratings.find({}).count();
+    if (!count) {
       $("#outstandingRatings").hide();
       $("#currencyChoices").show();
     };
-    return length;
+    return count;
   }
 });
 
