@@ -13,22 +13,26 @@ Template.menu.events({
 
 Template.menu.helpers({
     totalNotifications() {
-        return Session.get('notificationCount');
+        return Template.instance().notificationCount.get();
     }
 });
 
 Template.menu.onCreated(function() {
+    this.notificationCount = new ReactiveVar(0)
 
-    Session.set('notificationCount',0);
-
-    Meteor.call('getNotificationCount',
-        (error, result) => {
-            if (error) {
-                console.error(error)
-            } else {
-                Session.set('notificationCount',result);
-            }
+    // Tracks user status. If user logs in (or logs out), his notification count is updated, thus eliminating the need for Accounts.onLogin callback and code redundancy
+    Tracker.autorun(() => {
+        if (Meteor.userId()) {
+            Meteor.call('getNotificationCount',
+                (error, result) => {
+                    if (error) {
+                        console.error(error)
+                    } else {
+                        this.notificationCount.set(result)
+                    }
+                }
+            )
         }
-    );
+    })
 
 });

@@ -5,23 +5,11 @@ Accounts.ui.config({
   passwordSignupFields: 'USERNAME_ONLY',
 });
 
+//Global helpers for accessing reactive vars on the current template
+Template.registerHelper('reactiveVar', name => Template.instance()[name].get())
+Template.registerHelper('reactiveVar.equals', (name, val) => Template.instance()[name].get() == val) //== (not ===) mimics the behaviour of $.Session.equals)
+
 //Global helper to easily get session values in templates
 Template.registerHelper( 'session', ( name ) => {
   return Session.get(name);
-});
-
-Accounts.onLogin(function(options) {
-
-	//get notification count when a user logs in.
-	Session.set('notificationCount',0);
-    Meteor.call('getNotificationCount',
-        (error, result) => {
-            if (error) {
-                console.error(error)
-            } else {
-                Session.set('notificationCount',result);
-            }
-        }
-    );
-
-});
+})

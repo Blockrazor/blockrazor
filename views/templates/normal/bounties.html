@@ -1,12 +1,12 @@
 <template name="bounties">
-  <!-- {{#if $.Session.equals 'workingBounty' false}} -->
+  <!-- {{#unless reactiveVar 'workingBounty'}} -->
   bounties
     {{#each bounties}}
     {{> bountyRender}}
     {{/each}}
-  <!-- {{/if}}
+  <!-- {{/unless}}
 
-  {{#if $.Session.equals 'workingBounty' true}}
+  {{#if reactiveVar 'workingBounty'}}
   {{#each activebounty}}{{> activeBounty}}{{/each}}
   {{/if}} -->
 </template>
@@ -39,11 +39,11 @@
   <div class="alert alert-danger" role="alert">
   <h5 class="text-center">{{timeRemaining}}</h5></div>
   <button class="btn btn-danger float-right cancel">Get me out of here, I can't do this!</button>
-{{#if $.Session.equals 'bountyType' 'HashrateAPI'}}{{> HashrateAPI}}{{/if}}
-{{#if $.Session.equals 'bountyType' 'hashpower'}}{{> hashpower}}{{/if}}
-{{#if $.Session.equals 'bountyType' 'userExperience'}}{{> userExperience}}{{/if}}
-{{#if $.Session.equals 'bountyType' 'codeQuality'}}{{> codeQuality}}{{/if}}
-{{#if $.Session.equals 'bountyType' 'community'}}{{> community}}{{/if}}
+{{#if reactiveVar.equals 'bountyType' 'HashrateAPI'}}{{> HashrateAPI}}{{/if}}
+{{#if reactiveVar.equals 'bountyType' 'hashpower'}}{{> hashpower}}{{/if}}
+{{#if reactiveVar.equals 'bountyType' 'userExperience'}}{{> userExperience}}{{/if}}
+{{#if reactiveVar.equals 'bountyType' 'codeQuality'}}{{> codeQuality}}{{/if}}
+{{#if reactiveVar.equals 'bountyType' 'community'}}{{> community}}{{/if}}
 </template>
 
 <template name="HashrateAPI">

@@ -1,7 +1,21 @@
-import { Template } from 'meteor/templating';
+import { Template } from 'meteor/templating'
+
+Template.moderatorPendingCurrency.onCreated(function() {
+  // a way to get parent's template instance
+  let view = this.view
+
+  while (view) {
+    if (view.name === 'Template.moderatorDash') {
+      break
+    }
+    view = view.parentView
+  }
+
+  this.parent = view.templateInstance()
+})
 
 Template.moderatorPendingCurrency.onRendered(function (){
-  Session.set('reject', false);
+  this.parent.reject.set(false);
   });
 
 Template.moderatorPendingCurrency.events({
@@ -9,14 +23,14 @@ Template.moderatorPendingCurrency.events({
     data.preventDefault();
     Meteor.call('approveCurrency', this._id);
   },
-  'click #reject': function(data) {
+  'click #reject': function(data, templateInstance) {
     data.preventDefault();
     Meteor.call('setRejected', this._id, true);
-    Session.set('currentlyRejecting', this._id);
-    Session.set('reject', true);
-    Session.set('submittername', this.username);
-    Session.set('owner', this.owner);
-    Session.set('currencyName', this.currencyName);
+    templateInstance.parent.currentlyRejecting.set(this._id)
+    templateInstance.parent.reject.set(true)
+    templateInstance.parent.submittername.set(this.username)
+    templateInstance.parent.owner.set(this.owner)
+    templateInstance.parent.currencyName.set(this.currencyName)
   }
 });
 

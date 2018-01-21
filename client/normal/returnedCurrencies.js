@@ -6,6 +6,19 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
   self.autorun(function(){
     self.subscribe('approvedcurrencies');
   })
+
+  this.currencyNameFilter = new ReactiveVar(undefined);
+  this.currencySymbolFilter = new ReactiveVar(undefined);
+  this.genesisTimestampFilter = new ReactiveVar(undefined);
+  this.premineFilter = new ReactiveVar(undefined);
+  this.circulatingFilter = new ReactiveVar(undefined);
+  this.maxCoinsFilter = new ReactiveVar(undefined);
+  this.consensusSecurityFilter = new ReactiveVar(undefined);
+  this.hashAlgorithmFilter = new ReactiveVar(undefined);
+  this.marketCapFilter = new ReactiveVar(undefined);
+  this.priceFilter = new ReactiveVar(undefined);
+  this.gitCommitsFilter = new ReactiveVar(undefined);
+  this.filterCount = new ReactiveVar(undefined);
 });
 
 Template.returnedCurrencies.onRendered( function () {
@@ -15,34 +28,34 @@ Template.returnedCurrencies.onRendered( function () {
 
 //quick funcion to clear all attribute sessions within the filter
 function clearSessions(){
-    Session.set('currencyNameFilter',undefined);
-    Session.set('currencySymbolFilter',undefined);
-    Session.set('genesisTimestampFilter',undefined);
-    Session.set('premineFilter',undefined);
-    Session.set('circulatingFilter',undefined);
-    Session.set('maxCoinsFilter',undefined);
-    Session.set('consensusSecurityFilter',undefined);
-    Session.set('hashAlgorithmFilter',undefined);
-    Session.set('marketCapFilter',undefined);
-    Session.set('priceFilter',undefined);
-    Session.set('gitCommitsFilter',undefined);
-    Session.set('filterCount',undefined);
+    Template.instance().currencyNameFilter.set(undefined);
+    Template.instance().currencySymbolFilter.set(undefined);
+    Template.instance().genesisTimestampFilter.set(undefined);
+    Template.instance().premineFilter.set(undefined);
+    Template.instance().circulatingFilter.set(undefined);
+    Template.instance().maxCoinsFilter.set(undefined);
+    Template.instance().consensusSecurityFilter.set(undefined);
+    Template.instance().hashAlgorithmFilter.set(undefined);
+    Template.instance().marketCapFilter.set(undefined);
+    Template.instance().priceFilter.set(undefined);
+    Template.instance().gitCommitsFilter.set(undefined);
+    Template.instance().filterCount.set(undefined);
 }
 
 Template.returnedCurrencies.helpers({
   currencies() {
 
-    var currencyNameFilter = Session.get('currencyNameFilter');
-    var currencySymbolFilter = Session.get('currencySymbolFilter');
-    var genesisTimestampFilter = Session.get('genesisTimestampFilter');
-    var premineFilter = Session.get('premineFilter');
-    var circulatingFilter = Session.get('circulatingFilter');
-    var maxCoinsFilter = Session.get('maxCoinsFilter');
-    var consensusSecurityFilter = Session.get('consensusSecurityFilter');
-    var hashAlgorithmFilter = Session.get('hashAlgorithmFilter');
-    var marketCapFilter = Session.get('marketCapFilter');
-    var priceFilter = Session.get('priceFilter');
-    var gitCommitsFilter = Session.get('gitCommitsFilter');
+    var currencyNameFilter = Template.instance().currencyNameFilter.get();
+    var currencySymbolFilter = Template.instance().currencySymbolFilter.get();
+    var genesisTimestampFilter = Template.instance().genesisTimestampFilter.get();
+    var premineFilter = Template.instance().premineFilter.get();
+    var circulatingFilter = Template.instance().circulatingFilter.get();
+    var maxCoinsFilter = Template.instance().maxCoinsFilter.get();
+    var consensusSecurityFilter = Template.instance().consensusSecurityFilter.get();
+    var hashAlgorithmFilter = Template.instance().hashAlgorithmFilter.get();
+    var marketCapFilter = Template.instance().marketCapFilter.get();
+    var priceFilter = Template.instance().priceFilter.get();
+    var gitCommitsFilter = Template.instance().gitCommitsFilter.get();
 
   //filter
   var filter = {};
@@ -66,9 +79,9 @@ Template.returnedCurrencies.helpers({
     var filterQuestCount = Currencies.find(filter).count()
     console.log(filterQuestCount)
     if(filterQuestCount){
-      Session.set('filterCount',filterQuestCount);
+      Template.instance().filterCount.set(filterQuestCount);
     }else{
-      return Session.set('filterCount',0);;
+      return Template.instance().filterCount.set(0);;
     }
   }
 
@@ -88,24 +101,24 @@ Template.returnedCurrencies.events({
     clearSessions()
 
     if(et.currencyName.value){
-     var currencyNameFilter = Session.set('currencyNameFilter',et.currencyName.value); //done
+     var currencyNameFilter = Template.instance().currencyNameFilter.set(et.currencyName.value); //done
     }
     if(et.currencySymbol.value){
-    var currencySymbolFilter = Session.set('currencySymbolFilter',et.currencySymbol.value); //done
+    var currencySymbolFilter = Template.instance().currencySymbolFilter.set(et.currencySymbol.value); //done
     }
-    //var genesisTimestampFilter = Session.set('genesisTimestampFilter',et.genesisTimestamp.value); //wait until we have a time UI element
+    //var genesisTimestampFilter = Template.instance().genesisTimestampFilter.set(et.genesisTimestamp.value); //wait until we have a time UI element
     if(et.premine.value){
-    var premineFilter = Session.set('premineFilter',et.premine.value);
+    var premineFilter = Template.instance().premineFilter.set(et.premine.value);
     }
     if(et.circulating.value){
-    var circulatingFilter = Session.set('circulatingFilter',et.circulating.value);
+    var circulatingFilter = Template.instance().circulatingFilter.set(et.circulating.value);
     }
-    var maxCoinsFilter = Session.set('maxCoinsFilter');
-    var consensusSecurityFilter = Session.set('consensusSecurityFilter');
-    var hashAlgorithmFilter = Session.set('hashAlgorithmFilter');
-    var marketCapFilter = Session.set('marketCapFilter');
-    var priceFilter = Session.set('priceFilter');
-    var gitCommitsFilter = Session.set('gitCommitsFilter');
+    var maxCoinsFilter = Template.instance().maxCoinsFilter.set('');
+    var consensusSecurityFilter = Template.instance().consensusSecurityFilter.set('');
+    var hashAlgorithmFilter = Template.instance().hashAlgorithmFilter.set('');
+    var marketCapFilter = Template.instance().marketCapFilter.set('');
+    var priceFilter = Template.instance().priceFilter.set('');
+    var gitCommitsFilter = Template.instance().gitCommitsFilter.set('');
 
 
   },
@@ -126,7 +139,8 @@ Template.returnedCurrencies.events({
 
   Template.currencyFilter.helpers({
     filterCount() {
-      return Session.get('filterCount');
+      // Blaze's API function for cross-template communication
+      return Template.instance().view.parentView.templateInstance().filterCount.get();
     }
 
     });

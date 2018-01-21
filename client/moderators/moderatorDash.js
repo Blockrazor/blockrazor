@@ -10,21 +10,23 @@ Template.moderatorDash.onCreated(function bodyOnCreated() {
     self.subscribe('bounties');
     self.subscribe('walletimages');
   })
-});
 
-Template.moderatorDash.onRendered( function () {
-Session.set('reject', false);
-});
+  this.reject = new ReactiveVar(false)
+  this.currentlyRejecting = new ReactiveVar(null)
+  this.submittername = new ReactiveVar(null)
+  this.owner = new ReactiveVar(null)
+  this.currencyName = new ReactiveVar(null)
+})
 
 Template.moderatorDash.events({
-  'submit form': function (data) {
+  'submit form': function (data, templateInstance) {
     data.preventDefault();
-    Meteor.call('rejectCurrency', Session.get('currencyName'), Session.get('currentlyRejecting'), Session.get('owner'), data.target.reason.value, Meteor.userId());
-    Session.set('reject', false);
-    Session.set('currentlyRejecting', null);
-    Session.set('submittername', null);
-    Session.set('owner', null);
-    Session.set('currencyName', null);
+    Meteor.call('rejectCurrency', templateInstance.currencyName.get(), templateInstance.currentlyRejecting.get(), templateInstance.owner.get(), data.target.reason.value, Meteor.userId());
+    templateInstance.reject.set(false)
+    templateInstance.currentlyRejecting.set(null)
+    templateInstance.submittername.set(null)
+    templateInstance.owner.set(null)
+    templateInstance.currencyName.set(null)
   }
 });
 

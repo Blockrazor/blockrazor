@@ -3,7 +3,8 @@ import { Features } from '../../../lib/database/Features.js';
 import { WalletImages } from '../../../lib/database/Images.js';
 
 Template.fundamentalMetrics.onRendered(function (){
-  var radar = document.getElementById("radar").getContext('2d');
+  this.lastId = new ReactiveVar('')
+  var radar = document.getElementById("radar").getContext('2d')
   radar.canvas.width = 800;
   radar.canvas.height = 600;
     var radarchart = new Chart(radar, {
@@ -71,9 +72,9 @@ Template.fundamentalMetrics.onRendered(function (){
 
 Template.fundamentalMetrics.events({
   'click #name': function () {
-    if(Session.get('lastId')){document.getElementById(Session.get('lastId')).style.display = "none";}
+    if(Template.instance().lastId.get()){document.getElementById(Template.instance().lastId.get()).style.display = "none";}
     document.getElementById(this._id).style.display = "block";
-    Session.set('lastId', this._id);
+    Template.instance().lastId.set(this._id);
 
 
   }
@@ -117,7 +118,9 @@ Template.fundamentalMetrics.helpers({
 Template.feature.onCreated(function() {
   this.autorun(() => {
     this.subscribe('comments', this._id);
-  });
+  })
+
+  this.showingComments = new ReactiveDict()
 });
 Template.feature.onRendered(function(){
 
@@ -199,7 +202,7 @@ Template.feature.events({
       $(".newcomment-" + this._id).hide();
       Cookies.set("submitted" + this._id, true);
       $(".commentParent-" + this._id).hide();
-      Session.set("showingComments" + this._id, "false")
+      Template.instance().showingComments.set(this._id, "false")
     }
   },
   'keyup .replyText': function() {
@@ -223,12 +226,12 @@ Template.feature.events({
     if(Cookies.get("submitted" + this._id) != "true") {
     $(".newcomment-" + this._id).show();
   };
-  if(Session.get("showingComments" + this._id) != "true") {
+  if(Template.instance().showingComments.get(this._id) != "true") {
     $(".commentParent-" + this._id).show();
-    Session.set("showingComments" + this._id, "true")
+    Template.instance().showingComments.set(this._id, "true")
   } else {
     $(".commentParent-" + this._id).hide();
-    Session.set("showingComments" + this._id, "false")
+    Template.instance().showingComments.set(this._id, "false")
   }
 
   },
@@ -249,7 +252,10 @@ Template.feature.events({
 });
 
 Template.features.onCreated(function(){
-  Session.set('showflagged', false);
+  this.showflagged = new ReactiveVar(false)
+  this.addingnewfeature = new ReactiveVar(false)
+  this.lastId = new ReactiveVar('')
+
   this.autorun(() => {
     this.subscribe('features', FlowRouter.getParam("_id"));
   });
@@ -294,12 +300,12 @@ Template.discussion.helpers({
 
 Template.features.events({
   'click .showFlagged': function() {
-    if(Session.get('showflagged') == false) {
-      Session.set('showflagged', true);
+    if(Template.instance().showflagged.get() == false) {
+      Template.instance().showflagged.set(true);
       $('.showFlagged').text("Hide flagged");
       $('.flag').css("color", "#FF6600");
     } else {
-      Session.set('showflagged', false);
+      Template.instance().showflagged.set(false)
       $('.showFlagged').text("Show flagged");
     }
   },
@@ -345,24 +351,24 @@ Template.features.events({
       $('#featureName').val(" ");
       $('#addNewFeature').toggle();
       $('.featuresheading').text("Features");
-      Session.set('addingnewfeature', false);
+      Template.instance().addingnewfeature.set(false);
       sAlert.success("Thanks! That feature has been added!");
     }
   },
   'click .showAddNewFeature': function() {
     $('#addNewFeature').toggle();
-    if(!Session.get('addingnewfeature')) {
+    if(!Template.instance().addingnewfeature.get()) {
       $('.featuresheading').text("Add a new feature");
-      Session.set('addingnewfeature', true);
+      Template.instance().addingnewfeature.set(true);
     } else {
       $('.featuresheading').text("Features");
-      Session.set('addingnewfeature', false);
+      Template.instance().addingnewfeature.set(false);
     }
   },
   'click #name': function () {
-    if(Session.get('lastId')){document.getElementById(Session.get('lastId')).style.display = "none";}
+    if(Template.instance().lastId.get()){document.getElementById(Template.instance().lastId.get()).style.display = "none";}
     document.getElementById(this._id).style.display = "block";
-    Session.set('lastId', this._id);
+    Template.instance().lastId.set(this._id);
 
 
   }
