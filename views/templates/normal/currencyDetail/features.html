@@ -111,11 +111,11 @@
   </div>
 
     <div class="row commentThread">
-    {{#if $.Session.equals 'showflagged' false}}
+    {{#unless reactiveVar 'showflagged'}}
       {{#each features}}<div class="col-lg-6">{{> feature}}</div>{{/each}}
-    {{/if}}
+    {{/unless}}
 
-    {{#if $.Session.equals 'showflagged' true}}
+    {{#if reactiveVar 'showflagged'}}
       {{#each flaggedfeatures}}<div class="col-lg-6">{{> feature}}</div>{{/each}}
     {{/if}}
   </div>

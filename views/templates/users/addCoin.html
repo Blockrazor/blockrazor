@@ -24,17 +24,17 @@
       <li class="list-group-item bg-info">
         <b>Coin Basics</b><br />
         <input type="text" id="currencyName" name="currencyName" placeholder="Currency Name" style="width: 100%">
-        {{$.Session.get 'currencyNameMessage'}}
-         {{ #if $.Session.equals 'currencyName' true }}{{> currencyName}}{{/if}}
+        {{reactiveVar 'currencyNameMessage'}}
+         {{ #if reactiveVar 'currencyName'}}{{> currencyName}}{{/if}}
         <input type="text" id="currencySymbol" name="currencySymbol" placeholder="SYMBOL" style="width: 100%">
-        {{ #if $.Session.equals 'currencySymbol' true }}{{> currencSymbol}}{{/if}}
+        {{ #if reactiveVar 'currencySymbol'}}{{> currencSymbol}}{{/if}}
 
-{{ #if $.Session.equals 'isICO' true }}
+{{ #if reactiveVar 'isICO'}}
 
 Completed ICO funding
 <input type="number" min="0" name="ICOcoinsProduced" id="ICOcoinsProduced" placeholder="Coins allocated" style="width: 100%">
 <input type="number" min="0" name="ICOfundsRaised" id="ICOfundsRaised" placeholder="Funds raised in total" style="width: 100%">
-{{ #if $.Session.equals 'ICOfundsRaised' true }}{{> ICOfundsRaised}}{{/if}}
+{{ #if reactiveVar 'ICOfundsRaised'}}{{> ICOfundsRaised}}{{/if}}
 Currency: <select class="form-control icocurrency" id="icocurrency" name="icocurrency" style="width: 80px;">
   <option disabled selected>----</option>
   <option>USD</option>
@@ -42,7 +42,7 @@ Currency: <select class="form-control icocurrency" id="icocurrency" name="icocur
   <option>ETH</option>
   <option>ETC</option>
 </select>
-{{ #if $.Session.equals 'coinExists' false }}
+{{ #unless reactiveVar 'coinExists'}}
 Planned rounds (total)
 <input type="number" min="0" name="ICOcoinsIntended" id="ICOcoinsIntended" placeholder="Coins to be allocated" style="width: 100%">
 Start time (GMT)
@@ -54,40 +54,40 @@ Start time (GMT)
   <input type="number" min="0" max="59" name="ICOminute" placeholder="MM" id="icodate" style="width: 60px">
   <input type="number" min="0" max="59" name="ICOsecond" placeholder="SS" id="icodate" style="width: 60px">
 </div>
-{{ /if }}
+{{ /unless }}
 
 
 
 {{ /if }}
 
 
-{{ #if $.Session.equals 'btcfork' false }}
-{{ #if $.Session.equals 'coinExists' true }}Genesis Block Date{{ /if }}
-{{ #if $.Session.equals 'coinExists' false }}Genesis Block ETA{{ /if }}
+{{ #unless reactiveVar 'btcfork'}}
+{{ #if reactiveVar 'coinExists'}}Genesis Block Date{{ /if }}
+{{ #unless reactiveVar 'coinExists'}}Genesis Block ETA{{ /unless }}
   <div class="float-right" style="width:100%; display:flex;">
     <input type="number" min="2008" max="2020" name="genesisYear" placeholder="YYYY" id="genesis" style="width:80px">
     <input type="number" min="1" max="12" name="genesisMonth" placeholder="MM" id="genesis" style="width: 60px">
     <input type="number" min="1" max="31" name="genesisDay" placeholder="DD" id="genesis" style="width: 60px">
   </div>
-{{ #if $.Session.equals 'coinExists' true }}{{ #if $.Session.equals 'genesis' true }}{{> genesisTimestamp}}{{/if}}{{/if}}
-{{ #if $.Session.equals 'coinExists' false }}{{ #if $.Session.equals 'genesis' true }}{{> intendedLaunch}}{{/if}}{{/if}}
-{{ /if }}
+{{ #if reactiveVar 'coinExists' }}{{ #if reactiveVar 'genesis' }}{{> genesisTimestamp}}{{/if}}{{/if}}
+{{ #unless reactiveVar 'coinExists' }}{{ #if reactiveVar 'genesis' }}{{> intendedLaunch}}{{/if}}{{/unless}}
+{{ /unless }}
 
-{{ #if $.Session.equals 'btcfork' true }}
+{{ #if reactiveVar 'btcfork' }}
 <select class="form-control forkParent" id="forkParent" name="forkParent">
   <option disabled selected>--Select Fork Parent--</option>
   <option>Bitcoin</option>
   <option>Bitcoin Cash</option>
 </select>
-  {{ #if $.Session.equals 'forkParent' true }}{{> forkParent}}{{/if}}
+  {{ #if reactiveVar 'forkParent' }}{{> forkParent}}{{/if}}
   <input type="number" min="478500" max="600000" name="forkHeight" id="forkHeight" style="width: 100%;" placeholder="Fork Height">
-  {{ #if $.Session.equals 'forkHeight' true }}{{> forkHeight}}{{/if}}
+  {{ #if reactiveVar 'forkHeight' }}{{> forkHeight}}{{/if}}
 {{ /if }}
 
   <input type="number" min="0" name="premine" id="premine" placeholder="Premine amount" style="width: 100%">
-  {{ #if $.Session.equals 'premine' true }}{{> premine}}{{/if}}
+  {{ #if reactiveVar 'premine' }}{{> premine}}{{/if}}
   <input type="number" name="maxCoins" id="maxCoins" placeholder="Maximum Coins" style="width: 100%">
-  {{ #if $.Session.equals 'maxCoins' true }}{{> maxCoins}}{{/if}}
+  {{ #if reactiveVar 'maxCoins' }}{{> maxCoins}}{{/if}}
 </li></ul>
 
   <div class="float-right">
@@ -101,7 +101,7 @@ Start time (GMT)
       {{ /each }}
     </select>
   </div>
-  {{#if $.Session.equals 'POWSelect' true}}
+  {{#if reactiveVar 'POWSelect'}}
  <div class="form-group">
     <select class="form-control" id="exampleFormControlSelect1" name="hashAlgorithm">
       <option disabled selected>--Select One--</option>
@@ -111,7 +111,7 @@ Start time (GMT)
     </select>
   </div>
   {{/if}}
-  {{ #if $.Session.equals 'btcfork' true }}
+  {{ #if reactiveVar 'btcfork' }}
   Does this fork have two-way replay protection?
   <label class="radio-inline"><input type="radio" name="replayProtection" value="true" id="replaytrue"> Yes</label>&nbsp;&nbsp;&nbsp;
   <label class="radio-inline"><input type="radio" name="replayProtection" value="false" id="replayfalse"> No</label>
@@ -129,11 +129,11 @@ Start time (GMT)
   <li class="list-group-item bg-success">
     <b>Community</b><br />
     <textarea class="form-control" id="gitRepo" rows="2" placeholder="Github repository for main node software" name="gitRepo"></textarea>
-    {{ #if $.Session.equals 'gitRepo' true }}{{> gitRepo}}{{/if}}
+    {{ #if reactiveVar 'gitRepo' }}{{> gitRepo}}{{/if}}
     <textarea class="form-control" id="officialSite" rows="2" placeholder="Official website" name="officialSite"></textarea>
-    {{ #if $.Session.equals 'officialSite' true }}{{> officialSite}}{{/if}}
+    {{ #if reactiveVar 'officialSite' }}{{> officialSite}}{{/if}}
     <textarea class="form-control" id="reddit" rows="2" placeholder="Reddit" name="reddit"></textarea>
-    {{ #if $.Session.equals 'reddit' true }}{{> reddit}}{{/if}}
+    {{ #if reactiveVar 'reddit' }}{{> reddit}}{{/if}}
     <textarea class="form-control" id="blockExplorer" rows="2" placeholder="Block Explorer" name="blockExplorer"></textarea>
   </li>
   </ul>
@@ -145,32 +145,32 @@ Start time (GMT)
   <li class="list-group-item bg-primary">
     <b>Features</b><br />
     <textarea class="form-control" id="featureTags" rows="4" placeholder="Feature tags separated with commas (,). Look to the right for examples =>" name="featureTags"></textarea>
-    {{ #if $.Session.equals 'featureTags' true }}{{> featureTags}}{{/if}}
-  {{#if $.Session.equals 'coinExists' true}}
+    {{ #if reactiveVar 'featureTags' }}{{> featureTags}}{{/if}}
+  {{#if reactiveVar 'coinExists'}}
     Block time: <input type="text" id="blockTime" name="blockTime" placeholder="" style="width:60px;"> (seconds) <br />
-    {{ #if $.Session.equals 'blockTime' true }}{{> blockTime}}{{/if}}
+    {{ #if reactiveVar 'blockTime' }}{{> blockTime}}{{/if}}
     Confirmations: <input type="text" id="confirmations" name="confirmations" placeholder="" style="width: 40px;">
-    {{ #if $.Session.equals 'confirmations' true }}{{> confirmations}}{{/if}}
+    {{ #if reactiveVar 'confirmations' }}{{> confirmations}}{{/if}}
   {{/if}}
   </li>
   </ul>
   </div>
 </div>
 
-{{#if $.Session.equals 'coinExists' true}}
+{{#if reactiveVar 'coinExists'}}
 <div class="row">
-{{ #if $.Session.equals 'btcfork' false }}
+{{ #unless reactiveVar 'btcfork' }}
   <div class="float-left">
   &nbsp;
   <ul class="list-group" style="width: 260px;margin-right:10px;margin-left:10px;">
   <li class="list-group-item bg-info">
     <b>History</b><br />
     <textarea class="form-control" id="previousNames" rows="2" placeholder="Previous names separated with commas (,)" name="previousNames"></textarea>
-    {{ #if $.Session.equals 'previousNames' true }}{{> previousNames}}{{/if}}
+    {{ #if reactiveVar 'previousNames' }}{{> previousNames}}{{/if}}
   </li>
   </ul>
   </div>
-{{/if}}
+{{/unless}}
 
   <div class="float-right">
   &nbsp;
@@ -178,7 +178,7 @@ Start time (GMT)
   <li class="list-group-item bg-warning">
     <b>Exchanges</b><br />
     <textarea class="form-control" id="exchanges" rows="4" placeholder="Exchanges separated with commas (,). Look to the right for examples =>" name="exchanges"></textarea>
-    {{ #if $.Session.equals 'exchanges' true }}{{> exchanges}}{{/if}}
+    {{ #if reactiveVar 'exchanges' }}{{> exchanges}}{{/if}}
   </li>
   </ul>
   </div>

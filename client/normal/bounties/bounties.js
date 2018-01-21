@@ -5,13 +5,17 @@ import { Bounties, BountyTypes, REWARDCOEFFICIENT } from '../../../lib/database/
 Template.bounties.onCreated(function(){
   this.autorun(() => {
     this.subscribe('bounties');
-  });
-});
+  })
+
+  this.bountyType = new ReactiveVar('')
+  this.now = new ReactiveVar(null)
+  this.workingBounty = new ReactiveVar('')
+})
 
 Template.bounties.onRendered(function(){
-  Session.set('workingBounty', false);
-  Meteor.setInterval(function() {
-      Session.set('now', Date.now());
+  this.workingBounty.set(false)
+  Meteor.setInterval(() => {
+      this.now.set(Date.now());
   }, 10);
 });
 
@@ -46,20 +50,22 @@ Template.bountyRender.helpers({
     } else { return "btn-outline-secondary";}
   },
   reward: function () {
-    return ((Session.get('now') - this.creationTime) / REWARDCOEFFICIENT).toFixed(6);
+    return ((Template.instance().view.parentView.parentView.parentView.templateInstance().now.get() - this.creationTime) / REWARDCOEFFICIENT).toFixed(6);
+    // if you use this for cross-template communication, please note that you need to update this if template hierarchy changes
+    // it could be replaced with a while loop, but this is more suitable as this is the only place where it's used
   }
 });
 
 Template.bountyRender.events({
   'click .start': function () {
     if(Cookies.get('workingBounty') != "true") {
-      Session.set('workingBounty', true);
+      Template.instance().view.parentView.templateInstance().workingBounty.set(true);
       Cookies.set('workingBounty', true, { expires: 1 });
       Cookies.set('expiresAt', Date.now() + 3600000, { expires: 1 }); //
       //Session.set('bountyItem', this._id);
       Cookies.set('bountyItem', this._id, { expires: 1});
       Cookies.set('bountyType', this.bountyType, { expires: 1});
-      Session.set('bountyType', this.bountyType);
+      Template.instance().view.parentView.templateInstance().bountyType.set(this.bountyType);
       Meteor.call('startBounty', this._id);
       FlowRouter.go("/bounties/" + this._id);
     } else if (Cookies.get('workingBounty') == "true") {
@@ -79,9 +85,9 @@ Template.bountyRender.events({
 })
 
 Template.activeBounty.onRendered(function(){
-  Session.set('bountyType', Cookies.get('bountyType'));
-  Meteor.setInterval(function() {
-      Session.set('now', Date.now());
+  this.bountyType.set(Cookies.get('bountyType'))
+  Meteor.setInterval(() => {
+      this.now.set(Date.now())
   }, 1000);
   Meteor.setInterval(function() {
       if(Date.now() >= Cookies.get('expiresAt')) {
@@ -101,7 +107,7 @@ Template.activeBounty.helpers({
 
     return "Time remaining: " + Math.round((Bounties.findOne({
       _id: Cookies.get('bountyItem')
-    }).expiresAt - Session.get('now'))/1000/60) + " minutes.";
+    }).expiresAt - Template.instance().view.parentView.templateInstance().now.get())/1000/60) + " minutes.";
   }
 });
 Template.activeBounty.events({
