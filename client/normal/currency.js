@@ -112,7 +112,7 @@ var datanums = [6,7,2,2,7,wallet,1,3];
 
 Template.currency.events({
   'click #dash': function() {
-    var route = "/currency/" + this._id;
+    var route = "/currency/" + this.slug;
     FlowRouter.go(route);
   }
 });
