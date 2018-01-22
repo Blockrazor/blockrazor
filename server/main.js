@@ -40,12 +40,22 @@ Accounts.onLogin(function(user){
   }
 });
 
+ServiceConfiguration.configurations.upsert({
+   service: "github"
+}, {
+    $set: {
+        loginStyle: "popup",
+        clientId:  "clientId",
+        secret:  "secret"
+    }
+});
+
 Accounts.onCreateUser(( options, user ) => {
-    // If a username is set in the user's profile field, then copy it in user.username
-    if  ( user.services && user.services.facebook && user.services.facebook.name ) {
-        user.username = user.services.facebook.name;
+    if  ( user.services && user.services.github && user.services.github.name ) {
+        user.username = user.services.github.name;
     }
 
+    
   var message = 'user created';
   var data = {'user': user}
   log.info(message, data,user._id);
