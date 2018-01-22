@@ -35,8 +35,10 @@ Template.currencyChoice.onRendered(function () {
 Template.ratings.onRendered(function(){
   this.autorun(function(){
     if (Template.instance().subscriptionsReady()){
-      var count = Ratings.find({}).count();
-      
+      var count = Ratings.find({
+        answered: false
+      }).count();
+
       if (!count) {
         $("#outstandingRatings").hide();
         $("#currencyChoices").show();
@@ -61,7 +63,9 @@ Template.ratings.helpers({
   populateUI() {
   },
   outstandingRatings() {
-    var count = Ratings.find({}).count();
+    var count = Ratings.find({
+      answered: false
+    }).count();
     if (!count) {
       $("#outstandingRatings").hide();
       $("#currencyChoices").show();
@@ -74,10 +78,29 @@ Template.currencyChoices.helpers({
   md5() {
     return CryptoJS.MD5('Message').toString();
   },
+  alreadyAdded: () => {
+    /*let dups = {}
+    let alreadyAdded = WalletImages.find({createdBy: Meteor.userId()}).fetch().map(i => i.currencyId)
+    alreadyAdded.forEach(i => dups[i] = dups[i] ? dups[i] + 1 : 1)
+    alreadyAdded = alreadyAdded.filter(i => dups[i] === 3)*/
+    let alreadyAdded = _.uniq(_.flatten(Ratings.find({owner: Meteor.userId()}).fetch().map(i => [i.currency0Id,i.currency1Id]))) // this is a simpler solution than the one above because we're already subscribed to ratings
+
+    return Currencies.find({
+      _id: {
+        $in: alreadyAdded
+      }
+    });
+  },
   currencies() {
-        return Currencies.find({});
-      }//}
-});
+    let alreadyAdded = _.uniq(_.flatten(Ratings.find({owner: Meteor.userId()}).fetch().map(i => [i.currency0Id,i.currency1Id])))
+
+    return Currencies.find({
+      _id: {
+        $nin: alreadyAdded
+      }
+    });
+  }
+})
 
 Template.currencyChoices.events({
   'click #populateRatings': function(){
@@ -85,7 +108,13 @@ Template.currencyChoices.events({
       if(error){
         console.log(error.reason);
       } else {
-        window.location.reload();
+        // there's no need to reload the page, everything is reactive now
+        // window.location.reload();
+        if (!Ratings.findOne({
+          answered: false
+        })) {
+          sAlert.error('Please uplaod some wallet images to continue.')
+        }
       }
     })
   }
@@ -93,7 +122,9 @@ Template.currencyChoices.events({
 
 Template.displayRatings.helpers({
   questions(){
-    return Ratings.findOne({});
+    return Ratings.findOne({
+      answered: false
+    });
   }
 });
 
