@@ -6,12 +6,12 @@ Template.currencyDetail.onCreated(function bodyOnCreated() {
   var self = this
   self.autorun(function(){
     // Gets the _id of the current currency and only subscribes to that particular currency
-    self.subscribe('approvedcurrency', FlowRouter.getParam('_id'))
+    self.subscribe('approvedcurrency', FlowRouter.getParam('slug'))
   })
 });
 
 Template.currencyDetail.onRendered(function (){
-  testvar = Currencies.findOne({_id: FlowRouter.getParam("_id")}).currencyName;
+  testvar = Currencies.findOne({slug: FlowRouter.getParam("slug")}).currencyName;
     var ctx = document.getElementById("distribution").getContext('2d');
   ctx.canvas.width = 200;
   ctx.canvas.height = 260;
@@ -113,10 +113,10 @@ Template.currencyDetail.events({});
 
 Template.currencyDetail.helpers({
   thiscurrency () {
-    return Currencies.findOne({_id: FlowRouter.getParam("_id")});
+    return Currencies.findOne({slug: FlowRouter.getParam("slug")});
   },
   currencyName () {
-    return Currencies.findOne({_id: FlowRouter.getParam("_id")}).currencyName;
+    return Currencies.findOne({slug: FlowRouter.getParam("slug")}).currencyName;
   },
 
 

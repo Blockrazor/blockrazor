@@ -144,8 +144,8 @@ Template.fundamentalMetrics.events({
 Template.fundamentalMetrics.helpers({
   // get all currencies available for comparasion (excluding the current currency)
   currencies: () => Currencies.find({
-    _id: {
-      $not: FlowRouter.getParam('_id')
+    slug: {
+      $not: FlowRouter.getParam('slug')
     }
   }),
   // get all currencies currently on the list
@@ -337,8 +337,12 @@ Template.features.onCreated(function(){
   this.lastId = new ReactiveVar('')
 
   this.autorun(() => {
-    this.subscribe('features', FlowRouter.getParam("_id"));
-  });
+    this.currencyId = (Currencies.findOne({ slug: FlowRouter.getParam("slug") }) || {})._id
+
+    if (this.currencyId) {
+      this.subscribe('features', this.currencyId)
+    }
+  })
 });
 
 Template.features.helpers({
@@ -346,10 +350,10 @@ Template.features.helpers({
     return this.featureTag; //find metricTag data from collection
   },
   features: function() {
-    return Features.find({currencyId: FlowRouter.getParam("_id"), flagRatio: {$lt: 0.6}}, {sort: {rating: -1, appealNumber: -1}});
+    return Features.find({currencyId: Template.instance().currencyId, flagRatio: {$lt: 0.6}}, {sort: {rating: -1, appealNumber: -1}});
   },
   flaggedfeatures: function() {
-    return Features.find({currencyId: FlowRouter.getParam("_id"), flagRatio: {$gt: 0.6}});
+    return Features.find({currencyId: Template.instance().currencyId, flagRatio: {$gt: 0.6}});
   }
 });
 
@@ -473,13 +477,17 @@ Template.comment.events({
 
 Template.walletimages.onCreated(function(){
   this.autorun(() => {
-    this.subscribe('walletimages', FlowRouter.getParam("_id"));
+    this.currencyId = (Currencies.findOne({ slug: FlowRouter.getParam("slug") }) || {})._id
+
+    if (this.currencyId) {
+      this.subscribe('walletimages', this.currencyId)
+    }
   });
 });
 
 Template.walletimages.helpers({
   walletimages: function () {
-    return WalletImages.find({currencyId: FlowRouter.getParam("_id")});
+    return WalletImages.find({currencyId: Template.instance().currencyId});
   },
   walletimagesdir(){
     return _walletUpoadDirectoryPublic;
