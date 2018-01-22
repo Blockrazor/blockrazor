@@ -13,3 +13,8 @@ Template.registerHelper('reactiveVar.equals', (name, val) => Template.instance()
 Template.registerHelper( 'session', ( name ) => {
   return Session.get(name);
 })
+
+//get public coin image location
+Template.registerHelper( '_coinUpoadDirectory', ( string ) => {
+  return _coinUpoadDirectory;
+});
