@@ -22,10 +22,14 @@ Template.question.onCreated(function bodyOnCreated() {
   self.autorun(function(){
     self.subscribe('approvedcurrencies');
   })
-});
+})
+
+Template.currencyChoices.onCreated(function() {
+  this.name = new ReactiveVar('')
+  this.symbol = new ReactiveVar('')
+})
 
 Template.currencyChoice.onRendered(function () {
-  console.log(this.data._id);
   var instance = this;
   $("#toggle" + instance.data._id).click(function(){
     $("#upload" + instance.data._id).toggle()
@@ -89,20 +93,27 @@ Template.currencyChoices.helpers({
       _id: {
         $in: alreadyAdded
       }
-    });
+    })
   },
-  currencies() {
+  currencies: () => {
     let alreadyAdded = _.uniq(_.flatten(Ratings.find({owner: Meteor.userId()}).fetch().map(i => [i.currency0Id,i.currency1Id])))
 
     return Currencies.find({
       _id: {
         $nin: alreadyAdded
-      }
-    });
+      },
+      currencyName: new RegExp(Template.instance().name.get(), 'ig'),
+      currencySymbol: new RegExp(Template.instance().symbol.get(), 'ig')
+    })
   }
 })
 
 Template.currencyChoices.events({
+  'keyup #js-name, keyup #js-symbol': (event, templateInstance) => {
+    event.preventDefault()
+
+    templateInstance[$(event.currentTarget).context.id.substring(3)].set($(event.currentTarget).val())
+  },
   'click #populateRatings': function(){
     Meteor.call('populateRatings', function(error,result){
       if(error){
