@@ -1,14 +1,25 @@
 import { Template } from 'meteor/templating';
 import { Features } from '../../../lib/database/Features.js';
 import { WalletImages } from '../../../lib/database/Images.js';
-import { Currencies } from '../../../lib/database/Currencies.js';
+import { Currencies } from '../../../lib/database/Currencies.js'
+import { GraphData } from '../../../lib/database/GraphData.js'
+
+Template.fundamentalMetrics.onCreated(function() {
+  this.autorun(() => {
+    this.subscribe('graphdata')
+    this.subscribe('approvedcurrencies')
+  })
+
+  this.compared = new ReactiveVar([])
+  this.colors = new ReactiveDict()
+})
 
 Template.fundamentalMetrics.onRendered(function (){
   this.lastId = new ReactiveVar('')
   var radar = document.getElementById("radar").getContext('2d')
   radar.canvas.width = 800;
   radar.canvas.height = 600;
-    var radarchart = new Chart(radar, {
+    this.radarchart = new Chart(radar, {
         type: 'radar',
         data: {
           labels: ["Ongoing Development", "Code Quality", "Community", "Hash Power", "Settlement Speed", "Ease of Use", "Coin Distribution", "Transactions"],
@@ -76,12 +87,80 @@ Template.fundamentalMetrics.events({
     if(Template.instance().lastId.get()){document.getElementById(Template.instance().lastId.get()).style.display = "none";}
     document.getElementById(this._id).style.display = "block";
     Template.instance().lastId.set(this._id);
+  },
+  'change #js-compare': (event, templateInstance) => {
+    event.preventDefault()
 
+    cmpArr = templateInstance.compared.get()
 
+    // don't add a new currency if it's already on the graph
+    if ($(event.currentTarget).val() && !~cmpArr.indexOf($(event.currentTarget).val())) {
+      cmpArr.push($(event.currentTarget).val())
+      templateInstance.compared.set(cmpArr)
+
+      // a way to randomly generate a color
+      let color = '#'+(Math.random()*0xFFFFFF<<0).toString(16)
+      let rgb = parseInt(color.substring(1), 16)
+
+      templateInstance.colors.set($(event.currentTarget).val(), color)
+
+      let wallet = Currencies.findOne({
+        _id: $(event.currentTarget).val()
+      }).walletRanking / GraphData.findOne({
+        _id: 'elodata'
+      }).walletMaxElo * 10
+
+      let nums = Array.from({ length: 8 }).map(i => Math.round(Math.random() * 10)) // this data is stubed and randomized and should be replaced with real data when available
+      nums[5] = wallet
+
+      // push the new data to the chart
+      templateInstance.radarchart.data.datasets.push({
+        label: $(event.currentTarget).val(),
+        fill: true,
+        backgroundColor: `rgba(${(rgb >> 16) & 255}, ${(rgb >> 8) & 255}, ${rgb & 255}, 0.2)`, // a way to convert color from hex to rgb
+        borderColor: color,
+        pointBorderColor: '#fff',
+        pointStyle: 'dot',
+        pointBackgroundColor: color,
+        data: nums
+      })
+
+      // update the chart to reflect new data
+      templateInstance.radarchart.update()
+    }
+  },
+  'click .js-delete': function(event, templateInstance) {
+    event.preventDefault()
+
+    cmpArr = cmpArr.filter(i => i !== this._id)
+    templateInstance.compared.set(cmpArr)
+
+    // remove data from the chart and update it accordingly
+    templateInstance.radarchart.data.datasets = templateInstance.radarchart.data.datasets.filter(i => i.label !== this._id)
+    templateInstance.radarchart.update()
   }
 });
 
 Template.fundamentalMetrics.helpers({
+  // get all currencies available for comparasion (excluding the current currency)
+  currencies: () => Currencies.find({
+    slug: {
+      $not: FlowRouter.getParam('slug')
+    }
+  }),
+  // get all currencies currently on the list
+  comparedCurrencies: () => {
+    let cur = Currencies.find({
+      _id: {
+        $in: Template.instance().compared.get()
+      }
+    }).fetch()
+
+    // add the color field
+    cur.forEach(i => i.color = Template.instance().colors.get(i._id))
+
+    return cur
+  },
   metricDescription: function () {
     return this.metricTag; //find metricTag data from collection
   },

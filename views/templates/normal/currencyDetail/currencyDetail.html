@@ -27,6 +27,18 @@
   <div class="currencyDetailBox">
   <h5 class="text-center currencyDetailHeading">Fundamental Metrics</h5>
   <div style="width:100%"><canvas class="mx-auto" id="radar"></canvas></div>
+  <h5>Compare with:
+  <select id="js-compare">
+    <option value="">-</option>
+    {{#each currencies}}
+    <option value="{{_id}}">{{currencyName}}</option>
+    {{/each}}
+  </select></h5>
+  <div id="js-comparing" style="height: 25px;">
+    {{#each comparedCurrencies}}
+    <span style="color: {{color}};">{{currencyName}}</span><sup><a href="#" class="js-delete">X</a></sup>
+    {{/each}}
+  </div>
   <div class="row" style="margin-top:10px;">
 <div class="col-lg-3">
   <div class="btn-group-vertical">
