@@ -8,6 +8,9 @@ Template.menu.events({
                 }
             }
         );
+    },
+    'click #js-logout': (event, templateInstance) => {
+        Meteor.logout()
     }
 });
 

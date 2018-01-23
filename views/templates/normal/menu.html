@@ -1,7 +1,11 @@
 
 <template name="menu">
   BLOCKRAZOR<br />
-  {{> loginButtons}}<br/>
+  {{#if currentUser}}
+  {{currentUser.username}} (<a href="#" id="js-logout">Logout</a>)
+  {{else}}
+  <a href="/login">Sign in</a>
+  {{/if}}<br/>
   {{#if currentUser }}
   <a href="/addcoin">Add New Coin</a><br />
   <a href="/mypending">My Pending Coins and Changes</a><br />
