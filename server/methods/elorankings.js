@@ -127,6 +127,16 @@ Meteor.methods({
         //winner (Id)
         var winnerEloId = rating.questionId.toString().substr(rating.questionId.length - 5) + rating.winner.toString().substr(rating.winner.length - 5);
         var loserEloId = rating.questionId.toString().substr(rating.questionId.length - 5) + rating.loser.toString().substr(rating.loser.length - 5);
+
+        let question = RatingsTemplates.findOne({
+          _id: ratings[item].questionId
+        })
+        if (question && question.negative) {
+          let tmp = loserEloId
+          loserEloId = winnerEloId
+          winnerEloId = tmp
+        }
+
          loserRanking = EloRankings.findOne({_id: loserEloId}).ranking;
          winnerRanking = EloRankings.findOne({_id: winnerEloId}).ranking;
         }
