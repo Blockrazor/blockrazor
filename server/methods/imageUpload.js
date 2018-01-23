@@ -65,7 +65,7 @@ Meteor.methods({
     var currencies = _.uniq(currencies);
 
     //fetch the questions that will be asked of the user
-    var ratingTemplates = RatingsTemplates.find({catagory:"wallet"}).fetch();
+    var ratingTemplates = RatingsTemplates.find({catagory: 'wallet'}).fetch();
     var userInt = parseInt("0x" + CryptoJS.MD5(this.userId).toString().slice(0,10), 16);
 
 //Cycle through all possible combinations of currencies that this user has a wallet for
