@@ -31,6 +31,7 @@ Meteor.methods({
       if(winner == "tie") {
         loser = "tie";
       }
+
       Ratings.upsert({_id:ratingId}, {
         $set: {
           answered: true,
@@ -41,7 +42,7 @@ Meteor.methods({
       )
     }
   },
-  'addRatingQuestion': function(question, catagory) {
+  'addRatingQuestion': function(question, catagory, negative) {
     if(!this.userId){throw new Meteor.Error('error', 'please log in')};
     var id = parseInt("0x" + CryptoJS.MD5(question).toString().slice(0,10), 16);
     var id = id.toString();
@@ -50,7 +51,8 @@ Meteor.methods({
       'question': question,
       'catagory': catagory,
       'createdBy': this.userId,
-      'createdAt': new Date().getTime()
+      'createdAt': new Date().getTime(),
+      'negative': !!negative
     });
   },
   //this will populate the ratings database for this user with any new Currencies
