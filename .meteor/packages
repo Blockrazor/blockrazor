@@ -44,3 +44,4 @@ service-configuration
 ostrio:logger
 ostrio:loggermongo
 todda00:friendly-slugs
+cfs:graphicsmagick
