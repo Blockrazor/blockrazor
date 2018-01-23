@@ -46,7 +46,8 @@ var radar = document.getElementById(this.data._id + "-radar").getContext('2d');
 radar.canvas.width = 400;
 radar.canvas.height = 300;
 var wallet = this.data.walletRanking / GraphData.findOne({_id: "elodata"}).walletMaxElo * 10;
-var datanums = [6,7,2,2,7,wallet,1,3];
+var community = (this.data.communityRanking || 400) / GraphData.findOne({_id: "elodata"}).communityMaxElo * 10;
+var datanums = [6,7,community,2,7,wallet,1,3];
   var radarchart = new Chart(radar, {
       type: 'radar',
       data: {

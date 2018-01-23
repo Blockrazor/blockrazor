@@ -2,13 +2,57 @@ import { EloRankings, Ratings, RatingsTemplates } from '../../lib/database/Ratin
 import { Currencies } from '../../lib/database/Currencies.js';
 import { GraphData } from '../../lib/database/GraphData.js'
 
-
 Meteor.methods({
-  'averageEloWallet': function() {
+  averageEloCommunity: () => {
+    let currencies = Currencies.find().fetch()
+    let allRatings = []
+
+    currencies.forEach(i => {
+      let ratings = EloRankings.find({
+        currencyId: i._id,
+        catagory: 'community'
+      }).fetch()
+
+      let ratingArray = []
+      let final = 0
+  
+      ratings.forEach((j, ind) => {
+        ratingArray.push(j.ranking)
+
+        if (parseInt(ind) + 1 === ratings.length) {
+          let sum = _.reduce(ratingArray, (memo, num) => memo + num, 0)
+
+          final = Math.floor(sum / (ratings.length))
+
+          allRatings.push(final)
+
+          Currencies.upsert({
+            _id: i._id
+          }, {
+            $set: {
+              communityRanking: final
+            }
+          })
+        }
+      })
+    })
+    GraphData.upsert({
+      _id: 'elodata'
+    }, {
+      $set: {
+        communityMinElo: _.min(allRatings),
+        communityMaxElo: _.max(allRatings)
+      }
+    })
+  },
+  averageEloWallet: function() {
     var currencies = Currencies.find().fetch();
     var allRatings = [];
     for (c in currencies) {
-      var ratings = EloRankings.find({currencyId: currencies[c]._id}).fetch();
+      var ratings = EloRankings.find({
+        currencyId: currencies[c]._id,
+        catagory: 'wallet'
+      }).fetch();
       var length = ratings.length;
       var ratingArray = [];
       var final = 0;
@@ -70,7 +114,8 @@ Meteor.methods({
       }
     }
 
-    var ratings = Ratings.find({processed: false, answered: true }).fetch();
+    var ratings = Ratings.find({processed: false, answered: true }).fetch()
+
     for (item in ratings) {
       //console.log(ratings[item]._id);
       rating = ratings[item];
