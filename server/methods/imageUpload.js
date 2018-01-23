@@ -137,6 +137,8 @@ Meteor.methods({
         var validFile = _supportedFileTypes.includes(mimetype);
         var fileExtension = mime.extension(mimetype);
         var filename = (_walletUpoadDirectory + md5 + '.' + fileExtension); 
+        var filenameWatermark = (_walletUpoadDirectory + md5 + '_watermark.' + fileExtension); 
+
 
         var insert = false;
 
@@ -168,8 +170,27 @@ Meteor.methods({
         }
         if(insert != md5) {throw new Meteor.Error('Error', 'Something is wrong, please contact help.');}
 
-        fs.writeFile(filename, binaryData, {encoding: 'binary'}, function(error){
+        fs.writeFileSync(filename, binaryData, {encoding: 'binary'}, function(error){
             if(error){console.log(error)};
         });
-      }
+
+//Add watermark to image
+if(gm.isAvailable){
+    gm(filename)
+        .resize(2048, null)
+        .command('composite')
+        .gravity('SouthEast')
+        .out('-geometry', '+1+1')
+        .in(_watermarkLocation)
+        .write(filenameWatermark, function(err, stdout, stderr, command){
+            if (err){
+                console.log("Error applying watermark");
+                console.log(err);
+            }
+        });
+
+    }else{
+      console.log('required gm dependicies are not available')
+    }
+  }
 });
