@@ -1,6 +1,7 @@
 
 import { PendingCurrencies } from '../../lib/database/Currencies.js';
-import { Currencies } from '../../lib/database/Currencies.js';
+import { Currencies } from '../../lib/database/Currencies.js'
+import { log } from '../main'
 
 if (Meteor.isServer) {
 Meteor.methods({
@@ -207,7 +208,9 @@ Meteor.methods({
         }
 
         fs.writeFile(filename, binaryData, {encoding: 'binary'}, function(error){
-            if(error){console.log(error)};
+            if(error){
+              log.error('Error in file upload in uploadCoinImage', error)
+            };
 
 
         });
