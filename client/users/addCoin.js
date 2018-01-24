@@ -202,7 +202,8 @@ if(!uploadError){
 //Send everything to the server for fuckery prevention and database insertion
     Meteor.call('addCoin', insert, function(error, result){
       if(error) {
-        console.log(error)
+        // turn error into user friendly string
+        sAlert.error(`You need to fix the following fields to continue: ${error.error.map(i => i.split(/(?=[A-Z])/).join(' ').toLowerCase()).join(', ')}.`)
       } else {
         FlowRouter.go('/mypending');
       }
