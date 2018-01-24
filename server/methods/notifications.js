@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
-import { ActivityLog } from '../../lib/database/ActivityLog.js';
+import { ActivityLog } from '../../lib/database/ActivityLog.js'
+import { log } from '../main'
 
 Meteor.methods({
     'getNotificationCount': function() {
@@ -26,6 +27,7 @@ Meteor.methods({
             multi: true
         }, function(error) {
             if (error) {
+                log.error('Error in markNotificationsAsRead', error)
                 throw new Meteor.Error(500, error.message);
             }
         });

@@ -3,6 +3,7 @@ import { Currencies } from '../../lib/database/Currencies.js'
 import { Communities } from '../../lib/database/Communities.js'
 import { Ratings } from '../../lib/database/Ratings.js'
 import { RatingsTemplates } from '../../lib/database/Ratings.js'
+import { log } from '../main'
 
 Meteor.methods({
     populateCommunityRatings: function() {
@@ -54,8 +55,7 @@ Meteor.methods({
                             'answered': false
                         })
                     } catch(error) {
-                        console.log(`the combination of ${currencies[i]} and ${currencies[j]} exists!`)
-                        //FIXME log errors
+                        log.error(`The combination of ${currencies[i]} and ${currencies[j]} exists in populateCommunityRatings!`, error)
                     }
                 }
             }

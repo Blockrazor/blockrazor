@@ -1,6 +1,7 @@
 import { Currencies } from '../../lib/database/Currencies.js';
 import { MetaCurrency } from '../serverdb/metacurrency.js';
-import { HTTP } from 'meteor/http';
+import { HTTP } from 'meteor/http'
+import { log } from '../main'
 
 SyncedCron.add({
   name: 'Update from CoinMarketCap',
@@ -49,6 +50,8 @@ Meteor.methods({
          }
          )
 
+       } else {
+        log.error('Error in fetchGitCommits', error)
        }
      })
 },
@@ -98,6 +101,8 @@ var allcurrencies = Currencies.find({}, { sort: { createdAt: -1 }}).fetch();
         //console.log("inside " + allcurrencies[x]._id)
         //console.log(result);
         //console.log("fromdb: " + allcurrencies[i].marketCap)
+      } else {
+        log.error('Error in updateMarketCap', error)
       }
     })
 
