@@ -1,6 +1,7 @@
 import { EloRankings, Ratings, RatingsTemplates } from '../../lib/database/Ratings.js';
 import { Currencies } from '../../lib/database/Currencies.js';
 import { GraphData } from '../../lib/database/GraphData.js'
+import { log } from '../main'
 
 Meteor.methods({
   averageEloCommunity: () => {
@@ -109,7 +110,7 @@ Meteor.methods({
             ranking: 400
             })
         } catch(err) {
-          //console.log(err); //FIXME add to loggig system
+          log.error('Error in tabulateElo.', err)
         }
       }
     }

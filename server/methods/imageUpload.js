@@ -2,7 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import { WalletImages } from '../../lib/database/Images.js';
 import { Currencies } from '../../lib/database/Currencies.js';
 import { Ratings } from '../../lib/database/Ratings.js';
-import { RatingsTemplates } from '../../lib/database/Ratings.js';
+import { RatingsTemplates } from '../../lib/database/Ratings.js'
+import { log } from '../main'
 
 Meteor.methods({
   'flagWalletImage': function(imageId) {
@@ -107,8 +108,7 @@ Meteor.methods({
               'answered': false
             })
           } catch(error) {
-            console.log("the combination of " + currencies[i] + " and " + currencies[j] + " exists!")
-            //FIXME log errors
+            log.error(`the combination of ${currencies[i]} and ${currencies[j]} exists in populateRatings!`, error)
           }
         }
         //create new Ratings item for each question and each currency pair for this userId
@@ -173,7 +173,9 @@ Meteor.methods({
         if(insert != md5) {throw new Meteor.Error('Error', 'Something is wrong, please contact help.');}
 
         fs.writeFileSync(filename, binaryData, {encoding: 'binary'}, function(error){
-            if(error){console.log(error)};
+            if(error){
+              log.error('Error in uploadWalletImage', error)
+            };
         });
 
 //Add watermark to image
@@ -186,13 +188,12 @@ if(gm.isAvailable){
         .in(_watermarkLocation)
         .write(filenameWatermark, function(err, stdout, stderr, command){
             if (err){
-                console.log("Error applying watermark");
-                console.log(err);
+                log.error("Error applying watermark", err)
             }
         });
 
     }else{
-      console.log('required gm dependicies are not available')
+      log.error('required gm dependicies are not available', {})
     }
   }
 });

@@ -5,7 +5,8 @@ import { Logger } from 'meteor/ostrio:logger';
 import { LoggerMongo } from 'meteor/ostrio:loggermongo';
 //import * as jobs from './API_requests/github.js';
 
-log = new Logger();
+// to prevent code duplication and redundancy, we simply export the logger so other files can use it easily
+export var log = new Logger();
 (new LoggerMongo(log, {
   collection: AppLogs
 })).enable();
@@ -35,7 +36,7 @@ Accounts.onLogin(function(user){
       Meteor.call('getUserConnectionInfo',
         (error, result) => {
             if (error) {
-                console.error(error)
+                log.error('Error in getUserConnectionInfo', error)
             } else {
                   //Check if another user has already registed with the same client IP address
                   var ipAddress = result.clientAddress;
@@ -74,7 +75,7 @@ Accounts.onCreateUser(( options, user ) => {
     Meteor.call('getUserConnectionInfo',
         (error, result) => {
             if (error) {
-                console.error(error)
+                log.error('Error in getUserConnectionInfo', error)
             } else {
                   //Check if another user has already registed with the same client IP address
                   var ipAddress = result.clientAddress;
