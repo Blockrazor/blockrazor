@@ -39,7 +39,6 @@ facebook-config-ui
 accounts-github
 github-config-ui
 less
-jquery
 service-configuration
 ostrio:logger
 ostrio:loggermongo
