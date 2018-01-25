@@ -56,6 +56,33 @@ Meteor.methods({
       'negative': !!negative
     });
   },
+  deleteQuestion: (questionId) => {
+    let question = RatingsTemplates.findOne({
+      _id: questionId
+    })
+    // you can only delete a question you've added
+    if (question.createdBy === Meteor.userId()) {
+      RatingsTemplates.remove({
+        _id: questionId
+      })
+    }
+  },
+  toggleContextQuestion: (questionId) => {
+    let question = RatingsTemplates.findOne({
+      _id: questionId
+    })
+
+    // you can only change context of a question you've authored
+    if (question.createdBy === Meteor.userId()) {
+      RatingsTemplates.update({
+        _id: questionId
+      }, {
+        $set: {
+          negative: !question.negative
+        }
+      })
+    }
+  },
   //this will populate the ratings database for this user with any new Currencies
   //they have added, or if an admin has added new questions for their existing currencies.
   'populateRatings': function() {

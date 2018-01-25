@@ -1,6 +1,17 @@
 <template name="questions">
+	{{#each questions}}
+		{{question}} ({{#if negative}}-{{else}}+{{/if}}) ({{catagory}}) {{#if author}}<a href="#" class="js-context">+/-</a> <a href="#" class="js-delete">X</a>{{/if}}<br />
+	{{/each}}
+	<br />
+	<b>* Legend:</b> <i>+/-</i> to change context, <i>X</i> to delete
 <form>
-  <input id="question" size="100">
+  <input id="question" placeholder="Question here" size="100">
+  <select id="js-cat">
+  	<option value="wallet">Wallet</option>
+  	<option value="community">Community</option>
+  	<option value="codebase">Codebase</option>
+  </select>
+  <input type="checkbox" id="js-negative">Negative
   <button type="submit" class="btn btn-primary" id="submit">Add Question</button>
 </form>
 </template>
