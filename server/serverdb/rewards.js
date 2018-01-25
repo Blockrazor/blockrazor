@@ -1,6 +1,6 @@
 //import { Mongo } from 'meteor/mongo';
 //export var Rewards = new Mongo.Collection('rewards');
-import { UserData } from './UserData.js';
+import { UserData } from '../../lib/database/UserData.js';
 import { Wallet } from '../../lib/database/Wallet.js';
 
 var rewards = {
