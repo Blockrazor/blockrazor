@@ -165,8 +165,8 @@ Meteor.methods({
         var mimetype = mime.lookup(fileName);
         var validFile = _supportedFileTypes.includes(mimetype);
         var fileExtension = mime.extension(mimetype);
-        var filename = (_walletUpoadDirectory + md5 + '.' + fileExtension); 
-        var filenameWatermark = (_walletUpoadDirectory + md5 + '_watermark.' + fileExtension); 
+        var filename = (_walletUpoadDirectory + md5 + '.' + fileExtension);
+        var filenameWatermark = (_walletUpoadDirectory + md5 + '_watermark.' + fileExtension);
 
 
         var insert = false;
@@ -215,7 +215,9 @@ if(gm.isAvailable){
         .in(_watermarkLocation)
         .write(filenameWatermark, function(err, stdout, stderr, command){
             if (err){
-                log.error("Error applying watermark", err)
+              console.log(err)
+                //log.error("Error applying watermark", err)
+                //throws error: Meteor code must always run within a Fiber
             }
         });
 
