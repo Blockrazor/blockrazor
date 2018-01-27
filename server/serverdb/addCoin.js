@@ -59,6 +59,7 @@ Meteor.methods({
     checkSanity(data.gitRepo, "gitRepo", "string", 18, 300);
     checkSanity(data.officialSite, "officialSite", "string", 6, 200);
     checkSanity(data.featureTags, "featureTags", "object", 0, 50);
+    checkSanity(data.currencyLogoFilename, "currencyLogoFilename", "string", 1, 300);
 
     //Check the self-populating dropdowns
     if (data.consensusSecurity != "--Select One--") {

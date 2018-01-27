@@ -18,3 +18,12 @@ Template.registerHelper( 'session', ( name ) => {
 Template.registerHelper( '_coinUpoadDirectory', ( string ) => {
   return _coinUpoadDirectory;
 });
+
+Template.registerHelper('doesCoinImageExist', function(img) {
+	console.log(img)
+    if(img){
+    	return _coinUpoadDirectoryPublic + img;
+    }else{
+    	return '/images/noimage.png'
+    }
+});

@@ -168,7 +168,8 @@ if(!uploadError){
     reddit: d.reddit.value ? d.reddit.value : false,
     blockExplorer: d.blockExplorer.value ? d.blockExplorer.value : false,
     featureTags: makeTagArrayFrom(d.featureTags.value),
-    approvalNotes: d.notes.value
+    approvalNotes: d.notes.value,
+    currencyLogoFilename: d.currencyLogoFilename.value,
   };
 
   var addToInsert = function(value, key) {
