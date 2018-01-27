@@ -20,7 +20,6 @@ Template.registerHelper( '_coinUpoadDirectory', ( string ) => {
 });
 
 Template.registerHelper('doesCoinImageExist', function(img) {
-	console.log(img)
     if(img){
     	return _coinUpoadDirectoryPublic + img;
     }else{

@@ -22,7 +22,7 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
 });
 
 Template.returnedCurrencies.onRendered( function () {
-  console.log(Currencies.findOne())
+//  console.log(Currencies.findOne())
 //Meteor.call('updateMarketCap');
 });
 

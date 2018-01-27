@@ -3,13 +3,13 @@ import { GraphData } from '../../lib/database/GraphData.js';
 
 Template.currency.onCreated(function bodyOnCreated(){
   var self = this
+  var currencyData = Template.currentData();
   self.autorun(function(){
-    self.subscribe('graphdata');
-  })
-});
+  var subscription = self.subscribe('graphdata');
 
-Template.currency.onRendered(function (){
-  var ctx = document.getElementById(this.data._id + "distribution").getContext('2d');
+  if (Template.instance().subscriptionsReady()) {
+     
+       var ctx = document.getElementById(currencyData._id + "distribution").getContext('2d');
 ctx.canvas.width = 200;
 ctx.canvas.height = 260;
   var chart = new Chart(ctx, {
@@ -19,9 +19,9 @@ ctx.canvas.height = 260;
 
       // The data for our dataset
       data: {
-          labels: ["Founder(s) share: " + this.data.premine, "Mined coins: " + this.data.circulating, "Not yet mined: " + (this.data.maxCoins - this.data.circulating)],
+          labels: ["Founder(s) share: " + currencyData.premine, "Mined coins: " + currencyData.circulating, "Not yet mined: " + (currencyData.maxCoins - currencyData.circulating)],
           datasets: [{
-              data: [(((this.data.premine / this.data.maxCoins) * 100).toFixed()), ((((this.data.circulating - this.data.premine) / this.data.maxCoins) * 100).toFixed()), ((((this.data.maxCoins - this.data.circulating)/this.data.maxCoins) * 100).toFixed())],
+              data: [(((currencyData.premine / currencyData.maxCoins) * 100).toFixed()), ((((currencyData.circulating - currencyData.premine) / currencyData.maxCoins) * 100).toFixed()), ((((currencyData.maxCoins - currencyData.circulating)/currencyData.maxCoins) * 100).toFixed())],
               backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f"]
           }]
       },
@@ -42,11 +42,11 @@ ctx.canvas.height = 260;
       }
   });
 
-var radar = document.getElementById(this.data._id + "-radar").getContext('2d');
+var radar = document.getElementById(currencyData._id + "-radar").getContext('2d');
 radar.canvas.width = 400;
 radar.canvas.height = 300;
-var wallet = this.data.walletRanking / GraphData.findOne({_id: "elodata"}).walletMaxElo * 10;
-var community = (this.data.communityRanking || 400) / GraphData.findOne({_id: "elodata"}).communityMaxElo * 10;
+var wallet = currencyData.walletRanking / GraphData.findOne({_id: "elodata"}).walletMaxElo * 10;
+var community = (currencyData.communityRanking || 400) / GraphData.findOne({_id: "elodata"}).communityMaxElo * 10;
 var datanums = [6,7,community,2,7,wallet,1,3];
   var radarchart = new Chart(radar, {
       type: 'radar',
@@ -107,7 +107,9 @@ var datanums = [6,7,community,2,7,wallet,1,3];
     }
       }
   });
+  }
 
+  })
 
 });
 
