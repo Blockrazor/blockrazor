@@ -199,11 +199,11 @@ Meteor.methods({
         }
         if(insert != md5) {throw new Meteor.Error('Error', 'Something is wrong, please contact help.');}
 
-        fs.writeFileSync(filename, binaryData, {encoding: 'binary'}, function(error){
+        fs.writeFileSync(filename, binaryData, {encoding: 'binary'}, Meteor.bindEnvironment(function(error){
             if(error){
               log.error('Error in uploadWalletImage', error)
             };
-        });
+        }))
 
 //Add watermark to image
 if(gm.isAvailable){
@@ -213,13 +213,12 @@ if(gm.isAvailable){
         .gravity('SouthEast')
         .out('-geometry', '+1+1')
         .in(_watermarkLocation)
-        .write(filenameWatermark, function(err, stdout, stderr, command){
+        .write(filenameWatermark, Meteor.bindEnvironment(function(err, stdout, stderr, command){
             if (err){
-              console.log(err)
-                //log.error("Error applying watermark", err)
-                //throws error: Meteor code must always run within a Fiber
+              // console.log(err)
+              log.error("Error applying watermark", err)
             }
-        });
+        }))
 
     }else{
       log.error('required gm dependicies are not available', {})

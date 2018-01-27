@@ -208,13 +208,13 @@ Meteor.methods({
             return false;
         }
 
-        fs.writeFile(filename, binaryData, {encoding: 'binary'}, function(error){
+        fs.writeFile(filename, binaryData, {encoding: 'binary'}, Meteor.bindEnvironment(function(error){
             if(error){
               log.error('Error in file upload in uploadCoinImage', error)
             };
 
 
-        });
+        }));
 
 
 
