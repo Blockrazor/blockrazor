@@ -45,6 +45,7 @@ If you're wondering why any of the rules in the C4 are there, take a look at the
 3. Choose _one_ problem to solve. If you aren't solving a problem that's already in the issue tracker you should describe the problem there (and your idea of the solution) first to see if anyone else has something to say about it (maybe someone is already working on a solution, or maybe you're doing somthing wrong).
 
 **If the issue is in the issue tracker, you should comment on the issue to say you're working on the solution so that other people don't work on the same thing.**    
+
 4. Add the Blockrazor repository as an upstream source and pull any changes:    
 ```
 @: git remote add upstream git://github.com/blockrazor/blockrazor //only needs to be done once
@@ -52,7 +53,7 @@ If you're wondering why any of the rules in the C4 are there, take a look at the
 @: git pull upstream master //this grabs any code that has changed, you want to be working on the latest 'version'
 @: git push //update your remote fork with the changes you just pulled from upstream master
 ```
-5. Create a local branch on your machine `git checkout -b branch_name`(it's usually a good idea to call the branch something that describes the problem you are solving).
+5. Create a local branch on your machine `git checkout -b branch_name` (it's usually a good idea to call the branch something that describes the problem you are solving). Never develop on the `master` branch, as the `master` branch is exclusively used to accept incoming changes from `upstream:master`.
 6. Solve the problem in the absolute most simple and fastest possible way with the smallest number of changes humanly possible. Tell other people what you're doing by putting _very clear and descriptive comments in your code every 2-3 lines_.    
 Add your name to the AUTHORS file so that you become a part owner of Blockrazor.    
 7. Commit your changes to your own fork:
