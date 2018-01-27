@@ -16,7 +16,7 @@ Meteor.methods({
 
       let ratingArray = []
       let final = 0
-  
+
       ratings.forEach((j, ind) => {
         ratingArray.push(j.ranking)
 
@@ -110,7 +110,7 @@ Meteor.methods({
             ranking: 400
             })
         } catch(err) {
-          log.error('Error in tabulateElo.', err)
+          //log.error('Error in tabulateElo.', err) //causes fatal error to this method
         }
       }
     }
