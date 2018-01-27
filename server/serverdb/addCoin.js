@@ -199,7 +199,7 @@ Meteor.methods({
         var mimetype = mime.lookup(fileName);
         var validFile = _supportedFileTypes.includes(mimetype);
         var fileExtension = mime.extension(mimetype);
-        var filename = (_coinUpoadDirectory + md5 + '.' + fileExtension); 
+        var filename = (_coinUpoadDirectory + md5 + '.' + fileExtension);
 
         var insert = false;
 
@@ -210,7 +210,8 @@ Meteor.methods({
 
         fs.writeFile(filename, binaryData, {encoding: 'binary'}, Meteor.bindEnvironment(function(error){
             if(error){
-              log.error('Error in file upload in uploadCoinImage', error)
+              //log.error('Error in file upload in uploadCoinImage', error)
+              //Meteor code must always run within a Fiber.
             };
 
 
