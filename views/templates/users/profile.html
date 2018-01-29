@@ -1,0 +1,19 @@
+<template name="viewprofile">
+    <h3>Edit Profile</h3>
+    <form id="editProfile">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" class="form-control" id="email" value="{{user.email}}">
+        </div>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" value="{{user.username}}">
+        </div>
+        <div class="form-group">
+            <label for="bio">Bio</label>
+            <input type="text" class="form-control" id="bio" value="{{user.bio}}">
+
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</template>

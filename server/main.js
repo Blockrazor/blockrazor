@@ -66,9 +66,17 @@ Accounts.onLogin(function(user){
 });
 
 Accounts.onCreateUser(( options, user ) => {
-    // If a username is set in the user's profile field, then copy it in user.username
+  
+    // grab the fb username and email for the Meteor.users() object
     if  ( user.services && user.services.facebook && user.services.facebook.name ) {
         user.username = user.services.facebook.name;
+        user.email = user.services.facebook.email;
+    }
+
+    // grab the github username and email for the Meteor.users() object
+    if  ( user.services && user.services.github && user.services.github.username ) {
+        user.username = user.services.github.username;
+        user.email = user.services.github.email;
     }
 
 //switching to a meteor Method on onCreateUser as this.connection returns null if we don't.
