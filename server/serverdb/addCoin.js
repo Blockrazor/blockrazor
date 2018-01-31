@@ -45,10 +45,18 @@ Meteor.methods({
     var proposal = false;
     var btcfork = false;
     var ico = false;
-    for (i in data.launchTags) {if (data.launchTags[i].tag == "Altcoin") {altcoin = true}};
-    for (i in data.launchTags) {if (data.launchTags[i].tag == "proposal") {proposal = true}};
-    for (i in data.launchTags) {if (data.launchTags[i].tag == "Bitcoin Fork") {btcfork = true}};
-    for (i in data.launchTags) {if (data.launchTags[i].tag == "ICO") {ico = true}};
+
+    for (i in data.launchTags) {
+      if (data.launchTags[i].tag == "Altcoin") {
+        altcoin = true;
+      } else if (data.launchTags[i].tag == "proposal") {
+        proposal = true;
+      } else if (data.launchTags[i].tag == "Bitcoin Fork") {
+        btcfork = true;
+      } else if (data.launchTags[i].tag == "ICO") {
+        ico = true;
+      }
+    }
 
     //compulsory checks
     checkSanity(data.launchTags, "launchTags", "object", 1, 3);
@@ -199,7 +207,7 @@ Meteor.methods({
         var mimetype = mime.lookup(fileName);
         var validFile = _supportedFileTypes.includes(mimetype);
         var fileExtension = mime.extension(mimetype);
-        var filename = (_coinUpoadDirectory + md5 + '.' + fileExtension); 
+        var filename = (_coinUpoadDirectory + md5 + '.' + fileExtension);
 
         var insert = false;
 
