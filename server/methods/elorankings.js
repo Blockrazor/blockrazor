@@ -110,7 +110,7 @@ Meteor.methods({
             ranking: 400
             })
         } catch(err) {
-          //log.error('Error in tabulateElo.', err) //causes fatal error to this method
+          // log.error('Error in tabulateElo.', err)
         }
       }
     }
@@ -123,7 +123,7 @@ Meteor.methods({
       var elo = new Elo();
       var loserRanking = false;
       var winnerRanking = false;
-      if(rating.winner != "tie") {
+      if(rating.winner !== "tie") {
         //questionId
         //winner (Id)
         var winnerEloId = rating.questionId.toString().substr(rating.questionId.length - 5) + rating.winner.toString().substr(rating.winner.length - 5);
@@ -138,18 +138,19 @@ Meteor.methods({
           winnerEloId = tmp
         }
 
-         loserRanking = EloRankings.findOne({_id: loserEloId}).ranking;
-         winnerRanking = EloRankings.findOne({_id: winnerEloId}).ranking;
-        }
+        loserRanking = EloRankings.findOne({_id: loserEloId}).ranking;
+        winnerRanking = EloRankings.findOne({_id: winnerEloId}).ranking;
+        
         console.log(winnerEloId);
         var result = elo.newRatingIfWon(winnerRanking, loserRanking);
         EloRankings.upsert({_id: winnerEloId}, {$set: {
           ranking: result
         }})
-        Ratings.upsert({_id: rating._id}, {$set: {
-          processed: true
-        }})
       }
+      Ratings.upsert({_id: rating._id}, {$set: {
+        processed: true
+      }})
+    }
   }
 })
 
