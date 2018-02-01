@@ -49,11 +49,11 @@ Meteor.methods({
     for (i in data.launchTags) {
       if (data.launchTags[i].tag == "Altcoin") {
         altcoin = true;
-      } else if (data.launchTags[i].tag == "proposal") {
+      } if (data.launchTags[i].tag == "proposal") {
         proposal = true;
-      } else if (data.launchTags[i].tag == "Bitcoin Fork") {
+      } if (data.launchTags[i].tag == "Bitcoin Fork") {
         btcfork = true;
-      } else if (data.launchTags[i].tag == "ICO") {
+      } if (data.launchTags[i].tag == "ICO") {
         ico = true;
       }
     }
