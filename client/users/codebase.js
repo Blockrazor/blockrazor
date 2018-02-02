@@ -60,7 +60,7 @@ Template.codebase.events({
         Meteor.call('tabulateElo', (err, data) => {})
     },
     'click #codebase': (event, templateInstance) => {
-        Meteor.call('averageEloCodebase', (err, data) => {})
+        Meteor.call('averageElo', 'codebase', (err, data) => {})
     },
     'keyup #js-name, keyup #js-symbol': (event, templateInstance) => {
         event.preventDefault()

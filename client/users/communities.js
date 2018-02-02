@@ -31,7 +31,7 @@ Template.communities.events({
         Meteor.call('tabulateElo', (err, data) => {})
     },
     'click #communities': (event, templateInstance) => {
-        Meteor.call('averageEloCommunity', (err, data) => {})
+        Meteor.call('averageElo', 'community', (err, data) => {})
     },
     'keyup #js-name, keyup #js-symbol': (event, templateInstance) => {
         event.preventDefault()
