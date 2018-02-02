@@ -1,3 +1,7 @@
+This is an excerpt from [chapter 6 of _ØMQ - The Guide_](http://zguide.zeromq.org/page:all#The-ZeroMQ-Process-C), which is maintained at [booksbyus/zguide on github](https://github.com/booksbyus/zguide/blob/master/chapter6.txt).
+
+It is licensed under [cc-by-sa 3.0](http://creativecommons.org/licenses/by-sa/3.0/) and was originally written by Pieter Hintjens.
+
 A deeper understanding of the C4
 =================================
 
