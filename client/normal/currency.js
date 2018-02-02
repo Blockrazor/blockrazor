@@ -47,7 +47,8 @@ radar.canvas.width = 400;
 radar.canvas.height = 300;
 var wallet = currencyData.walletRanking / GraphData.findOne({_id: "elodata"}).walletMaxElo * 10;
 var community = (currencyData.communityRanking || 400) / GraphData.findOne({_id: "elodata"}).communityMaxElo * 10;
-var datanums = [6,7,community,2,7,wallet,1,3];
+let codebase = (currencyData.codebaseRanking || 400) / GraphData.findOne({_id: "elodata"}).codebaseMaxElo * 10
+var datanums = [6,codebase,community,2,7,wallet,1,3];
   var radarchart = new Chart(radar, {
       type: 'radar',
       data: {
