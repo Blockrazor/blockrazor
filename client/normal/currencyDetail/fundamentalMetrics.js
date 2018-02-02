@@ -116,9 +116,14 @@ Template.fundamentalMetrics.events({
         _id: 'elodata'
       }).communityMaxElo * 10
 
+      let codebase = (Currencies.findOne({
+        _id: $(event.currentTarget).val()
+      }).codebaseRanking || 400) / GraphData.findOne({_id: "elodata"}).codebaseMaxElo * 10
+
       let nums = Array.from({ length: 8 }).map(i => Math.round(Math.random() * 10)) // this data is stubed and randomized and should be replaced with real data when available
       nums[5] = wallet
       nums[2] = community
+      nums[1] = codebase
 
       // push the new data to the chart
       templateInstance.radarchart.data.datasets.push({
