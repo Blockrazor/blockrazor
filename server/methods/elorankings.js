@@ -3,129 +3,73 @@ import { Currencies } from '../../lib/database/Currencies.js';
 import { GraphData } from '../../lib/database/GraphData.js'
 import { log } from '../main'
 
+SyncedCron.add({
+    name: 'Update graph ELO data',
+    schedule: parser => parser.text('every 10 minutes'),
+    job: () => Meteor.call('updateGraphdata', (err, data) => {})
+})
+
 Meteor.methods({
-  averageEloCommunity: () => {
-    let currencies = Currencies.find().fetch()
-    let allRatings = []
+    updateGraphdata: () => {
+        let currencies = Currencies.find().fetch()
 
-    currencies.forEach(i => {
-      let ratings = EloRankings.find({
-        currencyId: i._id,
-        catagory: 'community'
-      }).fetch()
+        let ratings = []
 
-      let ratingArray = []
-      let final = 0
+        let pos = ['wallet', 'community', 'codebase']
 
-      ratings.forEach((j, ind) => {
-        ratingArray.push(j.ranking)
+        currencies.forEach(i => {
+            pos.forEach(j => {
+                ratings[j] = ratings[j] || []
+                ratings[j].push(i[`${j}Ranking`])       
+            }) 
+        })
 
-        if (parseInt(ind) + 1 === ratings.length) {
-          let sum = _.reduce(ratingArray, (memo, num) => memo + num, 0)
-
-          final = Math.floor(sum / (ratings.length))
-
-          allRatings.push(final)
-
-          Currencies.upsert({
-            _id: i._id
-          }, {
-            $set: {
-              communityRanking: final
-            }
-          })
+        pos.forEach(i => {
+            GraphData.upsert({
+                _id: 'elodata'
+            }, {
+                $set: {
+                    [`${i}MinElo`]: _.min(ratings[i]),
+                    [`${i}MaxElo`]: _.max(ratings[i])
+                }
+            })
+        })
+    },
+    averageElo: (type) => {
+        if (!~['wallet', 'community', 'codebase'].indexOf(type)) {
+            throw new Meteor.Error('Error.', 'Invalid type.')
         }
-      })
-    })
-    GraphData.upsert({
-      _id: 'elodata'
-    }, {
-      $set: {
-        communityMinElo: _.min(allRatings),
-        communityMaxElo: _.max(allRatings)
-      }
-    })
-  },
-  // Ash, when you refactor this, don't forget about this method
-  averageEloCodebase: () => {
-    let currencies = Currencies.find().fetch()
-    let allRatings = []
+        
+        let currencies = Currencies.find({}).fetch()
 
-    currencies.forEach(i => {
-      let ratings = EloRankings.find({
-        currencyId: i._id,
-        catagory: 'codebase'
-      }).fetch()
+        currencies.forEach(i => {
+            let ratings = EloRankings.find({
+                currencyId: i._id,
+                catagory: type
+            }).fetch()
 
-      let ratingArray = []
-      let final = 0
+            let ratingArray = []
+            let final = 0
 
-      ratings.forEach((j, ind) => {
-        ratingArray.push(j.ranking)
+            ratings.forEach((j, ind) => {
+                ratingArray.push(j.ranking)
 
-        if (parseInt(ind) + 1 === ratings.length) {
-          let sum = _.reduce(ratingArray, (memo, num) => memo + num, 0)
+                if (parseInt(ind) + 1 === ratings.length) {
+                    let sum = _.reduce(ratingArray, (memo, num) => memo + num, 0)
 
-          final = Math.floor(sum / (ratings.length))
+                    final = Math.floor(sum / (ratings.length))
 
-          allRatings.push(final)
-
-          Currencies.upsert({
-            _id: i._id
-          }, {
-            $set: {
-              codebaseRanking: final
-            }
-          })
-        }
-      })
-    })
-    GraphData.upsert({
-      _id: 'elodata'
-    }, {
-      $set: {
-        codebaseMinElo: _.min(allRatings),
-        codebaseMaxElo: _.max(allRatings)
-      }
-    })
-  },
-  averageEloWallet: function() {
-    var currencies = Currencies.find().fetch();
-    var allRatings = [];
-    for (c in currencies) {
-      var ratings = EloRankings.find({
-        currencyId: currencies[c]._id,
-        catagory: 'wallet'
-      }).fetch();
-      var length = ratings.length;
-      var ratingArray = [];
-      var final = 0;
-
-      for (r in ratings) {
-        ratingArray.push(ratings[r].ranking);
-        //console.log(parseInt(r) + 1);
-        //console.log(length);
-        //console.log("----------");
-        if(parseInt(r) + 1 == length) {
-          //average the total array
-          var sum = _.reduce(ratingArray, function(memo, num){ return memo + num; }, 0);
-          final = Math.floor(sum / (length));
-          allRatings.push(final);
-          Currencies.upsert({_id: currencies[c]._id}, {$set: {
-            walletRanking: final
-          }})
-        }
-      }
-    }
-    GraphData.upsert({_id: "elodata"}, {$set: {
-      walletMinElo: _.min(allRatings),
-      walletMaxElo: _.max(allRatings)
-    }})
-     //{catagory: "wallet"}
-    //for (w in wallets) {
-      //console.log(wallets[w].currencyName + " " + wallets[w].ranking);
-
-  },
+                    Currencies.upsert({
+                        _id: i._id
+                    }, {
+                        $set: {
+                            [`${type}Ranking`]: final
+                        }
+                    })
+                }
+            })
+        })
+    },
   'tabulateElo': function() {
     //Import Elo ranking logic
     var Elo = require('../libs/elo.js');

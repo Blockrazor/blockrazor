@@ -60,7 +60,7 @@ Template.ratings.events({
       Meteor.call('tabulateElo');
   },
   'click #wallets': function() {
-      Meteor.call('averageEloWallet');
+      Meteor.call('averageElo', 'wallet');
   }
 })
 
