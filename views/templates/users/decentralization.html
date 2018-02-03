@@ -1,0 +1,40 @@
+<template name="decentralization">
+    <div id="outstandingRatings" class="text-center">You still have to answer {{outstandingRatings}} questions.
+    {{#with questions}}
+        <h2><img src="https://raw.githubusercontent.com/reactjs/redux/master/logo/logo.png" width="100px" /> {{currency0Name}}</h2>
+        <h3 style="margin-top:50px;">{{questionText}}?</h3>
+        <div class="row" style="margin-top:50px;">
+            <div class="col-6 text-center choice" id="yes"><br />Yes<br /></div>
+            <div class="col-6 text-center choice" id="no"><br />No<br /></div>
+        </div>
+    {{/with}}
+    </div>
+
+    <div id="currencyChoices" style="display:none;">
+        <b>You have already rated decentralization for the following cryptocurrencies:</b>
+        <div class="row" style="margin-top: 15px;">
+            {{#each alreadyAdded}}
+            <div class="col-sm-4 col-md-4 col-lg-4">
+                <a href="/currency/{{slug}}">{{currencyName}}</a>
+            </div>
+            {{/each}}
+        </div>
+        <br />
+        <b>Please select any currencies that you want to rate and you haven't added previously.</b> <br />
+        If you don't see your currency, you might want to <a href="/addcoin">add it here</a>. <br />
+        <br />
+        <b>Filter available cryptocurrencies:</b>
+        <form id="js-form">
+            Name: <input type="text" id="js-name" style="width: 50%" placeholder="Enter the name of the cryptocurrency" /><br />
+            Symbol: <input type="text" id="js-symbol" style="width: 50%" placeholder="Enter the symbol of the cryptocurrency" />
+        </form>
+        <div class="row" style="margin-top: 15px;">
+        {{#each currencies}}
+            <div class="col-sm-4 col-md-4 col-lg-4">
+                <a href="#" class="toggle">{{currencyName}}</a><span style="display:none;" id="links_{{_id}}">+</span>
+            </div>
+        {{/each}}
+        </div>
+        <button id="populateRatings">Next</button>
+    </div>
+</template>
