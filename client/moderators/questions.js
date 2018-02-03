@@ -3,8 +3,9 @@ import { RatingsTemplates } from '../../lib/database/Ratings'
 Template.questions.events({
   'submit form': (event, templateInstance) => {
     event.preventDefault()
-    Meteor.call('addRatingQuestion', event.target.question.value, $('#js-cat').val(), $('#js-negative').is(':checked'));
+    Meteor.call('addRatingQuestion', event.target.question.value, $('#js-cat').val(), $('#js-negative').is(':checked'), $('#affects').val().split(','), (err, data) => {});
     $('#question').val('')
+    $('#affects').val('')
   },
   'click .js-delete': function(event, templateInstance) {
   	Meteor.call('deleteQuestion', this._id, (err, data) => {})

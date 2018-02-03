@@ -43,18 +43,22 @@ Meteor.methods({
       )
     }
   },
-  'addRatingQuestion': function(question, catagory, negative) {
-    if(!this.userId){throw new Meteor.Error('error', 'please log in')};
-    var id = parseInt("0x" + CryptoJS.MD5(question).toString().slice(0,10), 16);
-    var id = id.toString();
-    RatingsTemplates.insert({
-      _id: id,
-      'question': question,
-      'catagory': catagory,
-      'createdBy': this.userId,
-      'createdAt': new Date().getTime(),
-      'negative': !!negative
-    });
+    addRatingQuestion: (question, catagory, negative, affects) => {
+        if (!Meteor.userId()){
+            throw new Meteor.Error('Error.', 'You need to be logged.')
+        }
+
+        let id = parseInt(`0x${CryptoJS.MD5(question).toString().slice(0,10)}`, 16).toString()
+
+        RatingsTemplates.insert({
+            _id: id,
+            question: question,
+            catagory: catagory,
+            createdBy: Meteor.userId(),
+            createdAt: new Date().getTime(),
+            negative: !!negative,
+            affects: affects
+        })
   },
   deleteQuestion: (questionId) => {
     let question = RatingsTemplates.findOne({

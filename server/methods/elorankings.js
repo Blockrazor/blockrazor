@@ -15,7 +15,7 @@ Meteor.methods({
 
         let ratings = []
 
-        let pos = ['wallet', 'community', 'codebase']
+        let pos = ['wallet', 'community', 'codebase', 'decentralization']
 
         currencies.forEach(i => {
             pos.forEach(j => {
@@ -36,7 +36,7 @@ Meteor.methods({
         })
     },
     averageElo: (type) => {
-        if (!~['wallet', 'community', 'codebase'].indexOf(type)) {
+        if (!~['wallet', 'community', 'codebase', 'decentralization'].indexOf(type)) {
             throw new Meteor.Error('Error.', 'Invalid type.')
         }
         
@@ -110,7 +110,7 @@ Meteor.methods({
       var elo = new Elo();
       var loserRanking = false;
       var winnerRanking = false;
-      if(rating.winner !== "tie") {
+      if(rating.winner && rating.loser && rating.winner !== "tie") {
         //questionId
         //winner (Id)
         var winnerEloId = rating.questionId.toString().substr(rating.questionId.length - 5) + rating.winner.toString().substr(rating.winner.length - 5);
@@ -132,7 +132,25 @@ Meteor.methods({
         var result = elo.newRatingIfWon(winnerRanking, loserRanking);
         EloRankings.upsert({_id: winnerEloId}, {$set: {
           ranking: result
-        }})
+        }});
+
+        (questions.affects || []).forEach(i => {
+            Currencies.update({
+                _id: rating.winner
+            }, {
+                $inc: {
+                    [`${i}Ranking`]: !question.negative ? 2 : -2
+                }
+            })
+
+            Currencies.update({
+                _id: rating.loser
+            }, {
+                $inc: {
+                    [`${i}Ranking`]: question.negative ? 2 : -2
+                }
+            })
+        })
       }
       Ratings.upsert({_id: rating._id}, {$set: {
         processed: true
