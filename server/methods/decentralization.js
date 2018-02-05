@@ -44,7 +44,7 @@ Meteor.methods({
             }
         }
     },
-    answerdecentralizationRanking: function(ratingId, answer) {
+    answerDecentralizationRanking: function(ratingId, answer) {
         let rating = Ratings.findOne({
             _id: ratingId
         })
