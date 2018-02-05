@@ -35,7 +35,7 @@ Template.decentralization.events({
         templateInstance[event.currentTarget.id.substring(3)].set($(event.currentTarget).val())
     },
     'click #populateRatings': (event, templateInstance) => {
-        Meteor.call('populateDecentralizationRatings', templateInstance.selected.get(), (err, result) => {
+        Meteor.call('populateDecentralizationRankings', templateInstance.selected.get(), (err, result) => {
             if (err) {
                 sAlert.error(err.reason)
             } else {
@@ -52,7 +52,7 @@ Template.decentralization.events({
         $('.choice').css('cursor', 'pointer')
     },
     'click .choice': function(event, templateInstance) {
-        Meteor.call('answerDecentralizationRating', this._id, event.currentTarget.id, (err, data) => {})
+        Meteor.call('answerDecentralizationRanking', this._id, event.currentTarget.id, (err, data) => {})
     },
     'click .toggle': function(event, templateInstance) {
         $(`#links_${this._id}`).toggle()
