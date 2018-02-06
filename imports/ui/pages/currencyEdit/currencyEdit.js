@@ -7,8 +7,6 @@ import '../../../api/coins/methods.js';
 import '../../layouts/MainBody.html'
 import './currencyEdit.html';
 
-import moment from 'moment'
-
 Template.registerHelper('isSelected', function(val) {
     return val ? 'selected' : '';
 });
