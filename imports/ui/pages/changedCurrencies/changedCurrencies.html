@@ -1,0 +1,7 @@
+<template name="changedCurrencies">
+  <h3>Proposed Changed</h3>
+
+  {{#each changedCurrencies}}
+  <strong>( {{coinName}} )</strong> - Proposed to change it from {{checkType old}} to {{checkType new}} on the field {{field}} <br />
+  {{/each}}
+</template>

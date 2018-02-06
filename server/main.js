@@ -3,6 +3,9 @@ import {generateBounties, createtypes, fetchHashrate} from '../lib/database/Boun
 import { AppLogs } from '../lib/database/AppLogs.js';
 import { Logger } from 'meteor/ostrio:logger'; 
 import { LoggerMongo } from 'meteor/ostrio:loggermongo';
+
+import '/imports/startup/server';
+
 //import * as jobs from './API_requests/github.js';
 
 // to prevent code duplication and redundancy, we simply export the logger so other files can use it easily
