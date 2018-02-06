@@ -1,4 +1,5 @@
 import { Accounts } from 'meteor/accounts-base';
+import '/imports/startup/client';
 
 
 Accounts.ui.config({
