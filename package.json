@@ -1,6 +1,7 @@
 {
   "name": "blockrazor",
   "private": true,
+  "version": "0.0.1",
   "scripts": {
     "start": "meteor run"
   },
@@ -8,6 +9,7 @@
     "babel-runtime": "^6.26.0",
     "bcrypt": "^1.0.3",
     "core-js": "^2.5.3",
+    "disposable-email": "^0.2.3",
     "later": "^1.2.0",
     "meteor-node-stubs": "~0.2.4",
     "mime-types": "^2.1.17",
