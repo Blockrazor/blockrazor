@@ -1,0 +1,48 @@
+<template name="addHashpower">
+	<h3>Add hash power data</h3>
+	<form id="js-add-haspower">
+		Hardware category: <select id="js-hw-cat">
+			<option value="ASIC">ASIC</option>
+			<option value="GPU">GPU</option>
+			<option value="CPU">CPU</option>
+		</select><br />
+		{{#if hwDevices.length}}
+		Hardware device: <select id="js-hw-dev">
+			{{#each hwDevices}}
+			<option value="{{_id}}">{{name}}</option>
+			{{/each}}
+		</select><br />
+		Your device is not on the list? <a href="#" id="js-add-hw">Add it</a>.<br />
+		<div style="display: {{addHw}}">
+			Device name: <input type="text" id="js-hw-new" />
+		</div>
+		{{else}}
+			Hardware device: <input type="text" id="js-hw-new" /><br />
+		{{/if}}
+		{{#if hwAlgo.length}}
+		Algorithm: <select id="js-algo">
+			{{#each hwAlgo}}
+			<option value="{{_id}}">{{name}}</option>
+			{{/each}}
+		</select><br />
+		Your algorithm is not on the list? <a href="#" id="js-add-algo">Add it</a>.<br />
+		<div style="display: {{addAlgo}}">
+			Algorithm name: <input type="text" id="js-algo-new" />
+		</div>
+		{{else}}
+			Algorithm: <input type="text" id="js-algo-new" /><br />
+		{{/if}}
+		Hash rate: <input type="number" min="0" id="js-hr" /> <select id="js-unit">
+			<option value="H">H/s</option>
+			<option value="kH">kH/s</option>
+			<option value="MH">MH/s</option>
+			<option value="GH">GH/s</option>
+			<option value="TH">TH/s</option>
+			<option value="PH">PH/s</option>
+			<option value="EH">EH/s</option>
+		</select><br />
+		Power consumption: <input type="number" min="0" id="js-pc" /> Watts<br />
+
+		<button type="submit" id="js-add">Add!</button>
+	</form>
+</template>
