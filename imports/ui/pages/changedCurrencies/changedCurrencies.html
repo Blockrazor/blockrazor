@@ -1,7 +1,31 @@
 <template name="changedCurrencies">
-  <h3>Proposed Changed</h3>
-
-  {{#each changedCurrencies}}
-  <strong>( {{coinName}} )</strong> - Proposed to change it from {{checkType old}} to {{checkType new}} on the field {{field}} <br />
-  {{/each}}
+    <h3>Proposed Changed</h3>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Coin Name</th>
+                <th scope="col">Field</th>
+                <th scope="col">From</th>
+                <th scope="col">To</th>
+                <th scope="col">Status</th>
+                <th scope="col">Vote</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each changedCurrencies}}
+            <tr>
+                <td scope="row">{{coinName}} </td>
+                <td>{{field}} </td>
+                <td>{{checkType old}}</td>
+                <td>{{checkType new}}</td>
+                <th scope="col">{{status}}</th>
+                <td>{{totalVotes}}</td>
+                <td>
+                    <button id="currencyVoteBtn" type="button" class="btn btn-default notVoted" style="background-color:black;color:white" {{disableVoting this}}><i class="fa fa-arrow-up"></i></button>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
 </template>
