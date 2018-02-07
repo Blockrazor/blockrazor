@@ -11,7 +11,15 @@ Template.changedCurrencies.onCreated(function bodyOnCreated() {
         self.subscribe('changedCurrencies');
     })
 });
+//Events
+Template.changedCurrencies.events({
+    'click #currencyVoteBtn': function(e) {
 
+        Meteor.call('voteOnCurrencyChange', this)
+    }
+})
+
+//Helpers
 Template.changedCurrencies.helpers({
     changedCurrencies() {
 
@@ -24,10 +32,21 @@ Template.changedCurrencies.helpers({
                 return val;
             } else if (typeof val == "object") {
                 return JSON.stringify(val);
+            } else if (typeof val == "number") {
+                return val;
             }
         } else {
             return 'NULL'
         }
-    }
+    },
+    disableVoting(val) {
 
+        let alreadyVoted = ChangedCurrencies.find({ _id: val._id, 'voteMetrics.userId': Meteor.userId() }).count();
+
+        if (alreadyVoted) {
+            return 'disabled';
+        } else if (val.status == 'merged') {
+            return 'disabled';
+        }
+    }
 });

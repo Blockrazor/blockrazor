@@ -250,7 +250,7 @@ Template.currencyEdit.events({
                 delete insert[newValue];
             } else {
 
-                changed.push({ coin_id: originalCoin_id, coinName: coinName, field: [newValue][0], old: originalValue, new: insert[newValue], changedDate: new Date().getTime() });
+                changed.push({ coin_id: originalCoin_id, coinName: coinName, field: [newValue][0], old: originalValue, new: insert[newValue], changedDate: new Date().getTime(), totalVotes: 0, status: 'pending review' });
 
             }
         }
@@ -263,7 +263,7 @@ Template.currencyEdit.events({
                 console.log(error)
                 // sAlert.error(`You need to fix the following fields to continue: ${error.error.map(i => i.split(/(?=[A-Z])/).join(' ').toLowerCase()).join(', ')}.`)
             } else {
-               FlowRouter.go('/changedCurrencies');
+                FlowRouter.go('/changedCurrencies');
             }
         });
     }
