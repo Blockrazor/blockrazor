@@ -1,0 +1,29 @@
+<template name="allHashpower">
+    <h3>Hash power data</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Hardware category</th>
+                <th scope="col">Hardware device</th>
+                <th scope="col">Algorithm</th>
+                <th scope="col">Hash rate</th>
+                <th scope="col">Power consumption</th>
+                <th scope="col">Delete?</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each hashpower}}
+            <tr>
+                <td>{{hashCategory}}</td>
+                <td>{{hashDevice}}</td>
+                <td>{{hashAlgorithm}}</td>
+                <td>{{hashRate}} {{unit}}/s</td>
+                <td>{{powerConsumption}} W</td>
+                <td>{{totalVotes}}</td>
+                <td>{{#if canDelete}}<a href="#" class="js-delete">X</a>{{else}}-{{/if}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    <a href="/add-hashpower">Add new data</a>
+</template>

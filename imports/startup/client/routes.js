@@ -5,6 +5,8 @@ import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 import '../../ui/layouts/MainBody.html'
 import '../../ui/pages/currencyEdit/currencyEdit.js'
 import '../../ui/pages/changedCurrencies/changedCurrencies.js'
+import '../../ui/pages/hashpower/addHashpower'
+import '../../ui/pages/hashpower/allHashpower'
 
 FlowRouter.route( '/currencyEdit/:slug', {
   action: function( params, queryParams ) {
@@ -22,7 +24,7 @@ FlowRouter.route('/', {
   action() {
     BlazeLayout.render('desktop', { main: 'returnedCurrencies', left: 'menu'});
   },
-});
+})
 
 FlowRouter.route('/ratings', {
   name: 'ratings',
@@ -35,6 +37,27 @@ FlowRouter.route('/ratings', {
 
 //    }
   },
+})
+
+FlowRouter.route('/decentralization', {
+  name: 'decentralization',
+  action: () => {
+    BlazeLayout.render('desktop', { main: 'decentralization', left: 'menu'})
+  }
+})
+
+FlowRouter.route('/add-hashpower', {
+  name: 'add-haspower',
+  action: () => {
+    BlazeLayout.render('desktop', { main: 'addHashpower', left: 'menu'})
+  }
+})
+
+FlowRouter.route('/hashpower', {
+  name: 'haspower',
+  action: () => {
+    BlazeLayout.render('desktop', { main: 'allHashpower', left: 'menu'})
+  }
 })
 
 FlowRouter.route('/communities', {
