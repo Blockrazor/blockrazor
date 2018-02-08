@@ -1,8 +1,8 @@
 <template name="moderatorDash">
-
   {{#unless reactiveVar 'reject'}}
   Moderation Queue
   <br />
+  <a href="/flagged-users">See flagged users</a><br />
   {{#each pendingCurrencies}}
        {{> moderatorPendingCurrency}}
   {{/each}}
