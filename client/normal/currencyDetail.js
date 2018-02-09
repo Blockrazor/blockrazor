@@ -175,6 +175,14 @@ Template.currencyInfo.events({
 });
 
 Template.currencyInfo.helpers({
+    truncate (val) {
+       if (val.length > 20){
+      return val.substring(0,20)+'...';
+   }
+   else{
+      return val;
+   }
+ },
     isNull(val) {
 
         if (val) {
