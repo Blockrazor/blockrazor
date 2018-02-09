@@ -156,3 +156,46 @@ Template.currencyDetail.helpers({
     }
 
 });
+
+Template.currencyInfo.onRendered(function() {
+    $('[data-toggle="tooltip"]').tooltip();
+});
+
+Template.currencyInfo.events({
+    'click .contribute': function(event) {
+        event.preventDefault();
+
+        let slug = FlowRouter.getParam("slug");
+        FlowRouter.go('/currencyEdit/' + slug);
+
+        //idea, pass field being edited and focus to input and highlight field.
+
+    }
+
+});
+
+Template.currencyInfo.helpers({
+    isNull(val) {
+
+        if (val) {
+            if (typeof val == "string") {
+                return val;
+            } else if (typeof val == "object") {
+
+                return val[0].join(", ");
+            } else if (typeof val == "number") {
+                return val;
+            }
+        } else {
+ 
+
+          return Spacebars.SafeString('<span class="label label-danger contribute"><i class="fa fa-plus contribute"></i> Contribute</span>');
+        }
+
+    }
+
+});
+
+
+
+
