@@ -2,6 +2,7 @@ import { Template } from 'meteor/templating';
 import { HashHardware } from '../../../../lib/database/HashHardware'
 import { HashPower } from '../../../../lib/database/HashPower'
 import { HashAlgorithm } from '../../../../lib/database/HashAlgorithm'
+import { HashUnits } from '../../../../lib/database/HashUnits'
 import { UserData } from '../../../../lib/database/UserData'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 
@@ -13,6 +14,7 @@ Template.allHashpower.onCreated(function() {
 		this.subscribe('hashpower')
 		this.subscribe('hashhardware')
 		this.subscribe('hashalgorithm')
+		this.subscribe('hashunits')
 	})
 })
 
@@ -26,6 +28,11 @@ Template.allHashpower.helpers({
 	hashAlgorithm: function() {
 		return (HashAlgorithm.findOne({
 			_id: this.hashAlgorithm
+		}) || {}).name || ''
+	},
+	unit: function() {
+		return (HashUnits.findOne({
+			_id: this.unit
 		}) || {}).name || ''
 	},
 	canDelete: function() {
