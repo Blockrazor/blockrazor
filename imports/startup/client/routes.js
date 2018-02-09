@@ -7,6 +7,7 @@ import '../../ui/pages/currencyEdit/currencyEdit.js'
 import '../../ui/pages/changedCurrencies/changedCurrencies.js'
 import '../../ui/pages/hashpower/addHashpower'
 import '../../ui/pages/hashpower/allHashpower'
+import '../../ui/pages/flaggedUsers/flaggedUsers'
 
 FlowRouter.route( '/currencyEdit/:slug', {
   action: function( params, queryParams ) {
@@ -64,6 +65,18 @@ FlowRouter.route('/communities', {
   name: 'communities',
   action: () => {
     BlazeLayout.render('desktop', { main: 'communities', left: 'menu'})
+  }
+})
+
+FlowRouter.route('/flagged-users', {
+  name: 'flaggedUsers',
+  action: function() {
+    if (Meteor.userId()) {
+      BlazeLayout.render('desktop', { main: 'flaggedUsers', left: 'menu' })
+    } else {
+      window.last = window.location.pathname
+      FlowRouter.go('/login')
+    }
   }
 })
 
