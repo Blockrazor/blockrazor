@@ -32,15 +32,20 @@
 		{{else}}
 			Algorithm: <input type="text" id="js-algo-new" /><br />
 		{{/if}}
-		Hash rate: <input type="number" min="0" id="js-hr" /> <select id="js-unit">
-			<option value="H">H/s</option>
-			<option value="kH">kH/s</option>
-			<option value="MH">MH/s</option>
-			<option value="GH">GH/s</option>
-			<option value="TH">TH/s</option>
-			<option value="PH">PH/s</option>
-			<option value="EH">EH/s</option>
+		Hash rate: <input type="number" min="0" id="js-hr" />
+		{{#if units.length}}
+		<select id="js-unit">
+			{{#each units}}
+			<option value="{{_id}}">{{name}}</option>
+			{{/each}}
 		</select><br />
+		Unit not on the list? <a href="#" id="js-add-unit">Add it</a>.<br />
+		<div style="display: {{addUnit}}">
+			Unit name: <input type="text" style="width: 40px" id="js-unit-new" /><br />
+		</div>
+		{{else}}
+			<input type="text" id="js-unit-new" style="width: 40px" /><br />
+		{{/if}}
 		Power consumption: <input type="number" min="0" id="js-pc" /> Watts<br />
 
 		<button type="submit" id="js-add">Add!</button>
