@@ -20,17 +20,25 @@ Meteor.methods({
         currencies.forEach(i => {
             pos.forEach(j => {
                 ratings[j] = ratings[j] || []
-                ratings[j].push(i[`${j}Ranking`])       
+                ratings[j].push(i[`${j}Ranking`] || 400) // apparently there's a chance that ...Ranking is undefined, so we have to have a default value here as well       
             }) 
         })
 
         pos.forEach(i => {
+            let min = 400 // default value
+            let max = 400
+
+            if (!_.isEmpty(ratings[i])) { // if the array is empty, we get -Infinity to Infinity, which is incorrect, so we have to check whether the array is empty or not
+                min = _.min(ratings[i])
+                max = _.max(ratings[i])
+            }
+
             GraphData.upsert({
                 _id: 'elodata'
             }, {
                 $set: {
-                    [`${i}MinElo`]: _.min(ratings[i]),
-                    [`${i}MaxElo`]: _.max(ratings[i])
+                    [`${i}MinElo`]: min,
+                    [`${i}MaxElo`]: max
                 }
             })
         })
