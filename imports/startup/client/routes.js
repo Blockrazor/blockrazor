@@ -9,7 +9,7 @@ import '../../ui/pages/hashpower/addHashpower'
 import '../../ui/pages/hashpower/allHashpower'
 import '../../ui/pages/flaggedUsers/flaggedUsers'
 
-FlowRouter.route( '/currencyEdit/:slug', {
+FlowRouter.route( '/currencyEdit/:slug?/:field?', {
   action: function( params, queryParams ) {
     
     BlazeLayout.render('desktop', { main: 'currencyEdit', left: 'menu'});

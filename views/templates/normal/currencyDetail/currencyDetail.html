@@ -84,7 +84,9 @@
 <template name="currencyInfo">
     <div class="card border-secondary mb-3 mb-3" style="min-width:300px;overflow:hidden;">
         <div class="card-header" style="height:50px">
-            <h4 class="pull-left"><a href="/currencyEdit/{{slug}}"><i class="fa fa-edit" aria-hidden="true"></i></a> {{currencyName}} {{#with thiscurrency}}({{currencySymbol}}) {{/with}}
+            <h4 class="pull-left"><img style="width:50px; height:50px padding-right:15px" src="{{doesCoinImageExist currencyLogoFilename}}"><a href="/currencyEdit/{{slug}}">
+              
+              <i class="fa fa-edit" aria-hidden="true"></i></a>{{currencyName}} {{#with thiscurrency}}({{currencySymbol}}) {{/with}}
   </h4>
             <h4 class="pull-right">RazorRank: {{razorRank}}</h4></div>
         <div class="card-body" style="display:{{bodydisplay}};">
@@ -92,35 +94,35 @@
                 <tbody>
                     <tr>
                         <th scope="row">currencyName</th>
-                        <td>{{isNull currencyName}}</td>
+                        <td>{{isNull currencyName 'currencyName'}}</td>
                     </tr>
                     <tr>
                         <th scope="row">currencySymbol</th>
-                        <td>{{isNull currencySymbol}}</td>
+                        <td>{{isNull currencySymbol 'currencySymbol'}}</td>
                     </tr>
                     <tr>
                         <th scope="row">genesisTimestamp</th>
-                        <td id="_genesisTimestamp">{{isNull genesisTimestamp}}</td>
+                        <td id="_genesisTimestamp">{{isNull genesisTimestamp 'genesisTimestamp'}}</td>
                     </tr>
                     <tr>
                         <th scope="row">premine</th>
-                        <td>{{isNull premine}}</td>
+                        <td>{{isNull premine 'premine'}}</td>
                     </tr>
                     <tr>
                         <th scope="row">circulating</th>
-                        <td>{{isNull circulating}}</td>
+                        <td>{{isNull circulating 'circulating'}}</td>
                     </tr>
                     <tr>
                         <th scope="row">maxCoins</th>
-                        <td>{{isNull maxCoins}}</td>
+                        <td>{{isNull maxCoins 'maxCoins'}}</td>
                     </tr>
                     <tr>
                         <th scope="row">consensusSecurity</th>
-                        <td>{{isNull consensusSecurity}}</td>
+                        <td>{{isNull consensusSecurity 'consensusSecurity'}}</td>
                     </tr>
                     <tr>
                         <th scope="row">hashAlgorithm</th>
-                        <td>{{isNull hashAlgorithm}}</td>
+                        <td>{{isNull hashAlgorithm 'hashAlgorithm'}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -128,23 +130,23 @@
                 <tbody>
                     <tr>
                         <th scope="row">walletRanking</th>
-                        <td>{{isNull walletRanking}}</td>
+                        <td>{{isNull walletRanking 'walletRanking'}}</td>
                     </tr>
                     <tr>
                         <th scope="row">gitUpdate</th>
-                        <td>{{isNull gitUpdate}}</td>
+                        <td>{{isNull gitUpdate 'gitUpdate'}}</td>
                     </tr>
                     <tr>
                         <th scope="row">gitCommits</th>
-                        <td>{{isNull gitCommits}}</td>
+                        <td>{{isNull gitCommits 'gitCommits'}}</td>
                     </tr>
                     <tr>
                         <th scope="row">marketCap</th>
-                        <td>{{isNull marketCap}}</td>
+                        <td>{{isNull marketCap 'marketCap'}}</td>
                     </tr>
                     <tr>
                         <th scope="row">gitAPI</th>
-                        <td class="tableWrap"><a href="{{gitAPI}}" data-toggle="tooltip" title="{{gitAPI}}">{{truncate gitAPI}}</a></td>
+                        <td class="tableWrap"><a href="{{gitAPI}}" data-toggle="tooltip" title="{{gitAPI}}">{{truncate gitAPI 'gitAPI'}}</a></td>
                     </tr>
                 </tbody>
             </table>

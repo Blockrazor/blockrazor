@@ -164,12 +164,8 @@ Template.currencyInfo.onRendered(function() {
 Template.currencyInfo.events({
     'click .contribute': function(event) {
         event.preventDefault();
-
         let slug = FlowRouter.getParam("slug");
-        FlowRouter.go('/currencyEdit/' + slug);
-
-        //idea, pass field being edited and focus to input and highlight field.
-
+        FlowRouter.go('/currencyEdit/' + slug + '/' + event.currentTarget.id);
     }
 
 });
@@ -183,7 +179,7 @@ Template.currencyInfo.helpers({
       return val;
    }
  },
-    isNull(val) {
+    isNull(val,field) {
 
         if (val) {
             if (typeof val == "string") {
@@ -197,7 +193,7 @@ Template.currencyInfo.helpers({
         } else {
  
 
-          return Spacebars.SafeString('<span class="label label-danger contribute"><i class="fa fa-plus contribute"></i> Contribute</span>');
+          return Spacebars.SafeString('<span id='+field+' class="label label-danger contribute"><i class="fa fa-plus"></i> Contribute</span>');
         }
 
     }
