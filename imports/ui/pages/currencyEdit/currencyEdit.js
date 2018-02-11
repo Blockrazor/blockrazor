@@ -40,6 +40,16 @@ var makeTagArrayFrom = function(string) {
     return namedArray;
 }
 
+Template.currencyEdit.onRendered(function() {
+    //set focus if the field is defined in the address 
+    let fieldtoEdit = FlowRouter.getParam("field");
+    let field = $( "#"+fieldtoEdit );
+    if(fieldtoEdit){
+        field.css({"backgroundColor":"red","color":"white"});
+        field.focus();
+    }
+});
+
 Template.currencyEdit.onCreated(function() {
 
     var self = this
