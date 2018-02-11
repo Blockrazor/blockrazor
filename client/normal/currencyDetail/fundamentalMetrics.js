@@ -349,11 +349,7 @@ Template.features.onCreated(function(){
   this.lastId = new ReactiveVar('')
 
   this.autorun(() => {
-    this.currencyId = (Currencies.findOne({ slug: FlowRouter.getParam("slug") }) || {})._id
-
-    if (this.currencyId) {
-      this.subscribe('features', this.currencyId)
-    }
+    this.subscribe('featuresSlug', FlowRouter.getParam('slug'))
   })
 });
 
@@ -362,10 +358,10 @@ Template.features.helpers({
     return this.featureTag; //find metricTag data from collection
   },
   features: function() {
-    return Features.find({currencyId: Template.instance().currencyId, flagRatio: {$lt: 0.6}}, {sort: {rating: -1, appealNumber: -1}});
+    return Features.find({currencySlug: FlowRouter.getParam('slug'), flagRatio: {$lt: 0.6}}, {sort: {rating: -1, appealNumber: -1}});
   },
   flaggedfeatures: function() {
-    return Features.find({currencyId: Template.instance().currencyId, flagRatio: {$gt: 0.6}});
+    return Features.find({currencySlug: FlowRouter.getParam('slug'), flagRatio: {$gt: 0.6}});
   }
 });
 
@@ -489,17 +485,13 @@ Template.comment.events({
 
 Template.walletimages.onCreated(function(){
   this.autorun(() => {
-    this.currencyId = (Currencies.findOne({ slug: FlowRouter.getParam("slug") }) || {})._id
-
-    if (this.currencyId) {
-      this.subscribe('walletimages', this.currencyId)
-    }
+    this.subscribe('walletImagesSlug', FlowRouter.getParam('slug'))
   });
 });
 
 Template.walletimages.helpers({
   walletimages: function () {
-    return WalletImages.find({currencyId: Template.instance().currencyId});
+    return WalletImages.find({currencySlug: FlowRouter.getParam('slug')});
   },
   walletimagesdir(){
     return _walletUpoadDirectoryPublic;

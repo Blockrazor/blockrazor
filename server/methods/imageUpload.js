@@ -150,6 +150,19 @@ Meteor.methods({
       }
     }
   },
+  portWalletImages: () => {
+    WalletImages.find({}).fetch().forEach(i => {
+        if (!i.currencySlug) {
+            WalletImages.update({
+                _id: i._id
+            }, {
+                $set: {
+                    currencySlug: (Currencies.findOne({ _id: i.currencyId }) || {}).slug
+                }
+            })
+        }
+    })
+  },
     'uploadWalletImage': function (fileName, imageOf, currencyId, binaryData, md5) {
       var error = function(error) {throw new Meteor.Error('error', error);}
       var md5validate = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(binaryData)).toString();
@@ -180,15 +193,16 @@ Meteor.methods({
             return false;
         }
 
-        //var currency = Currencies.findOne({_id:currencyId}).currencyName;
-        if(!Currencies.findOne({_id:currencyId}).currencyName){
+        let currency = Currencies.findOne({_id:currencyId}) || {}
+        if(!currency.currencyName){
           throw new Meteor.Error('error', 'error 135');
         }
         try {
           insert = WalletImages.insert({
             _id: md5,
             'currencyId':currencyId,
-            'currencyName': Currencies.findOne({_id:currencyId}).currencyName,
+            'currencySlug': currency.slug,
+            'currencyName': currency.currencyName,
             'imageOf': imageOf,
             'createdAt': new Date().getTime(),
             'createdBy': this.userId,
