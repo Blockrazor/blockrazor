@@ -134,19 +134,19 @@
                     </tr>
                     <tr>
                         <th scope="row">gitUpdate</th>
-                        <td>{{isNull gitUpdate 'gitUpdate'}}</td>
+                        <td>{{isNullReadOnly gitUpdate}}</td>
                     </tr>
                     <tr>
                         <th scope="row">gitCommits</th>
-                        <td>{{isNull gitCommits 'gitCommits'}}</td>
+                        <td>{{isNullReadOnly gitCommits}}</td>
                     </tr>
                     <tr>
                         <th scope="row">marketCap</th>
                         <td>{{isNull marketCap 'marketCap'}}</td>
                     </tr>
                     <tr>
-                        <th scope="row">gitAPI</th>
-                        <td class="tableWrap"><a href="{{gitAPI}}" data-toggle="tooltip" title="{{gitAPI}}">{{truncate gitAPI 'gitAPI'}}</a></td>
+                        <th scope="row">gitRepo</th>
+                        <td class="tableWrap"><a href="{{gitRepo}}" data-toggle="tooltip" title="{{gitRepo}}">{{isNull gitRepo 'gitRepo'}}</a></td>
                     </tr>
                 </tbody>
             </table>

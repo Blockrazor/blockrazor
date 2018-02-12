@@ -41,13 +41,22 @@ var makeTagArrayFrom = function(string) {
 }
 
 Template.currencyEdit.onRendered(function() {
+
+
     //set focus if the field is defined in the address 
-    let fieldtoEdit = FlowRouter.getParam("field");
-    let field = $( "#"+fieldtoEdit );
-    if(fieldtoEdit){
-        field.css({"backgroundColor":"red","color":"white"});
-        field.focus();
-    }
+    Meteor.setTimeout(function() {
+
+        let fieldtoEdit = FlowRouter.getParam("field");
+        let field = $("#" + fieldtoEdit);
+
+        if (fieldtoEdit) {
+            console.log(fieldtoEdit)
+            $("#" + fieldtoEdit).css({ "backgroundColor": "red", "color": "white" });
+            $("#" + fieldtoEdit).focus();
+        }
+
+    }.bind(this), 100);
+
 });
 
 Template.currencyEdit.onCreated(function() {
