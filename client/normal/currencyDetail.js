@@ -192,8 +192,24 @@ Template.currencyInfo.helpers({
             }
         } else {
  
-
           return Spacebars.SafeString('<span id='+field+' class="label label-danger contribute"><i class="fa fa-plus"></i> Contribute</span>');
+        }
+
+    },
+        isNullReadOnly(val,field) {
+
+        if (val) {
+            if (typeof val == "string") {
+                return val;
+            } else if (typeof val == "object") {
+
+                return val[0].join(", ");
+            } else if (typeof val == "number") {
+                return val;
+            }
+        } else {
+
+          return '-'
         }
 
     }
