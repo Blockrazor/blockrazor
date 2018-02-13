@@ -2,6 +2,8 @@ import { Template } from 'meteor/templating';
 import { FormData } from '../../lib/database/FormData.js'; //database
 
 
+
+
 //Functions to help with client side validation and data manipulation
 var makeTagArrayFrom = function(string) {
   if (!string) {return new Array()};
@@ -103,10 +105,14 @@ Template.addCoin.events({
     }
   },
   'change #currencyLogoInput': function(event){
-   var instance = this;
-   var file = event.target.files[0];
-   var fileExtension = file.name.split('.').pop();
-   var uploadError = false;
+
+  var mime = require('mime-types')
+  var instance = this;
+  var file = event.target.files[0];
+  var uploadError = false;
+  var mimetype = mime.lookup(file);
+  var fileExtension = mime.extension(file.type);
+
 
   //check if filesize of image exceeds the global limit
   if (file.size > _coinFileSizeLimit) {

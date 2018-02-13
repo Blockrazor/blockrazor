@@ -182,10 +182,10 @@ Template.upload.events({
 if(!uploadError){
    var reader = new FileReader();
    reader.onload = function(fileLoadEvent){
-     //var binary = event.target.result;
+     
      var binary = reader.result;
      var md5 = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(binary)).toString();
-     console.log(md5);
+
      Meteor.call('uploadWalletImage', file.name, event.target.id, instance._id, reader.result, md5, function(error, result){
        if(error){
         console.log(error)
