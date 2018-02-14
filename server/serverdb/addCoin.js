@@ -178,7 +178,7 @@ Meteor.methods({
     throw new Meteor.Error('Invalid', error);
     } else {
       //console.log(error);
-      console.log(result);
+      console.log(result)
       return "OK";
     }
     });

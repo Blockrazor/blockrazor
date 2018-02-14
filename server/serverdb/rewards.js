@@ -1,6 +1,7 @@
 //import { Mongo } from 'meteor/mongo';
 //export var Rewards = new Mongo.Collection('rewards');
 import { UserData } from '../../lib/database/UserData.js';
+import { Currencies } from '../../lib/database/Currencies'
 import { Wallet } from '../../lib/database/Wallet.js';
 
 var rewards = {
@@ -39,15 +40,19 @@ export var creditUserWith = function(amount, userId, reason) {
 };
 
 export var rewardCurrencyCreator = function(launchTags, owner, currencyName) {
-  console.log("start to credit");
-  console.log(owner);
-  var rewardType = getRewardTypeOf(launchTags, "currency");
-  console.log(rewardType);
-  var rewardAmount = parseFloat(getRewardFor(rewardType, false));
-  console.log(rewardAmount);
-  var reason = "submitting " + currencyName.toString();
-  console.log(reason);
-  creditUserWith(rewardAmount, owner, reason);
+  console.log("start to credit")
+  console.log(owner)
+  /*var rewardType = getRewardTypeOf(launchTags, "currency");
+  console.log(rewardType);*/
+  Meteor.call('getCurrentReward', currencyName, (err, data) => {
+    let rewardAmount = data
+    console.log(data);
+    let reason = "submitting " + currencyName.toString();
+    console.log(reason);
+
+    creditUserWith(rewardAmount, owner, reason);
+  }) // parseFloat(getRewardFor(rewardType, false));
+  
   return true;
 
 };
