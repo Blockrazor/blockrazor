@@ -224,19 +224,25 @@ Meteor.methods({
         }))
 
 //Add watermark to image
-if(gm.isAvailable){
+if (gm.isAvailable) {
     gm(filename)
         .resize(2048, null)
         .command('composite')
         .gravity('SouthEast')
         .out('-geometry', '+1+1')
         .in(_watermarkLocation)
-        .write(filenameWatermark, Meteor.bindEnvironment(function(err, stdout, stderr, command){
-            if (err){
-              // console.log(err)
-              log.error("Error applying watermark", err)
-            }
+        .write(filenameWatermark, Meteor.bindEnvironment(function(err, stdout, stderr, command) {
+            if (err) console.error(err)
+                //Delete original if no errors
+                fs.unlinkSync(filename);
+
+                //Old file gone, let's rename to just the md5 no need for watermark tag
+                fs.rename(filenameWatermark, filename, function(err) {
+                    if (err) console.error('ERROR: ' + err);
+                });
         }))
+
+
 
     }else{
       log.error('required gm dependicies are not available', {})
