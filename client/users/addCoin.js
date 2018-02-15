@@ -1,5 +1,6 @@
 import { Template } from 'meteor/templating';
 import { FormData } from '../../lib/database/FormData.js'; //database
+import { Bounties } from '../../lib/database/Bounties'
 
 
 
@@ -42,6 +43,15 @@ Template.addCoin.onCreated(function() {
 
   this.currencyNameMessage = new ReactiveVar('')
   this.consensusType = new ReactiveVar('')
+
+  this.autorun(() => {
+    this.subscribe('currencyBounty')
+  })
+
+  this.now = new ReactiveVar(Date.now())
+  Meteor.setInterval(() => {
+      this.now.set(Date.now())
+  }, 1000)
 })
 
 //Events
@@ -212,6 +222,8 @@ if(!uploadError){
         // turn error into user friendly string
         sAlert.error(`You need to fix the following fields to continue: ${error.error.map(i => i.split(/(?=[A-Z])/).join(' ').toLowerCase()).join(', ')}.`)
       } else {
+        Meteor.call('completeCurrencyBounty', $('#currencyName').val(), (err, data) => {})
+        Cookies.set('workingBounty', false, { expires: 1 })
         FlowRouter.go('/mypending');
       }
     });
@@ -221,6 +233,32 @@ if(!uploadError){
 
 
 Template.addCoin.helpers({
+  activeBounty: () => {
+    let bounty = Bounties.find({
+      userId: Meteor.userId(),
+      type: 'new-currency',
+      completed: false
+    }, {
+      sort: {
+        expiresAt: -1
+      }
+    }).fetch()[0]
+
+    return bounty && bounty.expiresAt > Date.now()
+  },
+  timeRemaining: () => {
+    let bounty = Bounties.find({
+      userId: Meteor.userId(),
+      type: 'new-currency',
+      completed: false
+    }, {
+      sort: {
+        expiresAt: -1
+      }
+    }).fetch()[0]
+  
+    return `You have ${Math.round((bounty.expiresAt - Template.instance().now.get())/1000/60)} minutes to complete the bounty for ${Number(bounty.currentReward).toFixed(2)} KZR.`;
+  },
   security () {
     return FormData.find({}, {});
   },

@@ -1,6 +1,7 @@
 import { Template } from 'meteor/templating';
 import './rainbow.js';
-import { Bounties, BountyTypes, REWARDCOEFFICIENT } from '../../../lib/database/Bounties.js';
+import { Bounties, BountyTypes, REWARDCOEFFICIENT } from '../../../lib/database/Bounties.js'
+import { FlowRouter } from 'meteor/kadira:flow-router'
 
 Template.bounties.onCreated(function(){
   this.autorun(() => {
@@ -10,6 +11,12 @@ Template.bounties.onCreated(function(){
   this.bountyType = new ReactiveVar('')
   this.now = new ReactiveVar(null)
   this.workingBounty = new ReactiveVar('')
+
+  this.currencyTime = new ReactiveVar(0)
+
+  Meteor.call('getLastCurrency', (err, data) => {
+    this.currencyTime.set(data.approvedTime)
+  })
 })
 
 Template.bounties.onRendered(function(){
@@ -22,7 +29,21 @@ Template.bounties.onRendered(function(){
 
 Template.bounties.helpers({
   bounties: function() {
-    return Bounties.find({pendingApproval: false});
+    return _.union(Bounties.find({pendingApproval: false}).fetch(), [{
+      problem: 'Blockrazor needs new currencies',
+      solution: 'Add a new currency now',
+      types: {
+        heading: 'Add a new currency',
+        rules: 'If you accept this bounty, you\'ll have 60 minutes to complete it and add a new currency for the given reward. If the bounty expires, you\'ll still be credited, but the reward is not guaranteed after 60 minutes.'
+      },
+      creationTime: Template.instance().currencyTime.get(),
+      multiplier: 1.8,
+      currentlyAvailable: true,
+      currencyName: 'Blockrazor',
+      _id: 'new-currency'
+    }]).sort((i1, i2) => {
+      return calculateReward.call(i2, Template.instance().now.get()) - calculateReward.call(i1, Template.instance().now.get())
+    })
   }
 });
 
@@ -30,11 +51,15 @@ Template.bountyRender.onCreated(function(){
   this.autorun(() => {
     this.subscribe('bountytypes');
   });
-});
+})
+
+const calculateReward = function(now) {
+  return (((now - this.creationTime) / REWARDCOEFFICIENT) * (this.multiplier || 1)).toFixed(6)
+}
 
 Template.bountyRender.helpers({
   types: function () {
-    return BountyTypes.findOne();
+    return this.types || BountyTypes.findOne();
   },
   id: function() {
     return this._id;
@@ -50,27 +75,34 @@ Template.bountyRender.helpers({
     } else { return "btn-outline-secondary";}
   },
   reward: function () {
-    return ((Template.instance().view.parentView.parentView.parentView.templateInstance().now.get() - this.creationTime) / REWARDCOEFFICIENT).toFixed(6);
-    // if you use this for cross-template communication, please note that you need to update this if template hierarchy changes
-    // it could be replaced with a while loop, but this is more suitable as this is the only place where it's used
+    return calculateReward.call(this, Template.instance().view.parentView.parentView.parentView.templateInstance().now.get())
   }
 });
 
 Template.bountyRender.events({
   'click .start': function () {
     if(Cookies.get('workingBounty') != "true") {
-      Template.instance().view.parentView.templateInstance().workingBounty.set(true);
+      Template.instance().view.parentView.parentView.parentView.templateInstance().workingBounty.set(true);
       Cookies.set('workingBounty', true, { expires: 1 });
       Cookies.set('expiresAt', Date.now() + 3600000, { expires: 1 }); //
       //Session.set('bountyItem', this._id);
       Cookies.set('bountyItem', this._id, { expires: 1});
       Cookies.set('bountyType', this.bountyType, { expires: 1});
-      Template.instance().view.parentView.templateInstance().bountyType.set(this.bountyType);
-      Meteor.call('startBounty', this._id);
-      FlowRouter.go("/bounties/" + this._id);
+      Template.instance().view.parentView.parentView.parentView.templateInstance().bountyType.set(this.bountyType);
+      if (this._id !== 'new-currency') {
+        Meteor.call('startBounty', this._id)
+        FlowRouter.go("/bounties/" + this._id)
+      } else {
+        Meteor.call('addCurrencyBounty', calculateReward.call(this, Date.now()))
+        FlowRouter.go('/addCoin')
+      }
     } else if (Cookies.get('workingBounty') == "true") {
       sAlert.error("You already have a bounty in progress!");
-      FlowRouter.go("/bounties/" + Cookies.get('bountyItem'));
+      if (this._id !== 'new-currency') {
+        FlowRouter.go("/bounties/" + Cookies.get('bountyItem'))
+      } else {
+        FlowRouter.go('/addCoin')
+      }
     }
 
   },
@@ -82,6 +114,11 @@ Template.bountyRender.events({
     $('#' + this._id).show();
     $('#takeBounty' + this._id).hide();
   }
+})
+
+Template.activeBounty.onCreated(function() {
+  this.now = new ReactiveVar(Date.now())
+  this.bountyType = new ReactiveVar('')
 })
 
 Template.activeBounty.onRendered(function(){
@@ -107,7 +144,7 @@ Template.activeBounty.helpers({
 
     return "Time remaining: " + Math.round((Bounties.findOne({
       _id: Cookies.get('bountyItem')
-    }).expiresAt - Template.instance().view.parentView.templateInstance().now.get())/1000/60) + " minutes.";
+    }).expiresAt - Template.instance().now.get())/1000/60) + " minutes.";
   }
 });
 Template.activeBounty.events({
