@@ -226,7 +226,6 @@ Meteor.methods({
 //Add watermark to image
 if (gm.isAvailable) {
     gm(filename)
-        .resize(2048, null)
         .command('composite')
         .gravity('SouthEast')
         .out('-geometry', '+1+1')
