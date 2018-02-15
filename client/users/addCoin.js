@@ -161,6 +161,8 @@ if(!uploadError){
 
   'click #cancel': function(data) {
     console.log(data);
+    Meteor.call('deleteCurrencyBountyClient', (err, data) => {})
+    Cookies.set('workingBounty', false, { expires: 1 })
     FlowRouter.go('/');
   },
   'submit form': function(data){

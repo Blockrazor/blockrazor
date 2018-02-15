@@ -21,14 +21,14 @@
     <div class="card-text"><b>Solution:</b> {{solution}}.</div>
     <div class="card-text" id={{id}} style="display:none;margin-top:10px;">
       <h5>Bounty Details</h5>
-      {{types.rules}}
+      {{#if canContinue}}<b>(In progress)</b>{{/if}} {{types.rules}}
 
       <div class="float-right" style="display:inline-flex;clear:both;margin-top:10px;">
         <button type="button" class="btn btn-danger cancel">Cancel</button>
-        <button type="button" class="btn btn-primary start" style="margin-left:10px;">Start</button>
+        <button type="button" class="btn btn-primary start" style="margin-left:10px;">{{#if canContinue}}Continue{{else}}Start{{/if}}</button>
       </div>
     </div>
-    <div class="float-right" style="display:inline-flex;clear:both;" id="takeBounty{{id}}"><button type="button" class="btn {{buttonClass}}">Take Bounty</button></div>
+    <div class="float-right" style="display:inline-flex;clear:both;" id="takeBounty{{id}}"><button type="button" class="btn {{buttonClass}}">{{#if canContinue}}Continue{{else}}Take{{/if}} Bounty</button></div>
     <div class="float-right" style="display:inline-flex;clear:both;"><i>{{workingText}}</i></div>
   </div>
 </div>

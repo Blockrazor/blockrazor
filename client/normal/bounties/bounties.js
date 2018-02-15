@@ -57,6 +57,16 @@ const calculateReward = function(now) {
   return (((now - this.creationTime) / REWARDCOEFFICIENT) * (this.multiplier || 1)).toFixed(6)
 }
 
+const canContinue = () => {
+  let b = Bounties.findOne({
+    userId: Meteor.userId(),
+    type: 'new-currency',
+    completed: false
+  })
+
+  return b && b.expiresAt > Date.now()
+}
+
 Template.bountyRender.helpers({
   types: function () {
     return this.types || BountyTypes.findOne();
@@ -68,6 +78,9 @@ Template.bountyRender.helpers({
     if(this.currentlyAvailable == false) {
         return this.currentUsername + " is working on this right now!";
     } else { return null;}
+  },
+  canContinue: function() {
+    return this._id === 'new-currency' && canContinue()
   },
   buttonClass: function() {
     if(this.currentlyAvailable == true) {
@@ -81,32 +94,40 @@ Template.bountyRender.helpers({
 
 Template.bountyRender.events({
   'click .start': function () {
-    if(Cookies.get('workingBounty') != "true") {
-      Template.instance().view.parentView.parentView.parentView.templateInstance().workingBounty.set(true);
-      Cookies.set('workingBounty', true, { expires: 1 });
-      Cookies.set('expiresAt', Date.now() + 3600000, { expires: 1 }); //
-      //Session.set('bountyItem', this._id);
-      Cookies.set('bountyItem', this._id, { expires: 1});
-      Cookies.set('bountyType', this.bountyType, { expires: 1});
-      Template.instance().view.parentView.parentView.parentView.templateInstance().bountyType.set(this.bountyType);
-      if (this._id !== 'new-currency') {
-        Meteor.call('startBounty', this._id)
-        FlowRouter.go("/bounties/" + this._id)
-      } else {
-        Meteor.call('addCurrencyBounty', calculateReward.call(this, Date.now()))
-        FlowRouter.go('/addCoin')
-      }
-    } else if (Cookies.get('workingBounty') == "true") {
-      sAlert.error("You already have a bounty in progress!");
-      if (this._id !== 'new-currency') {
-        FlowRouter.go("/bounties/" + Cookies.get('bountyItem'))
-      } else {
-        FlowRouter.go('/addCoin')
+    if (canContinue() && this._id === 'new-currency') {
+      FlowRouter.go('/addCoin')
+    } else {
+      if(Cookies.get('workingBounty') != "true") {
+        Template.instance().view.parentView.parentView.parentView.templateInstance().workingBounty.set(true);
+        Cookies.set('workingBounty', true, { expires: 1 });
+        Cookies.set('expiresAt', Date.now() + 3600000, { expires: 1 }); //
+        //Session.set('bountyItem', this._id);
+        Cookies.set('bountyItem', this._id, { expires: 1});
+        Cookies.set('bountyType', this.bountyType, { expires: 1});
+        Template.instance().view.parentView.parentView.parentView.templateInstance().bountyType.set(this.bountyType);
+        if (this._id !== 'new-currency') {
+          Meteor.call('startBounty', this._id)
+          FlowRouter.go("/bounties/" + this._id)
+        } else {
+          Meteor.call('addCurrencyBounty', calculateReward.call(this, Date.now()))
+          FlowRouter.go('/addCoin')
+        }
+      } else if (Cookies.get('workingBounty') == "true") {
+        sAlert.error("You already have a bounty in progress!");
+        if (this._id !== 'new-currency') {
+          FlowRouter.go("/bounties/" + Cookies.get('bountyItem'))
+        } else {
+          FlowRouter.go('/addCoin')
+        }
       }
     }
 
   },
   'click .cancel': function() {
+    if (this._id === 'new-currency') {
+      Meteor.call('deleteCurrencyBountyClient', (err, data) => {})
+      Cookies.set('workingBounty', false, { expires: 1 })
+    }
     $('#' + this._id).hide();
     $('#takeBounty' + this._id).show();
   },
