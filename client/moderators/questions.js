@@ -1,5 +1,6 @@
 import { RatingsTemplates } from '../../lib/database/Ratings'
 
+
 Template.questions.events({
   'submit form': (event, templateInstance) => {
     event.preventDefault()
@@ -19,7 +20,7 @@ Template.questions.helpers({
 	questions: () => RatingsTemplates.find({}),
 	// you can only change questions you've added
 	author: function() {
-		return Meteor.userId() === this.createdBy
+		return true; //Meteor.userId() === this.createdBy
 	}
 })
 

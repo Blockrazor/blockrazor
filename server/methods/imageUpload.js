@@ -4,6 +4,7 @@ import { Currencies } from '../../lib/database/Currencies.js';
 import { Ratings } from '../../lib/database/Ratings.js';
 import { RatingsTemplates } from '../../lib/database/Ratings.js'
 import { log } from '../main'
+import { UserData } from '../../lib/database/UserData.js';
 
 Meteor.methods({
   'flagWalletImage': function(imageId) {
@@ -64,8 +65,9 @@ Meteor.methods({
     let question = RatingsTemplates.findOne({
       _id: questionId
     })
-    // you can only delete a question you've added
-    if (question.createdBy === Meteor.userId()) {
+    // you can only delete a question if you're a moderator
+    var moderatorValue = UserData.findOne({ _id: Meteor.userId() }, { fields: { moderator: true } }).moderator;
+    if (moderatorValue === 1) {
       RatingsTemplates.remove({
         _id: questionId
       })
@@ -76,8 +78,9 @@ Meteor.methods({
       _id: questionId
     })
 
-    // you can only change context of a question you've authored
-    if (question.createdBy === Meteor.userId()) {
+    // you can only change context of a question if you're a moderator
+    var moderatorValue = UserData.findOne({ _id: Meteor.userId() }, { fields: { moderator: true } }).moderator;
+    if (moderatorValue === 1) {
       RatingsTemplates.update({
         _id: questionId
       }, {
