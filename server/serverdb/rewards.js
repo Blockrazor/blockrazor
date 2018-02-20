@@ -44,7 +44,7 @@ export var rewardCurrencyCreator = function(launchTags, owner, currencyName) {
   console.log(owner)
   /*var rewardType = getRewardTypeOf(launchTags, "currency");
   console.log(rewardType);*/
-  Meteor.call('getCurrentReward', currencyName, (err, data) => {
+  Meteor.call('getCurrentReward', owner, currencyName, (err, data) => {
     let rewardAmount = data
     console.log(data);
     let reason = "submitting " + currencyName.toString();
