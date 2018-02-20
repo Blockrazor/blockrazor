@@ -23,10 +23,12 @@ SyncedCron.add({
     var time = new Date().getTime() / 1000;
     var allcurrencies = Currencies.find({}, { sort: { createdAt: -1 }}).fetch();
     for (var i in allcurrencies) {
-      if (allcurrencies[i].gitAPI) { 
+      if (allcurrencies[i].gitRepo) {
+        let gitAPI = `https://api.github.com/repos/${allcurrencies[i].gitRepo.replace(/((http|https):\/\/)?github.com\//, '').replace(/\/+$/, '')}/stats/participation` 
+    
         if (allcurrencies[i].gitUpdate + 604700 < time || !allcurrencies[i].gitUpdate) {
-          console.log(i + " " + allcurrencies[i].gitAPI + " " + allcurrencies[i]._id)
-          Meteor.call('fetchGitCommits', allcurrencies[i].gitAPI, allcurrencies[i]._id, time); //https://api.github.com/repos/ethereumproject/go-ethereum/stats/participation  https://github.com/ethereumproject/go-ethereum   monero-project/monero/stats/participation
+          console.log(i + " " + gitAPI + " " + allcurrencies[i]._id)
+          Meteor.call('fetchGitCommits', gitAPI, allcurrencies[i]._id, time); //https://api.github.com/repos/ethereumproject/go-ethereum/stats/participation  https://github.com/ethereumproject/go-ethereum   monero-project/monero/stats/participation
         }
       }
     }

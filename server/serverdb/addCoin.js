@@ -135,12 +135,6 @@ Meteor.methods({
 
     }
 
-    if (data.gitRepo) {
-      allowed.push('gitAPI')
-      data.gitAPI = `https://api.github.com/repos/${data.gitRepo.replace(/((http|https):\/\/)?github.com\//, '').replace(/\/+$/, '')}/stats/participation`
-    }
-
-
 
 
 
