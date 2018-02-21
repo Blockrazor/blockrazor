@@ -44,7 +44,7 @@ Meteor.methods({
       )
     }
   },
-    addRatingQuestion: (question, catagory, negative, affects) => {
+    addRatingQuestion: (question, catagory, negative, context) => {
         if (!Meteor.userId()){
             throw new Meteor.Error('Error.', 'You need to be logged.')
         }
@@ -58,7 +58,7 @@ Meteor.methods({
             createdBy: Meteor.userId(),
             createdAt: new Date().getTime(),
             negative: !!negative,
-            affects: affects
+            context: context
         })
   },
   deleteQuestion: (questionId) => {
@@ -102,7 +102,14 @@ Meteor.methods({
     var currencies = _.uniq(currencies);
 
     //fetch the questions that will be asked of the user
-    var ratingTemplates = RatingsTemplates.find({catagory: 'wallet'}).fetch();
+    var ratingTemplates = RatingsTemplates.find({
+        $or: [{
+            catagory: 'wallet'
+        },
+        {
+            context: 'wallet'
+        }]
+    }).fetch();
     var userInt = parseInt("0x" + CryptoJS.MD5(this.userId).toString().slice(0,10), 16);
 
 //Cycle through all possible combinations of currencies that this user has a wallet for
@@ -137,6 +144,7 @@ Meteor.methods({
               'processedAt': null,
               'processed': false,
               'catagory': ratingTemplates[k].catagory,
+              'context': ratingTemplates[k].context,
               'type': "wallet",
               'answeredAt': null,
               'answered': false

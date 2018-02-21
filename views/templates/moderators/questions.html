@@ -1,6 +1,6 @@
 <template name="questions">
 	{{#each questions}}
-		{{question}} ({{#if negative}}-{{else}}+{{/if}}) ({{catagory}}) {{#if affects}}({{affects}}){{/if}} {{#if author}}<a href="#" class="js-context">+/-</a> <a href="#" class="js-delete">X</a>{{/if}}<br />
+		{{question}} ({{#if negative}}-{{else}}+{{/if}}) ({{catagory}}) {{#if context}}(shown at: {{context}}){{/if}} {{#if author}}<a href="#" class="js-context">+/-</a> <a href="#" class="js-delete">X</a>{{/if}}<br />
 	{{/each}}
 	<br />
 	<b>* Legend:</b> <i>+/-</i> to change context, <i>X</i> to delete
@@ -13,7 +13,11 @@
   	<option value="decentralization">Decentralization</option>
   </select>
   <input type="checkbox" id="js-negative">Negative<br />
-  <input type="text" id="affects" placeholder="Comma separated list of metrics this question affects" size="100"/>
+  {{#if needsContext}}<select id="context">
+  	<option value="wallet">Wallet</option>
+  	<option value="community">Community</option>
+  	<option value="codebase">Codebase</option>
+  </select> (context){{/if}}
   <button type="submit" class="btn btn-primary" id="submit">Add Question</button>
 </form>
 </template>
