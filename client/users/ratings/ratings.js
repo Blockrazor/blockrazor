@@ -40,8 +40,13 @@ Template.ratings.onRendered(function(){
   this.autorun(function(){
     if (Template.instance().subscriptionsReady()){
       var count = Ratings.find({
-        answered: false,
-        catagory: 'wallet'
+        $or: [{
+          answered: false,
+          catagory: 'wallet'
+        }, {
+          answered: false,
+          context: 'wallet'
+        }]
       }).count();
 
       if (!count) {
@@ -69,8 +74,13 @@ Template.ratings.helpers({
   },
   outstandingRatings() {
     var count = Ratings.find({
-      answered: false,
-      catagory: 'wallet'
+      $or: [{
+        answered: false,
+        catagory: 'wallet'
+      }, {
+        answered: false,
+        context: 'wallet'
+      }]
     }).count();
     if (!count) {
       $("#outstandingRatings").hide();
@@ -89,7 +99,15 @@ Template.currencyChoices.helpers({
     let alreadyAdded = WalletImages.find({createdBy: Meteor.userId()}).fetch().map(i => i.currencyId)
     alreadyAdded.forEach(i => dups[i] = dups[i] ? dups[i] + 1 : 1)
     alreadyAdded = alreadyAdded.filter(i => dups[i] === 3)*/
-    let alreadyAdded = _.uniq(_.flatten(Ratings.find({owner: Meteor.userId(),catagory: 'wallet'}).fetch().map(i => [i.currency0Id,i.currency1Id]))) // this is a simpler solution than the one above because we're already subscribed to ratings
+    let alreadyAdded = _.uniq(_.flatten(Ratings.find({
+      $or: [{
+        owner: Meteor.userId(),
+        catagory: 'wallet'
+      }, {
+        owner: Meteor.userId(),
+        context: 'wallet'
+      }]
+    }).fetch().map(i => [i.currency0Id,i.currency1Id]))) // this is a simpler solution than the one above because we're already subscribed to ratings
 
     return Currencies.find({
       _id: {
@@ -98,7 +116,15 @@ Template.currencyChoices.helpers({
     })
   },
   currencies: () => {
-    let alreadyAdded = _.uniq(_.flatten(Ratings.find({owner: Meteor.userId(), catagory: 'wallet'}).fetch().map(i => [i.currency0Id,i.currency1Id])))
+    let alreadyAdded = _.uniq(_.flatten(Ratings.find({
+      $or: [{
+        owner: Meteor.userId(),
+        catagory: 'wallet'
+      }, {
+        owner: Meteor.userId(),
+        context: 'wallet'
+      }]
+    }).fetch().map(i => [i.currency0Id,i.currency1Id])))
 
     return Currencies.find({
       _id: {
@@ -124,8 +150,13 @@ Template.currencyChoices.events({
         // there's no need to reload the page, everything is reactive now
         // window.location.reload();
         if (!Ratings.findOne({
-          answered: false,
-          catagory: 'wallet'
+          $or: [{
+            answered: false,
+            catagory: 'wallet'
+          }, {
+            answered: false,
+            context: 'wallet'
+          }]
         })) {
           sAlert.error('Please uplaod some wallet images to continue.')
         }
@@ -137,8 +168,13 @@ Template.currencyChoices.events({
 Template.displayRatings.helpers({
   questions(){
     return Ratings.findOne({
-      answered: false,
-      catagory: 'wallet'
+      $or: [{
+        answered: false,
+        catagory: 'wallet'
+      }, {
+        answered: false,
+        context: 'wallet'
+      }]
     });
   }
 });

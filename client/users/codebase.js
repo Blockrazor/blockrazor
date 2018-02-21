@@ -18,8 +18,13 @@ Template.codebase.onRendered(function() {
     this.autorun(function() {
         if (Template.instance().subscriptionsReady()) {
             const count = Ratings.find({
-                answered: false,
-                catagory: 'codebase'
+                $or: [{
+                    answered: false,
+                    catagory: 'codebase'
+                }, {
+                    answered: false,
+                    context: 'codebase'
+                }]
             }).count()
 
             $('#outstandingRatings').toggle(!!count)
@@ -73,8 +78,13 @@ Template.codebase.events({
                 sAlert.error(err.reason)
             } else {
                 if (!Ratings.findOne({
-                    answered: false,
-                    catagory: 'codebase'
+                    $or: [{
+                        answered: false,
+                        catagory: 'codebase'
+                    }, {
+                        answered: false,
+                        context: 'codebase'
+                    }]
                 })) {
                     sAlert.error('Please add some codebases to continue.')
                 }
@@ -109,14 +119,24 @@ Template.codebase.helpers({
     proofs: () => Template.instance().proofs.get(),
     outstandingRatings: () => {
         return Ratings.find({
-            answered: false,
-            catagory: 'codebase'
+            $or: [{
+                answered: false,
+                catagory: 'codebase'
+            }, {
+                answered: false,
+                context: 'codebase'
+            }]
         }).count()
     },
     alreadyAdded: () => {
         let alreadyAdded = _.uniq(_.flatten(Ratings.find({
-            owner: Meteor.userId(),
-            catagory: 'codebase'
+            $or: [{
+                owner: Meteor.userId(),
+                catagory: 'codebase'
+            }, {
+                owner: Meteor.userId(),
+                context: 'codebase'
+            }]
         }).fetch().map(i => [i.currency0Id,i.currency1Id])))
 
         return Currencies.find({
@@ -127,8 +147,13 @@ Template.codebase.helpers({
     },
     currencies: () => {
         let alreadyAdded = _.uniq(_.flatten(Ratings.find({
-            owner: Meteor.userId(),
-            catagory: 'codebase'
+            $or: [{
+                owner: Meteor.userId(),
+                catagory: 'codebase'
+            }, {
+                owner: Meteor.userId(),
+                context: 'codebase'
+            }]
         }).fetch().map(i => [i.currency0Id,i.currency1Id])))
 
         return Currencies.find({
@@ -141,8 +166,13 @@ Template.codebase.helpers({
     },
     questions: () => {
         return Ratings.findOne({
-            answered: false,
-            catagory: 'codebase'
+            $or: [{
+                answered: false,
+                catagory: 'codebase'
+            }, {
+                answered: false,
+                context: 'codebase'
+            }]
         })
     },
     currency0Name: function() {

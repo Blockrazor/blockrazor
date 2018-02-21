@@ -140,25 +140,7 @@ Meteor.methods({
         var result = elo.newRatingIfWon(winnerRanking, loserRanking);
         EloRankings.upsert({_id: winnerEloId}, {$set: {
           ranking: result
-        }});
-
-        (questions.affects || []).forEach(i => {
-            Currencies.update({
-                _id: rating.winner
-            }, {
-                $inc: {
-                    [`${i}Ranking`]: !question.negative ? 2 : -2
-                }
-            })
-
-            Currencies.update({
-                _id: rating.loser
-            }, {
-                $inc: {
-                    [`${i}Ranking`]: question.negative ? 2 : -2
-                }
-            })
-        })
+        }})
       }
       Ratings.upsert({_id: rating._id}, {$set: {
         processed: true

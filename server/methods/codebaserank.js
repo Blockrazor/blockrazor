@@ -66,7 +66,12 @@ Meteor.methods({
         let currencies = _.uniq(codebase.map(i => i.currencyId))
 
         let ratingTemplates = RatingsTemplates.find({
-            catagory: 'codebase'
+            $or: [{
+                catagory: 'codebase'
+            },
+            {
+                context: 'codebase'
+            }]
         }).fetch()
 
         let userInt = parseInt(`0x${CryptoJS.MD5(this.userId).toString().slice(0,10)}`, 16)
@@ -94,6 +99,7 @@ Meteor.methods({
                             'processedAt': null,
                             'processed': false,
                             'catagory': ratingTemplates[k].catagory,
+                            'context': ratingTemplates[k].context,
                             'type': 'codebase',
                             'answeredAt': null,
                             'answered': false

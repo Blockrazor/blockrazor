@@ -27,7 +27,13 @@ Template.moderatorDash.events({
     templateInstance.submittername.set(null)
     templateInstance.owner.set(null)
     templateInstance.currencyName.set(null)
-  }
+  },
+  'click #elo': (event, templateInstance) => {
+    Meteor.call('tabulateElo', (err, data) => {})
+  },
+  'click .avg-elo': (event, templateInstance) => {
+    Meteor.call('averageElo', $(event.currentTarget).attr('id'), (err, data) => {})
+  },
 });
 
 Template.moderatorDash.helpers({

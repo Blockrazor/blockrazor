@@ -15,7 +15,12 @@ Meteor.methods({
 
         //fetch the questions that will be asked of the user
         let ratingTemplates = RatingsTemplates.find({
-            catagory: 'community'
+            $or: [{
+                catagory: 'community'
+            },
+            {
+                context: 'community'
+            }]
         }).fetch()
 
         let userInt = parseInt(`0x${CryptoJS.MD5(this.userId).toString().slice(0,10)}`, 16)
@@ -50,6 +55,7 @@ Meteor.methods({
                             'processedAt': null,
                             'processed': false,
                             'catagory': ratingTemplates[k].catagory,
+                            'context': ratingTemplates[k].context,
                             'type': 'community',
                             'answeredAt': null,
                             'answered': false

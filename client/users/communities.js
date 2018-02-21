@@ -16,8 +16,13 @@ Template.communities.onRendered(function() {
     this.autorun(function() {
         if (Template.instance().subscriptionsReady()) {
             const count = Ratings.find({
-                answered: false,
-                catagory: 'community'
+                $or: [{
+                    answered: false,
+                    catagory: 'community'
+                }, {
+                    answered: false,
+                    context: 'community'
+                }]
             }).count()
 
             $('#outstandingRatings').toggle(!!count)
@@ -44,8 +49,13 @@ Template.communities.events({
                 sAlert.error(err.reason)
             } else {
                 if (!Ratings.findOne({
-                    answered: false,
-                    catagory: 'community'
+                    $or: [{
+                        answered: false,
+                        catagory: 'community'
+                    }, {
+                        answered: false,
+                        context: 'community'
+                    }]
                 })) {
                     sAlert.error('Please add some communities to continue.')
                 }
@@ -79,14 +89,24 @@ Template.communities.events({
 Template.communities.helpers({
     outstandingRatings: () => {
         return Ratings.find({
-            answered: false,
-            catagory: 'community'
+            $or: [{
+                answered: false,
+                catagory: 'community'
+            }, {
+                answered: false,
+                context: 'community'
+            }]
         }).count()
     },
     alreadyAdded: () => {
         let alreadyAdded = _.uniq(_.flatten(Ratings.find({
-            owner: Meteor.userId(),
-            catagory: 'community'
+            $or: [{
+                owner: Meteor.userId(),
+                catagory: 'community'
+            }, {
+                owner: Meteor.userId(),
+                context: 'community'
+            }]
         }).fetch().map(i => [i.currency0Id,i.currency1Id])))
 
         return Currencies.find({
@@ -97,8 +117,13 @@ Template.communities.helpers({
     },
     currencies: () => {
         let alreadyAdded = _.uniq(_.flatten(Ratings.find({
-            owner: Meteor.userId(),
-            catagory: 'community'
+            $or: [{
+                owner: Meteor.userId(),
+                catagory: 'community'
+            }, {
+                owner: Meteor.userId(),
+                context: 'community'
+            }]
         }).fetch().map(i => [i.currency0Id,i.currency1Id])))
 
         return Currencies.find({
@@ -111,8 +136,13 @@ Template.communities.helpers({
     },
     questions: () => {
         return Ratings.findOne({
-            answered: false,
-            catagory: 'community'
+            $or: [{
+                answered: false,
+                catagory: 'community'
+            }, {
+                answered: false,
+                context: 'community'
+            }]
         })
     },
     currency0Name: function() {
