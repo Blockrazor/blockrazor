@@ -11,7 +11,8 @@ if (Meteor.isServer) {
             //check if logged in
             if (!Meteor.userId()) { throw new Meteor.Error("Please log in first") };
 
-            let isModerator = UserData.find({_id: this.userId},{ fields: { moderator:true } });
+            let isModerator = UserData.findOne({_id: this.userId},{ fields: { moderator:true } });
+
             if (!isModerator.moderator) { throw new Meteor.Error("moderatorOnlyAction") };
 
 
