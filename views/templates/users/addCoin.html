@@ -188,6 +188,19 @@ Start time (GMT)
   </div>
 </div>
 {{/if}}
+{{#if questions.length}}
+<div class="row">
+  &nbsp;
+<ul class="list-group" style="width: 100%;margin-right:10px;margin-left:10px;">
+<li class="list-group-item bg-primary">
+  <b>Additional questions</b><br />
+  {{#each questions}}
+  {{question}} <span style="float: right;"><input type="radio" name="question_{{_id}}" value="true"><label>Yes</label>&nbsp;&nbsp;<input type="radio" name="question_{{_id}}" value="false"><label>No</label></span><br /><br />
+  {{/each}}
+</li>
+</ul>
+</div>
+{{/if}}
 <div class="row">
   &nbsp;
 <ul class="list-group" style="width: 100%;margin-right:10px;margin-left:10px;">
