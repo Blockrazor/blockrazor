@@ -17,7 +17,8 @@ Template.changedCurrencies.events({
         let voteType = e.currentTarget.id;
 
         Meteor.call('voteOnCurrencyChange', voteType, this, function(error, result) {
-            if (error.error == 'moderatorOnlyAction') {
+
+            if (error && error.error == 'moderatorOnlyAction') {
                 sAlert.error('Only moderators can vote');
             }
             if (result == 'merged') {
@@ -29,7 +30,7 @@ Template.changedCurrencies.events({
 
         let voteType = e.currentTarget.id;
         Meteor.call('voteOnCurrencyChange', voteType, this, function(error, result) {
-            if (error.error == 'moderatorOnlyAction') {
+            if (error && error.error == 'moderatorOnlyAction') {
                 sAlert.error('Only moderators can vote');
             }
         });
@@ -77,7 +78,6 @@ Template.changedCurrencies.helpers({
             var voteExist = _.filter(voted.voteMetrics, function(item) {
                 return item.userId.indexOf(Meteor.userId()) != -1;
             });
-            console.log(voteExist)
             if (voteExist.length >= 1) {
                 return true;
             } else {
