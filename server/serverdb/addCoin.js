@@ -135,7 +135,26 @@ Meteor.methods({
 
     }
 
+    if (data.questions && data.questions.length) {
+      allowed.push('questions')
 
+      console.log(data.questions)
+
+      let rankings = {}
+      data.questions.forEach(i => {
+        let val = i.negative ? -2 : 2 // if the questions is in negative context
+        val = i.value === 'true' ? val : -val // if the answer is true, keep the sign, else negate the value
+        rankings[i.category] = rankings[i.category] ? (rankings[i.category] + val) : (400 + val) // 400 is the base value
+      })
+
+      console.log(rankings)
+
+      Object.keys(rankings).forEach(i => {
+        data[`${i}Ranking`] = rankings[i]
+
+        allowed.push(`${i}Ranking`)
+      })
+    }
 
 
     //Check that no one is playing silly buggers trying to put extra malicious crap into the data

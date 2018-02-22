@@ -1,8 +1,7 @@
 import { Template } from 'meteor/templating';
 import { FormData } from '../../lib/database/FormData.js'; //database
 import { Bounties } from '../../lib/database/Bounties'
-
-
+import { RatingsTemplates } from '../../lib/database/Ratings'
 
 
 //Functions to help with client side validation and data manipulation
@@ -46,6 +45,7 @@ Template.addCoin.onCreated(function() {
 
   this.autorun(() => {
     this.subscribe('currencyBounty')
+    this.subscribe('addCoinQuestions')
   })
 
   this.now = new ReactiveVar(Date.now())
@@ -173,7 +173,26 @@ if(!uploadError){
     if (d.ICO.checked) {launchTags.push({"tag": "ICO"})};
     if (d.BTCFork.checked) {launchTags.push({"tag": "Bitcoin Fork"})};
     if (!d.BTCFork.checked) {launchTags.push({"tag": "Altcoin"})};
-    if(!d.exists.checked) {launchTags.push({"tag": "proposal"})};
+    if(!d.exists.checked) {launchTags.push({"tag": "proposal"})}
+
+      let questions = []
+
+    RatingsTemplates.find({}).fetch().forEach(i => {
+      questions.push({
+        questionId: i._id,
+        category: i.catagory,
+        negative: i.negative,
+        value: $(`input[name="question_${i._id}"]:checked`).val()
+      })
+    })
+
+    for (let i = 0; i < questions.length; i++) {
+      if (!questions[i].value) {
+        sAlert.error('Please answer all additional questions.')
+
+        return
+      }
+    }
 
   var insert = {
     currencyName: d.currencyName.value,
@@ -188,7 +207,11 @@ if(!uploadError){
     featureTags: makeTagArrayFrom(d.featureTags.value),
     approvalNotes: d.notes.value,
     currencyLogoFilename: d.currencyLogoFilename.value,
-  };
+  }
+
+  if (questions.length) {
+    insert['questions'] = questions
+  }
 
   var addToInsert = function(value, key) {
     if (typeof key !== "undefined") {
@@ -235,6 +258,7 @@ if(!uploadError){
 
 
 Template.addCoin.helpers({
+  questions: () => RatingsTemplates.find({}).fetch(),
   activeBounty: () => {
     let bounty = Bounties.find({
       userId: Meteor.userId(),
