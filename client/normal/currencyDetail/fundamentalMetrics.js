@@ -18,11 +18,32 @@ Template.fundamentalMetrics.onRendered(function (){
   this.lastId = new ReactiveVar('')
   var radar = document.getElementById("radar").getContext('2d')
   radar.canvas.width = 800;
-  radar.canvas.height = 600;
+  radar.canvas.height = 600
+
+  let currency = Currencies.findOne({
+    slug: FlowRouter.getParam('slug')
+  }) || {}
+
+  let graphdata = GraphData.findOne({
+    _id: 'elodata'
+  }) || {}
+
+  let wallet = currency.walletRanking / graphdata.walletMaxElo * 10
+
+  let community = currency.communityRanking / graphdata.communityMaxElo * 10
+
+  let codebase = (currency.codebaseRanking || 400) / graphdata.codebaseMaxElo * 10
+
+  let maxD = graphdata.decentralizationMaxElo
+  let minD = graphdata.decentralizationMinElo
+
+  let decentralization = (((currency.decentralizationRanking || 400) - minD) / (maxD - minD)) * 10 
+
+  let nums = [6,codebase,community,2,7,wallet,1,3,decentralization]
     this.radarchart = new Chart(radar, {
         type: 'radar',
         data: {
-          labels: ["Ongoing Development", "Code Quality", "Community", "Hash Power", "Settlement Speed", "Ease of Use", "Coin Distribution", "Transactions"],
+          labels: ["Ongoing Development", "Code Quality", "Community", "Hash Power", "Settlement Speed", "Ease of Use", "Coin Distribution", "Transactions", "Decentralization"],
           datasets: [
             {
               label: "1950",
@@ -32,7 +53,7 @@ Template.fundamentalMetrics.onRendered(function (){
               pointBorderColor: "#fff",
               pointStyle: "dot",
               pointBackgroundColor: "#FF0000",
-              data: [6,7,2,2,7,8,1,3]
+              data: nums //[6,7,2,2,7,8,1,3]
             },
             {
               label: "2",
@@ -43,7 +64,7 @@ Template.fundamentalMetrics.onRendered(function (){
               borderWidth: 4,
               pointRadius: 0,
               pointBackgroundColor: "#fff",
-              data: [10,10,10,10,10,10,10,10]
+              data: [10,10,10,10,10,10,10,10,10]
             },
             {
               label: "3",
@@ -53,7 +74,7 @@ Template.fundamentalMetrics.onRendered(function (){
               borderWidth: 1,
               pointBorderColor: "#fff",
               pointBackgroundColor: "#fff",
-              data: [0,0,0,0,0,0,0,0]
+              data: [0,0,0,0,0,0,0,0,0]
             }
           ]
         },
@@ -104,26 +125,26 @@ Template.fundamentalMetrics.events({
 
       templateInstance.colors.set($(event.currentTarget).val(), color)
 
-      let wallet = Currencies.findOne({
+      let currency = Currencies.findOne({
         _id: $(event.currentTarget).val()
-      }).walletRanking / GraphData.findOne({
+      }) || {}
+
+      let graphdata = GraphData.findOne({
         _id: 'elodata'
-      }).walletMaxElo * 10
+      }) || {}
 
-      let community = Currencies.findOne({
-        _id: $(event.currentTarget).val()
-      }).communityRanking / GraphData.findOne({
-        _id: 'elodata'
-      }).communityMaxElo * 10
+      let wallet = currency.walletRanking / graphdata.walletMaxElo * 10
 
-      let codebase = (Currencies.findOne({
-        _id: $(event.currentTarget).val()
-      }).codebaseRanking || 400) / GraphData.findOne({_id: "elodata"}).codebaseMaxElo * 10
+      let community = currency.communityRanking / graphdata.communityMaxElo * 10
 
-      let nums = Array.from({ length: 8 }).map(i => Math.round(Math.random() * 10)) // this data is stubed and randomized and should be replaced with real data when available
-      nums[5] = wallet
-      nums[2] = community
-      nums[1] = codebase
+      let codebase = (currency.codebaseRanking || 400) / graphdata.codebaseMaxElo * 10
+
+      let maxD = graphdata.decentralizationMaxElo
+      let minD = graphdata.decentralizationMinElo
+
+      let decentralization = (((currency.decentralizationRanking || 400) - minD) / (maxD - minD)) * 10 
+
+      let nums = [6,codebase,community,2,7,wallet,1,3,decentralization]
 
       // push the new data to the chart
       templateInstance.radarchart.data.datasets.push({
