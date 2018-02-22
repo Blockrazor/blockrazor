@@ -269,7 +269,7 @@ Template.currencyEdit.events({
                 delete insert[newValue];
             } else {
 
-                changed.push({ coin_id: originalCoin_id, coinName: coinName, field: [newValue][0], old: originalValue, new: insert[newValue], changedDate: new Date().getTime(), totalVotes: 0, status: 'pending review' });
+                changed.push({ coin_id: originalCoin_id, coinName: coinName, field: [newValue][0], old: originalValue, new: insert[newValue], changedDate: new Date().getTime(), score: 0, status: 'pending review' });
 
             }
         }

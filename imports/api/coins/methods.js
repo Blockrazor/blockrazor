@@ -1,49 +1,107 @@
 import { Meteor } from 'meteor/meteor';
 import { PendingCurrencies } from '../../../lib/database/Currencies.js';
-import { Currencies, ChangedCurrencies } from '../../../lib/database/Currencies.js'
+import { Currencies, ChangedCurrencies } from '../../../lib/database/Currencies.js';
+import { UserData } from '../../../lib/database/UserData';
 
 if (Meteor.isServer) {
 
     Meteor.methods({
-        voteOnCurrencyChange(data) {
+        voteOnCurrencyChange(voteType, data) {
+            
             //check if logged in
             if (!Meteor.userId()) { throw new Meteor.Error("Please log in first") };
 
-            //Check if user has aleady voted
-            let voteCasted = ChangedCurrencies.find({ _id: data.id, 'voteMetrics.userId': this.userId }).count();
+            let isModerator = UserData.find({_id: this.userId},{ fields: { moderator:true } });
+            if (!isModerator.moderator) { throw new Meteor.Error("moderatorOnlyAction") };
 
-            if (!console.log(voteCasted)) {
-                ChangedCurrencies.update({ _id: data._id }, {
-                    $inc: { totalVotes: 1 },
+
+            if (voteType == 'currencyVoteBtnUp') {
+                var voteComputation = 1;
+                var voteType = 'upvote';
+                var revertVoteType = 'downvote';
+            } else if (voteType == 'currencyVoteBtnDown') {
+                var voteType = 'downvote';
+                var voteComputation = -1;
+                var revertVoteType = 'upvote';
+            } else {
+
+                throw new Meteor.Error("ERROR: Invalid vote type invoked")
+            }
+            //Check if user has aleady voted
+            let voteCasted = ChangedCurrencies.find({ _id: data._id, 'voteMetrics.userId': this.userId }).count();
+
+            if (voteCasted) {
+
+                                ChangedCurrencies.update({ _id: data._id, 'voteMetrics.userId': this.userId }, {
+                    $inc: {
+                        score: voteComputation
+                    },
+                    $pull: {
+                        voteMetrics: {
+                            userId: this.userId
+                        }
+                    }
+                
+            })
+
+                ChangedCurrencies.update({ _id: data._id, 'voteMetrics.userId': this.userId }, {
+                    $inc: {
+                        [voteType]: 1,
+                        [revertVoteType]: -1,
+                    },
                     $push: {
                         voteMetrics: {
+                            voteType: voteType,
                             userId: this.userId,
+                            status: 'active',
                             loggedIP: this.connection.clientAddress,
                             headerData: this.connection.httpHeaders, // this could be a problem in the future, it's quite a big object
                             time: new Date().getTime()
                         }
                     }
                 })
-
-                let approveChange = ChangedCurrencies.findOne({ _id: data._id }, { fields: { totalVotes: 1 } });
-
-                if (approveChange.totalVotes > _coinApprovalThreshold) {
-
-                    //update currency to approved
-                    ChangedCurrencies.update({ _id: data._id }, {
-                        $set: { status: 'merged' }
-                    })
-
-                    //merge changes into currencies collection
-                    Currencies.update({ _id: data.coin_id }, {
-                        $set: {
-                            [data.field]: [data.new]
+            } else {
+                ChangedCurrencies.update({ _id: data._id }, {
+                    $inc: {
+                        [voteType]: 1,
+                        score: voteComputation
+                    },
+                    $push: {
+                        voteMetrics: {
+                            voteType: voteType,
+                            userId: this.userId,
+                            status: 'active',
+                            loggedIP: this.connection.clientAddress,
+                            headerData: this.connection.httpHeaders, // this could be a problem in the future, it's quite a big object
+                            time: new Date().getTime()
                         }
-                    })
-
-                }
-                return true;
+                    }
+                })
             }
+
+            //Calculate if the vote should merge the proposedcoin change
+            let approveChange = ChangedCurrencies.findOne({ _id: data._id }, { fields: { score: 1, upvote:1, downvote:1 } });
+
+            let totalVotes = approveChange.upvote + approveChange.downvote;
+            let mergeScore = approveChange.downvote / totalVotes;
+
+            console.log(mergeScore)
+            if (approveChange.score > _coinApprovalThreshold || mergeScore < 0.2) {
+                console.log('coin approved')
+                //update currency to approved
+                ChangedCurrencies.update({ _id: data._id }, {
+                    $set: { status: 'merged' }
+                })
+
+                //merge changes into currencies collection
+                Currencies.update({ _id: data.coin_id }, {
+                    $set: {
+                        [data.field]: [data.new]
+                    }
+                })
+                return 'merged';
+            }
+            
 
         },
         editCoin(data) {
