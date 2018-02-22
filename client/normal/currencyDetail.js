@@ -179,9 +179,9 @@ Template.currencyInfo.helpers({
       return val;
    }
  },
-    isNull(val,field) {
+    isNull(val, field) {
 
-        if (val) {
+        if (val || val === 0) {
             if (typeof val == "string") {
                 return val;
             } else if (typeof val == "object") {
@@ -191,14 +191,15 @@ Template.currencyInfo.helpers({
                 return val;
             }
         } else {
- 
-          return Spacebars.SafeString('<span id='+field+' class="label label-danger contribute"><i class="fa fa-plus"></i> Contribute</span>');
+            if (field) {
+                return Spacebars.SafeString('<span id=' + field + ' class="label label-danger contribute"><i class="fa fa-plus"></i> Contribute</span>');
+            }
         }
 
     },
         isNullReadOnly(val,field) {
 
-        if (val) {
+        if (val || val === 0) {
             if (typeof val == "string") {
                 return val;
             } else if (typeof val == "object") {
