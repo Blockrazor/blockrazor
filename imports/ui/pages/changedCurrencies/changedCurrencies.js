@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { Currencies, ChangedCurrencies } from '../../../../lib/database/Currencies.js'
+import { Currencies, ChangedCurrencies } from '../../../../lib/database/Currencies.js';
 
 import '../../../api/coins/methods.js';
 import '../../layouts/MainBody.html'
@@ -13,9 +13,26 @@ Template.changedCurrencies.onCreated(function bodyOnCreated() {
 });
 //Events
 Template.changedCurrencies.events({
-    'click #currencyVoteBtn': function(e) {
+    'click #currencyVoteBtnUp': function(e) {
+        let voteType = e.currentTarget.id;
 
-        Meteor.call('voteOnCurrencyChange', this)
+        Meteor.call('voteOnCurrencyChange', voteType, this, function(error, result) {
+            if (error.error == 'moderatorOnlyAction') {
+                sAlert.error('Only moderators can vote');
+            }
+            if (result == 'merged') {
+                sAlert.success('Success, proposed change has been merged');
+            }
+        });
+    },
+    'click #currencyVoteBtnDown': function(e) {
+
+        let voteType = e.currentTarget.id;
+        Meteor.call('voteOnCurrencyChange', voteType, this, function(error, result) {
+            if (error.error == 'moderatorOnlyAction') {
+                sAlert.error('Only moderators can vote');
+            }
+        });
     }
 })
 
@@ -39,14 +56,33 @@ Template.changedCurrencies.helpers({
             return 'NULL'
         }
     },
-    disableVoting(val) {
+    voteType(id) {
+        let isUpVote = ChangedCurrencies.findOne({ _id: id, 'voteMetrics.userId': Meteor.userId(), 'voteMetrics.voteType': 'upvote' }, { fields: { voteMetrics: 1 } });
 
-        let alreadyVoted = ChangedCurrencies.find({ _id: val._id, 'voteMetrics.userId': Meteor.userId() }).count();
-
-        if (alreadyVoted) {
-            return 'disabled';
-        } else if (val.status == 'merged') {
-            return 'disabled';
+        //Typically i'd use elemMatch here in mongoDB but we can't do this locally in meteor so let's use underscore _filter on the voteMetrics array
+        if (isUpVote) {
+            var voteExist = _.filter(isUpVote.voteMetrics, function(item) {
+                return item.userId.indexOf(Meteor.userId()) != -1 && item.voteType.indexOf('upvote') != -1;
+            });
+            if (voteExist.length >= 1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    },
+    voted(id) {
+        let voted = ChangedCurrencies.findOne({ _id: id, 'voteMetrics.userId': Meteor.userId() }, { fields: { voteMetrics: 1 } });
+        if (voted) {
+            var voteExist = _.filter(voted.voteMetrics, function(item) {
+                return item.userId.indexOf(Meteor.userId()) != -1;
+            });
+            console.log(voteExist)
+            if (voteExist.length >= 1) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 });

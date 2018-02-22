@@ -20,9 +20,20 @@
                 <td>{{checkType old}}</td>
                 <td>{{checkType new}}</td>
                 <th scope="col">{{status}}</th>
-                <td>{{totalVotes}}</td>
+                <td>{{score}}</td>
                 <td>
-                    <button id="currencyVoteBtn" type="button" class="btn btn-default notVoted" style="background-color:black;color:white" {{disableVoting this}}><i class="fa fa-arrow-up"></i></button>
+                    {{#if voted _id}}
+                        {{#if voteType _id}}
+                        <button id="currencyVoteBtnUp" type="button" class="btn btn-default notVoted" style="background-color:black;color:white;color:white;cursor:not-allowed" disabled><i class="fa fa-arrow-up"></i></button>
+                        <button id="currencyVoteBtnDown" type="button" class="btn btn-default notVoted" style="background-color:black;color:white"><i class="fa fa-arrow-down"></i></button>
+                        {{else}}
+                        <button id="currencyVoteBtnUp" type="button" class="btn btn-default notVoted" style="background-color:black;color:white"><i class="fa fa-arrow-up"></i></button>
+                        <button id="currencyVoteBtnDown" type="button" class="btn btn-default notVoted" style="background-color:black;color:white;cursor:not-allowed" disabled><i class="fa fa-arrow-down"></i></button>
+                        {{/if}}
+                    {{else}}
+                    <button id="currencyVoteBtnUp" type="button" class="btn btn-default notVoted" style="background-color:black;color:white"><i class="fa fa-arrow-up"></i></button>
+                    <button id="currencyVoteBtnDown" type="button" class="btn btn-default notVoted" style="background-color:black;color:white"><i class="fa fa-arrow-down"></i></button>
+                    {{/if}}
                 </td>
             </tr>
             {{/each}}
