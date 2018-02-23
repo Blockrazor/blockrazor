@@ -1,6 +1,10 @@
+body{font-family: 'Open Sans', sans-serif; font-size: 14px; font-weight: 400;}
+
 * {
   border-radius: 0 !important;
 }
+
+
 
 .bg-good {
   background-color: #91C499;
@@ -19,7 +23,7 @@
 }
 
 .currencyDetailBox {
-  border-bottom: solid 1px;
+
   padding-bottom: 5px;
   padding-left: 5px;
   padding-right: 5px;
@@ -31,6 +35,7 @@
 .bigCommentBox {
   display:block;
   width:100%;
+  border: solid 1px #ddd;
   height:auto;
   float:right;
   clear: both;
@@ -48,19 +53,15 @@
 .commentBody {
   height:auto;
   width:100%;
-  border-style: solid;
-  border-width: 1px;
-  border-bottom: none;
   text-align: justify;
-  padding: 3px;
+  padding:10px;
+  background: #f5f5f5;
 
 }
 
 .commentAnalysis {
   width:30px;
   height:100px;
-  border-style: solid;
-  border-width: 1px;
 }
 
 .commentResponse {
@@ -80,10 +81,25 @@
   display: block;
   padding-right: 5px;
   padding-left: 5px;
-
   height:24px;
   width: 100%;
-  border-bottom: solid 1px;
-  border-left: solid 1px;
-  border-right: solid 1px;
+
 }
+
+
+/* Swarandeep code */
+
+.p15{ padding: 15px;} 
+.currencyDetailBox.card h5 { margin: 0 -20px 10px;  border-bottom: solid 1px #ddd; color:#fff;   padding: 10px 15px;  background: #868e96;}
+.currencyDetailBox.card h3 { margin: 15 0 0;}
+.commentThread .commentText .text-muted{ float: right;}
+.newcomment-Yk3JP2qao5KdCHjHQ textarea .replyText{border: solid 1px #ddd;  margin-top: 10px; min-height: 50px;}
+.replyFooter-Yk3JP2qao5KdCHjHQ, .replyFooter-LhSrXZoNqWB4xWtdP {text-align: right; margin: 15px 0px; }
+.showAddNewRedflag, #addNewFeature{ margin:0 0 0;}
+.commentFooter{ margin:5px 0 10px}
+.commentBody { float: left;}
+.commentFooter .fa-thumbs-up{color:#f6c163}
+.commentFooter .fa-thumbs-down {color:#eb6357}
+.commentFooter .fa-comments-o {color:#37b358;}
+.commentFooter .fa-flag{color:#5f99f5;}
+.replyFooter-5CSu6iPkNavLe8bNT{ float:right;}

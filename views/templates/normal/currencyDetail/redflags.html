@@ -80,43 +80,46 @@
 </div>
 {{featureModal}}
 
-<div class="currencyDetailBox" >
-  <div style="display:flex;width:100%;">
-    <div style="width:20%; float:left;">
-      <button class="btn btn-primary pull-left showRedFlagged" style="margin-top:6px;">
-        Hide
-      </button>
+<div class="currencyDetailBox card">
+  <div class="container">
+    <h5 class="text-left p15 currencyDetailHeading featuresheading">Red Flags</h5>
+    <div class="row">
+     <div style="padding:0;" class="hide-btn col-12">
+         
+             <button class="btn btn-primary showRedFlagged ">Hide</button>
+          <button class="btn btn-primary pull-right showAddNewRedflag"><i class="fa fa-plus" aria-hidden="true">
+            </i> Red Flag Currency</button>
+  
     </div>
-    <div style="width:60%">
-      <h5 class="text-center currencyDetailHeading featuresheading">Red Flags</h5>
-      <div id="showAddNewRedflag" style="display:none;margin-bottom:10px;">
-        <b>Rules:</b><br />
-        <ul>
+    <div class=col>
+     
+      <div id="showAddNewRedflag" style="display:none;">
+       <h3>Rules:</h3>
+        <ul class="list-unstyled">
           <li>Use clear language, keep it as short as possible</li>
           <li>No jokes (people new to crypto will just be confused)</li>
           <li>Any claims must be factually correct</li>
         </ul>
-        <textarea class="" id="redflagContent" style="width:100%" maxlength="140" minlength="6"></textarea><br />
-        <div style="display:flex;"><button class="btn btn-primary float-left submitRedFlag">Submit</button>
-          <h4>&nbsp;&nbsp;<i class="fa fa-question-circle help" aria-hidden="true"></i></h4>
-          <div class="float-right" id="charNum" style="margin-left:50px;"></div>
-        </div>
+       <div class="message">
+          <textarea class="" id="redflagContent" style="width:100% ; min-height:120px;" maxlength="140" minlength="6"></textarea>
+          </div>
+        <div class="text-right">
+          <button class="btn btn-primary float-left submitRedFlag">Submit <i class="fa fa-question-circle help" aria-hidden="true"></i></button>
+            </div>
+        <div class="card" id="charNum" style="margin-left:50px;"></div>
+     
       </div>
     </div>
-    <div style="width:20%;float:right;">
-      <button class="btn btn-primary pull-right showAddNewRedflag" style="margin-top:6px;">
-        <i class="fa fa-plus" aria-hidden="true"></i> Red Flag Currency
-      </button>
     </div>
   </div>
 
     <div class="row commentThread">
     {{#unless reactiveVar 'showredflagged'}}
-      {{#each redflags}}<div class="col-lg-6">{{> redflag}}</div>{{/each}}
+      {{#each redflags}}<div class="col-12">{{> redflag}}</div>{{/each}}
     {{/unless}}
 
     {{#if reactiveVar 'showredflagged'}}
-      {{#each flaggedfeatures}}<div class="col-lg-6">{{> feature}}</div>{{/each}}
+      {{#each flaggedfeatures}}<div class="col-12">{{> feature}}</div>{{/each}}
     {{/if}}
   </div>
 
@@ -135,7 +138,9 @@
     </div>
     <div class="newcomment-{{_id}}" style="display:none;">
     <textarea id="replyText-{{_id}}" class="replyText" style="width:100%;height:30px;" maxlength="140" minlength="6" placeholder="reply"></textarea><br />
-    <div class="replyFooter-{{_id}}" style="display:none;">Wymi amount<i class="fa fa-question-circle wymihelp" aria-hidden="true"></i>:<input class="mwymi" style="width:40px; margin-right: 4px;"><button class="btn btn-primary submitNewComment">Submit</button><div class="float-right" id="replyCharNum{{_id}}" style="position:absolute;right:0; bottom:0px;margin-right:20px;"></div></div>
+    <div class="replyFooter-{{_id}}" style="display:none;">Wymi amount<i class="fa fa-question-circle wymihelp" aria-hidden="true"></i>:
+    <input class="mwymi" style="width:40px; margin-right: 4px;">
+    <button class="btn btn-primary submitNewComment">Submit</button><div class="float-right" id="replyCharNum{{_id}}" style="position:absolute;right:0; bottom:0px;margin-right:20px;"></div></div>
   </div>
 
   <div class="modal fade" id="flagModal-{{_id}}" tabindex="-1" role="dialog">
