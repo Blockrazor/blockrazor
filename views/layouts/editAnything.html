@@ -1,13 +1,11 @@
 <template name="editAnything">
-  {{> sAlert}}
-  {{#if $not currentUser}}<div class="alert alert-danger" role="alert">
-  <h5 class="text-center">You're not logged in!</h5><div class="float-left" style="margin-top:-30px;">{{> loginButtons}}</div>
-</div>{{/if}}
-  <div class="container-fluid">
-  <div class="row d-flex justify-content-center" style="margin-top:2px;">
-    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8 col-xl-8" style="margin-bottom:10px;">
-        {{> Template.dynamic template=main}}
-    </div>
-</div>
-</div>
+	{{> sAlert}}
+	{{#if $not currentUser}}
+		<div class="alert alert-danger" role="alert">
+			<h5 class="text-center">You're not logged in!</h5><div class="float-left" style="margin-top:-30px;">{{> loginButtons}}</div>
+		</div>
+	{{/if}}
+
+	{{> Template.dynamic template=main}}	
+
 </template>
