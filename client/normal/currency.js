@@ -144,6 +144,9 @@ Template.currency.helpers({
   circulating () {
     return Math.round(this.circulating).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   },
+  hashpower: function() {
+    return this.hashpower ? Math.round(this.hashpower).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 'N\\A'
+  },
   launchDate () {
     if (this.genesisTimestamp) {
     return "Launched " + moment(this.genesisTimestamp).fromNow();
