@@ -56,8 +56,13 @@ let codebase = (currencyData.codebaseRanking || 400) / graphdata.codebaseMaxElo 
 let maxD = graphdata.decentralizationMaxElo
 let minD = graphdata.decentralizationMinElo
 
-let decentralization = (((currencyData.decentralizationRanking || 400) - minD) / (maxD - minD)) * 10 
-var datanums = [6,codebase,community,2,7,wallet,1,3,decentralization];
+let decentralization = (((currencyData.decentralizationRanking || 400) - minD) / ((maxD - minD) || 1)) * 10 
+
+let minDev = graphdata.developmentMinElo
+let maxDev = graphdata.developmentMaxElo
+
+let development = (((currencyData.gitCommits || 0) - minDev) / ((maxDev - minDev) || 1)) * 10 
+var datanums = [development,codebase,community,2,7,wallet,1,3,decentralization];
   var radarchart = new Chart(radar, {
       type: 'radar',
       data: {

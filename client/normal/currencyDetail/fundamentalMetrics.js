@@ -37,9 +37,14 @@ Template.fundamentalMetrics.onRendered(function (){
   let maxD = graphdata.decentralizationMaxElo
   let minD = graphdata.decentralizationMinElo
 
-  let decentralization = (((currency.decentralizationRanking || 400) - minD) / (maxD - minD)) * 10 
+  let decentralization = (((currency.decentralizationRanking || 400) - minD) / ((maxD - minD) || 1)) * 10 
 
-  let nums = [6,codebase,community,2,7,wallet,1,3,decentralization]
+  let minDev = graphdata.developmentMinElo
+  let maxDev = graphdata.developmentMaxElo
+
+  let development = (((currency.gitCommits || 0) - minDev) / ((maxDev - minDev) || 1)) * 10 
+
+  let nums = [development,codebase,community,2,7,wallet,1,3,decentralization]
     this.radarchart = new Chart(radar, {
         type: 'radar',
         data: {
@@ -142,9 +147,14 @@ Template.fundamentalMetrics.events({
       let maxD = graphdata.decentralizationMaxElo
       let minD = graphdata.decentralizationMinElo
 
-      let decentralization = (((currency.decentralizationRanking || 400) - minD) / (maxD - minD)) * 10 
+      let decentralization = (((currency.decentralizationRanking || 400) - minD) / ((maxD - minD) || 1)) * 10 
 
-      let nums = [6,codebase,community,2,7,wallet,1,3,decentralization]
+      let minDev = graphdata.developmentMinElo
+      let maxDev = graphdata.developmentMaxElo
+
+      let development = (((currency.gitCommits || 0) - minDev) / ((maxDev - minDev) || 1)) * 10 
+
+      let nums = [development,codebase,community,2,7,wallet,1,3,decentralization]
 
       // push the new data to the chart
       templateInstance.radarchart.data.datasets.push({
