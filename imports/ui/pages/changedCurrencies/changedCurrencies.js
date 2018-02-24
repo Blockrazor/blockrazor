@@ -33,9 +33,12 @@ Template.changedCurrencies.events({
             if (error && error.error == 'moderatorOnlyAction') {
                 sAlert.error('Only moderators can vote');
             }
+            if (result == 'deleted') {
+                sAlert.success('Proposed change has been deleted');
+            }
         });
     }
-})
+    })
 
 //Helpers
 Template.changedCurrencies.helpers({
