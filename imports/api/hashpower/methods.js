@@ -240,7 +240,7 @@ Meteor.methods({
 			}
 
 			let algo = HashAlgorithm.findOne({
-				name: new RegExp(cur.hashAlgorithm, 'i')
+				_id: cur.hashAlgorithm
 			})
 
 			if (algo) {

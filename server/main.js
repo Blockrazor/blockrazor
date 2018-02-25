@@ -151,7 +151,7 @@ Accounts.onCreateUser(( options, user ) => {
 Meteor.startup(() => {
 //jobs.initiate_later();
 SyncedCron.start();
-
+Meteor.call('convertAlgorithm', (err, data) => {})
 //jobs.print();
   // code to run on server at startup
 });
