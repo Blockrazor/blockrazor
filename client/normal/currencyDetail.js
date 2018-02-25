@@ -179,6 +179,17 @@ Template.currencyInfo.helpers({
       return val;
    }
  },
+     isDateNull(val, field) {
+
+    if (typeof val == "number") {
+                return moment(val).format(_globalDateFormat);
+        } else {
+            if (field) {
+                return Spacebars.SafeString('<span id=' + field + ' class="label label-danger contribute"><i class="fa fa-plus"></i> Contribute</span>');
+            }
+        }
+
+    },
     isNull(val, field) {
 
         if (val || val === 0) {
