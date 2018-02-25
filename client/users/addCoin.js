@@ -2,6 +2,7 @@ import { Template } from 'meteor/templating';
 import { FormData } from '../../lib/database/FormData.js'; //database
 import { Bounties } from '../../lib/database/Bounties'
 import { RatingsTemplates } from '../../lib/database/Ratings'
+import { HashAlgorithm } from '../../lib/database/HashAlgorithm'
 
 
 //Functions to help with client side validation and data manipulation
@@ -46,6 +47,7 @@ Template.addCoin.onCreated(function() {
   this.autorun(() => {
     this.subscribe('currencyBounty')
     this.subscribe('addCoinQuestions')
+    this.subscribe('hashalgorithm')
   })
 
   this.now = new ReactiveVar(Date.now())
@@ -289,7 +291,17 @@ Template.addCoin.helpers({
     return FormData.find({}, {});
   },
   subsecurity () {
-   return FormData.findOne({name: Template.instance().consensusType.get()}, {}).subsecurity;
+    if (Template.instance().consensusType.get() === 'Proof of Work') {
+      return HashAlgorithm.find({}).fetch()
+    } else if (Template.instance().consensusType.get() === 'Hybrid') {
+      return HashAlgorithm.find({}).fetch().map(i => {
+        i.name = `Staking and ${i.name}`
+
+        return i
+      })
+    }
+
+    return []
   },
   coinExists () {
     return Template.instance().coinExists.get()

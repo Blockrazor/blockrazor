@@ -110,7 +110,7 @@ Start time (GMT)
     <select class="form-control" id="exampleFormControlSelect1" name="hashAlgorithm">
       <option disabled selected>--Select One--</option>
       {{#each subsecurity}}
-      <option>{{name}}</option>
+      <option value="{{_id}}">{{name}}</option>
       {{ /each }}
     </select>
   </div>
