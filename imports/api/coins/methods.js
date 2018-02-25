@@ -96,7 +96,7 @@ if (Meteor.isServer) {
                 //merge changes into currencies collection
                 Currencies.update({ _id: data.coin_id }, {
                     $set: {
-                        [data.field]: [data.new]
+                        [data.field]: data.new
                     }
                 })
                 return 'merged';
