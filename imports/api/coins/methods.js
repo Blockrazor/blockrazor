@@ -86,7 +86,6 @@ if (Meteor.isServer) {
             let totalVotes = approveChange.upvote + approveChange.downvote;
             let mergeScore = approveChange.downvote / totalVotes;
 
-            console.log(mergeScore)
             if (approveChange.score > _coinApprovalThreshold || mergeScore < 0.2) {
                 console.log('coin approved')
                 //update currency to approved
@@ -97,12 +96,21 @@ if (Meteor.isServer) {
                 //merge changes into currencies collection
                 Currencies.update({ _id: data.coin_id }, {
                     $set: {
-                        [data.field]: [data.new]
+                        [data.field]: data.new
                     }
                 })
                 return 'merged';
+            } 
+
+            //Should we delete the proposed change if it gets a certain amount of downvotes
+            if (approveChange.downvote > _coinMergeDeleteThreshold) {
+                ChangedCurrencies.update({ _id: data._id }, {
+                    $set: {
+                        status: 'deleted'
+                    }
+                })
+                return 'deleted';
             }
-            
 
         },
         editCoin(data) {

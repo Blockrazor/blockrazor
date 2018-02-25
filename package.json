@@ -12,8 +12,10 @@
     "disposable-email": "^0.2.3",
     "fibers": "^2.0.0",
     "later": "^1.2.0",
+    "lodash.get": "^4.4.2",
     "meteor-node-stubs": "~0.2.4",
     "mime-types": "^2.1.17",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "xml2js": "^0.4.19"
   }
 }
