@@ -46,10 +46,10 @@
 							<div class="card-columns">
 							    <div class="card required">
 						      		<div class="card-body">
-								        <h5 class="card-title text-info">Coin Basics</h5>
-								        <input type="text" id="currencyName" name="currencyName" placeholder="Currency Name" style="width: 100%">
-								        {{reactiveVar 'currencyNameMessage'}}
-								         {{ #if reactiveVar 'currencyName'}}{{> currencyName}}{{/if}}
+								        <h5 class="card-title text-info">Coin Basics</h5>								      
+								        <input type="text" id="currencyName" name="currencyName" placeholder="Currency Name" style="width: 100%">   
+							        	{{reactiveVar 'currencyNameMessage'}}									   
+								        {{ #if reactiveVar 'currencyName'}}{{> currencyName}}{{/if}}
 								        <input type="text" id="currencySymbol" name="currencySymbol" placeholder="SYMBOL" style="width: 100%">
 								        {{ #if reactiveVar 'currencySymbol'}}{{> currencSymbol}}{{/if}}
 
@@ -85,11 +85,14 @@
 										{{ #unless reactiveVar 'btcfork'}}
 										{{ #if reactiveVar 'coinExists'}}Genesis Block Date{{ /if }}
 										{{ #unless reactiveVar 'coinExists'}}Genesis Block ETA{{ /unless }}
-										  <div class="float-right" style="width:100%; display:flex;">
-										    <input type="number" min="2008" max="2020" name="genesisYear" placeholder="YYYY" id="genesis" style="width:80px">
+										<div class="float-right" style="width:100%; display:flex;">
+											<input type="number" min="2008" max="2020" name="genesisYear" placeholder="YYYY" id="genesis" style="width:80px">
 										    <input type="number" min="1" max="12" name="genesisMonth" placeholder="MM" id="genesis" style="width: 60px">
 										    <input type="number" min="1" max="31" name="genesisDay" placeholder="DD" id="genesis" style="width: 60px">
-										  </div>
+										</div>
+
+										<div class="clearfix"></div>
+
 										{{ #if reactiveVar 'coinExists' }}{{ #if reactiveVar 'genesis' }}{{> genesisTimestamp}}{{/if}}{{/if}}
 										{{ #unless reactiveVar 'coinExists' }}{{ #if reactiveVar 'genesis' }}{{> intendedLaunch}}{{/if}}{{/unless}}
 										{{ /unless }}
@@ -144,7 +147,7 @@
 								<div class="card">
 									<div class="card-body">
 										<h5 class="card-title text-success">Community</h5>
-										<textarea class="form-control" id="gitRepo" rows="2" placeholder="Github repository for main node software" name="gitRepo"></textarea>
+										<textarea class="form-control" id="gitRepo" rows="2" placeholder="GitHub repository for main node software" name="gitRepo"></textarea>
 										{{ #if reactiveVar 'gitRepo' }}{{> gitRepo}}{{/if}}
 										<textarea class="form-control" id="officialSite" rows="2" placeholder="Official website" name="officialSite"></textarea>
 										{{ #if reactiveVar 'officialSite' }}{{> officialSite}}{{/if}}
