@@ -87,7 +87,14 @@ body{font-family: 'Open Sans', sans-serif; font-size: 14px; font-weight: 400;}
 }
 
 
-/* Swarandeep code */
+/*
+Author : Swarandeep Singh (https://github.com/Swarandeep1990)
+Last Update Date  : 26-02-2018
+Issue : Problem: comments on the currency detail page don't look very good #224
+Todo : Resolve the issues on currency detail page
+
+
+*/
 
 .p15{ padding: 15px;} 
 .currencyDetailBox.card h5 { margin: 0 -20px 10px;  border-bottom: solid 1px #ddd; color:#fff;   padding: 10px 15px;  background: #868e96;}
@@ -103,3 +110,5 @@ body{font-family: 'Open Sans', sans-serif; font-size: 14px; font-weight: 400;}
 .commentFooter .fa-comments-o {color:#37b358;}
 .commentFooter .fa-flag{color:#5f99f5;}
 .replyFooter-5CSu6iPkNavLe8bNT{ float:right;}
+
+/*End */
