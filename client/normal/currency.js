@@ -45,14 +45,28 @@ ctx.canvas.height = 260;
 var radar = document.getElementById(currencyData._id + "-radar").getContext('2d');
 radar.canvas.width = 400;
 radar.canvas.height = 300;
-var wallet = currencyData.walletRanking / GraphData.findOne({_id: "elodata"}).walletMaxElo * 10;
-var community = (currencyData.communityRanking || 400) / GraphData.findOne({_id: "elodata"}).communityMaxElo * 10;
-let codebase = (currencyData.codebaseRanking || 400) / GraphData.findOne({_id: "elodata"}).codebaseMaxElo * 10
-var datanums = [6,codebase,community,2,7,wallet,1,3];
+
+let graphdata = GraphData.findOne({
+  _id: 'elodata'
+}) || {}
+var wallet = currencyData.walletRanking / graphdata.walletMaxElo * 10;
+var community = (currencyData.communityRanking || 400) / graphdata.communityMaxElo * 10;
+let codebase = (currencyData.codebaseRanking || 400) / graphdata.codebaseMaxElo * 10
+
+let maxD = graphdata.decentralizationMaxElo
+let minD = graphdata.decentralizationMinElo
+
+let decentralization = (((currencyData.decentralizationRanking || 400) - minD) / ((maxD - minD) || 1)) * 10 
+
+let minDev = graphdata.developmentMinElo
+let maxDev = graphdata.developmentMaxElo
+
+let development = (((currencyData.gitCommits || 0) - minDev) / ((maxDev - minDev) || 1)) * 10 
+var datanums = [development,codebase,community,2,7,wallet,1,3,decentralization];
   var radarchart = new Chart(radar, {
       type: 'radar',
       data: {
-        labels: ["Ongoing Development", "Code Quality", "Community", "Hash Power", "Settlement Speed", "Ease of Use", "Coin Distribution", "Transactions"],
+        labels: ["Ongoing Development", "Code Quality", "Community", "Hash Power", "Settlement Speed", "Ease of Use", "Coin Distribution", "Transactions", "Decentralization"],
         datasets: [
           {
             label: "1950",
@@ -73,7 +87,7 @@ var datanums = [6,codebase,community,2,7,wallet,1,3];
             borderWidth: 4,
             pointRadius: 0,
             pointBackgroundColor: "#fff",
-            data: [10,10,10,10,10,10,10,10]
+            data: [10,10,10,10,10,10,10,10,10]
           },
           {
             label: "3",
@@ -83,7 +97,7 @@ var datanums = [6,codebase,community,2,7,wallet,1,3];
             borderWidth: 1,
             pointBorderColor: "#fff",
             pointBackgroundColor: "#fff",
-            data: [0,0,0,0,0,0,0,0]
+            data: [0,0,0,0,0,0,0,0,0]
           }
         ]
       },
@@ -134,6 +148,9 @@ Template.currency.helpers({
   },
   circulating () {
     return Math.round(this.circulating).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  },
+  hashpower: function() {
+    return this.hashpower ? Math.round(this.hashpower).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 'N\\A'
   },
   launchDate () {
     if (this.genesisTimestamp) {

@@ -13,11 +13,14 @@ Meteor.methods({
     updateGraphdata: () => {
         let currencies = Currencies.find().fetch()
 
-        let ratings = []
+        let ratings = {}
+        let commits = []
 
         let pos = ['wallet', 'community', 'codebase', 'decentralization']
 
         currencies.forEach(i => {
+            commits.push(i.gitCommits || 0)
+
             pos.forEach(j => {
                 ratings[j] = ratings[j] || []
                 ratings[j].push(i[`${j}Ranking`] || 400) // apparently there's a chance that ...Ranking is undefined, so we have to have a default value here as well       
@@ -41,6 +44,23 @@ Meteor.methods({
                     [`${i}MaxElo`]: max
                 }
             })
+        })
+
+        let min = 0
+        let max = 0
+
+        if (!_.isEmpty(commits)) {
+            min = _.min(commits)
+            max = _.max(commits)
+        }
+
+        GraphData.upsert({
+            _id: 'elodata'
+        }, {
+            $set: {
+                'developmentMinElo': min,
+                'developmentMaxElo': max
+            }
         })
     },
     averageElo: (type) => {

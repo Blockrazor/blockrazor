@@ -1,7 +1,8 @@
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { FormData } from '../../../../lib/database/FormData.js';
-import { Currencies } from '../../../../lib/database/Currencies.js';
+import { Currencies } from '../../../../lib/database/Currencies.js'
+import { HashAlgorithm } from '../../../../lib/database/HashAlgorithm'
 
 import '../../../api/coins/methods.js';
 import '../../layouts/MainBody.html'
@@ -66,6 +67,7 @@ Template.currencyEdit.onCreated(function() {
     self.autorun(function() {
         // Gets the _id of the current currency and only subscribes to that particular currency
         self.subscribe('approvedcurrency', FlowRouter.getParam('slug'))
+        self.subscribe('hashalgorithm')
     })
 
 
@@ -89,6 +91,7 @@ Template.currencyEdit.onCreated(function() {
     this.confirmations = new ReactiveVar(false)
     this.previousNames = new ReactiveVar(false)
     this.exchanges = new ReactiveVar(false)
+    this.consensusType = new ReactiveVar('')
 
     this.currencyNameMessage = new ReactiveVar('')
     this.consensusSecurity = new ReactiveVar('')
@@ -313,7 +316,17 @@ Template.currencyEdit.helpers({
         return FormData.find({}, {});
     },
     subsecurity() {
-        return FormData.findOne({ name: Template.instance().consensusSecurity.get() }, {}).subsecurity;
+        if (Template.instance().consensusType.get() === 'Proof of Work') {
+          return HashAlgorithm.find({}).fetch()
+        } else if (Template.instance().consensusType.get() === 'Hybrid') {
+          return HashAlgorithm.find({}).fetch().map(i => {
+            i.name = `Staking and ${i.name}`
+
+            return i
+          })
+        }
+
+        return []
     },
     coinExists() {
         return Template.instance().coinExists.get()

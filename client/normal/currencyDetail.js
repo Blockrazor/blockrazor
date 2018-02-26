@@ -1,12 +1,14 @@
 
 import { Template } from 'meteor/templating';
-import { Currencies } from '../../lib/database/Currencies.js';
+import { Currencies } from '../../lib/database/Currencies.js'
+import { HashAlgorithm } from '../../lib/database/HashAlgorithm'
 
 Template.currencyDetail.onCreated(function bodyOnCreated() {
   var self = this
   self.autorun(function(){
     // Gets the _id of the current currency and only subscribes to that particular currency
     self.subscribe('approvedcurrency', FlowRouter.getParam('slug'))
+    self.subscribe('hashalgorithm')
   })
 });
 
@@ -179,9 +181,20 @@ Template.currencyInfo.helpers({
       return val;
    }
  },
-    isNull(val,field) {
+     isDateNull(val, field) {
 
-        if (val) {
+    if (typeof val == "number") {
+                return moment(val).format(_globalDateFormat);
+        } else {
+            if (field) {
+                return Spacebars.SafeString('<span id=' + field + ' class="label label-danger contribute"><i class="fa fa-plus"></i> Contribute</span>');
+            }
+        }
+
+    },
+    isNull(val, field) {
+
+        if (val || val === 0) {
             if (typeof val == "string") {
                 return val;
             } else if (typeof val == "object") {
@@ -191,14 +204,15 @@ Template.currencyInfo.helpers({
                 return val;
             }
         } else {
- 
-          return Spacebars.SafeString('<span id='+field+' class="label label-danger contribute"><i class="fa fa-plus"></i> Contribute</span>');
+            if (field) {
+                return Spacebars.SafeString('<span id=' + field + ' class="label label-danger contribute"><i class="fa fa-plus"></i> Contribute</span>');
+            }
         }
 
     },
         isNullReadOnly(val,field) {
 
-        if (val) {
+        if (val || val === 0) {
             if (typeof val == "string") {
                 return val;
             } else if (typeof val == "object") {
@@ -212,8 +226,19 @@ Template.currencyInfo.helpers({
           return '-'
         }
 
-    }
+    },
+    hashAlgorithm: function() {
+      let prefix = ''
+      if (this.consensusSecurity === 'Hybrid') {
+        prefix = 'Staking and '
+      }
 
+      let algo = HashAlgorithm.findOne({
+        _id: this.hashAlgorithm
+      })
+
+      return algo ? `${prefix}${algo.name}` : this.hashAlgorithm
+    }
 });
 
 

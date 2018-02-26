@@ -1,10 +1,28 @@
 
 import { PendingCurrencies } from '../../lib/database/Currencies.js';
 import { Currencies } from '../../lib/database/Currencies.js'
+import { HashAlgorithm } from '../../lib/database/HashAlgorithm'
 import { log } from '../main'
 
 if (Meteor.isServer) {
 Meteor.methods({
+  convertAlgorithm: () => {
+    Currencies.find({}).fetch().forEach(i => {
+      let algo = HashAlgorithm.findOne({
+        name: new RegExp(i.hashAlgorithm, 'i')
+      })
+
+      if (algo) { // ensure idempotence
+        Currencies.update({
+          _id: i._id
+        }, {
+          $set: {
+            hashAlgorithm: algo._id
+          }
+        })
+      }
+    })
+  },
   isCurrencyNameUnique(name) {
     if (PendingCurrencies.findOne({currencyName: name}) || Currencies.findOne({currencyName: name})) {
       throw new Meteor.Error("Looks like " + name + " is already listed or pending approval on Blockrazor!");
@@ -135,7 +153,26 @@ Meteor.methods({
 
     }
 
+    if (data.questions && data.questions.length) {
+      allowed.push('questions')
 
+      console.log(data.questions)
+
+      let rankings = {}
+      data.questions.forEach(i => {
+        let val = i.negative ? -2 : 2 // if the questions is in negative context
+        val = i.value === 'true' ? val : -val // if the answer is true, keep the sign, else negate the value
+        rankings[i.category] = rankings[i.category] ? (rankings[i.category] + val) : (400 + val) // 400 is the base value
+      })
+
+      console.log(rankings)
+
+      Object.keys(rankings).forEach(i => {
+        data[`${i}Ranking`] = rankings[i]
+
+        allowed.push(`${i}Ranking`)
+      })
+    }
 
 
     //Check that no one is playing silly buggers trying to put extra malicious crap into the data
