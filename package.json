@@ -8,6 +8,7 @@
   "dependencies": {
     "babel-runtime": "^6.26.0",
     "bcrypt": "^1.0.3",
+    "chart.js": "^2.7.1",
     "core-js": "^2.5.3",
     "disposable-email": "^0.2.3",
     "fibers": "^2.0.0",

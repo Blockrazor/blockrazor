@@ -1,3 +1,4 @@
+import { Chart } from 'chart.js'
 import { Template } from 'meteor/templating';
 import { GraphData } from '../../lib/database/GraphData.js';
 
