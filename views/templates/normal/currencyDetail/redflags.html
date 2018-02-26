@@ -1,64 +1,8 @@
 <template name="redflags">
-  
-  
-  
-    <div class="modal fade" id="addRedFlagModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Flag Currency</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            RED FLAFYou're red flagging {{currencyName}}. You will be credited with a bounty of {{bountyamount}} ZZR in 7 days as long as it:
-            <ul>
-              <li>Maintains 3 or more stars</li>
-              <li>Is not sent to the Sin Bin by a moderator</li>
-            </ul>
-            Here's an example red flag from Monero:<br />
-            <i>Privacy - all transactions made with Monero are private and untraceable.</i>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Thanks, don't show this again</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  
-    <div class="modal fade" id="wymiModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Commenting</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <p>You'll be asked how much <i>wymi</i> you want to give your comment. </p>
-            <p>You must have enough avalable balance in your wallet to fund the amount you choose.</p>
-            <p>If your comment becomes the <i>top comment</i> in the thread, you get <i>triple</i> your wymi back!
-            If not, your wymi is <i>returned to you in full</i>. Comments sent to the Sin Bin for violating
-            the rules shall forfeit their wymi.</p>
-            <p>The wymi is currently optional but a minimum amount may be implimented in future depending on how much spam etc there is.</p>
-            <h5>Rules</h5>
-            If you think you're doing the right thing, you probably are.
-            <ul>
-              <li>No spamming</li>
-              <li>No personal attacks or abuse</li>
-              <li>Warning people about scams etc is perfectly fine, but <i>malicious</i> FUD is not.</li>
-            </ul>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  
-  <div class="modal fade" id="featureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+
+
+  <div class="modal fade" id="addRedFlagModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -68,9 +12,13 @@
           </button>
         </div>
         <div class="modal-body">
-          It looks like {{currencyName}} has only recently been added to Blockrazor and
-          its red flags have not yet been added. This is a great opportunity for you to
-          add one of {{currencyName}}'s features and earn some Krazor!
+          RED FLAFYou're red flagging {{currencyName}}. You will be credited with a bounty of {{bountyamount}} ZZR in 7 days as long as it:
+          <ul>
+            <li>Maintains 3 or more stars</li>
+            <li>Is not sent to the Sin Bin by a moderator</li>
+          </ul>
+          Here's an example red flag from Monero:<br />
+          <i>Privacy - all transactions made with Monero are private and untraceable.</i>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Thanks, don't show this again</button>
@@ -78,71 +26,155 @@
       </div>
     </div>
   </div>
-  {{featureModal}}
-  
-  <div class="currencyDetailBox card">
-    <div class="container">
-      <h5 class="text-left p15 currencyDetailHeading featuresheading">Red Flags</h5>
-      <div class="row">
-       <div style="padding:0;" class="hide-btn col-12">
-           
-               <button class="btn btn-primary showRedFlagged ">Hide</button>
-            <button class="btn btn-primary pull-right showAddNewRedflag"><i class="fa fa-plus" aria-hidden="true">
-              </i> Red Flag Currency</button>
-    
-      </div>
-      <div class=col>
-       
-        <div id="showAddNewRedflag" style="display:none;">
-         <h3>Rules:</h3>
-          <ul class="list-unstyled">
-            <li>Use clear language, keep it as short as possible</li>
-            <li>No jokes (people new to crypto will just be confused)</li>
-            <li>Any claims must be factually correct</li>
+
+  <div class="modal fade" id="wymiModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Commenting</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>You'll be asked how much <i>wymi</i> you want to give your comment. </p>
+          <p>You must have enough avalable balance in your wallet to fund the amount you choose.</p>
+          <p>If your comment becomes the <i>top comment</i> in the thread, you get <i>triple</i> your wymi back!
+          If not, your wymi is <i>returned to you in full</i>. Comments sent to the Sin Bin for violating
+          the rules shall forfeit their wymi.</p>
+          <p>The wymi is currently optional but a minimum amount may be implimented in future depending on how much spam etc there is.</p>
+          <h5>Rules</h5>
+          If you think you're doing the right thing, you probably are.
+          <ul>
+            <li>No spamming</li>
+            <li>No personal attacks or abuse</li>
+            <li>Warning people about scams etc is perfectly fine, but <i>malicious</i> FUD is not.</li>
           </ul>
-         <div class="message">
-            <textarea class="" id="redflagContent" style="width:100% ; min-height:120px;" maxlength="140" minlength="6"></textarea>
-            </div>
-          <div class="text-right">
-            <button class="btn btn-primary float-left submitRedFlag">Submit <i class="fa fa-question-circle help" aria-hidden="true"></i></button>
-              </div>
-          <div class="card" id="charNum" style="margin-left:50px;"></div>
-       
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Close</button>
         </div>
       </div>
-      </div>
     </div>
-  
-      <div class="row commentThread">
-      {{#unless reactiveVar 'showredflagged'}}
-        {{#each redflags}}<div class="col-12">{{> redflag}}</div>{{/each}}
-      {{/unless}}
-  
-      {{#if reactiveVar 'showredflagged'}}
-        {{#each flaggedfeatures}}<div class="col-12">{{> feature}}</div>{{/each}}
-      {{/if}}
-    </div>
-  
-  
-  
-  
   </div>
-  </template>
-  
-  <template name="redflag">
-      <div class="bigCommentBox">
-        <div class="commentBody">
-          <div class="commentText">{{name}}<small class="text-muted" style="white-space:nowrap;">  &#x2015;added by {{author}}</small></div>
-        </div>
-        <div class="commentFooter"><div class="pull-left"><i class="fa fa-thumbs-down" aria-hidden="true"></i>  <i class="fa fa-thumbs-up fa-flip-horizontal" aria-hidden="true"></i></div><div class="pull-right"><i class="fa fa-flag flag" aria-hidden="true"></i><i class="fa fa-comments-o comments" aria-hidden="true" style="margin-left:10px;"><small>{{numComments}}</small></i></div></div>
+
+<div class="modal fade" id="featureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Flag Currency</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-      <div class="newcomment-{{_id}}" style="display:none;">
-      <textarea id="replyText-{{_id}}" class="replyText" style="width:100%;height:30px;" maxlength="140" minlength="6" placeholder="reply"></textarea><br />
-      <div class="replyFooter-{{_id}}" style="display:none;">Wymi amount<i class="fa fa-question-circle wymihelp" aria-hidden="true"></i>:
-      <input class="mwymi" style="width:40px; margin-right: 4px;">
-      <button class="btn btn-primary submitNewComment">Submit</button><div class="float-right" id="replyCharNum{{_id}}" style="position:absolute;right:0; bottom:0px;margin-right:20px;"></div></div>
+      <div class="modal-body">
+        It looks like {{currencyName}} has only recently been added to Blockrazor and
+        its red flags have not yet been added. This is a great opportunity for you to
+        add one of {{currencyName}}'s features and earn some Krazor!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Thanks, don't show this again</button>
+      </div>
     </div>
-  
+  </div>
+</div>
+{{featureModal}}
+
+<div class="currencyDetailBox" >
+  <div style="display:flex;width:100%;">
+    <div style="width:20%; float:left;">
+      <button class="btn btn-primary pull-left showRedFlagged" style="margin-top:6px;">
+        Hide
+      </button>
+    </div>
+    <div style="width:60%">
+      <h5 class="text-center currencyDetailHeading featuresheading">Red Flags</h5>
+      <div id="showAddNewRedflag" style="display:none;margin-bottom:10px;">
+        <b>Rules:</b><br />
+        <ul>
+          <li>Use clear language, keep it as short as possible</li>
+          <li>No jokes (people new to crypto will just be confused)</li>
+          <li>Any claims must be factually correct</li>
+        </ul>
+        <textarea class="" id="redflagContent" style="width:100%" maxlength="140" minlength="6"></textarea><br />
+        <div style="display:flex;"><button class="btn btn-primary float-left submitRedFlag">Submit</button>
+          <h4>&nbsp;&nbsp;<i class="fa fa-question-circle help" aria-hidden="true"></i></h4>
+          <div class="float-right" id="charNum" style="margin-left:50px;"></div>
+        </div>
+      </div>
+    </div>
+    <div style="width:20%;float:right;">
+      <button class="btn btn-primary pull-right showAddNewRedflag" style="margin-top:6px;">
+        <i class="fa fa-plus" aria-hidden="true"></i> Red Flag Currency
+      </button>
+    </div>
+  </div>
+
+    <div class="row commentThread">
+    {{#unless reactiveVar 'showredflagged'}}
+      {{#each redflags}}<div class="col-lg-6">{{> redflag}}</div>{{/each}}
+    {{/unless}}
+
+    {{#if reactiveVar 'showredflagged'}}
+      {{#each flaggedfeatures}}<div class="col-lg-6">{{> feature}}</div>{{/each}}
+    {{/if}}
+  </div>
+
+
+
+
+</div>
+</template>
+
+<template name="redflag">
+    <div class="bigCommentBox">
+      <div class="commentBody">
+        <div class="commentText">{{name}}<small class="text-muted" style="white-space:nowrap;">  &#x2015;added by {{author}}</small></div>
+      </div>
+      <div class="commentFooter"><div class="pull-left"><i class="fa fa-thumbs-down" aria-hidden="true"></i>  <i class="fa fa-thumbs-up fa-flip-horizontal" aria-hidden="true"></i></div><div class="pull-right"><i class="fa fa-flag flag" aria-hidden="true"></i><i class="fa fa-comments-o comments" aria-hidden="true" style="margin-left:10px;"><small>{{numComments}}</small></i></div></div>
+    </div>
+    <div class="newcomment-{{_id}}" style="display:none;">
+    <textarea id="replyText-{{_id}}" class="replyText" style="width:100%;height:30px;" maxlength="140" minlength="6" placeholder="reply"></textarea><br />
+    <div class="replyFooter-{{_id}}" style="display:none;">Wymi amount<i class="fa fa-question-circle wymihelp" aria-hidden="true"></i>:<input class="mwymi" style="width:40px; margin-right: 4px;"><button class="btn btn-primary submitNewComment">Submit</button><div class="float-right" id="replyCharNum{{_id}}" style="position:absolute;right:0; bottom:0px;margin-right:20px;"></div></div>
+  </div>
+
+  <div class="modal fade" id="flagModal-{{_id}}" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">You are flagging:</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p><b><i>"{{featureName}}"</i></b></p>
+          Written by: {{author}}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger flagButton">Report</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{{#each comments}}{{> comment}}{{/each}}
+</template>
+
+
+
+
+<template name="redflagComment">
+    <div class="bigCommentBox commentParent-{{parentId}}" style="width:90%;display:none;">
+      <div class="commentBody">
+        <div class="commentText">{{comment}} <small class="text-muted" style="white-space:nowrap;">&#x2015;{{author}}</small>
+      </div>
+      </div>
+<div class="commentFooter"><div class="pull-left"><i class="fa fa-thumbs-down" aria-hidden="true"></i>  <i class="fa fa-thumbs-up fa-flip-horizontal" aria-hidden="true"></i></div><div class="pull-right"><i class="fa fa-flag flag" aria-hidden="true"></i></div></div>
+    </div>
+
+
     <div class="modal fade" id="flagModal-{{_id}}" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -153,51 +185,14 @@
             </button>
           </div>
           <div class="modal-body">
-            <p><b><i>"{{featureName}}"</i></b></p>
+            <p><b><i>"{{comment}}"</i></b></p>
             Written by: {{author}}
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-danger flagButton">Report</button>
+            <button type="button" class="btn btn-danger commentFlag">Report</button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
     </div>
-  
-  {{#each comments}}{{> comment}}{{/each}}
-  </template>
-  
-  
-  
-  
-  <template name="redflagComment">
-      <div class="bigCommentBox commentParent-{{parentId}}" style="width:90%;display:none;">
-        <div class="commentBody">
-          <div class="commentText">{{comment}} <small class="text-muted" style="white-space:nowrap;">&#x2015;{{author}}</small>
-        </div>
-        </div>
-  <div class="commentFooter"><div class="pull-left"><i class="fa fa-thumbs-down" aria-hidden="true"></i>  <i class="fa fa-thumbs-up fa-flip-horizontal" aria-hidden="true"></i></div><div class="pull-right"><i class="fa fa-flag flag" aria-hidden="true"></i></div></div>
-      </div>
-  
-  
-      <div class="modal fade" id="flagModal-{{_id}}" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">You are flagging:</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <p><b><i>"{{comment}}"</i></b></p>
-              Written by: {{author}}
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-danger commentFlag">Report</button>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-      </div>
-  </template>
+</template>
