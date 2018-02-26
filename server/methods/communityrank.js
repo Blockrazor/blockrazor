@@ -67,24 +67,75 @@ Meteor.methods({
             }
         }
     },
+    deleteCommunityRatings: () => {
+        Ratings.update({
+            $or: [{
+                owner: Meteor.userId(),
+                processed: false,
+                catagory: 'community'
+            }, {
+                owner: Meteor.userId(),
+                processed: false,
+                context: 'community'
+            }]
+        }, {
+            $set: {
+                answered: false,
+                answeredAt: null,
+                winner: null,
+                loser: null
+            }
+        }, {
+            multi: true
+        }) // reset only ratings from this session, don't reset already processed ratings, as this would mess up previous ELO calculations
+
+        // when bounties for wallet, community and codebase ratings are implemented, purge them here...
+    },
     answerCommunityRating: function(ratingId, winner) {
-        if (Ratings.findOne({
+        let rating = Ratings.findOne({
             _id: ratingId
-        }).owner === this.userId) {
+        }) || {}
+
+        if (rating.owner === this.userId) {
             let loser = ''
 
             if (winner === 'tie') {
                 loser = 'tie'
             } else {
-                loser = Ratings.findOne({
-                    _id: ratingId
-                }).currency0Id
+                loser = rating.currency0Id
 
                 if(loser === winner) {
-                    loser = Ratings.findOne({
-                        _id: ratingId
-                    }).currency1Id
+                    loser = rating.currency1Id
                 }
+            }
+
+            let question = RatingsTemplates.findOne({
+                _id: rating.questionId
+            })
+
+            if (question.xors) {
+                question.xors.forEach(i => {
+                    let q = RatingsTemplates.findOne({
+                        _id: i
+                    })
+
+                    let r = Ratings.findOne({
+                        questionId: i,
+                        currency0Id: rating.currency0Id,
+                        currency1Id: rating.currency1Id
+                    }) // get the rating on same currency pair
+
+                    let bo = true
+                    if ((!q.negative && question.negative) || (q.negative && !question.negative)) { // XOR
+                        bo = false
+                    }
+
+                    if (r.answered) {
+                        if (winner !== 'tie' && r.winner !== 'tie' && ((bo && (winner !== r.loser || loser !== r.winner)) || (!bo && (winner !== r.winner || loser !== r.loser)))) {
+                            throw new Meteor.Error('Error.', 'xor')
+                        }
+                    }
+                })
             }
 
             Ratings.upsert({
