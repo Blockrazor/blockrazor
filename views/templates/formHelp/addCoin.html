@@ -1,93 +1,161 @@
 <template name="currencyName">
-  Please input the name of the cryptocurrency, token, ICO, etc.
+	<div class="tooltip-wrapper">
+		<span class="tooltip-content d-block text-center text-secondary bg-white">
+			Please input the name of the cryptocurrency, token, ICO, etc.
+		</span>
+	</div>
 </template>
 
 
 <template name="currencSymbol">
-  Please input the symbol for this currency.
+	<div class="tooltip-wrapper">
+		<span class="tooltip-content d-block text-center text-secondary bg-white">
+			Please input the symbol for this currency.
+		</span>
+	</div>
 </template>
 
 
 <template name="ICOfundsRaised">
-How much was raised in total, including all rounds and pre-sales etc?
+	<div class="tooltip-wrapper">
+		<span class="tooltip-content d-block text-center text-secondary bg-white">
+			How much was raised in total, including all rounds and pre-sales etc?
+		</span>
+	</div>
 </template>
 
 
 <template name="genesisTimestamp">
-When was the genesis block mined? The easiest way to check this is to seach on Google for a block explorer for this blockchain and go to block 0. In most block explorers you can simply type "0" into their search feature and it will find the genesis block. In some cases, the genesis block may have a unix timestamp of "0" which translates to 1st January 1970. In those cases, simply use block 1 instead.
+	<div class="tooltip-wrapper">
+		<span class="tooltip-content d-block text-center text-secondary bg-white">
+			When was the genesis block mined? The easiest way to check this is to seach on Google for a block explorer for this blockchain and go to block 0. In most block explorers you can simply type "0" into their search feature and it will find the genesis block. In some cases, the genesis block may have a unix timestamp of "0" which translates to 1st January 1970. In those cases, simply use block 1 instead.
+		</span>
+	</div>
 </template>
 
 
 <template name="intendedLaunch">
-When do the people behind this coin intend to mine the genesis block or launch the coin?
+	<div class="tooltip-wrapper">
+		<span class="tooltip-content d-block text-center text-secondary bg-white">
+			When do the people behind this coin intend to mine the genesis block or launch the coin?
+		</span>
+	</div>
 </template>
 
 
 <template name="forkParent">
-Please select which Bitcoin blockchain this fork is forking from. For example if it is a fork of Bitcoin Cash, simply choose "Bitcoin Cash".
+	<div class="tooltip-wrapper">
+		<span class="tooltip-content d-block text-center text-secondary bg-white">
+			Please select which Bitcoin blockchain this fork is forking from. For example if it is a fork of Bitcoin Cash, simply choose "Bitcoin Cash".
+		</span>
+	</div>
 </template>
 
 
 <template name="forkHeight">
-At which block did (or will) the fork happen?
+	<div class="tooltip-wrapper">
+		<span class="tooltip-content d-block text-center text-secondary bg-white">
+			At which block did (or will) the fork happen?
+		</span>
+	</div>
 </template>
 
 
 <template name="premine">
-Were coins sold or distributed before the public were able to participate in mining? Did the developers mine coins before telling anyone else about it? This is more of a "if it quacks like a duck it's probably a duck" question. For example Zcash has a 20% mining tax until the developers recieve 2,100,000 coins, thus their premine is 2100000.
+	<div class="tooltip-wrapper">
+		<span class="tooltip-content d-block text-center text-secondary bg-white">
+			Were coins sold or distributed before the public were able to participate in mining? Did the developers mine coins before telling anyone else about it? This is more of a "if it quacks like a duck it's probably a duck" question. For example Zcash has a 20% mining tax until the developers recieve 2,100,000 coins, thus their premine is 2100000.
+		</span>
+	</div>
 </template>
 
 
 <template name="maxCoins">
-Is there a cap on the total number of coins produced? For example, Bitcoin is 21,000,000. If there's no cap. or if there's an inflationary tail, please input the total coins that will exist in the year 2050.
+	<div class="tooltip-wrapper">
+		<span class="tooltip-content d-block text-center text-secondary bg-white">
+			Is there a cap on the total number of coins produced? For example, Bitcoin is 21,000,000. If there's no cap. or if there's an inflationary tail, please input the total coins that will exist in the year 2050.
+		</span>
+	</div>
 </template>
 
 
 <template name="gitRepo">
-This is the git code repository for the main node software (not the github organization). For example, Monero is <a href="https://github.com/monero-project/monero">https://github.com/monero-project/monero</a>
+	<div class="tooltip-wrapper">
+		<span class="tooltip-content d-block text-center text-secondary bg-white">
+			This is the git code repository for the main node software (not the github organization). For example, Monero is <a href="https://github.com/monero-project/monero">https://github.com/monero-project/monero</a>
+		</span>
+	</div>
 </template>
 
 
 <template name="officialSite">
-What is the offical website?
+	<div class="tooltip-wrapper">
+		<span class="tooltip-content d-block text-center text-secondary bg-white">
+			What is the offical website?
+		</span>
+	</div>
 </template>
 
 
 <template name="reddit">
-  Is there a reddit page (subreddit) for this project?
+	<div class="tooltip-wrapper">
+		<span class="tooltip-content d-block text-center text-secondary bg-white">
+  			Is there a reddit page (subreddit) for this project?
+			</span>
+		</div>
 </template>
 
 
 <template name="featureTags">
-What features make this project or currency special? Use a comma to seperate each feature. Some examples include:
-<ul>
-  <li>Privacy</li>
-  <li>Directed Acyclic Graph</li>
-  <li>Cryptographic contracts</li>
-</ul>
+	<div class="tooltip-wrapper">
+		<span class="tooltip-content d-block text-center text-secondary bg-white">
+			What features make this project or currency special? Use a comma to seperate each feature. Some examples include:
+			<ul class="text-left mt-2">
+				<li>Privacy</li>
+				<li>Directed Acyclic Graph</li>
+				<li>Cryptographic contracts</li>
+			</ul>
+		</span>
+	</div>
 </template>
 
 
 <template name="blockTime">
-What is the block time for this blockchain?
+	<div class="tooltip-wrapper">
+		<span class="tooltip-content d-block text-center text-secondary bg-white">
+			What is the block time for this blockchain?
+		</span>
+	</div>
 </template>
 
 
 <template name="confirmations">
-How many confirmations do exchanges wait for before they let you trade it if you deposit this currency? Not all exchanges are the same, but any number you've experienced yourself is fine.
+	<div class="tooltip-wrapper">
+		<span class="tooltip-content d-block text-center text-secondary bg-white">
+			How many confirmations do exchanges wait for before they let you trade it if you deposit this currency? Not all exchanges are the same, but any number you've experienced yourself is fine.
+		</span>
+	</div>
 </template>
 
 
 <template name="previousNames">
-Has this currency been known by any previous names?
+	<div class="tooltip-wrapper">
+		<span class="tooltip-content d-block text-center text-secondary bg-white">
+			Has this currency been known by any previous names?
+		</span>
+	</div>
 </template>
 
 
 <template name="exchanges">
-Which exchanges have listed this currency? Some examples include:
-<ul>
-  <li>Bittrex</li>
-  <li>Poloniex</li>
-  <li>Kraken</li>
-</ul>
+	<div class="tooltip-wrapper">
+		<span class="tooltip-content d-block text-center text-secondary bg-white">
+			Which exchanges have listed this currency? Some examples include:
+			<ul class="text-left mt-2">
+				<li>Bittrex</li>
+				<li>Poloniex</li>
+				<li>Kraken</li>
+			</ul>
+		</span>
+	</div>
 </template>
