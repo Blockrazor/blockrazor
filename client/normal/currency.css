@@ -100,10 +100,48 @@
 }
 
 .form-cards .card {
+  color: #444;
   border: none;
   border-radius: 6px;
   box-shadow: 7px 10px 25px -5px rgba(46, 61, 73, 0.2);
   margin-bottom: 30px !important;
+}
+
+.form-cards .card input,
+.form-cards .card textarea,
+.form-cards .card select {
+  font-size: 14px;
+  background-color: #f9f9f9;
+  border: 1px solid #e5e5e5;
+  border-radius: 5px;
+  box-shadow: none;
+  padding: 10px 16px;
+  margin-bottom: 10px;
+}
+
+.form-cards .card input, 
+.form-cards .card select {
+  height: 40px;
+}
+
+.form-cards .card input:focus {
+  outline: none;
+}
+
+.form-cards .card textarea {
+  height: 100px;
+}
+
+.form-cards .card input[type="radio"] {
+  height: auto;
+  margin-top: 10px;
+}
+
+.additional-info textarea {
+  font-size: 14px;
+  border-radius: 5px;
+  box-shadow: none;
+  padding: 10px 16px;
 }
 
 .custom-control-input:checked~.custom-control-indicator {
@@ -117,12 +155,12 @@
 
 .tooltip-wrapper .tooltip-content {
   position: absolute;
-  top: 10px;
+  top: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 80%;
   font-size: 14px;
-  border: 1px solid #0daeda;
+  border: 1px solid #02b3e4;
   border-radius: 6px;
   z-index: 99;
   padding: 15px 18px 13px;
@@ -141,7 +179,7 @@
   top: -10px;
   border-right: 10px solid transparent;
   border-left: 10px solid transparent;
-  border-bottom: 10px solid #0daeda;
+  border-bottom: 10px solid #02b3e4;
 }
 
 .tooltip-wrapper .tooltip-content:after {
@@ -151,21 +189,23 @@
   border-bottom: 9px solid #fff;
 }
 
-/***** Media Queries *****/
-@media screen and (min-width: 768px) and (max-width: 991px) {
-  .card-columns {
-    column-count: 2 !important;
-  }
+.submit-form button {
+  height: 35px;
+  width: 97px;
+  background-color: transparent;
+  color: #02b3e4;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 3px;
+  border-style: none;
+  border: 1px solid #02b3e4;
+  cursor: pointer;
+  margin-right: 15px;
+  transition: all 0.3s;
 }
 
-@media screen and (max-width: 767px) {
-  .card-columns {
-    column-count: 1 !important;
-  }  
-}
-
-@media screen and (min-width: 576px) {
-  .card-columns {
-    column-gap: 30px !important;;
-  }
+.submit-form button:hover {
+  color: #fff;
+  background-color: #02b3e4;
 }

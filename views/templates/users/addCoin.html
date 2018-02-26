@@ -55,12 +55,12 @@
 									        {{ #if reactiveVar 'currencySymbol'}}{{> currencSymbol}}{{/if}}
 
 											{{ #if reactiveVar 'isICO'}}
-
-											Completed ICO funding
+											<h5 class="card-title text-info mt-3">Completed ICO funding</h5>
 											<input type="number" min="0" name="ICOcoinsProduced" id="ICOcoinsProduced" placeholder="Coins allocated" style="width: 100%">
 											<input type="number" min="0" name="ICOfundsRaised" id="ICOfundsRaised" placeholder="Funds raised in total" style="width: 100%">
 											{{ #if reactiveVar 'ICOfundsRaised'}}{{> ICOfundsRaised}}{{/if}}
-											Currency: <select class="form-control icocurrency" id="icocurrency" name="icocurrency" style="width: 80px;">
+											<h5 class="card-title text-info mt-3 d-inline-block">Currency:</h5>
+											<select class="form-control icocurrency d-inline" id="icocurrency" name="icocurrency" style="width: 80px;">
 												<option disabled selected>----</option>
 												<option>USD</option>
 												<option>BTC</option>
@@ -73,23 +73,23 @@
 											Start time (GMT)
 											<div class="float-right" style="width:100%; display:flex;">
 												<input type="number" min="2017" max="2020" name="ICOyear" placeholder="YYYY" id="icodate" style="width:80px">
-												<input type="number" min="1" max="12" name="ICOmonth" placeholder="MM" id="icodate" style="width: 60px">
-												<input type="number" min="1" max="31" name="ICOday" placeholder="DD" id="icodate" style="width: 60px">
-												<input type="number" min="0" max="23" name="ICOhour" placeholder="HH" id="icodate" style="width: 60px">
-												<input type="number" min="0" max="59" name="ICOminute" placeholder="MM" id="icodate" style="width: 60px">
-												<input type="number" min="0" max="59" name="ICOsecond" placeholder="SS" id="icodate" style="width: 60px">
+												<input type="number" min="1" max="12" name="ICOmonth" placeholder="MM" id="icodate" style="width: 70px">
+												<input type="number" min="1" max="31" name="ICOday" placeholder="DD" id="icodate" style="width: 70px">
+												<input type="number" min="0" max="23" name="ICOhour" placeholder="HH" id="icodate" style="width: 70px">
+												<input type="number" min="0" max="59" name="ICOminute" placeholder="MM" id="icodate" style="width: 70px">
+												<input type="number" min="0" max="59" name="ICOsecond" placeholder="SS" id="icodate" style="width: 70px">
 											</div>
 											{{ /unless }}
 
 											{{ /if }}
 
 											{{ #unless reactiveVar 'btcfork'}}
-											{{ #if reactiveVar 'coinExists'}}Genesis Block Date{{ /if }}
+											{{ #if reactiveVar 'coinExists'}}<h5 class="card-title text-info mt-3">Genesis Block Date</h5>{{ /if }}
 											{{ #unless reactiveVar 'coinExists'}}Genesis Block ETA{{ /unless }}
 											<div class="float-right" style="width:100%; display:flex;">
 												<input type="number" min="2008" max="2020" name="genesisYear" placeholder="YYYY" id="genesis" style="width:80px">
-											    <input type="number" min="1" max="12" name="genesisMonth" placeholder="MM" id="genesis" style="width: 60px">
-											    <input type="number" min="1" max="31" name="genesisDay" placeholder="DD" id="genesis" style="width: 60px">
+											    <input type="number" min="1" max="12" name="genesisMonth" placeholder="MM" id="genesis" style="width: 70px">
+											    <input type="number" min="1" max="31" name="genesisDay" placeholder="DD" id="genesis" style="width: 70px">
 											</div>
 
 											<div class="clearfix"></div>
@@ -172,7 +172,7 @@
 											{{#if reactiveVar 'coinExists'}}
 											Block time: <input type="text" id="blockTime" name="blockTime" placeholder="" style="width:60px;"> (seconds) <br />
 											{{ #if reactiveVar 'blockTime' }}{{> blockTime}}{{/if}}
-											Confirmations: <input type="text" id="confirmations" name="confirmations" placeholder="" style="width: 40px;">
+											Confirmations: <input type="text" id="confirmations" name="confirmations" placeholder="" style="width: 60px;">
 											{{ #if reactiveVar 'confirmations' }}{{> confirmations}}{{/if}}
 											{{/if}}
 										</div>
@@ -221,22 +221,22 @@
 			</section>
 
 			<section class="container">
-				<div class="row">
-					<div class="col">
+				<div class="row justify-content-center">
+					<div class="col-md-8">
 						<div class="logo-upload mb-5">
-							<h5>Currency Logo</h5>
+							<h5 class="text-info">Currency Logo</h5>
 							<input type='file' id='currencyLogoInput'>
 							<input type='hidden' id='currencyLogoFilename'>
 						</div>
 
 						<div class="additional-info mb-5">						
-							<h5>Additional information</h5>
+							<h5 class="text-info">Additional information</h5>
 							<textarea class="form-control" id="exampleFormControlTextarea1" rows="6" placeholder="You can add a message here and it will be seen by the person responsible for fact-checking and approval." name="notes"></textarea>				
 						</div>
 
-						<div class="float-left">
-						  <button type="submit" class="btn btn-primary" id="submit">Add Coin</button>
-						  <button class="btn btn-danger" id="cancel">Cancel</button>
+						<div class="submit-form">
+							<button type="submit" class="btn" id="submit">Add Coin</button>
+							<button class="btn" id="cancel">Cancel</button>
 						</div>
 					</div>
 				</div>
