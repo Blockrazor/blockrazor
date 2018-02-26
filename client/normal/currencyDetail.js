@@ -1,12 +1,14 @@
 
 import { Template } from 'meteor/templating';
-import { Currencies } from '../../lib/database/Currencies.js';
+import { Currencies } from '../../lib/database/Currencies.js'
+import { HashAlgorithm } from '../../lib/database/HashAlgorithm'
 
 Template.currencyDetail.onCreated(function bodyOnCreated() {
   var self = this
   self.autorun(function(){
     // Gets the _id of the current currency and only subscribes to that particular currency
     self.subscribe('approvedcurrency', FlowRouter.getParam('slug'))
+    self.subscribe('hashalgorithm')
   })
 });
 
@@ -224,8 +226,19 @@ Template.currencyInfo.helpers({
           return '-'
         }
 
-    }
+    },
+    hashAlgorithm: function() {
+      let prefix = ''
+      if (this.consensusSecurity === 'Hybrid') {
+        prefix = 'Staking and '
+      }
 
+      let algo = HashAlgorithm.findOne({
+        _id: this.hashAlgorithm
+      })
+
+      return algo ? `${prefix}${algo.name}` : this.hashAlgorithm
+    }
 });
 
 

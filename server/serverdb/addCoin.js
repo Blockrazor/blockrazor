@@ -1,10 +1,28 @@
 
 import { PendingCurrencies } from '../../lib/database/Currencies.js';
 import { Currencies } from '../../lib/database/Currencies.js'
+import { HashAlgorithm } from '../../lib/database/HashAlgorithm'
 import { log } from '../main'
 
 if (Meteor.isServer) {
 Meteor.methods({
+  convertAlgorithm: () => {
+    Currencies.find({}).fetch().forEach(i => {
+      let algo = HashAlgorithm.findOne({
+        name: new RegExp(i.hashAlgorithm, 'i')
+      })
+
+      if (algo) { // ensure idempotence
+        Currencies.update({
+          _id: i._id
+        }, {
+          $set: {
+            hashAlgorithm: algo._id
+          }
+        })
+      }
+    })
+  },
   isCurrencyNameUnique(name) {
     if (PendingCurrencies.findOne({currencyName: name}) || Currencies.findOne({currencyName: name})) {
       throw new Meteor.Error("Looks like " + name + " is already listed or pending approval on Blockrazor!");
