@@ -24,14 +24,68 @@ Meteor.methods({
       $inc: {likes: 1}
     });
   },
+  deleteWalletRatings: () => {
+    Ratings.update({
+      $or: [{
+        owner: Meteor.userId(),
+        processed: false,
+        catagory: 'wallet'
+      }, {
+        owner: Meteor.userId(),
+        processed: false,
+        context: 'wallet'
+      }]
+    }, {
+      $set: {
+        answered: false,
+        answeredAt: null,
+        winner: null,
+        loser: null
+      }
+    }, {
+      multi: true
+    }) // reset only ratings from this session, don't reset already processed ratings, as this would mess up previous ELO calculations
+
+    // when bounties for wallet, community and codebase ratings are implemented, purge them here...
+   },
   'answerRating': function(ratingId, winner) {
-    if (Ratings.findOne({_id:ratingId}).owner == this.userId) {
-      var loser = Ratings.findOne({_id:ratingId}).currency0Id;
+    let rating = Ratings.findOne({_id:ratingId})
+    if (rating.owner == this.userId) {
+      var loser = rating.currency0Id;
       if(loser == winner) {
-        loser = Ratings.findOne({_id:ratingId}).currency1Id;
+        loser = rating.currency1Id;
       }
       if(winner == "tie") {
         loser = "tie";
+      }
+
+      let question = RatingsTemplates.findOne({
+        _id: rating.questionId
+      })
+
+      if (question.xors) {
+        question.xors.forEach(i => {
+          let q = RatingsTemplates.findOne({
+            _id: i
+          })
+
+          let r = Ratings.findOne({
+            questionId: i,
+            currency0Id: rating.currency0Id,
+            currency1Id: rating.currency1Id
+          }) // get the rating on same currency pair
+
+          let bo = true
+          if ((!q.negative && question.negative) || (q.negative && !question.negative)) { // XOR
+            bo = false
+          }
+
+          if (r.answered) {
+            if (winner !== 'tie' && r.winner !== 'tie' && ((bo && (winner !== r.loser || loser !== r.winner)) || (!bo && (winner !== r.winner || loser !== r.loser)))) {
+              throw new Meteor.Error('Error.', 'xor')
+            }
+          }
+        })
       }
 
       Ratings.upsert({_id:ratingId}, {
@@ -44,21 +98,33 @@ Meteor.methods({
       )
     }
   },
-    addRatingQuestion: (question, catagory, negative, context) => {
+    addRatingQuestion: (question, catagory, negative, context, xors) => {
         if (!Meteor.userId()){
             throw new Meteor.Error('Error.', 'You need to be logged.')
         }
 
         let id = parseInt(`0x${CryptoJS.MD5(question).toString().slice(0,10)}`, 16).toString()
 
-        RatingsTemplates.insert({
+        let n = RatingsTemplates.insert({
             _id: id,
             question: question,
             catagory: catagory,
             createdBy: Meteor.userId(),
             createdAt: new Date().getTime(),
             negative: !!negative,
-            context: context
+            context: context,
+            xors: xors
+        })
+
+        // XOR is symmetrical
+        xors.forEach(i => {
+            RatingsTemplates.update({
+                _id: i
+            }, {
+                $push: {
+                    xors: n
+                }
+            })
         })
   },
   deleteQuestion: (questionId) => {
