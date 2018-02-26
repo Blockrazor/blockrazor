@@ -31,14 +31,12 @@
     <div class="float-right" style="display:inline-flex;clear:both;" id="takeBounty{{id}}"><button type="button" class="btn {{buttonClass}}">{{#if canContinue}}Continue{{else}}Take{{/if}} Bounty</button></div>
     <div class="float-right" style="display:inline-flex;clear:both;"><i>{{workingText}}</i></div>
   </div>
-</div>
-
+</div>   
 </template>
-
 <template name="activeBounty">
-  <div class="alert alert-danger" role="alert">
-  <h5 class="text-center">{{timeRemaining}}</h5></div>
-  <button class="btn btn-danger float-right cancel">Get me out of here, I can't do this!</button>
+ <div class="alert alert-danger" role="alert">
+ <h5 class="text-center">{{timeRemaining}}</h5></div>
+ <button class="btn btn-danger float-right cancel">Get me out of here, I can't do this!</button>
 {{#if reactiveVar.equals 'bountyType' 'HashrateAPI'}}{{> HashrateAPI}}{{/if}}
 {{#if reactiveVar.equals 'bountyType' 'hashpower'}}{{> hashpower}}{{/if}}
 {{#if reactiveVar.equals 'bountyType' 'userExperience'}}{{> userExperience}}{{/if}}
