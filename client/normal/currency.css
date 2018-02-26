@@ -95,15 +95,15 @@
   color: #02b3e4;
 }
 
-.card-inputs {
+.form-cards {
   background-image: linear-gradient(to bottom right, #f7f7f7, #eafbff);
 }
 
-.card-columns .card {
+.form-cards .card {
   border: none;
   border-radius: 6px;
   box-shadow: 7px 10px 25px -5px rgba(46, 61, 73, 0.2);
-  margin-bottom: 30px !important;;
+  margin-bottom: 30px !important;
 }
 
 .custom-control-input:checked~.custom-control-indicator {

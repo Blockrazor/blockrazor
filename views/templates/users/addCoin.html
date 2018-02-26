@@ -39,169 +39,183 @@
 				</div>
 			</section>
 
-			<section class="card-inputs pt-4 pb-5 my-5">
+			<section class="form-cards pt-4 pb-5 my-5">
 				<div class="container">
-					<div class="row mt-5">
-						<div class="col">
-							<div class="card-columns">
-							    <div class="card required">
-						      		<div class="card-body">
-								        <h5 class="card-title text-info">Coin Basics</h5>								      
-								        <input type="text" id="currencyName" name="currencyName" placeholder="Currency Name" style="width: 100%">   
-							        	{{reactiveVar 'currencyNameMessage'}}									   
-								        {{ #if reactiveVar 'currencyName'}}{{> currencyName}}{{/if}}
-								        <input type="text" id="currencySymbol" name="currencySymbol" placeholder="SYMBOL" style="width: 100%">
-								        {{ #if reactiveVar 'currencySymbol'}}{{> currencSymbol}}{{/if}}
+					<div class="row justify-content-center mt-5">
+						<div class="col-lg-10">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="card bg-white required">
+										<div class="card-body">
+									        <h5 class="card-title text-info">Coin Basics</h5>
+									        {{reactiveVar 'currencyNameMessage'}}
+									        <input type="text" id="currencyName" name="currencyName" placeholder="Currency Name" style="width: 100%">					        									   
+									        {{ #if reactiveVar 'currencyName'}}{{> currencyName}}{{/if}}
+									        <input type="text" id="currencySymbol" name="currencySymbol" placeholder="SYMBOL" style="width: 100%">
+									        {{ #if reactiveVar 'currencySymbol'}}{{> currencSymbol}}{{/if}}
 
-										{{ #if reactiveVar 'isICO'}}
+											{{ #if reactiveVar 'isICO'}}
 
-										Completed ICO funding
-										<input type="number" min="0" name="ICOcoinsProduced" id="ICOcoinsProduced" placeholder="Coins allocated" style="width: 100%">
-										<input type="number" min="0" name="ICOfundsRaised" id="ICOfundsRaised" placeholder="Funds raised in total" style="width: 100%">
-										{{ #if reactiveVar 'ICOfundsRaised'}}{{> ICOfundsRaised}}{{/if}}
-										Currency: <select class="form-control icocurrency" id="icocurrency" name="icocurrency" style="width: 80px;">
-											<option disabled selected>----</option>
-											<option>USD</option>
-											<option>BTC</option>
-											<option>ETH</option>
-											<option>ETC</option>
-										</select>
-										{{ #unless reactiveVar 'coinExists'}}
-										Planned rounds (total)
-										<input type="number" min="0" name="ICOcoinsIntended" id="ICOcoinsIntended" placeholder="Coins to be allocated" style="width: 100%">
-										Start time (GMT)
-										<div class="float-right" style="width:100%; display:flex;">
-											<input type="number" min="2017" max="2020" name="ICOyear" placeholder="YYYY" id="icodate" style="width:80px">
-											<input type="number" min="1" max="12" name="ICOmonth" placeholder="MM" id="icodate" style="width: 60px">
-											<input type="number" min="1" max="31" name="ICOday" placeholder="DD" id="icodate" style="width: 60px">
-											<input type="number" min="0" max="23" name="ICOhour" placeholder="HH" id="icodate" style="width: 60px">
-											<input type="number" min="0" max="59" name="ICOminute" placeholder="MM" id="icodate" style="width: 60px">
-											<input type="number" min="0" max="59" name="ICOsecond" placeholder="SS" id="icodate" style="width: 60px">
-										</div>
-										{{ /unless }}
-
-										{{ /if }}
-
-										{{ #unless reactiveVar 'btcfork'}}
-										{{ #if reactiveVar 'coinExists'}}Genesis Block Date{{ /if }}
-										{{ #unless reactiveVar 'coinExists'}}Genesis Block ETA{{ /unless }}
-										<div class="float-right" style="width:100%; display:flex;">
-											<input type="number" min="2008" max="2020" name="genesisYear" placeholder="YYYY" id="genesis" style="width:80px">
-										    <input type="number" min="1" max="12" name="genesisMonth" placeholder="MM" id="genesis" style="width: 60px">
-										    <input type="number" min="1" max="31" name="genesisDay" placeholder="DD" id="genesis" style="width: 60px">
-										</div>
-
-										<div class="clearfix"></div>
-
-										{{ #if reactiveVar 'coinExists' }}{{ #if reactiveVar 'genesis' }}{{> genesisTimestamp}}{{/if}}{{/if}}
-										{{ #unless reactiveVar 'coinExists' }}{{ #if reactiveVar 'genesis' }}{{> intendedLaunch}}{{/if}}{{/unless}}
-										{{ /unless }}
-
-										{{ #if reactiveVar 'btcfork' }}
-										<select class="form-control forkParent" id="forkParent" name="forkParent">
-										  <option disabled selected>--Select Fork Parent--</option>
-										  <option>Bitcoin</option>
-										  <option>Bitcoin Cash</option>
-										</select>
-										  {{ #if reactiveVar 'forkParent' }}{{> forkParent}}{{/if}}
-										  <input type="number" min="478500" max="600000" name="forkHeight" id="forkHeight" style="width: 100%;" placeholder="Fork Height">
-										  {{ #if reactiveVar 'forkHeight' }}{{> forkHeight}}{{/if}}
-										{{ /if }}
-
-										  <input type="number" min="0" name="premine" id="premine" placeholder="Premine amount" style="width: 100%">
-										  {{ #if reactiveVar 'premine' }}{{> premine}}{{/if}}
-										  <input type="number" name="maxCoins" id="maxCoins" placeholder="Maximum Coins" style="width: 100%">
-										  {{ #if reactiveVar 'maxCoins' }}{{> maxCoins}}{{/if}}
-									</div>
-								</div>
-
-								<div class="card">
-									<div class="card-body">
-										<div class="form-group">
-											<h5 class="card-title text-danger">Security</h5>
-											<select class="form-control consensus" id="consensusType" name="consensusSecurity">
-											  <option disabled selected>--Select One--</option>
-											  {{#each security}}
-											   <option>{{name}}</option>
-											  {{ /each }}
+											Completed ICO funding
+											<input type="number" min="0" name="ICOcoinsProduced" id="ICOcoinsProduced" placeholder="Coins allocated" style="width: 100%">
+											<input type="number" min="0" name="ICOfundsRaised" id="ICOfundsRaised" placeholder="Funds raised in total" style="width: 100%">
+											{{ #if reactiveVar 'ICOfundsRaised'}}{{> ICOfundsRaised}}{{/if}}
+											Currency: <select class="form-control icocurrency" id="icocurrency" name="icocurrency" style="width: 80px;">
+												<option disabled selected>----</option>
+												<option>USD</option>
+												<option>BTC</option>
+												<option>ETH</option>
+												<option>ETC</option>
 											</select>
-										</div>
-										{{#if reactiveVar 'POWSelect'}}
-										<div class="form-group">
-											<select class="form-control" id="exampleFormControlSelect1" name="hashAlgorithm">
-											  <option disabled selected>--Select One--</option>
-											  {{#each subsecurity}}
-											  <option>{{name}}</option>
-											  {{ /each }}
+											{{ #unless reactiveVar 'coinExists'}}
+											Planned rounds (total)
+											<input type="number" min="0" name="ICOcoinsIntended" id="ICOcoinsIntended" placeholder="Coins to be allocated" style="width: 100%">
+											Start time (GMT)
+											<div class="float-right" style="width:100%; display:flex;">
+												<input type="number" min="2017" max="2020" name="ICOyear" placeholder="YYYY" id="icodate" style="width:80px">
+												<input type="number" min="1" max="12" name="ICOmonth" placeholder="MM" id="icodate" style="width: 60px">
+												<input type="number" min="1" max="31" name="ICOday" placeholder="DD" id="icodate" style="width: 60px">
+												<input type="number" min="0" max="23" name="ICOhour" placeholder="HH" id="icodate" style="width: 60px">
+												<input type="number" min="0" max="59" name="ICOminute" placeholder="MM" id="icodate" style="width: 60px">
+												<input type="number" min="0" max="59" name="ICOsecond" placeholder="SS" id="icodate" style="width: 60px">
+											</div>
+											{{ /unless }}
+
+											{{ /if }}
+
+											{{ #unless reactiveVar 'btcfork'}}
+											{{ #if reactiveVar 'coinExists'}}Genesis Block Date{{ /if }}
+											{{ #unless reactiveVar 'coinExists'}}Genesis Block ETA{{ /unless }}
+											<div class="float-right" style="width:100%; display:flex;">
+												<input type="number" min="2008" max="2020" name="genesisYear" placeholder="YYYY" id="genesis" style="width:80px">
+											    <input type="number" min="1" max="12" name="genesisMonth" placeholder="MM" id="genesis" style="width: 60px">
+											    <input type="number" min="1" max="31" name="genesisDay" placeholder="DD" id="genesis" style="width: 60px">
+											</div>
+
+											<div class="clearfix"></div>
+
+											{{ #if reactiveVar 'coinExists' }}{{ #if reactiveVar 'genesis' }}{{> genesisTimestamp}}{{/if}}{{/if}}
+											{{ #unless reactiveVar 'coinExists' }}{{ #if reactiveVar 'genesis' }}{{> intendedLaunch}}{{/if}}{{/unless}}
+											{{ /unless }}
+
+											{{ #if reactiveVar 'btcfork' }}
+											<select class="form-control forkParent" id="forkParent" name="forkParent">
+												<option disabled selected>--Select Fork Parent--</option>
+												<option>Bitcoin</option>
+												<option>Bitcoin Cash</option>
 											</select>
+											{{ #if reactiveVar 'forkParent' }}{{> forkParent}}{{/if}}
+											<input type="number" min="478500" max="600000" name="forkHeight" id="forkHeight" style="width: 100%;" placeholder="Fork Height">
+											{{ #if reactiveVar 'forkHeight' }}{{> forkHeight}}{{/if}}
+											{{ /if }}
+
+											<input type="number" min="0" name="premine" id="premine" placeholder="Premine amount" style="width: 100%">
+											{{ #if reactiveVar 'premine' }}{{> premine}}{{/if}}
+											<input type="number" name="maxCoins" id="maxCoins" placeholder="Maximum Coins" style="width: 100%">
+											{{ #if reactiveVar 'maxCoins' }}{{> maxCoins}}{{/if}}
 										</div>
-										{{/if}}
-										{{ #if reactiveVar 'btcfork' }}
-										Does this fork have two-way replay protection?
-										<label class="radio-inline"><input type="radio" name="replayProtection" value="true" id="replaytrue"> Yes</label>&nbsp;&nbsp;&nbsp;
-										<label class="radio-inline"><input type="radio" name="replayProtection" value="false" id="replayfalse"> No</label>
-										{{/if}}
 									</div>
 								</div>
 
-								<div class="card">
-									<div class="card-body">
-										<h5 class="card-title text-success">Community</h5>
-										<textarea class="form-control" id="gitRepo" rows="2" placeholder="GitHub repository for main node software" name="gitRepo"></textarea>
-										{{ #if reactiveVar 'gitRepo' }}{{> gitRepo}}{{/if}}
-										<textarea class="form-control" id="officialSite" rows="2" placeholder="Official website" name="officialSite"></textarea>
-										{{ #if reactiveVar 'officialSite' }}{{> officialSite}}{{/if}}
-										<textarea class="form-control" id="reddit" rows="2" placeholder="Reddit" name="reddit"></textarea>
-										{{ #if reactiveVar 'reddit' }}{{> reddit}}{{/if}}
-										<textarea class="form-control" id="blockExplorer" rows="2" placeholder="Block Explorer" name="blockExplorer"></textarea>
+								<div class="col-md-6">
+									<div class="card bg-white">
+										<div class="card-body">
+											<div class="form-group">
+												<h5 class="card-title text-danger">Security</h5>
+												<select class="form-control consensus" id="consensusType" name="consensusSecurity">
+												  <option disabled selected>--Select One--</option>
+												  {{#each security}}
+												   <option>{{name}}</option>
+												  {{ /each }}
+												</select>
+											</div>
+											{{#if reactiveVar 'POWSelect'}}
+											<div class="form-group">
+												<select class="form-control" id="exampleFormControlSelect1" name="hashAlgorithm">
+													<option disabled selected>--Select One--</option>
+													{{#each subsecurity}}
+													<option>{{name}}</option>
+													{{ /each }}
+												</select>
+											</div>
+											{{/if}}
+											{{ #if reactiveVar 'btcfork' }}
+											Does this fork have two-way replay protection?
+											<label class="radio-inline"><input type="radio" name="replayProtection" value="true" id="replaytrue"> Yes</label>&nbsp;&nbsp;&nbsp;
+											<label class="radio-inline"><input type="radio" name="replayProtection" value="false" id="replayfalse"> No</label>
+											{{/if}}
+										</div>
 									</div>
 								</div>
-				  
-								<div class="card">
-									<div class="card-body">
-										<h5 class="card-title text-primary">Features</h5>
-										<textarea class="form-control" id="featureTags" rows="4" placeholder="Feature tags separated with commas (,). Look to the right for examples =>" name="featureTags"></textarea>
-										{{ #if reactiveVar 'featureTags' }}{{> featureTags}}{{/if}}
-										{{#if reactiveVar 'coinExists'}}
-										Block time: <input type="text" id="blockTime" name="blockTime" placeholder="" style="width:60px;"> (seconds) <br />
-										{{ #if reactiveVar 'blockTime' }}{{> blockTime}}{{/if}}
-										Confirmations: <input type="text" id="confirmations" name="confirmations" placeholder="" style="width: 40px;">
-										{{ #if reactiveVar 'confirmations' }}{{> confirmations}}{{/if}}
-										{{/if}}
+					
+								<div class="col-md-6">
+									<div class="card bg-white">
+										<div class="card-body">
+											<h5 class="card-title text-success">Community</h5>
+											<textarea class="form-control" id="gitRepo" rows="2" placeholder="GitHub repository for main node software" name="gitRepo"></textarea>
+											{{ #if reactiveVar 'gitRepo' }}{{> gitRepo}}{{/if}}
+											<textarea class="form-control" id="officialSite" rows="2" placeholder="Official website" name="officialSite"></textarea>
+											{{ #if reactiveVar 'officialSite' }}{{> officialSite}}{{/if}}
+											<textarea class="form-control" id="reddit" rows="2" placeholder="Reddit" name="reddit"></textarea>
+											{{ #if reactiveVar 'reddit' }}{{> reddit}}{{/if}}
+											<textarea class="form-control" id="blockExplorer" rows="2" placeholder="Block Explorer" name="blockExplorer"></textarea>
+										</div>
 									</div>
 								</div>
-
+						
+								<div class="col-md-6">
+									<div class="card bg-white">
+										<div class="card-body">
+											<h5 class="card-title text-primary">Features</h5>
+											<textarea class="form-control" id="featureTags" rows="4" placeholder="Feature tags separated with commas (,). Look to the right for examples =>" name="featureTags"></textarea>
+											{{ #if reactiveVar 'featureTags' }}{{> featureTags}}{{/if}}
+											{{#if reactiveVar 'coinExists'}}
+											Block time: <input type="text" id="blockTime" name="blockTime" placeholder="" style="width:60px;"> (seconds) <br />
+											{{ #if reactiveVar 'blockTime' }}{{> blockTime}}{{/if}}
+											Confirmations: <input type="text" id="confirmations" name="confirmations" placeholder="" style="width: 40px;">
+											{{ #if reactiveVar 'confirmations' }}{{> confirmations}}{{/if}}
+											{{/if}}
+										</div>
+									</div>
+								</div>
+										
 								{{#if reactiveVar 'coinExists'}}
 									{{ #unless reactiveVar 'btcfork' }}
-									<div class="card">
-										<div class="card-body">
-											<h5 class="card-title text-info">History</h5>
-											<textarea class="form-control" id="previousNames" rows="2" placeholder="Previous names separated with commas (,)" name="previousNames"></textarea>
-											{{ #if reactiveVar 'previousNames' }}{{> previousNames}}{{/if}}
+									<div class="col-md-6">
+										<div class="card bg-white">
+											<div class="card-body">
+												<h5 class="card-title text-info">History</h5>
+												<textarea class="form-control" id="previousNames" rows="2" placeholder="Previous names separated with commas (,)" name="previousNames"></textarea>
+												{{ #if reactiveVar 'previousNames' }}{{> previousNames}}{{/if}}
+											</div>
 										</div>
 									</div>
 									{{/unless}}
-									<div class="card">
-										<div class="card-body">
-											<h5 class="card-title text-warning">Exchanges</h5>
-											<textarea class="form-control" id="exchanges" rows="4" placeholder="Exchanges separated with commas (,). Look to the right for examples =>" name="exchanges"></textarea>
-											{{ #if reactiveVar 'exchanges' }}{{> exchanges}}{{/if}}
+									<div class="col-md-6">
+										<div class="card bg-white">
+											<div class="card-body">							
+												<h5 class="card-title text-warning">Exchanges</h5>
+												<textarea class="form-control" id="exchanges" rows="4" placeholder="Exchanges separated with commas (,). Look to the right for examples =>" name="exchanges"></textarea>
+												{{ #if reactiveVar 'exchanges' }}{{> exchanges}}{{/if}}
+											</div>
 										</div>
 									</div>
 								{{/if}}
 
 								{{#if questions.length}}
-									<div class="card">
-										<div class="card-body">
-											<h5 class="card-title text-primary">Additional questions</h5>
-											{{#each questions}}
-											{{question}} <span style="float: right;"><input type="radio" name="question_{{_id}}" value="true"><label>Yes</label>&nbsp;&nbsp;<input type="radio" name="question_{{_id}}" value="false"><label>No</label></span><br /><br />
-											{{/each}}
+									<div class="col-md-6">
+										<div class="card bg-white">
+											<div class="card-body">								
+												<h5 class="card-title text-primary">Additional questions</h5>
+												{{#each questions}}
+												{{question}} <span style="float: right;"><input type="radio" name="question_{{_id}}" value="true"><label>Yes</label>&nbsp;&nbsp;<input type="radio" name="question_{{_id}}" value="false"><label>No</label></span><br /><br />
+												{{/each}}
+											</div>
 										</div>
 									</div>
-								{{/if}}
+								{{/if}}			
 							</div>
-						</div>
+						</div>								
 					</div>
 				</div>
 			</section>
