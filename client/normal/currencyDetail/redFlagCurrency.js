@@ -1,8 +1,9 @@
 import { Template } from 'meteor/templating';
 import { Redflags } from '../../../lib/database/Redflags.js';
 import { WalletImages } from '../../../lib/database/Images.js';
-import { Currencies } from '../../../lib/database/Currencies.js'
-import { GraphData } from '../../../lib/database/GraphData.js'
+import { Currencies } from '../../../lib/database/Currencies.js';
+import { GraphData } from '../../../lib/database/GraphData.js';
+import Cookies from 'js-cookie';
 
 Template.redflag.onCreated(function() {
   this.autorun(() => {

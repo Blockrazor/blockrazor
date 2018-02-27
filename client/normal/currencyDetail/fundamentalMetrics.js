@@ -1,8 +1,9 @@
 import { Template } from 'meteor/templating';
 import { Features } from '../../../lib/database/Features.js';
 import { WalletImages } from '../../../lib/database/Images.js';
-import { Currencies } from '../../../lib/database/Currencies.js'
-import { GraphData } from '../../../lib/database/GraphData.js'
+import { Currencies } from '../../../lib/database/Currencies.js';
+import { GraphData } from '../../../lib/database/GraphData.js';
+import { Cookies } from 'js-cookie';
 
 Template.fundamentalMetrics.onCreated(function() {
   this.autorun(() => {
