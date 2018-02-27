@@ -1,6 +1,6 @@
 <template name="bounties">
   <!-- {{#unless reactiveVar 'workingBounty'}} -->
-  bounties
+  <h3 class="mt-3">Bounties</h3>
     {{#each bounties}}
     {{> bountyRender}}
     {{/each}}
@@ -12,32 +12,46 @@
 </template>
 
 <template name="bountyRender">
-  <div class="card" style="margin-top:10px;">
-  <div class="card-block">
-    <h4 class="card-title">{{types.heading}} for {{currencyName}} <div class="float-right" style="display:inline-flex"><div style="width:120px;margin-left:6px;">{{reward}}</div> KZR</div></h4>
-    <h6 class="card-subtitle mb-2 text-muted"></h6>
+  <div class="card my-3">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-8">
+          <h5 class="card-title mb-3">{{types.heading}} for {{currencyName}}</h5>
+          <h6 class="card-subtitle mb-2 text-muted"></h6>
 
-    <div class="card-text"><b>Problem:</b> {{problem}}.</div>
-    <div class="card-text"><b>Solution:</b> {{solution}}.</div>
-    <div class="card-text" id={{id}} style="display:none;margin-top:10px;">
-      <h5>Bounty Details</h5>
-      {{#if canContinue}}<b>(In progress)</b>{{/if}} {{types.rules}}
+          <div class="card-text"><b>Problem:</b> {{problem}}.</div>
+          <div class="card-text"><b>Solution:</b> {{solution}}.</div>
+          <div class="card-text" id={{id}} style="display:none;margin-top:10px;">
+            <h6><b>Bounty Details</b></h6>
+            {{#if canContinue}}<b>(In progress)</b>{{/if}} {{types.rules}}
 
-      <div class="float-right" style="display:inline-flex;clear:both;margin-top:10px;">
-        <button type="button" class="btn btn-danger cancel">Cancel</button>
-        <button type="button" class="btn btn-primary start" style="margin-left:10px;">{{#if canContinue}}Continue{{else}}Start{{/if}}</button>
+            <div class="mt-3">
+              <button type="button" class="btn btn-danger cancel">Cancel</button>
+              <button type="button" class="btn btn-primary start" style="margin-left:10px;">{{#if canContinue}}Continue{{else}}Start{{/if}}</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <h5 class="float-right my-4 my-sm-0">
+            <span class="mr-2">{{reward}}</span>KZR
+          </h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="float-right" style="display:inline-flex;clear:both;" id="takeBounty{{id}}">
+            <button type="button" class="btn {{buttonClass}}">{{#if canContinue}}Continue{{else}}Take{{/if}} Bounty</button>
+          </div>
+          <div class="float-right" style="display:inline-flex;clear:both;"><i>{{workingText}}</i></div>
+        </div>
       </div>
     </div>
-    <div class="float-right" style="display:inline-flex;clear:both;" id="takeBounty{{id}}"><button type="button" class="btn {{buttonClass}}">{{#if canContinue}}Continue{{else}}Take{{/if}} Bounty</button></div>
-    <div class="float-right" style="display:inline-flex;clear:both;"><i>{{workingText}}</i></div>
   </div>
-</div>
-
 </template>
 
 <template name="activeBounty">
   <div class="alert alert-danger" role="alert">
-  <h5 class="text-center">{{timeRemaining}}</h5></div>
+  <h6 class="text-center">{{timeRemaining}}</h6></div>
   <button class="btn btn-danger float-right cancel">Get me out of here, I can't do this!</button>
 {{#if reactiveVar.equals 'bountyType' 'HashrateAPI'}}{{> HashrateAPI}}{{/if}}
 {{#if reactiveVar.equals 'bountyType' 'hashpower'}}{{> hashpower}}{{/if}}
@@ -47,7 +61,7 @@
 </template>
 
 <template name="HashrateAPI">
-<h4>API Bounty for {{thisbounty.currencyName}}</h4>
+<h5>API Bounty for {{thisbounty.currencyName}}</h5>
 <p><b>Instructions:</b> find a block explorer or an open node for {{currencyName}} which has an API.
   Look at the API's documentation to find out how to construct an API call. It's possible (but unlikely) that you may need to register for an API key and include it in the call.
   Construct the API call in the box below, and examine the response. <b>Hint:</b> open your browser's javascript console for diagnostic information.
@@ -84,7 +98,7 @@ Move decimal this many places to the left: <input id="decimal" type="text" style
   </ul>
 <button class="btn btn-primary submit">This looks good!</button>
 </div>
-<h5 style="margin-top: 10px;">Full JSON response:</h5>
+<h6 style="margin-top: 10px;">Full JSON response:</h6>
 <div id="result">JSON data will display here</div>
 </template>
 
