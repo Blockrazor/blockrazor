@@ -9,6 +9,7 @@ import '../../ui/pages/hashpower/addHashpower'
 import '../../ui/pages/hashpower/allHashpower'
 import '../../ui/pages/hashpower/allHashaverage'
 import '../../ui/pages/flaggedUsers/flaggedUsers'
+import '../../ui/pages/hashpower/flaggedHashpower'
 
 FlowRouter.route( '/currencyEdit/:slug?/:field?', {
   action: function( params, queryParams ) {
@@ -52,6 +53,13 @@ FlowRouter.route('/add-hashpower', {
   name: 'add-haspower',
   action: () => {
     BlazeLayout.render('desktop', { main: 'addHashpower', left: 'menu'})
+  }
+})
+
+FlowRouter.route('/flagged-hashpower', {
+  name: 'flagged-hashpower',
+  action: () => {
+    BlazeLayout.render('desktop', { main: 'flaggedHashpower', left: 'menu'})
   }
 })
 

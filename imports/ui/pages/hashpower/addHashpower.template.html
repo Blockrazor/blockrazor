@@ -1,4 +1,8 @@
 <template name="addHashpower">
+	{{#if activeBounty}}
+	<div class="alert alert-danger" role="alert">
+	<h5 class="text-center">{{timeRemaining}}</h5></div>
+	{{/if}}
 	<h3>Add hash power data</h3>
 	<form id="js-add-haspower">
 		Hardware category: <select id="js-hw-cat">
@@ -47,7 +51,9 @@
 			<input type="text" id="js-unit-new" style="width: 40px" /><br />
 		{{/if}}
 		Power consumption: <input type="number" min="0" id="js-pc" /> Watts<br />
+		Mining rig image (as a proof): <input type='file' id='imageInput'>
+		<input type='hidden' id='js-image'><br />
 
-		<button type="submit" id="js-add">Add!</button>
+		<button type="submit" id="js-add">Add!</button> <button id="js-cancel">Cancel</button>
 	</form>
 </template>
