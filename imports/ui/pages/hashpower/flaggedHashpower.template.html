@@ -1,5 +1,6 @@
-<template name="allHashpower">
-    <h3>Hash power data</h3>
+<template name="flaggedHashpower">
+    {{#if isModerator}}
+    <h3>Flagged Hash power data</h3>
     <table class="table">
         <thead>
             <tr>
@@ -9,8 +10,9 @@
                 <th scope="col">Algorithm</th>
                 <th scope="col">Hash rate</th>
                 <th scope="col">Power consumption</th>
-                <th scope="col">Flag</th>
-                <th scope="col">Delete?</th>
+                <th scope="col"># Flags</th>
+                <th scope="col">Reasons</th>
+                <th scope="col">Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -22,11 +24,15 @@
                 <td>{{hashAlgorithm}}</td>
                 <td>{{hashRate}} {{unit}}</td>
                 <td>{{powerConsumption}} W</td>
-                <td>{{#if canFlag}}<a href="#" class="js-flag">+</a>{{else}}-{{/if}}<span style="display: {{showFlagReason}}"><input type="text" id="js-flag-reason-{{_id}}" placeholder="Reason" /><button class="js-flag-cont">Submit</button></span></td>
-                <td>{{#if canDelete}}<a href="#" class="js-delete">X</a>{{else}}-{{/if}}</td>
+                <td>{{flags.length}}</td>
+                <td>{{#each flags}}{{reason}}<br />{{/each}}</td>
+                <td><a href="#" class="js-delete">X</a></td>
             </tr>
             {{/each}}
         </tbody>
     </table>
-    <a href="/add-hashpower">Add new data</a> <a href="/avg-hashpower">Averages</a> {{#if isModerator}}<a href="/flagged-hashpower">Flagged data</a>{{/if}}
+    {{else}}
+    <h1>This page is for moderators only.</h1>
+    {{/if}}
+    <a href="/hashpower">Back to all data</a>
 </template>

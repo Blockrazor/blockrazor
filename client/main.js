@@ -26,4 +26,4 @@ Template.registerHelper('doesCoinImageExist', function(img) {
     }else{
     	return '/images/noimage.png'
     }
-});
+})

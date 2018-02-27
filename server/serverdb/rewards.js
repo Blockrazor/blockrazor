@@ -37,7 +37,22 @@ export var creditUserWith = function(amount, userId, reason) {
     });
     return true;
   }
-};
+}
+
+export var removeUserCredit = (amount, userId, reason) => { // if we need to remove user's credit for whatever reason
+  if(Meteor.isServer) {
+    UserData.upsert({_id: userId}, {$inc: {balance: -amount}});
+    Wallet.insert({
+      time: new Date().getTime(),
+      owner: userId,
+      type: "transaction",
+      from: "Blockrazor",
+      message: `${amount} KZR has been deduced from your account for ${reason}`,
+      amount: -amount
+    });
+    return true;
+  }
+}
 
 export var rewardCurrencyCreator = function(launchTags, owner, currencyName) {
   console.log("start to credit")

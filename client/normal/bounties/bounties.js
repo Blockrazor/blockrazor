@@ -18,6 +18,12 @@ Template.bounties.onCreated(function(){
   Meteor.call('getLastCurrency', (err, data) => {
     this.currencyTime.set(data.approvedTime)
   })
+
+  this.hashTime = new ReactiveVar(0)
+
+  Meteor.call('getLastHashPower', (err, data) => {
+    this.hashTime.set(data.createdAt || Date.now())
+  })
 })
 
 Template.bounties.onRendered(function(){
@@ -42,6 +48,18 @@ Template.bounties.helpers({
       currentlyAvailable: true,
       currencyName: 'Blockrazor',
       _id: 'new-currency'
+    }, {
+      problem: 'Blockrazor needs new hash power data',
+      solution: 'Add new hash power data now',
+      types: {
+        heading: 'Add new hash power data',
+        rules: 'If you accept this bounty, you\'ll have 30 minutes to complete it and add new hash power data for the given reward. If the bounty expires, you\'ll still be credited, but the reward is not guaranteed after 30 minutes.'
+      },
+      creationTime: Template.instance().hashTime.get(),
+      multiplier: 0.9,
+      currentlyAvailable: true,
+      currencyName: 'Blockrazor',
+      _id: 'new-hashpower'
     }]).sort((i1, i2) => {
       return calculateReward.call(i2, Template.instance().now.get()) - calculateReward.call(i1, Template.instance().now.get())
     })
@@ -58,14 +76,18 @@ const calculateReward = function(now) {
   return (((now - this.creationTime) / REWARDCOEFFICIENT) * (this.multiplier || 1)).toFixed(6)
 }
 
-const canContinue = () => {
-  let b = Bounties.findOne({
-    userId: Meteor.userId(),
-    type: 'new-currency',
-    completed: false
-  })
+const canContinue = (id) => {
+  if (id === 'new-currency' || id === 'new-hashpower') {
+    let b = Bounties.findOne({
+      userId: Meteor.userId(),
+      type: id,
+      completed: false
+    })
 
-  return b && b.expiresAt > Date.now()
+    return b && b.expiresAt > Date.now()
+  } else {
+    return false // if it's a normal bounty, it doesn't have this
+  }
 }
 
 Template.bountyRender.helpers({
@@ -81,7 +103,7 @@ Template.bountyRender.helpers({
     } else { return null;}
   },
   canContinue: function() {
-    return this._id === 'new-currency' && canContinue()
+    return canContinue(this._id)
   },
   buttonClass: function() {
     if(this.currentlyAvailable == true) {
@@ -95,8 +117,10 @@ Template.bountyRender.helpers({
 
 Template.bountyRender.events({
   'click .start': function () {
-    if (canContinue() && this._id === 'new-currency') {
+    if (canContinue('new-currency')) {
       FlowRouter.go('/addCoin')
+    } else if (canContinue('new-hashpower')) {
+      FlowRouter.go('/add-hashpower')
     } else {
       if(Cookies.get('workingBounty') != "true") {
         Template.instance().view.parentView.parentView.parentView.templateInstance().workingBounty.set(true);
@@ -106,19 +130,24 @@ Template.bountyRender.events({
         Cookies.set('bountyItem', this._id, { expires: 1});
         Cookies.set('bountyType', this.bountyType, { expires: 1});
         Template.instance().view.parentView.parentView.parentView.templateInstance().bountyType.set(this.bountyType);
-        if (this._id !== 'new-currency') {
-          Meteor.call('startBounty', this._id)
-          FlowRouter.go("/bounties/" + this._id)
-        } else {
+        if (this._id === 'new-currency') {
           Meteor.call('addCurrencyBounty', calculateReward.call(this, Date.now()))
           FlowRouter.go('/addCoin')
+        } else if (this._id === 'new-hashpower') {
+          Meteor.call('addHashPowerBounty', calculateReward.call(this, Date.now()))
+          FlowRouter.go('/add-hashpower')
+        } else {
+          Meteor.call('startBounty', this._id)
+          FlowRouter.go("/bounties/" + this._id)
         }
       } else if (Cookies.get('workingBounty') == "true") {
         sAlert.error("You already have a bounty in progress!");
-        if (this._id !== 'new-currency') {
-          FlowRouter.go("/bounties/" + Cookies.get('bountyItem'))
-        } else {
+        if (this._id === 'new-currency') {
           FlowRouter.go('/addCoin')
+        } else if (this._id === 'new-hashpower') {
+          FlowRouter.go('/add-hashpower')
+        } else {
+          FlowRouter.go("/bounties/" + Cookies.get('bountyItem'))          
         }
       }
     }
@@ -127,6 +156,10 @@ Template.bountyRender.events({
   'click .cancel': function() {
     if (this._id === 'new-currency') {
       Meteor.call('deleteCurrencyBountyClient', (err, data) => {})
+      Cookies.set('workingBounty', false, { expires: 1 })
+    }
+    if (this._id === 'new-hashpower') {
+      Meteor.call('deleteHashPowerBountyClient', (err, data) => {})
       Cookies.set('workingBounty', false, { expires: 1 })
     }
     $('#' + this._id).hide();
