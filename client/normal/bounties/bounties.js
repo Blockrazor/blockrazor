@@ -1,7 +1,8 @@
 import { Template } from 'meteor/templating';
 import './rainbow.js';
-import { Bounties, BountyTypes, REWARDCOEFFICIENT } from '../../../lib/database/Bounties.js'
-import { FlowRouter } from 'meteor/kadira:flow-router'
+import { Bounties, BountyTypes, REWARDCOEFFICIENT } from '../../../lib/database/Bounties.js';
+import { FlowRouter } from 'meteor/kadira:flow-router';
+import { Cookies } from 'js-cookie';
 
 Template.bounties.onCreated(function(){
   this.autorun(() => {

@@ -1,8 +1,9 @@
 import { Template } from 'meteor/templating';
 import { FormData } from '../../lib/database/FormData.js'; //database
-import { Bounties } from '../../lib/database/Bounties'
-import { RatingsTemplates } from '../../lib/database/Ratings'
-import { HashAlgorithm } from '../../lib/database/HashAlgorithm'
+import { Bounties } from '../../lib/database/Bounties';
+import { RatingsTemplates } from '../../lib/database/Ratings';
+import { HashAlgorithm } from '../../lib/database/HashAlgorithm';
+import { Cookies } from 'js-cookie';
 
 
 //Functions to help with client side validation and data manipulation
