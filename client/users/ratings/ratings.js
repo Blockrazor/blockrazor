@@ -186,11 +186,18 @@ Template.displayRatings.helpers({
 });
 
 Template.question.helpers({
-  currency0Name(){
-    return Currencies.findOne({_id: this.currency0Id}).currencyName
+  getLogo(img){
+    if(img){
+      return _coinUpoadDirectoryPublic + img;
+    }else{
+      return '/images/noimage.png'
+    }
   },
-  currency1Name(){
-    return Currencies.findOne({_id: this.currency1Id}).currencyName
+  currency0(){
+    return Currencies.findOne({_id: this.currency0Id});
+  },
+  currency1(){
+    return Currencies.findOne({_id: this.currency1Id});
   },
     outstandingRatings() {
     var count = Ratings.find({
