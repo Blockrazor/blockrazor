@@ -4,9 +4,60 @@ import { Currencies } from '../../lib/database/Currencies.js';
 import { Ratings } from '../../lib/database/Ratings.js';
 import { RatingsTemplates } from '../../lib/database/Ratings.js'
 import { log } from '../main'
-import { UserData } from '../../lib/database/UserData.js';
+import { UserData } from '../../lib/database/UserData.js'
+import { Bounties, REWARDCOEFFICIENT } from '../../lib/database/Bounties'
+import { creditUserWith, removeUserCredit } from '../../server/serverdb/rewards'
 
 Meteor.methods({
+    getWalletReward: (userId, rId) => {
+        let bounty = Bounties.findOne({
+            userId: userId,
+            type: 'new-wallet'
+        })
+
+        let lastWalletAnswer = Ratings.find({
+            $or: [{
+                catagory: 'wallet'
+            }, {
+                context: 'wallet'
+            }]
+        }, {
+            sort: {
+                answeredAt: -1
+            }
+        }).fetch()[0]
+
+        let r = Ratings.findOne({
+            _id: rId
+        }) || {}
+
+        let count = Ratings.find({
+            $or: [{
+                answered: false,
+                catagory: 'wallet'
+            }, {
+                answered: false,
+                context: 'wallet'
+            }]
+        }).count()
+
+        if (bounty) {
+            if (!count) {
+                Meteor.call('deleteNewBounty', bounty._id, 's3rver-only', (err, data) => {}) // delete the bounty, we're done with it
+            }
+
+            if (bounty.expiresAt < r.answeredAt) {
+                console.log('already expired')
+                return ((Date.now() - lastWalletAnswer.answeredAt) / REWARDCOEFFICIENT) * 0.3
+            } else {
+                console.log('actual bounty')
+                return Number(bounty.currentReward)
+            }
+        } else {
+            console.log('no bounty')
+            return ((Date.now() - lastWalletAnswer.answeredAt) / REWARDCOEFFICIENT) * 0.3
+        }
+    },
   'flagWalletImage': function(imageId) {
     if(!this.userId){throw new Meteor.Error('error', 'please log in')};
     WalletImages.update(imageId, {
@@ -25,29 +76,59 @@ Meteor.methods({
     });
   },
   deleteWalletRatings: () => {
-    Ratings.update({
-      $or: [{
-        owner: Meteor.userId(),
-        processed: false,
-        catagory: 'wallet'
-      }, {
-        owner: Meteor.userId(),
-        processed: false,
-        context: 'wallet'
-      }]
-    }, {
-      $set: {
-        answered: false,
-        answeredAt: null,
-        winner: null,
-        loser: null
-      }
-    }, {
-      multi: true
-    }) // reset only ratings from this session, don't reset already processed ratings, as this would mess up previous ELO calculations
+        let rem = Ratings.find({
+            $or: [{
+                owner: Meteor.userId(),
+                processed: false,
+                answered: true,
+                catagory: 'wallet'
+            }, {
+                owner: Meteor.userId(),
+                processed: false,
+                answered: true,
+                context: 'wallet'
+            }]
+        }).fetch()
 
-    // when bounties for wallet, community and codebase ratings are implemented, purge them here...
-   },
+        let reward = rem.reduce((i1, i2) => i1 + (i2.reward || 0), 0)
+
+        Ratings.update({ 
+            $or: [{
+                owner: Meteor.userId(),
+                processed: false,
+                catagory: 'wallet'
+            }, {
+                owner: Meteor.userId(),
+                processed: false,
+                context: 'wallet'
+            }]
+        }, {
+            $set: {
+                answered: false,
+                answeredAt: null,
+                winner: null,
+                loser: null,
+                reward: 0
+            }
+        }, {
+            multi: true
+        }) // reset only ratings from this session, don't reset already processed ratings, as this would mess up previous ELO calculations
+
+        removeUserCredit(reward, Meteor.userId(), 'cheating on wallet questions')
+    },
+   getLastWalletAnswer: () => {
+        return Ratings.find({
+            $or: [{
+                catagory: 'wallet'
+            }, {
+                context: 'wallet'
+            }]
+        }, {
+            sort: {
+                answeredAt: -1
+            }
+        }).fetch()[0]
+    },
   'answerRating': function(ratingId, winner) {
     let rating = Ratings.findOne({_id:ratingId})
     if (rating.owner == this.userId) {
@@ -73,7 +154,7 @@ Meteor.methods({
             questionId: i,
             currency0Id: rating.currency0Id,
             currency1Id: rating.currency1Id
-          }) // get the rating on same currency pair
+          }) || {} // get the rating on same currency pair
 
           let bo = true
           if ((!q.negative && question.negative) || (q.negative && !question.negative)) { // XOR
@@ -94,8 +175,21 @@ Meteor.methods({
           winner: winner,
           loser: loser,
           answeredAt: new Date().getTime()
-        }}
-      )
+        }})
+
+        Meteor.call('getWalletReward', Meteor.userId(), ratingId, (err, data) => {
+            console.log(data)
+
+            Ratings.update({
+                _id: ratingId
+            }, {
+                $set: {
+                    reward: data // save the reward so we can remove it later on if needed
+                }
+            })
+
+            creditUserWith(data, Meteor.userId(), 'answering a wallet question')
+        })
     }
   },
     addRatingQuestion: (question, catagory, negative, context, xors) => {

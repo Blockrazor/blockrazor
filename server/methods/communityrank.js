@@ -4,8 +4,59 @@ import { Communities } from '../../lib/database/Communities.js'
 import { Ratings } from '../../lib/database/Ratings.js'
 import { RatingsTemplates } from '../../lib/database/Ratings.js'
 import { log } from '../main'
+import { Bounties, REWARDCOEFFICIENT } from '../../lib/database/Bounties'
+import { creditUserWith, removeUserCredit } from '../../server/serverdb/rewards'
 
 Meteor.methods({
+    getCommunityReward: (userId, rId) => {
+        let bounty = Bounties.findOne({
+            userId: userId,
+            type: 'new-community'
+        })
+
+        let lastCommunityAnswer = Ratings.find({
+            $or: [{
+                catagory: 'community'
+            }, {
+                context: 'community'
+            }]
+        }, {
+            sort: {
+                answeredAt: -1
+            }
+        }).fetch()[0]
+
+        let r = Ratings.findOne({
+            _id: rId
+        }) || {}
+
+        let count = Ratings.find({
+            $or: [{
+                answered: false,
+                catagory: 'community'
+            }, {
+                answered: false,
+                context: 'community'
+            }]
+        }).count()
+
+        if (bounty) {
+            if (!count) {
+                Meteor.call('deleteNewBounty', bounty._id, 's3rver-only', (err, data) => {}) // delete the bounty, we're done with it
+            }
+
+            if (bounty.expiresAt < r.answeredAt) {
+                console.log('already expired')
+                return ((Date.now() - lastCommunityAnswer.answeredAt) / REWARDCOEFFICIENT) * 0.3
+            } else {
+                console.log('actual bounty')
+                return Number(bounty.currentReward)
+            }
+        } else {
+            console.log('no bounty')
+            return ((Date.now() - lastCommunityAnswer.answeredAt) / REWARDCOEFFICIENT) * 0.3
+        }
+    },
     populateCommunityRatings: function() {
         let communities = Communities.find({
             createdBy: this.userId
@@ -67,8 +118,37 @@ Meteor.methods({
             }
         }
     },
+    getLastCommunityAnswer: () => {
+        return Ratings.find({
+            $or: [{
+                catagory: 'community'
+            }, {
+                context: 'community'
+            }]
+        }, {
+            sort: {
+                answeredAt: -1
+            }
+        }).fetch()[0]
+    },
     deleteCommunityRatings: () => {
-        Ratings.update({
+        let rem = Ratings.find({
+            $or: [{
+                owner: Meteor.userId(),
+                processed: false,
+                answered: true,
+                catagory: 'community'
+            }, {
+                owner: Meteor.userId(),
+                processed: false,
+                answered: true,
+                context: 'community'
+            }]
+        }).fetch()
+
+        let reward = rem.reduce((i1, i2) => i1 + (i2.reward || 0), 0)
+
+        Ratings.update({ 
             $or: [{
                 owner: Meteor.userId(),
                 processed: false,
@@ -83,13 +163,14 @@ Meteor.methods({
                 answered: false,
                 answeredAt: null,
                 winner: null,
-                loser: null
+                loser: null,
+                reward: 0
             }
         }, {
             multi: true
         }) // reset only ratings from this session, don't reset already processed ratings, as this would mess up previous ELO calculations
 
-        // when bounties for wallet, community and codebase ratings are implemented, purge them here...
+        removeUserCredit(reward, Meteor.userId(), 'cheating on community questions')
     },
     answerCommunityRating: function(ratingId, winner) {
         let rating = Ratings.findOne({
@@ -123,7 +204,7 @@ Meteor.methods({
                         questionId: i,
                         currency0Id: rating.currency0Id,
                         currency1Id: rating.currency1Id
-                    }) // get the rating on same currency pair
+                    }) || {} // get the rating on same currency pair
 
                     let bo = true
                     if ((!q.negative && question.negative) || (q.negative && !question.negative)) { // XOR
@@ -147,6 +228,20 @@ Meteor.methods({
                     loser: loser,
                     answeredAt: new Date().getTime()
                 }
+            })
+
+            Meteor.call('getCommunityReward', Meteor.userId(), ratingId, (err, data) => {
+                console.log(data)
+
+                Ratings.update({
+                    _id: ratingId
+                }, {
+                    $set: {
+                        reward: data // save the reward so we can remove it later on if needed
+                    }
+                })
+
+                creditUserWith(data, Meteor.userId(), 'answering a community question')
             })
         }
     },

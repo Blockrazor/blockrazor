@@ -1,6 +1,8 @@
 import { Template } from 'meteor/templating';
 import { Currencies } from '../../../lib/database/Currencies.js';
-import { Ratings } from '../../../lib/database/Ratings.js';
+import { Ratings } from '../../../lib/database/Ratings.js'
+import { Bounties } from '../../../lib/database/Bounties'
+import Cookies from 'js-cookie'
 
 import '/imports/ui/stylesheets/lux.min.css';
 
@@ -9,7 +11,13 @@ Template.ratings.onCreated(function bodyOnCreated() {
   self.autorun(function(){
     self.subscribe('approvedcurrencies');
     self.subscribe('ratings')
+    self.subscribe('walletBounty')
   })
+
+  this.now = new ReactiveVar(Date.now())
+    Meteor.setInterval(() => {
+        this.now.set(Date.now())
+    }, 1000)
 });
 
 Template.displayRatings.onCreated(function bodyOnCreated() {
@@ -72,10 +80,44 @@ Template.ratings.events({
   },
   'click #wallets': function() {
       Meteor.call('averageElo', 'wallet');
-  }
+  },
+  'click #js-cancel': (event, templateInstance) => {
+        event.preventDefault()
+
+        Meteor.call('deleteNewBountyClient', 'new-wallet', (err, data) => {})
+        Cookies.set('workingBounty', false, { expires: 1 })
+
+        FlowRouter.go('/')
+    },
 })
 
 Template.ratings.helpers({
+  activeBounty: () => {
+        let bounty = Bounties.find({
+            userId: Meteor.userId(),
+            type: 'new-wallet',
+            completed: false
+        }, {
+            sort: {
+                expiresAt: -1
+            }
+        }).fetch()[0]
+
+        return bounty && bounty.expiresAt > Date.now()
+    },
+    timeRemaining: () => {
+        let bounty = Bounties.find({
+            userId: Meteor.userId(),
+            type: 'new-wallet',
+            completed: false
+        }, {
+            sort: {
+                expiresAt: -1
+            }
+        }).fetch()[0]
+      
+        return `You have ${Math.round((bounty.expiresAt - Template.instance().now.get())/1000/60)} minutes to complete the bounty for ${Number(bounty.currentReward).toFixed(2)} (* number of questions) KZR.`;
+    },
   populateUI() {
   },
   outstandingRatings() {
@@ -239,6 +281,8 @@ Template.question.events({
                     templateInstance.cnt = 0
                 }
             }
+
+            Cookies.set('workingBounty', false, { expires: 1 })
 
             if (templateInstance.ties > 10) { // ties can't be checked with XOR questions, as XOR only works on booleans. Nonetheless, if the user clicks on 'tie' 10 times in a row, it's safe to say that he/she is just lazy answering
                 sAlert.error('Lazy answering detected. You\'ll have to start all over again.')

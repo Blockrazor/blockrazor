@@ -164,7 +164,7 @@ if(!uploadError){
 
   'click #cancel': function(data) {
     console.log(data);
-    Meteor.call('deleteCurrencyBountyClient', (err, data) => {})
+    Meteor.call('deleteNewBountyClient', 'new-currency', (err, data) => {})
     Cookies.set('workingBounty', false, { expires: 1 })
     FlowRouter.go('/');
   },
@@ -250,7 +250,7 @@ if(!uploadError){
         // turn error into user friendly string
         sAlert.error(`You need to fix the following fields to continue: ${error.error.map(i => i.split(/(?=[A-Z])/).join(' ').toLowerCase()).join(', ')}.`)
       } else {
-        Meteor.call('completeCurrencyBounty', $('#currencyName').val(), (err, data) => {})
+        Meteor.call('completeNewBounty', 'new-currency', $('#currencyName').val(), (err, data) => {})
         Cookies.set('workingBounty', false, { expires: 1 })
         FlowRouter.go('/mypending');
       }
