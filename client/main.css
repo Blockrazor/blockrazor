@@ -1,22 +1,63 @@
-.hidden{
-	display:none;
+.hidden {
+    display: none;
 }
-  .noselect {
-  -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
+
+.noselect {
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
 }
-  @font-face {
-    font-family: "Whitney SSm","Helvetica Neue",Helvetica,Arial,sans-serif;
-  }
 
-  html, body {
-    font-family: "Whitney SSm","Helvetica Neue",Helvetica,Arial,sans-serif;
-  }
-  buttons,input,textarea,select {
+@font-face {
+    font-family: "Whitney SSm", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+html,
+body {
+    font-family: "Whitney SSm", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+buttons,
+input,
+textarea,
+select {
     font-family: monospace;
-  }
+}
+
+.pointer:hover {
+    cursor: pointer;
+}
+
+.greyHover:hover {
+    background-color: #f5f5f5;
+}
+
+body .modal-dialog {
+    /* Width */
+    max-width: 80%;
+    width: auto !important;
+    display: inline-block;
+    margin-left: 10%;
+}
+
+.bootstrapFileInput {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    filter: alpha(opacity=0);
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    opacity: 0;
+    background-color: transparent;
+    color: transparent;
+}

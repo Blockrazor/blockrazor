@@ -13,3 +13,14 @@
 </div>
 </div>
 </template>
+
+<template name="luxDesktop">
+  {{> sAlert}}
+  {{> Template.dynamic template=left}}
+<div class="container" style="margin-top:120px">
+
+        {{> Template.dynamic template=main}}
+        {{> Template.dynamic template=bottom}}
+</div>
+
+</template>

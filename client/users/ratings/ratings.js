@@ -2,6 +2,8 @@ import { Template } from 'meteor/templating';
 import { Currencies } from '../../../lib/database/Currencies.js';
 import { Ratings } from '../../../lib/database/Ratings.js';
 
+import '/imports/ui/stylesheets/lux.min.css';
+
 Template.ratings.onCreated(function bodyOnCreated() {
   var self = this
   self.autorun(function(){
@@ -34,9 +36,10 @@ Template.currencyChoices.onCreated(function() {
 
 Template.currencyChoice.onRendered(function () {
   var instance = this;
-  $("#toggle" + instance.data._id).click(function(){
-    $("#upload" + instance.data._id).toggle()
-  });
+  Session.set('walletImageError',false);
+  // $("#toggle" + instance.data._id).click(function(){
+  //   $("#upload" + instance.data._id).toggle()
+  // });
 });
 
 Template.ratings.onRendered(function(){
@@ -188,6 +191,22 @@ Template.question.helpers({
   },
   currency1Name(){
     return Currencies.findOne({_id: this.currency1Id}).currencyName
+  },
+    outstandingRatings() {
+    var count = Ratings.find({
+      $or: [{
+        answered: false,
+        catagory: 'wallet'
+      }, {
+        answered: false,
+        context: 'wallet'
+      }]
+    }).count();
+    if (!count) {
+      $("#outstandingRatings").hide();
+      $("#currencyChoices").show();
+    };
+    return count;
   }
 });
 
@@ -224,6 +243,13 @@ Template.question.events({
   }
 });
 
+Template.upload.helpers({
+    walletImageError(){
+    return Session.get('walletImageError');
+  }
+});
+
+
 Template.upload.events({
   'change input': function(event){
    var instance = this;
@@ -232,12 +258,12 @@ Template.upload.events({
 
   //check if filesize of image exceeds the global limit
   if (file.size > _walletFileSizeLimit) {
-      sAlert.error("Image must be under 2mb");
+      Session.set('walletImageError','Image must be under 2mb');
       uploadError = true;
   }
 
  if(!_supportedFileTypes.includes(file.type)){
-      sAlert.error("File must be an image");
+      Session.set('walletImageError','File must be an image');
       uploadError = true;
   }
 

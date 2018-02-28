@@ -1,84 +1,140 @@
 <template name="ratings">
-  {{populateUI}}
-  <div id="outstandingRatings" class="text-center">You have {{outstandingRatings}} questions in your queue.
-  {{> displayRatings}}
-  </div>
-  <div id="currencyChoices" style="display:none;">
-    {{> currencyChoices}}
-  </div>
-  <div id="displayRatings" style="display:none;" class="text-center">
-    {{> displayRatings}}
-  </div>
-  <hr />
+    <div class="page-header" id="banner">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>Ratings</h1>
+            </div>
+        </div>
+    </div>
+    {{populateUI}} {{> displayRatings}}
+    <div id="currencyChoices" style="display:none;">
+        {{> currencyChoices}}
+    </div>
+    <div id="displayRatings" style="display:none;" class="text-center">
+        {{> displayRatings}}
+    </div>
+    <!--   <hr />
   <h5>ADMIN SHORTCUTS (will later be automatic cron jobs)</h5>
   <button id="elo" class="btn btn-danger">ELO</button>
-  <button id="wallets" class="btn btn-danger">WALLETS</button>
+  <button id="wallets" class="btn btn-danger">WALLETS</button> -->
 </template>
-
 <template name="currencyChoices">
-  <b>You have already added the following cryptocurrency wallets:</b>
-  <div class="row" style="margin-top: 15px;">
-  {{#each alreadyAdded}}
-  <div class="col-sm-4 col-md-4 col-lg-4">
-    <a href="/currency/{{slug}}">{{currencyName}}</a>
-  </div>
-  {{/each}}
-  </div>
-  <br />
-  <b>Please select any currencies that you actually use (you must have a wallet installed) and you haven't added previously.</b> <br />
-  If you don't see your currency, you might want to <a href="/addcoin">add it</a>. <br />
-  <br />
-  <b>Filter available cryptocurrencies:</b>
-  <form id="js-form">
-    Name: <input type="text" id="js-name" style="width: 50%" placeholder="Enter the name of the cryptocurrency" /><br />
-    Symbol: <input type="text" id="js-symbol" style="width: 50%" placeholder="Enter the symbol of the cryptocurrency" />
-  </form>
-  <div class="row" style="margin-top: 15px;">
-  {{#each currencies}}
-  <div class="col-sm-4 col-md-4 col-lg-4">
-    {{> currencyChoice}}
-  </div>
-  {{> upload}}
-  {{/each}}
-</div>
-  <button id="populateRatings">Next</button>
+    <b>You have already added the following cryptocurrency wallets:</b>
+    <div class="row" style="margin-top: 15px;">
+        {{#each alreadyAdded}}
+        <div class="col-sm-4 col-md-4 col-lg-4">
+            <a href="/currency/{{slug}}" class="btn btn-secondary" style="width:100%">{{currencyName}}</a>
+        </div>
+        {{/each}}
+    </div>
+    <br />
+    <b>Please select any currencies that you actually use (you must have a wallet installed) and you haven't added previously.</b>
+    <br /> If you don't see your currency, you might want to <a href="/addcoin">add it</a>.
+    <br />
+    <br />
+    <hr>
+    <form id="js-form" class="jumbotron" style="padding:30px;">
+        <b class="lead">Filter by</b>
+        <div class="input-group">
+            <input type="text" id="js-name" class="form-control" placeholder="Enter the name of the cryptocurrency" />
+            <span class="input-group-addon"> OR </span>
+            <input type="text" id="js-symbol" class="form-control" placeholder="Enter the symbol of the cryptocurrency" />
+        </div>
+    </form>
+    <div class="row" style="margin: 15px 0 20px 0;">
+        {{#each currencies}}
+        <div class="col-sm-4 col-md-4 col-lg-4">
+            {{> currencyChoice}}
+        </div>
+        {{> upload}} {{/each}}
+    </div>
+    <div class="row">
+        <button id="populateRatings" class="btn btn-primary">Next</button>
+    </div>
 </template>
-
 <template name="displayRatings">
-  {{#with questions}}
-  {{> question}}
-  {{/with}}
+    {{#with questions}} {{> question}} {{/with}}
 </template>
-
 <template name="question">
-  <h3 style="margin-top:50px;">{{questionText}}?</h3>
-  <div class="row" style="margin-top:50px;">
-    <div class="col-4 text-center choice" id={{currency0Id}}><h3>{{currency0Name}}<br />
-      <img src="https://raw.githubusercontent.com/reactjs/redux/master/logo/logo.png" width="100px" /></h3></div>
-    <div class="col-4 text-center choice" id="tie"><br />Both are about the same<br /></div>
-    <div class="col-4 text-center choice" id={{currency1Id}}><h3>{{currency1Name}}<br />
-      <img src="https://raw.githubusercontent.com/reactjs/redux/master/logo/logo.png" width="100px" /></h3></div>
-</div>
+    <div class="page-header" id="banner">
+        <div class="row">
+            <div class="col-lg-12">
+                <p class="lead">{{questionText}}?</p>
+                <hr>
+            </div>
+        </div>
+    </div>
+    <div class="row text-center">
+        <div class="card-deck text-center" style="padding-top:2em">
+            <div class="card pointer greyHover choice" id="{{currency0Name}}">
+                <div class="card-body">
+                    <h5 class="card-title">{{currency0Name}}</h5>
+                    <img class="card-img-top mx-auto d-block" style="width: 8rem;padding:10px" src="https://raw.githubusercontent.com/reactjs/redux/master/logo/logo.png" alt="Card image cap">
+                </div>
+            </div>
+            <div class="card pointer greyHover text-white bg-dark choice">
+                <div class="card-body">
+                    <h5 class="card-title"><br />Both are about the same</h5>
+                    <img src="/images/equal-symbol.png">
+                </div>
+            </div>
+            <div class="card pointer greyHover choice" id="{{currency1Name}}">
+                <div class="card-body">
+                    <h5 class="card-title">{{currency1Name}}</h5>
+                    <img class="card-img-top mx-auto d-block" style="width: 8rem;padding:10px" src="https://raw.githubusercontent.com/reactjs/redux/master/logo/logo.png" alt="Card image cap">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <br/>
+            <h5> You have <strong>{{outstandingRatings}}</strong> questions in your queue.</h5>
+        </div>
+    </div>
 </template>
-
-
 <template name="currencyChoice">
-    <a href="#" id="toggle{{_id}}">{{currencyName}}</a>
-
+    <button data-toggle="modal" data-target="#upload{{_id}}" id="toggle{{_id}}" type="button" class="btn btn-secondary" style="width:100%">{{currencyName}}</button>
 </template>
-
 <template name="upload">
-  <div class="row" style="display:none;" id="upload{{_id}}">
-    <div style="padding-left:50px;padding-right:50px;">
-      <h4>Upload {{currencyName}} images</h4>
-    <p>Please take screen-shots of the wallet you're using for {{currencyName}}. Please crop the image(s) so only the wallet is shown, and <em>blank out any data you consider personal or sensitive.</em></p>
-    <p><b>Do not upload any images showing your private key (in text or QR code format) or seed words.</b></p>
-    <p><b>Do not</b> use pictures found on the internet or any ratings you provide will be invalid and your account will recieve a flag.</p>
-    <p>Main wallet screen/page or transaction history<br />
-      <input type='file' id='main or home'></p>
-    <p>Send coins or create transaction screen<br />
-      <input type='file' id='send transaction'></p>
-    <p>Configuration or options<br />
-      <input type='file' id='configuration or options'></p>
-  </div></div>
+    <div class="modal fade" id="upload{{_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Upload {{currencyName}} images</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h5>Instructions</h5>
+                    <p>Please take screen-shots of the wallet you're using for {{currencyName}}. Please crop the image(s) so only the wallet is shown, and <em>blank out any data you consider personal or sensitive.</em></p>
+                    <p><b>Do not upload any images showing your private key (in text or QR code format) or seed words.</b></p>
+                    <p><b>Do not</b> use pictures found on the internet or any ratings you provide will be invalid and your account will recieve a flag.</p>
+                    <hr>
+                    <p>
+                        <h6>Main wallet screen/page or transaction history</h6>
+                        <input type='file' id='main or home'>
+                    </p>
+                    <p>
+                        <h6>Send coins or create transaction screen</h6>
+                        <input type='file' id='send transaction'>
+                    </p>
+                    <p>
+                        <h6>Configuration or options</h6>
+                        <input type='file' id='configuration or options'>
+                    </p>
+                    {{#if walletImageError}}
+                    <div class="alert alert-dismissible alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        {{walletImageError}}
+                    </div>
+                    {{/if}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>

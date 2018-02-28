@@ -12,6 +12,7 @@ import '../../ui/pages/flaggedUsers/flaggedUsers'
 import '../../ui/pages/hashpower/flaggedHashpower'
 
 FlowRouter.route( '/currencyEdit/:slug?/:field?', {
+
   action: function( params, queryParams ) {
     
     BlazeLayout.render('desktop', { main: 'currencyEdit', left: 'menu'});
@@ -35,7 +36,7 @@ FlowRouter.route('/ratings', {
   //   this.register('currencies', Meteor.subscribe('currencies'));
   // },
   action() {
-    BlazeLayout.render('desktop', { main: 'ratings', left: 'menu'});
+    BlazeLayout.render('luxDesktop', { main: 'ratings', left: 'luxMenu'});
   //  if(Meteor.isServer) {
 
 //    }
