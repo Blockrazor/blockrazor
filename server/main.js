@@ -142,7 +142,17 @@ Accounts.onCreateUser(( options, user ) => {
     );
 
     return ( user );
-});
+})
+
+SyncedCron.add({
+  name: 'Tabulate ELO values',
+  schedule: function(parser) {
+    return parser.text('every 10 minutes');
+  },
+  job: function() {
+    Meteor.call('tabulateElo', (err, data) => {})
+  }
+}); 
 
 // FastRender.route('/', function(){
 // this.subscribe('approvedcurrencies');

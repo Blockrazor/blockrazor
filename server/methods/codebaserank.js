@@ -7,6 +7,8 @@ import { Currencies } from '../../lib/database/Currencies.js'
 import { Ratings } from '../../lib/database/Ratings.js'
 import { RatingsTemplates } from '../../lib/database/Ratings.js'
 import { log } from '../main'
+import { Bounties, REWARDCOEFFICIENT } from '../../lib/database/Bounties'
+import { creditUserWith, removeUserCredit } from '../../server/serverdb/rewards'
 
 Meteor.methods({
     applyDeveloper: (proof) => {
@@ -56,6 +58,55 @@ Meteor.methods({
             }
         } else {
             throw new Meteor.Error('Error.', 'You have to be logged in.')
+        }
+    },
+    getCodebaseReward: (userId, rId) => {
+        let bounty = Bounties.findOne({
+            userId: userId,
+            type: 'new-codebase'
+        })
+
+        let lastCodebaseAnswer = Ratings.find({
+            $or: [{
+                catagory: 'codebase'
+            }, {
+                context: 'codebase'
+            }]
+        }, {
+            sort: {
+                answeredAt: -1
+            }
+        }).fetch()[0]
+
+        let r = Ratings.findOne({
+            _id: rId
+        }) || {}
+
+        let count = Ratings.find({
+            $or: [{
+                answered: false,
+                catagory: 'codebase'
+            }, {
+                answered: false,
+                context: 'codebase'
+            }]
+        }).count()
+
+        if (bounty) {
+            if (!count) {
+                Meteor.call('deleteNewBounty', bounty._id, 's3rver-only', (err, data) => {}) // delete the bounty, we're done with it
+            }
+
+            if (bounty.expiresAt < r.answeredAt) {
+                console.log('already expired')
+                return ((Date.now() - lastCodebaseAnswer.answeredAt) / REWARDCOEFFICIENT) * 0.3
+            } else {
+                console.log('actual bounty')
+                return Number(bounty.currentReward)
+            }
+        } else {
+            console.log('no bounty')
+            return ((Date.now() - lastCodebaseAnswer.answeredAt) / REWARDCOEFFICIENT) * 0.3
         }
     },
     populateCodebaseRatings: function() {
@@ -111,8 +162,37 @@ Meteor.methods({
             }
         }
     },
+    getLastCodebaseAnswer: () => {
+        return Ratings.find({
+            $or: [{
+                catagory: 'codebase'
+            }, {
+                context: 'codebase'
+            }]
+        }, {
+            sort: {
+                answeredAt: -1
+            }
+        }).fetch()[0]
+    },
     deleteCodebaseRatings: () => {
-        Ratings.update({
+        let rem = Ratings.find({
+            $or: [{
+                owner: Meteor.userId(),
+                processed: false,
+                answered: true,
+                catagory: 'codebase'
+            }, {
+                owner: Meteor.userId(),
+                processed: false,
+                answered: true,
+                context: 'codebase'
+            }]
+        }).fetch()
+
+        let reward = rem.reduce((i1, i2) => i1 + (i2.reward || 0), 0)
+
+        Ratings.update({ 
             $or: [{
                 owner: Meteor.userId(),
                 processed: false,
@@ -127,13 +207,14 @@ Meteor.methods({
                 answered: false,
                 answeredAt: null,
                 winner: null,
-                loser: null
+                loser: null,
+                reward: 0
             }
         }, {
             multi: true
         }) // reset only ratings from this session, don't reset already processed ratings, as this would mess up previous ELO calculations
 
-        // when bounties for wallet, community and codebase ratings are implemented, purge them here...
+        removeUserCredit(reward, Meteor.userId(), 'cheating on codebase questions')
     },
     answerCodebaseRating: function(ratingId, winner) {
         let rating = Ratings.findOne({
@@ -167,7 +248,7 @@ Meteor.methods({
                         questionId: i,
                         currency0Id: rating.currency0Id,
                         currency1Id: rating.currency1Id
-                    }) // get the rating on same currency pair
+                    }) || {} // get the rating on same currency pair
 
                     let bo = true
                     if ((!q.negative && question.negative) || (q.negative && !question.negative)) { // XOR
@@ -191,6 +272,20 @@ Meteor.methods({
                     loser: loser,
                     answeredAt: new Date().getTime()
                 }
+            })
+
+            Meteor.call('getCodebaseReward', Meteor.userId(), ratingId, (err, data) => {
+                console.log(data)
+
+                Ratings.update({
+                    _id: ratingId
+                }, {
+                    $set: {
+                        reward: data // save the reward so we can remove it later on if needed
+                    }
+                })
+
+                creditUserWith(data, Meteor.userId(), 'answering a codebase question')
             })
         }
     },

@@ -16,7 +16,7 @@ Template.addHashpower.onCreated(function() {
 		this.subscribe('hashhardware')
 		this.subscribe('hashalgorithm')
 		this.subscribe('hashunits')
-		this.subscribe('hashPowerBounty')
+		this.subscribe('hashpowerBounty')
 	})
 
 	this.addHw = new ReactiveVar(false)
@@ -99,7 +99,7 @@ Template.addHashpower.events({
 	'click #js-cancel': (event, templateInstance) => {
 		event.preventDefault()
 
-    	Meteor.call('deleteHashPowerBountyClient', (err, data) => {})
+    	Meteor.call('deleteNewBountyClient', 'new-hashpower', (err, data) => {})
     	Cookies.set('workingBounty', false, { expires: 1 })
 
     	FlowRouter.go('/hashpower')

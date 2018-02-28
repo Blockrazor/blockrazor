@@ -1,4 +1,8 @@
 <template name="communities">
+    {{#if activeBounty}}
+    <div class="alert alert-danger" role="alert">
+    <h5 class="text-center">{{timeRemaining}}</h5><button class="btn btn-danger" id="js-cancel">Cancel</button></div>
+    {{/if}}
     <div id="outstandingRatings" class="text-center">You still have to answer {{outstandingRatings}} questions.
     {{#with questions}}
         <h3 style="margin-top:50px;">{{questionText}}?</h3>

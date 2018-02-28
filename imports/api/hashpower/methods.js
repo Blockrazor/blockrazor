@@ -403,7 +403,7 @@ Meteor.methods({
       	}) || {}
 
       	if (bounty) {
-        	Meteor.call('deleteHashPowerBounty', bounty._id, 's3rver-only', (err, data) => {}) // delete the bounty, we're done with it
+        	Meteor.call('deleteNewBounty', bounty._id, 's3rver-only', (err, data) => {}) // delete the bounty, we're done with it
 
         	if (bounty.expiresAt < hpId.createdAt) {
           		console.log('already expired')

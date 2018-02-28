@@ -13,16 +13,36 @@ Template.bounties.onCreated(function(){
   this.now = new ReactiveVar(null)
   this.workingBounty = new ReactiveVar('')
 
-  this.currencyTime = new ReactiveVar(0)
+  this.times = new ReactiveVar({})
 
   Meteor.call('getLastCurrency', (err, data) => {
-    this.currencyTime.set(data.approvedTime)
+    let times = this.times.get()
+    times['new-currency'] = data.approvedTime
+    this.times.set(times)
   })
 
-  this.hashTime = new ReactiveVar(0)
-
   Meteor.call('getLastHashPower', (err, data) => {
-    this.hashTime.set(data.createdAt || Date.now())
+    let times = this.times.get()
+    times['new-hashpower'] = data.createdAt || Date.now()
+    this.times.set(times)
+  })
+
+  Meteor.call('getLastCommunityAnswer', (err, data) => {
+    let times = this.times.get()
+    times['new-community'] = data.answeredAt || Date.now()
+    this.times.set(times)
+  })
+
+  Meteor.call('getLastWalletAnswer', (err, data) => {
+    let times = this.times.get()
+    times['new-wallet'] = data.answeredAt || Date.now()
+    this.times.set(times)
+  })
+
+  Meteor.call('getLastCodebaseAnswer', (err, data) => {
+    let times = this.times.get()
+    times['new-codebase'] = data.answeredAt || Date.now()
+    this.times.set(times)
   })
 })
 
@@ -36,32 +56,14 @@ Template.bounties.onRendered(function(){
 
 Template.bounties.helpers({
   bounties: function() {
-    return _.union(Bounties.find({pendingApproval: false}).fetch(), [{
-      problem: 'Blockrazor needs new currencies',
-      solution: 'Add a new currency now',
-      types: {
-        heading: 'Add a new currency',
-        rules: 'If you accept this bounty, you\'ll have 60 minutes to complete it and add a new currency for the given reward. If the bounty expires, you\'ll still be credited, but the reward is not guaranteed after 60 minutes.'
-      },
-      creationTime: Template.instance().currencyTime.get(),
-      multiplier: 1.8,
-      currentlyAvailable: true,
-      currencyName: 'Blockrazor',
-      _id: 'new-currency'
-    }, {
-      problem: 'Blockrazor needs new hash power data',
-      solution: 'Add new hash power data now',
-      types: {
-        heading: 'Add new hash power data',
-        rules: 'If you accept this bounty, you\'ll have 30 minutes to complete it and add new hash power data for the given reward. If the bounty expires, you\'ll still be credited, but the reward is not guaranteed after 30 minutes.'
-      },
-      creationTime: Template.instance().hashTime.get(),
-      multiplier: 0.9,
-      currentlyAvailable: true,
-      currencyName: 'Blockrazor',
-      _id: 'new-hashpower'
-    }]).sort((i1, i2) => {
-      return calculateReward.call(i2, Template.instance().now.get()) - calculateReward.call(i1, Template.instance().now.get())
+    return Bounties.find({
+      pendingApproval: false
+    }).fetch().map(i => {
+      i.creationTime = i.creationTime || Template.instance().times.get()[i._id]
+
+      return i
+    }).sort((i1, i2) => {
+      return calculateReward.call(i2, Template.instance().now.get(), Template.instance()) - calculateReward.call(i1, Template.instance().now.get())
     })
   }
 });
@@ -72,12 +74,14 @@ Template.bountyRender.onCreated(function(){
   });
 })
 
+const custom = ['new-currency', 'new-hashpower', 'new-codebase', 'new-community', 'new-wallet']
+
 const calculateReward = function(now) {
   return (((now - this.creationTime) / REWARDCOEFFICIENT) * (this.multiplier || 1)).toFixed(6)
 }
 
 const canContinue = (id) => {
-  if (id === 'new-currency' || id === 'new-hashpower') {
+  if (~custom.indexOf(id)) {
     let b = Bounties.findOne({
       userId: Meteor.userId(),
       type: id,
@@ -116,11 +120,9 @@ Template.bountyRender.helpers({
 });
 
 Template.bountyRender.events({
-  'click .start': function () {
-    if (canContinue('new-currency')) {
-      FlowRouter.go('/addCoin')
-    } else if (canContinue('new-hashpower')) {
-      FlowRouter.go('/add-hashpower')
+  'click .start': function (event, templateInstance) {
+    if (canContinue(this._id)) {
+      FlowRouter.go(this.url)
     } else {
       if(Cookies.get('workingBounty') != "true") {
         Template.instance().view.parentView.parentView.parentView.templateInstance().workingBounty.set(true);
@@ -130,22 +132,17 @@ Template.bountyRender.events({
         Cookies.set('bountyItem', this._id, { expires: 1});
         Cookies.set('bountyType', this.bountyType, { expires: 1});
         Template.instance().view.parentView.parentView.parentView.templateInstance().bountyType.set(this.bountyType);
-        if (this._id === 'new-currency') {
-          Meteor.call('addCurrencyBounty', calculateReward.call(this, Date.now()))
-          FlowRouter.go('/addCoin')
-        } else if (this._id === 'new-hashpower') {
-          Meteor.call('addHashPowerBounty', calculateReward.call(this, Date.now()))
-          FlowRouter.go('/add-hashpower')
+        if (~custom.indexOf(this._id)) {
+          Meteor.call('addNewBounty', this._id, calculateReward.call(this, Date.now()), this.time, (err, data) => {})
+          FlowRouter.go(this.url)
         } else {
           Meteor.call('startBounty', this._id)
           FlowRouter.go("/bounties/" + this._id)
         }
       } else if (Cookies.get('workingBounty') == "true") {
         sAlert.error("You already have a bounty in progress!");
-        if (this._id === 'new-currency') {
-          FlowRouter.go('/addCoin')
-        } else if (this._id === 'new-hashpower') {
-          FlowRouter.go('/add-hashpower')
+        if (~custom.indexOf(this._id)) {
+          FlowRouter.go(this.url)
         } else {
           FlowRouter.go("/bounties/" + Cookies.get('bountyItem'))          
         }
@@ -154,12 +151,8 @@ Template.bountyRender.events({
 
   },
   'click .cancel': function() {
-    if (this._id === 'new-currency') {
-      Meteor.call('deleteCurrencyBountyClient', (err, data) => {})
-      Cookies.set('workingBounty', false, { expires: 1 })
-    }
-    if (this._id === 'new-hashpower') {
-      Meteor.call('deleteHashPowerBountyClient', (err, data) => {})
+    if (~custom.indexOf(this._id)) {
+      Meteor.call('deleteNewBountyClient', this._id, (err, data) => {})
       Cookies.set('workingBounty', false, { expires: 1 })
     }
     $('#' + this._id).hide();

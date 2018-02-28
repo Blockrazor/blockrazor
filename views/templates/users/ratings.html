@@ -6,6 +6,10 @@
             </div>
         </div>
     </div>
+    {{#if activeBounty}}
+    <div class="alert alert-danger" role="alert">
+    <h5 class="text-center">{{timeRemaining}}</h5><button class="btn btn-danger" id="js-cancel">Cancel</button></div>
+    {{/if}}
     {{populateUI}} {{> displayRatings}}
     <div id="currencyChoices" style="display:none;">
         {{> currencyChoices}}
@@ -72,7 +76,7 @@
                     <img class="card-img-top mx-auto d-block" style="width: 8rem;padding:10px" src="{{getLogo currency0.currencyLogoFilename}}" alt="Card image cap">
                 </div>
             </div>
-            <div class="card pointer greyHover text-white bg-dark choice">
+            <div class="card pointer greyHover text-white bg-dark choice" id="tie">
                 <div class="card-body">
                     <h5 class="card-title"><br />Both are about the same</h5>
                     <img src="/images/equal-symbol.png">
