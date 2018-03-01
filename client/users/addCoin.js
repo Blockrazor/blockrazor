@@ -42,7 +42,7 @@ Template.addCoin.onCreated(function() {
   this.previousNames = new ReactiveVar(false)
   this.exchanges = new ReactiveVar(false)
 
-  this.currencyNameMessage = new ReactiveVar('')
+  this.currencyNameMessage = new ReactiveVar(null)
   this.consensusType = new ReactiveVar('')
 
   this.autorun(() => {
@@ -66,6 +66,7 @@ Template.addCoin.events({
     Meteor.call('isCurrencyNameUnique', e.currentTarget.value);
     Meteor.call('isCurrencyNameUnique', e.currentTarget.value, function(error, result){
       if(error) {templateInstance.currencyNameMessage.set(error.error)} else {templateInstance.currencyNameMessage.set(null)};
+
     });
     },
   'focus #currencySymbol': function(){Template.instance().currencySymbol.set(true)},
@@ -169,8 +170,13 @@ if(!uploadError){
     FlowRouter.go('/');
   },
   'submit form': function(data){
-    data.preventDefault();
+    data.preventDefault(); //is technically not suppose to be here as per comment #1, note return false in existence check
   var insert = {}; //clear insert dataset
+
+  if (Template.instance().currencyNameMessage.get() != null){ //pending/existing check
+    sAlert.error(Template.instance().currencyNameMessage.get())
+    return false
+  }
   var d = data.target;
   launchTags = new Array();
     if (d.ICO.checked) {launchTags.push({"tag": "ICO"})};
@@ -242,7 +248,7 @@ if(!uploadError){
   if(d.genesisYear) {addToInsert(Date.parse(d.genesisYear.value + "-" + d.genesisMonth.value + "-" + d.genesisDay.value), "genesisTimestamp")};
   //if(!insert.genesisTimestamp) {insert.genesisTimestamp = 0};
 
-    data.preventDefault(); //this goes after the 'insert' array is built, strange things happen when it's used too early
+    data.preventDefault(); //this goes after the 'insert' array is built, strange things happen when it's used too early; #1
     console.log(insert);
 //Send everything to the server for fuckery prevention and database insertion
     Meteor.call('addCoin', insert, function(error, result){
