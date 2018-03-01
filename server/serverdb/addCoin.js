@@ -31,6 +31,7 @@ Meteor.methods({
   addCoin(data) {
   //Check that user is logged in
   if (!Meteor.userId()) {throw new Meteor.Error("Please log in first")};
+  Meteor.call('isCurrencyNameUnique', data.currencyName);
 
    //Initialize arrays to store which data.<item>s pass or fail validation
     var allowed = [];
