@@ -417,5 +417,19 @@ if (gm.isAvailable) {
     }else{
       log.error('required gm dependicies are not available', {})
     }
-  }
-});
+  },
+      'deleteWalletImage': function(imageOf, currencyId) {
+
+          var error = function(error) { throw new Meteor.Error('error', error); }
+
+          if (!this.userId) {
+              console.log("NOT LOGGED IN");
+              throw new Meteor.Error('error', 'You must be logged in to do this.');
+              return false;
+          }
+
+          //remove all walletImages per query below
+          WalletImages.remove({ currencyId: currencyId, imageOf: imageOf, createdBy: this.userId});
+
+      }
+      });
