@@ -14,7 +14,7 @@ import '../../ui/pages/hashpower/flaggedHashpower'
 FlowRouter.route( '/currencyEdit/:slug?/:field?', {
 
   action: function( params, queryParams ) {
-    
+
     BlazeLayout.render('desktop', { main: 'currencyEdit', left: 'menu'});
   }
 });
@@ -37,6 +37,19 @@ FlowRouter.route('/ratings', {
   // },
   action() {
     BlazeLayout.render('luxDesktop', { main: 'ratings', left: 'luxMenu'});
+  //  if(Meteor.isServer) {
+
+//    }
+  },
+})
+
+FlowRouter.route('/theme', {
+  name: 'theme',
+  // subscriptions: function() {
+  //   this.register('currencies', Meteor.subscribe('currencies'));
+  // },
+  action() {
+    BlazeLayout.render('luxDesktop', { main: 'theme', left: 'luxMenu'});
   //  if(Meteor.isServer) {
 
 //    }
@@ -163,7 +176,7 @@ FlowRouter.route('/addcoin', {
 
     } else {
       // but if the user is not logged in, you have to redirect him to the login page
-      // if we want to be able to redirect the user back to where he was, we have to save the current path 
+      // if we want to be able to redirect the user back to where he was, we have to save the current path
       window.last = window.location.pathname
       // and go to the login page
       FlowRouter.go('/login')
