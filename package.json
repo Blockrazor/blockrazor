@@ -17,8 +17,9 @@
     "lodash.get": "^4.4.2",
     "meteor-node-stubs": "~0.2.4",
     "mime-types": "^2.1.17",
-    "xml2js": "^0.4.19",
     "moment": "^2.20.1",
-    "underscore": "^1.8.3"
+    "sweetalert": "^2.1.0",
+    "underscore": "^1.8.3",
+    "xml2js": "^0.4.19"
   }
 }
