@@ -254,7 +254,8 @@ Meteor.methods({
   //they have added, or if an admin has added new questions for their existing currencies.
   'populateRatings': function() {
     //fetch all the currencies this user uses:
-    var images = WalletImages.find({createdBy: this.userId}).fetch();
+    var images = WalletImages.find({createdBy: this.userId,allImagesUploaded:true}).fetch();
+
     var currencies = [];
     for (i in images) {
       currencies.push(images[i].currencyId);
@@ -313,11 +314,6 @@ Meteor.methods({
             log.error(`the combination of ${currencies[i]} and ${currencies[j]} exists in populateRatings!`, error)
           }
         }
-        //create new Ratings item for each question and each currency pair for this userId
-
-
-
-        //console.log(currencies[i] + " + " + currencies[j]);
       }
     }
   },
@@ -381,11 +377,18 @@ Meteor.methods({
             'likes': 0,
             'extension': fileExtension,
             'flaglikers': [],
-            'approved': false
+            'approved': false,
+            'allImagesUploaded': false
           });
         } catch(error) {
           throw new Meteor.Error('Error', 'That image has already been used on Blockrazor. You must take your own original screenshot of the wallet.');
         }
+        //check if three files have been uploaded
+        let walletCheckCount = WalletImages.find({currencyId:currencyId,createdBy:this.userId}).count();
+        if(walletCheckCount===3){
+          WalletImages.update({currencyId:currencyId,createdBy:this.userId},{$set: {allImagesUploaded: true}},{multi: true});
+        }
+
         if(insert != md5) {throw new Meteor.Error('Error', 'Something is wrong, please contact help.');}
 
         fs.writeFileSync(filename, binaryData, {encoding: 'binary'}, Meteor.bindEnvironment(function(error){

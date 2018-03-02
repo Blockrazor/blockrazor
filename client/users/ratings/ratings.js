@@ -5,6 +5,8 @@ import { Bounties } from '../../../lib/database/Bounties';
 import { WalletImages } from '../../../lib/database/Images.js';
 
 import Cookies from 'js-cookie'
+import swal from 'sweetalert';
+
 
 import '/imports/ui/stylesheets/lux.min.css';
 
@@ -145,8 +147,12 @@ Template.currencyChoice.helpers({
     uploadedCount(id) {
 
         var walletUploadCount = WalletImages.find({ currencyId: id, createdBy: Meteor.userId() }).count();
-        if (walletUploadCount) {
-            return walletUploadCount;
+        if (walletUploadCount == 1) {
+            return '<span class="badge badge-pill badge-warning">1/3</span>';
+        }else if(walletUploadCount == 2){
+          return '<span class="badge badge-pill badge-warning">2/3</span>';
+        }else if (walletUploadCount == 3){
+          return '<span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>';
         }
 
     }
@@ -224,7 +230,11 @@ Template.currencyChoices.events({
             context: 'wallet'
           }]
         })) {
-          sAlert.error('Please uplaod some wallet images to continue.')
+          swal({
+              icon: "error",
+              text: "Please upload some wallet images to continue.",
+              button: {className:'btn btn-primary'}
+          });
         }
       }
     })
@@ -291,9 +301,9 @@ Template.question.events({
         Meteor.call('answerRating', this._id, event.currentTarget.id, (err, data) => {
             if (err && err.reason === 'xor') {
                 if (templateInstance.cnt++ === 0) {
-                    sAlert.error('Your answer is in contradiction with your previous answers. Please try again. If this persists, your progress will be purged and bounties will be nullified.')
+                    swal('Your answer is in contradiction with your previous answers. Please try again. If this persists, your progress will be purged and bounties will be nullified.')
                 } else {
-                    sAlert.error('Lazy answering detected. You\'ll have to start all over again.')
+                    swal.error('Lazy answering detected. You\'ll have to start all over again.')
                     Meteor.call('deleteWalletRatings', (err, data) => {})
 
                     templateInstance.cnt = 0
@@ -303,7 +313,7 @@ Template.question.events({
             Cookies.set('workingBounty', false, { expires: 1 })
 
             if (templateInstance.ties > 10) { // ties can't be checked with XOR questions, as XOR only works on booleans. Nonetheless, if the user clicks on 'tie' 10 times in a row, it's safe to say that he/she is just lazy answering
-                sAlert.error('Lazy answering detected. You\'ll have to start all over again.')
+                swal.error('Lazy answering detected. You\'ll have to start all over again.')
                 Meteor.call('deleteWalletRatings', (err, data) => {})
 
                 templateInstance.ties = 0
