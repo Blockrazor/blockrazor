@@ -20,7 +20,11 @@ Template.flaggedHashpower.onCreated(function() {
 })
 
 Template.flaggedHashpower.helpers({
-	hashpower: () => HashPower.find({}).fetch(),
+	hashpower: () => HashPower.find({
+		'flags.0': { // if array has more than 0 elements
+ 			$exists: true
+ 		}
+	}).fetch(),
 	hashDevice: function() {
 		return (HashHardware.findOne({
 			_id: this.device
@@ -42,17 +46,32 @@ Template.flaggedHashpower.helpers({
 	    } else {
 	        return '/images/noimage.png'
 	    }
+	},
+	voted: function() {
+		return !!(this.votes || []).filter(i => i.userId === Meteor.userId()).length
+	},
+	upvotes: function() {
+		return this.upvotes || 0
+	},
+	downvotes: function() {
+		return this.downvotes || 0
 	}
 })
 
 Template.flaggedHashpower.events({
-	'click .js-delete': function(event, templateInstance) {
-		event.preventDefault()
+	'click .js-vote': function(event, templateInstance) {
+        let type = $(event.currentTarget).data('vote')
 
-		Meteor.call('deleteHashpower', this._id, (err, data) => {
-			if (err) {
-				sAlert.error(err.reason)
-			} 
-		})		
-	}
+        Meteor.call('hashPowerVote', this._id, type, (err, data) => {
+            if (err && err.error === 'mod-only') {
+                sAlert.error('Only moderators can vote')
+            }
+
+            if (data === 'ok') {
+                sAlert.success('Flags were successfully removed.')
+            } else if (data === 'not-ok') {
+            	sAlert.success('Hash power data has been deleted.')
+            }
+        })
+    }
 })

@@ -185,31 +185,88 @@ Meteor.methods({
 			throw new Meteor.Error('Error.', 'You have to log in first.')
 		}
 	},
-	deleteHashpower: id => {
-		if (Meteor.userId()) {
-			let hp = HashPower.findOne({
-				_id: id
-			})
+	hashPowerVote: function(hpId, type) {
+        if (!Meteor.userId()) {
+        	throw new Meteor.Error('Error.', 'Please log in first')
+        }
 
+        let mod = UserData.findOne({
+        	_id: this.userId
+        }, {
+        	fields: {
+        		moderator: true
+        	}
+        })
+
+        if (!mod || !mod.moderator) {
+          	throw new Meteor.Error('Error.', 'mod-only')
+        }
+        
+        let hp = HashPower.findOne({
+        	_id: hpId
+        })
+
+        if (!(hp.votes || []).filter(i => i.userId === this.userId).length) { // user hasn't voted yet
+        	HashPower.update({
+        		_id: hp._id
+        	}, {
+        		$inc: {
+        			score: type === 'voteUp' ? 1 : -1, // increase or decrease the current score
+        			[type === 'voteUp' ? 'upvotes' : 'downvotes']: 1 // increase upvotes or downvotes
+        		},
+        		$push: {
+        			votes: {
+        				userId: this.userId,
+        				type: type,
+        				loggedIP: this.connection.clientAddress,
+        				time: new Date().getTime()
+        			}
+        		}
+        	})
+        }
+           
+        let approveChange = HashPower.find({
+        	_id: hp._id
+        }, {
+        	fields: {
+        		score: 1,
+        		upvotes: 1,
+        		downvotes: 1 
+        	} 
+        }).fetch()[0]
+
+        // remove the flag if the score is >= 3
+        if (approveChange.score >= 3) {
+            HashPower.update({
+            	_id: hp._id
+            }, {
+            	$set: {
+            		score: 0, // reset all vote related values
+            		upvotes: 0,
+            		downvotes: 0,
+            		votes: [],
+            		flags: [] // remove all flags from the hash power data if it receives enough upvotes
+            	}
+            })
+
+            return 'ok'
+        }
+
+        // Delete the hash power data if it the score is <= -3
+        if (approveChange.score <= -3) {
 			if (hp) {
-				if (hp.createdBy === Meteor.userId() || UserData.findOne({
-					_id: Meteor.userId()
-				}).moderator) {
-					HashPower.remove({
-						_id: id
-					})
+				HashPower.remove({
+					_id: hp._id
+				})
 
-					removeUserCredit(hp.reward || 0, hp.createdBy, 'removing added hash power data.') // remove the reward
-				} else {
-					throw new Meteor.Error('Error.', 'Error ocurred while deleting.')
-				}
+				removeUserCredit(hp.reward || 0, hp.createdBy, 'removing added hash power data.') // remove the reward
 			} else {
 				throw new Meteor.Error('Error.', 'Wrong id.')
 			}
-		} else {
-			throw new Meteor.Error('Error.', 'You have to log in first.')
-		}
-	},
+                
+            return 'not-ok'
+        }
+    },
 	updateAverages: () => {
 		HashAlgorithm.find({}).fetch().forEach(i => {
 			Meteor.call('calculateAverage', i._id, (err, data) => {})
