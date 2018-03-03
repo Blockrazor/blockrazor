@@ -36,7 +36,6 @@ Template.addCoin.onCreated(function() {
   this.gitRepo = new ReactiveVar(false)
   this.officialSite = new ReactiveVar(false)
   this.reddit = new ReactiveVar(false)
-  this.featureTags = new ReactiveVar(false)
   this.blockTime = new ReactiveVar(false)
   this.confirmations = new ReactiveVar(false)
   this.previousNames = new ReactiveVar(false)
@@ -89,8 +88,6 @@ Template.addCoin.events({
   'blur #officialSite': function(){Template.instance().officialSite.set(false)},
   'focus #reddit': function(){Template.instance().reddit.set(true)},
   'blur #reddit': function(){Template.instance().reddit.set(false)},
-  'focus #featureTags': function(){Template.instance().featureTags.set(true)},
-  'blur #featureTags': function(){Template.instance().featureTags.set(false)},
   'focus #blockTime': function(){Template.instance().blockTime.set(true)},
   'blur #blockTime': function(){Template.instance().blockTime.set(false)},
   'focus #confirmations': function(){Template.instance().confirmations.set(true)},
@@ -213,7 +210,6 @@ if(!uploadError){
     officialSite: d.officialSite.value,
     reddit: d.reddit.value ? d.reddit.value : false,
     blockExplorer: d.blockExplorer.value ? d.blockExplorer.value : false,
-    featureTags: makeTagArrayFrom(d.featureTags.value),
     approvalNotes: d.notes.value,
     currencyLogoFilename: d.currencyLogoFilename.value,
   }
