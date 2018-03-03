@@ -1,0 +1,49 @@
+.wrapper {
+  display: flex;
+  align-items: stretch;
+}
+#sidebar {
+  min-width: 250px;
+  max-width: 250px;
+  min-height: 100vh;
+  background: rgba(0,0,0,0.05);
+  transition: all 0.2s ease;
+  &.active {
+    margin-left: -250px;
+  }
+  .sidebar-header {
+    font-size: 20px;
+    text-align: center;
+    padding-top: 50px;
+    padding-bottom: 30px;
+  }
+  ul{
+    li a{
+      display: block;
+      padding: 15px;
+      color: #1a1a1a;
+    }
+  }
+}
+#content{
+  flex: 1;
+  background-image: linear-gradient(to bottom right, #f7f7f7, #eafbff);
+  .navbar{
+    background: rgba(0, 0, 0, 0.12);
+    button, a{
+      outline: none;
+      color: #1a1a1a;
+    }
+    .navbar-brand{
+      margin-left: 1em;
+    }
+  }
+}
+@media (max-width: 768px) {
+  #sidebar {
+    margin-left: -250px;
+  }
+  #sidebar.active {
+    margin-left: 0;
+  }
+}

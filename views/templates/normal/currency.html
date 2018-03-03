@@ -1,4 +1,4 @@
-<template name="currency">
+<template name="currency2">
   <div class="card border-secondary mb-3 mb-3" style="min-width:300px;overflow:hidden;">
   <div class="card-header" style="height:50px"><h4 class="pull-left"><img style="width:50px; height:50px padding-right:10px" src="{{doesCoinImageExist currencyLogoFilename}}"> {{currencyName}} ({{currencySymbol}})  <i class="fa fa-tachometer" id="dash" aria-hidden="true"></i>
 </h4><h4 class="pull-right">RazorRank: {{razorRank}}</h4></div>
@@ -24,12 +24,6 @@
         </div>
       </div>
     </div>
-
-
-
-
-
-
 <br />
   <div class="float-left">
   <ul class="list-group" style="max-width: 300px;">
@@ -48,4 +42,20 @@
     <div><canvas id="{{_id}}-radar"></canvas></div>
     <div class="float-left" style="width: 300px; height: 100px;"><a href={{gitRepo}}>github</a></div>
   </div></div>
+</template>
+
+<template name="currency">
+  <div class="currency-card">
+    <div class="header">
+      <div>{{currencyName}}</div>
+      <div>{{currencySymbol}}</div>
+    </div>
+    <div class="graph">
+      <canvas id="{{_id}}-radar"></canvas>
+    </div>
+    <div class="footer">
+      <div>$180/10m</div>
+      <div>RazorRank: {{razorRank}}</div>
+    </div>
+  </div>
 </template>
