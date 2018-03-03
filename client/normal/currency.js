@@ -50,19 +50,22 @@ radar.canvas.height = 300;
 let graphdata = GraphData.findOne({
   _id: 'elodata'
 }) || {}
-var wallet = currencyData.walletRanking / graphdata.walletMaxElo * 10;
-var community = (currencyData.communityRanking || 400) / graphdata.communityMaxElo * 10;
-let codebase = (currencyData.codebaseRanking || 400) / graphdata.codebaseMaxElo * 10
+
+const {codebaseMaxElo, codebaseMinElo, communityMaxElo, communityMinElo, walletMinElo, walletMaxElo} = graphdata
+
+var wallet = ((currencyData.walletRanking - walletMinElo)/((walletMaxElo - walletMinElo) || 1)) * 10;
+var community = (((currencyData.communityRanking || communityMinElo) - communityMinElo) / ((communityMaxElo - communityMinElo) || 1)) * 10;
+let codebase = (((currencyData.codebaseRanking || codebaseMinElo) - codebaseMinElo) / ((codebaseMaxElo - codebaseMinElo) || 1)) * 10
 
 let maxD = graphdata.decentralizationMaxElo
 let minD = graphdata.decentralizationMinElo
 
-let decentralization = (((currencyData.decentralizationRanking || 400) - minD) / ((maxD - minD) || 1)) * 10 
+let decentralization = (((currencyData.decentralizationRanking || minD) - minD) / ((maxD - minD) || 1)) * 10 
 
 let minDev = graphdata.developmentMinElo
 let maxDev = graphdata.developmentMaxElo
 
-let development = (((currencyData.gitCommits || 0) - minDev) / ((maxDev - minDev) || 1)) * 10 
+let development = (((currencyData.gitCommits || minDev) - minDev) / ((maxDev - minDev) || 1)) * 10 
 var datanums = [development,codebase,community,2,7,wallet,1,3,decentralization];
   var radarchart = new Chart(radar, {
       type: 'radar',

@@ -150,8 +150,6 @@ Start time (GMT)
   <ul class="list-group" style="width: 260px;margin-right:10px;margin-left:10px;">
   <li class="list-group-item bg-primary">
     <b>Features</b><br />
-    <input type="text" class="form-control" id="featureTags" rows="4" placeholder="Feature tags separated with commas (,). Look to the right for examples =>" name="featureTags" value="{{splitArray thiscurrency.featureTags}}" data-featureTags="{{thiscurrency.featureTags}}">
-    {{ #if reactiveVar 'featureTags' }}{{> featureTags}}{{/if}}
   {{#if reactiveVar 'coinExists'}}
     Block time: <input type="text" id="blockTime" name="blockTime" placeholder="" style="width:60px;" value="{{thiscurrency.blockTime}}"> (seconds) <br />
     {{ #if reactiveVar 'blockTime' }}{{> blockTime}}{{/if}}
