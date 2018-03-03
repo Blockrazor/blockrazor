@@ -3,7 +3,7 @@ import { HashHardware } from '../../../../lib/database/HashHardware'
 import { HashPower } from '../../../../lib/database/HashPower'
 import { HashAlgorithm } from '../../../../lib/database/HashAlgorithm'
 import { HashUnits } from '../../../../lib/database/HashUnits'
-import { FlowRouter } from 'meteor/kadira:flow-router'
+import { FlowRouter } from 'meteor/staringatlights:flow-router';
 
 import '../../layouts/MainBody.html'
 import './flaggedHashpower.template.html'

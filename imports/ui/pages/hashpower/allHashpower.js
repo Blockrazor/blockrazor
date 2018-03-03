@@ -4,7 +4,7 @@ import { HashPower } from '../../../../lib/database/HashPower'
 import { HashAlgorithm } from '../../../../lib/database/HashAlgorithm'
 import { HashUnits } from '../../../../lib/database/HashUnits'
 import { UserData } from '../../../../lib/database/UserData'
-import { FlowRouter } from 'meteor/kadira:flow-router'
+import { FlowRouter } from 'meteor/staringatlights:flow-router';
 
 import '../../layouts/MainBody.html'
 import './allHashpower.template.html'

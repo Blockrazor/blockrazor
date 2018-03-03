@@ -16,7 +16,6 @@ ecmascript@0.9.0              # Enable ECMAScript2015+ syntax in app code
 shell-server@0.3.0            # Server-side component of the `meteor shell` command
 reactive-dict@1.2.0
 msavin:mongol
-kadira:flow-router
 kadira:blaze-layout
 staringatlights:fast-render
 underscore@1.0.10
