@@ -4,7 +4,7 @@ import { HashHardware } from '../../../../lib/database/HashHardware'
 import { HashAlgorithm } from '../../../../lib/database/HashAlgorithm'
 import { HashUnits } from '../../../../lib/database/HashUnits'
 import { Bounties } from '../../../../lib/database/Bounties'
-import { FlowRouter } from 'meteor/kadira:flow-router'
+import { FlowRouter } from 'meteor/staringatlights:flow-router';
 import Cookies from 'js-cookie'
 
 import '../../layouts/MainBody.html'
