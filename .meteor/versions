@@ -43,6 +43,7 @@ es5-shim@4.6.15
 facebook-config-ui@1.0.1
 facebook-oauth@1.4.0
 fortawesome:fontawesome@4.7.0
+fourseven:scss@4.5.4
 geojson-utils@1.0.10
 github-config-ui@1.0.0
 github-oauth@1.2.0
