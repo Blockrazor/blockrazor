@@ -195,7 +195,8 @@ Start time (GMT)
 <li class="list-group-item bg-primary">
   <b>Currency Logo</b><br />
   <input type='file' id='currencyLogoInput'>
-  <input type='hidden' id='currencyLogoFilename'>
+  <input type='hidden' id='currencyLogoFilename' data-previousNames="{{thiscurrency.currencyLogoFilename}}">
+   <br /><br /> Current Logo<br /><img src="{{doesCoinImageExist}}" style="width:5em">
 </li>
 </ul>
 </div>

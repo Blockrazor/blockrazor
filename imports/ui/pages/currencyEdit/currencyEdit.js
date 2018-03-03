@@ -51,7 +51,6 @@ Template.currencyEdit.onRendered(function() {
         let field = $("#" + fieldtoEdit);
 
         if (fieldtoEdit) {
-            console.log(fieldtoEdit)
             $("#" + fieldtoEdit).css({ "backgroundColor": "red", "color": "white" });
             $("#" + fieldtoEdit).focus();
         }
@@ -98,7 +97,7 @@ Template.currencyEdit.onCreated(function() {
 
 //Events
 Template.currencyEdit.events({
-    'change select, input, textarea': function(e) {
+    'change select, input, textarea, hidden': function(e) {
         $("#" + e.currentTarget.id).data('changed', true);
 
     },
@@ -164,6 +163,9 @@ Template.currencyEdit.events({
         var fileExtension = file.name.split('.').pop();
         var uploadError = false;
 
+        //change data attribute is required for changes to be detected, this isn't done when populated via jquery
+        $("#currencyLogoFilename").data('changed', true);
+
         //check if filesize of image exceeds the global limit
         if (file.size > _coinFileSizeLimit) {
             sAlert.error("Image must be under 2mb");
@@ -200,11 +202,10 @@ Template.currencyEdit.events({
     },
 
     'click #cancel': function(data) {
-        console.log(data);
         FlowRouter.go('/');
     },
     'submit form': function(data) {
-        data.preventDefault();
+        
         var insert = {}; //clear insert dataset
         var d = data.target;
         launchTags = new Array();
@@ -215,9 +216,8 @@ Template.currencyEdit.events({
         if (!d.BTCFork.checked) { launchTags.push({ "tag": "Altcoin" }) };
         if (!d.exists.checked) { launchTags.push({ "tag": "proposal" }) };
 
-
-
         var insert = {
+            currencyLogoFilename: $('#currencyLogoFilename').val(),
             currencyName: d.currencyName.value,
             currencySymbol: d.currencySymbol.value.toUpperCase(),
             premine: d.premine.value ? parseInt(d.premine.value) : 0,
@@ -228,6 +228,7 @@ Template.currencyEdit.events({
             reddit: d.reddit.value ? d.reddit.value : false,
             blockExplorer: d.blockExplorer.value ? d.blockExplorer.value : false,
             approvalNotes: d.notes.value,
+
         };
 
         var addToInsert = function(value, key) {
@@ -254,6 +255,7 @@ Template.currencyEdit.events({
         if (d.ICOcoinsIntended) { if (d.ICOcoinsIntended.value) { addToInsert(parseInt(d.ICOcoinsIntended.value), "ICOcoinsIntended") } };
         if (d.ICOyear) { if (d.ICOyear.value) { addToInsert(Date.parse(new Date(Date.UTC(d.ICOyear.value, d.ICOmonth.value - 1, d.ICOday.value, d.ICOhour.value, d.ICOminute.value, d.ICOsecond.value))), "ICOnextRound") } };
         if (d.genesisYear) { addToInsert(Date.parse(d.genesisYear.value + "-" + d.genesisMonth.value + "-" + d.genesisDay.value), "genesisTimestamp") };
+        if ($('#currencyLogoFilename').val()) { addToInsert($('#currencyLogoFilename').val(), "currencyLogoFilename") };
         //if(!insert.genesisTimestamp) {insert.genesisTimestamp = 0};
 
         data.preventDefault(); //this goes after the 'insert' array is built, strange things happen when it's used too early
@@ -273,7 +275,6 @@ Template.currencyEdit.events({
             }
         }
 
-        console.log(changed);
         //Send everything to the server for fuckery prevention and database insertion
         Meteor.call('editCoin', changed, function(error, result) {
             if (error) {
