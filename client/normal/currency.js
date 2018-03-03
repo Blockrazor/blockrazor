@@ -10,38 +10,38 @@ Template.currency.onCreated(function bodyOnCreated(){
 
   if (Template.instance().subscriptionsReady()) {
      
-       var ctx = document.getElementById(currencyData._id + "distribution").getContext('2d');
-ctx.canvas.width = 200;
-ctx.canvas.height = 260;
-  var chart = new Chart(ctx, {
-      // The type of chart we want to create
-      type: 'doughnut',
+//        var ctx = document.getElementById(currencyData._id + "distribution").getContext('2d');
+// ctx.canvas.width = 200;
+// ctx.canvas.height = 260;
+//   var chart = new Chart(ctx, {
+//       // The type of chart we want to create
+//       type: 'doughnut',
 
 
-      // The data for our dataset
-      data: {
-          labels: ["Founder(s) share: " + currencyData.premine, "Mined coins: " + currencyData.circulating, "Not yet mined: " + (currencyData.maxCoins - currencyData.circulating)],
-          datasets: [{
-              data: [(((currencyData.premine / currencyData.maxCoins) * 100).toFixed()), ((((currencyData.circulating - currencyData.premine) / currencyData.maxCoins) * 100).toFixed()), ((((currencyData.maxCoins - currencyData.circulating)/currencyData.maxCoins) * 100).toFixed())],
-              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f"]
-          }]
-      },
+//       // The data for our dataset
+//       data: {
+//           labels: ["Founder(s) share: " + currencyData.premine, "Mined coins: " + currencyData.circulating, "Not yet mined: " + (currencyData.maxCoins - currencyData.circulating)],
+//           datasets: [{
+//               data: [(((currencyData.premine / currencyData.maxCoins) * 100).toFixed()), ((((currencyData.circulating - currencyData.premine) / currencyData.maxCoins) * 100).toFixed()), ((((currencyData.maxCoins - currencyData.circulating)/currencyData.maxCoins) * 100).toFixed())],
+//               backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f"]
+//           }]
+//       },
 
-      // Configuration options go here
-      options: {
-        tooltips: {enabled: false},
-        responsive: false,
-        maintainAspectRatio: false,
-        title: {display: false},
-        legend: {
-          display: true,
-          position: 'bottom',
-          labels: {
-            boxWidth: 15
-          }
-        }
-      }
-  });
+//       // Configuration options go here
+//       options: {
+//         tooltips: {enabled: false},
+//         responsive: false,
+//         maintainAspectRatio: false,
+//         title: {display: false},
+//         legend: {
+//           display: true,
+//           position: 'bottom',
+//           labels: {
+//             boxWidth: 15
+//           }
+//         }
+//       }
+//   });
 
 var radar = document.getElementById(currencyData._id + "-radar").getContext('2d');
 radar.canvas.width = 400;
@@ -133,7 +133,7 @@ var datanums = [development,codebase,community,2,7,wallet,1,3,decentralization];
 });
 
 Template.currency.events({
-  'click #dash': function() {
+  'click .currency-card': function() {
     var route = "/currency/" + this.slug;
     FlowRouter.go(route);
   }

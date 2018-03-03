@@ -1,28 +1,42 @@
 <template name="returnedCurrencies">
-	{{> currencyFilter}}
-  {{#each currencies}}
-      {{> currency}}
-  {{/each}}
+    {{> currencyFilter}}
+    <div class="currency-container">
+        {{#each currencies}}
+            {{> currency}}
+        {{/each}}
+    </div>
 </template>
 
 
 <template name="currencyFilter">
-
-	<button type="button" id="toggle"><i class="fa fa-filter" aria-hidden="true"></i></button>
-	<br />
-	<div id="currencyFilterContainer" class="hidden">
-	<form id="currencyFilter" name="currencyFilter">
-
-    <input type="input" id="currencyName" name="currencyName" placeholder="Currency Name" style="width:30%"> <br />
-    <input type="input" id="currencySymbol" name="currencySymbol" placeholder="Currency Symbol" style="width:30%"> <br />
-    <input type="number" id="premine" name="premine" placeholder="Premine Greater Than" style="width:30%"> <br />
-    <input type="number" id="circulating" name="circulating" placeholder="Circulating Greater Than" style="width:30%"> <br />
-
-
-<button type="submit" id="filter">Filter</button> 
-<button type="button" id="clear">Clear</button> Found {{filterCount}} results
-<br />
-
-	</form>
-</div>
+    <div id="currencyFilterContainer" class="container"> 
+        <h3>Find Currency</h3> 
+        <form id="currencyFilter" name="currencyFilter"> 
+            <div class="row form-items"> 
+                <div class="col-md-2 form-group"> 
+                    <input id="currencyName" name="currencyName" type="text" class="form-control"> 
+                    <label class="form-control-placeholder" for="currencyName"><span>Currency Name</span></label> 
+                </div> 
+                <div class="col-md-2 form-group"> 
+                    <input id="currencySymbol" name="currencySymbol" type="text" class="form-control"> 
+                    <label class="form-control-placeholder" for="currencySymbol"><span>Currency Symbol</span></label> 
+                </div> 
+                <div class="col-md-2 form-group"> 
+                    <input id="premine" name="premine" type="number" class="form-control"> 
+                    <label class="form-control-placeholder" for="premine"><span>Min. Premine</span></label> 
+                </div> 
+                <div class="col-md-2 form-group"> 
+                    <input id="circulating" name="circulating" type="number" class="form-control"> 
+                    <label class="form-control-placeholder" for="circulating"><span>Min. Circulating</span></label> 
+                </div> 
+                <div class="col-md-2 form-group"> 
+                    <button class="btn" type="submit" id="filter">Filter</button>  
+                    <button class="btn" type="button" id="clear">Clear</button> 
+                </div> 
+            </div>
+            <div class="found-result">
+                Found {{filterCount}} results 
+            </div> 
+        </form> 
+    </div> 
 </template>

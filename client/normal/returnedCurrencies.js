@@ -131,10 +131,15 @@ Template.returnedCurrencies.events({
     clearSessions();
 
   },
-      'click #toggle': function(event) {
-    event.preventDefault();
-    $('#currencyFilterContainer').toggle();
-  }
+  'change input': function(event) { 
+    event.preventDefault(); 
+    if($(event.target).val().length > 0){ 
+        $(event.target).addClass('filled'); 
+      } 
+      else{ 
+        $(event.target).removeClass('filled'); 
+      } 
+    } 
   })
 
   Template.currencyFilter.helpers({
