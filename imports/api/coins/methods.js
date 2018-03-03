@@ -170,7 +170,6 @@ if (Meteor.isServer) {
             checkSanity(data.maxCoins, "maxCoins", "number", 4, 18, true);
             checkSanity(data.gitRepo, "gitRepo", "string", 18, 300, true);
             checkSanity(data.officialSite, "officialSite", "string", 6, 200, true);
-            if (data.featureTags) checkSanity(data.featureTags, "featureTags", "object", 0, 50, true);
 
             //Check the self-populating dropdowns
             if (data.consensusSecurity != "--Select One--") {

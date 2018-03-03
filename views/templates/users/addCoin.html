@@ -167,8 +167,6 @@
 									<div class="card bg-white">
 										<div class="card-body">
 											<h5 class="card-title text-primary">Features</h5>
-											<textarea class="form-control" id="featureTags" rows="4" placeholder="Feature tags separated with commas (,). Look to the right for examples =>" name="featureTags"></textarea>
-											{{ #if reactiveVar 'featureTags' }}{{> featureTags}}{{/if}}
 											{{#if reactiveVar 'coinExists'}}
 											Block time: <input type="text" id="blockTime" name="blockTime" placeholder="" style="width:60px;"> (seconds) <br />
 											{{ #if reactiveVar 'blockTime' }}{{> blockTime}}{{/if}}
