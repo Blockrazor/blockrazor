@@ -24,7 +24,11 @@ Meteor.methods({
     })
   },
   isCurrencyNameUnique(name) {
-    if (PendingCurrencies.findOne({currencyName: name}) || Currencies.findOne({currencyName: name})) {
+    name = name.toLowerCase()
+    var res = PendingCurrencies.find({}, {fields: {currencyName: 1, id: -1}}).fetch().concat(Currencies.find({}, {fields: {currencyName: 1, id: -1}}).fetch()).filter(x => {
+      return x.currencyName.toLowerCase() == name
+    })
+    if (res.length) {
       throw new Meteor.Error("Looks like " + name + " is already listed or pending approval on Blockrazor!");
     } else {return "OK"};
   },
