@@ -10,9 +10,6 @@ Template.fundamentalMetrics.onCreated(function() {
     this.subscribe('graphdata')
     this.subscribe('approvedcurrencies')
   })
-
-  this.compared = new ReactiveVar([])
-  this.colors = new ReactiveDict()
 })
 
 Template.fundamentalMetrics.onRendered(function (){
@@ -114,97 +111,10 @@ Template.fundamentalMetrics.events({
     if(Template.instance().lastId.get()){document.getElementById(Template.instance().lastId.get()).style.display = "none";}
     document.getElementById(this._id).style.display = "block";
     Template.instance().lastId.set(this._id);
-  },
-  'change #js-compare': (event, templateInstance) => {
-    event.preventDefault()
-
-    cmpArr = templateInstance.compared.get()
-
-    // don't add a new currency if it's already on the graph
-    if ($(event.currentTarget).val() && !~cmpArr.indexOf($(event.currentTarget).val())) {
-      cmpArr.push($(event.currentTarget).val())
-      templateInstance.compared.set(cmpArr)
-
-      // a way to randomly generate a color
-      let color = '#'+(Math.random()*0xFFFFFF<<0).toString(16)
-      let rgb = parseInt(color.substring(1), 16)
-
-      templateInstance.colors.set($(event.currentTarget).val(), color)
-
-      let currency = Currencies.findOne({
-        _id: $(event.currentTarget).val()
-      }) || {}
-
-      let graphdata = GraphData.findOne({
-        _id: 'elodata'
-      }) || {}
-
-      let wallet = currency.walletRanking / graphdata.walletMaxElo * 10
-
-      let community = currency.communityRanking / graphdata.communityMaxElo * 10
-
-      let codebase = (currency.codebaseRanking || 400) / graphdata.codebaseMaxElo * 10
-
-      let maxD = graphdata.decentralizationMaxElo
-      let minD = graphdata.decentralizationMinElo
-
-      let decentralization = (((currency.decentralizationRanking || 400) - minD) / ((maxD - minD) || 1)) * 10 
-
-      let minDev = graphdata.developmentMinElo
-      let maxDev = graphdata.developmentMaxElo
-
-      let development = (((currency.gitCommits || 0) - minDev) / ((maxDev - minDev) || 1)) * 10 
-
-      let nums = [development,codebase,community,2,7,wallet,1,3,decentralization]
-
-      // push the new data to the chart
-      templateInstance.radarchart.data.datasets.push({
-        label: $(event.currentTarget).val(),
-        fill: true,
-        backgroundColor: `rgba(${(rgb >> 16) & 255}, ${(rgb >> 8) & 255}, ${rgb & 255}, 0.2)`, // a way to convert color from hex to rgb
-        borderColor: color,
-        pointBorderColor: '#fff',
-        pointStyle: 'dot',
-        pointBackgroundColor: color,
-        data: nums
-      })
-
-      // update the chart to reflect new data
-      templateInstance.radarchart.update()
-    }
-  },
-  'click .js-delete': function(event, templateInstance) {
-    event.preventDefault()
-
-    cmpArr = cmpArr.filter(i => i !== this._id)
-    templateInstance.compared.set(cmpArr)
-
-    // remove data from the chart and update it accordingly
-    templateInstance.radarchart.data.datasets = templateInstance.radarchart.data.datasets.filter(i => i.label !== this._id)
-    templateInstance.radarchart.update()
   }
 });
 
 Template.fundamentalMetrics.helpers({
-  // get all currencies available for comparasion (excluding the current currency)
-  currencies: () => Currencies.find({
-    slug: {
-      $not: FlowRouter.getParam('slug')
-    }
-  }),
-  // get all currencies currently on the list
-  comparedCurrencies: () => {
-    let cur = Currencies.find({
-      _id: {
-        $in: Template.instance().compared.get()
-      }
-    }).fetch()
-
-    // add the color field
-    cur.forEach(i => i.color = Template.instance().colors.get(i._id))
-
-    return cur
-  },
   metricDescription: function () {
     return this.metricTag; //find metricTag data from collection
   },

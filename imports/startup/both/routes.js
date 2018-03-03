@@ -11,7 +11,20 @@ FlowRouter.route( '/currencyEdit/:slug?/:field?', {
     action: function( params, queryParams ) {
       BlazeLayout.render('desktop', { main: 'currencyEdit', left: 'menu'});
     }
-  });
+  })
+
+FlowRouter.route('/compareCurrencies', {
+  name: 'compare-currencies',
+  subscriptions: function(params) {
+    this.register('approvedcurrencies', Meteor.subscribe('approvedcurrencies'))
+    this.register('graphdata', Meteor.subscribe('graphdata'))
+    this.register('features', Meteor.subscribe('features'))
+    this.register('redflags', Meteor.subscribe('redflags'))
+  },
+  action: (params, queryParams) => {
+    BlazeLayout.render('desktop', { main: 'compareCurrencies', left: 'menu'})
+  }
+})
   
 
   FlowRouter.route('/', {
