@@ -50,7 +50,8 @@ radar.canvas.height = 300;
 let graphdata = GraphData.findOne({
   _id: 'elodata'
 }) || {}
-var wallet = currencyData.walletRanking / graphdata.walletMaxElo * 10;
+
+var wallet = ((currencyData.walletRanking - graphdata.walletMinElo)/(graphdata.walletMaxElo - graphdata.walletMinElo)) * 10;
 var community = (currencyData.communityRanking || 400) / graphdata.communityMaxElo * 10;
 let codebase = (currencyData.codebaseRanking || 400) / graphdata.codebaseMaxElo * 10
 
