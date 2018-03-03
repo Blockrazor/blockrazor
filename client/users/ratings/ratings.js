@@ -322,6 +322,14 @@ Template.question.events({
   }
 });
 
+
+Template.upload.onRendered(function () {
+$('a[data-toggle="tooltip"]').tooltip({
+    placement: 'right',
+    html: true
+});
+});
+
 Template.upload.helpers({
     walletImageError() {
         return Session.get('walletImageError');
