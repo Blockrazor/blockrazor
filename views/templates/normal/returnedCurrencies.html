@@ -1,8 +1,10 @@
 <template name="returnedCurrencies">
-	{{> currencyFilter}}
-  {{#each currencies}}
-      {{> currency}}
-  {{/each}}
+    {{> currencyFilter}}
+    <div class="currency-container">
+        {{#each currencies}}
+            {{> currency}}
+        {{/each}}
+    </div>
 </template>
 
 
