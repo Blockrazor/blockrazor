@@ -1,9 +1,10 @@
 import { Template } from 'meteor/templating';
 
 Template.viewprofile.onCreated(function() {
-    var self = this
-    self.subscribe('userProfile');
-    self.subscribe('_extendUser')
+    this.autorun(() => {
+        this.subscribe('userProfile')
+        this.subscribe('_extendUser')
+    })
 });
 
 Template.viewprofile.events({
