@@ -50,7 +50,13 @@ Template.changedCurrencies.helpers({
     checkType(val) {
         if (val) {
             if (typeof val == "string") {
-                return val;
+                //check if it is image else show the string
+                if (_.contains(['png', 'gif', 'jpg', 'jpeg'], val.split('.').pop())){
+                    return '<img class="_50x50" src="'+_coinUpoadDirectoryPublic+val+'">';
+                }else{
+                    return val;
+                }
+                     
             } else if (typeof val == "object") {
                 return JSON.stringify(val);
             } else if (typeof val == "number") {

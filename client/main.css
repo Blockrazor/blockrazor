@@ -61,3 +61,8 @@ body .modal-dialog {
     background-color: transparent;
     color: transparent;
 }
+
+._50x50{
+    width:50px;
+    height:50px;
+}
