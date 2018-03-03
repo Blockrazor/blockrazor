@@ -1,0 +1,25 @@
+<template name="topnav">
+  <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+    <div>
+      <button class="navbar-toggler navbar-toggler-right" type="button" id="navbar-toggler">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="/">BLOCKRAZOR</a>
+    </div>  
+    <div>
+        {{#if currentUser}}
+        <div class="dropdown show">
+          <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{currentUser.username}}
+          </a>      
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <a class="dropdown-item" href="/profile">Edit Profile</a>
+          <a class="dropdown-item" href="#" id="js-logout">Logout</a>
+        </div>
+      </div>
+      {{else}}
+        <a href="/login">Sign in</a>
+      {{/if}}
+    </div>
+  </nav>
+</template>
