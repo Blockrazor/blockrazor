@@ -10,6 +10,7 @@ import '../../ui/pages/hashpower/allHashpower'
 import '../../ui/pages/hashpower/allHashaverage'
 import '../../ui/pages/flaggedUsers/flaggedUsers'
 import '../../ui/pages/hashpower/flaggedHashpower'
+import '../../ui/pages/compareCurrencies/compareCurrencies'
 
 FlowRouter.route( '/currencyEdit/:slug?/:field?', {
 
@@ -17,7 +18,14 @@ FlowRouter.route( '/currencyEdit/:slug?/:field?', {
 
     BlazeLayout.render('desktop', { main: 'currencyEdit', left: 'menu'});
   }
-});
+})
+
+FlowRouter.route('/compareCurrencies', {
+  name: 'compare-currencies',
+  action: (params, queryParams) => {
+    BlazeLayout.render('desktop', { main: 'compareCurrencies', left: 'menu'})
+  }
+})
 
 
 FlowRouter.route('/', {
