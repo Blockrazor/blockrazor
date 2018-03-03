@@ -7,24 +7,30 @@ curl https://install.meteor.com/ | sh
 #### Clone repository    
 git clone https://github.com/Blockrazor/blockrazor.git
 
-Note: if you want to edit things and send a pull request you should _fork_ this project first and clone your own fork instead of https://github.com/Blockrazor/blockrazor.git. [problem #42]
+Note: if you want to edit things and send a pull request you should _fork_ this project on Github first and clone _your_ fork instead of https://github.com/Blockrazor/blockrazor.git.
 
 #### Install Dependencies
 `meteor npm install --save core-js`   
 `meteor npm install`   
 
-#### Set environment variables
+#### Set environment variables for local usage
 `export ROOT_URL=http://localhost:3000`    
-(set to https://blockrazor.org for production)    
 `export HTTP_FORWARDED_COUNT=0`    
-(set to 1 for production if behind nginx forwarder)
+
+For blockrazor.org production server:   
+`export ROOT_URL=https://blockrazor.org`
+`export HTTP_FORWARDED_COUNT=1`
 
 #### Run meteor
 `meteor`   
 (use `meteor --production` to minify everything and simulate production speeds    
+
+#### Insert the database if running locally (never for production)
 While meteor is running, in a new shell from within the Blockrazor directory run:
 `mongorestore -h 127.0.0.1 --port 3001 -d meteor dump/meteor`   
 (You will need Mongo to be installed so you have mongorestore on your system).
+
+If you already have the database but want to update it to the latest version, do a `meteor reset` first.
 
 ### Mongo errors   
 If Mongo exists with status 1:
@@ -65,12 +71,18 @@ If **not**, you need to pull the latest changes from the upstream Blockrazor rep
 @: git pull upstream master
 @: git push
 @: git checkout -b branch_name_stash
-@: git pop //_replay_ your work on the new branch which is now fully up to date with the Blockrazor repository
+@: git stash pop //_replay_ your work on the new branch which is now fully up to date with the Blockrazor repository
 ```
 
-Now you can add and commit your changes:   
+Note: after running `git stash pop` you should look over your code again and check that everything still works as sometimes a file you worked on was changed in the meantime.
+
+Now you can add your changes:   
 ```
 @: git add changed_file.js //repeat for each file you changed
+```
+
+And then commit your changes:
+```
 @: git commit -m 'problem: very short description of problem //do not close the '', press ENTER two (2) times
 >
 >solution: short description of how you solved the problem.' //Now you can close the ''. Also mention the issue number if there is one (e.g. #6)    
@@ -81,7 +93,7 @@ Now you can add and commit your changes:
 
 #### Q: What happens after I send a pull request?    
 If your pull request contains a correct patch (read the C4) a maintainer should merge it.    
-If you want to work on another problem in the meantime simply repeat the above steps starting at:    
+If you want to work on another problem while you are waiting for it to merge simply repeat the above steps starting at:    
 ```
 @: git checkout master
 ```
