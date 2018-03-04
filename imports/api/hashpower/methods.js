@@ -267,6 +267,29 @@ Meteor.methods({
             return 'not-ok'
         }
     },
+    deleteHashpower: id => {
+		if (Meteor.userId()) {
+			let hp = HashPower.findOne({
+				_id: id
+			})
+
+			if (hp) {
+				if (hp.createdBy === Meteor.userId()) { // you can only delete the hash power data if you've added it
+					HashPower.remove({
+						_id: id
+					})
+
+					removeUserCredit(hp.reward || 0, hp.createdBy, 'removing added hash power data.') // remove the reward
+				} else {
+					throw new Meteor.Error('Error.', 'Error ocurred while deleting.')
+				}
+			} else {
+				throw new Meteor.Error('Error.', 'Wrong id.')
+			}
+		} else {
+			throw new Meteor.Error('Error.', 'You have to log in first.')
+		}
+	},
 	updateAverages: () => {
 		HashAlgorithm.find({}).fetch().forEach(i => {
 			Meteor.call('calculateAverage', i._id, (err, data) => {})

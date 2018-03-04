@@ -38,9 +38,7 @@ Template.allHashpower.helpers({
 		}) || {}).name || ''
 	},
 	canDelete: function() {
-		return this.createdBy === Meteor.userId() || (UserData.findOne({
-			_id: Meteor.userId()
-		}) || {}).moderator
+		return this.createdBy === Meteor.userId()
 	},
 	canFlag: function() {
 		return this.createdBy !== Meteor.userId() // can't flag your own submission
