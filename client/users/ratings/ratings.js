@@ -205,6 +205,14 @@ Template.currencyChoices.helpers({
 })
 
 Template.currencyChoices.events({
+    //sometimes the tooltip init is not done causing tooltips to break, lets init them again just in case.
+'click .currencyChoiceBtn': function(event) {
+    $('a[data-toggle="tooltip"]').tooltip({
+        placement: 'right',
+        html: true
+    });
+
+},
     'click button': function(){
    Session.set('walletImageError',false);
    Session.set('walletImageSuccess',false);
@@ -323,12 +331,12 @@ Template.question.events({
 });
 
 
-Template.upload.onRendered(function () {
-$('a[data-toggle="tooltip"]').tooltip({
-    placement: 'right',
-    html: true
-});
-});
+// Template.upload.onRendered(function () {
+// $('a[data-toggle="tooltip"]').tooltip({
+//     placement: 'right',
+//     html: true
+// });
+// });
 
 Template.upload.helpers({
     walletImageError() {
@@ -365,8 +373,8 @@ Template.upload.helpers({
 });
 
 Template.upload.events({
-            'change input': function(event) {
-                var instance = this;
+'change input': function(event) {
+                    var instance = this;
                 var file = event.target.files[0];
                 var uploadError = false;
                 var uploadType = event.target.id.substring(0, event.target.id.lastIndexOf("_"));
