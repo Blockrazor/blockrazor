@@ -5,7 +5,6 @@ Template.wallet.onCreated(function bodyOnCreated() {
   var self = this
   self.autorun(function() {
     self.subscribe('wallet');
-    self.subscribe('publicUserData')
   })
 });
 
