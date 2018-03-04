@@ -1,95 +1,63 @@
-<template name="menu2">
-  <div class="sidebar-header">
-    Welcome<br/>
-    {{#if currentUser}}
-      {{currentUser.username}}
-    {{else}}
-      Guest, <br/>
-      Please <a href="/login">Sign in</a>
-    {{/if}}
-  </div>
-  <ul class="list-unstyled components">
-    {{#if currentUser }}
-    <li>
-      <a href="/compareCurrencies">Compare currencies</a>
-    </li>
+<template name="menu">
+  <div class="side-nav-container">
+    <div class="sidebar-header">
+      Welcome<br/>
+      {{#if currentUser}}
+        {{currentUser.username}}
+      {{else}}
+        Guest, <br/>
+        Please <a href="/login">Sign in</a>
+      {{/if}}
+    </div>
+    <ul class="list-unstyled components">
+      {{#if currentUser }}
       <li>
-        <a href="/addcoin">Add New Coin</a>
+        <a href="/compareCurrencies">Compare currencies</a>
       </li>
-      <li>
-        <a href="/mypending">Pending Coins & Changes</a>
-      </li>
-      {{#if isModerator}}
         <li>
-          <a href="/moderator">Moderator Dashboard</a>
+          <a href="/addcoin">Add New Coin</a>
         </li>
         <li>
-          <a href="/changedCurrencies">Proposed Changes</a>
+          <a href="/mypending">Pending Coins & Changes</a>
+        </li>
+        {{#if isModerator}}
+          <li>
+            <a href="/moderator">Moderator Dashboard</a>
+          </li>
+          <li>
+            <a href="/changedCurrencies">Proposed Changes</a>
+          </li>
+        {{/if}}
+        <li>
+          <a href="/notifications">Notifications</a>
+          {{#if currentUser }}
+            {{#if totalNotifications}}
+              <a href="#" class="badge badge-success">{{totalNotifications}}</a>
+            {{/if}}
+          {{/if}}
+        </li>
+        <li>
+          <a href="/wallet">My Wallet</a>
+        </li>
+        <li>
+          <a href="/bounties">Bounties</a>
+        </li>
+        <li>
+          <a href="/ratings">Ratings</a>
+        </li>
+        <li>
+          <a href="/communities">Communities</a>
+        </li>
+        <li>
+          <a href="/codebase">Codebase</a>
+        </li>
+        <li>
+          <a href="/hashpower">Hash Power</a>
         </li>
       {{/if}}
-      <li>
-        <a href="/notifications">Notifications</a>
-        {{#if currentUser }}
-          {{#if totalNotifications}}
-            <a href="#" class="badge badge-success">{{totalNotifications}}</a>
-          {{/if}}
-        {{/if}}
-      </li>
-      <li>
-        <a href="/wallet">My Wallet</a>
-      </li>
-      <li>
-        <a href="/bounties">Bounties</a>
-      </li>
-      <li>
-        <a href="/ratings">Ratings</a>
-      </li>
-      <li>
-        <a href="/communities">Communities</a>
-      </li>
-      <li>
-        <a href="/codebase">Codebase</a>
-      </li>
-      <li>
-        <a href="/hashpower">Hash Power</a>
-      </li>
-    {{/if}}
-  </ul>
-</template>
-
-<template name="menu">
-  BLOCKRAZOR<br />
-  {{#if currentUser}}
-  <div class="dropdown show">
-  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-     {{currentUser.username}}
-  </a>
-
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-    <a class="dropdown-item" href="/profile">Edit Profile</a>
-    <a class="dropdown-item" href="#" id="js-logout">Logout</a>
+    </ul>
   </div>
-</div>
-  {{else}}
-  <a href="/login">Sign in</a>
-  {{/if}}<br/>
-  {{#if currentUser }}
-  <br />
-  <br />
-  {{#if isModerator}}
-  <br />
-  <br />
-  {{/if}}
-  <a href="/notifications">Notifications</a> {{#if currentUser }}{{#if totalNotifications}}<a href="#" class="badge badge-success">{{totalNotifications}}</a>{{/if}}{{/if}} <br />
-  <a href="/wallet">My Wallet</a><br />
-  <br />
-  <br />
-  <br />
-  <br />
-  
-  {{/if}}
 </template>
-
 <template name="luxMenu">
   <div class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
       <div class="container">
