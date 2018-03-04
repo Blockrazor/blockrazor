@@ -117,7 +117,7 @@ Template.bountyRender.helpers({
 
     // grey out the button if the bounty is not currently available, or if the use is already working on another bounty
     // of course, don't grey it out if the user can continue tha current bounty
-    if(this.currentlyAvailable === false || (Cookies.get('workingBounty') === 'true' && b && b.expiresAt > Date.now()) && !canContinue(this._id)) {
+    if(this.currentlyAvailable === false || (b && b.expiresAt > Date.now()) && !canContinue(this._id)) {
         return "btn-outline-secondary";
     } else { 
       return "btn-outline-primary takeBounty"
@@ -133,7 +133,6 @@ Template.bountyRender.events({
     if (canContinue(this._id)) {
       FlowRouter.go(this.url)
     } else {
-      if(Cookies.get('workingBounty') != "true") {
         Template.instance().view.parentView.parentView.parentView.templateInstance().workingBounty.set(true);
         Cookies.set('workingBounty', true, { expires: 1 });
         Cookies.set('expiresAt', Date.now() + 3600000, { expires: 1 }); //
@@ -148,14 +147,6 @@ Template.bountyRender.events({
           Meteor.call('startBounty', this._id)
           FlowRouter.go("/bounties/" + this._id)
         }
-      } else if (Cookies.get('workingBounty') == "true") {
-        sAlert.error("You already have a bounty in progress!");
-        if (~custom.indexOf(this._id)) {
-          FlowRouter.go(this.url)
-        } else {
-          FlowRouter.go("/bounties/" + Cookies.get('bountyItem'))          
-        }
-      }
     }
 
   },
