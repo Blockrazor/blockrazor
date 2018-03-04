@@ -1,15 +1,15 @@
 import { Template } from 'meteor/templating';
 import { Wallet } from '../../lib/database/Wallet.js';
-
+import { UserData } from '/lib/database/UserData.js';
 Template.wallet.onCreated(function bodyOnCreated() {
   var self = this
   self.autorun(function() {
     self.subscribe('wallet');
+    self.subscribe('publicUserData')
   })
 });
 
 Template.wallet.onRendered( function () {
-//console.log(wallet.find({id}).fetch())
 });
 
 Template.wallet.helpers({
@@ -17,7 +17,7 @@ Template.wallet.helpers({
     return Wallet.find({type: "transaction"}, {sort: {time: -1 }});
   },
   balance () {
-    return ReactiveMethod.call('getBalance')
+    return UserData.findOne({}, {fields: {balance: 1}}).balance
   }
 });
 

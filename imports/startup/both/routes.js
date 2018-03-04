@@ -315,6 +315,7 @@ FlowRouter.route('/compareCurrencies', {
   FlowRouter.route( '/wallet', {
     subscriptions: function() {
         this.register('wallet', Meteor.subscribe('wallet'));
+        this.register("publicUserData", Meteor.subscribe("publicUserData"))
     },
     action: function( params, queryParams ) {
       BlazeLayout.render('editAnything', { main: 'wallet'});
