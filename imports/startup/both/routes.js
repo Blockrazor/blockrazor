@@ -1,5 +1,17 @@
 import { FlowRouter } from 'meteor/staringatlights:flow-router';
-import { FastRender } from 'meteor/staringatlights:fast-render';
+import { FastRender } from 'meteor/staringatlights:fast-render'
+
+if (Meteor.isClient) { // only import them if this code is being executed on client side
+  import '../../ui/layouts/MainBody.html'  
+  import '../../ui/pages/currencyEdit/currencyEdit.js' 
+  import '../../ui/pages/changedCurrencies/changedCurrencies.js' 
+  import '../../ui/pages/hashpower/addHashpower' 
+  import '../../ui/pages/hashpower/allHashpower' 
+  import '../../ui/pages/hashpower/allHashaverage' 
+  import '../../ui/pages/flaggedUsers/flaggedUsers'  
+  import '../../ui/pages/hashpower/flaggedHashpower' 
+  import '../../ui/pages/compareCurrencies/compareCurrencies'  
+}
 
 // self.subscribe('approvedcurrency', FlowRouter.getParam('slug'))
 // self.subscribe('hashalgorithm')
