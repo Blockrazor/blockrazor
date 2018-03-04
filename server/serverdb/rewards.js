@@ -33,7 +33,8 @@ export var creditUserWith = function(amount, userId, reason) {
       type: "transaction",
       from: "Blockrazor",
       message: "Congratulations! You've been awarded " + amount + " KZR for " + reason,
-      amount: amount
+      amount: amount,
+      read: false,
     });
     return true;
   }
@@ -48,7 +49,8 @@ export var removeUserCredit = (amount, userId, reason) => { // if we need to rem
       type: "transaction",
       from: "Blockrazor",
       message: `${amount} KZR has been deduced from your account for ${reason}`,
-      amount: -amount
+      amount: -amount,
+      read: false,
     });
     return true;
   }

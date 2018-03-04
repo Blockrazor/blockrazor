@@ -3,17 +3,6 @@ import { ActivityLog } from '../../lib/database/ActivityLog.js'
 import { log } from '../main'
 
 Meteor.methods({
-    'getNotificationCount': function() {
-        if (!Meteor.userId()) { throw new Meteor.Error('error', 'please log in') };
-
-        var totalNotifications = ActivityLog.find({
-            owner: Meteor.userId(),
-            read: { "$exists": false }
-        }).count();
-
-        return totalNotifications;
-
-    },
     'markNotificationsAsRead': function() {
         if (!Meteor.userId()) { throw new Meteor.Error('error', 'please log in') };
 

@@ -6,6 +6,15 @@ Template.wallet.onCreated(function bodyOnCreated() {
   self.autorun(function() {
     self.subscribe('wallet');
   })
+
+  //mark notifications read
+  Meteor.call('markAsRead',
+  (error, result) => {
+      if (error) {
+          console.error(error)
+      }
+  }
+);
 });
 
 Template.wallet.onRendered( function () {

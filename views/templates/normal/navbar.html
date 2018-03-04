@@ -8,6 +8,11 @@
     </div>  
     <div>
         {{#if currentUser}}
+        <a class="navbar-toggler">Notifications 
+          {{#if activityNotifications}}<span><a href="/notifications" title="activity" class="badge badge-success">{{activityNotifications}}</a></span>{{/if}} 
+          {{#if walletNotifications}}<span><a href="/wallet" title="wallet" class="badge badge-success">{{walletNotifications}}</a></span>{{/if}} 
+        </a>
+
         <div class="dropdown show">
           <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {{currentUser.username}}
