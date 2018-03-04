@@ -7,7 +7,7 @@ Template.activityLog.onCreated(function bodyOnCreated() {
     self.subscribe('activitylog');
   })
 
-//mark all notification as read
+// mark all notification as read
     Meteor.call('markNotificationsAsRead',
         (error, result) => {
             if (error) {
