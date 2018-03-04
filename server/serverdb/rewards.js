@@ -32,7 +32,7 @@ export var creditUserWith = function(amount, userId, reason) {
       owner: userId,
       type: "transaction",
       from: "Blockrazor",
-      message: "Congratulations! You've been awarded " + amount + " KZR for " + reason,
+      message: `Congratulations! You've been awarded ${amount > 0.00001 ? amount : amount.toExponential(3)} KZR for ${reason}`,
       amount: amount,
       read: false,
     });
