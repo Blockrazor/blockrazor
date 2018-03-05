@@ -29,15 +29,14 @@
           </li>
         {{/if}}
         <li>
-          <a href="/notifications">Notifications</a>
-          {{#if currentUser }}
-            {{#if totalNotifications}}
-              <a href="#" class="badge badge-success">{{totalNotifications}}</a>
-            {{/if}}
-          {{/if}}
+          <a href="/notifications">Notifications
+            {{#if activityNotifications}}<span class="badge badge-success">{{activityNotifications}}</span>{{/if}} 
+          </a>
         </li>
         <li>
-          <a href="/wallet">My Wallet</a>
+          <a href="/wallet">My Wallet
+            {{#if walletNotifications}}<span class="badge badge-success">{{walletNotifications}}</span>{{/if}} 
+          </a>
         </li>
         <li>
           <a href="/bounties">Bounties</a>
