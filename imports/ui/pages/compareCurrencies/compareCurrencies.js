@@ -110,21 +110,22 @@ Template.compareCurrencies.events({
 		  		_id: 'elodata'
 		  	}) || {}
 
-		  	let wallet = currency.walletRanking / graphdata.walletMaxElo * 10
 
-		  	let community = currency.communityRanking / graphdata.communityMaxElo * 10
+			const {codebaseMaxElo, codebaseMinElo, communityMaxElo, communityMinElo, walletMinElo, walletMaxElo} = graphdata
 
-		  	let codebase = (currency.codebaseRanking || 400) / graphdata.codebaseMaxElo * 10
+			var wallet = ((currency.walletRanking - walletMinElo)/((walletMaxElo - walletMinElo) || 1)) * 10;
+			var community = (((currency.communityRanking || communityMinElo) - communityMinElo) / ((communityMaxElo - communityMinElo) || 1)) * 10;
+			let codebase = (((currency.codebaseRanking || codebaseMinElo) - codebaseMinElo) / ((codebaseMaxElo - codebaseMinElo) || 1)) * 10
 
 		  	let maxD = graphdata.decentralizationMaxElo
 		  	let minD = graphdata.decentralizationMinElo
 
-		  	let decentralization = (((currency.decentralizationRanking || 400) - minD) / ((maxD - minD) || 1)) * 10 
+		  	let decentralization = (((currency.decentralizationRanking || minD) - minD) / ((maxD - minD) || 1)) * 10 
 
 		  	let minDev = graphdata.developmentMinElo
 		  	let maxDev = graphdata.developmentMaxElo
 
-		  	let development = (((currency.gitCommits || 0) - minDev) / ((maxDev - minDev) || 1)) * 10 
+		  	let development = (((currency.gitCommits || minDev) - minDev) / ((maxDev - minDev) || 1)) * 10 
 
 		  	let nums = [development,codebase,community,2,7,wallet,1,3,decentralization]
 
