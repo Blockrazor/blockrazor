@@ -14,7 +14,10 @@ Template.topnav.helpers({
     },
     walletNotifications(){
         return Wallet.find({owner: Meteor.userId(), type: "transaction", read: {$ne: true}}).count();
-    }
+    },
+    slug: () => Meteor.users.findOne({
+        _id: Meteor.userId()
+    }).slug
 });
 
 Template.topnav.onCreated(function() {
