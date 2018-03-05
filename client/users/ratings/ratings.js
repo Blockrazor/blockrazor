@@ -410,7 +410,7 @@ Template.upload.events({
 
                             //check if an image has already been uploaded 
                             var walletImageExist = WalletImages.find({ currencyId: instance._id, imageOf: uploadType, createdBy: Meteor.userId() }).count();
-
+                            
                             //if existing wallet images exist, lets delete them and the images on the server
                             if (walletImageExist) {
                                 Meteor.call('deleteWalletImage', uploadType, instance._id, function(error, result) {

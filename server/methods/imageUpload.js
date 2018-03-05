@@ -422,6 +422,7 @@ if (gm.isAvailable) {
     }
   },
       'deleteWalletImage': function(imageOf, currencyId) {
+        const fs = require('fs')
 
           var error = function(error) { throw new Meteor.Error('error', error); }
 
@@ -431,8 +432,14 @@ if (gm.isAvailable) {
               return false;
           }
 
+          //remove image from file serverp
+          let imageID = WalletImages.findOne({ currencyId: currencyId, imageOf: imageOf, createdBy: this.userId});
+          let filename = imageID._id +'.'+ imageID.extension;
+          fs.unlinkSync(_walletUpoadDirectory + filename)
+
           //remove all walletImages per query below
           WalletImages.remove({ currencyId: currencyId, imageOf: imageOf, createdBy: this.userId});
+
 
       }
       });
