@@ -97,6 +97,8 @@ Meteor.methods({
                 }
             })
         })
+
+        Meteor.call('updateGraphdata', (err, data) => {}) // ensure that radar graph upper and lower bounds are correct
     },
   'tabulateElo': function() {
     //Import Elo ranking logic
