@@ -222,31 +222,42 @@ Template.currencyChoices.events({
 
     templateInstance[$(event.currentTarget).context.id.substring(3)].set($(event.currentTarget).val())
   },
-  'click #populateRatings': function(){
-    Meteor.call('populateRatings', function(error,result){
-      if(error){
-        console.log(error.reason);
-      } else {
-        // there's no need to reload the page, everything is reactive now
-        // window.location.reload();
-        if (!Ratings.findOne({
-          $or: [{
-            answered: false,
-            catagory: 'wallet'
-          }, {
-            answered: false,
-            context: 'wallet'
-          }]
-        })) {
-          swal({
-              icon: "error",
-              text: "Please upload some wallet images to continue.",
-              button: {className:'btn btn-primary'}
-          });
+  'click #populateRatings': function() {
+    Meteor.call('populateRatings', function(error, result) {
+        if (error) {
+            console.log(error.reason);
+        } else {
+
+            let walletsAdded = Ratings.find({
+                $or: [{
+                    answered: false,
+                    catagory: 'wallet'
+                }, {
+                    answered: false,
+                    context: 'wallet'
+                }]
+            }).count();
+
+            //check if three files have been uploaded
+            let walletCheckCount = WalletImages.find({ createdBy: Meteor.userId(), allImagesUploaded: true }).count();
+
+            if (!walletCheckCount) {
+                swal({
+                    icon: "error",
+                    text: "Please upload at least two wallet images to continue.",
+                    button: { className: 'btn btn-primary' }
+                });
+            } else if (walletCheckCount >= 3 && walletCheckCount < 6) {
+                swal({
+                    icon: "error",
+                    text: "Please upload one more wallet image to continue.",
+                    button: { className: 'btn btn-primary' }
+                });
+            }
+
         }
-      }
     })
-  }
+}
 });
 
 Template.displayRatings.helpers({
