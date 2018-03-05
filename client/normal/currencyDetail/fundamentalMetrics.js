@@ -3,7 +3,9 @@ import { Features } from '../../../lib/database/Features.js';
 import { WalletImages } from '../../../lib/database/Images.js';
 import { Currencies } from '../../../lib/database/Currencies.js';
 import { GraphData } from '../../../lib/database/GraphData.js';
-import Cookies from 'js-cookie';
+import Cookies from 'js-cookie'
+
+import '../../../imports/ui/pages/userProfile/userHover' //import the userHover template for later usage (we have to import it everywhere we want to use it)
 
 Template.fundamentalMetrics.onCreated(function() {
   this.autorun(() => {
