@@ -22,8 +22,4 @@ Template.topnav.onCreated(function() {
         this.subscribe('wallet');
         this.subscribe('activitylog');
     })
-
-    this.notificationCount = new ReactiveVar(0)
-    // })
-
 });

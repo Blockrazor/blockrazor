@@ -86,7 +86,23 @@ Template.returnedCurrencies.helpers({
   }
 
 
-  return Currencies.find(filter, { sort: { createdAt: -1 }, limit: 20});
+  return Currencies.find(filter, { sort: { createdAt: -1 }, limit: 20,
+  fields: {
+    slug: 1,
+    currencySymbol: 1,
+    marketCap: 1,
+    maxCoins: 1,
+    hashpower: 1,
+    genesisTimestamp: 1,
+    circulating: 1,
+    currencyName: 1,
+    communityRanking: 1,
+    codebaseRanking: 1,
+    walletRanking: 1,
+    decentralizationRanking: 1,
+    gitCommits: 1,
+  }
+});
       }
 });
 
