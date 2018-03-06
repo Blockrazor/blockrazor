@@ -6,7 +6,7 @@
             </h4>
         </div>
         <div class="card-body">
-            {{#if userData.profilePicture}}<img src="{{userData.profilePicture}}" style="width: 400px;"/>{{/if}}<br />
+            {{#if user.profilePicture}}<img src="{{user.profilePicture}}" style="width: 400px;"/><br /><br />{{/if}}
             Full name: {{val userData.fullname}}<br />
             Email address: {{val user.email}}<br />
             Biography: <pre>{{val user.bio}}</pre><br />
