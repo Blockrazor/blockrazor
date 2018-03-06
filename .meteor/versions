@@ -47,6 +47,8 @@ fourseven:scss@4.5.4
 geojson-utils@1.0.10
 github-config-ui@1.0.0
 github-oauth@1.2.0
+gwendall:body-events@0.1.6
+gwendall:hovercard@0.1.1
 hot-code-push@1.0.4
 html-tools@1.0.11
 htmljs@1.0.11

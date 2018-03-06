@@ -11,6 +11,7 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   import '../../ui/pages/flaggedUsers/flaggedUsers'
   import '../../ui/pages/hashpower/flaggedHashpower'
   import '../../ui/pages/compareCurrencies/compareCurrencies'
+  import '../../ui/pages/userProfile/userProfile'
 }
 
 //global subscriptions (on client side immidiately available)
@@ -28,6 +29,21 @@ FlowRouter.route('/currencyEdit/:slug?/:field?', {
       main: 'currencyEdit',
       left: 'menu'
     });
+  }
+})
+
+FlowRouter.route('/profile/:slug', {
+  subscriptions: function (params) {
+    this.register('approvedcurrencies', Meteor.subscribe('approvedcurrencies'))
+    this.register('userdataSlug', Meteor.subscribe('userdataSlug', params.slug))
+    this.register('user', Meteor.subscribe('user', params.slug))
+    this.register('comments', Meteor.subscribe('comments'))
+  },
+  action: function (params, queryParams) {
+    BlazeLayout.render('desktop', {
+      main: 'userProfile',
+      left: 'menu'
+    })
   }
 })
 

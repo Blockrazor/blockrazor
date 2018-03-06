@@ -129,7 +129,9 @@
 <template name="feature">
     <div class="bigCommentBox">
       <div class="commentBody">
-        <div class="commentText">{{featureName}}<small class="text-muted" style="white-space:nowrap;">  &#x2015;added by {{author}}</small></div>
+        <div class="commentText">{{featureName}}<small class="text-muted" style="white-space:nowrap;">  &#x2015;added by {{#hovercard template="userHover" direction="vertical" trigger="hover"}}
+          <a href="#">{{author}}</a>
+        {{/hovercard}}</small></div>
       </div>
       <div class="commentFooter"><div class="pull-left"><i class="fa fa-thumbs-down" aria-hidden="true"></i>  <i class="fa fa-thumbs-up fa-flip-horizontal" aria-hidden="true"></i></div><div class="pull-right"><i class="fa fa-flag flag" aria-hidden="true"></i><i class="fa fa-comments-o comments" aria-hidden="true" style="margin-left:10px;"><small>{{numComments}}</small></i></div></div>
     </div>
@@ -168,7 +170,10 @@
 <template name="comment">
     <div class="bigCommentBox commentParent-{{parentId}}" style="width:90%;display:none;">
       <div class="commentBody">
-        <div class="commentText">{{comment}} <small class="text-muted" style="white-space:nowrap;">&#x2015;{{author}}</small>
+        <div class="commentText">{{comment}} <small class="text-muted" style="white-space:nowrap;">&#x2015;
+        {{#hovercard template="userHover" direction="vertical" trigger="hover"}}
+          <a href="#">{{author}}</a>
+        {{/hovercard}}</small>
       </div>
       </div>
 <div class="commentFooter"><div class="pull-left"><i class="fa fa-thumbs-down" aria-hidden="true"></i>  <i class="fa fa-thumbs-up fa-flip-horizontal" aria-hidden="true"></i></div><div class="pull-right"><i class="fa fa-flag flag" aria-hidden="true"></i></div></div>
