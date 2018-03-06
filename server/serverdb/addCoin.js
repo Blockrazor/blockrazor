@@ -24,20 +24,13 @@ Meteor.methods({
     })
   },
   isCurrencyNameUnique(name) {
-
-    //only execute method if currenyName is supplied, null was causing issues in validating otherh fields
-    if(name){
     name = name.toLowerCase()
     var res = PendingCurrencies.find({}, {fields: {currencyName: 1, id: -1}}).fetch().concat(Currencies.find({}, {fields: {currencyName: 1, id: -1}}).fetch()).filter(x => {
-      console.log(res)
       return x.currencyName.toLowerCase() == name
     })
-
-    console.log(res)
     if (res.length) {
       throw new Meteor.Error("Looks like " + name + " is already listed or pending approval on Blockrazor!");
     } else {return "OK"};
-  }
   },
   addCoin(data) {
   //Check that user is logged in

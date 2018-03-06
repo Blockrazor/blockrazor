@@ -3,21 +3,8 @@ import { FormData } from '../../lib/database/FormData.js'; //database
 import { Bounties } from '../../lib/database/Bounties';
 import { RatingsTemplates } from '../../lib/database/Ratings';
 import { HashAlgorithm } from '../../lib/database/HashAlgorithm';
-
-import swal from 'sweetalert';
 import Cookies from 'js-cookie';
 
-function initPopOvers(){
-  //gotta set a small delay as dom isn't ready straight away
-      Meteor.setTimeout(function() {
-        $('[data-toggle="popover"]').popover({ trigger: 'focus' })
-    }.bind(this), 500);
-}
-
-Template.addCoin.onRendered(function() {
-    //init popovers
-    $('[data-toggle="popover"]').popover({ trigger: 'focus' })
-});
 
 //Functions to help with client side validation and data manipulation
 var makeTagArrayFrom = function(string) {
@@ -71,6 +58,8 @@ Template.addCoin.onCreated(function() {
 
 //Events
 Template.addCoin.events({
+  //Show and hide form help
+  'focus #currencyName': function(){Template.instance().currencyName.set(true)},
   'blur #currencyName': function(e, templateInstance){
     templateInstance.currencyName.set(false);
     Meteor.call('isCurrencyNameUnique', e.currentTarget.value);
@@ -79,35 +68,47 @@ Template.addCoin.events({
 
     });
     },
+  'focus #currencySymbol': function(){Template.instance().currencySymbol.set(true)},
+  'blur #currencySymbol': function(){Template.instance().currencySymbol.set(false)},
+  'focus #ICOfundsRaised': function(){Template.instance().ICOfundsRaised.set(true)},
+  'blur #ICOfundsRaised': function(){Template.instance().ICOfundsRaised.set(false)},
+  'focus #genesis': function(){Template.instance().genesis.set(true)},
+  'blur #genesis': function(){Template.instance().genesis.set(false)},
+  'focus #forkParent': function(){Template.instance().forkParent.set(true)},
+  'blur #forkParent': function(){Template.instance().forkParent.set(false)},
+  'focus #forkHeight': function(){Template.instance().forkHeight.set(true)},
+  'blur #forkHeight': function(){Template.instance().forkHeight.set(false)},
+  'focus #premine': function(){Template.instance().premine.set(true)},
+  'blur #premine': function(){Template.instance().premine.set(false)},
+  'focus #maxCoins': function(){Template.instance().maxCoins.set(true)},
+  'blur #maxCoins': function(){Template.instance().maxCoins.set(false)},
+  'focus #gitRepo': function(){Template.instance().gitRepo.set(true)},
+  'blur #gitRepo': function(){Template.instance().gitRepo.set(false)},
+  'focus #officialSite': function(){Template.instance().officialSite.set(true)},
+  'blur #officialSite': function(){Template.instance().officialSite.set(false)},
+  'focus #reddit': function(){Template.instance().reddit.set(true)},
+  'blur #reddit': function(){Template.instance().reddit.set(false)},
+  'focus #blockTime': function(){Template.instance().blockTime.set(true)},
+  'blur #blockTime': function(){Template.instance().blockTime.set(false)},
+  'focus #confirmations': function(){Template.instance().confirmations.set(true)},
+  'blur #confirmations': function(){Template.instance().confirmations.set(false)},
+  'focus #previousNames': function(){Template.instance().previousNames.set(true)},
+  'blur #previousNames': function(){Template.instance().previousNames.set(false)},
+  'focus #exchanges': function(){Template.instance().exchanges.set(true)},
+  'blur #exchanges': function(){Template.instance().exchanges.set(false)},
 
 //Select form elements to display to user based on their selection
   'change .isICO': function(dataFromForm) {
     Template.instance().isICO.set(dataFromForm.target.checked);
-    //init popovers again, can't init on hidden dom elements 
-     initPopOvers();
-
   },
   'change .btcfork': function(dataFromForm) {
     Template.instance().btcfork.set(dataFromForm.target.checked);
-
-    //init popovers again, can't init on hidden dom elements 
-     initPopOvers();
-
-
   },
   'change .exists': function(dataFromForm) {
     Template.instance().coinExists.set(dataFromForm.target.checked);
-        //init popovers again, can't init on hidden dom elements 
-     initPopOvers();
-
-
   },
   'change #consensusType': function(consensusType) {
     Template.instance().consensusType.set(consensusType.target.value);
-         //init popovers again, can't init on hidden dom elements 
-     initPopOvers();
-
-
     if (consensusType.target.value == "Proof of Work" || consensusType.target.value == "Hybrid") {
       Template.instance().POWSelect.set(true);
     } else {
@@ -123,32 +124,20 @@ Template.addCoin.events({
   var mimetype = mime.lookup(file);
   var fileExtension = mime.extension(file.type);
 
-if(file){
+
   //check if filesize of image exceeds the global limit
   if (file.size > _coinFileSizeLimit) {
-                swal({
-                    icon: "error",
-                    text: "Image must be under 2mb",
-                    button: { className: 'btn btn-primary' }
-                });
+      sAlert.error("Image must be under 2mb");
       uploadError = true;
   }
 
- if (!_supportedFileTypes.includes(file.type)) {
-     swal({
-         icon: "error",
-         text: "File must be an image",
-         button: { className: 'btn btn-primary' }
-     });
-     uploadError = true;
- }
+ if(!_supportedFileTypes.includes(file.type)){
+      sAlert.error("File must be an image");
+      uploadError = true;
+  }
 
 //Only upload if above validation are true
 if(!uploadError){
-
-  $("#fileUploadValue").html("<i class='fa fa-circle-o-notch fa-spin'></i> Uploading");
-
-
    var reader = new FileReader();
    reader.onload = function(fileLoadEvent){
      //var binary = event.target.result;
@@ -158,25 +147,16 @@ if(!uploadError){
      Meteor.call('uploadCoinImage', file.name, event.target.id, instance._id, reader.result,md5, function(error, result){
        if(error){
         console.log(error)
-         swal({
-         icon: "error",
-         text: error.message,
-         button: { className: 'btn btn-primary' }
-     });
+    sAlert.error(error.message);
        }else{
-    
+    sAlert.success('Upload Success');
     $("#currencyLogoFilename").val(md5+'.'+fileExtension);
-
-       $("#fileUploadValue").html("Change");
-       $("#currencyLogoInputLabel").removeClass('btn-primary');
-       $("#currencyLogoInputLabel").addClass('btn-success');
 
        }
 
      });
    }
    reader.readAsBinaryString(file);
- }
  }
 },
 
@@ -268,19 +248,9 @@ if(!uploadError){
     console.log(insert);
 //Send everything to the server for fuckery prevention and database insertion
     Meteor.call('addCoin', insert, function(error, result){
-      //remove error classes before validating
-      $('input').removeClass('is-invalid');
-
       if(error) {
         // turn error into user friendly string
-             swal({
-                 icon: "error",
-                  title: "Please fix the following fields",
-                 text: error.error.map(i => i.split(/(?=[A-Z])/).join(' ').toLowerCase()).join(', '),
-                 button: { className: 'btn btn-primary' }
-             });
-
-       // sAlert.error(`You need to fix the following fields to continue: ${error.error.map(i => i.split(/(?=[A-Z])/).join(' ').toLowerCase()).join(', ')}.`)
+        sAlert.error(`You need to fix the following fields to continue: ${error.error.map(i => i.split(/(?=[A-Z])/).join(' ').toLowerCase()).join(', ')}.`)
       } else {
         Meteor.call('completeNewBounty', 'new-currency', $('#currencyName').val(), (err, data) => {})
         Cookies.set('workingBounty', false, { expires: 1 })
@@ -293,96 +263,6 @@ if(!uploadError){
 
 
 Template.addCoin.helpers({
-  getPopoverContent (val){
-
-switch (val) {
-    case "currencyName":
-        {
-            return 'Please input the name of the cryptocurrency, token, ICO, etc.';
-            break;
-        }
-    case "currencySymbol":
-        {
-            return "Please input the symbol for this currency."
-            break;
-        }
-    case "ICOfundsRaised":
-        {
-            return "How much was raised in total, including all rounds and pre-sales etc?"
-            break;
-        }
-    case "genesisTimestamp":
-        {
-            return "When was the genesis block mined? The easiest way to check this is to seach on Google for a block explorer for this blockchain and go to block 0. In most block explorers you can simply type \"0\" into their search feature and it will find the genesis block. In some cases, the genesis block may have a unix timestamp of \"0\" which translates to 1st January 1970. In those cases, simply use block 1 instead."
-            break;
-        }
-    case "intendedLaunch":
-        {
-            return "When do the people behind this coin intend to mine the genesis block or launch the coin?"
-            break;
-        }
-    case "forkParent":
-        {
-            return "  Please select which Bitcoin blockchain this fork is forking from. For example if it is a fork of Bitcoin Cash, simply choose \"Bitcoin Cash\"."
-            break;
-        }
-    case "forkHeight":
-        {
-            return "At which block did (or will) the fork happen?"
-            break;
-        }
-    case "premine":
-        {
-            return "Were coins sold or distributed before the public were able to participate in mining? Did the developers mine coins before telling anyone else about it? This is more of a \"if it quacks like a duck it's probably a duck\" question. For example Zcash has a 20% mining tax until the developers recieve 2,100,000 coins, thus their premine is 2100000."
-            break;
-        }
-    case "maxCoins":
-        {
-            return "Is there a cap on the total number of coins produced? For example, Bitcoin is 21,000,000. If there's no cap. or if there's an inflationary tail, please input the total coins that will exist in the year 2050."
-            break;
-        }
-    case "gitRepo":
-        {
-            return "    This is the git code repository for the main node software (not the github organization). For example, Monero is https://github.com/monero-project/monero"
-            break;
-        }
-    case "officialSite":
-        {
-            return "What is the offical website?"
-            break;
-        }
-    case "reddit":
-        {
-            return "Is there a reddit page (subreddit) for this project?"
-            break;
-        }
-    case "blockTime":
-        {
-            return "What is the block time for this blockchain?"
-            break;
-        }
-
-    case "confirmations":
-        {
-            return "How many confirmations do exchanges wait for before they let you trade it if you deposit this currency? Not all exchanges are the same, but any number you've experienced yourself is fine."
-            break;
-        }
-
-    case "previousNames":
-        {
-            return "Has this currency been known by any previous names?"
-            break;
-        }
-
-    case "exchanges":
-        {
-            return "Which exchanges have listed this currency? Some examples include: Bittrex, Poloniex, Kraken"
-            break;
-        }
-
-} 
-
-  },
   questions: () => RatingsTemplates.find({}).fetch(),
   activeBounty: () => {
     let bounty = Bounties.find({

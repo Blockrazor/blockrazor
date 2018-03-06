@@ -4,9 +4,6 @@ import { Currencies, ChangedCurrencies } from '../../../../lib/database/Currenci
 import '../../../api/coins/methods.js';
 import '../../layouts/MainBody.html'
 import './changedCurrencies.html';
-import '../../components/datasetEmpty.html';
-
-import '/imports/ui/stylesheets/lux.min.css';
 
 Template.changedCurrencies.onCreated(function bodyOnCreated() {
     var self = this
