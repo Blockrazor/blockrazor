@@ -335,9 +335,9 @@ FlowRouter.route('/changedcurrencies', {
     this.register('changedCurrencies', Meteor.subscribe('changedCurrencies'));
   },
   action: function (params, queryParams) {
-    BlazeLayout.render('desktop', {
+    BlazeLayout.render('luxDesktop', {
       main: 'changedCurrencies',
-      left: 'menu'
+      left: 'luxMenu'
     });
   }
 });
