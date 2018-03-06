@@ -306,7 +306,11 @@ FlowRouter.route('/addcoin', {
   action: function () {
     if (Meteor.userId()) {
       // if the user is logged in, you can render the intented page
-      BlazeLayout.render('editAnything', {main: 'addCoin'});
+    BlazeLayout.render('luxDesktop', {
+      main: 'addCoin',
+      left: 'luxMenu'
+    });
+    
       this.register('formdata', Meteor.subscribe('formdata'));
 
     } else {
