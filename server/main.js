@@ -84,16 +84,20 @@ Accounts.onLogin(function(user){
 });
 
 Accounts.onCreateUser(( options, user ) => {  
-    // grab the fb username and email for the Meteor.users() object
+    // grab the fb username, email and profile picture for the Meteor.users() object
     if  ( user.services && user.services.facebook && user.services.facebook.name ) {
         user.username = user.services.facebook.name;
         user.email = user.services.facebook.email;
+
+        user.profilePicture = `https://graph.facebook.com/${user.services.facebook.id}/picture?type=large` // default url for facebook images
     }
 
     // grab the github username and email for the Meteor.users() object
     if  ( user.services && user.services.github && user.services.github.username ) {
         user.username = user.services.github.username;
-        user.email = user.services.github.email;
+        user.email = user.services.github.email
+
+        user.profilePicture = `https://avatars.githubusercontent.com/u/${user.services.github.id}?s=400` // default url for github images
     }
 
     if (!user.email) {

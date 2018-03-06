@@ -12,7 +12,11 @@
         <div class="form-group">
             <label for="bio">Bio</label>
             <input type="text" class="form-control" id="bio" value="{{user.bio}}">
-
+        </div>
+        <div class="form-group">
+            <label for="image">Change profile picture</label><br />
+            <a href="#" id="image"><img src="{{currentUser.profilePicture}}" id='js-profilePic' style="padding: 10px;width: 300px"></a>
+            <input type='file' class="form-control" id='imageInput'>
         </div>
         <button type="submit" class="btn btn-primary">Save</button>
     </form>
