@@ -1,8 +1,8 @@
 # Blockrazor
-### _Every_ latest detail about _every_ blockchain project in a comparison tool that _anyone_ can understand.    
-<img src="https://i.imgur.com/BgiN7VA.png" width="500px" height="auto">    
-<img src="https://i.imgur.com/strfbRx.png" width="500px" height="auto">    
-<img src="https://i.imgur.com/IOSme9w.png" width="500px" height="auto">      
+#### _Every_ latest detail about _every_ blockchain project in a comparison tool that _anyone_ can understand.    
+<img src="https://i.imgur.com/strfbRx.png" width="800px" height="auto"> 
+<img src="https://i.imgur.com/BgiN7VA.png" width="800px" height="auto">       
+<img src="https://i.imgur.com/IOSme9w.png" width="800px" height="auto">      
 
 <details>
   <summary>How to run Blockrazor locally</summary>
