@@ -306,7 +306,11 @@ FlowRouter.route('/addcoin', {
   action: function () {
     if (Meteor.userId()) {
       // if the user is logged in, you can render the intented page
-      BlazeLayout.render('editAnything', {main: 'addCoin'});
+    BlazeLayout.render('luxDesktop', {
+      main: 'addCoin',
+      left: 'luxMenu'
+    });
+    
       this.register('formdata', Meteor.subscribe('formdata'));
 
     } else {
@@ -351,9 +355,9 @@ FlowRouter.route('/changedcurrencies', {
     this.register('changedCurrencies', Meteor.subscribe('changedCurrencies'));
   },
   action: function (params, queryParams) {
-    BlazeLayout.render('desktop', {
+    BlazeLayout.render('luxDesktop', {
       main: 'changedCurrencies',
-      left: 'menu'
+      left: 'luxMenu'
     });
   }
 });
