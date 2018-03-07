@@ -84,17 +84,6 @@
   border-right: solid 1px;
 }
 
-.heading-wrapper i {
-  font-size: 36px;
-  color: #0daeda;
-}
-
-.heading-wrapper h2 {
-  font-size: 32px;
-  font-weight: 400;
-  color: #02b3e4;
-}
-
 .form-cards {
   background-image: linear-gradient(to bottom right, #f7f7f7, #eafbff);
 }
@@ -187,22 +176,6 @@
   border-right: 9px solid transparent;
   border-left: 9px solid transparent;
   border-bottom: 9px solid #fff;
-}
-
-.submit-form button {
-  height: 35px;
-  width: 97px;
-  background-color: transparent;
-  color: #02b3e4;
-  font-size: 13px;
-  font-weight: 600;
-  text-transform: uppercase;
-  border-radius: 3px;
-  border-style: none;
-  border: 1px solid #02b3e4;
-  cursor: pointer;
-  margin-right: 15px;
-  transition: all 0.3s;
 }
 
 .submit-form button:hover {

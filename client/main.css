@@ -66,3 +66,16 @@ body .modal-dialog {
     width:50px;
     height:50px;
 }
+
+.padLeft{
+    margin-left:8px !important;
+}
+.padRight{
+    margin-right:8px !important;
+}
+.padTop{
+    margin-top:8px !important;
+}
+.padBottom{
+    margin-bottom:8px !important;
+}

@@ -5,13 +5,18 @@
 	{{/if}}
 	<form name="addCurrency" id="addCurrency">
 		<div class="form-group my-5">
-			<section class="container rules">
-				<div class="row">
-					<div class="col">
-						<div class="heading-wrapper text-center mt-2">
-						  	<i class="fa fa-cogs d-block mb-1" aria-hidden="true"></i>
-						    <h2 class="mb-4">Rules:</h2>
+
+										<div class="heading-wrapper text-center mt-2">
+						    <h2 class="mb-4">Add Coin</h2>
 					    </div>
+					
+			
+
+			<section class="row justify-content-center">
+				<div>
+													<div class="card bg-white required mx-auto" style="width:80%">
+										<div class="card-body">
+
 						<div class="row">
 							<div class="col-md-4">
 								<label class="custom-control custom-checkbox active">
@@ -36,100 +41,33 @@
 							</div>
 						</div>
 					</div>
-				</div>
-			</section>
-
-			<section class="form-cards pt-4 pb-5 my-5">
-				<div class="container">
-					<div class="row justify-content-center mt-5">
-						<div class="col-lg-10">
-							<div class="row">
-								<div class="col-md-6">
-									<div class="card bg-white required">
+						</div>
+						<br /><br />
+					<div class="justify-content-center mx-auto">
+							<div>
+								<div>
+									<div class="card bg-white required mx-auto" style="width:80% !important">
 										<div class="card-body">
-									        <h5 class="card-title text-info">Coin Basics</h5>
-									        {{reactiveVar 'currencyNameMessage'}}
-									        <input type="text" id="currencyName" name="currencyName" placeholder="Currency Name" style="width: 100%">					        									   
-									        {{ #if reactiveVar 'currencyName'}}{{> currencyName}}{{/if}}
-									        <input type="text" id="currencySymbol" name="currencySymbol" placeholder="SYMBOL" style="width: 100%">
-									        {{ #if reactiveVar 'currencySymbol'}}{{> currencSymbol}}{{/if}}
+											
+									        <h5 class="card-title">Coin Basics</h5>
+									 
+									        <div class="input-group">
+									        	{{reactiveVar 'currencyNameMessage'}}
+									        <input type="text" id="currencyName" name="currencyName" placeholder="Currency Name"  class="form-control" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'currencyName'}}">					        					   
 
-											{{ #if reactiveVar 'isICO'}}
-											<h5 class="card-title text-info mt-3">Completed ICO funding</h5>
-											<input type="number" min="0" name="ICOcoinsProduced" id="ICOcoinsProduced" placeholder="Coins allocated" style="width: 100%">
-											<input type="number" min="0" name="ICOfundsRaised" id="ICOfundsRaised" placeholder="Funds raised in total" style="width: 100%">
-											{{ #if reactiveVar 'ICOfundsRaised'}}{{> ICOfundsRaised}}{{/if}}
-											<h5 class="card-title text-info mt-3 d-inline-block">Currency:</h5>
-											<select class="form-control icocurrency d-inline" id="icocurrency" name="icocurrency" style="width: 80px;">
-												<option disabled selected>----</option>
-												<option>USD</option>
-												<option>BTC</option>
-												<option>ETH</option>
-												<option>ETC</option>
-											</select>
-											{{ #unless reactiveVar 'coinExists'}}
-											Planned rounds (total)
-											<input type="number" min="0" name="ICOcoinsIntended" id="ICOcoinsIntended" placeholder="Coins to be allocated" style="width: 100%">
-											Start time (GMT)
-											<div class="float-right" style="width:100%; display:flex;">
-												<input type="number" min="2017" max="2020" name="ICOyear" placeholder="YYYY" id="icodate" style="width:80px">
-												<input type="number" min="1" max="12" name="ICOmonth" placeholder="MM" id="icodate" style="width: 70px">
-												<input type="number" min="1" max="31" name="ICOday" placeholder="DD" id="icodate" style="width: 70px">
-												<input type="number" min="0" max="23" name="ICOhour" placeholder="HH" id="icodate" style="width: 70px">
-												<input type="number" min="0" max="59" name="ICOminute" placeholder="MM" id="icodate" style="width: 70px">
-												<input type="number" min="0" max="59" name="ICOsecond" placeholder="SS" id="icodate" style="width: 70px">
-											</div>
-											{{ /unless }}
+									        <input type="text" id="currencySymbol" name="currencySymbol" placeholder="Symbol" class="form-control padLeft" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'currencySymbol'}}">
+									    </div>
+									    <hr>
+<h5 class="card-title">Security</h5>
+<select class="form-control consensus" id="consensusType" name="consensusSecurity">
+    <option disabled selected>--Select One--</option>
+    {{#each security}}
+    <option>{{name}}</option>
+    {{ /each }}
+</select>
 
-											{{ /if }}
-
-											{{ #unless reactiveVar 'btcfork'}}
-											{{ #if reactiveVar 'coinExists'}}<h5 class="card-title text-info mt-3">Genesis Block Date</h5>{{ /if }}
-											{{ #unless reactiveVar 'coinExists'}}Genesis Block ETA{{ /unless }}
-											<div class="float-right" style="width:100%; display:flex;">
-												<input type="number" min="2008" max="2020" name="genesisYear" placeholder="YYYY" id="genesis" style="width:80px">
-											    <input type="number" min="1" max="12" name="genesisMonth" placeholder="MM" id="genesis" style="width: 70px">
-											    <input type="number" min="1" max="31" name="genesisDay" placeholder="DD" id="genesis" style="width: 70px">
-											</div>
-
-											<div class="clearfix"></div>
-
-											{{ #if reactiveVar 'coinExists' }}{{ #if reactiveVar 'genesis' }}{{> genesisTimestamp}}{{/if}}{{/if}}
-											{{ #unless reactiveVar 'coinExists' }}{{ #if reactiveVar 'genesis' }}{{> intendedLaunch}}{{/if}}{{/unless}}
-											{{ /unless }}
-
-											{{ #if reactiveVar 'btcfork' }}
-											<select class="form-control forkParent" id="forkParent" name="forkParent">
-												<option disabled selected>--Select Fork Parent--</option>
-												<option>Bitcoin</option>
-												<option>Bitcoin Cash</option>
-											</select>
-											{{ #if reactiveVar 'forkParent' }}{{> forkParent}}{{/if}}
-											<input type="number" min="478500" max="600000" name="forkHeight" id="forkHeight" style="width: 100%;" placeholder="Fork Height">
-											{{ #if reactiveVar 'forkHeight' }}{{> forkHeight}}{{/if}}
-											{{ /if }}
-
-											<input type="number" min="0" name="premine" id="premine" placeholder="Premine amount" style="width: 100%">
-											{{ #if reactiveVar 'premine' }}{{> premine}}{{/if}}
-											<input type="number" name="maxCoins" id="maxCoins" placeholder="Maximum Coins" style="width: 100%">
-											{{ #if reactiveVar 'maxCoins' }}{{> maxCoins}}{{/if}}
-										</div>
-									</div>
-								</div>
-
-								<div class="col-md-6">
-									<div class="card bg-white">
-										<div class="card-body">
-											<div class="form-group">
-												<h5 class="card-title text-danger">Security</h5>
-												<select class="form-control consensus" id="consensusType" name="consensusSecurity">
-												  <option disabled selected>--Select One--</option>
-												  {{#each security}}
-												   <option>{{name}}</option>
-												  {{ /each }}
-												</select>
-											</div>
 											{{#if reactiveVar 'POWSelect'}}
+											<br />
 											<div class="form-group">
 												<select class="form-control" id="exampleFormControlSelect1" name="hashAlgorithm">
 													<option disabled selected>--Select One--</option>
@@ -140,65 +78,120 @@
 											</div>
 											{{/if}}
 											{{ #if reactiveVar 'btcfork' }}
+											<br />
 											Does this fork have two-way replay protection?
 											<label class="radio-inline"><input type="radio" name="replayProtection" value="true" id="replaytrue"> Yes</label>&nbsp;&nbsp;&nbsp;
 											<label class="radio-inline"><input type="radio" name="replayProtection" value="false" id="replayfalse"> No</label>
 											{{/if}}
+
+
+											{{ #if reactiveVar 'isICO'}}
+											<h5 class="card-title mt-3">Completed ICO funding</h5>
+											<div class="input-group">
+											<input type="number" min="0" name="ICOcoinsProduced" id="ICOcoinsProduced" placeholder="Coins allocated" class="form-control" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'currencySymbol'}}">
+											<input type="number" min="0" name="ICOfundsRaised" id="ICOfundsRaised" placeholder="Funds raised" class="form-control" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'ICOfundsRaised'}}">
 										</div>
-									</div>
-								</div>
-					
-								<div class="col-md-6">
-									<div class="card bg-white">
-										<div class="card-body">
-											<h5 class="card-title text-success">Community</h5>
-											<textarea class="form-control" id="gitRepo" rows="2" placeholder="GitHub repository for main node software" name="gitRepo"></textarea>
-											{{ #if reactiveVar 'gitRepo' }}{{> gitRepo}}{{/if}}
-											<textarea class="form-control" id="officialSite" rows="2" placeholder="Official website" name="officialSite"></textarea>
-											{{ #if reactiveVar 'officialSite' }}{{> officialSite}}{{/if}}
-											<textarea class="form-control" id="reddit" rows="2" placeholder="Reddit" name="reddit"></textarea>
-											{{ #if reactiveVar 'reddit' }}{{> reddit}}{{/if}}
-											<textarea class="form-control" id="blockExplorer" rows="2" placeholder="Block Explorer" name="blockExplorer"></textarea>
+
+		
+											<h5 class="card-title mt-3">Currency</h5>
+											<select class="form-control icocurrency" id="icocurrency" name="icocurrency" style="width: 80px;">
+												<option disabled selected>----</option>
+												<option>USD</option>
+												<option>BTC</option>
+												<option>ETH</option>
+												<option>ETC</option>
+											</select>
+
+
+
+											{{ #unless reactiveVar 'coinExists'}}
+											Planned rounds (total)
+											<input type="number" min="0" name="ICOcoinsIntended" id="ICOcoinsIntended" placeholder="Coins to be allocated" class="form-control">
+											Start time (GMT)
+											<div class="float-right" style="width:100%; display:flex;">
+												<input type="number" min="2017" max="2020" name="ICOyear" placeholder="YYYY" id="icodate" class="form-control">
+												<input type="number" min="1" max="12" name="ICOmonth" placeholder="MM" id="icodate" class="form-control">
+												<input type="number" min="1" max="31" name="ICOday" placeholder="DD" id="icodate" class="form-control">
+												<input type="number" min="0" max="23" name="ICOhour" placeholder="HH" id="icodate" class="form-control">
+												<input type="number" min="0" max="59" name="ICOminute" placeholder="MM" id="icodate" class="form-control">
+												<input type="number" min="0" max="59" name="ICOsecond" placeholder="SS" id="icodate" class="form-control">
+											</div>
+											{{ /unless }}
+
+											{{ /if }}
+
+											{{ #unless reactiveVar 'btcfork'}}
+											{{ #if reactiveVar 'coinExists'}}
+<hr>
+											<h5 class="card-title mt-3">Genesis Block Date</h5>{{ /if }}
+											{{ #unless reactiveVar 'coinExists'}}Genesis Block ETA{{ /unless }}
+											<div class="float-right" style="width:100%; display:flex;">
+												<input type="number" min="2008" max="2020" name="genesisYear" placeholder="YYYY" id="genesis" class="form-control" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'genesisTimestamp'}}">
+											    <input type="number" min="1" max="12" name="genesisMonth" placeholder="MM" id="genesis" class="form-control" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'genesisTimestamp'}}">
+											    <input type="number" min="1" max="31" name="genesisDay" placeholder="DD" id="genesis" class="form-control" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'genesisTimestamp'}}">
+											</div>
+
+											<div class="clearfix"></div>
+
+											{{ #if reactiveVar 'coinExists' }}{{/if}}
+											{{ #unless reactiveVar 'coinExists' }}
+											{{ #if reactiveVar 'genesis' }}
+											{{> intendedLaunch}}{{/if}}{{/unless}}
+											{{ /unless }}
+
+											{{ #if reactiveVar 'btcfork' }}
+											<select class="form-control forkParent" id="forkParent" name="forkParent">
+												<option disabled selected>--Select Fork Parent--</option>
+												<option>Bitcoin</option>
+												<option>Bitcoin Cash</option>
+											</select>
+											<br />
+											<input type="number" class="form-control" min="478500" max="600000" name="forkHeight" id="forkHeight" placeholder="Fork Height" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'forkHeight'}}">
+											
+											{{ /if }}
+											<br />
+											<div class="input-group">
+											<input type="number" min="0" name="premine" id="premine" placeholder="Premine amount" class="form-control" data-toggle="popover" data-placement="left" data-content="{{getPopoverContent 'premine'}}">
+											<input type="number" name="maxCoins" id="maxCoins" placeholder="Maximum Coins" class="form-control padLeft" data-toggle="popover" data-placement="left" data-content="{{getPopoverContent 'maxCoins'}}">
 										</div>
-									</div>
-								</div>
-						
-								<div class="col-md-6">
-									<div class="card bg-white">
-										<div class="card-body">
-											<h5 class="card-title text-primary">Features</h5>
+											<br />
+															<h5 class="card-title">Features</h5>
 											{{#if reactiveVar 'coinExists'}}
-											Block time: <input type="text" id="blockTime" name="blockTime" placeholder="" style="width:60px;"> (seconds) <br />
-											{{ #if reactiveVar 'blockTime' }}{{> blockTime}}{{/if}}
-											Confirmations: <input type="text" id="confirmations" name="confirmations" placeholder="" style="width: 60px;">
-											{{ #if reactiveVar 'confirmations' }}{{> confirmations}}{{/if}}
+											<h6>Block Time</h6> <input type="text" id="blockTime" name="blockTime" placeholder="" data-toggle="popover" data-placement="left" data-content="{{getPopoverContent 'blockTime'}}"> (seconds) <br />
+											
+											<br /><h6>Confirmations</h6> <input type="text" id="confirmations" name="confirmations" placeholder="" data-placement="left" data-content="{{getPopoverContent 'confirmations'}}">
+											
 											{{/if}}
-										</div>
+
+<br /><br />
+											<h5 class="card-title">Community</h5>
+											<div class="input-group padBottom">
+											<input type='text' class="form-control" id="gitRepo" placeholder="GitHub repository for main node software" name="gitRepo" data-toggle="popover" data-placement="left" data-content="{{getPopoverContent 'gitRepo'}}">
+											
+											<input type="text" class="form-control padLeft" id="officialSite" placeholder="Official website" name="officialSite" data-toggle="popover" data-placement="left" data-content="{{getPopoverContent 'officialSite'}}">
+											</div>
+											<div class="input-group">
+											<input type='text' class="form-control" id="reddit" placeholder="Reddit" name="reddit" data-toggle="popover" data-placement="left" data-content="{{getPopoverContent 'reddit'}}">
+											
+											<input type="text" class="form-control padLeft" id="blockExplorer" placeholder="Block Explorer" name="blockExplorer">
+</div>
+																			{{#if reactiveVar 'coinExists'}}
+									{{ #unless reactiveVar 'btcfork' }}
+		<br />
+												<h5 class="card-title">History</h5>
+												<textarea class="form-control" id="previousNames" rows="2" placeholder="Previous names separated with commas (,)" name="previousNames" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'previousNames'}}"></textarea>
+
+									{{/unless}}
+							<br />
+												<h5 class="card-title">Exchanges</h5>
+												<textarea class="form-control" id="exchanges" rows="4" placeholder="Exchanges separated with commas (,). Look to the right for examples =>" name="exchanges" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'exchanges'}}"></textarea>
+												
+
+								{{/if}}
+										
+									</div>
 									</div>
 								</div>
-										
-								{{#if reactiveVar 'coinExists'}}
-									{{ #unless reactiveVar 'btcfork' }}
-									<div class="col-md-6">
-										<div class="card bg-white">
-											<div class="card-body">
-												<h5 class="card-title text-info">History</h5>
-												<textarea class="form-control" id="previousNames" rows="2" placeholder="Previous names separated with commas (,)" name="previousNames"></textarea>
-												{{ #if reactiveVar 'previousNames' }}{{> previousNames}}{{/if}}
-											</div>
-										</div>
-									</div>
-									{{/unless}}
-									<div class="col-md-6">
-										<div class="card bg-white">
-											<div class="card-body">							
-												<h5 class="card-title text-warning">Exchanges</h5>
-												<textarea class="form-control" id="exchanges" rows="4" placeholder="Exchanges separated with commas (,). Look to the right for examples =>" name="exchanges"></textarea>
-												{{ #if reactiveVar 'exchanges' }}{{> exchanges}}{{/if}}
-											</div>
-										</div>
-									</div>
-								{{/if}}
 
 								{{#if questions.length}}
 									<div class="col-md-6">
@@ -212,31 +205,31 @@
 										</div>
 									</div>
 								{{/if}}			
-							</div>
-						</div>								
+							</div>							
 					</div>
-				</div>
-			</section>
+<br />
+								<div class="card bg-white required mx-auto" style="width:80%">
+										<div class="card-body">
+<div class="logo-upload">
+    <h5>Currency Logo</h5>
+    <label class="btn btn-primary" for="currencyLogoInput" id="currencyLogoInputLabel">
+        <input id="currencyLogoInput" type="file" style="display:none" onchange="$('#fileInfo2').html(this.files[0].name)"> <span id="fileUploadValue">UPLOAD</span>
+    </label>
+    <span class='label label-info' id="fileInfo2"></span>
+    <input type='hidden' id='currencyLogoFilename'>
+</div>
 
-			<section class="container">
-				<div class="row justify-content-center">
-					<div class="col-md-8">
-						<div class="logo-upload mb-5">
-							<h5 class="text-info">Currency Logo</h5>
-							<input type='file' id='currencyLogoInput'>
-							<input type='hidden' id='currencyLogoFilename'>
-						</div>
-
-						<div class="additional-info mb-5">						
-							<h5 class="text-info">Additional information</h5>
+						<div class="additional-info">						
+							<br /><h5>Additional information</h5>
 							<textarea class="form-control" id="exampleFormControlTextarea1" rows="6" placeholder="You can add a message here and it will be seen by the person responsible for fact-checking and approval." name="notes"></textarea>				
 						</div>
 
 						<div class="submit-form">
-							<button type="submit" class="btn" id="submit">Add Coin</button>
+							<br /><br /><button type="submit" class="btn btn-primary" id="submit">Add Coin</button>
 							<button class="btn" id="cancel">Cancel</button>
 						</div>
 					</div>
+				</div>
 				</div>
 			</section>
 		</div>
