@@ -14,38 +14,39 @@ Template.currencyDetail.onCreated(function bodyOnCreated() {
 
 Template.currencyDetail.onRendered(function (){
   testvar = Currencies.findOne({slug: FlowRouter.getParam("slug")}).currencyName;
-    var ctx = document.getElementById("distribution").getContext('2d');
-  ctx.canvas.width = 200;
-  ctx.canvas.height = 260;
-    var chart = new Chart(ctx, {
-        // The type of chart we want to create
-        type: 'doughnut',
+  // Distibution Chart
+  // var ctx = document.getElementById("distribution").getContext('2d');
+  // ctx.canvas.width = 200;
+  // ctx.canvas.height = 260;
+  //   var chart = new Chart(ctx, {
+  //       // The type of chart we want to create
+  //       type: 'doughnut',
 
 
-        // The data for our dataset
-        data: {
-            labels: ["Founder(s) share: " + this.data.premine, "Mined coins: " + this.data.circulating, "Not yet mined: " + (this.data.maxCoins - this.data.circulating)],
-            datasets: [{
-                data: [(((this.data.premine / this.data.maxCoins) * 100).toFixed()), ((((this.data.circulating - this.data.premine) / this.data.maxCoins) * 100).toFixed()), ((((this.data.maxCoins - this.data.circulating)/this.data.maxCoins) * 100).toFixed())],
-                backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f"]
-            }]
-        },
+  //       // The data for our dataset
+  //       data: {
+  //           labels: ["Founder(s) share: " + this.data.premine, "Mined coins: " + this.data.circulating, "Not yet mined: " + (this.data.maxCoins - this.data.circulating)],
+  //           datasets: [{
+  //               data: [(((this.data.premine / this.data.maxCoins) * 100).toFixed()), ((((this.data.circulating - this.data.premine) / this.data.maxCoins) * 100).toFixed()), ((((this.data.maxCoins - this.data.circulating)/this.data.maxCoins) * 100).toFixed())],
+  //               backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f"]
+  //           }]
+  //       },
 
-        // Configuration options go here
-        options: {
-          tooltips: {enabled: false},
-          responsive: false,
-          maintainAspectRatio: false,
-          title: {display: false},
-          legend: {
-            display: true,
-            position: 'bottom',
-            labels: {
-              boxWidth: 15
-            }
-          }
-        }
-    });
+  //       // Configuration options go here
+  //       options: {
+  //         tooltips: {enabled: false},
+  //         responsive: false,
+  //         maintainAspectRatio: false,
+  //         title: {display: false},
+  //         legend: {
+  //           display: true,
+  //           position: 'bottom',
+  //           labels: {
+  //             boxWidth: 15
+  //           }
+  //         }
+  //       }
+  //   });
 
   var radar = document.getElementById("radar").getContext('2d');
   radar.canvas.width = 1000;
