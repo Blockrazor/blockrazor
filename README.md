@@ -1,14 +1,15 @@
 # Blockrazor
-Every latest detail about every blockchain project in a comparison tool that anyone can understand.
+_Every_ latest detail about _every_ blockchain project in a comparison tool that _anyone_ can understand.
 
 <details>
   <summary>How to run Blockrazor locally</summary>
 <p>
+
 #### Install Meteor   
-curl https://install.meteor.com/ | sh   
+`curl https://install.meteor.com/ | sh`  
 
 #### Clone repository    
-git clone https://github.com/Blockrazor/blockrazor.git
+`git clone https://github.com/Blockrazor/blockrazor.git`
 
 Note: if you want to edit things and send a pull request you should _fork_ this project on Github first and clone _your_ fork instead of https://github.com/Blockrazor/blockrazor.git.
 
@@ -44,25 +45,23 @@ Proper fix: something is wrong with your OS locales, good luck.
 If you do a `git pull` and Meteor doesn't start, the first thing to do is run `meteor npm install` as there may be package updates.
 
 </p>
-</details>
+</details>    
 
 
-<details>
-  <summary>Contributing to Blockrazor</summary>
-<p>
+## Contributing to Blockrazor    
 A cardinal sin that many open source developers make is to place themselves above others. "I founded this project thus my intellect is superior to that of others". It's immodest and rude, and usually inaccurate. The contribution policy we use at Blockrazor applies equally to everyone, without distinction.    
 
 The contribution policy we follow is the [Collective Code Construction Contract (C4)](/CONTRIBUTING.MD)    
 
 If you're wondering why any of the rules in the C4 are there, take a look at the [line by line explanation](/DESCRIPTIVE_C4.MD) of everything in the C4, this explains the rationale and history behind everything in the protocol and makes it easier to understand.
 
-Take a look at past [pull requests](https://github.com/Blockrazor/blockrazor/pulls?q=is%3Apr+is%3Aclosed) to see how we usually do things. You may also want to look at the [bad pull request role of honour](https://github.com/Blockrazor/blockrazor/pulls?utf8=✓&q=is%3Apr+label%3A"Bad+Pull+Request"+) to see how _not_ to send a pull request.
-</p>
-</details>
+Take a look at past [pull requests](https://github.com/Blockrazor/blockrazor/pulls?q=is%3Apr+is%3Aclosed) to see how we usually do things. You may also want to look at the [bad pull request role of honour](https://github.com/Blockrazor/blockrazor/pulls?utf8=✓&q=is%3Apr+label%3A"Bad+Pull+Request"+) to see how _not_ to send a pull request.    
+
 
 <details>
   <summary>Step-by-step guide to sending a pull request</summary>
 <p>
+
 0. Read the [contribution protocol](/CONTRIBUTING.MD) and the [line by line explanation](/DESCRIPTIVE_C4.MD) of the protocol.    
 1. Fork this github repository under your own github account.    
 2. Clone _your_ fork locally on your development machine.   
@@ -117,7 +116,8 @@ If you want to work on another problem while you are waiting for it to merge sim
 ```
 
 </p>
-</details>
+</details>    
+
 
 #### Can I be paid to contribute to Blockrazor?
 Yes, this is sometimes possible. Your first step is to _very carefully read and understand everything above_, including the linked files, then start fixing problems and sending pull requests! If your code is amazing and brilliant but you don't understand the contribution process we cannot consider you for a paid position. Make sure you follow the project on Github so you get updates. Contact Blockrazor's BDFL (Benevolent Dictator For Life): gareth.hayes AT gmail.com if you've been contributing code to Blockrazor and want to keep doing it but but you are hungry.
