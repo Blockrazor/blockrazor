@@ -1,11 +1,18 @@
 # Blockrazor
+#### _Every_ latest detail about _every_ blockchain project in a comparison tool that _anyone_ can understand.    
+<img src="https://i.imgur.com/strfbRx.png" width="800px" height="auto"> 
+<img src="https://i.imgur.com/BgiN7VA.png" width="800px" height="auto">       
+<img src="https://i.imgur.com/IOSme9w.png" width="800px" height="auto">      
 
-## To run locally:   
+<details>
+  <summary>How to run Blockrazor locally</summary>
+<p>
+
 #### Install Meteor   
-curl https://install.meteor.com/ | sh   
+`curl https://install.meteor.com/ | sh`  
 
 #### Clone repository    
-git clone https://github.com/Blockrazor/blockrazor.git
+`git clone https://github.com/Blockrazor/blockrazor.git`
 
 Note: if you want to edit things and send a pull request you should _fork_ this project on Github first and clone _your_ fork instead of https://github.com/Blockrazor/blockrazor.git.
 
@@ -23,28 +30,41 @@ For blockrazor.org production server:
 
 #### Run meteor
 `meteor`   
-(use `meteor --production` to minify everything and simulate production speeds    
+(use `meteor --production` to minify everything and simulate production speeds
 
 #### Insert the database if running locally (never for production)
 While meteor is running, in a new shell from within the Blockrazor directory run:
 `mongorestore -h 127.0.0.1 --port 3001 -d meteor dump/meteor`   
-(You will need Mongo to be installed so you have mongorestore on your system).
+(You will need Mongo to be installed on your system).
 
-If you already have the database but want to update it to the latest version, do a `meteor reset` first.
+If you already have the database but want to update it to the latest version, do a `meteor reset` before running the above.
 
-### Mongo errors   
+#### Mongo errors   
 If Mongo exists with status 1:
 Quick fix: `export LC_ALL=C`   
 Proper fix: something is wrong with your OS locales, good luck.
 
+#### Meteor errors
+If you do a `git pull` and Meteor doesn't start, the first thing to do is run `meteor npm install` as there may be package updates.
 
-## Contributing
-Contribution protocol/policy: [Collective Code Construction Contract (C4)](/CONTRIBUTING.MD)    
+</p>
+</details>    
+
+
+## Contributing to Blockrazor    
+A cardinal sin that many open source developers make is to place themselves above others. "I founded this project thus my intellect is superior to that of others". It's immodest and rude, and usually inaccurate. The contribution policy we use at Blockrazor applies equally to everyone, without distinction.    
+
+The contribution policy we follow is the [Collective Code Construction Contract (C4)](/CONTRIBUTING.MD)    
 
 If you're wondering why any of the rules in the C4 are there, take a look at the [line by line explanation](/DESCRIPTIVE_C4.MD) of everything in the C4, this explains the rationale and history behind everything in the protocol and makes it easier to understand.
 
-### Contributing FAQ
-#### Q: I'm kind of new to Github, how do I get started?   
+Take a look at past [pull requests](https://github.com/Blockrazor/blockrazor/pulls?q=is%3Apr+is%3Aclosed) to see how we usually do things. You may also want to look at the [bad pull request role of honour](https://github.com/Blockrazor/blockrazor/issues?utf8=✓&q=label%3A"Bad+Pull+Request+Role+of+Honour") to see how _not_ to send a pull request.    
+
+
+<details>
+  <summary>Step-by-step guide to sending a pull request</summary>
+<p>
+
 0. Read the [contribution protocol](/CONTRIBUTING.MD) and the [line by line explanation](/DESCRIPTIVE_C4.MD) of the protocol.    
 1. Fork this github repository under your own github account.    
 2. Clone _your_ fork locally on your development machine.   
@@ -59,7 +79,7 @@ If you're wondering why any of the rules in the C4 are there, take a look at the
 @: git pull upstream master //this grabs any code that has changed, you want to be working on the latest 'version'
 @: git push //update your remote fork with the changes you just pulled from upstream master
 ```
-5. Create a local branch on your machine `git checkout -b branch_name` (it's usually a good idea to call the branch something that describes the problem you are solving). Never develop on the `master` branch, as the `master` branch is exclusively used to accept incoming changes from `upstream:master`.
+5. Create a local branch on your machine `git checkout -b branch_name` (it's usually a good idea to call the branch something that describes the problem you are solving). _Never_ develop on the `master` branch, as the `master` branch is exclusively used to accept incoming changes from `upstream:master` and you'll run into problems if you try to use it for anything else.
 6. Solve the problem in the absolute most simple and fastest possible way with the smallest number of changes humanly possible. Tell other people what you're doing by putting _very clear and descriptive comments in your code every 2-3 lines_.    
 Add your name to the AUTHORS file so that you become a part owner of Blockrazor.    
 7. Commit your changes to your own fork:
@@ -74,7 +94,7 @@ If **not**, you need to pull the latest changes from the upstream Blockrazor rep
 @: git stash pop //_replay_ your work on the new branch which is now fully up to date with the Blockrazor repository
 ```
 
-Note: after running `git stash pop` you should look over your code again and check that everything still works as sometimes a file you worked on was changed in the meantime.
+Note: after running `git stash pop` you should run Meteor and look over your code again and check that everything still works as sometimes a file you worked on was changed in the meantime.
 
 Now you can add your changes:   
 ```
@@ -83,23 +103,27 @@ Now you can add your changes:
 
 And then commit your changes:
 ```
-@: git commit -m 'problem: very short description of problem //do not close the '', press ENTER two (2) times
+@: git commit -m 'problem: <50 characters describing the problem //do not close the '', press ENTER two (2) times
 >
->solution: short description of how you solved the problem.' //Now you can close the ''. Also mention the issue number if there is one (e.g. #6)    
+>solution: short description of how you solved the problem.' //Now you can close the ''. Be sure to mention the issue number if there is one (e.g. #6)    
 @: git push //this will send your changes to _your_ fork on Github
 ```    
 8. Go to your fork on Github and select the branch you just worked on. Click "pull request" to send a pull request back to the Blockrazor repository.
-9. Send the pull request.    
+9. Send the pull request.   
 
-#### Q: What happens after I send a pull request?    
-If your pull request contains a correct patch (read the C4) a maintainer should merge it.    
+#### What happens after I send a pull request?    
+If your pull request contains a correct patch (read the C4) a maintainer will merge it.    
 If you want to work on another problem while you are waiting for it to merge simply repeat the above steps starting at:    
 ```
 @: git checkout master
 ```
 
-#### Q: Can I be paid to contribute to Blockrazor?
-Yes, this is sometimes possible. Your first step is to _very carefully read and understand everything above_, including the linked files, then start fixing problems and sending pull requests! If your code is amazing and brilliant but you don't understand the contribution process we cannot consider you for a paid position. Make sure you follow the project on Github so you get updates. Contact Blockrazor's BDFL (Benevolent Dictator For Life): gareth.hayes AT gmail.com if you've been contributing code to Blockrazor and want to keep doing it but but you require financial assistance.
+</p>
+</details>    
+
+
+## Can I be paid to contribute to Blockrazor?
+Yes, this is sometimes possible. Your first step is to _very carefully read and understand everything above_, including the linked files, then start fixing problems and sending pull requests! If your code is amazing and brilliant but you don't understand the contribution process we cannot consider you for a paid position. Make sure you follow the project on Github so you get updates. Contact Blockrazor's BDFL (Benevolent Dictator For Life): gareth.hayes AT gmail.com if you've been contributing code to Blockrazor and want to keep doing it but but you are hungry.
 
 ## License
-This project is licensed under the [MPL v2.0 license](LICENSE) and Copyright [AUTHORS](AUTHORS).
+This project is licensed under the [MPL v2.0 license](LICENSE) and Copyright [AUTHORS](AUTHORS). This prevents others from using your code in a closed-source project competing with Blockrazor. Competitors to Blockrazor are welcome to use any code from this repository as long as their project is also released under a share-alike license and their code is public (so that anyone, including us, can use their improvements).
