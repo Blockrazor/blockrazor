@@ -1,5 +1,8 @@
 # Blockrazor
-_Every_ latest detail about _every_ blockchain project in a comparison tool that _anyone_ can understand.
+### _Every_ latest detail about _every_ blockchain project in a comparison tool that _anyone_ can understand.    
+<img src="https://i.imgur.com/BgiN7VA.png" width="500px" height="auto">    
+<img src="https://i.imgur.com/strfbRx.png" width="500px" height="auto">    
+<img src="https://i.imgur.com/IOSme9w.png" width="500px" height="auto">      
 
 <details>
   <summary>How to run Blockrazor locally</summary>
@@ -119,7 +122,7 @@ If you want to work on another problem while you are waiting for it to merge sim
 </details>    
 
 
-#### Can I be paid to contribute to Blockrazor?
+## Can I be paid to contribute to Blockrazor?
 Yes, this is sometimes possible. Your first step is to _very carefully read and understand everything above_, including the linked files, then start fixing problems and sending pull requests! If your code is amazing and brilliant but you don't understand the contribution process we cannot consider you for a paid position. Make sure you follow the project on Github so you get updates. Contact Blockrazor's BDFL (Benevolent Dictator For Life): gareth.hayes AT gmail.com if you've been contributing code to Blockrazor and want to keep doing it but but you are hungry.
 
 ## License
