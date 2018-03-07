@@ -8,78 +8,49 @@ import {
 Template.desktop.events({
   'click #navbar-toggler': function (event) {
     event.preventDefault();
-    Session.set("openedSidebar", !Session.get('openedSidebar'))
-    var screen = Session.get("screenSize")
-    //if is mobile then sidebar will just close constantly with no option to keep it open outside actual usage
-    if (screen == 0) {
-      return
-    }
-    var val = Session.get('openedSidebar')
-    var temp = Template.instance()
-    if (!temp.user){
-      return
-    }
-    var pref = temp.user.screenSize == undefined? 3: this.user.screenSize
-    var width = $(window).width()
-    if (val == true) {
-      if (screen < pref) {
-        //adjust pref because user wants menu opened at screenSize smaller than current preference
-        Meteor.call("sidebarPreference", screen, function(res){
-          console.log("sidebar", res)
-        })
-      }
-    } else {
-      if (screen > pref) {
-        //adjust pref because user wants menu closed at screenSize bigger than current preference
-        Meteor.call("sidebarPreference", 1+screen)
-      }
-    }
-    // $('#sidebar').toggleClass('active');
+    Session.set("openedSidebar", !Session.get('openedSidebar')) 
+    var screen = Session.get("screenSize") 
+    //if is mobile then sidebar will just close constantly with no option to keep it open outside actual usage 
+    if (screen == 0) { 
+      return 
+    } 
+    var val = Session.get('openedSidebar') 
+    var temp = Template.instance() 
+    var user = temp.user.get()
+    if (!user) { 
+      return 
+    } 
+    var pref = user && user.screenSize? user.screenSize: 3
+    if (val == true) { 
+      if (screen < pref) { 
+        //adjust pref because user wants menu opened at screenSize smaller than current preference 
+        Meteor.call("sidebarPreference", screen) 
+      } 
+    } else { 
+      if (screen > pref) { 
+        //adjust pref because user wants menu closed at screenSize bigger than current preference 
+        Meteor.call("sidebarPreference", 1+screen) 
+      } 
+    } 
   }
 });
 
 Template.desktop.helpers({
   openSidebar() {
-    var temp = Template.instance()
-    var pref = temp.user && temp.user.screenSize? temp.user.screenSize: 3
-    console.log(Session.get("openedSidebar"), Session.get("screenSize"), 3 <= Session.get("screenSize"))
-    if (Session.get("screenSize") >= pref){
-      Session.set("openedSidebar", true)
-    } else {
-      Session.set("openedSidebar", false)
-    }
-    return Session.get("openedSidebar") ? "active" : "";
-
-    // if (temp.firstLoad) {
-    //   temp.firstLoad = false
-    //   if (pref) {
-    //     //check preferences
-    //   } else {
-
-    //     //use global
-    //   }
-    // } else {
-    //   return Session.get("openedSidebar") ? "active" : "";
-    // }
+    return Session.get('openedSidebar') ? "active" : "";
   }
 });
 
 Template.desktop.onCreated(function () {
   //is used to close sidebar on click outside sidebar
   var handlerForSidebar = function (event) {
-    console.log("trigger?", $(event.target).closest('#sidebar').length)
     if (!$(event.target).closest('#topnav').length && !$(event.target).closest('#sidebar').length) {
       Session.set("openedSidebar", false)
-      event.preventDefault()
-      event.stopPropagation();
-
     }
   }
 
   function setScreenSize() {
-    // _.debounce(function(){
     var width = $(window).width()
-    console.log(width, typeof width, width > 1)
     if (width < 577) {
       Session.set("screenSize", 0)
       $(document).bind("click", handlerForSidebar);
@@ -96,8 +67,6 @@ Template.desktop.onCreated(function () {
       $(document).unbind("click", handlerForSidebar);
       Session.set("screenSize", 4)
     }
-    // }, 50)
-    console.log(Session.get("screenSize"))
   }
 
 
@@ -105,12 +74,26 @@ Template.desktop.onCreated(function () {
   window.addEventListener("resize", _.debounce(setScreenSize, 50));
   //initialize screenSize session var
   setScreenSize()
-
+  this.user = new ReactiveVar(UserData.findOne())
   this.autorun(() => {
-    this.user = new ReactiveVar(UserData.findOne())
+    this.user.set(UserData.findOne())
+  })
+  this.autorun(() => {
+    var user = this.user.get()
+    if (!user){
+      return
+    }
+    var pref = user && user.screenSize? user.screenSize: 3
+    var screen = Session.get("screenSize")
+    if (screen >= pref){ 
+      Session.set("openedSidebar", true) 
+    } else { 
+      Session.set("openedSidebar", false) 
+    } 
   })
 
-  Session.set("openedSidebar", this.user && this.user.screenSize ? this.user.screenSize <= Session.get("screenSize") : 3 <= Session.get("screenSize"))
+  var user = this.user.get()
+  Session.set("openedSidebar", user && user.screenSize ? user.screenSize <= Session.get("screenSize") : 3 <= Session.get("screenSize"))
 })
 
 
