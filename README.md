@@ -1,11 +1,12 @@
 # Blockrazor
 #### _All_ information about _every_ blockchain project in a comparison tool that _anyone_ can understand.
 
-Please star this project.
-
 <img src="https://i.imgur.com/strfbRx.png" width="800px" height="auto">
 <img src="https://i.imgur.com/BgiN7VA.png" width="800px" height="auto">       
-<img src="https://i.imgur.com/IOSme9w.png" width="800px" height="auto">      
+<img src="https://i.imgur.com/IOSme9w.png" width="800px" height="auto">
+
+At last, the meaning of life has been discovered. Star this project to find out what it is!
+
 
 <details>
   <summary>How to run Blockrazor locally</summary>
