@@ -111,12 +111,28 @@
   </div>
 
     <div class="row commentThread">
-    {{#unless reactiveVar 'showredflagged'}}
-      {{#each redflags}}<div class="col-lg-6">{{> redflag}}</div>{{/each}}
+    {{#unless reactiveVar 'showredflagged'}}      
+      {{#if subsCacheReady}}
+        {{#each redflags}}
+          <div class="col-lg-6">{{> redflag}}</div>
+        {{else}}
+          {{> empty}}
+        {{/each}}
+      {{else}}
+        {{> loading}}
+      {{/if}}
     {{/unless}}
 
     {{#if reactiveVar 'showredflagged'}}
-      {{#each flaggedfeatures}}<div class="col-lg-6">{{> feature}}</div>{{/each}}
+    {{#if subsCacheReady}}
+    {{#each flaggedfeatures}}
+      <div class="col-lg-6">{{> feature}}</div>
+    {{else}}
+      {{> empty}}
+    {{/each}}
+  {{else}}
+    {{> loading}}
+  {{/if}}
     {{/if}}
   </div>
 
@@ -158,8 +174,15 @@
       </div>
     </div>
   </div>
-
-{{#each comments}}{{> comment}}{{/each}}
+  {{#if subsCacheReady}}
+  {{#each comments}}
+    {{> comment}}
+  {{else}}
+    {{> empty}}
+  {{/each}}
+{{else}}
+  {{> loading}}
+{{/if}}
 </template>
 
 

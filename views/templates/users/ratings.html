@@ -25,11 +25,24 @@
 <template name="currencyChoices">
     <b>You have already added the following cryptocurrency wallets:</b>
     <div class="row" style="margin-top: 15px;">
-        {{#each alreadyAdded}}
         <div class="col-sm-4 col-md-4 col-lg-4">
-            <a href="/currency/{{slug}}" class="btn btn-secondary" style="width:100%">{{currencyName}}</a>
-        </div>
-        {{/each}}
+                <a href="#" class="toggle">{{currencyName}}</a>
+                <div class="row" style="display:none;" id="links_{{_id}}">
+                    <p>Please add a URL to a {{currencyName}} community you are a part of:<br /> 
+                    <input type='text' id='js-com-url_{{_id}}' placeholder="URL here"><button class="js-save">Save</button></p>
+                </div>
+            </div>
+        {{#if subsCacheReady}}
+            {{#each alreadyAdded}}
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <a href="/currency/{{slug}}" class="btn btn-secondary" style="width:100%">{{currencyName}}</a>
+                </div>
+            {{else}}
+                {{> empty}}
+            {{/each}}
+        {{else}}
+            {{> loading}}
+        {{/if}}
     </div>
     <br />
     <b>Please select any currencies that you actually use (you must have a wallet installed) and you haven't added previously.</b>
@@ -46,12 +59,18 @@
         </div>
     </form>
     <div class="row" style="margin: 15px 0 20px 0;">
-        {{#each currencies}}
-        <div class="col-sm-4 col-md-4 col-lg-4">
-            {{> currencyChoice}}
-            
-        </div>
-        {{> upload}} {{/each}}
+        {{#if subsCacheReady}}
+            {{#each currencies}}
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    {{> currencyChoice}}    
+                </div>
+                {{> upload}}
+            {{else}}
+                {{> empty}}
+            {{/each}}
+        {{else}}
+            {{> loading}}
+        {{/if}}
     </div>
     <div class="row">
         <button id="populateRatings" class="btn btn-primary">Next</button>

@@ -1,9 +1,15 @@
 <template name="returnedCurrencies">
     {{> currencyFilter}}
     <div class="currency-container">
+        {{#if subsCacheReady}}
         {{#each currencies}}
             {{> currency}}
+            {{else}}
+            {{> empty}}
         {{/each}}
+        {{else}}
+            {{> loading}}
+        {{/if}}
     </div>
 </template>
 

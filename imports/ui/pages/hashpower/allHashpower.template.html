@@ -14,18 +14,24 @@
             </tr>
         </thead>
         <tbody>
-            {{#each hashpower}}
-            <tr>
-                <td><img src="{{image}}" style="height: 40px;" /></td>
-                <td>{{hashCategory}}</td>
-                <td>{{hashDevice}}</td>
-                <td>{{hashAlgorithm}}</td>
-                <td>{{hashRate}} {{unit}}</td>
-                <td>{{powerConsumption}} W</td>
-                <td>{{#if canFlag}}<a href="#" class="js-flag">+</a>{{else}}-{{/if}}<span style="display: {{showFlagReason}}"><input type="text" id="js-flag-reason-{{_id}}" placeholder="Reason" /><button class="js-flag-cont">Submit</button></span></td>
-                <td>{{#if canDelete}}<a href="#" class="js-delete">X</a>{{else}}-{{/if}}</td>
-            </tr>
-            {{/each}}
+            {{#if subsCacheReady}}
+                {{#each hashpower}}
+                    <tr>
+                        <td><img src="{{image}}" style="height: 40px;" /></td>
+                        <td>{{hashCategory}}</td>
+                        <td>{{hashDevice}}</td>
+                        <td>{{hashAlgorithm}}</td>
+                        <td>{{hashRate}} {{unit}}</td>
+                        <td>{{powerConsumption}} W</td>
+                        <td>{{#if canFlag}}<a href="#" class="js-flag">+</a>{{else}}-{{/if}}<span style="display: {{showFlagReason}}"><input type="text" id="js-flag-reason-{{_id}}" placeholder="Reason" /><button class="js-flag-cont">Submit</button></span></td>
+                        <td>{{#if canDelete}}<a href="#" class="js-delete">X</a>{{else}}-{{/if}}</td>
+                    </tr>
+                {{else}}
+                    {{> empty}}
+                {{/each}}
+            {{else}}
+                {{> loading}}
+            {{/if}}
         </tbody>
     </table>
     <a href="/add-hashpower">Add new data</a> <a href="/avg-hashpower">Averages</a> {{#if isModerator}}<a href="/flagged-hashpower">Flagged data</a>{{/if}}

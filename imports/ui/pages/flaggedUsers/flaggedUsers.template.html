@@ -12,15 +12,21 @@
             </tr>
         </thead>
         <tbody>
-            {{#each users}}
-            <tr>
-                <td>{{user.username}}</td>
-                <td>{{user.email}}</td>
-                <td>{{ipAddress}}</td>
-                <td>{{lastAccess}}</td>
-                <td>{{activeFlags}}</td>
-            </tr>
-            {{/each}}
+            {{#if subsCacheReady}}
+                {{#each users}}
+                    <tr>
+                        <td>{{user.username}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{ipAddress}}</td>
+                        <td>{{lastAccess}}</td>
+                        <td>{{activeFlags}}</td>
+                    </tr>
+                {{else}}
+                    {{> empty}}
+                {{/each}}
+            {{else}}
+                {{> loading}}
+            {{/if}}
         </tbody>
     </table>
     {{else}}

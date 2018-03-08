@@ -3,20 +3,51 @@
   <a href="/">HOME</a> | <a href="/addcoin">ADD ANOTHER CURRENCY</a> <h5>If you have any items waiting for moderator approval they will be shown below</h5>
 </div>
 <h5>{{reactiveVar 'pending'}}</h5>
-  {{#each pendingcurrencies}}
-      {{> userPendingCurrency}}
-  {{/each}}
-  {{#each pendingbounties}}
-      {{> userPendingCurrency}}
-  {{/each}}
-  <div class="alert alert-danger" role="alert">
+<h6>Approved currencies</h6>
+{{#if subsCacheReady}}
+    {{#each pendingcurrencies}}
+        {{> userPendingCurrency}}
+    {{else}}
+        {{> empty}}
+    {{/each}}
+{{else}}
+    {{> loading}}
+{{/if}}
+
+<h6>Approved bounties</h6>
+{{#if subsCacheReady}}
+    {{#each pendingbounties}}
+        {{> userPendingCurrency}}
+    {{else}}
+        {{> empty}}
+    {{/each}}
+{{else}}
+    {{> loading}}
+{{/if}}
+
+<div class="alert alert-danger" role="alert">
     <h5>If you have any rejected items they will be shown below</h5>
-  </div>
-  <h5>{{reactiveVar 'rejectedcoins'}}</h5>
-  {{#each rejectedcurrencies}}
-      {{> userPendingCurrency}}
-  {{/each}}
+</div>
+    <h5>{{reactiveVar 'rejectedcoins'}}</h5>
+    <h6>Rejected currencies</h6>
+
+    {{#if subsCacheReady}}
+        {{#each rejectedcurrencies}}
+            {{> userPendingCurrency}}
+        {{else}}
+            {{> empty}}
+        {{/each}}
+    {{else}}
+        {{> loading}}
+    {{/if}}
+    <h6>Rejected bounties</h6>
+{{#if subsCacheReady}}
   {{#each rejectedbounties}}
       {{> userPendingCurrency}}
+  {{else}}
+      {{> empty}}
   {{/each}}
+{{else}}
+  {{> loading}}
+{{/if}}
 </template>
