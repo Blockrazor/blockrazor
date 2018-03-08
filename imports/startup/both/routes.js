@@ -3,12 +3,14 @@ import {FastRender} from 'meteor/staringatlights:fast-render'
 // import {SubsCache} from 'meteor/ccorcos:subs-cache' 
 import {SubsManager} from 'meteor/meteorhacks:subs-manager'
 
-SubsCache = new SubsManager({
-  cacheLimit: 30,
-  // expireIn will stop subscription after timer ends regardless if it's actually still being rendered or not
-  expireIn: 5555555555555555555555555555555555,
-}); // is 5 minutes, and 10 subs by default for subs-cache not manager packages
+// SubsCache = new SubsManager({
+//   cacheLimit: 30,
+//   // expireIn will stop subscription after timer ends regardless if it's actually still being rendered or not
+//   expireIn: 5555555555555555555555555555555555,
+// }); // is 5 minutes, and 10 subs by default for subs-cache not manager packages
 
+SubsCache = Meteor
+SubsCache.ready = function() {return true}
 if (Meteor.isClient) { // only import them if this code is being executed on client side
   import '../../ui/layouts/MainBody.html'
   import '../../ui/pages/currencyEdit/currencyEdit.js'
@@ -79,6 +81,7 @@ FlowRouter.route('/', {
   name: 'BLOCKRAZOR',
   subscriptions: function () {
     this.register('approvedcurrencies', SubsCache.subscribe('approvedcurrencies'));
+    // this.register('graphdata', SubsCache.subscribe('graphdata'))
   },
   action() {
     BlazeLayout.render('desktop', {
