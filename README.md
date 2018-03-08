@@ -1,5 +1,5 @@
 # Blockrazor
-#### _All_ information about _every_ blockchain project in a comparison tool that _anyone_ can understand.
+#### Absolutely _All_ information about _every_ blockchain project in a comparison tool that _anyone_ can understand.
 
 <img src="https://i.imgur.com/strfbRx.png" width="800px" height="auto">
 <img src="https://i.imgur.com/BgiN7VA.png" width="800px" height="auto">       
@@ -75,6 +75,8 @@ The contribution policy we follow is the [Collective Code Construction Contract 
 If you're wondering why any of the rules in the C4 are there, take a look at the [line by line explanation](/DESCRIPTIVE_C4.MD) of everything in the C4, this explains the rationale and history behind everything in the protocol and makes it easier to understand.
 
 Take a look at past [pull requests](https://github.com/Blockrazor/blockrazor/pulls?q=is%3Apr+is%3Aclosed) to see how we usually do things. You may also want to look at the [bad pull request role of honour](https://github.com/Blockrazor/blockrazor/issues?utf8=✓&q=label%3A"Bad+Pull+Request+Role+of+Honour") to see how _not_ to send a pull request.    
+
+Want to see server logs? Go [here](https://blockrazor.org/static/log.txt).
 
 
 <details>
