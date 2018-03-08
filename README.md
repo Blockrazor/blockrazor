@@ -1,6 +1,9 @@
 # Blockrazor
-#### _Every_ latest detail about _every_ blockchain project in a comparison tool that _anyone_ can understand.    
-<img src="https://i.imgur.com/strfbRx.png" width="800px" height="auto"> 
+#### _All_ information about _every_ blockchain project in a comparison tool that _anyone_ can understand.
+
+Please star this project.
+
+<img src="https://i.imgur.com/strfbRx.png" width="800px" height="auto">
 <img src="https://i.imgur.com/BgiN7VA.png" width="800px" height="auto">       
 <img src="https://i.imgur.com/IOSme9w.png" width="800px" height="auto">      
 
@@ -9,16 +12,21 @@
 <p>
 
 #### Install Meteor   
-`curl https://install.meteor.com/ | sh`  
+```
+curl https://install.meteor.com/ | sh
+```
 
 #### Clone repository    
-`git clone https://github.com/Blockrazor/blockrazor.git`
+```
+git clone https://github.com/Blockrazor/blockrazor.git
+```
 
 Note: if you want to edit things and send a pull request you should _fork_ this project on Github first and clone _your_ fork instead of https://github.com/Blockrazor/blockrazor.git.
 
-#### Install Dependencies
-`meteor npm install --save core-js`   
-`meteor npm install`   
+#### Install Dependencies   
+```
+meteor npm install
+```   
 
 #### Set environment variables for local usage
 `export ROOT_URL=http://localhost:3000`    
@@ -32,10 +40,17 @@ For blockrazor.org production server:
 `meteor`   
 (use `meteor --production` to minify everything and simulate production speeds
 
+If Meteor starts but you get a white screen:
+```
+meteor npm install --save core-js
+```
+
 #### Insert the database if running locally (never for production)
 While meteor is running, in a new shell from within the Blockrazor directory run:
-`mongorestore -h 127.0.0.1 --port 3001 -d meteor dump/meteor`   
-(You will need Mongo to be installed on your system).
+```
+mongorestore -h 127.0.0.1 --port 3001 -d meteor dump/meteor
+```   
+(You will need [Mongo](https://docs.mongodb.com/manual/installation/) to be installed on your system).
 
 If you already have the database but want to update it to the latest version, do a `meteor reset` before running the above.
 
@@ -121,9 +136,44 @@ If you want to work on another problem while you are waiting for it to merge sim
 </p>
 </details>    
 
+<details>
+  <summary>Can I be paid to contribute to Blockrazor?</summary>
+<p>
+Yes, this is sometimes possible.
 
-## Can I be paid to contribute to Blockrazor?
-Yes, this is sometimes possible. Your first step is to _very carefully read and understand everything above_, including the linked files, then start fixing problems and sending pull requests! If your code is amazing and brilliant but you don't understand the contribution process we cannot consider you for a paid position. Make sure you follow the project on Github so you get updates. Contact Blockrazor's BDFL (Benevolent Dictator For Life): gareth.hayes AT gmail.com if you've been contributing code to Blockrazor and want to keep doing it but but you are hungry.
+Your first step is to _very carefully read and understand everything above_, including the linked files, then start fixing problems and sending pull requests! If your code is amazing and brilliant but you don't understand the contribution process we cannot consider you for a paid position. Make sure you follow the project on Github so you get updates. Contact Blockrazor's BDFL (Benevolent Dictator For Life): gareth.hayes AT gmail.com if you've been contributing code to Blockrazor and want to keep doing it but but you are hungry.
+</p>
+</details>
+
+
+<details>
+  <summary>Rules for paid contributors</summary>
+<p>
+
+1. Engage in discussion about problems even if you aren't working on them yourself. Be helpful to other contributors, many are volunteers who just want to be part of the project. You (should) have a pretty good understanding of the codebase and can probably save others a lot of time.
+
+2. Your code should be _very_ well commented and easy to read. It should be immediately clear what your code is doing. You should be able to look at your code a year later, in the morning before coffee, and immediately know what it's doing. Write code and comments like you are teaching someone else how to do what you're doing.
+
+3. Your pull requests should be a glowing example to others of how to work with the C4. Each one should be a model that others can refer to.
+
+3. In an ideal world, you would be able to work on any issue you want and there would be no need to assign tasks so that our budget is kept under control.
+
+This would be possible because you would always work on the the problems that are _really_ worth solving _right now_ to get to some form of MVP.
+
+We can't predict the future, there are no plans or roadmaps (these are not compatible with the C4). Blockrazor grows through evolution not intelligent design or central planning. So if something isn't an in-your-face problem right now, it may never be, we could end up going down a totally different road before we get to it.
+
+While we want to avoid technical debt, we also don't want to be working on things that will someday maybe become a problem if Blockrazor becomes a thing.
+
+Demonstrate that we can trust _your_ own judgement on what you should be working on and what's worth spending time on.
+</p>
+</details>
 
 ## License
-This project is licensed under the [MPL v2.0 license](LICENSE) and Copyright [AUTHORS](AUTHORS). This prevents others from using your code in a closed-source project competing with Blockrazor. Competitors to Blockrazor are welcome to use any code from this repository as long as their project is also released under a share-alike license and their code is public (so that anyone, including us, can use their improvements).
+The license and contribution policy are two halves of the same puzzle. This project is licensed under the [MPL v2.0 license](LICENSE). The code is owned (and Copyright) by _all_ contributors. Contributors are listed in the [AUTHORS](AUTHORS), please add your name to this file in your first pull request.
+
+This license ensures that:
+1. Contributors to Blockrazor cannot have their code stolen and used by closed-source projects without their permission. It's very common for corporate software merchants to steal code from open source projects and use it in their closed source or even patented products and services in direct competition with the original project. For example, anyone who contributes code to a project released under a BSD/MIT style license effectively has no rights to their own code or any improvements made upon it.
+2. Anyone using any code from Blockrazor must also share their work under a _share-alike_ license so that anyone else can use their improvements.
+3. No one can change the above, without explicit written permission from _all_ contributors, which is essentially impossible to get. That means even the founder of this project cannot ever relicense and sell Blockrazor and its code. It belongs to everyone who contributed to it (and it always will).
+
+It is not permissible to use _any_ code from this codebase in _anything_ that isn't using a _share-alike_ license. Violations of the license will absolutely not be tolerated, and the terms of this license will be _brutally_ enforced through a variety of _very_ creative methods. 
