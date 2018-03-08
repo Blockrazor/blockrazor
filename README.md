@@ -139,9 +139,17 @@ If you want to work on another problem while you are waiting for it to merge sim
 <details>
   <summary>Can I be paid to contribute to Blockrazor?</summary>
 <p>
+
 Yes, this is sometimes possible.
 
-Your first step is to _very carefully read and understand everything above_, including the linked files, then start fixing problems and sending pull requests! If your code is amazing and brilliant but you don't understand the contribution process we cannot consider you for a paid position. Make sure you follow the project on Github so you get updates. Contact Blockrazor's BDFL (Benevolent Dictator For Life): gareth.hayes AT gmail.com if you've been contributing code to Blockrazor and want to keep doing it but but you are hungry.
+Your first step is to _very carefully read and understand everything above_, including the linked files, then start fixing problems and sending pull requests!
+
+If your code is amazing and brilliant but you don't understand the contribution process we cannot consider you for a paid position.
+
+Make sure you follow the project on Github so you get updates.
+
+Contact Blockrazor's BDFL (Benevolent Dictator For Life): gareth.hayes AT gmail.com if you've been contributing code to Blockrazor and want to keep doing it but but you are hungry.
+
 </p>
 </details>
 
@@ -156,15 +164,7 @@ Your first step is to _very carefully read and understand everything above_, inc
 
 3. Your pull requests should be a glowing example to others of how to work with the C4. Each one should be a model that others can refer to.
 
-3. In an ideal world, you would be able to work on any issue you want and there would be no need to assign tasks so that our budget is kept under control.
-
-This would be possible because you would always work on the the problems that are _really_ worth solving _right now_ to get to some form of MVP.
-
-We can't predict the future, there are no plans or roadmaps (these are not compatible with the C4). Blockrazor grows through evolution not intelligent design or central planning. So if something isn't an in-your-face problem right now, it may never be, we could end up going down a totally different road before we get to it.
-
-While we want to avoid technical debt, we also don't want to be working on things that will someday maybe become a problem if Blockrazor becomes a thing.
-
-Demonstrate that we can trust _your_ own judgement on what you should be working on and what's worth spending time on.
+3. In an ideal world, you would be able to work on any issue you want and there would be no need to assign tasks so that our budget is kept under control. This would be possible because you would always work on the the problems that are _really_ worth solving _right now_ to get to some form of MVP. We can't predict the future, there are no plans or roadmaps (these are not compatible with the C4). Blockrazor grows through evolution not intelligent design or central planning. So if something isn't an in-your-face problem right now, it may never be, we could end up going down a totally different road before we get to it. While we want to avoid technical debt, we also don't want to be working on things that will someday maybe become a problem if Blockrazor becomes a thing. Demonstrate that we can trust _your_ own judgement on what you should be working on and what's worth spending time on.
 </p>
 </details>
 
@@ -176,4 +176,4 @@ This license ensures that:
 2. Anyone using any code from Blockrazor must also share their work under a _share-alike_ license so that anyone else can use their improvements.
 3. No one can change the above, without explicit written permission from _all_ contributors, which is essentially impossible to get. That means even the founder of this project cannot ever relicense and sell Blockrazor and its code. It belongs to everyone who contributed to it (and it always will).
 
-It is not permissible to use _any_ code from this codebase in _anything_ that isn't using a _share-alike_ license. Violations of the license will absolutely not be tolerated, and the terms of this license will be _brutally_ enforced through a variety of _very_ creative methods. 
+It is not permissible to use _any_ code from this codebase in _anything_ that isn't using a _share-alike_ license. Violations of the license will absolutely not be tolerated, and the terms of this license will be _brutally_ enforced through a variety of _very_ creative methods.
