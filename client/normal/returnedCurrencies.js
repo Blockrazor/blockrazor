@@ -4,7 +4,7 @@ import { Currencies } from '../../lib/database/Currencies.js';
 Template.returnedCurrencies.onCreated(function bodyOnCreated() {
   var self = this
   self.autorun(function(){
-    self.subscribe('approvedcurrencies');
+    SubsCache.subscribe('approvedcurrencies');
   })
   this.searchInputFilter = new ReactiveVar(undefined); 
   this.filterCount = new ReactiveVar(undefined);

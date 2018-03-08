@@ -6,9 +6,9 @@ import { Bounties } from '../../lib/database/Bounties.js';
 Template.moderatorDash.onCreated(function bodyOnCreated() {
   var self = this;
   self.autorun(function(){
-    self.subscribe('pendingcurrencies');
-    self.subscribe('bounties');
-    self.subscribe('walletimages');
+    SubsCache.subscribe('pendingcurrencies');
+    SubsCache.subscribe('bounties');
+    SubsCache.subscribe('walletimages');
   })
 
   this.reject = new ReactiveVar(false)

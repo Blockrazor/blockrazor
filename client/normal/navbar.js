@@ -22,7 +22,7 @@ Template.topnav.helpers({
 
 Template.topnav.onCreated(function() {
     this.autorun(()=> {
-        this.subscribe('wallet');
-        this.subscribe('activitylog');
+        SubsCache.subscribe('wallet');
+        SubsCache.subscribe('activitylog');
     })
 });

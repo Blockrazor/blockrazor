@@ -11,8 +11,8 @@ Template.userHover.onCreated(function() {
 	this.autorun(() => {
 		this.userId = this.data.createdBy // || this.data.owner || this.data.author,... // userId depends on the passed context, so we can use the || operator to support multiple values if needed
 
-		this.subscribe('user', this.userId)
-		this.subscribe('userdataId', this.userId)
+		SubsCache.subscribe('user', this.userId)
+		SubsCache.subscribe('userdataId', this.userId)
 	})
 })
 

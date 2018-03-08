@@ -23,7 +23,7 @@ Template.menu.helpers({
 
 Template.menu.onCreated(function() {
     this.autorun(()=> {
-        this.subscribe('wallet');
-        this.subscribe('activitylog');
+        SubsCache.subscribe('wallet');
+        SubsCache.subscribe('activitylog');
     })
 });

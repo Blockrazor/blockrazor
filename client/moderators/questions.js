@@ -61,7 +61,7 @@ Template.questions.helpers({
 
 Template.questions.onCreated(function() {
 	this.autorun(() => {
-		this.subscribe('ratings_templates')
+		SubsCache.subscribe('ratings_templates')
 	})
 
 	this.category = new ReactiveVar('wallet')

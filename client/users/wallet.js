@@ -4,7 +4,7 @@ import { UserData } from '/lib/database/UserData.js';
 Template.wallet.onCreated(function bodyOnCreated() {
   var self = this
   self.autorun(function() {
-    self.subscribe('wallet');
+    SubsCache.subscribe('wallet');
   })
 
   //mark notifications read

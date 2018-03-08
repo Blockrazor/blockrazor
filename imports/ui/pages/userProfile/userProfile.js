@@ -9,10 +9,10 @@ import './userProfile.template.html'
 
 Template.userProfile.onCreated(function() {
 	this.autorun(() => {
-		this.subscribe('user', FlowRouter.getParam('slug'))
-		this.subscribe('userdataSlug', FlowRouter.getParam('slug'))
-		this.subscribe('approvedcurrencies')
-		this.subscribe('comments')
+		SubsCache.subscribe('user', FlowRouter.getParam('slug'))
+		SubsCache.subscribe('userdataSlug', FlowRouter.getParam('slug'))
+		SubsCache.subscribe('approvedcurrencies')
+		SubsCache.subscribe('comments')
 
 		this.user = Meteor.users.findOne({
 			slug: FlowRouter.getParam('slug')

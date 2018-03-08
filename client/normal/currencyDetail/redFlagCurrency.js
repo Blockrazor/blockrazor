@@ -7,7 +7,7 @@ import Cookies from 'js-cookie';
 
 Template.redflag.onCreated(function() {
   this.autorun(() => {
-    this.subscribe('redflagcomments', this._id);
+    SubsCache.subscribe('redflagcomments', this._id);
   })
 
   this.showingComments = new ReactiveDict()
@@ -149,7 +149,7 @@ Template.redflags.onCreated(function(){
     this.currencyId = (Currencies.findOne({ slug: FlowRouter.getParam("slug") }) || {})._id
 
     if (this.currencyId) {
-      this.subscribe('redflags', this.currencyId)
+      SubsCache.subscribe('redflags', this.currencyId)
     }
   })
 });

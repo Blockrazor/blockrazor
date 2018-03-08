@@ -1,5 +1,13 @@
 import {FlowRouter} from 'meteor/staringatlights:flow-router';
 import {FastRender} from 'meteor/staringatlights:fast-render'
+// import {SubsCache} from 'meteor/ccorcos:subs-cache' 
+import {SubsManager} from 'meteor/meteorhacks:subs-manager'
+
+SubsCache = new SubsManager({
+  cacheLimit: 30,
+  // expireIn will stop subscription after timer ends regardless if it's actually still being rendered or not
+  expireIn: 5555555555555555555555555555555555,
+}); // is 5 minutes, and 10 subs by default for subs-cache not manager packages
 
 if (Meteor.isClient) { // only import them if this code is being executed on client side
   import '../../ui/layouts/MainBody.html'
@@ -12,17 +20,21 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   import '../../ui/pages/hashpower/flaggedHashpower'
   import '../../ui/pages/compareCurrencies/compareCurrencies'
   import '../../ui/pages/userProfile/userProfile'
+
+} else {
+  SubsCache = Meteor
 }
+
 
 //global subscriptions (on client side immidiately available)
 FlowRouter.subscriptions = function() {
-  this.register('publicUserData', Meteor.subscribe('publicUserData'));
+  this.register('publicUserData', SubsCache.subscribe('publicUserData'));
 };
 
 FlowRouter.route('/currencyEdit/:slug?/:field?', {
   subscriptions: function (params) {
-    this.register('approvedcurrency', Meteor.subscribe('approvedcurrency', params.slug));
-    this.register('hashalgorithm', Meteor.subscribe('hashalgorithm'));
+    this.register('approvedcurrency', SubsCache.subscribe('approvedcurrency', params.slug));
+    this.register('hashalgorithm', SubsCache.subscribe('hashalgorithm'));
   },
   action: function (params, queryParams) {
     BlazeLayout.render('desktop', {
@@ -34,10 +46,10 @@ FlowRouter.route('/currencyEdit/:slug?/:field?', {
 
 FlowRouter.route('/profile/:slug', {
   subscriptions: function (params) {
-    this.register('approvedcurrencies', Meteor.subscribe('approvedcurrencies'))
-    this.register('userdataSlug', Meteor.subscribe('userdataSlug', params.slug))
-    this.register('user', Meteor.subscribe('user', params.slug))
-    this.register('comments', Meteor.subscribe('comments'))
+    this.register('approvedcurrencies', SubsCache.subscribe('approvedcurrencies'))
+    this.register('userdataSlug', SubsCache.subscribe('userdataSlug', params.slug))
+    this.register('user', SubsCache.subscribe('user', params.slug))
+    this.register('comments', SubsCache.subscribe('comments'))
   },
   action: function (params, queryParams) {
     BlazeLayout.render('desktop', {
@@ -50,10 +62,10 @@ FlowRouter.route('/profile/:slug', {
 FlowRouter.route('/compareCurrencies', {
   name: 'compare-currencies',
   subscriptions: function (params) {
-    this.register('approvedcurrencies', Meteor.subscribe('approvedcurrencies'))
-    this.register('graphdata', Meteor.subscribe('graphdata'))
-    this.register('features', Meteor.subscribe('features'))
-    this.register('redflags', Meteor.subscribe('redflags'))
+    this.register('approvedcurrencies', SubsCache.subscribe('approvedcurrencies'))
+    this.register('graphdata', SubsCache.subscribe('graphdata'))
+    this.register('features', SubsCache.subscribe('features'))
+    this.register('redflags', SubsCache.subscribe('redflags'))
   },
   action: (params, queryParams) => {
     BlazeLayout.render('desktop', {
@@ -66,7 +78,7 @@ FlowRouter.route('/compareCurrencies', {
 FlowRouter.route('/', {
   name: 'BLOCKRAZOR',
   subscriptions: function () {
-    this.register('approvedcurrencies', Meteor.subscribe('approvedcurrencies'));
+    this.register('approvedcurrencies', SubsCache.subscribe('approvedcurrencies'));
   },
   action() {
     BlazeLayout.render('desktop', {
@@ -79,10 +91,10 @@ FlowRouter.route('/', {
 FlowRouter.route('/ratings', {
   name: 'ratings',
   subscriptions: function () {
-    this.register('approvedcurrencies', Meteor.subscribe('approvedcurrencies'));
-    this.register('ratings', Meteor.subscribe('ratings'));
-    this.register('walletBounty', Meteor.subscribe('walletBounty'));
-    this.register('walletimages', Meteor.subscribe('walletimages'));
+    this.register('approvedcurrencies', SubsCache.subscribe('approvedcurrencies'));
+    this.register('ratings', SubsCache.subscribe('ratings'));
+    this.register('walletBounty', SubsCache.subscribe('walletBounty'));
+    this.register('walletimages', SubsCache.subscribe('walletimages'));
   },
   action() {
     BlazeLayout.render('luxDesktop', {
@@ -115,11 +127,11 @@ FlowRouter.route('/decentralization', {
 FlowRouter.route('/add-hashpower', {
   name: 'add-haspower',
   subscriptions: function () {
-    this.register('formdata', Meteor.subscribe('formdata'));
-    this.register('hashhardware', Meteor.subscribe('hashhardware'));
-    this.register('hashalgorithm', Meteor.subscribe('hashalgorithm'));
-    this.register('hashunits', Meteor.subscribe('hashunits'));
-    this.register('hashpowerBounty', Meteor.subscribe('hashpowerBounty'));
+    this.register('formdata', SubsCache.subscribe('formdata'));
+    this.register('hashhardware', SubsCache.subscribe('hashhardware'));
+    this.register('hashalgorithm', SubsCache.subscribe('hashalgorithm'));
+    this.register('hashunits', SubsCache.subscribe('hashunits'));
+    this.register('hashpowerBounty', SubsCache.subscribe('hashpowerBounty'));
   },
   action: () => {
     BlazeLayout.render('desktop', {
@@ -132,10 +144,10 @@ FlowRouter.route('/add-hashpower', {
 FlowRouter.route('/flagged-hashpower', {
   name: 'flagged-hashpower',
   subscriptions: function () {
-    this.register('flaggedhashpower', Meteor.subscribe('flaggedhashpower'));
-    this.register('hashhardware', Meteor.subscribe('hashhardware'));
-    this.register('hashalgorithm', Meteor.subscribe('hashalgorithm'));
-    this.register('hashunits', Meteor.subscribe('hashunits'));
+    this.register('flaggedhashpower', SubsCache.subscribe('flaggedhashpower'));
+    this.register('hashhardware', SubsCache.subscribe('hashhardware'));
+    this.register('hashalgorithm', SubsCache.subscribe('hashalgorithm'));
+    this.register('hashunits', SubsCache.subscribe('hashunits'));
   },
   action: () => {
     BlazeLayout.render('desktop', {
@@ -148,8 +160,8 @@ FlowRouter.route('/flagged-hashpower', {
 FlowRouter.route('/avg-hashpower', {
   name: 'avg-haspower',
   subscriptions: function () {
-    this.register('hashaverage', Meteor.subscribe('hashaverage'));
-    this.register('hashalgorithm', Meteor.subscribe('hashalgorithm'));
+    this.register('hashaverage', SubsCache.subscribe('hashaverage'));
+    this.register('hashalgorithm', SubsCache.subscribe('hashalgorithm'));
   },
   action: () => {
     BlazeLayout.render('desktop', {
@@ -162,10 +174,10 @@ FlowRouter.route('/avg-hashpower', {
 FlowRouter.route('/hashpower', {
   name: 'haspower',
   subscriptions: function () {
-    this.register('hashpower', Meteor.subscribe('hashpower'));
-    this.register('hashhardware', Meteor.subscribe('hashhardware'));
-    this.register('hashalgorithm', Meteor.subscribe('hashalgorithm'));
-    this.register('hashunits', Meteor.subscribe('hashunits'));
+    this.register('hashpower', SubsCache.subscribe('hashpower'));
+    this.register('hashhardware', SubsCache.subscribe('hashhardware'));
+    this.register('hashalgorithm', SubsCache.subscribe('hashalgorithm'));
+    this.register('hashunits', SubsCache.subscribe('hashunits'));
   },
   action: () => {
     BlazeLayout.render('desktop', {
@@ -178,9 +190,9 @@ FlowRouter.route('/hashpower', {
 FlowRouter.route('/communities', {
   name: 'communities',
   subscriptions: function () {
-    this.register('approvedcurrencies', Meteor.subscribe('approvedcurrencies'));
-    this.register('ratings', Meteor.subscribe('ratings'));
-    this.register('communityBounty', Meteor.subscribe('communityBounty'));
+    this.register('approvedcurrencies', SubsCache.subscribe('approvedcurrencies'));
+    this.register('ratings', SubsCache.subscribe('ratings'));
+    this.register('communityBounty', SubsCache.subscribe('communityBounty'));
   },
   action: () => {
     BlazeLayout.render('desktop', {
@@ -193,8 +205,8 @@ FlowRouter.route('/communities', {
 FlowRouter.route('/flagged-users', {
   name: 'flaggedUsers',
   subscriptions: function () {
-    this.register('userData', Meteor.subscribe('userData'));
-    this.register('users', Meteor.subscribe('users'));
+    this.register('userData', SubsCache.subscribe('userData'));
+    this.register('users', SubsCache.subscribe('users'));
   },
   action: function () {
     if (Meteor.userId()) {
@@ -212,9 +224,9 @@ FlowRouter.route('/flagged-users', {
 FlowRouter.route('/codebase', {
   name: 'codebase',
   subscriptions: function () {
-    this.register('approvedcurrencies', Meteor.subscribe('approvedcurrencies'));
-    this.register('ratings', Meteor.subscribe('ratings'));
-    this.register('codebaseBounty', Meteor.subscribe('codebaseBounty'));
+    this.register('approvedcurrencies', SubsCache.subscribe('approvedcurrencies'));
+    this.register('ratings', SubsCache.subscribe('ratings'));
+    this.register('codebaseBounty', SubsCache.subscribe('codebaseBounty'));
   },
   action: () => {
     BlazeLayout.render('desktop', {
@@ -227,7 +239,7 @@ FlowRouter.route('/codebase', {
 FlowRouter.route('/developers', {
   name: 'developers',
   subscriptions: function () {
-    this.register('developers', Meteor.subscribe('developers'));
+    this.register('developers', SubsCache.subscribe('developers'));
   },
   action: () => {
     BlazeLayout.render('desktop', {
@@ -240,7 +252,7 @@ FlowRouter.route('/developers', {
 FlowRouter.route('/profile', {
   name: 'profile',
   subscriptions: function () {
-    this.register('_extendUser', Meteor.subscribe('_extendUser'));
+    this.register('_extendUser', SubsCache.subscribe('_extendUser'));
   },
   action: () => {
     BlazeLayout.render('desktop', {
@@ -253,7 +265,7 @@ FlowRouter.route('/profile', {
 FlowRouter.route('/questions', {
   name: 'questions',
   subscriptions: function () {
-    this.register('ratings_templates', Meteor.subscribe('ratings_templates'));
+    this.register('ratings_templates', SubsCache.subscribe('ratings_templates'));
   },
   action() {
     BlazeLayout.render('desktop', {
@@ -267,8 +279,8 @@ FlowRouter.route('/questions', {
 FlowRouter.route('/bounties', {
   name: 'bounties',
   subscriptions: function () {
-    this.register('bounties', Meteor.subscribe('bounties'));
-    this.register('bountytypes', Meteor.subscribe('bountytypes'));
+    this.register('bounties', SubsCache.subscribe('bounties'));
+    this.register('bountytypes', SubsCache.subscribe('bountytypes'));
   },
   action() {
     BlazeLayout.render('desktop', {
@@ -282,7 +294,7 @@ FlowRouter.route('/bounties', {
 FlowRouter.route('/bounties/:_id', {
   name: 'CurrencyDetail',
   subscriptions: function (params) {
-    this.register('bounties', Meteor.subscribe('bounties', params._id));
+    this.register('bounties', SubsCache.subscribe('bounties', params._id));
   },
   action: function (params, queryParams) {
     console.log("rendering activeBounty");
@@ -297,10 +309,10 @@ FlowRouter.route('/bounties/:_id', {
 FlowRouter.route('/addcoin', {
   name: 'addcoin',
   subscriptions: function () {
-    this.register('currencyBounty', Meteor.subscribe('currencyBounty'));
-    this.register('addCoinQuestions', Meteor.subscribe('addCoinQuestions'));
-    this.register('hashalgorithm', Meteor.subscribe('hashalgorithm'));
-    // this.register('formdata', Meteor.subscribe('formdata')); //userId isn't
+    this.register('currencyBounty', SubsCache.subscribe('currencyBounty'));
+    this.register('addCoinQuestions', SubsCache.subscribe('addCoinQuestions'));
+    this.register('hashalgorithm', SubsCache.subscribe('hashalgorithm'));
+    // this.register('formdata', SubsCache.subscribe('formdata')); //userId isn't
     // availabe on server
   },
   action: function () {
@@ -311,7 +323,7 @@ FlowRouter.route('/addcoin', {
       left: 'luxMenu'
     });
     
-      this.register('formdata', Meteor.subscribe('formdata'));
+      this.register('formdata', SubsCache.subscribe('formdata'));
 
     } else {
       // but if the user is not logged in, you have to redirect him to the login page
@@ -327,8 +339,8 @@ FlowRouter.route('/addcoin', {
 FlowRouter.route('/currency/:slug', {
   name: 'CurrencyDetail',
   subscriptions: function (param) {
-    this.register('approvedcurrency', Meteor.subscribe('approvedcurrency', param.slug));
-    this.register('hashalgorithm', Meteor.subscribe('hashalgorithm'));
+    this.register('approvedcurrency', SubsCache.subscribe('approvedcurrency', param.slug));
+    this.register('hashalgorithm', SubsCache.subscribe('hashalgorithm'));
   },
   action: function (params, queryParams) {
     BlazeLayout.render('desktop', {
@@ -341,9 +353,9 @@ FlowRouter.route('/currency/:slug', {
 
 FlowRouter.route('/mypending', {
   subscriptions: function () {
-    this.register('bounties', Meteor.subscribe('bounties'));
-    this.register('pendingcurrencies', Meteor.subscribe('pendingcurrencies'));
-    this.register('rejectedcurrencies', Meteor.subscribe('rejectedcurrencies'));
+    this.register('bounties', SubsCache.subscribe('bounties'));
+    this.register('pendingcurrencies', SubsCache.subscribe('pendingcurrencies'));
+    this.register('rejectedcurrencies', SubsCache.subscribe('rejectedcurrencies'));
   },
   action: function (params, queryParams) {
     BlazeLayout.render('editAnything', {main: 'userPendingCurrencies'});
@@ -352,7 +364,7 @@ FlowRouter.route('/mypending', {
 
 FlowRouter.route('/changedcurrencies', {
   subscriptions: function () {
-    this.register('changedCurrencies', Meteor.subscribe('changedCurrencies'));
+    this.register('changedCurrencies', SubsCache.subscribe('changedCurrencies'));
   },
   action: function (params, queryParams) {
     BlazeLayout.render('luxDesktop', {
@@ -364,9 +376,9 @@ FlowRouter.route('/changedcurrencies', {
 
 FlowRouter.route('/moderator', {
   subscriptions: function () {
-    this.register('pendingcurrencies', Meteor.subscribe('pendingcurrencies'));
-    this.register('bounties', Meteor.subscribe('bounties'));
-    this.register('walletimages', Meteor.subscribe('walletimages'));
+    this.register('pendingcurrencies', SubsCache.subscribe('pendingcurrencies'));
+    this.register('bounties', SubsCache.subscribe('bounties'));
+    this.register('walletimages', SubsCache.subscribe('walletimages'));
   },
   action: function (params, queryParams) {
     BlazeLayout.render('editAnything', {main: 'moderatorDash'});
@@ -375,7 +387,7 @@ FlowRouter.route('/moderator', {
 
 FlowRouter.route('/notifications', {
   subscriptions: function () {
-    this.register('activitylog', Meteor.subscribe('activitylog'));
+    this.register('activitylog', SubsCache.subscribe('activitylog'));
   },
   action: function (params, queryParams) {
     BlazeLayout.render('editAnything', {main: 'activityLog'});
@@ -384,8 +396,8 @@ FlowRouter.route('/notifications', {
 
 FlowRouter.route('/wallet', {
   subscriptions: function () {
-    this.register('wallet', Meteor.subscribe('wallet'));
-    this.register("publicUserData", Meteor.subscribe("publicUserData"))
+    this.register('wallet', SubsCache.subscribe('wallet'));
+    this.register("publicUserData", SubsCache.subscribe("publicUserData"))
   },
   action: function (params, queryParams) {
     BlazeLayout.render('editAnything', {main: 'wallet'});
@@ -395,7 +407,7 @@ FlowRouter.route('/wallet', {
 FlowRouter.route('/m', {
   name: 'mobile',
   subscriptions: function () {
-    this.register('approvedcurrencies', Meteor.subscribe('approvedcurrencies'));
+    this.register('approvedcurrencies', SubsCache.subscribe('approvedcurrencies'));
   },
   action() {
     BlazeLayout.render('mobile', {

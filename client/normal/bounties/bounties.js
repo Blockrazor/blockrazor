@@ -6,7 +6,7 @@ import Cookies from 'js-cookie';
 
 Template.bounties.onCreated(function(){
   this.autorun(() => {
-    this.subscribe('bounties');
+    SubsCache.subscribe('bounties');
   })
 
   this.bountyType = new ReactiveVar('')
@@ -70,7 +70,7 @@ Template.bounties.helpers({
 
 Template.bountyRender.onCreated(function(){
   this.autorun(() => {
-    this.subscribe('bountytypes');
+    SubsCache.subscribe('bountytypes');
   });
 })
 
@@ -183,7 +183,7 @@ Template.activeBounty.onRendered(function(){
 
 Template.activeBounty.onCreated(function(){
   this.autorun(() => {
-    this.subscribe('bounties', FlowRouter.getParam("_id"));
+    SubsCache.subscribe('bounties', FlowRouter.getParam("_id"));
   });
 });//Session.set('activeBountyRendered', true);
 

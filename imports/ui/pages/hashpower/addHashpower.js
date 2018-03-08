@@ -12,11 +12,11 @@ import './addHashpower.template.html'
 
 Template.addHashpower.onCreated(function() {
 	this.autorun(() => {
-		this.subscribe('formdata')
-		this.subscribe('hashhardware')
-		this.subscribe('hashalgorithm')
-		this.subscribe('hashunits')
-		this.subscribe('hashpowerBounty')
+		SubsCache.subscribe('formdata')
+		SubsCache.subscribe('hashhardware')
+		SubsCache.subscribe('hashalgorithm')
+		SubsCache.subscribe('hashunits')
+		SubsCache.subscribe('hashpowerBounty')
 	})
 
 	this.addHw = new ReactiveVar(false)

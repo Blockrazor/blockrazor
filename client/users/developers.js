@@ -3,7 +3,7 @@ import { Developers } from '../../lib/database/Developers'
 
 Template.developers.onCreated(function() {
     this.autorun(() => {
-        this.subscribe('developers')
+        SubsCache.subscribe('developers')
     })
 })
 

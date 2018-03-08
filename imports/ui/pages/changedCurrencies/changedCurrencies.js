@@ -8,7 +8,7 @@ import './changedCurrencies.html';
 Template.changedCurrencies.onCreated(function bodyOnCreated() {
     var self = this
     self.autorun(function() {
-        self.subscribe('changedCurrencies');
+        SubsCache.subscribe('changedCurrencies');
     })
 });
 //Events

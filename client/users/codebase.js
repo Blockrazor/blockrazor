@@ -6,9 +6,9 @@ import Cookies from 'js-cookie'
 
 Template.codebase.onCreated(function() {
     this.autorun(() => {
-        this.subscribe('approvedcurrencies')
-        this.subscribe('ratings')
-        this.subscribe('codebaseBounty')
+        SubsCache.subscribe('approvedcurrencies')
+        SubsCache.subscribe('ratings')
+        SubsCache.subscribe('codebaseBounty')
     })
 
     this.name = new ReactiveVar('')
