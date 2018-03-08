@@ -8,12 +8,18 @@
             </tr>
         </thead>
         <tbody>
-            {{#each hashaverage}}
-            <tr>
-                <td>{{hashAlgorithm}}</td>
-                <td>{{average}}</td>
-            </tr>
-            {{/each}}
+            {{#if subsCacheReady}}
+                {{#each hashaverage}}
+                    <tr>
+                        <td>{{hashAlgorithm}}</td>
+                        <td>{{average}}</td>
+                    </tr>
+                {{else}}
+                    {{> empty}}
+                {{/each}}
+            {{else}}
+                {{> loading}}
+            {{/if}}
         </tbody>
     </table>
     <button class="btn btn-danger" id="js-update">Update averages</button>

@@ -1,7 +1,13 @@
 <template name="activityLog">
-{{#each message}}
-{{> messageitem}}
-{{/each}}
+    {{#if subsCacheReady}}
+    {{#each message}}
+    {{> messageitem}}
+    {{else}}
+      {{> empty}}
+    {{/each}}
+  {{else}}
+    {{> loading}}
+  {{/if}}
 </template>
 
 <template name="messageitem">

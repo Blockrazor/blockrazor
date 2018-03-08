@@ -1,7 +1,14 @@
 <template name="questions">
-	{{#each questions}}
-		{{question}} ({{#if negative}}-{{else}}+{{/if}}) ({{catagory}}) {{#if context}}(shown at: {{context}}){{/if}} {{#if isXor}}(XOR){{/if}} {{#if author}}<a href="#" class="js-context">+/-</a> <a href="#" class="js-delete">X</a>{{/if}}<br />
-	{{/each}}
+	<h3>Questions</h3>
+	{{#if subsCacheReady}}
+    {{#each questions}}
+			{{question}} ({{#if negative}}-{{else}}+{{/if}}) ({{catagory}}) {{#if context}}(shown at: {{context}}){{/if}} {{#if isXor}}(XOR){{/if}} {{#if author}}<a href="#" class="js-context">+/-</a> <a href="#" class="js-delete">X</a>{{/if}}<br />
+    {{else}}
+      {{> empty}}
+    {{/each}}
+  {{else}}
+    {{> loading}}
+  {{/if}}
 	<br />
 	<b>* Legend:</b> <i>+/-</i> to change context, <i>X</i> to delete
 <form>

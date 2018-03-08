@@ -15,8 +15,15 @@
             <h4 class="pull-left">Wallet Images
   </h4></div>
         <div class="card-body">
-            {{#each walletimages}}
-            <img src="{{walletimagesdir}}{{_id}}.{{extension}}" style="width:100px;height:100px"> {{/each}}
+            {{#if subsCacheReady}}
+                {{#each walletimages}}
+                    <img src="{{walletimagesdir}}{{_id}}.{{extension}}" style="width:100px;height:100px"> 
+                {{else}}
+                    {{> empty}}
+                {{/each}}
+            {{else}}
+                {{> loading}}
+            {{/if}}
         </div>
     </div>
 </template>
@@ -47,27 +54,34 @@
 </template>
 <template name="discussion">
     <div class="currencyDetailBox">
-        <h5 class="text-center currencyDetailHeading">Discussion</h5> {{#each topComment}}
-        <div class="commentThread">
-            <div class="bigCommentBox">
-                <div class="commentRating"></div>
-                <div class="commentBody">
-                    <div class="commentText">{{commentText}}</div>
-                    <div class="commentAuthor">{{authorName}}</div>
+        <h5 class="text-center currencyDetailHeading">Discussion</h5> 
+        {{#if subsCacheReady}}
+            {{#each topComment}}
+                <div class="commentThread">
+                    <div class="bigCommentBox">
+                        <div class="commentRating"></div>
+                        <div class="commentBody">
+                            <div class="commentText">{{commentText}}</div>
+                            <div class="commentAuthor">{{authorName}}</div>
+                        </div>
+                        <div class="commentAnalysis"></div>
+                    </div>
+                    {{#each topReply}}
+                    <div class="commentResponse">
+                        <div class="commentRating"></div>
+                        <div class="commentBody">
+                            <div class="commentText">{{commentText}}</div>
+                            <div class="commentAuthor">{{authorName}}</div>
+                        </div>
+                    </div>
+                    {{/each}}
                 </div>
-                <div class="commentAnalysis"></div>
-            </div>
-            {{#each topReply}}
-            <div class="commentResponse">
-                <div class="commentRating"></div>
-                <div class="commentBody">
-                    <div class="commentText">{{commentText}}</div>
-                    <div class="commentAuthor">{{authorName}}</div>
-                </div>
-            </div>
+            {{else}}
+                {{> empty}}
             {{/each}}
-        </div>
-        {{/each}}
+        {{else}}
+            {{> loading}}
+        {{/if}}
         <div class="text-right">{{totalComments}} more</div>
     </div>
 </template>
