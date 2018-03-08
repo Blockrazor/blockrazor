@@ -11,10 +11,10 @@ import './allHashpower.template.html'
 
 Template.allHashpower.onCreated(function() {
 	this.autorun(() => {
-		this.subscribe('hashpower')
-		this.subscribe('hashhardware')
-		this.subscribe('hashalgorithm')
-		this.subscribe('hashunits')
+		SubsCache.subscribe('hashpower')
+		SubsCache.subscribe('hashhardware')
+		SubsCache.subscribe('hashalgorithm')
+		SubsCache.subscribe('hashunits')
 	})
 
 	this.flags = new ReactiveVar([])

@@ -10,10 +10,10 @@ import './compareCurrencies.template.html'
 
 Template.compareCurrencies.onCreated(function() {
 	this.autorun(() => {
-		this.subscribe('graphdata')
-		this.subscribe('approvedcurrencies')
-		this.subscribe('features')
-		this.subscribe('redflags')
+		SubsCache.subscribe('graphdata')
+		SubsCache.subscribe('approvedcurrencies')
+		SubsCache.subscribe('features')
+		SubsCache.subscribe('redflags')
 	})
 
 	this.compared = new ReactiveVar([])

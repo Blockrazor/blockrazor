@@ -10,10 +10,10 @@ import './flaggedHashpower.template.html'
 
 Template.flaggedHashpower.onCreated(function() {
 	this.autorun(() => {
-		this.subscribe('flaggedhashpower')
-		this.subscribe('hashhardware')
-		this.subscribe('hashalgorithm')
-		this.subscribe('hashunits')
+		SubsCache.subscribe('flaggedhashpower')
+		SubsCache.subscribe('hashhardware')
+		SubsCache.subscribe('hashalgorithm')
+		SubsCache.subscribe('hashunits')
 	})
 
 	this.flags = new ReactiveVar([])

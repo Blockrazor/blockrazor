@@ -4,7 +4,7 @@ import { ActivityLog } from '../../lib/database/ActivityLog.js';
 Template.activityLog.onCreated(function bodyOnCreated() {
   var self = this
   self.autorun(function() {
-    self.subscribe('activitylog');
+    SubsCache.subscribe('activitylog');
   })
 
 // mark all notification as read

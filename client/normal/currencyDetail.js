@@ -7,8 +7,8 @@ Template.currencyDetail.onCreated(function bodyOnCreated() {
   var self = this
   self.autorun(function(){
     // Gets the _id of the current currency and only subscribes to that particular currency
-    self.subscribe('approvedcurrency', FlowRouter.getParam('slug'))
-    self.subscribe('hashalgorithm')
+    SubsCache.subscribe('approvedcurrency', FlowRouter.getParam('slug'))
+    SubsCache.subscribe('hashalgorithm')
   })
 });
 

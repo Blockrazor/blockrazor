@@ -58,9 +58,9 @@ Template.addCoin.onCreated(function() {
   this.consensusType = new ReactiveVar('')
 
   this.autorun(() => {
-    this.subscribe('currencyBounty')
-    this.subscribe('addCoinQuestions')
-    this.subscribe('hashalgorithm')
+    SubsCache.subscribe('currencyBounty')
+    SubsCache.subscribe('addCoinQuestions')
+    SubsCache.subscribe('hashalgorithm')
   })
 
   this.now = new ReactiveVar(Date.now())

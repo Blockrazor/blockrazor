@@ -7,8 +7,8 @@ import './allHashaverage.template.html'
 
 Template.allHashaverage.onCreated(function() {
 	this.autorun(() => {
-		this.subscribe('hashaverage')
-		this.subscribe('hashalgorithm')
+		SubsCache.subscribe('hashaverage')
+		SubsCache.subscribe('hashalgorithm')
 	})
 })
 

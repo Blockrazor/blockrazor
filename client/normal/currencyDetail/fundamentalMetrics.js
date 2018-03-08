@@ -9,8 +9,8 @@ import '../../../imports/ui/pages/userProfile/userHover' //import the userHover 
 
 Template.fundamentalMetrics.onCreated(function() {
   this.autorun(() => {
-    this.subscribe('graphdata')
-    this.subscribe('approvedcurrencies')
+    SubsCache.subscribe('graphdata')
+    SubsCache.subscribe('approvedcurrencies')
   })
 })
 
@@ -153,7 +153,7 @@ Template.fundamentalMetrics.helpers({
 });
 Template.feature.onCreated(function() {
   this.autorun(() => {
-    this.subscribe('comments', this._id);
+    SubsCache.subscribe('comments', this._id);
   })
 
   this.showingComments = new ReactiveDict()
@@ -293,7 +293,7 @@ Template.features.onCreated(function(){
   this.lastId = new ReactiveVar('')
 
   this.autorun(() => {
-    this.subscribe('featuresSlug', FlowRouter.getParam('slug'))
+    SubsCache.subscribe('featuresSlug', FlowRouter.getParam('slug'))
   })
 });
 
@@ -429,7 +429,7 @@ Template.comment.events({
 
 Template.walletimages.onCreated(function(){
   this.autorun(() => {
-    this.subscribe('walletImagesSlug', FlowRouter.getParam('slug'))
+    SubsCache.subscribe('walletImagesSlug', FlowRouter.getParam('slug'))
   });
 });
 

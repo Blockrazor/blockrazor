@@ -13,10 +13,10 @@ import '/imports/ui/stylesheets/lux.min.css';
 Template.ratings.onCreated(function bodyOnCreated() {
   var self = this
   self.autorun(function(){
-    self.subscribe('approvedcurrencies');
-    self.subscribe('ratings');
-    self.subscribe('walletBounty');
-    self.subscribe('walletimages');
+    SubsCache.subscribe('approvedcurrencies');
+    SubsCache.subscribe('ratings');
+    SubsCache.subscribe('walletBounty');
+    SubsCache.subscribe('walletimages');
   })
 
   this.now = new ReactiveVar(Date.now())
@@ -28,14 +28,14 @@ Template.ratings.onCreated(function bodyOnCreated() {
 Template.displayRatings.onCreated(function bodyOnCreated() {
   var self = this
   self.autorun(function(){
-    self.subscribe('ratings');
+    SubsCache.subscribe('ratings');
   })
 });
 
 Template.question.onCreated(function bodyOnCreated() {
   var self = this
   self.autorun(function(){
-    self.subscribe('approvedcurrencies');
+    SubsCache.subscribe('approvedcurrencies');
   })
 
   this.cnt = 0

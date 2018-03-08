@@ -3,7 +3,7 @@ import { Template } from 'meteor/templating';
 Template.viewprofile.onCreated(function() {
     this.autorun(() => {
         //UserData is global
-        this.subscribe('_extendUser')
+        SubsCache.subscribe('_extendUser')
     })
 });
 

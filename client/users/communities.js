@@ -6,9 +6,9 @@ import Cookies from 'js-cookie'
 
 Template.communities.onCreated(function() {
     this.autorun(() => {
-        this.subscribe('approvedcurrencies')
-        this.subscribe('ratings')
-        this.subscribe('communityBounty')
+        SubsCache.subscribe('approvedcurrencies')
+        SubsCache.subscribe('ratings')
+        SubsCache.subscribe('communityBounty')
     })
 
     this.name = new ReactiveVar('')

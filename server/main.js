@@ -159,7 +159,7 @@ SyncedCron.add({
 }); 
 
 // FastRender.route('/', function(){
-// this.subscribe('approvedcurrencies');
+// SubsCache.subscribe('approvedcurrencies');
 // });
 
 Meteor.startup(() => {

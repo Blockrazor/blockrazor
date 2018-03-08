@@ -6,9 +6,9 @@ Template.currency.onCreated(function bodyOnCreated(){
   var self = this
   var currencyData = Template.currentData();
   self.autorun(function(){
-  var subscription = self.subscribe('graphdata');
+  var subscription = SubsCache.subscribe('graphdata');
 
-  if (Template.instance().subscriptionsReady()) {
+  if (subscription.ready()) {
      
 //        var ctx = document.getElementById(currencyData._id + "distribution").getContext('2d');
 // ctx.canvas.width = 200;

@@ -62,11 +62,11 @@ Template.currencyEdit.onRendered(function() {
 Template.currencyEdit.onCreated(function() {
 
     var self = this
-    self.subscribe('formdata');
+    SubsCache.subscribe('formdata');
     self.autorun(function() {
         // Gets the _id of the current currency and only subscribes to that particular currency
-        self.subscribe('approvedcurrency', FlowRouter.getParam('slug'))
-        self.subscribe('hashalgorithm')
+        SubsCache.subscribe('approvedcurrency', FlowRouter.getParam('slug'))
+        SubsCache.subscribe('hashalgorithm')
     })
 
 

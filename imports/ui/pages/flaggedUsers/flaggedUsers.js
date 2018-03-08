@@ -7,8 +7,8 @@ import './flaggedUsers.template.html'
 
 Template.flaggedUsers.onCreated(function() {
 	this.autorun(() => {
-		this.subscribe('userData')
-		this.subscribe('users')
+		SubsCache.subscribe('userData')
+		SubsCache.subscribe('users')
 	})
 })
 

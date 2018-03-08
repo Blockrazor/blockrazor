@@ -5,9 +5,9 @@ import { Bounties } from '../../lib/database/Bounties.js';
 Template.userPendingCurrencies.onCreated(function bodyOnCreated() {
   var self = this
   self.autorun(function() {
-    self.subscribe('bounties');
-    self.subscribe('pendingcurrencies');
-    self.subscribe('rejectedcurrencies');
+    SubsCache.subscribe('bounties');
+    SubsCache.subscribe('pendingcurrencies');
+    SubsCache.subscribe('rejectedcurrencies');
   })
 });
 
