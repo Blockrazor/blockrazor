@@ -151,7 +151,7 @@ If your code is amazing and brilliant but you don't understand the contribution 
 
 Make sure you follow the project on Github so you get updates.
 
-Contact Blockrazor's BDFL (Benevolent Dictator For Life): gareth.hayes AT gmail.com if you've been contributing code to Blockrazor and want to keep doing it but but you are hungry.
+Contact Blockrazor's BDFL (Benevolent Dictator For Life): gareth.hayes AT gmail.com if you've been contributing code to Blockrazor and want to keep doing it but you are hungry.
 
 </p>
 </details>
