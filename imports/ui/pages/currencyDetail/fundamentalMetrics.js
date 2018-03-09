@@ -5,15 +5,15 @@ import { Currencies } from '/imports/api/indexDB.js';
 import { GraphData } from '/imports/api/indexDB.js';
 import Cookies from 'js-cookie'
 
-import "/imports/ui/components/radarGraph.js"
+import "../../components/radarGraph.js"
 
-import '../../../imports/ui/pages/userProfile/userHover' //import the userHover template for later usage (we have to import it everywhere we want to use it)
+import '../userProfile/userHover' //import the userHover template for later usage (we have to import it everywhere we want to use it)
 
 //todo
 //need to create a global js file to store global helpers
 Template.registerHelper('relativeTime', function(date) {
-    var timePassed = moment(date).fromNow();
-    return timePassed;
+  var timePassed = moment(date).fromNow();
+  return timePassed;
 });
 
 Template.fundamentalMetrics.onCreated(function() {

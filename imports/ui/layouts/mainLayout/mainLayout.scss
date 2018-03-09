@@ -1,12 +1,12 @@
 .app-body {
   display: flex;
   align-items: stretch;
+  background-image: linear-gradient(to bottom right, #f7f7f7, #eafbff);
 }
 
 .app-content{
   padding-top: 80px;
   flex: 1;
-  background-image: linear-gradient(to bottom right, #f7f7f7, #eafbff);
   transition: all 0.2s ease;
 }
 @media (max-width: 768px) {

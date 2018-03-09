@@ -25,6 +25,7 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
 
   // New Layout
   import '../../ui/layouts/mainLayout/mainLayout'
+  import '../../ui/pages/currencyDetail/currencyDetail'
 
   //Stylesheet
   import '/imports/ui/stylesheets/lux.min.css';
@@ -352,7 +353,7 @@ FlowRouter.route('/currency/:slug', {
     this.register('graphdata', SubsCache.subscribe('graphdata'));
   },
   action: function (params, queryParams) {
-    BlazeLayout.render('desktop', {
+    BlazeLayout.render('mainLayout', {
       main: 'currencyDetail',
       left: 'menu',
       bottom: 'edit'
