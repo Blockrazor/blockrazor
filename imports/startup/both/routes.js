@@ -344,6 +344,7 @@ FlowRouter.route('/currency/:slug', {
   subscriptions: function (param) {
     this.register('approvedcurrency', SubsCache.subscribe('approvedcurrency', param.slug));
     this.register('hashalgorithm', SubsCache.subscribe('hashalgorithm'));
+    this.register('graphdata', SubsCache.subscribe('graphdata'))
   },
   action: function (params, queryParams) {
     BlazeLayout.render('desktop', {

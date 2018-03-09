@@ -158,7 +158,6 @@ Template.redflags.helpers({
     return this.featureTag; //find metricTag data from collection
   },
   redflags: function() {
-  	console.log(Template.instance().currencyId)
     return Redflags.find({currencyId: Template.instance().currencyId, flagRatio: {$lt: 0.6}}, {sort: {rating: -1, appealNumber: -1}});
   },
   redflagsFlagged: function() {
