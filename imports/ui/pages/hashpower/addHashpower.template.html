@@ -36,7 +36,7 @@
 		{{else}}
 			Algorithm: <input type="text" id="js-algo-new" /><br />
 		{{/if}}
-		Hash rate: <input type="number" min="0" id="js-hr" />
+		Hash rate *: <input type="number" min="0" id="js-hr" required/>
 		{{#if units.length}}
 		<select id="js-unit">
 			{{#each units}}
@@ -50,10 +50,17 @@
 		{{else}}
 			<input type="text" id="js-unit-new" style="width: 40px" /><br />
 		{{/if}}
-		Power consumption: <input type="number" min="0" id="js-pc" /> Watts<br />
-		Mining rig image (as a proof): <input type='file' id='imageInput'>
+		Power consumption *: <input type="number" min="0" id="js-pc" name="js-pc" required/> Watts<br />
+		Mining rig image (as a proof) *: 
+
+    <label id="uploadLabel" class="btn btn-primary" for="imageInput">
+        <input id="imageInput" name="imageInput" type="file" style="display:none" onchange="$('#fileInfo').html(this.files[0].name)" class="required" accept="image/*"> <span class="uploadText">UPLOAD</span>
+    </label>
+
+    <span class='label label-info fileInfo' id="fileInfo"></span>
+
 		<input type='hidden' id='js-image'><br />
 
-		<button type="submit" id="js-add">Add!</button> <button id="js-cancel">Cancel</button>
+		<button type="submit" id="js-add" class="btn btn-primary">Add!</button> <button id="js-cancel" class="btn btn-secondary">Cancel</button>
 	</form>
 </template>
