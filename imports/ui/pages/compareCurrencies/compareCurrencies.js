@@ -185,7 +185,18 @@ Template.compareCurrencies.helpers({
   			_id: {
   				$in: Template.instance().compared.get()
   			}
-  		}).fetch()
+		  }, 
+		  {
+				fields: {
+					currencyName: 1,
+					currencySymbol: 1,
+					circulating: 1,
+					marketCap: 1,
+					maxCoins: 1,
+					hashpower: 1,
+					slug: 1,
+		  }}
+		).fetch()
 
 		// add the color field
 		cur.forEach(i => i.color = Template.instance().colors.get(i._id))
@@ -201,6 +212,9 @@ Template.compareCurrencies.helpers({
 		}, {
 			sort: {
 				rating: -1
+			},
+			fields: {
+				featureName: 1
 			}
 		}).fetch()[num-1] || {}).featureName || '-'
 	},
@@ -210,6 +224,9 @@ Template.compareCurrencies.helpers({
 		}, {
 			sort: {
 				rating: -1
+			},
+			fields: {
+				name: 1
 			}
 		}).fetch()[num-1] || {}).name || '-'
 	},
