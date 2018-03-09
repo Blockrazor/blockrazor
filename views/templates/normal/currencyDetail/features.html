@@ -1,7 +1,4 @@
 <template name="features">
-
-
-
   <div class="modal fade" id="addFeatureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -81,12 +78,13 @@
 {{featureModal}}
 
 <div class="currencyDetailBox" >
-  <div style="display:flex;width:100%;">
-    <div style="width:20%; float:left;">
-      <button class="btn btn-primary pull-left showFlagged" style="margin-top:6px;">
-        <i class="fa fa-flag" aria-hidden="true"></i> Show flagged
+
+  <div style="display:flex;width:100%;padding-bottom:10px">
+          <div style="width:20%; float:left;">
+      <button class="btn btn-primary showFlagged" style="margin-top:6px;">
+        Hide
       </button>
-    </div>
+    </div>  
     <div style="width:60%">
       <h5 class="text-center currencyDetailHeading featuresheading">Features</h5>
       <div id="addNewFeature" style="display:none;margin-bottom:10px;">
@@ -103,11 +101,14 @@
         </div>
       </div>
     </div>
-    <div style="width:20%;float:right;">
+
+
+                  <div style="width:20%;float:right;">
       <button class="btn btn-primary pull-right showAddNewFeature" style="margin-top:6px;">
-        <i class="fa fa-plus" aria-hidden="true"></i> Add a feature
+        <i class="fa fa-plus" aria-hidden="true"></i> Add feature
       </button>
-    </div>
+            </div>
+
   </div>
 
     <div class="row commentThread">
@@ -135,47 +136,50 @@
   {{/if}}
     {{/if}}
   </div>
-
-
-
-
 </div>
 </template>
 
 <template name="feature">
-    <div class="bigCommentBox">
-      <div class="commentBody">
-        <div class="commentText">{{featureName}}<small class="text-muted" style="white-space:nowrap;">  &#x2015;added by {{#hovercard template="userHover" direction="vertical" trigger="hover"}}
-          <a href="#">{{author}}</a>
-        {{/hovercard}}</small></div>
-      </div>
-      <div class="commentFooter"><div class="pull-left"><i class="fa fa-thumbs-down" aria-hidden="true"></i>  <i class="fa fa-thumbs-up fa-flip-horizontal" aria-hidden="true"></i></div><div class="pull-right"><i class="fa fa-flag flag" aria-hidden="true"></i><i class="fa fa-comments-o comments" aria-hidden="true" style="margin-left:10px;"><small>{{numComments}}</small></i></div></div>
-    </div>
-    <div class="newcomment-{{_id}}" style="display:none;">
-    <textarea id="replyText-{{_id}}" class="replyText" style="width:100%;height:30px;" maxlength="140" minlength="6" placeholder="reply"></textarea><br />
-    <div class="replyFooter-{{_id}}" style="display:none;">Wymi amount<i class="fa fa-question-circle wymihelp" aria-hidden="true"></i>:<input class="mwymi" style="width:40px; margin-right: 4px;"><button class="btn btn-primary submitNewComment">Submit</button><div class="float-right" id="replyCharNum{{_id}}" style="position:absolute;right:0; bottom:0px;margin-right:20px;"></div></div>
-  </div>
+<div class="card padBottom hoverCard">
+    <div class="card-body">
+        <span class="text-muted">{{featureName}}</span>
+            <small class="text-muted"> - Posted by {{author}}</small>
 
-  <div class="modal fade" id="flagModal-{{_id}}" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">You are flagging:</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p><b><i>"{{featureName}}"</i></b></p>
+        <br /><br />
+        <div class="pull-left"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <i class="fa fa-thumbs-up fa-flip-horizontal" aria-hidden="true"></i></div>
+        <small class="text-muted padLeft">{{relativeTime createdAt}}</small>
+        <div class="pull-right"><i class="fa fa-flag flag" aria-hidden="true"></i><i id="comment_{{_id}}" class="fa fa-comments-o comments" aria-hidden="true" style="margin-left:10px;"><small>{{numComments}}</small></i></div>
+    </div>
+</div>
+
+
+    <div class="input-group mb-3 newcomment-{{_id}}" style="display:none;">
+  <input id="replyText-{{_id}}" type="text" class="form-control replyText" placeholder="Type a message here" aria-label="Type a message here" aria-describedby="basic-addon2" maxlength="140" minlength="6" data-toggle="popover" data-placement="top" data-content="Comments should be friendly, useful to others, and factually correct. If you see bad behavior, don't encourage it by replying, simply flag it and move on.">
+  <div class="input-group-append">
+    <button class="btn btn-primary submitNewComment" type="button"><i class="fa fa-envelope" aria-hidden="true"></i></button>
+  </div>
+</div>
+
+  <div class="modal fade" id="flagModal-{{_id}}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">You are flagging</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+                 <p><b><i>"{{featureName}}"</i></b></p>
           Written by: {{author}}
-        </div>
-        <div class="modal-footer">
+      </div>
+      <div class="modal-footer">
           <button type="button" class="btn btn-danger flagButton">Report</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
       </div>
     </div>
   </div>
+</div>
 
   {{#if subsCacheReady}}
     {{#each comments}}
@@ -192,36 +196,35 @@
 
 
 <template name="comment">
-    <div class="bigCommentBox commentParent-{{parentId}}" style="width:90%;display:none;">
-      <div class="commentBody">
-        <div class="commentText">{{comment}} <small class="text-muted" style="white-space:nowrap;">&#x2015;
-        {{#hovercard template="userHover" direction="vertical" trigger="hover"}}
-          <a href="#">{{author}}</a>
-        {{/hovercard}}</small>
-      </div>
-      </div>
-<div class="commentFooter"><div class="pull-left"><i class="fa fa-thumbs-down" aria-hidden="true"></i>  <i class="fa fa-thumbs-up fa-flip-horizontal" aria-hidden="true"></i></div><div class="pull-right"><i class="fa fa-flag flag" aria-hidden="true"></i></div></div>
-    </div>
 
-
-    <div class="modal fade" id="flagModal-{{_id}}" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">You are flagging:</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <p><b><i>"{{comment}}"</i></b></p>
-            Written by: {{author}}
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger commentFlag">Report</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          </div>
+    <div class="card padBottom commentParent-{{parentId}} pull-right rounded" style="background-color:#F5F5F7;display:none;width:80%">
+        <div class="card-body">
+            <span class="text-muted"><a href="/profile/{{author}}">{{author}}</a> {{comment}}</span>
+            <br />
+            <div class="pull-left card-link"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <i class="fa fa-thumbs-up fa-flip-horizontal" aria-hidden="true"></i>
+                <small class="text-muted padLeft">{{relativeTime createdAt}}</small>
+            </div>
+            <div class="pull-right"><i class="fa fa-flag flag flagComment" aria-hidden="true"></i></div>
         </div>
-      </div>
+    </div>
+    <div class="modal fade" id="flagModal-{{_id}}" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">You are flagging:</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p><b><i>"{{comment}}"</i></b></p>
+                    Written by: {{author}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger commentFlag">Report</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 </template>

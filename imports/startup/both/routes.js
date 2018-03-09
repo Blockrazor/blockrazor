@@ -347,9 +347,9 @@ FlowRouter.route('/currency/:slug', {
     this.register('graphdata', SubsCache.subscribe('graphdata'))
   },
   action: function (params, queryParams) {
-    BlazeLayout.render('desktop', {
+    BlazeLayout.render('luxDesktop', {
       main: 'currencyDetail',
-      left: 'menu',
+      left: 'luxMenu',
       bottom: 'edit'
     });
   }

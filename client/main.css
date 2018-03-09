@@ -79,3 +79,7 @@ body .modal-dialog {
 .padBottom{
     margin-bottom:8px !important;
 }
+
+.rounded {
+  border-radius: 10px !important;
+}

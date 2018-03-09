@@ -7,6 +7,13 @@ import Cookies from 'js-cookie'
 
 import '../../../imports/ui/pages/userProfile/userHover' //import the userHover template for later usage (we have to import it everywhere we want to use it)
 
+//todo
+//need to create a global js file to store global helpers
+Template.registerHelper('relativeTime', function(date) {
+    var timePassed = moment(date).fromNow();
+    return timePassed;
+});
+
 Template.fundamentalMetrics.onCreated(function() {
   this.autorun(() => {
     SubsCache.subscribe('graphdata')
@@ -159,7 +166,7 @@ Template.feature.onCreated(function() {
   this.showingComments = new ReactiveDict()
 });
 Template.feature.onRendered(function(){
-
+  $('[data-toggle="popover"]').popover({ trigger: 'focus' })
 })
 Template.feature.helpers({
   numComments: function() {
@@ -255,8 +262,6 @@ Template.feature.events({
   },
   'focus .replyText': function() {
     $(".replyFooter-" + this._id).show();
-    $('#replyText-' + this._id).height(60);
-    $('#replyText-' + this._id).attr("placeholder", "Comments should be friendly, useful to others, and factually correct. If you see bad behavior, don't encourage it by replying, simply flag it and move on.");
   },
   'click .comments': function() {
     if(Cookies.get("submitted" + this._id) != "true") {
@@ -267,6 +272,7 @@ Template.feature.events({
     Template.instance().showingComments.set(this._id, "true")
   } else {
     $(".commentParent-" + this._id).hide();
+    $(".newcomment-" + this._id).hide();
     Template.instance().showingComments.set(this._id, "false")
   }
 
@@ -338,11 +344,11 @@ Template.features.events({
   'click .showFlagged': function() {
     if(Template.instance().showflagged.get() == false) {
       Template.instance().showflagged.set(true);
-      $('.showFlagged').text("Hide flagged");
+      $('.showFlagged').text("Hide");
       $('.flag').css("color", "#FF6600");
     } else {
       Template.instance().showflagged.set(false)
-      $('.showFlagged').text("Show flagged");
+      $('.showFlagged').text("Show");
     }
   },
   'click .help': function() {
@@ -403,7 +409,7 @@ Template.features.events({
   },
   'click #name': function () {
     if(Template.instance().lastId.get()){document.getElementById(Template.instance().lastId.get()).style.display = "none";}
-    document.getElementById(this._id).style.display = "block";
+
     Template.instance().lastId.set(this._id);
 
 
@@ -412,7 +418,8 @@ Template.features.events({
 
 Template.comment.events({
   'click .flag': function() {
-    $('#flagModal-' + this._id).modal('show');
+  $('#flagModal-' + this._id).modal('show');
+  
   },
   'click .commentFlag': function() {
     $('#flagModal-' + this._id).modal('hide');
