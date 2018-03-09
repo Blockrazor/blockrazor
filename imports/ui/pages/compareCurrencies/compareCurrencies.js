@@ -1,8 +1,6 @@
 import { Template } from 'meteor/templating';
-import { Features } from '../../../../lib/database/Features'
-import { Currencies } from '../../../../lib/database/Currencies'
-import { GraphData } from '../../../../lib/database/GraphData'
-import { Redflags } from '../../../../lib/database/Redflags'
+import { Features, Currencies, GraphData, Redflags } from '/imports/api/indexDB.js'
+
 import Cookies from 'js-cookie'
 
 import '../../layouts/MainBody.html'

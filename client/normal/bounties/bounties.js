@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import './rainbow.js';
-import { Bounties, BountyTypes, REWARDCOEFFICIENT } from '../../../lib/database/Bounties.js';
+import { Bounties, BountyTypes, REWARDCOEFFICIENT } from '/imports/api/indexDB.js';
 import { FlowRouter } from 'meteor/staringatlights:flow-router';;
 import Cookies from 'js-cookie';
 

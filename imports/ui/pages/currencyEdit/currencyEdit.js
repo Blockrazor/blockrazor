@@ -1,8 +1,6 @@
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/staringatlights:flow-router';;
-import { FormData } from '../../../../lib/database/FormData.js';
-import { Currencies } from '../../../../lib/database/Currencies.js'
-import { HashAlgorithm } from '../../../../lib/database/HashAlgorithm'
+import { FormData, Currencies, HashAlgorithm } from '/imports/api/indexDB.js';
 
 import '../../../api/coins/methods.js';
 import '../../layouts/MainBody.html'

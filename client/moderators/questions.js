@@ -1,4 +1,4 @@
-import { RatingsTemplates } from '../../lib/database/Ratings'
+import { RatingsTemplates } from '/imports/api/indexDB.js'
 
 
 Template.questions.events({

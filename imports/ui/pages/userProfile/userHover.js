@@ -1,8 +1,6 @@
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/staringatlights:flow-router'
-import { Currencies } from '../../../../lib/database/Currencies'
-import { UserData } from '../../../../lib/database/UserData' 
-import { Features } from '../../../../lib/database/Features'
+import { Currencies, UserData, Features } from '/imports/api/indexDB.js'
 
 import '../../layouts/MainBody.html'
 import './userHover.template.html'

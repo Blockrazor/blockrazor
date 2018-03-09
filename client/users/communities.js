@@ -1,7 +1,5 @@
 import { Template } from 'meteor/templating';
-import { Currencies } from '../../lib/database/Currencies.js';
-import { Ratings } from '../../lib/database/Ratings.js'
-import { Bounties } from '../../lib/database/Bounties'
+import { Currencies, Ratings, Bounties } from '/imports/api/indexDB.js';
 import Cookies from 'js-cookie'
 
 Template.communities.onCreated(function() {

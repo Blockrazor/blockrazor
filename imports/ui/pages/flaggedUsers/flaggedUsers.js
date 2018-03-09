@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating'
-import { UserData } from '../../../../lib/database/UserData'
+import { UserData } from '/imports/api/indexDB.js'
 import { FlowRouter } from 'meteor/staringatlights:flow-router';
 
 import '../../layouts/MainBody.html'

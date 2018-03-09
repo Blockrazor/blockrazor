@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { Currencies, ChangedCurrencies } from '../../../../lib/database/Currencies.js';
+import { Currencies, ChangedCurrencies } from '/imports/api/indexDB.js';
 
 import '../../../api/coins/methods.js';
 import '../../layouts/MainBody.html'

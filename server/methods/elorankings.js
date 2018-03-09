@@ -1,6 +1,4 @@
-import { EloRankings, Ratings, RatingsTemplates } from '../../lib/database/Ratings.js';
-import { Currencies } from '../../lib/database/Currencies.js';
-import { GraphData } from '../../lib/database/GraphData.js'
+import { EloRankings, Ratings, RatingsTemplates, Currencies, GraphData } from '/imports/api/indexDB.js';
 import { log } from '../main'
 
 SyncedCron.add({

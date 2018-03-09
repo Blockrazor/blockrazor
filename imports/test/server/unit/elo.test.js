@@ -1,7 +1,7 @@
 import { chai, assert } from 'meteor/practicalmeteor:chai'
 import { Meteor } from 'meteor/meteor'
 import { callWithPromise } from '../utils'
-import { GraphData } from '../../../../lib/database/GraphData' // import graphdata database
+import { GraphData } from '/imports/api/indexDB.js' // import graphdata database
 
 import '../../../../server/methods/elorankings' // import the required methods
 

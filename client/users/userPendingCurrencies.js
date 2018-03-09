@@ -1,6 +1,5 @@
 import { Template } from 'meteor/templating';
-import { PendingCurrencies, RejectedCurrencies } from '../../lib/database/Currencies.js';
-import { Bounties } from '../../lib/database/Bounties.js';
+import { PendingCurrencies, RejectedCurrencies, Bounties } from '/imports/api/indexDB.js';
 
 Template.userPendingCurrencies.onCreated(function bodyOnCreated() {
   var self = this

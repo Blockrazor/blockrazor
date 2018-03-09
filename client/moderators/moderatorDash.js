@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
-import { PendingCurrencies } from '../../lib/database/Currencies.js';
-import { WalletImages } from '../../lib/database/Images.js';
-import { Bounties } from '../../lib/database/Bounties.js';
+import { PendingCurrencies } from '/imports/api/indexDB.js';
+import { WalletImages } from '/imports/api/indexDB.js';
+import { Bounties } from '/imports/api/indexDB.js';
 
 Template.moderatorDash.onCreated(function bodyOnCreated() {
   var self = this;

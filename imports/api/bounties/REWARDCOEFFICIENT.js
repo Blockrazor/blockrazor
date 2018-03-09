@@ -1,0 +1,1 @@
+export const REWARDCOEFFICIENT = 60000000;

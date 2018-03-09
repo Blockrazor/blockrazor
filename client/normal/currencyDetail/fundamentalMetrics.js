@@ -1,8 +1,8 @@
 import { Template } from 'meteor/templating';
-import { Features } from '../../../lib/database/Features.js';
-import { WalletImages } from '../../../lib/database/Images.js';
-import { Currencies } from '../../../lib/database/Currencies.js';
-import { GraphData } from '../../../lib/database/GraphData.js';
+import { Features } from '/imports/api/indexDB.js';
+import { WalletImages } from '/imports/api/indexDB.js';
+import { Currencies } from '/imports/api/indexDB.js';
+import { GraphData } from '/imports/api/indexDB.js';
 import Cookies from 'js-cookie'
 
 import "/imports/ui/components/radarGraph.js"

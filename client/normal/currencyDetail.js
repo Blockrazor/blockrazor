@@ -1,7 +1,7 @@
 
 import { Template } from 'meteor/templating';
-import { Currencies } from '../../lib/database/Currencies.js'
-import { HashAlgorithm } from '../../lib/database/HashAlgorithm'
+import { Currencies } from '/imports/api/indexDB.js'
+import { HashAlgorithm } from '/imports/api/indexDB.js'
 
 Template.currencyDetail.onCreated(function bodyOnCreated() {
   var self = this

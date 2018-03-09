@@ -2,11 +2,9 @@ import {
   Template
 } from 'meteor/templating';
 import {
-  Currencies
-} from '/lib/database/Currencies.js';
-import {
-  GraphData
-} from '/lib/database/GraphData.js'
+  Currencies,
+  GraphData,
+} from '/imports/api/indexDB.js';
 import Chart from 'chart.js';
 
 import './radarGraph.html'
@@ -19,7 +17,6 @@ Template.radarGraph.onCreated(function () {
   })
   this.filter = !this.data._id? {slug: FlowRouter.getParam("slug")}: {_id: this.data._id}
   this.id = (!this.data._id? FlowRouter.getParam("slug"): this.data._id)+"-radar"
-  console.log(this.data)
 })
 
 Template.radarGraph.onRendered(function () {

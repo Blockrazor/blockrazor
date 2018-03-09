@@ -1,6 +1,4 @@
-import { ActivityLog } from '../../lib/database/ActivityLog.js';
-import { Wallet } from '../../lib/database/Wallet.js';
-
+import { ActivityLog, Wallet } from '/imports/api/indexDB.js';
 
 Template.topnav.events({
     'click #js-logout': (event, templateInstance) => {

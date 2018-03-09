@@ -1,7 +1,6 @@
 import { Mongo } from 'meteor/mongo';
-import { ActivityLog } from './ActivityLog.js'
-import { REWARDCOEFFICIENT, Bounties } from './Bounties'
-
+import { ActivityLog } from '/imports/api/indexDB.js'
+import { REWARDCOEFFICIENT, Bounties } from '/imports/api/indexDB.js'
 
 export const Currencies = new Mongo.Collection('currencies');
 export const PendingCurrencies = new Mongo.Collection('pendingcurrencies');
@@ -19,8 +18,8 @@ Currencies.friendlySlugs({
 })
 
 if (Meteor.isServer) {
-  import { rewardCurrencyCreator } from '../../server/serverdb/rewards.js';
-  import { UserData } from '../../lib/database/UserData.js';
+  import { rewardCurrencyCreator } from '../utilities.js';
+  import { UserData } from '/imports/api/indexDB.js';
   Meteor.methods({
     getLastCurrency: () => Currencies.find({}, {
       sort: {

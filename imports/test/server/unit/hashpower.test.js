@@ -1,11 +1,7 @@
 import { chai, assert } from 'meteor/practicalmeteor:chai'
 import { Meteor } from 'meteor/meteor'
 import { callWithPromise } from '../utils' // import helpful utils
-import { HashPower } from '../../../../lib/database/HashPower' // import HashPower database
-import { HashAverage } from '../../../../lib/database/HashAverage'
-import { HashAlgorithm } from '../../../../lib/database/HashAlgorithm'
-import { HashUnits } from '../../../../lib/database/HashUnits'
-import { HashHardware } from '../../../../lib/database/HashHardware'
+import { HashPower, HashAverage, HashAlgorithm, HashAverage, HashUnits, HashHardware } from '/imports/api/indexDB.js' // import HashPower database
 
 import '../../../api/hashpower/methods' // import the required methods
 

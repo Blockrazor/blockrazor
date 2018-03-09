@@ -1,6 +1,6 @@
 import { Chart } from 'chart.js'
 import { Template } from 'meteor/templating';
-import { GraphData } from '../../lib/database/GraphData.js';
+import { GraphData } from '/imports/api/indexDB.js';
 
 import "/imports/ui/components/radarGraph.js"
 

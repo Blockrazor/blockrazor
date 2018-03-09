@@ -1,6 +1,5 @@
 import { Template } from 'meteor/templating';
-import { HashAverage } from '../../../../lib/database/HashAverage'
-import { HashAlgorithm } from '../../../../lib/database/HashAlgorithm'
+import { HashAverage, HashAlgorithm } from '/imports/api/indexDB.js'
 
 import '../../layouts/MainBody.html'
 import './allHashaverage.template.html'

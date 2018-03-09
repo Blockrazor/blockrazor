@@ -1,8 +1,5 @@
 import { Template } from 'meteor/templating';
-import { FormData } from '../../lib/database/FormData.js'; //database
-import { Bounties } from '../../lib/database/Bounties';
-import { RatingsTemplates } from '../../lib/database/Ratings';
-import { HashAlgorithm } from '../../lib/database/HashAlgorithm';
+import { FormData, Bounties, RatingsTemplates, HashAlgorithm } from '/imports/api/indexDB.js'; //database
 
 import swal from 'sweetalert';
 import Cookies from 'js-cookie';

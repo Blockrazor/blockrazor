@@ -1,10 +1,7 @@
 import { Meteor } from 'meteor/meteor';
-import {generateBounties, createtypes, fetchHashrate} from '../lib/database/Bounties.js';
-import { AppLogs } from '../lib/database/AppLogs.js';
+import { generateBounties, createtypes, fetchHashrate, AppLogs, UserData} from '/imports/api/indexDB.js';
 import { Logger } from 'meteor/ostrio:logger'; 
-
 import { LoggerMongo } from 'meteor/ostrio:loggermongo'
-import { UserData } from '../lib/database/UserData'
 
 import '/imports/startup/server';
 
@@ -13,9 +10,9 @@ import '/imports/startup/server';
 
 // to prevent code duplication and redundancy, we simply export the logger so other files can use it easily
 export var log = new Logger();
-(new LoggerMongo(log, {
-  collection: AppLogs
-})).enable();
+// (new LoggerMongo(log, { //TODO: DISABLED FOR NO REASON - other than putting error away in #69
+//   collection: AppLogs
+// })).enable();
 
 
 Accounts.validateLoginAttempt(function(result){
