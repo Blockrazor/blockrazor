@@ -14,6 +14,11 @@ Template.redflag.onCreated(function() {
 });
 
 Template.redflag.helpers({
+    alreadyVoted: function(id){
+    if(_.include(Redflags.findOne(id).appealVoted, Meteor.userId())){
+      return true;
+    }
+  },
   numComments: function() {
     return _.size(Redflags.find({parentId: this._id}).fetch());
   },
@@ -153,7 +158,20 @@ Template.redflags.onCreated(function(){
     }
   })
 });
+
+Template.redflagComment.helpers({
+    alreadyVoted: function(id){
+    if(_.include(Redflags.findOne(id).appealVoted, Meteor.userId())){
+      return true;
+    }
+  }
+  })
 Template.redflags.helpers({
+    alreadyVoted: function(id){
+    if(_.include(Redflags.findOne(id).appealVoted, Meteor.userId())){
+      return true;
+    }
+  },
   redflagDescription: function () {
     return this.featureTag; //find metricTag data from collection
   },
@@ -239,6 +257,16 @@ Template.redflags.events({
 
   }
 });
+Template.redflagComment.helpers({
+
+    alreadyVotedOnComment: function(id) {
+      console.log('comment:', id)
+        if (_.include(Redflags.findOne({parentId: id}).appealVoted, Meteor.userId())) {
+
+            return true;
+        }
+    },
+})
 
 Template.redflagComment.events({
   'click .flag': function() {

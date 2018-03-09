@@ -168,7 +168,25 @@ Template.feature.onCreated(function() {
 Template.feature.onRendered(function(){
   $('[data-toggle="popover"]').popover({ trigger: 'focus' })
 })
+
+
+Template.comment.helpers({
+
+    alreadyVotedOnComment: function(id) {
+      console.log('comment:', id)
+        if (_.include(Features.findOne({parentId: id}).appealVoted, Meteor.userId())) {
+
+            return true;
+        }
+    },
+})
+
 Template.feature.helpers({
+  alreadyVoted: function(id){
+    if(_.include(Features.findOne(id).appealVoted, Meteor.userId())){
+      return true;
+    }
+  },
   numComments: function() {
     return _.size(Features.find({parentId: this._id}).fetch());
   },
