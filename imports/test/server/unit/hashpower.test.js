@@ -1,9 +1,9 @@
 import { chai, assert } from 'meteor/practicalmeteor:chai'
 import { Meteor } from 'meteor/meteor'
 import { callWithPromise } from '../utils' // import helpful utils
-import { HashPower, HashAverage, HashAlgorithm, HashAverage, HashUnits, HashHardware } from '/imports/api/indexDB.js' // import HashPower database
+import { HashPower, HashAverage, HashAlgorithm, HashUnits, HashHardware } from '/imports/api/indexDB.js' // import HashPower database
 
-import '../../../api/hashpower/methods' // import the required methods
+import '../../../api/hashing/methods' // import the required methods
 
 Meteor.userId = () => 'test-user' // override the meteor userId, so we can test methods that require a user
 
@@ -101,20 +101,12 @@ describe('Hash power data', function() { // describes the feature we're testing
 
         // after running the tests, it's generally a good idea to clean everything up
         // it may not be necessary in every case
-        HashAlgorithm.remove({}, {
-            multi: true
-        })
+        HashAlgorithm.remove({})
 
-        HashAverage.remove({}, {
-            multi: true
-        })
+        HashAverage.remove({})
 
-        HashHardware.remove({}, {
-            multi: true
-        })
+        HashHardware.remove({})
 
-        HashUnits.remove({}, {
-            multi: true
-        })
+        HashUnits.remove({})
     })
 })
