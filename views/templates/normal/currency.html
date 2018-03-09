@@ -51,7 +51,7 @@
       <div>{{currencySymbol}}</div>
     </div>
     <div class="graph">
-      <canvas id="{{_id}}-radar"></canvas>
+      {{> radarGraph _id=_id width=400 height=300 options=graphOptions}}
     </div>
     <div class="footer">
       <div>$180/10m</div>

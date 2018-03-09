@@ -33,6 +33,7 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
 //global subscriptions (on client side immidiately available)
 FlowRouter.subscriptions = function() {
   this.register('publicUserData', SubsCache.subscribe('publicUserData'));
+  this.register('graphdata', SubsCache.subscribe('graphdata'))
 };
 
 FlowRouter.route('/currencyEdit/:slug?/:field?', {
@@ -67,7 +68,6 @@ FlowRouter.route('/compareCurrencies', {
   name: 'compare-currencies',
   subscriptions: function (params) {
     this.register('approvedcurrencies', SubsCache.subscribe('approvedcurrencies'))
-    this.register('graphdata', SubsCache.subscribe('graphdata'))
     this.register('features', SubsCache.subscribe('features'))
     this.register('redflags', SubsCache.subscribe('redflags'))
   },
@@ -83,7 +83,7 @@ FlowRouter.route('/', {
   name: 'BLOCKRAZOR',
   subscriptions: function () {
     this.register('approvedcurrencies', SubsCache.subscribe('approvedcurrencies'));
-    // this.register('graphdata', SubsCache.subscribe('graphdata'))
+    this.register('graphdata', SubsCache.subscribe('graphdata'))
   },
   action() {
     BlazeLayout.render('desktop', {
@@ -346,7 +346,7 @@ FlowRouter.route('/currency/:slug', {
   subscriptions: function (param) {
     this.register('approvedcurrency', SubsCache.subscribe('approvedcurrency', param.slug));
     this.register('hashalgorithm', SubsCache.subscribe('hashalgorithm'));
-    this.register('graphdata', SubsCache.subscribe('graphdata'))
+    this.register('graphdata', SubsCache.subscribe('graphdata'));
   },
   action: function (params, queryParams) {
     BlazeLayout.render('desktop', {
