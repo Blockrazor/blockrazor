@@ -5,6 +5,8 @@ import { Currencies } from '../../../lib/database/Currencies.js';
 import { GraphData } from '../../../lib/database/GraphData.js';
 import Cookies from 'js-cookie'
 
+import "/imports/ui/components/radarGraph.js"
+
 import '../../../imports/ui/pages/userProfile/userHover' //import the userHover template for later usage (we have to import it everywhere we want to use it)
 
 //todo
@@ -22,96 +24,6 @@ Template.fundamentalMetrics.onCreated(function() {
 })
 
 Template.fundamentalMetrics.onRendered(function (){
-  this.lastId = new ReactiveVar('')
-  var radar = document.getElementById("radar").getContext('2d')
-  radar.canvas.width = 800;
-  radar.canvas.height = 600
-
-  let currency = Currencies.findOne({
-    slug: FlowRouter.getParam('slug')
-  }) || {}
-
-  let graphdata = GraphData.findOne({
-    _id: 'elodata'
-  }) || {}
-
-  let wallet = currency.walletRanking / graphdata.walletMaxElo * 10
-
-  let community = currency.communityRanking / graphdata.communityMaxElo * 10
-
-  let codebase = (currency.codebaseRanking || 400) / graphdata.codebaseMaxElo * 10
-
-  let maxD = graphdata.decentralizationMaxElo
-  let minD = graphdata.decentralizationMinElo
-
-  let decentralization = (((currency.decentralizationRanking || 400) - minD) / ((maxD - minD) || 1)) * 10 
-
-  let minDev = graphdata.developmentMinElo
-  let maxDev = graphdata.developmentMaxElo
-
-  let development = (((currency.gitCommits || 0) - minDev) / ((maxDev - minDev) || 1)) * 10 
-
-  let nums = [development,codebase,community,2,7,wallet,1,3,decentralization]
-    this.radarchart = new Chart(radar, {
-        type: 'radar',
-        data: {
-          labels: ["Ongoing Development", "Code Quality", "Community", "Hash Power", "Settlement Speed", "Ease of Use", "Coin Distribution", "Transactions", "Decentralization"],
-          datasets: [
-            {
-              label: "1950",
-              fill: true,
-              backgroundColor: "rgba(255,120,50,0.2)",
-              borderColor: "#FF6600",
-              pointBorderColor: "#fff",
-              pointStyle: "dot",
-              pointBackgroundColor: "#FF0000",
-              data: nums //[6,7,2,2,7,8,1,3]
-            },
-            {
-              label: "2",
-              fill: false,
-              backgroundColor: "#fff",
-              borderColor: "#ccc",
-              pointBorderColor: "#fff",
-              borderWidth: 4,
-              pointRadius: 0,
-              pointBackgroundColor: "#fff",
-              data: [10,10,10,10,10,10,10,10,10]
-            },
-            {
-              label: "3",
-              fill: false,
-              backgroundColor: "#fff",
-              borderColor: "#fff",
-              borderWidth: 1,
-              pointBorderColor: "#fff",
-              pointBackgroundColor: "#fff",
-              data: [0,0,0,0,0,0,0,0,0]
-            }
-          ]
-        },
-          options: {
-            responsive: false,
-            defaultFontColor: 'red',
-          tooltips: {enabled: false},
-          maintainAspectRatio: false,
-          title: {display: false},
-          legend: {
-            display: false,
-            position: 'bottom',
-            labels: {
-              fontColor: 'red',
-              display: true,
-            }
-          },
-          scale: {
-            pointLabels: {fontSize: 14},
-
-          // Hides the scale
-          display: true
-      }
-        }
-    });
 
 });
 
@@ -124,6 +36,29 @@ Template.fundamentalMetrics.events({
 });
 
 Template.fundamentalMetrics.helpers({
+  options: function (){
+    return {
+                responsive: false,
+                defaultFontColor: 'red',
+              tooltips: {enabled: false},
+              maintainAspectRatio: false,
+              title: {display: false},
+              legend: {
+                display: false,
+                position: 'bottom',
+                labels: {
+                  fontColor: 'red',
+                  display: true,
+                }
+              },
+              scale: {
+                pointLabels: {fontSize: 14},
+    
+              // Hides the scale
+              display: true
+          }
+            }
+  },
   metricDescription: function () {
     return this.metricTag; //find metricTag data from collection
   },
