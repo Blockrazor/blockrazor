@@ -23,6 +23,8 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   import '../../ui/pages/compareCurrencies/compareCurrencies'
   import '../../ui/pages/userProfile/userProfile'
 
+  //Stylesheet
+  import '/imports/ui/stylesheets/lux.min.css';
 } else {
   SubsCache = Meteor
 }

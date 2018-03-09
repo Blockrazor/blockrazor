@@ -7,9 +7,6 @@ import { WalletImages } from '../../../lib/database/Images.js';
 import Cookies from 'js-cookie'
 import swal from 'sweetalert';
 
-
-import '/imports/ui/stylesheets/lux.min.css';
-
 Template.ratings.onCreated(function bodyOnCreated() {
   var self = this
   self.autorun(function(){
