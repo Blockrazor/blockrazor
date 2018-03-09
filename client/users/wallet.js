@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
-import { Wallet } from '../../lib/database/Wallet.js';
-import { UserData } from '/lib/database/UserData.js';
+import { Wallet, UserData } from '/imports/api/indexDB.js';
+
 Template.wallet.onCreated(function bodyOnCreated() {
   var self = this
   self.autorun(function() {

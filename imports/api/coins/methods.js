@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
-import { PendingCurrencies } from '../../../lib/database/Currencies.js';
-import { Currencies, ChangedCurrencies } from '../../../lib/database/Currencies.js';
-import { UserData } from '../../../lib/database/UserData';
+import { PendingCurrencies } from '/imports/api/indexDB.js';
+import { Currencies, ChangedCurrencies } from '/imports/api/indexDB.js';
+import { UserData } from '/imports/api/indexDB.js';
 
 if (Meteor.isServer) {
 

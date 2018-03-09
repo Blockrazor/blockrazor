@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { ActivityLog } from '../../lib/database/ActivityLog.js'
+import { ActivityLog } from '/imports/api/indexDB.js'
 import { log } from '../main'
 
 Meteor.methods({

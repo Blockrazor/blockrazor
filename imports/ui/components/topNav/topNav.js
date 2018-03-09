@@ -1,5 +1,4 @@
-import { ActivityLog } from '../../../../lib/database/ActivityLog';
-import { Wallet } from '../../../../lib/database/Wallet';
+import { ActivityLog, Wallet } from '/imports/api/indexDB.js';
 
 import './topNav.html'
 import './topNav.scss'

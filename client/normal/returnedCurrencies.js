@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { Currencies } from '../../lib/database/Currencies.js';
+import { Currencies } from '/imports/api/indexDB.js';
 
 Template.returnedCurrencies.onCreated(function bodyOnCreated() {
   var self = this

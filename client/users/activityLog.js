@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { ActivityLog } from '../../lib/database/ActivityLog.js';
+import { ActivityLog } from '/imports/api/indexDB.js';
 
 Template.activityLog.onCreated(function bodyOnCreated() {
   var self = this

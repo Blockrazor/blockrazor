@@ -1,8 +1,5 @@
 import { Template } from 'meteor/templating';
-import { Currencies } from '../../../lib/database/Currencies.js';
-import { Ratings } from '../../../lib/database/Ratings.js';
-import { Bounties } from '../../../lib/database/Bounties';
-import { WalletImages } from '../../../lib/database/Images.js';
+import { Currencies, Ratings, Bounties, WalletImages } from '/imports/api/indexDB.js';
 
 import Cookies from 'js-cookie'
 import swal from 'sweetalert';

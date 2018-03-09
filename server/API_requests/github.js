@@ -1,4 +1,4 @@
-import { Currencies } from '../../lib/database/Currencies.js';
+import { Currencies } from '/imports/api/indexDB.js';
 import { MetaCurrency } from '../serverdb/metacurrency.js';
 import { HTTP } from 'meteor/http'
 import { log } from '../main'

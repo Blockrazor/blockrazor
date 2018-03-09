@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating'
-import { Developers } from '../../lib/database/Developers'
+import { Developers } from '/imports/api/indexDB.js'
 
 Template.developers.onCreated(function() {
     this.autorun(() => {

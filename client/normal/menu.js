@@ -1,5 +1,5 @@
-import { ActivityLog } from '../../lib/database/ActivityLog.js';
-import { Wallet } from '../../lib/database/Wallet.js';
+import { ActivityLog } from '/imports/api/indexDB.js';
+import { Wallet } from '/imports/api/indexDB.js';
 
 
 Template.menu.events({

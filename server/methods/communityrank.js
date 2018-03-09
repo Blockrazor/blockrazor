@@ -1,10 +1,6 @@
 import { Meteor } from 'meteor/meteor'
-import { Currencies } from '../../lib/database/Currencies.js'
-import { Communities } from '../../lib/database/Communities.js'
-import { Ratings } from '../../lib/database/Ratings.js'
-import { RatingsTemplates } from '../../lib/database/Ratings.js'
+import { Currencies, Communities, Ratings, RatingsTemplates, Bounties, REWARDCOEFFICIENT } from '/imports/api/indexDB.js'
 import { log } from '../main'
-import { Bounties, REWARDCOEFFICIENT } from '../../lib/database/Bounties'
 import { creditUserWith, removeUserCredit } from '../../server/serverdb/rewards'
 
 Meteor.methods({

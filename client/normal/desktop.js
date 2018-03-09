@@ -3,7 +3,7 @@ import {
 } from 'meteor/templating';
 import {
   UserData
-} from '/lib/database/UserData';
+} from '/imports/api/indexDB.js';
 
 Template.desktop.events({
   'click #navbar-toggler': function (event) {

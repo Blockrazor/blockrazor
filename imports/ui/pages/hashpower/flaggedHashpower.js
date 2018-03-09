@@ -1,8 +1,5 @@
 import { Template } from 'meteor/templating';
-import { HashHardware } from '../../../../lib/database/HashHardware'
-import { HashPower } from '../../../../lib/database/HashPower'
-import { HashAlgorithm } from '../../../../lib/database/HashAlgorithm'
-import { HashUnits } from '../../../../lib/database/HashUnits'
+import { HashHardware, HashPower, HashAlgorithm, HashUnits } from '/imports/api/indexDB.js'
 import { FlowRouter } from 'meteor/staringatlights:flow-router';
 
 import '../../layouts/MainBody.html'

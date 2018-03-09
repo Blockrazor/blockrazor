@@ -1,9 +1,5 @@
 import { Template } from 'meteor/templating';
-import { FormData } from '../../../../lib/database/FormData'
-import { HashHardware } from '../../../../lib/database/HashHardware'
-import { HashAlgorithm } from '../../../../lib/database/HashAlgorithm'
-import { HashUnits } from '../../../../lib/database/HashUnits'
-import { Bounties } from '../../../../lib/database/Bounties'
+import { FormData, HashHardware, HashAlgorithm, HashUnits, Bounties } from '/imports/api/indexDB.js'
 import { FlowRouter } from 'meteor/staringatlights:flow-router';
 import Cookies from 'js-cookie'
 

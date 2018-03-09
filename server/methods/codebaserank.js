@@ -1,13 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { check } from 'meteor/check'
-import { UserData } from '../../lib/database/UserData'
-import { Developers } from '../../lib/database/Developers'
-import { Codebase } from '../../lib/database/Codebase'
-import { Currencies } from '../../lib/database/Currencies.js'
-import { Ratings } from '../../lib/database/Ratings.js'
-import { RatingsTemplates } from '../../lib/database/Ratings.js'
 import { log } from '../main'
-import { Bounties, REWARDCOEFFICIENT } from '../../lib/database/Bounties'
+import { Bounties, REWARDCOEFFICIENT, UserData, Developers, Codebase, Currencies, Ratings, RatingsTemplates } from '/imports/api/indexDB.js'
 import { creditUserWith, removeUserCredit } from '../../server/serverdb/rewards'
 
 Meteor.methods({

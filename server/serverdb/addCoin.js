@@ -1,7 +1,5 @@
 
-import { PendingCurrencies } from '../../lib/database/Currencies.js';
-import { Currencies } from '../../lib/database/Currencies.js'
-import { HashAlgorithm } from '../../lib/database/HashAlgorithm'
+import { PendingCurrencies, Currencies, HashAlgorithm } from '/imports/api/indexDB.js';
 import { log } from '../main'
 
 if (Meteor.isServer) {
