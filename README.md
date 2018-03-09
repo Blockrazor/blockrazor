@@ -1,5 +1,5 @@
 # Blockrazor
-#### Absolutely _All_ information about _every_ blockchain project in a comparison tool that _anyone_ can understand.
+#### Absolutely _all_ information about _every_ blockchain project in a comparison tool that _anyone_ can understand.
 
 <img src="https://i.imgur.com/strfbRx.png" width="800px" height="auto">
 <img src="https://i.imgur.com/BgiN7VA.png" width="800px" height="auto">       
@@ -140,7 +140,7 @@ To run tests:
 meteor test --driver-package practicalmeteor:mocha
 ```
 
-You should generally write a test for anything you don't want to break later, otherwise it will probably end up being broken by someone. We use [Mocha + Chai](https://guide.meteor.com/testing.html#mocha) for testing. You can see an example in [this](https://github.com/Blockrazor/blockrazor/pull/376/files) pull request.
+You should generally write a test for anything you don't want to break later, otherwise it will probably end up being broken by someone. We use [Mocha + Chai](https://guide.meteor.com/testing.html#mocha) for testing. You can see an example in [this](https://github.com/Blockrazor/blockrazor/pull/378/files) pull request.
 </p>
 </details>    
 
@@ -166,7 +166,7 @@ Contact Blockrazor's BDFL (Benevolent Dictator For Life): gareth.hayes AT gmail.
   <summary>Rules for paid contributors</summary>
 <p>
 
-0. Write tests for your code so that people don't break it later. We use We use [Mocha + Chai](https://guide.meteor.com/testing.html#mocha) for testing. You can see an example in [this](https://github.com/Blockrazor/blockrazor/pull/376/files) pull request.
+0. Write tests for your code so that people don't break it later. We use We use [Mocha + Chai](https://guide.meteor.com/testing.html#mocha) for testing. You can see an example in [this](https://github.com/Blockrazor/blockrazor/pull/378/files) pull request.
 
 1. Engage in discussion about problems even if you aren't working on them yourself. Be helpful to other contributors, many are volunteers who just want to be part of the project. You (should) have a pretty good understanding of the codebase and can probably save others a lot of time.
 
