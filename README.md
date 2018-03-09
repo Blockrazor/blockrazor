@@ -1,11 +1,9 @@
 # Blockrazor
-#### Absolutely _All_ information about _every_ blockchain project in a comparison tool that _anyone_ can understand.
+#### Absolutely _all_ information about _every_ blockchain project in a comparison tool that _anyone_ can understand.
 
 <img src="https://i.imgur.com/strfbRx.png" width="800px" height="auto">
 <img src="https://i.imgur.com/BgiN7VA.png" width="800px" height="auto">       
 <img src="https://i.imgur.com/IOSme9w.png" width="800px" height="auto">
-
-At last, the meaning of life has been discovered. Star this project to find out what it is!
 
 
 <details>
@@ -136,6 +134,13 @@ If you want to work on another problem while you are waiting for it to merge sim
 @: git checkout master
 ```
 
+#### Tests
+To run tests:
+```
+meteor test --driver-package practicalmeteor:mocha
+```
+
+You should generally write a test for anything you don't want to break later, otherwise it will probably end up being broken by someone. We use [Mocha + Chai](https://guide.meteor.com/testing.html#mocha) for testing. You can see an example in [this](https://github.com/Blockrazor/blockrazor/pull/378/files) pull request.
 </p>
 </details>    
 
@@ -161,18 +166,20 @@ Contact Blockrazor's BDFL (Benevolent Dictator For Life): gareth.hayes AT gmail.
   <summary>Rules for paid contributors</summary>
 <p>
 
+0. Write tests for your code so that people don't break it later. We use We use [Mocha + Chai](https://guide.meteor.com/testing.html#mocha) for testing. You can see an example in [this](https://github.com/Blockrazor/blockrazor/pull/378/files) pull request.
+
 1. Engage in discussion about problems even if you aren't working on them yourself. Be helpful to other contributors, many are volunteers who just want to be part of the project. You (should) have a pretty good understanding of the codebase and can probably save others a lot of time.
 
 2. Your code should be _very_ well commented and easy to read. It should be immediately clear what your code is doing. You should be able to look at your code a year later, in the morning before coffee, and immediately know what it's doing. Write code and comments like you are teaching someone else how to do what you're doing.
 
 3. Your pull requests should be a glowing example to others of how to work with the C4. Each one should be a model that others can refer to.
 
-3. In an ideal world, you would be able to work on any issue you want and there would be no need to assign tasks so that our budget is kept under control. This would be possible because you would always work on the the problems that are _really_ worth solving _right now_ to get to some form of MVP. We can't predict the future, there are no plans or roadmaps (these are not compatible with the C4). Blockrazor grows through evolution not intelligent design or central planning. So if something isn't an in-your-face problem right now, it may never be, we could end up going down a totally different road before we get to it. While we want to avoid technical debt, we also don't want to be working on things that will someday maybe become a problem if Blockrazor becomes a thing. Demonstrate that we can trust _your_ own judgement on what you should be working on and what's worth spending time on.
+4. In an ideal world, you would be able to work on any issue you want and there would be no need to assign tasks so that our budget is kept under control. This would be possible because you would always work on the the problems that are _really_ worth solving _right now_ to get to some form of MVP. We can't predict the future, there are no plans or roadmaps (these are not compatible with the C4). Blockrazor grows through evolution not intelligent design or central planning. So if something isn't an in-your-face problem right now, it may never be, we could end up going down a totally different road before we get to it. While we want to avoid technical debt, we also don't want to be working on things that will someday maybe become a problem if Blockrazor becomes a thing. Demonstrate that we can trust _your_ own judgement on what you should be working on and what's worth spending time on.
 </p>
 </details>
 
 ## License
-The license and contribution policy are two halves of the same puzzle. This project is licensed under the [MPL v2.0 license](LICENSE). The code is owned (and Copyright) by _all_ contributors. Contributors are listed in the [AUTHORS](AUTHORS), please add your name to this file in your first pull request.
+The license and contribution policy are two halves of the same puzzle. This project is licensed under the [MPL v2.0 license](LICENSE). The code is owned (and Copyright) by _all_ contributors. Contributors are listed in the [AUTHORS](AUTHORS) file. Please add your name to the end of this file in your first pull request so that you also become an owner.
 
 This license ensures that:
 1. Contributors to Blockrazor cannot have their code stolen and used by closed-source projects without their permission. It's very common for corporate software merchants to steal code from open source projects and use it in their closed source or even patented products and services in direct competition with the original project. For example, anyone who contributes code to a project released under a BSD/MIT style license effectively has no rights to their own code or any improvements made upon it.
