@@ -1,7 +1,12 @@
+import { Template } from 'meteor/templating'
+import { Currencies } from '../../../api/indexDB.js'
+import { HashAlgorithm } from '../../../api/indexDB.js'
 
-import { Template } from 'meteor/templating';
-import { Currencies } from '/imports/api/indexDB.js'
-import { HashAlgorithm } from '/imports/api/indexDB.js'
+import './currencyDetail.html'
+import './features.html'
+import './redflags.html'
+import './fundamentalMetrics'
+import './redFlagCurrency'
 
 Template.currencyDetail.onCreated(function bodyOnCreated() {
   var self = this
@@ -142,7 +147,3 @@ Template.currencyInfo.helpers({
       return algo ? `${prefix}${algo.name}` : this.hashAlgorithm
     }
 });
-
-
-
-

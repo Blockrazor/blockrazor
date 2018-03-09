@@ -1,8 +1,8 @@
-import { Template } from 'meteor/templating';
-import { Redflags } from '/imports/api/indexDB.js';
-import { WalletImages } from '/imports/api/indexDB.js';
-import { Currencies } from '/imports/api/indexDB.js';
-import { GraphData } from '/imports/api/indexDB.js';
+import { Template } from 'meteor/templating'
+import { Redflags } from '../../../api/indexDB.js'
+import { WalletImages } from '../../../api/indexDB.js'
+import { Currencies } from '../../../api/indexDB.js'
+import { GraphData } from '../../../api/indexDB.js'
 import Cookies from 'js-cookie';
 
 Template.redflag.onCreated(function() {
