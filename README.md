@@ -134,6 +134,13 @@ If you want to work on another problem while you are waiting for it to merge sim
 @: git checkout master
 ```
 
+#### Tests
+To run tests:
+```
+meteor test --driver-package practicalmeteor:mocha
+```
+
+You should generally write a test for anything you don't want to break later, otherwise it will probably end up being broken by someone. We use [Mocha + Chai](https://guide.meteor.com/testing.html#mocha) for testing. You can see an example in [this](https://github.com/Blockrazor/blockrazor/pull/376/files) pull request.
 </p>
 </details>    
 
@@ -159,13 +166,15 @@ Contact Blockrazor's BDFL (Benevolent Dictator For Life): gareth.hayes AT gmail.
   <summary>Rules for paid contributors</summary>
 <p>
 
+0. Write tests for your code so that people don't break it later. We use We use [Mocha + Chai](https://guide.meteor.com/testing.html#mocha) for testing. You can see an example in [this](https://github.com/Blockrazor/blockrazor/pull/376/files) pull request.
+
 1. Engage in discussion about problems even if you aren't working on them yourself. Be helpful to other contributors, many are volunteers who just want to be part of the project. You (should) have a pretty good understanding of the codebase and can probably save others a lot of time.
 
 2. Your code should be _very_ well commented and easy to read. It should be immediately clear what your code is doing. You should be able to look at your code a year later, in the morning before coffee, and immediately know what it's doing. Write code and comments like you are teaching someone else how to do what you're doing.
 
 3. Your pull requests should be a glowing example to others of how to work with the C4. Each one should be a model that others can refer to.
 
-3. In an ideal world, you would be able to work on any issue you want and there would be no need to assign tasks so that our budget is kept under control. This would be possible because you would always work on the the problems that are _really_ worth solving _right now_ to get to some form of MVP. We can't predict the future, there are no plans or roadmaps (these are not compatible with the C4). Blockrazor grows through evolution not intelligent design or central planning. So if something isn't an in-your-face problem right now, it may never be, we could end up going down a totally different road before we get to it. While we want to avoid technical debt, we also don't want to be working on things that will someday maybe become a problem if Blockrazor becomes a thing. Demonstrate that we can trust _your_ own judgement on what you should be working on and what's worth spending time on.
+4. In an ideal world, you would be able to work on any issue you want and there would be no need to assign tasks so that our budget is kept under control. This would be possible because you would always work on the the problems that are _really_ worth solving _right now_ to get to some form of MVP. We can't predict the future, there are no plans or roadmaps (these are not compatible with the C4). Blockrazor grows through evolution not intelligent design or central planning. So if something isn't an in-your-face problem right now, it may never be, we could end up going down a totally different road before we get to it. While we want to avoid technical debt, we also don't want to be working on things that will someday maybe become a problem if Blockrazor becomes a thing. Demonstrate that we can trust _your_ own judgement on what you should be working on and what's worth spending time on.
 </p>
 </details>
 
