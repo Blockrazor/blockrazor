@@ -1,0 +1,33 @@
+#sidebar {
+  position: fixed;
+  top: 60px;
+  min-width: 250px;
+  max-width: 250px;
+  min-height: 100vh;
+  margin-left: -250px;
+  background: rgba(0,0,0,0.05);
+  transition: all 0.2s ease;
+  &.active {
+    margin-left: 0;
+    + .app-content{
+      margin-left: 250px;
+    }
+  }
+  .sidebar-header {
+    font-size: 20px;
+    text-align: center;
+    padding-top: 50px;
+    padding-bottom: 30px;
+  }
+  ul{
+    li a{
+      display: block;
+      padding: 15px;
+      color: #1a1a1a;
+      &:hover, &.active{
+        text-decoration: none;
+        background: #ddd;
+      }
+    }
+  }
+}

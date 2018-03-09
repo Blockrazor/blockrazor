@@ -1,0 +1,13 @@
+<template name="mainLayout">
+  <div class="app-body">
+    <div class="top-nav">
+      {{> topNavNew}}
+    </div>
+    <nav id="sidebar" class="{{openSidebar}}">
+      {{> sideNav}}
+    </nav>
+    <div class="app-content">
+      {{> Template.dynamic template=main}}
+    </div>
+  </div>
+</template>

@@ -1,0 +1,59 @@
+<template name="sideNav">
+  <div class="side-nav-container">
+    <div class="sidebar-header">
+      Welcome<br/>
+      {{#if currentUser}}
+        {{currentUser.username}}
+      {{else}}
+        Guest, <br/>
+        Please <a href="/login">Sign in</a>
+      {{/if}}
+    </div>
+    <ul class="list-unstyled components">
+      {{#if currentUser }}
+      <li>
+        <a href="/compareCurrencies">Compare currencies</a>
+      </li>
+        <li>
+          <a href="/addcoin">Add New Coin</a>
+        </li>
+        <li>
+          <a href="/mypending">Pending Coins & Changes</a>
+        </li>
+        {{#if isModerator}}
+          <li>
+            <a href="/moderator">Moderator Dashboard</a>
+          </li>
+          <li>
+            <a href="/changedCurrencies">Proposed Changes</a>
+          </li>
+        {{/if}}
+        <li>
+          <a href="/notifications">Notifications
+            {{#if activityNotifications}}<span class="badge badge-success">{{activityNotifications}}</span>{{/if}} 
+          </a>
+        </li>
+        <li>
+          <a href="/wallet">My Wallet
+            {{#if walletNotifications}}<span class="badge badge-success">{{walletNotifications}}</span>{{/if}} 
+          </a>
+        </li>
+        <li>
+          <a href="/bounties">Bounties</a>
+        </li>
+        <li>
+          <a href="/ratings">Ratings</a>
+        </li>
+        <li>
+          <a href="/communities">Communities</a>
+        </li>
+        <li>
+          <a href="/codebase">Codebase</a>
+        </li>
+        <li>
+          <a href="/hashpower">Hash Power</a>
+        </li>
+      {{/if}}
+    </ul>
+  </div>
+</template>

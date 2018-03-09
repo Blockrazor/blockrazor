@@ -23,6 +23,9 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   import '../../ui/pages/compareCurrencies/compareCurrencies'
   import '../../ui/pages/userProfile/userProfile'
 
+  // New Layout
+  import '../../ui/layouts/mainLayout/mainLayout'
+
   //Stylesheet
   import '/imports/ui/stylesheets/lux.min.css';
 } else {
@@ -86,7 +89,7 @@ FlowRouter.route('/', {
     this.register('graphdata', SubsCache.subscribe('graphdata'))
   },
   action() {
-    BlazeLayout.render('desktop', {
+    BlazeLayout.render('mainLayout', {
       main: 'returnedCurrencies',
       left: 'menu'
     });

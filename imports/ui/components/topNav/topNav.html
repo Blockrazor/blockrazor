@@ -1,0 +1,34 @@
+<template name="topNavNew">
+  <nav class="navbar navbar-toggleable-md navbar-light bg-faded" id="topnav">
+    <div>
+      <button class="navbar-toggler navbar-toggler-right" type="button" id="navbar-toggler">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="/">BLOCKRAZOR</a>
+    </div>  
+    <div class="right-nav-item">
+        {{#if currentUser}}
+        <div class="dropdown show">
+          <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{currentUser.username}}
+          </a>      
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="/profile/{{slug}}">My profile</a>
+            <a class="dropdown-item" href="/profile">Edit Profile</a>
+            <a class="dropdown-item" href="#" id="js-logout">Logout</a>
+          </div>
+      </div>
+      <div class="notifications"> 
+        <a href="/notifications" title="activity"><i class="fa fa-bell"></i>
+          {{#if activityNotifications}}<span class="badge badge-success">{{activityNotifications}}</span>{{/if}}
+        </a>
+        <a href="/wallet" title="wallet"><i class="fa fa-university"></i>
+          {{#if walletNotifications}}<span class="badge badge-success">{{walletNotifications}}</span>{{/if}}
+        </a>
+      </div>
+      {{else}}
+        <a href="/login">Sign in</a>
+      {{/if}}
+    </div>
+  </nav>
+</template>
