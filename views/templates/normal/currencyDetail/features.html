@@ -146,7 +146,14 @@
             <small class="text-muted"> - Posted by {{author}}</small>
 
         <br /><br />
-        <div class="pull-left"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <i class="fa fa-thumbs-up fa-flip-horizontal" aria-hidden="true"></i></div>
+        <div class="pull-left">
+              {{#unless alreadyVoted _id}}
+          <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+          <i class="fa fa-thumbs-up fa-flip-horizontal" aria-hidden="true"></i>
+            {{else}}
+          <i class="fa fa-check padRight" aria-hidden="true"></i><small>Voted</small>
+            {{/unless}}
+        </div>
         <small class="text-muted padLeft">{{relativeTime createdAt}}</small>
         <div class="pull-right"><i class="fa fa-flag flag" aria-hidden="true"></i><i id="comment_{{_id}}" class="fa fa-comments-o comments" aria-hidden="true" style="margin-left:10px;"><small>{{numComments}}</small></i></div>
     </div>
@@ -201,7 +208,14 @@
         <div class="card-body">
             <span class="text-muted"><a href="/profile/{{author}}">{{author}}</a> {{comment}}</span>
             <br />
-            <div class="pull-left card-link"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <i class="fa fa-thumbs-up fa-flip-horizontal" aria-hidden="true"></i>
+            <div class="pull-left card-link">
+          {{#unless alreadyVotedOnComment parentId}}
+          <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+          <i class="fa fa-thumbs-up fa-flip-horizontal" aria-hidden="true"></i>
+            {{else}}
+          <i class="fa fa-check padRight" aria-hidden="true"></i><small>Voted</small>
+            {{/unless}}
+
                 <small class="text-muted padLeft">{{relativeTime createdAt}}</small>
             </div>
             <div class="pull-right"><i class="fa fa-flag flag flagComment" aria-hidden="true"></i></div>

@@ -129,7 +129,16 @@
             <small class="text-muted"> - Posted by {{author}}</small>
             <br />
             <br />
-            <div class="pull-left"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <i class="fa fa-thumbs-up fa-flip-horizontal" aria-hidden="true"></i></div>
+            <div class="pull-left">
+              {{#unless alreadyVoted _id}}
+          <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+          <i class="fa fa-thumbs-up fa-flip-horizontal" aria-hidden="true"></i>
+            {{else}}
+          <i class="fa fa-check padRight" aria-hidden="true"></i><small>Voted</small>
+            {{/unless}}
+
+
+            </div>
             <div class="pull-right"><i class="fa fa-flag flag" aria-hidden="true"></i><i id="comment_{{_id}}" class="fa fa-comments-o comments" aria-hidden="true" style="margin-left:10px;"><small>{{numComments}}</small></i></div>
         </div>
     </div>
@@ -162,7 +171,7 @@
 
   {{#if subsCacheReady}}
   {{#each comments}}
-    {{> comment}}
+    {{> redflagComment}}
   {{else}}
     {{> empty}}
   {{/each}}
@@ -172,14 +181,21 @@
 
 </template>
 <template name="redflagComment">
-    <div class="bigCommentBox commentParent-{{parentId}}" style="width:90%;display:none;">
-        <div class="commentBody">
-            <div class="commentText">{{comment}} <small class="text-muted" style="white-space:nowrap;">&#x2015;{{author}}</small>
+    <div class="card padBottom commentParent-{{parentId}} pull-right rounded" style="background-color:#F5F5F7;display:none;width:80%">
+        <div class="card-body">
+            <span class="text-muted"><a href="/profile/{{author}}">{{author}}</a> {{comment}}</span>
+            <br />
+            <div class="pull-left card-link">
+          {{#unless alreadyVotedOnComment parentId}}
+          <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+          <i class="fa fa-thumbs-up fa-flip-horizontal" aria-hidden="true"></i>
+            {{else}}
+          <i class="fa fa-check padRight" aria-hidden="true"></i><small>Voted</small>
+            {{/unless}}
+            
+                <small class="text-muted padLeft">{{relativeTime createdAt}}</small>
             </div>
-        </div>
-        <div class="commentFooter">
-            <div class="pull-left"><i class="fa fa-thumbs-down" aria-hidden="true"></i> <i class="fa fa-thumbs-up fa-flip-horizontal" aria-hidden="true"></i></div>
-            <div class="pull-right"><i class="fa fa-flag flag" aria-hidden="true"></i></div>
+            <div class="pull-right"><i class="fa fa-flag flag flagComment" aria-hidden="true"></i></div>
         </div>
     </div>
     <div class="modal fade" id="flagModal-{{_id}}" tabindex="-1" role="dialog">
