@@ -7,8 +7,45 @@ import { Bounties } from '../../../../lib/database/Bounties'
 import { FlowRouter } from 'meteor/staringatlights:flow-router';
 import Cookies from 'js-cookie'
 
+import validate from 'jquery-validation'
+
 import '../../layouts/MainBody.html'
 import './addHashpower.template.html'
+
+Template.addHashpower.onRendered(function() {
+    $( "form" ).validate({ //init jquery form validation
+    	errorPlacement: function(error, element) {
+     if (element.attr("name") == "imageInput") {
+
+       // do whatever you need to place label where you want
+
+         // an example
+         error.insertAfter( $("#fileInfo") );
+
+         // just another example
+         $("#fileInfo").html( error );  
+
+     } else {
+
+         // the default error placement for the rest
+         error.insertAfter(element);
+
+     }
+   },
+  rules: {
+    'js-pc': {
+      required: true,
+      number: true
+    },
+    'js-image': {
+      required: true,
+    }
+
+
+  }
+}); 
+});
+
 
 Template.addHashpower.onCreated(function() {
 	this.autorun(() => {
@@ -82,6 +119,17 @@ Template.addHashpower.events({
 	},
 	'click #js-add': (event, templateInstance) => {
 		event.preventDefault()
+			//check if file is selected
+			if(!$('#imageInput').val()){
+				$('#uploadLabel').addClass('btn-danger');
+			}else{
+				$('#uploadLabel').removeClass('btn-danger');
+			}
+
+		if($("form").valid()){
+
+
+
 
 		const f = (device, algo, unit) => {
 			Meteor.call('addHashpower', $('#js-hw-cat').val(), device, algo, $('#js-hr').val() || 0, unit, $('#js-pc').val(), $('#js-image').val(), (err, data) => {
@@ -89,12 +137,13 @@ Template.addHashpower.events({
         			Cookies.set('workingBounty', false, { expires: 1 }) // you can now start working on another bounty
 					FlowRouter.go('/hashpower')
 				} else {
-					sAlert.error(err.reason)
+					console.error(err.reason)
 				}
 			})
 		} // to prevent redundant code, we simply create a function that will be called in both cases with a different parameter
 
 		f($('#js-hw-new').val() || $('#js-hw-dev').val(), $('#js-algo-new').val() || $('#js-algo').val(), $('#js-unit-new').val() || $('#js-unit').val())
+	}
 	},
 	'click #js-cancel': (event, templateInstance) => {
 		event.preventDefault()
@@ -111,6 +160,14 @@ Template.addHashpower.events({
   		let uploadError = false
   		let mimetype = mime.lookup(file)
   		let fileExtension = mime.extension(file.type)
+
+  		if(file){
+  			
+  		
+  		$('#uploadLabel').removeClass('btn-success');
+  		$('#uploadLabel').addClass('btn-primary');
+  		$("button").attr("disabled", "disabled"); //disable all buttons
+  		$(".uploadText").html("<i class='fa fa-circle-o-notch fa-spin'></i> Uploading"); //show upload progress
 
 	  	if (file.size > _hashPowerFileSizeLimit) {
 	      	sAlert.error('Image is too big.')
@@ -131,15 +188,20 @@ Template.addHashpower.events({
 
 		    	Meteor.call('uploadHashPowerImage', file.name, reader.result, md5, (error, result) => {
 		       		if (error) {
-		    			sAlert.error(error.message)
-		       		} else {
-		    			sAlert.success('Upload success')
-		    			
+		    			sAlert.error(error.message);
+		    			$('#uploadLabel').removeClass('btn-success');
+  						$('#uploadLabel').addClass('btn-primary');
+  						$(".uploadText").html("Upload");
+		       		} else {		    			
 		    			$('#js-image').val(`${md5}.${fileExtension}`)
+		    		$("button").attr("disabled", false); //enable all buttons
+		    		$('#uploadLabel').addClass('btn-success');
+  					$(".uploadText").html("Change"); //update button text now upload is complete
 		       		}
 		     	})
 		   }
 		   reader.readAsBinaryString(file)
 		}
+	}
 	}
 })

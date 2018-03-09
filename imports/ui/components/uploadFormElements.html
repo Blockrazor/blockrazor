@@ -1,0 +1,6 @@
+<template name="uploadBtn">
+    <label id="uploadLabel_{{_id}}" class="btn btn-primary" for="uploadInput">
+        <input id="uploadInput" type="file" style="display:none" onchange="$('#fileInfo').html(this.files[0].name)" class="file_{{_id}}"> <span class="uploadText">UPLOAD</span>
+    </label>
+    <span class='label label-info' id="fileInfo"></span>
+</template>

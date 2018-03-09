@@ -13,6 +13,7 @@
     "core-js": "^2.5.3",
     "disposable-email": "^0.2.3",
     "fibers": "^2.0.0",
+    "jquery-validation": "^1.17.0",
     "js-cookie": "^2.2.0",
     "later": "^1.2.0",
     "lodash.get": "^4.4.2",

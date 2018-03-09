@@ -83,3 +83,7 @@ body .modal-dialog {
 .rounded {
   border-radius: 10px !important;
 }
+
+.error {
+    color:red;
+}
