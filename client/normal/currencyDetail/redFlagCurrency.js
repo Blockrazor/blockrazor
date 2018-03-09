@@ -106,8 +106,7 @@ Template.redflag.events({
   },
   'focus .replyText': function() {
     $(".replyFooter-" + this._id).show();
-    $('#replyText-' + this._id).height(60);
-    $('#replyText-' + this._id).attr("placeholder", "Comments should be friendly, useful to others, and factually correct. If you see bad behavior, don't encourage it by replying, simply flag it and move on.");
+
   },
   'click .comments': function() {
     if(Cookies.get("submitted" + this._id) != "true") {
@@ -118,6 +117,7 @@ Template.redflag.events({
     Template.instance().showingComments.set(this._id, "true")
   } else {
     $(".commentParent-" + this._id).hide();
+    $(".newcomment-" + this._id).hide();
     Template.instance().showingComments.set(this._id, "false")
   }
 
