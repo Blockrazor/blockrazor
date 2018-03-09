@@ -3,7 +3,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  
+  padding-bottom: 50px;
 }
 .currency-card{
   position: relative;
@@ -27,6 +27,14 @@
   }
   canvas{
     margin: 0 auto;
+  }
+
+  // Responsive
+  @media screen and (max-width: 480px) {
+    canvas{
+      max-width: 320px;
+      max-height: 240px;
+    }
   }
 }
 
