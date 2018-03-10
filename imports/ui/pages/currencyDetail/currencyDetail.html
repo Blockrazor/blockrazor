@@ -1,4 +1,5 @@
 <template name="currencyDetail">
+    {{> sAlert}}
     {{#with thiscurrency}}{{> currencyInfo}}{{/with}}
     <div class="card border-secondary mb-3 mb-3" style="min-width:300px;overflow:hidden;">
         <div class="card-header" style="height:50px">
@@ -91,43 +92,43 @@
             <h4 class="pull-left">
                 <img style="width:50px; ;padding-right:20px" class="rounded-circle" src="{{doesCoinImageExist currencyLogoFilename}}">{{currencyName}} {{#with thiscurrency}}({{currencySymbol}}) {{/with}}
   </h4>
-            <a href="/currencyEdit/{{slug}}" class="pull-right">
-              
-              <i class="fa fa-edit" aria-hidden="true" style="font-size:2em"></i></a></div>
+            </div>
         <div class="card-body" style="display:{{bodydisplay}};">
+            <input type="hidden" id="_id" value="{{_id}}">
+            <input type="hidden" id="name" value="{{currencyName}}">
             <table class="table" style="float:left;width:45%">
                 <tbody>
                     <tr>
                         <th scope="row"><h6>currencyName</h6></th>
-                        <td>{{isNull currencyName 'currencyName'}}</td>
+                        <td><span id="currencyName">{{isNull currencyName 'currencyName'}}</span></td>
                     </tr>
                     <tr>
                         <th scope="row"><h6>currencySymbol</h6></th>
-                        <td>{{isNull currencySymbol 'currencySymbol'}}</td>
+                        <td><span id="currencySymbol">{{isNull currencySymbol 'currencySymbol'}}</span></td>
                     </tr>
                     <tr>
                         <th scope="row"><h6>genesisTimestamp</h6></th>
-                        <td id="_genesisTimestamp">{{isDateNull genesisTimestamp 'genesisTimestamp'}}</td>
+                        <td><span id="genesisTimestamp">{{isDateNull genesisTimestamp 'genesisTimestamp'}}</span></td>
                     </tr>
                     <tr>
                         <th scope="row"><h6>premine</h6></th>
-                        <td>{{isNull premine 'premine'}}</td>
+                        <td><span id="premine">{{isNull premine 'premine'}}</span></td>
                     </tr>
                     <tr>
                         <th scope="row"><h6>circulating</h6></th>
-                        <td>{{isNull circulating 'circulating'}}</td>
+                        <td><span id="circulating">{{isNull circulating 'circulating'}}</span></td>
                     </tr>
                     <tr>
                         <th scope="row"><h6>maxCoins</h6></th>
-                        <td>{{isNull maxCoins 'maxCoins'}}</td>
+                        <td><span id="maxCoins">{{isNull maxCoins 'maxCoins'}}</span></td>
                     </tr>
                     <tr>
                         <th scope="row"><h6>onsensusSecurity</h6></th>
-                        <td>{{isNull consensusSecurity 'consensusSecurity'}}</td>
+                        <td><span id="consensusSecurity">{{isNull consensusSecurity 'consensusSecurity'}}</span></td>
                     </tr>
                     <tr>
                         <th scope="row"><h6>hashAlgorithm</h6></th>
-                        <td>{{hashAlgorithm}}</td>
+                        <td><span id="hashAlgorithm">{{hashAlgorithm}}</span></td>
                     </tr>
                 </tbody>
             </table>
@@ -147,7 +148,7 @@
                     </tr>
                     <tr>
                         <th scope="row"><h6>marketCap</h6></th>
-                        <td>{{isNull marketCap 'marketCap'}}</td>
+                        <td><span id="marketCap">{{isNull marketCap 'marketCap'}}</span></td>
                     </tr>
                     <tr>
                         <th scope="row"><h6>gitRepo</h6></th>

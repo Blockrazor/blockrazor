@@ -13,7 +13,6 @@ SubsCache = Meteor
 SubsCache.ready = function() {return true}
 if (Meteor.isClient) { // only import them if this code is being executed on client side
   import '../../ui/layouts/MainBody.html'
-  import '../../ui/pages/currencyEdit/currencyEdit.js' //TODO: undone #69
   import '../../ui/pages/changedCurrencies/changedCurrencies.js'
   import '../../ui/pages/hashpower/addHashpower'
   import '../../ui/pages/allHashpower'
@@ -51,19 +50,6 @@ FlowRouter.subscriptions = function() {
   this.register('publicUserData', SubsCache.subscribe('publicUserData'));
   this.register('graphdata', SubsCache.subscribe('graphdata'))
 };
-
-FlowRouter.route('/currencyEdit/:slug?/:field?', {
-  subscriptions: function (params) {
-    this.register('approvedcurrency', SubsCache.subscribe('approvedcurrency', params.slug));
-    this.register('hashalgorithm', SubsCache.subscribe('hashalgorithm'));
-  },
-  action: function (params, queryParams) {
-    BlazeLayout.render('desktop', {
-      main: 'currencyEdit',
-      left: 'menu'
-    });
-  }
-})
 
 FlowRouter.route('/profile/:slug', {
   subscriptions: function (params) {
@@ -375,7 +361,8 @@ FlowRouter.route('/currency/:slug', {
   subscriptions: function (param) {
     this.register('approvedcurrency', SubsCache.subscribe('approvedcurrency', param.slug));
     this.register('hashalgorithm', SubsCache.subscribe('hashalgorithm'));
-    this.register('graphdata', SubsCache.subscribe('graphdata'));
+    this.register('graphdata', SubsCache.subscribe('graphdata'))
+    this.register('formdata', SubsCache.subscribe('formdata'))
   },
   action: function (params, queryParams) {
     BlazeLayout.render('mainLayout', {
@@ -399,7 +386,8 @@ FlowRouter.route('/mypending', {
 
 FlowRouter.route('/changedcurrencies', {
   subscriptions: function () {
-    this.register('changedCurrencies', SubsCache.subscribe('changedCurrencies'));
+    this.register('changedCurrencies', SubsCache.subscribe('changedCurrencies'))
+    this.register('hashalgorithm', SubsCache.subscribe('hashalgorithm'))
   },
   action: function (params, queryParams) {
     BlazeLayout.render('luxDesktop', {
