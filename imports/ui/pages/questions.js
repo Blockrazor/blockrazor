@@ -1,5 +1,6 @@
 import { RatingsTemplates } from '/imports/api/indexDB.js'
 
+import './questions.html'
 
 Template.questions.events({
   'submit form': (event, templateInstance) => {

@@ -16,7 +16,7 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   import '../../ui/pages/currencyEdit/currencyEdit.js' //TODO: undone #69
   import '../../ui/pages/changedCurrencies/changedCurrencies.js'
   import '../../ui/pages/hashpower/addHashpower'
-  import '../../ui/pages/hashpower/allHashpower'
+  import '../../ui/pages/allHashpower'
   import '../../ui/pages/hashpower/allHashaverage'
   import '../../ui/pages/flaggedUsers/flaggedUsers'
   import '../../ui/pages/hashpower/flaggedHashpower'
@@ -26,6 +26,14 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   import '../../ui/pages/returnedCurrencies.js'
   import '../../ui/pages/moderatorDash.js'
   import '../../ui/pages/ratings.js'
+  import '../../ui/pages/theme.html'
+  import '../../ui/pages/communities'
+  import '../../ui/pages/codebase'
+  import '../../ui/pages/developers'
+  import '../../ui/pages/editProfile'
+  import '../../ui/pages/questions'
+  import '../../ui/pages/bounties'
+  import '../../ui/pages/addCoin'
 
   // New Layout
   import '../../ui/layouts/mainLayout/mainLayout'
@@ -114,7 +122,7 @@ FlowRouter.route('/', {
   }
 })
 
-FlowRouter.route('/ratings', { //TODO: stoped
+FlowRouter.route('/ratings', { 
   name: 'ratings',
   subscriptions: function () {
     this.register('approvedcurrencies', SubsCache.subscribe('approvedcurrencies'));
@@ -130,7 +138,7 @@ FlowRouter.route('/ratings', { //TODO: stoped
   }
 })
 
-FlowRouter.route('/theme', {
+FlowRouter.route('/theme', { 
   name: 'theme',
   action() {
     BlazeLayout.render('luxDesktop', {
@@ -282,7 +290,7 @@ FlowRouter.route('/profile', {
   },
   action: () => {
     BlazeLayout.render('desktop', {
-      main: 'viewprofile',
+      main: 'editProfile',
       left: 'menu'
     })
   }
@@ -332,7 +340,7 @@ FlowRouter.route('/bounties/:_id', {
   }
 });
 
-FlowRouter.route('/addcoin', {
+FlowRouter.route('/addcoin', { //TODO: stopped here
   name: 'addcoin',
   subscriptions: function () {
     this.register('currencyBounty', SubsCache.subscribe('currencyBounty'));

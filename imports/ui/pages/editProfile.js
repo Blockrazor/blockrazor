@@ -1,13 +1,15 @@
 import { Template } from 'meteor/templating';
 
-Template.viewprofile.onCreated(function() {
+import './editProfile.html'
+
+Template.editProfile.onCreated(function() {
     this.autorun(() => {
         //UserData is global
         SubsCache.subscribe('_extendUser')
     })
 });
 
-Template.viewprofile.events({
+Template.editProfile.events({
     'submit #editProfile': (e) => {
         e.preventDefault();
 
@@ -76,7 +78,7 @@ Template.viewprofile.events({
     }
 });
 
-Template.viewprofile.helpers({
+Template.editProfile.helpers({
     user: () => {
         return Meteor.user();
     }

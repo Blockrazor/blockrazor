@@ -1,0 +1,84 @@
+<template name="codebase">
+    {{#if activeBounty}}
+    <div class="alert alert-danger" role="alert">
+    <h5 class="text-center">{{timeRemaining}}</h5><button class="btn btn-danger" id="js-cancel">Cancel</button></div>
+    {{/if}}
+    <div id="outstandingRatings" class="text-center">You still have to answer {{outstandingRatings}} questions.
+    {{#with questions}}
+        <h3 style="margin-top:50px;">{{questionText}}?</h3>
+        <div class="row" style="margin-top:50px;">
+            <div class="col-4 text-center choice" id={{currency0Id}}><h3>{{currency0Name}}<br />
+                <img src="https://raw.githubusercontent.com/reactjs/redux/master/logo/logo.png" width="100px" /></h3>
+            </div>
+            <div class="col-4 text-center choice" id="tie"><br />Both are about the same<br /></div>
+            <div class="col-4 text-center choice" id={{currency1Id}}><h3>{{currency1Name}}<br />
+                <img src="https://raw.githubusercontent.com/reactjs/redux/master/logo/logo.png" width="100px" /></h3>
+            </div>
+        </div>
+    {{/with}}
+    </div>
+
+
+    <div id="currencyChoices" style="display:none;">
+    {{#if isDeveloper}}
+        <h5>Since you're a developer, you can approve other developer applications <a href="/developers">here</a>.</h5>
+        <br />
+        <b>You have already rated codebases for the following cryptocurrencies:</b>
+        <div class="row" style="margin-top: 15px;">
+            {{#if subsCacheReady}}
+                {{#each alreadyAdded}}
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <a href="/currency/{{slug}}">{{currencyName}}</a>
+                    </div>
+                {{else}}
+                    {{> empty}}
+                {{/each}}
+            {{else}}
+                {{> loading}}
+            {{/if}}
+        </div>
+        <br />
+        <b>Please select any currencies with whose codebase you're familiar and you haven't added previously.</b> <br />
+        If you don't see your currency, you might want to <a href="/addcoin">add it here</a>. <br />
+        <br />
+        <b>Filter available cryptocurrencies:</b>
+        <form id="js-form">
+            Name: <input type="text" id="js-name" style="width: 50%" placeholder="Enter the name of the cryptocurrency" /><br />
+            Symbol: <input type="text" id="js-symbol" style="width: 50%" placeholder="Enter the symbol of the cryptocurrency" />
+        </form>
+        <div class="row" style="margin-top: 15px;">
+            {{#if subsCacheReady}}
+                {{#each currencies}}
+                    <div class="col-sm-4 col-md-4 col-lg-4">
+                        <a href="#" class="toggle">{{currencyName}}</a>
+                        <div class="row" style="display:none;" id="links_{{_id}}">
+                            <p>Please add a URL to a {{currencyName}} codebase you want to rate:<br /> 
+                            <input type='text' id='js-cod-url_{{_id}}' placeholder="URL here"><button class="js-save">Save</button></p>
+                        </div>
+                    </div>
+                {{else}}
+                    {{> empty}}
+                {{/each}}
+            {{else}}
+                {{> loading}}
+            {{/if}}
+        </div>
+        <button id="populateRatings">Next</button>
+    {{else}}
+    You have to be a developer in order to rate currency codebases. You can apply for a developer status by leaving your public github/gitlab/bitbucket/... profile here:<br />
+    <div id="js-proof">
+        {{#each proofs}}
+        <div class="proof"><input type="text" name="service" class="js-service" placeholder="Service name"> <input type="text" name="service" class="js-profile" placeholder="Public profile"></div>
+        {{/each}}
+    </div>
+    <button id="js-add">+</button>
+    <br />
+    <br />
+    <button id="js-apply">Apply</button>
+    {{/if}}
+    </div>
+    <hr />
+    <h5>ADMIN SHORTCUTS</h5>
+    <button id="elo" class="btn btn-danger">ELO</button>
+    <button id="codebase" class="btn btn-danger">CODEBASE</button>
+</template>

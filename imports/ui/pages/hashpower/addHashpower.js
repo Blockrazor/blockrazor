@@ -5,8 +5,7 @@ import Cookies from 'js-cookie'
 
 import validate from 'jquery-validation'
 
-import '../../layouts/MainBody.html'
-import './addHashpower.template.html'
+import './addHashpower.html'
 
 Template.addHashpower.onRendered(function() {
     $( "form" ).validate({ //init jquery form validation
