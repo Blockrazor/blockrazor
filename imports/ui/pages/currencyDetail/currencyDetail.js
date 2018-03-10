@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating'
 import { Currencies } from '../../../api/indexDB.js'
-import { HashAlgorithm } from '../../../api/indexDB.js'
+import { HashAlgorithm, FormData } from '../../../api/indexDB.js'
 
 import './currencyDetail.html'
 import './features.html'
@@ -14,6 +14,7 @@ Template.currencyDetail.onCreated(function bodyOnCreated() {
     // Gets the _id of the current currency and only subscribes to that particular currency
     SubsCache.subscribe('approvedcurrency', FlowRouter.getParam('slug'))
     SubsCache.subscribe('hashalgorithm')
+    SubsCache.subscribe('formdata')
   })
 });
 
@@ -67,7 +68,96 @@ Template.currencyDetail.helpers({
 });
 
 Template.currencyInfo.onRendered(function() {
-    $('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle="tooltip"]').tooltip()
+
+    $.fn.editable.defaults.mode = 'inline' // display them inline
+    $.fn.editableform.buttons = `<button type="submit" class="btn btn-primary btn-sm editable-submit"><i class="fa fa-check"></i></button><button type="button" class="btn btn-default btn-sm editable-cancel"><i class="fa fa-close"></i></button>` // custom buttons with fa icons
+
+    // editable fields
+    let editables = ['currencyName', 'currencySymbol', 'premine', 'circulating', 'maxCoins', 'marketCap']
+
+    const validate = function(val) { // the actual proposing part
+      if ($(this).attr('id') === 'genesisTimestamp') {
+        val = new Date(val).getTime()
+      }
+
+      if ($(this).text() !== val) {
+        Meteor.call('editCoin', [{
+          coin_id: $('#_id').val(),
+          coinName: $('#name').val(),
+          field: $(this).attr('id'),
+          old: $(this).text(),
+          new: val,
+          changedDate: new Date().getTime(),
+          score: 0,
+          status: 'pending review'
+        }], (error, result) => {
+            if (error) {
+              console.log(error.reason)
+              sAlert.error(error.reason)
+            } else {
+              console.log('yay')
+              sAlert.success('Change proposed.')
+            }
+        })
+
+        return ''
+      }
+
+      return 'Please change the value if you want to propose a change.'
+    }
+
+    editables.forEach(i => $(`#${i}`).editable({
+      validate: validate
+    }))
+
+    $('#genesisTimestamp').editable({
+      validate: validate,
+      type: 'text',
+      value: '01/01/2009'
+      /*type: 'combodate', // combodate is refusing to cooperate
+      format: 'DD/MM/YYYY',  
+      value: '01/01/2009',
+      template: 'DD / MM / YYYY',    
+      combodate: {
+        minYear: 2009,
+        maxYear: new Date().getUTCFullYear(),
+        smartDays: true
+      }*/
+    })
+
+    $('#consensusSecurity').editable({
+      validate: validate,
+      type: 'select',
+      source: FormData.find({}, {}).fetch().map(i => ({
+        text: i.name,
+        value: i.name
+      }))
+    })
+
+    $('#hashAlgorithm').editable({
+      validate: validate,
+      type: ($('#consensusSecurity').text() === 'Proof of Work' || $('#consensusSecurity').text() === 'Hybrid') ? 'select' : 'text', // only show select for these two
+      source: () => {
+        if ($('#consensusSecurity').text() === 'Proof of Work') {
+          return HashAlgorithm.find({}).fetch().map(i => ({
+            text: i.name,
+            value: i._id
+          }))
+        } else if ($('#consensusSecurity').text() === 'Hybrid') {
+          return HashAlgorithm.find({}).fetch().map(i => {
+            i.name = `Staking and ${i.name}`
+
+            return {
+              text: i.name,
+              value: i._id
+            }
+          })
+        }
+
+        return []
+      }
+    })
 });
 
 Template.currencyInfo.events({
@@ -76,7 +166,6 @@ Template.currencyInfo.events({
         let slug = FlowRouter.getParam("slug");
         FlowRouter.go('/currencyEdit/' + slug + '/' + event.currentTarget.id);
     }
-
 });
 
 Template.currencyInfo.helpers({
@@ -94,7 +183,7 @@ Template.currencyInfo.helpers({
                 return moment(val).format(_globalDateFormat);
         } else {
             if (field) {
-                return Spacebars.SafeString('<span id=' + field + ' class="label label-danger contribute pointer"><i class="fa fa-plus"></i> Contribute</span>');
+                return 'N\\A'
             }
         }
 

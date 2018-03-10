@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { Currencies, ChangedCurrencies } from '/imports/api/indexDB.js';
+import { Currencies, ChangedCurrencies, HashAlgorithm } from '/imports/api/indexDB.js';
 
 // import '../../../api/coins/methods.js'; //is broken adress
 import '../../layouts/MainBody.html'
@@ -8,7 +8,8 @@ import './changedCurrencies.html';
 Template.changedCurrencies.onCreated(function bodyOnCreated() {
     var self = this
     self.autorun(function() {
-        SubsCache.subscribe('changedCurrencies');
+        SubsCache.subscribe('changedCurrencies')
+        SubsCache.subscribe('hashalgorithm')
     })
 });
 //Events
@@ -54,6 +55,16 @@ Template.changedCurrencies.helpers({
                 if (_.contains(['png', 'gif', 'jpg', 'jpeg'], val.split('.').pop())){
                     return '<img class="_50x50" src="'+_coinUpoadDirectoryPublic+val+'">';
                 }else{
+                    if (this.field === 'hashAlgorithm') { // show algorithm name
+                        if (val === this.new || val === this.old) {
+                            let algo = HashAlgorithm.findOne({
+                                _id: val
+                            })
+
+                            return algo ? `${algo.name}` : val
+                        }
+                    }
+
                     return val;
                 }
                      
@@ -93,5 +104,8 @@ Template.changedCurrencies.helpers({
                 return false;
             }
         }
+    },
+    hashAlgorithm: function() {
+      
     }
 });
