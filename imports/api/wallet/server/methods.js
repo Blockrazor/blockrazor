@@ -1,7 +1,6 @@
-import { Mongo } from 'meteor/mongo';
-export var Wallet = new Mongo.Collection('wallet');
+import { Meteor } from 'meteor/meteor'
+import { Wallet } from '/imports/api/indexDB.js'
 
-if (Meteor.isServer) {
 Meteor.methods({
   initializeWallet: function() {
     if (_.size(Wallet.findOne({owner: this.userId})) == 0) {
@@ -72,12 +71,3 @@ Meteor.methods({
     }).fetch()
   }
 });
-
-Meteor.publish('wallet', function wallet() {
-  if(Wallet.findOne({owner: this.userId})) {
-    return Wallet.find({owner: this.userId});
-  } else {
-    return null;
-  }
-})
-};

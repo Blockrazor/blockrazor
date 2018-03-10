@@ -7,43 +7,38 @@ import { HashUnits } from './hashing/hashUnits.js'
 
 import { FormData } from "./miscellaneous/formData.js"
 import { GraphData } from "./miscellaneous/graphData.js"
+import { AppLogs } from './miscellaneous/appLogs'
 
 import { UserData } from './users/userData.js'
+import { ProfileImages } from './users/profileImages'
 
 import { Bounties } from './bounties/bounties.js'
 import { BountyTypes } from './bounties/bountyTypes.js'
 import { REWARDCOEFFICIENT } from './bounties/REWARDCOEFFICIENT.js'
 
-///////////////////////////////////////////////////////////
+import { WalletImages } from './wallet/walletImages.js'
+import { Wallet } from './wallet/wallet.js'
 
-import { Currencies } from '/imports/api/coins/Currencies.js'
-import { PendingCurrencies } from '/imports/api/coins/Currencies.js'
-import { RejectedCurrencies } from '/imports/api/coins/Currencies.js'
-import { ChangedCurrencies } from '/imports/api/coins/Currencies.js'
+import { Developers } from './developers/developers.js'
+import { Codebase } from './developers/codebase.js'
 
+import { Ratings } from './ratings/ratings'
+import { RatingsTemplates } from './ratings/ratingsTemplates'
+import { EloRankings } from './ratings/eloRankings'
 
-import { Ratings } from '/lib/database/Ratings'
-import { RatingsTemplates } from '/lib/database/Ratings'
-import { EloRankings } from '/lib/database/Ratings'
+import { Features } from './features/features.js'
 
-import { WalletImages } from '/lib/database/Images'
-import { Wallet } from '/lib/database/Wallet'
+import { Communities } from './communities/communities.js'
 
-import { Codebase } from '/lib/database/Codebase'
+import { Currencies } from '/imports/api/coins/currencies.js'
+import { PendingCurrencies } from '/imports/api/coins/pendingCurrencies.js'
+import { RejectedCurrencies } from '/imports/api/coins/rejectedCurrencies.js'
+import { ChangedCurrencies } from '/imports/api/coins/changedCurrencies.js'
 
-import { Communities } from '/lib/database/Communities'
+import { Redflags } from '/imports/api/redflags/redflags.js'
 
-import { Developers } from '/lib/database/Developers'
+import { ActivityLog } from '/imports/api/activityLog/activityLog.js'
 
-import { Features } from '/lib/database/Features'
-
-import { ProfileImages } from '/lib/database/ProfileImages'
-
-import { RedFlags } from '/lib/database/Redflags'
-
-import { ActivityLog } from '/lib/database/ActivityLog'
-
-import { AppLogs } from '/lib/database/AppLogs'
 
 export {
   Bounties,
