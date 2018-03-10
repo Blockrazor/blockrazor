@@ -1,5 +1,7 @@
 import { Meteor } from 'meteor/meteor'
-import { UserData } from '/imports/api/indexDB.js'
+import { UserData, ProfileImages } from '/imports/api/indexDB.js'
+
+  Meteor.publish('profileimages', () => ProfileImages.find({}))
 
   Meteor.publish('userData', () => {
     let u = UserData.findOne({
