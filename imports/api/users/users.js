@@ -1,5 +1,3 @@
-import { Meteor } from 'meteor/meteor'
-
 Meteor.users.friendlySlugs({
   slugFrom: 'username',
   slugField: 'slug',
