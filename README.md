@@ -1,5 +1,7 @@
 # Blockrazor
-#### Absolutely _all_ information about _every_ blockchain project in a comparison tool that _anyone_ can understand.
+#### Absolutely _all_ information about _every_ blockchain project in a comparison tool that _anyone_ can understand.   
+
+[![Build Status](https://travis-ci.org/Blockrazor/blockrazor.svg?branch=master)](https://travis-ci.org/Blockrazor/blockrazor)   
 
 <img src="https://i.imgur.com/strfbRx.png" width="800px" height="auto">
 <img src="https://i.imgur.com/BgiN7VA.png" width="800px" height="auto">       
