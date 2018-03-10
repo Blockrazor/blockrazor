@@ -1,0 +1,7 @@
+Make sure scripts are executable:
+`chmod 777 *`
+
+Start a new screen session
+`screen`
+
+More instructions to follow once I test these blind-written scripts on the actual production server
