@@ -22,6 +22,7 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   import '../../ui/pages/hashpower/flaggedHashpower'
   import '../../ui/pages/compareCurrencies/compareCurrencies'
   import '../../ui/pages/userProfile/userProfile'
+  import '../../ui/pages/transactions/transactions'
 
   // New Layout
   import '../../ui/layouts/mainLayout/mainLayout'
@@ -78,6 +79,19 @@ FlowRouter.route('/compareCurrencies', {
   action: (params, queryParams) => {
     BlazeLayout.render('desktop', {
       main: 'compareCurrencies',
+      left: 'menu'
+    })
+  }
+})
+
+FlowRouter.route('/transactions/:page?', {
+  name: 'transactions',
+  subscriptions: function (params) {
+    this.register('users', SubsCache.subscribe('users'))
+  },
+  action: (params, queryParams) => {
+    BlazeLayout.render('desktop', {
+      main: 'transactions',
       left: 'menu'
     })
   }

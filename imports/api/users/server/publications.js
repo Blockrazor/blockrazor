@@ -103,3 +103,16 @@ import { UserData } from '/imports/api/indexDB.js'
 			} // only show the absolutely required fields
 		})
 	})
+
+  Meteor.publish('users', (slug) => {
+    return Meteor.users.find({}, {
+      fields: {
+        username: 1,
+        createdAt: 1,
+        email: 1,
+        bio: 1,
+        slug: 1,
+        profilePicture: 1
+      } // only show the absolutely required fields
+    })
+  })
