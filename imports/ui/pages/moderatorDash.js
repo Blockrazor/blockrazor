@@ -2,6 +2,11 @@ import { Template } from 'meteor/templating';
 import { PendingCurrencies } from '/imports/api/indexDB.js';
 import { WalletImages } from '/imports/api/indexDB.js';
 import { Bounties } from '/imports/api/indexDB.js';
+import './moderatorDash.html'
+
+import '../components/moderator/approveWalletImage.js'
+import '../components/moderator/moderatorPendingAPIBounty.js'
+import '../components/moderator/moderatorPendingCurrency.js'
 
 Template.moderatorDash.onCreated(function bodyOnCreated() {
   var self = this;
@@ -47,21 +52,3 @@ Template.moderatorDash.helpers({
         return PendingCurrencies.find({}, { sort: { createdAt: -1 }, limit: 20});
       }
 });
-
-Template.approveWalletImage.events({
-  'click #reject': function(event){
-    Meteor.call('flagWalletImage', this._id);
-    console.log(this._id);
-  },
-  'click #approve': function(event){
-    Meteor.call('approveWalletImage', this._id);
-  }
-});
-
-Template.approveWalletImage.helpers({
-  display() {
-    if(_.include(this.flaglikers, Meteor.userId())) {
-      return "none";
-    } else {return "flex"}
-  }
-})

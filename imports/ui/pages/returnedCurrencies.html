@@ -1,20 +1,4 @@
 <template name="returnedCurrencies">
-    {{> currencyFilter}}
-    <div class="currency-container">
-        {{#if subsCacheReady}}
-        {{#each currencies}}
-            {{> currency}}
-            {{else}}
-            {{> empty}}
-        {{/each}}
-        {{else}}
-            {{> loading}}
-        {{/if}}
-    </div>
-</template>
-
-
-<template name="currencyFilter">
     <div id="currencyFilterContainer" class="container"> 
         <form id="currencyFilter" name="currencyFilter"> 
             <div class="row form-items"> 
@@ -27,5 +11,16 @@
                {{#if filterCount}} Found {{filterCount}} results {{/if}}
             </div> 
         </form> 
-    </div> 
+    </div>
+    <div class="currency-container">
+        {{#if subsCacheReady}}
+        {{#each currencies}}
+            {{> currency}}
+            {{else}}
+            {{> empty}}
+        {{/each}}
+        {{else}}
+            {{> loading}}
+        {{/if}}
+    </div>
 </template>

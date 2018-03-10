@@ -13,16 +13,19 @@ SubsCache = Meteor
 SubsCache.ready = function() {return true}
 if (Meteor.isClient) { // only import them if this code is being executed on client side
   import '../../ui/layouts/MainBody.html'
-  import '../../ui/pages/currencyEdit/currencyEdit.js'
+  import '../../ui/pages/currencyEdit/currencyEdit.js' //TODO: undone #69
   import '../../ui/pages/changedCurrencies/changedCurrencies.js'
   import '../../ui/pages/hashpower/addHashpower'
   import '../../ui/pages/hashpower/allHashpower'
   import '../../ui/pages/hashpower/allHashaverage'
   import '../../ui/pages/flaggedUsers/flaggedUsers'
   import '../../ui/pages/hashpower/flaggedHashpower'
-  import '../../ui/pages/compareCurrencies/compareCurrencies'
-  import '../../ui/pages/userProfile/userProfile'
-  import '../../ui/pages/transactions/transactions'
+  import '../../ui/pages/compareCurrencies'
+  import '../../ui/pages/userProfile'
+  import '../../ui/pages/transactions'
+  import '../../ui/pages/returnedCurrencies.js'
+  import '../../ui/pages/moderatorDash.js'
+  import '../../ui/pages/ratings.js'
 
   // New Layout
   import '../../ui/layouts/mainLayout/mainLayout'
@@ -111,7 +114,7 @@ FlowRouter.route('/', {
   }
 })
 
-FlowRouter.route('/ratings', {
+FlowRouter.route('/ratings', { //TODO: stoped
   name: 'ratings',
   subscriptions: function () {
     this.register('approvedcurrencies', SubsCache.subscribe('approvedcurrencies'));

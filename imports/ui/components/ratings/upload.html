@@ -1,0 +1,75 @@
+<template name="upload">
+  <div class="modal fade" id="upload{{_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Upload {{currencyName}} images</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  <h5>Instructions</h5>
+                  <p>Please take screen-shots of the wallet you're using for {{currencyName}}. Please crop the image(s) so only the wallet is shown, and <em>blank out any data you consider personal or sensitive.</em></p>
+                  <p><b>Do not upload any images showing your private key (in text or QR code format) or seed words.</b></p>
+                  <p><b>Do not</b> use pictures found on the internet or any ratings you provide will be invalid and your account will recieve a flag.</p>
+                  <hr>
+                  <p>
+                      <h6>Main wallet screen/page or transaction history</h6>
+                      <label id="label_main_or_home_{{_id}}" class="btn btn-primary {{uploadedCount _id 'main_or_home'}}" for="main_or_home_{{_id}}">
+                          <input id="main_or_home_{{_id}}" type="file" style="display:none" onchange="$('#fileInfo1').html(this.files[0].name)" class="file_{{_id}}"> <span class="file_main_or_home_{{_id}}">UPLOAD</span>
+                      </label>
+                      {{#if uploadedCount _id 'main_or_home'}}<span class="uploadedImage">
+  <a data-toggle="tooltip" title="<img style='width:15em' src='{{getWalletImageURL _id 'main_or_home'}}' />">
+      <i class="fa fa-image pointer" style="font-size:2.5em"></i>
+  </a>
+</span>{{/if}}
+                      <span class='label label-info' id="fileInfo1"></span>
+
+
+                  </p>
+                  <p>
+                      <h6>Send coins or create transaction screen</h6>
+                      <label id="label_send_transaction_{{_id}}" class="btn btn-primary {{uploadedCount _id 'send_transaction'}}" for="send_transaction_{{_id}}">
+                          <input id="send_transaction_{{_id}}" type="file" style="display:none" onchange="$('#fileInfo2').html(this.files[0].name)" class="file_{{_id}}"> <span class="file_send_transaction_{{_id}}">UPLOAD</span>
+                      </label>
+                      {{#if uploadedCount _id 'send_transaction'}}<span class="uploadedImage">
+  <a data-toggle="tooltip" title="<img style='width:15em' src='{{getWalletImageURL _id 'send_transaction'}}' />">
+      <i class="fa fa-image pointer" style="font-size:2.5em"></i>
+  </a>
+</span>{{/if}}
+                      <span class='label label-info' id="fileInfo2"></span>
+                     
+                  </p>
+
+                  <p>
+                      <h6>Configuration or options</h6>
+                    <label id="label_configuration_or_options_{{_id}}" class="btn btn-primary {{uploadedCount _id 'configuration_or_options'}}" for="configuration_or_options_{{_id}}">
+                          <input id="configuration_or_options_{{_id}}" type="file" style="display:none" onchange="$('#fileInfo3').html(this.files[0].name)" class="file_{{_id}}"> <span class="file_configuration_or_options_{{_id}}">UPLOAD</span>
+                      </label>
+{{#if uploadedCount _id 'configuration_or_options'}}<span class="uploadedImage">
+  <a data-toggle="tooltip" title="<img style='width:15em' src='{{getWalletImageURL _id 'configuration_or_options'}}' />">
+      <i class="fa fa-image pointer" style="font-size:2.5em"></i>
+  </a>
+</span>{{/if}}
+                      <span class='label label-info' id="fileInfo3"></span>
+                  </p>
+                  {{#if walletImageError}}
+                  <div class="alert alert-dismissible alert-danger">
+                      <button type="button" class="close" data-dismiss="alert">×</button>
+                      {{walletImageError}}
+                  </div>
+                  {{/if}} {{#if walletImageSuccess}}
+                  <div class="alert alert-dismissible alert-success">
+                      <button type="button" class="close" data-dismiss="alert">×</button>
+                      {{walletImageSuccess}}
+                  </div>
+                  {{/if}}
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+              </div>
+          </div>
+      </div>
+  </div>
+</template>

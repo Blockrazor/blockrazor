@@ -79,7 +79,7 @@ export {
 
   Features,
 
-  RedFlags,
+  Redflags,
 
   ActivityLog,
 }
