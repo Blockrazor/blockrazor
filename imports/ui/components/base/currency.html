@@ -1,0 +1,15 @@
+<template name="currency">
+  <div class="currency-card">
+    <div class="header">
+      <div>{{currencyName}}</div>
+      <div>{{currencySymbol}}</div>
+    </div>
+    <div class="graph">
+      {{> radarGraph _id=_id width=400 height=300 options=graphOptions}}
+    </div>
+    <div class="footer">
+      <div>$180/10m</div>
+      <div>RazorRank: {{razorRank}}</div>
+    </div>
+  </div>
+</template>

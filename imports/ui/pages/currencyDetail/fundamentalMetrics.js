@@ -7,7 +7,7 @@ import Cookies from 'js-cookie'
 
 import "../../components/radarGraph.js"
 
-import '../userProfile/userHover' //import the userHover template for later usage (we have to import it everywhere we want to use it)
+// import '../userProfile/userHover' //is broken import //import the userHover template for later usage (we have to import it everywhere we want to use it)
 
 //todo
 //need to create a global js file to store global helpers

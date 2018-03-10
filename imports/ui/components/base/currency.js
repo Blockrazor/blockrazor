@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating';
 import { GraphData } from '/imports/api/indexDB.js';
 
 import "/imports/ui/components/radarGraph.js"
+import "./currency.html"
 
 Template.currency.events({
   'click .currency-card': function() {

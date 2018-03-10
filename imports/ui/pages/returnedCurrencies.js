@@ -1,5 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Currencies } from '/imports/api/indexDB.js';
+import './returnedCurrencies.html'
+import '../components/base/currency.js'
 
 Template.returnedCurrencies.onCreated(function bodyOnCreated() {
   var self = this
@@ -43,6 +45,9 @@ Template.returnedCurrencies.helpers({
         }
 
 
+    },
+    filterCount() {
+      return Template.instance().filterCount.get()
     }
 });
 
@@ -81,11 +86,3 @@ Template.returnedCurrencies.events({
       } 
     } 
   })
-
-  Template.currencyFilter.helpers({
-    filterCount() {
-      // Blaze's API function for cross-template communication
-      return Template.instance().view.parentView.templateInstance().filterCount.get();
-    }
-
-    });

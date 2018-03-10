@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Currencies, ChangedCurrencies } from '/imports/api/indexDB.js';
 
-import '../../../api/coins/methods.js';
+// import '../../../api/coins/methods.js'; //is broken adress
 import '../../layouts/MainBody.html'
 import './changedCurrencies.html';
 
