@@ -26,7 +26,7 @@ import { Ratings } from '/lib/database/Ratings'
 import { RatingsTemplates } from '/lib/database/Ratings'
 import { EloRankings } from '/lib/database/Ratings'
 
-import { WalletImages } from '/lib/database/Wallet'
+import { WalletImages } from '/lib/database/Images'
 import { Wallet } from '/lib/database/Wallet'
 
 import { Codebase } from '/lib/database/Codebase'
