@@ -10,7 +10,7 @@ var test_hashPowerUploadDirectory = '/var/www/static/images/hashpower/'
 var test_hashPowerUploadDirectoryPublic = '/static/images/hashpower/'
 var test_profilePictureUploadDirectory = '/var/www/static/images/profile/'
 var test_profilePictureUploadDirectoryPublic = '/static/images/profile/'
-var test_watermarkLocation = '/Users/hellofriend/Documents/upload/watermark.png'
+var test_watermarkLocation = '/var/www/static/images/wallets/watermark.png'
 
 
 var fs = require('fs');
