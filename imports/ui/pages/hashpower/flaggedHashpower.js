@@ -2,8 +2,7 @@ import { Template } from 'meteor/templating';
 import { HashHardware, HashPower, HashAlgorithm, HashUnits } from '/imports/api/indexDB.js'
 import { FlowRouter } from 'meteor/staringatlights:flow-router';
 
-import '../../layouts/MainBody.html'
-import './flaggedHashpower.template.html'
+import './flaggedHashpower.html'
 
 Template.flaggedHashpower.onCreated(function() {
 	this.autorun(() => {

@@ -1,8 +1,7 @@
 import { Template } from 'meteor/templating';
 import { HashAverage, HashAlgorithm } from '/imports/api/indexDB.js'
 
-import '../../layouts/MainBody.html'
-import './allHashaverage.template.html'
+import './allHashaverage.html'
 
 Template.allHashaverage.onCreated(function() {
 	this.autorun(() => {

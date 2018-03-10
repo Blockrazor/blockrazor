@@ -4,6 +4,8 @@ import { FormData, Bounties, RatingsTemplates, HashAlgorithm } from '/imports/ap
 import swal from 'sweetalert';
 import Cookies from 'js-cookie';
 
+import './addCoin.html'
+
 function initPopOvers(){
   //gotta set a small delay as dom isn't ready straight away
       Meteor.setTimeout(function() {

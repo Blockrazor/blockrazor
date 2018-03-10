@@ -1,0 +1,10 @@
+<template name="activeBounty">
+  <div class="alert alert-danger" role="alert">
+  <h6 class="text-center">{{timeRemaining}}</h6></div>
+  <button class="btn btn-danger float-right cancel">Get me out of here, I can't do this!</button>
+{{#if reactiveVar.equals 'bountyType' 'HashrateAPI'}}{{> HashrateAPI}}{{/if}}
+{{#if reactiveVar.equals 'bountyType' 'hashpower'}}{{> hashpower}}{{/if}}
+{{#if reactiveVar.equals 'bountyType' 'userExperience'}}{{> userExperience}}{{/if}}
+{{#if reactiveVar.equals 'bountyType' 'codeQuality'}}{{> codeQuality}}{{/if}}
+{{#if reactiveVar.equals 'bountyType' 'community'}}{{> community}}{{/if}}
+</template>

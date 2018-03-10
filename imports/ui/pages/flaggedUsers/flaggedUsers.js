@@ -2,8 +2,7 @@ import { Template } from 'meteor/templating'
 import { UserData } from '/imports/api/indexDB.js'
 import { FlowRouter } from 'meteor/staringatlights:flow-router';
 
-import '../../layouts/MainBody.html'
-import './flaggedUsers.template.html'
+import './flaggedUsers.html'
 
 Template.flaggedUsers.onCreated(function() {
 	this.autorun(() => {

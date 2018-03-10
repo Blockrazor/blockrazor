@@ -1,0 +1,66 @@
+<template name="addHashpower">
+	{{#if activeBounty}}
+	<div class="alert alert-danger" role="alert">
+	<h5 class="text-center">{{timeRemaining}}</h5></div>
+	{{/if}}
+	<h3>Add hash power data</h3>
+	<form id="js-add-haspower">
+		Hardware category: <select id="js-hw-cat">
+			<option value="ASIC">ASIC</option>
+			<option value="GPU">GPU</option>
+			<option value="CPU">CPU</option>
+		</select><br />
+		{{#if hwDevices.length}}
+		Hardware device: <select id="js-hw-dev">
+			{{#each hwDevices}}
+			<option value="{{_id}}">{{name}}</option>
+			{{/each}}
+		</select><br />
+		Your device is not on the list? <a href="#" id="js-add-hw">Add it</a>.<br />
+		<div style="display: {{addHw}}">
+			Device name: <input type="text" id="js-hw-new" />
+		</div>
+		{{else}}
+			Hardware device: <input type="text" id="js-hw-new" /><br />
+		{{/if}}
+		{{#if hwAlgo.length}}
+		Algorithm: <select id="js-algo">
+			{{#each hwAlgo}}
+			<option value="{{_id}}">{{name}}</option>
+			{{/each}}
+		</select><br />
+		Your algorithm is not on the list? <a href="#" id="js-add-algo">Add it</a>.<br />
+		<div style="display: {{addAlgo}}">
+			Algorithm name: <input type="text" id="js-algo-new" />
+		</div>
+		{{else}}
+			Algorithm: <input type="text" id="js-algo-new" /><br />
+		{{/if}}
+		Hash rate *: <input type="number" min="0" id="js-hr" required/>
+		{{#if units.length}}
+		<select id="js-unit">
+			{{#each units}}
+			<option value="{{_id}}">{{name}}</option>
+			{{/each}}
+		</select><br />
+		Unit not on the list? <a href="#" id="js-add-unit">Add it</a>.<br />
+		<div style="display: {{addUnit}}">
+			Unit name: <input type="text" style="width: 40px" id="js-unit-new" /><br />
+		</div>
+		{{else}}
+			<input type="text" id="js-unit-new" style="width: 40px" /><br />
+		{{/if}}
+		Power consumption *: <input type="number" min="0" id="js-pc" name="js-pc" required/> Watts<br />
+		Mining rig image (as a proof) *: 
+
+    <label id="uploadLabel" class="btn btn-primary" for="imageInput">
+        <input id="imageInput" name="imageInput" type="file" style="display:none" onchange="$('#fileInfo').html(this.files[0].name)" class="required" accept="image/*"> <span class="uploadText">UPLOAD</span>
+    </label>
+
+    <span class='label label-info fileInfo' id="fileInfo"></span>
+
+		<input type='hidden' id='js-image'><br />
+
+		<button type="submit" id="js-add" class="btn btn-primary">Add!</button> <button id="js-cancel" class="btn btn-secondary">Cancel</button>
+	</form>
+</template>
