@@ -3,7 +3,9 @@
   <div class="card padBottom hoverCard">
       <div class="card-body">
           <span class="text-muted">{{featureName}}</span>
-              <small class="text-muted"> - Posted by {{author}}</small>
+              <small class="text-muted"> - Posted by {{#hovercard template="userHover" direction="vertical" trigger="hover"}}
+          <a href="#">{{author}}</a>
+        {{/hovercard}}</small>
   
           <br /><br />
           <div class="pull-left">
@@ -38,7 +40,9 @@
         </div>
         <div class="modal-body">
                    <p><b><i>"{{featureName}}"</i></b></p>
-            Written by: {{author}}
+            Written by:  {{#hovercard template="userHover" direction="vertical" trigger="hover"}}
+          <a href="#">{{author}}</a>
+        {{/hovercard}}
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-danger flagButton">Report</button>
