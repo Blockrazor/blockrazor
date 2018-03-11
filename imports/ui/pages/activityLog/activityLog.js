@@ -1,6 +1,7 @@
 import { Template } from 'meteor/templating';
 import { ActivityLog } from '/imports/api/indexDB.js';
 
+import '/imports/ui/components/notLoggedIn.html'
 import './activityLog.html'
 import './messageitem'
 

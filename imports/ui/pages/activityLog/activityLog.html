@@ -1,4 +1,5 @@
 <template name="activityLog">
+    {{> notLoggedIn }}
     {{#if subsCacheReady}}
     {{#each message}}
     {{> messageitem}}

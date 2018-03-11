@@ -2,6 +2,7 @@ import { Template } from 'meteor/templating';
 import { PendingCurrencies, RejectedCurrencies, Bounties } from '/imports/api/indexDB.js';
 
 import './userPendingCurrencies.html'
+import '/imports/ui/components/notLoggedIn.html'
 import './userPendingCurrency'
 
 Template.userPendingCurrencies.onCreated(function bodyOnCreated() {

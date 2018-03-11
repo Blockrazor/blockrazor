@@ -2,6 +2,7 @@ import { Template } from 'meteor/templating';
 import { UserData } from '/imports/api/indexDB.js';
 import './mainLayout.html'
 import './mainLayout.scss'
+import './desktop.scss'
 
 import '../../components/topNav/topNav'
 import '../../components/sideNav/sideNav'
