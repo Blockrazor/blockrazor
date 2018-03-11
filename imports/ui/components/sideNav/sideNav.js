@@ -10,10 +10,6 @@ Template.sideNav.helpers({
   walletNotifications(){
     return Wallet.find({owner: Meteor.userId(), type: "transaction", read: {$ne: true}}).count();
   },
-  openSidebar(){
-    return "active"
-    return Session.get("openedSidebar")? "active": "";
-  }
 });
 
 Template.sideNav.onCreated(function() {

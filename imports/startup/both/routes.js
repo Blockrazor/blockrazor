@@ -47,7 +47,7 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   import '../../ui/pages/moderator/hashpower/flaggedHashpower'
   import '../../ui/pages/moderator/hashpower/addHashpower.js'
 
-  // New Layout
+  // New Layout doesn't use side Template.dynamic side
   import '../../ui/layouts/mainLayout/mainLayout'
 
   //Stylesheet
@@ -73,7 +73,7 @@ FlowRouter.route('/profile/:slug', {
   action: function (params, queryParams) {
     BlazeLayout.render('desktop', {
       main: 'userProfile',
-      left: 'menu'
+      //left: 'sideNav'
     })
   }
 })
@@ -88,7 +88,7 @@ FlowRouter.route('/compareCurrencies', {
   action: (params, queryParams) => {
     BlazeLayout.render('desktop', {
       main: 'compareCurrencies',
-      left: 'menu'
+      //left: 'sideNav'
     })
   }
 })
@@ -101,7 +101,7 @@ FlowRouter.route('/transactions/:page?', {
   action: (params, queryParams) => {
     BlazeLayout.render('desktop', {
       main: 'transactions',
-      left: 'menu'
+      //left: 'sideNav'
     })
   }
 })
@@ -115,7 +115,7 @@ FlowRouter.route('/', {
   action() {
     BlazeLayout.render('mainLayout', {
       main: 'returnedCurrencies',
-      left: 'menu'
+      //left: 'menu'
     });
   }
 })
@@ -131,7 +131,7 @@ FlowRouter.route('/ratings', {
   action() {
     BlazeLayout.render('luxDesktop', {
       main: 'ratings',
-      left: 'luxMenu'
+      //left: 'luxMenu'
     });
   }
 })
@@ -141,7 +141,7 @@ FlowRouter.route('/theme', {
   action() {
     BlazeLayout.render('luxDesktop', {
       main: 'theme',
-      left: 'luxMenu'
+      //left: 'luxMenu'
     });
   }
 })
@@ -151,7 +151,7 @@ FlowRouter.route('/decentralization', {
   action: () => {
     BlazeLayout.render('desktop', {
       main: 'decentralization',
-      left: 'menu'
+      //left: 'sideNav'
     })
   }
 })
@@ -168,7 +168,7 @@ FlowRouter.route('/add-hashpower', {
   action: () => {
     BlazeLayout.render('desktop', {
       main: 'addHashpower',
-      left: 'menu'
+      //left: 'sideNav'
     })
   }
 })
@@ -184,7 +184,7 @@ FlowRouter.route('/flagged-hashpower', {
   action: () => {
     BlazeLayout.render('desktop', {
       main: 'flaggedHashpower',
-      left: 'menu'
+      //left: 'sideNav'
     })
   }
 })
@@ -198,7 +198,7 @@ FlowRouter.route('/avg-hashpower', {
   action: () => {
     BlazeLayout.render('desktop', {
       main: 'allHashaverage',
-      left: 'menu'
+      //left: 'sideNav'
     })
   }
 })
@@ -214,7 +214,7 @@ FlowRouter.route('/hashpower', {
   action: () => {
     BlazeLayout.render('desktop', {
       main: 'allHashpower',
-      left: 'menu'
+      //left: 'sideNav'
     })
   }
 })
@@ -229,7 +229,7 @@ FlowRouter.route('/communities', {
   action: () => {
     BlazeLayout.render('desktop', {
       main: 'communities',
-      left: 'menu'
+      //left: 'sideNav'
     })
   }
 })
@@ -244,7 +244,7 @@ FlowRouter.route('/flagged-users', {
     if (Meteor.userId()) {
       BlazeLayout.render('desktop', {
         main: 'flaggedUsers',
-        left: 'menu'
+        //left: 'sideNav'
       })
     } else {
       window.last = window.location.pathname
@@ -263,7 +263,7 @@ FlowRouter.route('/codebase', {
   action: () => {
     BlazeLayout.render('desktop', {
       main: 'codebase',
-      left: 'menu'
+      //left: 'sideNav'
     })
   }
 })
@@ -276,7 +276,7 @@ FlowRouter.route('/developers', {
   action: () => {
     BlazeLayout.render('desktop', {
       main: 'developers',
-      left: 'menu'
+      //left: 'sideNav'
     })
   }
 })
@@ -289,7 +289,7 @@ FlowRouter.route('/profile', {
   action: () => {
     BlazeLayout.render('desktop', {
       main: 'editProfile',
-      left: 'menu'
+      //left: 'sideNav'
     })
   }
 })
@@ -302,7 +302,7 @@ FlowRouter.route('/questions', {
   action() {
     BlazeLayout.render('desktop', {
       main: 'questions',
-      left: 'menu'
+      //left: 'sideNav'
     });
     //  if(Meteor.isServer) {    }
   }
@@ -317,7 +317,7 @@ FlowRouter.route('/bounties', {
   action() {
     BlazeLayout.render('desktop', {
       main: 'bounties',
-      left: 'menu'
+      //left: 'sideNav'
     });
     //  if(Meteor.isServer) {    }
   }
@@ -332,7 +332,7 @@ FlowRouter.route('/bounties/:_id', {
     console.log("rendering activeBounty");
     BlazeLayout.render('desktop', {
       main: 'activeBounty',
-      left: 'menu'
+      //left: 'sideNav'
     });
     console.log("finished rendering activeBounty");
   }
@@ -352,7 +352,7 @@ FlowRouter.route('/addcoin', {
       // if the user is logged in, you can render the intented page
     BlazeLayout.render('luxDesktop', {
       main: 'addCoin',
-      left: 'luxMenu'
+      //left: 'luxMenu'
     });
     
       this.register('formdata', SubsCache.subscribe('formdata'));
@@ -379,7 +379,7 @@ FlowRouter.route('/currency/:slug', {
   action: function (params, queryParams) {
     BlazeLayout.render('mainLayout', {
       main: 'currencyDetail',
-      left: 'menu',
+      //left: 'sideNav',
       bottom: 'edit'
     });
   }
@@ -404,7 +404,7 @@ FlowRouter.route('/changedcurrencies', {
   action: function (params, queryParams) {
     BlazeLayout.render('luxDesktop', {
       main: 'changedCurrencies',
-      left: 'luxMenu'
+      //left: 'luxMenu'
     });
   }
 });
@@ -447,7 +447,7 @@ FlowRouter.route('/m', {
   action() {
     BlazeLayout.render('mobile', {
       main: 'returnedCurrencies',
-      top: 'menu'
+      top: 'sideNav'
     });
     console.log("Rendered mobile");
   }
