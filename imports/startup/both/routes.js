@@ -56,6 +56,7 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   SubsCache = Meteor
 }
 
+FlowRouter.triggers.enter([ () => { window.scrollTo(0, 0); } ]);
 
 //global subscriptions (on client side immidiately available)
 FlowRouter.subscriptions = function() {
