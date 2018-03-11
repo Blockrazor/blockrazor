@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
-import { generateBounties, createtypes, fetchHashrate, AppLogs, UserData} from '/imports/api/indexDB.js';
+import { AppLogs, UserData, Bounties} from '/imports/api/indexDB.js';
+import { generateBounties, createtypes, fetchHashrate } from '/imports/api/utilities'
 import { Logger } from 'meteor/ostrio:logger'; 
 import { LoggerMongo } from 'meteor/ostrio:loggermongo'
 
