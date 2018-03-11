@@ -6,7 +6,7 @@
       <div class="card-body">
           {{#if subsCacheReady}}
               {{#each walletimages}}
-                  <img src="{{walletimagesdir}}{{_id}}.{{extension}}" style="width:100px;height:100px"> 
+                  {{> walletImage}}
               {{else}}
                   {{> empty}}
               {{/each}}
@@ -15,4 +15,23 @@
           {{/if}}
       </div>
   </div>
+
+</template>
+
+<template name="walletImage">
+  <img src="/{{walletimagesdir}}{{_id}}_thumbnail.{{extension}}" class="walletImageOpen" data-toggle="modal" data-target="img_{{_id}}" id="{{_id}}"> 
+
+  <div class="modal fade" id="img_{{_id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <img src="/{{walletimagesdir}}{{_id}}.{{extension}}" style="width:60em"> 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </template>

@@ -345,6 +345,7 @@ Meteor.methods({
         var validFile = _supportedFileTypes.includes(mimetype);
         var fileExtension = mime.extension(mimetype);
         var filename = (_walletUpoadDirectory + md5 + '.' + fileExtension);
+        var filename_thumbnail = (_walletUpoadDirectory + md5 + '_thumbnail.' + fileExtension);
         var filenameWatermark = (_walletUpoadDirectory + md5 + '_watermark.' + fileExtension);
 
 
@@ -394,6 +395,17 @@ Meteor.methods({
 
 //Add watermark to image
 if (gm.isAvailable) {
+
+  //create thumbnail
+  var size = { width: 100, height: 100 };
+  gm(filename)
+      .resize(size.width, size.height + ">")
+      .gravity('Center')
+      .extent(size.width, size.height)
+      .write(filename_thumbnail, function(error) {
+          if (error) console.log('Error - ', error);
+      });
+
     gm(filename)
         .command('composite')
         .gravity('SouthEast')
