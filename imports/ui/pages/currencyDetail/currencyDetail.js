@@ -113,17 +113,14 @@ Template.currencyInfo.onRendered(function() {
 
     $('#genesisTimestamp').editable({
       validate: validate,
-      type: 'text',
-      value: '01/01/2009'
-      /*type: 'combodate', // combodate is refusing to cooperate
-      format: 'DD/MM/YYYY',  
-      value: '01/01/2009',
+      type: 'combodate',
+      format: 'DD/MM/YYYY',
       template: 'DD / MM / YYYY',    
       combodate: {
         minYear: 2009,
         maxYear: new Date().getUTCFullYear(),
         smartDays: true
-      }*/
+      }
     })
 
     $('#consensusSecurity').editable({
