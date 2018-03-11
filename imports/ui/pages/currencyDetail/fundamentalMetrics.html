@@ -1,0 +1,25 @@
+<template name="fundamentalMetrics">
+  <div class="currencyDetailBox">
+      <h5 class="text-center currencyDetailHeading" id="fundamentalMetricsLocation">Fundamental Metrics</h5>
+      <div style="width:100%">
+          {{> radarGraph width=800 height=600 options=options class="mx-auto"}}
+      </div>
+      <a href="/compareCurrencies">Compare with other currencies</a>
+      <div class="row" style="margin-top:10px;">
+          <div class="col-lg-3">
+              <div class="btn-group-vertical">
+                  {{#each metrics}}
+                  <button id="name" type="button" class="btn btn-secondary">{{name}}</button>
+                  {{/each}}
+              </div>
+          </div>
+          <div class="col-lg-9">
+              {{#each metrics}}
+              <div id={{_id}} style="display:none;" class="">{{currencyName}} {{name}} text
+                  <br />
+                  <hr /> {{metricDescription}}</div>
+              {{/each}}
+          </div>
+      </div>
+  </div>
+</template>

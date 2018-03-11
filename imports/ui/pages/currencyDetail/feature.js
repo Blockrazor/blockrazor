@@ -1,0 +1,145 @@
+import { Template } from 'meteor/templating'
+import { Features } from '/imports/api/indexDB.js'
+
+import './feature.html'
+
+Template.feature.onCreated(function() {
+  this.autorun(() => {
+    SubsCache.subscribe('comments', this._id);
+  })
+
+  this.showingComments = new ReactiveDict()
+});
+Template.feature.onRendered(function(){
+  $('[data-toggle="popover"]').popover({ trigger: 'focus' })
+})
+
+Template.feature.helpers({
+  alreadyVoted: function(id){
+    if(_.include(Features.findOne(id).appealVoted, Meteor.userId())){
+      return true;
+    }
+  },
+  numComments: function() {
+    return _.size(Features.find({parentId: this._id}).fetch());
+  },
+  starsid: function() {
+    return "star-" + this._id
+  },
+  bountyamount: function () {
+    return "<FIXME>"; //FIXME
+  },
+  parentId: function() {
+    return this.parentId;
+  },
+  comments: function() { //return database showing comments with parent: this._id
+    return Features.find({parentId: this._id, flagRatio: {$lt: 0.6}}, {sort: {rating: -1, appealNumber: -1}});
+  }
+});
+
+Template.feature.events({
+  'click .fa-thumbs-down': function(event) {
+    Meteor.call('vote', this._id, "down", function(error,result) {
+      if(!error) {
+        $(event.currentTarget).parent().html('<i class="fa fa-check" aria-hidden="true"></i>');
+      } else {sAlert.error(error.reason)};
+    });
+  },
+  'click .fa-thumbs-up': function(event) {
+    Meteor.call('vote', this._id, "up", function(error,result) {
+      if(!error) {
+        $(event.currentTarget).parent().html('<i class="fa fa-check" aria-hidden="true"></i>');
+      } else {sAlert.error(error.reason)};
+    });
+  },
+  'mouseover .fa-thumbs-down': function() {
+    $('.fa-thumbs-down').css('cursor', 'pointer');
+  },
+  'mouseover .fa-thumbs-up': function() {
+    $('.fa-thumbs-up').css('cursor', 'pointer');
+  },
+  'mouseover .flag': function() {
+    $('.flag').css('cursor', 'pointer');
+  },
+  'click .flag': function() {
+    $('#flagModal-' + this._id).modal('show');
+  },
+  'click .flagButton': function() {
+    $('#flagModal-' + this._id).modal('hide');
+    Meteor.call('flag', this._id, function(error, resonse) {
+      if(!error){
+        sAlert.success("Thanks for letting us know!");
+      } else {
+        sAlert.error(error.reason);
+      }
+    });
+  },
+  'click .submitNewComment': function () {
+    if(!Meteor.user()) {
+      sAlert.error("You must be logged in to comment!");
+    }
+    var data = $('#replyText-' + this._id).val();
+    var ifnoterror = function(){
+    }
+    if(data.length < 6 || data.length > 140) {
+      sAlert.error("That entry is too short, or too long.");
+    } else {
+      Meteor.call('newComment', this._id, data, 1, function(error, result) {
+        if(!error) {
+          sAlert.success("Thanks! Your comment has been posted!");
+        } else {
+          sAlert.error(error.reason);
+          return;
+        }
+      });
+      $('#replyText-' + this._id).val(" ");
+      $(".newcomment-" + this._id).hide();
+      Cookies.set("submitted" + this._id, true);
+      $(".commentParent-" + this._id).hide();
+      Template.instance().showingComments.set(this._id, "false")
+    }
+  },
+  'keyup .replyText': function() {
+    $('.replyText').keyup(function () {
+  var max = 140;
+  var len = $(this).val().length;
+  if (len >= max) {
+    $('#replyCharNum' + this._id).text(' you have reached the limit');
+  } else {
+    var char = max - len;
+    $("#replyCharNum" + this._id).text(char + ' characters left');
+  }
+});
+  },
+  'focus .replyText': function() {
+    $(".replyFooter-" + this._id).show();
+  },
+  'click .comments': function() {
+    if(Cookies.get("submitted" + this._id) != "true") {
+    $(".newcomment-" + this._id).show();
+  };
+  if(Template.instance().showingComments.get(this._id) != "true") {
+    $(".commentParent-" + this._id).show();
+    Template.instance().showingComments.set(this._id, "true")
+  } else {
+    $(".commentParent-" + this._id).hide();
+    $(".newcomment-" + this._id).hide();
+    Template.instance().showingComments.set(this._id, "false")
+  }
+
+  },
+  'mouseover .comments': function() {
+    $('.comments').css('cursor', 'pointer');
+  },
+  'mouseover .reply': function() {
+  },
+  'click .reply': function() {
+    $("." + this._id).toggle();
+  },
+  'click .wymihelp': function() {
+    $('#wymiModal').modal('show');
+  },
+  'mouseover .wymihelp': function() {
+    $('.wymihelp').css('cursor', 'pointer');
+  },
+});

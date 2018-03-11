@@ -1,0 +1,59 @@
+
+<template name="redflag">
+  <div class="card padBottom">
+      <div class="card-body">
+          <span class="text-muted">{{name}}</span>
+          <small class="text-muted"> - Posted by {{author}}</small>
+          <br />
+          <br />
+          <div class="pull-left">
+            {{#unless alreadyVoted _id}}
+        <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+        <i class="fa fa-thumbs-up fa-flip-horizontal" aria-hidden="true"></i>
+          {{else}}
+        <i class="fa fa-check padRight" aria-hidden="true"></i><small>Voted</small>
+          {{/unless}}
+
+
+          </div>
+          <div class="pull-right"><i class="fa fa-flag flag" aria-hidden="true"></i><i id="comment_{{_id}}" class="fa fa-comments-o comments" aria-hidden="true" style="margin-left:10px;"><small>{{numComments}}</small></i></div>
+      </div>
+  </div>
+  <div class="input-group mb-3 newcomment-{{_id}}" style="display:none;">
+      <input id="replyText-{{_id}}" type="text" class="form-control replyText" placeholder="Type a message here" aria-label="Type a message here" aria-describedby="basic-addon2" maxlength="140" minlength="6" data-toggle="popover" data-placement="top" data-content="Comments should be friendly, useful to others, and factually correct. If you see bad behavior, don't encourage it by replying, simply flag it and move on.">
+      <div class="input-group-append">
+          <button class="btn btn-primary submitNewComment" type="button"><i class="fa fa-envelope" aria-hidden="true"></i></button>
+      </div>
+  </div>
+  <div class="modal fade" id="flagModal-{{_id}}" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title">You are flagging:</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  <p><b><i>"{{featureName}}"</i></b></p>
+                  Written by: {{author}}
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-danger flagButton">Report</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+{{#if subsCacheReady}}
+{{#each comments}}
+  {{> redflagComment}}
+{{else}}
+  {{> empty}}
+{{/each}}
+{{else}}
+{{> loading}}
+{{/if}}
+
+</template>

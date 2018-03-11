@@ -3,13 +3,13 @@ import { ActivityLog, Wallet } from '/imports/api/indexDB.js';
 import './topNav.html'
 import './topNav.scss'
 
-Template.topNavNew.events({
+Template.topNav.events({
   'click #js-logout': (event, templateInstance) => {
     Meteor.logout()
   }
 });
 
-Template.topNavNew.helpers({
+Template.topNav.helpers({
   activityNotifications() {
     return ActivityLog.find({owner: Meteor.userId(), type: "message", read: {$ne: true}}).count();
   },
@@ -21,7 +21,7 @@ Template.topNavNew.helpers({
   }).slug
 });
 
-Template.topNavNew.onCreated(function() {
+Template.topNav.onCreated(function() {
   this.autorun(()=> {
     this.subscribe('wallet');
     this.subscribe('activitylog');

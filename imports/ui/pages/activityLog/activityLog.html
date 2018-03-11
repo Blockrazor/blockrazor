@@ -1,0 +1,11 @@
+<template name="activityLog">
+    {{#if subsCacheReady}}
+    {{#each message}}
+    {{> messageitem}}
+    {{else}}
+      {{> empty}}
+    {{/each}}
+  {{else}}
+    {{> loading}}
+  {{/if}}
+</template>
