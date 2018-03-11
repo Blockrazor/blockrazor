@@ -4,9 +4,9 @@ import { WalletImages } from '/imports/api/indexDB.js';
 import { Bounties } from '/imports/api/indexDB.js';
 import './moderatorDash.html'
 
-import '../components/moderator/approveWalletImage.js'
-import '../components/moderator/moderatorPendingAPIBounty.js'
-import '../components/moderator/moderatorPendingCurrency.js'
+import './approveWalletImage.js'
+import './moderatorPendingAPIBounty.js'
+import './moderatorPendingCurrency.js'
 
 Template.moderatorDash.onCreated(function bodyOnCreated() {
   var self = this;
