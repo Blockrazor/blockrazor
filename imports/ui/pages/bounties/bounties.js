@@ -20,7 +20,7 @@ Template.bounties.onCreated(function(){
   })
 
   this.bountyType = new ReactiveVar('')
-  this.now = new ReactiveVar(null)
+  Session.set("now", Date.now())
   this.workingBounty = new ReactiveVar('')
 
   this.times = new ReactiveVar({})
@@ -59,7 +59,7 @@ Template.bounties.onCreated(function(){
 Template.bounties.onRendered(function(){
   this.workingBounty.set(false)
   Meteor.setInterval(() => {
-      this.now.set(Date.now());
+      Session.set('now', Date.now())
   }, 10);
 });
 
@@ -73,7 +73,7 @@ Template.bounties.helpers({
 
       return i
     }).sort((i1, i2) => {
-      return calculateReward.call(i2, Template.instance().now.get(), Template.instance()) - calculateReward.call(i1, Template.instance().now.get())
+      return calculateReward.call(i2, Session.get('now'), Template.instance()) - calculateReward.call(i1, Session.get('now'))
     })
   }
 });

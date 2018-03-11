@@ -59,7 +59,7 @@ Template.bountyRender.helpers({
     }
   },
   reward: function () {
-    return calculateReward.call(this, Template.instance().view.parentView.parentView.parentView.templateInstance().now.get())
+    return calculateReward.call(this, Session.get('now'))
   }
 });
 
