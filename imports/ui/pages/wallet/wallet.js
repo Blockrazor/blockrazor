@@ -1,6 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Wallet, UserData } from '/imports/api/indexDB.js';
 
+import '/imports/ui/components/notLoggedIn.html'
 import './wallet.html'
 import './walletItem'
 

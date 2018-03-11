@@ -4,6 +4,7 @@ import { WalletImages } from '/imports/api/indexDB.js';
 import { Bounties } from '/imports/api/indexDB.js';
 import './moderatorDash.html'
 
+import '/imports/ui/components/notLoggedIn.html'
 import './approveWalletImage.js'
 import './moderatorPendingAPIBounty.js'
 import './moderatorPendingCurrency.js'
