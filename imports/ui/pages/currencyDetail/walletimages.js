@@ -13,7 +13,9 @@ Template.walletimages.onCreated(function(){
 Template.walletimages.helpers({
   walletimages: function () {
     return WalletImages.find({currencySlug: FlowRouter.getParam('slug')});
-  },
+  }
+});
+Template.walletImage.helpers({
   walletimagesdir(){
     return _walletUpoadDirectoryPublic;
   }
