@@ -72,7 +72,7 @@ FlowRouter.route('/profile/:slug', {
     this.register('comments', SubsCache.subscribe('comments'))
   },
   action: function (params, queryParams) {
-    BlazeLayout.render('desktop', {
+    BlazeLayout.render('mainLayout', {
       main: 'userProfile',
       //left: 'sideNav'
     })
@@ -87,7 +87,7 @@ FlowRouter.route('/compareCurrencies', {
     this.register('redflags', SubsCache.subscribe('redflags'))
   },
   action: (params, queryParams) => {
-    BlazeLayout.render('desktop', {
+    BlazeLayout.render('mainLayout', {
       main: 'compareCurrencies',
       //left: 'sideNav'
     })
@@ -100,7 +100,7 @@ FlowRouter.route('/transactions/:page?', {
     this.register('users', SubsCache.subscribe('users'))
   },
   action: (params, queryParams) => {
-    BlazeLayout.render('desktop', {
+    BlazeLayout.render('mainLayout', {
       main: 'transactions',
       //left: 'sideNav'
     })
@@ -130,7 +130,7 @@ FlowRouter.route('/ratings', {
     this.register('walletimages', SubsCache.subscribe('walletimages'));
   },
   action() {
-    BlazeLayout.render('luxDesktop', {
+    BlazeLayout.render('mainLayout', {
       main: 'ratings',
       //left: 'luxMenu'
     });
@@ -140,7 +140,7 @@ FlowRouter.route('/ratings', {
 FlowRouter.route('/theme', { 
   name: 'theme',
   action() {
-    BlazeLayout.render('luxDesktop', {
+    BlazeLayout.render('mainLayout', {
       main: 'theme',
       //left: 'luxMenu'
     });
@@ -157,7 +157,7 @@ FlowRouter.route('/add-hashpower', {
     this.register('hashpowerBounty', SubsCache.subscribe('hashpowerBounty'));
   },
   action: () => {
-    BlazeLayout.render('desktop', {
+    BlazeLayout.render('mainLayout', {
       main: 'addHashpower',
       //left: 'sideNav'
     })
@@ -173,7 +173,7 @@ FlowRouter.route('/flagged-hashpower', {
     this.register('hashunits', SubsCache.subscribe('hashunits'));
   },
   action: () => {
-    BlazeLayout.render('desktop', {
+    BlazeLayout.render('mainLayout', {
       main: 'flaggedHashpower',
       //left: 'sideNav'
     })
@@ -187,7 +187,7 @@ FlowRouter.route('/avg-hashpower', {
     this.register('hashalgorithm', SubsCache.subscribe('hashalgorithm'));
   },
   action: () => {
-    BlazeLayout.render('desktop', {
+    BlazeLayout.render('mainLayout', {
       main: 'allHashaverage',
       //left: 'sideNav'
     })
@@ -203,7 +203,7 @@ FlowRouter.route('/hashpower', {
     this.register('hashunits', SubsCache.subscribe('hashunits'));
   },
   action: () => {
-    BlazeLayout.render('desktop', {
+    BlazeLayout.render('mainLayout', {
       main: 'allHashpower',
       //left: 'sideNav'
     })
@@ -218,7 +218,7 @@ FlowRouter.route('/communities', {
     this.register('communityBounty', SubsCache.subscribe('communityBounty'));
   },
   action: () => {
-    BlazeLayout.render('desktop', {
+    BlazeLayout.render('mainLayout', {
       main: 'communities',
       //left: 'sideNav'
     })
@@ -233,7 +233,7 @@ FlowRouter.route('/flagged-users', {
   },
   action: function () {
     if (Meteor.userId()) {
-      BlazeLayout.render('desktop', {
+      BlazeLayout.render('mainLayout', {
         main: 'flaggedUsers',
         //left: 'sideNav'
       })
@@ -252,7 +252,7 @@ FlowRouter.route('/codebase', {
     this.register('codebaseBounty', SubsCache.subscribe('codebaseBounty'));
   },
   action: () => {
-    BlazeLayout.render('desktop', {
+    BlazeLayout.render('mainLayout', {
       main: 'codebase',
       //left: 'sideNav'
     })
@@ -265,7 +265,7 @@ FlowRouter.route('/developers', {
     this.register('developers', SubsCache.subscribe('developers'));
   },
   action: () => {
-    BlazeLayout.render('desktop', {
+    BlazeLayout.render('mainLayout', {
       main: 'developers',
       //left: 'sideNav'
     })
@@ -278,7 +278,7 @@ FlowRouter.route('/profile', {
     
  },
   action: () => {
-    BlazeLayout.render('desktop', {
+    BlazeLayout.render('mainLayout', {
       main: 'editProfile',
       //left: 'sideNav'
     })
@@ -291,7 +291,7 @@ FlowRouter.route('/questions', {
     this.register('ratings_templates', SubsCache.subscribe('ratings_templates'));
   },
   action() {
-    BlazeLayout.render('desktop', {
+    BlazeLayout.render('mainLayout', {
       main: 'questions',
       //left: 'sideNav'
     });
@@ -306,7 +306,7 @@ FlowRouter.route('/bounties', {
     this.register('bountytypes', SubsCache.subscribe('bountytypes'));
   },
   action() {
-    BlazeLayout.render('desktop', {
+    BlazeLayout.render('mainLayout', {
       main: 'bounties',
       //left: 'sideNav'
     });
@@ -321,7 +321,7 @@ FlowRouter.route('/bounties/:_id', {
   },
   action: function (params, queryParams) {
     console.log("rendering activeBounty");
-    BlazeLayout.render('desktop', {
+    BlazeLayout.render('mainLayout', {
       main: 'activeBounty',
       //left: 'sideNav'
     });
@@ -341,7 +341,7 @@ FlowRouter.route('/addcoin', {
   action: function () {
     if (Meteor.userId()) {
       // if the user is logged in, you can render the intented page
-    BlazeLayout.render('luxDesktop', {
+    BlazeLayout.render('mainLayout', {
       main: 'addCoin',
       //left: 'luxMenu'
     });
@@ -383,7 +383,7 @@ FlowRouter.route('/mypending', {
     this.register('rejectedcurrencies', SubsCache.subscribe('rejectedcurrencies'));
   },
   action: function (params, queryParams) {
-    BlazeLayout.render('editAnything', {main: 'userPendingCurrencies'});
+    BlazeLayout.render('mainLayout', {main: 'userPendingCurrencies'});
   }
 });
 
@@ -393,7 +393,7 @@ FlowRouter.route('/changedcurrencies', {
     this.register('hashalgorithm', SubsCache.subscribe('hashalgorithm'))
   },
   action: function (params, queryParams) {
-    BlazeLayout.render('luxDesktop', {
+    BlazeLayout.render('mainLayout', {
       main: 'changedCurrencies',
       //left: 'luxMenu'
     });
@@ -407,7 +407,7 @@ FlowRouter.route('/moderator', {
     this.register('walletimages', SubsCache.subscribe('walletimages'));
   },
   action: function (params, queryParams) {
-    BlazeLayout.render('editAnything', {main: 'moderatorDash'});
+    BlazeLayout.render('mainLayout', {main: 'moderatorDash'});
   }
 });
 
@@ -416,7 +416,7 @@ FlowRouter.route('/notifications', {
     this.register('activitylog', SubsCache.subscribe('activitylog'));
   },
   action: function (params, queryParams) {
-    BlazeLayout.render('editAnything', {main: 'activityLog'});
+    BlazeLayout.render('mainLayout', {main: 'activityLog'});
   }
 });
 
@@ -426,7 +426,7 @@ FlowRouter.route('/wallet', {
     this.register("publicUserData", SubsCache.subscribe("publicUserData"))
   },
   action: function (params, queryParams) {
-    BlazeLayout.render('editAnything', {main: 'wallet'});
+    BlazeLayout.render('mainLayout', {main: 'wallet'});
   }
 });
 
