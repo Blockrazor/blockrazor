@@ -2,7 +2,7 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/staringatlights:flow-router'
 import { Currencies, UserData, Features } from '/imports/api/indexDB.js'
 
-import './userHover.template.html'
+import './userHover.html'
 
 Template.userHover.onCreated(function() {
 	this.autorun(() => {

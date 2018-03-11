@@ -12,31 +12,43 @@ import {SubsManager} from 'meteor/meteorhacks:subs-manager'
 SubsCache = Meteor
 SubsCache.ready = function() {return true}
 if (Meteor.isClient) { // only import them if this code is being executed on client side
+    //ubiquitous components
+    import '../../ui/components/loading'
+    import '../../ui/components/empty.html'
+
+    //pages
   import '../../ui/layouts/MainBody.html'
   import '../../ui/pages/changedCurrencies/changedCurrencies.js'
-  import '../../ui/pages/moderator/hashpower/addHashpower.js'
-  import '../../ui/pages/allHashpower'
+  import '../../ui/pages/allHashpower/allHashpower'
+  import '../../ui/pages/compareCurrencies/compareCurrencies'
+  import '../../ui/pages/userProfile/userProfile'
+  import '../../ui/pages/transactions/transactions'
+  import '../../ui/pages/returnedCurrencies/returnedCurrencies.js'
+  import '../../ui/pages/ratings/ratings.js'
+  import '../../ui/pages/theme.html'
+  import '../../ui/pages/communities/communities'
+  import '../../ui/pages/codebase/codebase'
+  import '../../ui/pages/developers/developers'
+  import '../../ui/pages/editProfile/editProfile'
+  import '../../ui/pages/bounties/bounties'
+  import '../../ui/pages/addCoin/addCoin'
+  import '../../ui/pages/currencyDetail/currencyDetail'
+  import '../../ui/pages/userPendingCurrencies/userPendingCurrencies'
+  import '../../ui/pages/activityLog/activityLog'
+  import '../../ui/pages/wallet/wallet'
+  import '../../ui/pages/signin/signin'
+  import '../../ui/pages/signup/signup'
+
+  //moderator pages
+  import '../../ui/pages/moderator/moderatorDash/moderatorDash'
+  import '../../ui/pages/moderator/questions/questions'
   import '../../ui/pages/moderator/hashpower/allHashaverage'
   import '../../ui/pages/moderator/flaggedUsers/flaggedUsers'
   import '../../ui/pages/moderator/hashpower/flaggedHashpower'
-  import '../../ui/pages/compareCurrencies'
-  import '../../ui/pages/userProfile'
-  import '../../ui/pages/transactions'
-  import '../../ui/pages/returnedCurrencies/returnedCurrencies.js'
-  import '../../ui/pages/moderator/moderatorDash/moderatorDash'
-  import '../../ui/pages/ratings/ratings.js'
-  import '../../ui/pages/theme.html'
-  import '../../ui/pages/communities'
-  import '../../ui/pages/codebase'
-  import '../../ui/pages/developers'
-  import '../../ui/pages/editProfile'
-  import '../../ui/pages/moderator/questions/questions'
-  import '../../ui/pages/bounties/bounties'
-  import '../../ui/pages/addCoin'
+  import '../../ui/pages/moderator/hashpower/addHashpower.js'
 
   // New Layout
   import '../../ui/layouts/mainLayout/mainLayout'
-  import '../../ui/pages/currencyDetail/currencyDetail'
 
   //Stylesheet
   import '/imports/ui/stylesheets/lux.min.css';
@@ -326,7 +338,7 @@ FlowRouter.route('/bounties/:_id', {
   }
 });
 
-FlowRouter.route('/addcoin', { //TODO: stopped here
+FlowRouter.route('/addcoin', {
   name: 'addcoin',
   subscriptions: function () {
     this.register('currencyBounty', SubsCache.subscribe('currencyBounty'));
@@ -445,7 +457,7 @@ FlowRouter.route('/login', {
   name: 'login',
   action: () => {
     if (!Meteor.userId()) {
-      BlazeLayout.render('login')
+      BlazeLayout.render('signin')
     } else {
       FlowRouter.go('/')
     }

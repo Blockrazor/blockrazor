@@ -1,0 +1,20 @@
+<template name="signup">
+	{{> sAlert}}
+	<div class="container-fluid">
+  		<div class="row d-flex justify-content-center" style="margin-top:2px;">
+    		<div class="col-xs-12 col-sm-12 col-md-10 col-lg-8 col-xl-8" style="margin-bottom:10px;">
+  				<div class="card border-secondary mb-3 mb-3" style="min-width:300px;overflow:hidden;">
+  					<div class="card-header" style="height:50px"><h4 class="pull-left">Sign up</h4></div>
+  					<div class="card-body">
+    					E-mail: <input type="text" id="js-email" style="width: 100%" /><br />
+    					Password: <input type="password" id="js-password" style="width: 100%" /><br />
+              Confirm password: <input type="password" id="js-password-conf" style="width: 100%" /><br /><br />
+    					<button type="button" class="btn btn-success" id="js-signup" style="width: 30%">Sign up</button><br />
+    					<br><br>
+    					If you already have an account or you want to login with social networks, you can <a href="/login">login here</a>.
+  					</div>
+  				</div>
+  			</div>
+		</div>
+	</div>
+</template>
