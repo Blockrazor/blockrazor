@@ -146,16 +146,6 @@ FlowRouter.route('/theme', {
   }
 })
 
-FlowRouter.route('/decentralization', {
-  name: 'decentralization',
-  action: () => {
-    BlazeLayout.render('desktop', {
-      main: 'decentralization',
-      //left: 'sideNav'
-    })
-  }
-})
-
 FlowRouter.route('/add-hashpower', {
   name: 'add-haspower',
   subscriptions: function () {
