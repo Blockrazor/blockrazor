@@ -122,7 +122,7 @@ C4 is meant to provide a reusable optimal collaboration model for open source so
 
 Further Reading
 ---------------
-*   [Rationale and history for each line of the C4](/Descriptive_C4.md).
+*   [Rationale and history for each line of the C4](/DESCRIPTIVE_C4.MD).
 
 *   [Argyris' Models 1 and 2](http://en.wikipedia.org/wiki/Chris_Argyris) \- the goals of C4 are consistent with Argyris' Model 2.
     
