@@ -5,7 +5,6 @@ import swal from 'sweetalert';
 import Cookies from 'js-cookie';
 
 import './addCoin.html'
-import './tooltips.html'
 
 function initPopOvers(){
   //gotta set a small delay as dom isn't ready straight away
