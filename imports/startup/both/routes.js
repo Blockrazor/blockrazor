@@ -284,8 +284,8 @@ FlowRouter.route('/developers', {
 FlowRouter.route('/profile', {
   name: 'profile',
   subscriptions: function () {
-    this.register('_extendUser', SubsCache.subscribe('_extendUser'));
-  },
+    
+ },
   action: () => {
     BlazeLayout.render('desktop', {
       main: 'editProfile',

@@ -2,13 +2,6 @@ import { Template } from 'meteor/templating';
 
 import './editProfile.html'
 
-Template.editProfile.onCreated(function() {
-    this.autorun(() => {
-        //UserData is global
-        SubsCache.subscribe('_extendUser')
-    })
-});
-
 Template.editProfile.events({
     'submit #editProfile': (e) => {
         e.preventDefault();
