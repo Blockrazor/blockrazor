@@ -11,9 +11,9 @@ import '/imports/startup/server';
 
 // to prevent code duplication and redundancy, we simply export the logger so other files can use it easily
 export const log = new Logger();
-// (new LoggerMongo(log, { //TODO: DISABLED FOR NO REASON - other than putting error away in #69
-//   collection: AppLogs
-// })).enable();
+(new LoggerMongo(log, {
+  collection: AppLogs
+})).enable();
 
 
 SyncedCron.add({

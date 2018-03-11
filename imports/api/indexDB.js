@@ -54,7 +54,7 @@ export {
 
   FormData,
   GraphData,
-  Applogs,
+  AppLogs,
   
   HashAlgorithm,
   HashAverage,
