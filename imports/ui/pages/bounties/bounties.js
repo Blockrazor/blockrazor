@@ -19,9 +19,9 @@ Template.bounties.onCreated(function(){
     SubsCache.subscribe('bounties');
   })
 
-  this.bountyType = new ReactiveVar('')
+  Session.set('bountyType', "")
   Session.set("now", Date.now())
-  this.workingBounty = new ReactiveVar('')
+  Session.set("workingBounty", false)
 
   this.times = new ReactiveVar({})
 
@@ -57,7 +57,7 @@ Template.bounties.onCreated(function(){
 })
 
 Template.bounties.onRendered(function(){
-  this.workingBounty.set(false)
+  Session.set('workingBounty', false) 
   Meteor.setInterval(() => {
       Session.set('now', Date.now())
   }, 10);
