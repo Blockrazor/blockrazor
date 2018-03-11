@@ -21,6 +21,7 @@ import '/imports/api/wallet/server/methods'
 import '/imports/api/activityLog/server/methods'
 import '/imports/api/developers/server/methods'
 import '/imports/api/users/server/methods'
+import '/imports/api/communities/server/methods'
 
 // import './fastRender.js'
 import './fixtures.js'
