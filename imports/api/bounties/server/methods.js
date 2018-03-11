@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 
-import { UserData } from '/imports/api/indexDB.js';
+import { UserData, Bounties } from '/imports/api/indexDB.js';
 import { APICalls } from '/server/serverdb/APICalls.js';
 import { creditUserWith } from '../../utilities.js';
 
