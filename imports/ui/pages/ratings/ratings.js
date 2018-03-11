@@ -2,11 +2,11 @@ import { Template } from 'meteor/templating';
 import { Currencies, Ratings, Bounties, WalletImages } from '/imports/api/indexDB.js';
 
 import './ratings.html'
-import '../components/ratings/currencyChoices'
-import '../components/ratings/currencyChoice'
-import '../components/ratings/displayRatings'
-import '../components/ratings/questions'
-import '../components/ratings/upload'
+import './currencyChoices'
+import './currencyChoice'
+import './displayRatings'
+import './questions'
+import './upload'
 
 import Cookies from 'js-cookie'
 import swal from 'sweetalert';

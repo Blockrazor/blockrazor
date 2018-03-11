@@ -4,7 +4,7 @@ import { FlowRouter } from 'meteor/staringatlights:flow-router';;
 import Cookies from 'js-cookie';
 
 import './bountyRender.html'
-import { calculateReward } from '/imports/ui/pages/bounties'
+import { calculateReward } from './bounties'
 
 Template.bountyRender.onCreated(function(){
   this.autorun(() => {

@@ -7,11 +7,11 @@ export function calculateReward (now) { //used in bountyRender too
 }
 
 import './bounties.html'
-import '../components/bounties/rainbow.js';
-import '../components/bounties/miscellaneous.js'
-import '../components/bounties/HashrateAPI.js'
-import '../components/bounties/bountyRender.js'
-import '../components/bounties/activeBounty.js'
+import './rainbow.js';
+import './miscellaneous.js'
+import './HashrateAPI.js'
+import './bountyRender.js'
+import './activeBounty.js'
 
 
 Template.bounties.onCreated(function(){
