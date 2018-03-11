@@ -68,13 +68,13 @@ Template.bountyRender.events({
     if (canContinue(this._id)) {
       FlowRouter.go(this.url)
     } else {
-        Template.instance().view.parentView.parentView.parentView.templateInstance().workingBounty.set(true);
+        Session.set("workingBounty", true)
         Cookies.set('workingBounty', true, { expires: 1 });
         Cookies.set('expiresAt', Date.now() + 3600000, { expires: 1 }); //
         //Session.set('bountyItem', this._id);
         Cookies.set('bountyItem', this._id, { expires: 1});
         Cookies.set('bountyType', this.bountyType, { expires: 1});
-        Template.instance().view.parentView.parentView.parentView.templateInstance().bountyType.set(this.bountyType);
+        Session.set('bountyType', this.bountyType);
         if (~custom.indexOf(this._id)) {
           Meteor.call('addNewBounty', this._id, calculateReward.call(this, Date.now()), this.time, (err, data) => {})
           FlowRouter.go(this.url)

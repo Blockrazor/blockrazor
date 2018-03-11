@@ -7,11 +7,10 @@ import './activeBounty.html'
 
 Template.activeBounty.onCreated(function() {
   this.now = new ReactiveVar(Date.now())
-  this.bountyType = new ReactiveVar('')
 })
 
 Template.activeBounty.onRendered(function(){
-  this.bountyType.set(Cookies.get('bountyType'))
+  Session.set(Cookies.get('bountyType'))
   Meteor.setInterval(() => {
       this.now.set(Date.now())
   }, 1000);
