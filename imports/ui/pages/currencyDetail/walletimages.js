@@ -18,3 +18,10 @@ Template.walletimages.helpers({
     return _walletUpoadDirectoryPublic;
   }
 });
+
+Template.walletimages.events({
+  'click .walletImageOpen': (event, templateInstance) => {
+
+    $('#img_'+ event.currentTarget.id).modal('show');
+  }
+});
