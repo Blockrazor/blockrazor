@@ -129,10 +129,12 @@ Template.currencyInfo.onRendered(function() {
     $('#consensusSecurity').editable({
       validate: validate,
       type: 'select',
-      source: FormData.find({}, {}).fetch().map(i => ({
-        text: i.name,
-        value: i.name
-      }))
+      source: () => {
+        return FormData.find({}).fetch().map(i => ({
+          text: i.name,
+          value: i.name
+        }))
+      }
     })
 
     $('#hashAlgorithm').editable({
