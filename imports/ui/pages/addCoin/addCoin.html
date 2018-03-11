@@ -157,10 +157,14 @@
 											<br />
 															<h5 class="card-title">Features</h5>
 											{{#if reactiveVar 'coinExists'}}
-											<h6>Block Time</h6> <input type="text" id="blockTime" name="blockTime" placeholder="" data-toggle="popover" data-placement="left" data-content="{{getPopoverContent 'blockTime'}}"> (seconds) <br />
+
+									<div class="input-group">
+
+											<input type="text" id="blockTime" name="blockTime" placeholder="Block Time in seconds" class="form-control" data-toggle="popover" data-placement="left" data-content="{{getPopoverContent 'blockTime'}}">
 											
-											<br /><h6>Confirmations</h6> <input type="text" id="confirmations" name="confirmations" placeholder="" data-placement="left" data-content="{{getPopoverContent 'confirmations'}}">
-											
+											<input type="text" id="confirmations" name="confirmations" placeholder="Confirmations" class="form-control padLeft" data-toggle="popover" data-placement="left" data-content="{{getPopoverContent 'confirmations'}}">
+										</div>
+
 											{{/if}}
 
 <br /><br />
