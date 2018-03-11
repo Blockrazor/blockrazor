@@ -71,6 +71,12 @@ Template.changedCurrencies.helpers({
             } else if (typeof val == "object") {
                 return JSON.stringify(val);
             } else if (typeof val == "number") {
+                if (this.field === 'genesisTimestamp') {
+                    if (val === this.new || val === this.old) {
+                        return moment(val).format(_globalDateFormat)
+                    }
+                }
+                
                 return val;
             }
         } else {
@@ -104,8 +110,5 @@ Template.changedCurrencies.helpers({
                 return false;
             }
         }
-    },
-    hashAlgorithm: function() {
-      
     }
 });
