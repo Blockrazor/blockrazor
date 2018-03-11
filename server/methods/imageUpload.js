@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { WalletImages, Currencies, Ratings, RatingsTemplates, UserData, Bounties, REWARDCOEFFICIENT } from '/imports/api/indexDB.js';
 import { log } from '../main'
-import { creditUserWith, removeUserCredit } from '../../server/serverdb/rewards'
+import { creditUserWith, removeUserCredit } from '/imports/api/utilities.js'
 
 Meteor.methods({
     getWalletReward: (userId, rId) => {

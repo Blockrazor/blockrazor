@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { Currencies, Communities, Ratings, RatingsTemplates, Bounties, REWARDCOEFFICIENT } from '/imports/api/indexDB.js'
-import { log } from '../main'
-import { creditUserWith, removeUserCredit } from '../../server/serverdb/rewards'
+import { log } from '/server/main'
+import { creditUserWith, removeUserCredit } from '/imports/api/utilities.js'
 
 Meteor.methods({
     getCommunityReward: (userId, rId) => {

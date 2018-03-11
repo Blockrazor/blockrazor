@@ -1,12 +1,11 @@
 import { check } from 'meteor/check'
 import { ProfileImages } from '/imports/api/indexDB.js'
 
-//The Meteor.user() object does not publish email by default
-Meteor.publish('_extendUser', function() {
-    return Meteor.users.find({ _id: this.userId }, { fields: { email: 1, bio: 1, profilePicture: 1 } });
-});
 
 Meteor.methods({
+    getUserConnectionInfo: function() {
+      return this.connection;
+    },
     'editProfile': function(data) {
         if (!this.userId) { throw new Meteor.Error('error', 'please log in') };
 
