@@ -2,6 +2,7 @@ import { Template } from 'meteor/templating'
 import { Features } from '/imports/api/indexDB.js'
 
 import './feature.html'
+import './commentRender'
 
 Template.feature.onCreated(function() {
   this.autorun(() => {

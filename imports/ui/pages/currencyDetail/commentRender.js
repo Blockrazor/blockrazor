@@ -1,9 +1,9 @@
 import { Template } from 'meteor/templating'
 import { Features } from '/imports/api/indexDB.js'
 
-import './comment.html'
+import './commentRender.html'
 
-Template.comment.helpers({
+Template.commentRender.helpers({
   alreadyVotedOnComment: function(id) {
       if (_.include(Features.findOne({parentId: id}).appealVoted, Meteor.userId())) {
           return true;
@@ -11,7 +11,7 @@ Template.comment.helpers({
   },
 })
 
-Template.comment.events({
+Template.commentRender.events({
 'click .flag': function() {
 $('#flagModal-' + this._id).modal('show');
 
