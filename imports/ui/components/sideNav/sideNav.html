@@ -10,15 +10,19 @@
       {{/if}}
     </div>
     <ul class="list-unstyled components">
-      {{#if currentUser }}
+
       <li>
         <a href="/compareCurrencies">Compare currencies</a>
       </li>
         <li>
-          <a href="/addcoin">Add New Coin</a>
+          <a href="/addcoin">Add New Coin or ICO</a>
         </li>
         <li>
-          <a href="/mypending">Pending Coins & Changes</a>
+          <a href="/bounties">Bounties</a>
+        </li>
+        {{#if currentUser }}
+        <li>
+          <a href="/mypending">My Pending Items</a>
         </li>
         {{#if isModerator}}
           <li>
@@ -26,6 +30,9 @@
           </li>
           <li>
             <a href="/changedCurrencies">Proposed Changes</a>
+          </li>
+          <li>
+            <a href="/transactions/1">All Blockrazor Transactions</a>
           </li>
         {{/if}}
         <li>
@@ -37,12 +44,6 @@
           <a href="/wallet">My Wallet
             {{#if walletNotifications}}<span class="badge badge-success">{{walletNotifications}}</span>{{/if}}
           </a>
-        </li>
-        <li>
-          <a href="/bounties">Bounties</a>
-        </li>
-        <li>
-          <a href="/transactions/1">Transactions</a>
         </li>
       {{/if}}
     </ul>
