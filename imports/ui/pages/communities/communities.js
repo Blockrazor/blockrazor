@@ -141,6 +141,7 @@ Template.communities.helpers({
                 expiresAt: -1
             }
         }).fetch()[0]
+        console.log(bounty)
 
         return bounty && bounty.expiresAt > Date.now()
     },
