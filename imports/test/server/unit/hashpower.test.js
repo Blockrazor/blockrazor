@@ -6,6 +6,9 @@ import { HashPower, HashAverage, HashAlgorithm, HashUnits, HashHardware } from '
 import '/imports/api/hashing/server/methods' // import the required methods
 
 Meteor.userId = () => 'test-user' // override the meteor userId, so we can test methods that require a user
+Meteor.users.findOne = () => ({
+    username: 'test'
+}) // stub user data as well
 
 describe('Hash power data', function() { // describes the feature we're testing
 	it('Hash power data can be added', function() { // describes things that the feature should do
