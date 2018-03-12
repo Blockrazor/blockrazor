@@ -6,6 +6,12 @@
   height: 60px;
   background: #fff;
   z-index: 9;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  padding: 0;
   &:after{
     bottom: -5px;
     box-shadow: inset 0px 4px 8px -3px rgba(17, 17, 17, .06);
@@ -19,7 +25,15 @@
     width: 100%;
     z-index: 2050;
   }
+  > div{
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
   button, a{
+    display: flex;
+    align-items: center;
+    height: 100%;
     outline: none;
     color: #1a1a1a;
     border: none;
@@ -31,22 +45,21 @@
     }
   }
   .navbar-brand{
-    margin-left: 1em;
+    margin: 0;
   }
   .right-nav-item{
-    display: flex;
-    align-items: center;
-    height: 100%;
+    padding-right: 80px;
     .notifications{
       position: relative;
       height: 100%;
       display: flex;
+      min-width: 60px;
       a{
         position: relative;
         display: flex;
         align-items: center;
         height: 100%;
-        min-width: 40px;
+        min-width: 30px;
         &:hover, &:active{
           text-decoration: none;
         }
@@ -59,6 +72,11 @@
           right: 5px;
         }
       }
+    }
+  }
+  @media (max-width: 768px) {
+    .github-corner{
+      display: none;
     }
   }
 }
