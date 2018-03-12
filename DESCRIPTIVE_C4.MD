@@ -1,11 +1,10 @@
-This is an excerpt from [chapter 6 of _ØMQ - The Guide_](http://zguide.zeromq.org/page:all#The-ZeroMQ-Process-C), which is maintained at [booksbyus/zguide on github](https://github.com/booksbyus/zguide/blob/master/chapter6.txt).
-
-It is licensed under [cc-by-sa 3.0](http://creativecommons.org/licenses/by-sa/3.0/) and was originally written by Pieter Hintjens.
-
 A deeper understanding of the C4
 =================================
+I was very surprised to learn that the core software which ultra-reliable high frequency trading platforms are built upon was constructed using a software development process with no leadership, no vision, no roadmaps, no planning, and no meetings.   
+ZeroMQ is the [core that these systems are built on](https://umbrella.cisco.com/blog/2015/11/05/the-avalanche-project-when-high-frequency-trading-meets-traffic-classification/), and ZeroMQ was built with the C4. The reason Blockrazor and Krazor uses the C4 is quite simple: centralization is a blocking process which yields inaccurate results.
 
-The C4 is an evolution of the GitHub [Fork + Pull Model](http://help.github.com/send-pull-requests/). It was originally created by Pieter Hintjens and the ZMQ community. It has evolved and been battle-tested by a variety of ZMQ projects.
+The C4 is a hill-climbing algorithm, and an evolution of the GitHub [Fork + Pull Model](http://help.github.com/send-pull-requests/). It is an _extremely_ powerful and fully battle-tested approach to developing software, with proven results. It's probably not possible for any non-C4 project to win in the free market against a project that (properly) uses the C4. Now we get to find out if this holds true in the fierce and brutal cryptocurrency battleground.   
+
 
 Language
 --------
@@ -338,3 +337,12 @@ This was Ian Barber's suggestion: we need a way to crop inactive maintainers. Or
 > Administrators SHOULD block or ban "bad actors" who cause stress and pain to others in the project. This should be done after public discussion, with a chance for all parties to speak. A bad actor is someone who repeatedly ignores the rules and culture of the project, who is needlessly argumentative or hostile, or who is offensive, and who is unable to self-correct their behavior when asked to do so by others.
 
 Now and then, your projects will attract people of the wrong character. You will get better at seeing these people, over time. C4 helps in two ways. One, by setting out strong rules, it discourages the chaos-seekers and bullies, who cannot tolerate others' rules. Two, it gives you the Administrator the power to ban them. I like to give such people time, to show themselves, and get their patches on the public record (a reason to merge bad patches, which of course you can remove after a suitable pause).
+
+
+License and Further Reading
+=======
+The C4, along with this breakdown of it, was created (primarily) by the late Pieter Hintjens. If the C4 interests you it's a very good idea to check out Pieter's blog and watch his videos to get a deep understanding of his research into this field. Here's a good one to start with: [How Conway's law is eating your job](https://www.youtube.com/watch?v=7HECD3eLoVo).   
+
+The text on this page is Copyright (c) 2007-2014 iMatix Corporation and Contributors, 2017-2018 Blockrazor and Contributors. 
+
+This breakdown and description of the C4 is an excerpt from [chapter 6 of _ØMQ - The Guide_](http://zguide.zeromq.org/page:all#The-ZeroMQ-Process-C), which is maintained at [booksbyus/zguide on github](https://github.com/booksbyus/zguide/blob/master/chapter6.txt). 
