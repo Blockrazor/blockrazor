@@ -31,6 +31,24 @@
             {{/if}}
         </div>
     </div>
+        <div class="card border-secondary mb-3 mb-3" style="min-width:300px;overflow:hidden;">
+        <div class="card-header" style="height:50px">
+            <h4 class="pull-left">
+                My Hash Rigs
+            </h4>
+        </div>
+        <div class="card-body">
+            {{#if subsCacheReady}}
+                {{#each HashPower}}
+                    <img src="{{hashPowerUploadDirectoryPublic}}{{image}}" style="width:100px;height:100px"> 
+                {{else}}
+                    {{> empty}}
+                {{/each}}
+            {{else}}
+                {{> loading}}
+            {{/if}}
+        </div>
+    </div>
     <div class="card border-secondary mb-3 mb-3" style="min-width:300px;overflow:hidden;">
         <div class="card-header" style="height:50px">
             <h4 class="pull-left">

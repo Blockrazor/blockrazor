@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/staringatlights:flow-router'
-import { Currencies, UserData, Features } from '/imports/api/indexDB.js'
+import { Currencies, UserData, Features, HashPower } from '/imports/api/indexDB.js'
 
 import './userProfile.html'
 
@@ -10,6 +10,7 @@ Template.userProfile.onCreated(function() {
 		SubsCache.subscribe('userdataSlug', FlowRouter.getParam('slug'))
 		SubsCache.subscribe('approvedcurrencies')
 		SubsCache.subscribe('comments')
+		SubsCache.subscribe('hashpower')
 
 		this.user = Meteor.users.findOne({
 			slug: FlowRouter.getParam('slug')
@@ -18,6 +19,7 @@ Template.userProfile.onCreated(function() {
 })
 
 Template.userProfile.helpers({
+	hashPowerUploadDirectoryPublic: () => _hashPowerUploadDirectoryPublic,
 	user: () => Template.instance().user,
 	val: val => val || '-',
 	roles: () => {
@@ -43,6 +45,10 @@ Template.userProfile.helpers({
 		return UserData.findOne({
 			_id: (Template.instance().user || {})._id
 		}) || {}
+	},
+		HashPower: () => {
+		return HashPower.find({createdBy:Meteor.userId()})
+		 
 	},
 	currencies: () => {
 		return Currencies.find({
