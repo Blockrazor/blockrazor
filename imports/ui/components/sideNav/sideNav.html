@@ -6,19 +6,23 @@
         {{currentUser.username}}
       {{else}}
         Guest, <br/>
-        Please <a href="/login">Sign in</a>
+        Please <a href="/login">Sign in</a> to access the rest of this site.
       {{/if}}
     </div>
     <ul class="list-unstyled components">
-      {{#if currentUser }}
+
       <li>
         <a href="/compareCurrencies">Compare currencies</a>
       </li>
         <li>
-          <a href="/addcoin">Add New Coin</a>
+          <a href="/addcoin">Add New Coin or ICO</a>
         </li>
         <li>
-          <a href="/mypending">Pending Coins & Changes</a>
+          <a href="/bounties">Bounties</a>
+        </li>
+        {{#if currentUser }}
+        <li>
+          <a href="/mypending">My Pending Items</a>
         </li>
         {{#if isModerator}}
           <li>
@@ -27,34 +31,19 @@
           <li>
             <a href="/changedCurrencies">Proposed Changes</a>
           </li>
+          <li>
+            <a href="/transactions/1">All Blockrazor Transactions</a>
+          </li>
         {{/if}}
         <li>
           <a href="/notifications">Notifications
-            {{#if activityNotifications}}<span class="badge badge-success">{{activityNotifications}}</span>{{/if}} 
+            {{#if activityNotifications}}<span class="badge badge-success">{{activityNotifications}}</span>{{/if}}
           </a>
         </li>
         <li>
           <a href="/wallet">My Wallet
-            {{#if walletNotifications}}<span class="badge badge-success">{{walletNotifications}}</span>{{/if}} 
+            {{#if walletNotifications}}<span class="badge badge-success">{{walletNotifications}}</span>{{/if}}
           </a>
-        </li>
-        <li>
-          <a href="/bounties">Bounties</a>
-        </li>
-        <li>
-          <a href="/ratings">Ratings</a>
-        </li>
-        <li>
-          <a href="/communities">Communities</a>
-        </li>
-        <li>
-          <a href="/codebase">Codebase</a>
-        </li>
-        <li>
-          <a href="/hashpower">Hash Power</a>
-        </li>
-        <li>
-          <a href="/transactions/1">Transactions</a>
         </li>
       {{/if}}
     </ul>
