@@ -35,7 +35,6 @@ Template.registerHelper('relativeTime', function(date) {
 });
 
 
-if (Meteor.isClient) {
     //Global helpers
     Template.registerHelper('isModerator', function() {
         var isModerator = UserData.findOne({ _id: Meteor.userId }, { fields: { moderator: true } });
@@ -59,4 +58,3 @@ if (Meteor.isClient) {
    Template.registerHelper('subsCacheReady', () => {
        return SubsCache.ready()
    })
-}

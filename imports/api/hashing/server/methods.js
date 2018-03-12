@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor'
 import { HashAlgorithm, HashAverage, HashHardware, HashPower, HashPowerImages, HashUnits, UserData, Currencies, Bounties, REWARDCOEFFICIENT } from '/imports/api/indexDB.js'
 
 import { parseString } from 'xml2js'
-import { creditUserWith, removeUserCredit } from '../utilities'
+import { creditUserWith, removeUserCredit } from '/imports/api/utilities'
 
 const parseUnit = unit => {
 	let u = unit[0].toLowerCase()
