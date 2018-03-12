@@ -10,7 +10,7 @@ Template.currencyInfo.onRendered(function() {
   $.fn.editableform.buttons = `<button type="submit" class="btn btn-primary btn-sm editable-submit"><i class="fa fa-check"></i></button><button type="button" class="btn btn-default btn-sm editable-cancel"><i class="fa fa-close"></i></button>` // custom buttons with fa icons
 
   // editable fields
-  let editables = ['currencyName', 'currencySymbol', 'premine', 'maxCoins', 'gitRepo']
+  let editables = ['currencyName', 'currencySymbol', 'gitRepo']
 
   const validate = function(val) { // the actual proposing part
     if ($(this).attr('id') === 'genesisTimestamp') {
@@ -39,6 +39,9 @@ Template.currencyInfo.onRendered(function() {
   editables.forEach(i => $(`#${i}`).editable({
     validate: validate
   }))
+
+  $('#premine').editable({type: 'number'});
+  $('#maxCoins').editable({type: 'number'});
 
   $('#genesisTimestamp').editable({
     validate: validate,
