@@ -5,8 +5,9 @@
   max-width: 250px;
   min-height: 100vh;
   margin-left: -250px;
-  background: rgba(0,0,0,0.05);
+  background: #ddd;
   transition: all 0.2s ease;
+  z-index: 9;
   &.active {
     margin-left: 0;
     + .app-content{
@@ -27,6 +28,25 @@
       &:hover, &.active{
         text-decoration: none;
         background: #ddd;
+      }
+    }
+  }
+  @media (max-width: 768px) {
+    &.active {
+      margin-left: 0;
+      + .app-content{
+        position: relative;
+        margin-left: 0;
+        &:after{
+          position: absolute;
+          content: '';
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          background: rgba(0, 0, 0, 0.6);
+          
+        }
       }
     }
   }
