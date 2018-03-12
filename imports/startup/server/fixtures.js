@@ -1,6 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 import { FormData } from '/imports/api/indexDB.js'
-import { Bounties } from '/imports/api/indexDB.js'
+import { Bounties, Auctions } from '/imports/api/indexDB.js'
 
 
 // In order to easily populate the database with required Bounties, we upsert them on startup. This code can be removed later on...
@@ -84,6 +84,15 @@ Meteor.startup(() => {
   }, {
       $set: i
   }))
+})
+
+Auctions.upsert({
+  _id: 'top-currency'
+}, {
+  $set: {
+    name: 'Top currency auction',
+    description: 'Bid a certain amount of KZR to keep your favorite cryptocurrency on top.'
+  }
 })
 
 if (FormData.find().count() === 0) {

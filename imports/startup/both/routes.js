@@ -38,6 +38,7 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   import '../../ui/pages/wallet/wallet'
   import '../../ui/pages/signin/signin'
   import '../../ui/pages/signup/signup'
+  import '../../ui/pages/auctions/currencyAuction'
 
   //moderator pages
   import '../../ui/pages/moderator/moderatorDash/moderatorDash'
@@ -89,6 +90,21 @@ FlowRouter.route('/compareCurrencies', {
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {
       main: 'compareCurrencies',
+      //left: 'sideNav'
+    })
+  }
+})
+
+FlowRouter.route('/currencyAuction', {
+  name: 'currency-auction',
+  subscriptions: function (params) {
+    this.register('approvedcurrencies', SubsCache.subscribe('approvedcurrencies'))
+    this.register('auction', SubsCache.subscribe('auction', 'top-currency'))
+    this.register('bids', SubsCache.subscribe('bids', 'top-currency'))
+  },
+  action: (params, queryParams) => {
+    BlazeLayout.render('mainLayout', {
+      main: 'currencyAuction',
       //left: 'sideNav'
     })
   }

@@ -41,6 +41,9 @@ import { Redflags } from '/imports/api/redflags/redflags.js'
 
 import { ActivityLog } from '/imports/api/activityLog/activityLog.js'
 
+import { Bids } from '/imports/api/auctions/bids'
+import { Auctions } from '/imports/api/auctions/auctions'
+
 
 export {
   Bounties,
@@ -82,4 +85,7 @@ export {
   Redflags,
 
   ActivityLog,
+
+  Bids,
+  Auctions
 }
