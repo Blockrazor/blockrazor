@@ -89,6 +89,7 @@ Meteor.methods({
 					powerConsumption: power,
 					image: image,
 					createdBy: Meteor.userId(),
+					createdByUsername: Meteor.users.findOne({_id: Meteor.userId}).username,
 					createdAt: new Date().getTime()
 				})
 

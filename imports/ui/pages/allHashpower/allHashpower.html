@@ -4,6 +4,7 @@
         <thead>
             <tr>
                 <th scope="col">Image</th>
+                <th scope="col">User</th>
                 <th scope="col">Hardware category</th>
                 <th scope="col">Hardware device</th>
                 <th scope="col">Algorithm</th>
@@ -18,6 +19,7 @@
                 {{#each hashpower}}
                     <tr>
                         <td><img src="{{image}}" style="height: 40px;" /></td>
+                        <td>{{createdByUsername}}</td>
                         <td>{{hashCategory}}</td>
                         <td>{{hashDevice}}</td>
                         <td>{{hashAlgorithm}}</td>
