@@ -143,13 +143,11 @@ Template.currencyInfo.helpers({
 
   },
   isNull(val, field) {
-
       if (val || val === 0) {
           if (typeof val == "string") {
               return val;
           } else if (typeof val == "object") {
-
-              return val[0].join(", ");
+              return val.length == 1 ? val[0]: val.join(", ");
           } else if (typeof val == "number") {
               return val;
           }
