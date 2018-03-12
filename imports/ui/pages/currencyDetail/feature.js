@@ -1,6 +1,8 @@
 import { Template } from 'meteor/templating'
 import { Features } from '/imports/api/indexDB.js'
 
+import Cookies from 'js-cookie'
+
 import './feature.html'
 import './commentRender'
 
