@@ -1,5 +1,5 @@
 import { check } from 'meteor/check'
-import { ProfileImages, } from '/imports/api/indexDB.js'
+import { ProfileImages, UserData } from '/imports/api/indexDB.js'
 
 
 Meteor.methods({

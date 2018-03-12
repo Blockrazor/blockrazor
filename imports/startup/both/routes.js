@@ -45,7 +45,7 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   import '../../ui/pages/moderator/hashpower/allHashaverage'
   import '../../ui/pages/moderator/flaggedUsers/flaggedUsers'
   import '../../ui/pages/moderator/hashpower/flaggedHashpower'
-  import '../../ui/pages/moderator/hashpower/addHashpower.js'
+  import '../../ui/pages/addHashpower/addHashpower.js'
 
   // New Layout doesn't use side Template.dynamic side
   import '../../ui/layouts/mainLayout/mainLayout'
