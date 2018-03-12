@@ -39,7 +39,7 @@ Template.returnedCurrencies.helpers({
             } else {
                 return Template.instance().filterCount.set(0);;
             }
-            return Currencies.find(filter, { sort: { createdAt: -1 }, limit: 20, 
+            return Currencies.find(filter, { sort: { featured: -1, createdAt: -1 }, limit: 20, 
               fields: {  
                 slug: 1,  
                 currencySymbol: 1,  
@@ -54,10 +54,11 @@ Template.returnedCurrencies.helpers({
                 walletRanking: 1,  
                 decentralizationRanking: 1,  
                 gitCommits: 1,  
-              }  
+                featured: 1
+              }
              });
         } else {
-          return Currencies.find({}, { sort: { createdAt: -1 }, limit: 20, 
+          return Currencies.find({}, { sort: { featured: -1, createdAt: -1 }, limit: 20, 
             fields: {  
               slug: 1,  
               currencySymbol: 1,  
@@ -72,10 +73,10 @@ Template.returnedCurrencies.helpers({
               walletRanking: 1,  
               decentralizationRanking: 1,  
               gitCommits: 1,  
-            }   
+              featured: 1
+            }
           }); 
         }
-
 
     },
     filterCount() {
