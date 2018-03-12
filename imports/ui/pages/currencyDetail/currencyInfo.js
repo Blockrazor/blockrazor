@@ -18,24 +18,17 @@ Template.currencyInfo.onRendered(function() {
     }
 
     if ($(this).text() !== val) {
-      Meteor.call('editCoin', [{
-        coin_id: $('#_id').val(),
-        coinName: $('#name').val(),
-        field: $(this).attr('id'),
-        old: $(this).text(),
-        new: val,
-        changedDate: new Date().getTime(),
-        score: 0,
-        status: 'pending review'
-      }], (error, result) => {
-          if (error) {
-            console.log(error.reason)
-            sAlert.error(error.reason)
-          } else {
-            console.log('yay')
-            sAlert.success('Change proposed.')
-          }
-      })
+
+      $('#coinChangeModal').modal();
+
+
+      $('#from').html($(this).text());
+      $('#to').html(val);
+      $('#forField').html($(this).attr('id'))
+
+      $('#modal_field').val($(this).attr('id'));
+      $('#modal_old').val($(this).text());
+      $('#modal_new').val(val);
 
       return ''
     }
@@ -96,6 +89,32 @@ Template.currencyInfo.onRendered(function() {
 });
 
 Template.currencyInfo.events({
+  'click #proposeChange': function(event){
+//close modal
+$('#coinChangeModal').modal('hide');
+
+//call method to edit coin
+
+      Meteor.call('editCoin', [{
+        coin_id: $('#_id').val(),
+        coinName: $('#name').val(),
+        field: $('#modal_field').val(),
+        old: $('#modal_old').val(),
+        new: $('#modal_new').val(),
+        changedDate: new Date().getTime(),
+        score: 0,
+        status: 'pending review',
+        notes: $('#currencyNotes').val()
+      }], (error, result) => {
+          if (error) {
+            console.log(error.reason)
+            sAlert.error(error.reason)
+          } else {
+            console.log('yay')
+            sAlert.success('Change proposed.')
+          }
+      })
+  },
   'click .contribute': function(event) {
       event.preventDefault();
       let slug = FlowRouter.getParam("slug");
