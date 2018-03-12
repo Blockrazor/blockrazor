@@ -5,15 +5,8 @@
 }
 
 .app-content{
+  position: relative;
   padding-top: 80px;
   flex: 1;
   transition: all 0.2s ease;
-}
-@media (max-width: 768px) {
-  #sidebar {
-    margin-left: -250px;
-  }
-  #sidebar.active {
-    margin-left: 0;
-  }
 }
