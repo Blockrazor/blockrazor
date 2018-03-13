@@ -12,7 +12,7 @@
                             <tr>
                                 <th><h3 style="display: inline">Name</h3></th>
                                 {{#each comparedCurrencies}}
-                                <th scope="col"><h3 style="color: {{color}};display: inline;">{{currencyName}}</h3><sup><a href="#" class="js-delete">X</a></sup></th>
+                                <th scope="col"><h3 style="color: {{color}};display: inline;"><a href="/currency/{{slug}}"><i class="fa fa-link"></i></a>{{currencyName}}<sup><a href="#" class="js-delete">X</a></sup></h3></th>
                                 {{/each}}
                                 <th scope="col">
                                     <a href="#" id="js-add"><h3 style="display: inline">+</h3></a>
