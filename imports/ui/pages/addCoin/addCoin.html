@@ -9,9 +9,6 @@
 										<div class="heading-wrapper text-center mt-2">
 						    <h2 class="mb-4">Add Coin</h2>
 					    </div>
-					
-			
-
 			<section class="row justify-content-center">
 				<div>
 													<div class="card bg-white required mx-auto" style="width:80%">
@@ -52,11 +49,14 @@
 									        <h5 class="card-title">Coin Basics</h5>
 									 
 									        <div class="input-group">
-									        	{{reactiveVar 'currencyNameMessage'}}
+									        	
 									        <input type="text" id="currencyName" name="currencyName" placeholder="Currency Name"  class="form-control" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'currencyName'}}">					        					   
 
 									        <input type="text" id="currencySymbol" name="currencySymbol" placeholder="Symbol" class="form-control padLeft" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'currencySymbol'}}">
 									    </div>
+									    <strong class="text-danger">
+									    {{reactiveVar 'currencyNameMessage'}}
+									</strong>
 									    <hr>
 <h5 class="card-title">Security</h5>
 <select class="form-control consensus" id="consensusType" name="consensusSecurity">
