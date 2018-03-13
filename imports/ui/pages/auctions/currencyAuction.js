@@ -21,6 +21,8 @@ Template.currencyAuction.helpers({
 			currencyName: new RegExp(Template.instance().search.get(), 'gi')
 		}, {
 			currencySymbol: new RegExp(Template.instance().search.get(), 'gi')
+		}, {
+			'previousNames.tag': new RegExp(Template.instance().search.get(), 'gi')
 		}]
 	}),
 	currencies: () => {

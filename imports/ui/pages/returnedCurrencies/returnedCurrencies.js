@@ -28,6 +28,8 @@ Template.returnedCurrencies.helpers({
                 currencyName: { $regex: new RegExp(searchInputFilter, "i") }
             }, {
                 currencySymbol: { $regex: new RegExp(searchInputFilter, "i") }
+            }, {
+                'previousNames.tag': new RegExp(searchInputFilter, 'gi')
             }]
         };
 
