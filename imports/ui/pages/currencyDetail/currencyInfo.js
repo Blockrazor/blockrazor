@@ -10,7 +10,7 @@ Template.currencyInfo.onRendered(function() {
   $.fn.editableform.buttons = `<button type="submit" class="btn btn-primary btn-sm editable-submit"><i class="fa fa-check"></i></button><button type="button" class="btn btn-default btn-sm editable-cancel"><i class="fa fa-close"></i></button>` // custom buttons with fa icons
 
   // editable fields
-  let editables = ['currencyName', 'currencySymbol', 'gitRepo']
+  let editables = ['currencyName', 'currencySymbol', 'gitRepo', 'previousNames']
 
   const validate = function(val) { // the actual proposing part
     if ($(this).attr('id') === 'genesisTimestamp') {
@@ -40,8 +40,8 @@ Template.currencyInfo.onRendered(function() {
     validate: validate
   }))
 
-  $('#premine').editable({type: 'number'});
-  $('#maxCoins').editable({type: 'number'});
+  $('#premine').editable({type: 'number', validate: validate});
+  $('#maxCoins').editable({type: 'number', validate: validate});
 
   $('#genesisTimestamp').editable({
     validate: validate,
@@ -126,6 +126,9 @@ $('#coinChangeModal').modal('hide');
 });
 
 Template.currencyInfo.helpers({
+  previousNames: () => {
+    return (Template.instance().data.previousNames || []).map(i => i.tag) || 'N\\A'
+  },
   truncate (val) {
      if (val.length > 20){
     return val.substring(0,20)+'...';

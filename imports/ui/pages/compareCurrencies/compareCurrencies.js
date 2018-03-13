@@ -172,6 +172,8 @@ Template.compareCurrencies.helpers({
   			currencyName: new RegExp(Template.instance().filter.get(), 'ig')
   		}, {
   			currencySymbol: new RegExp(Template.instance().filter.get(), 'ig')
+  		}, {
+  			'previousNames.tag': new RegExp(Template.instance().filter.get(), 'gi')
   		}],
   		_id: {
   			$nin: Template.instance().compared.get()

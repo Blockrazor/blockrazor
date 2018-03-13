@@ -93,6 +93,12 @@ if (Meteor.isServer) {
                     $set: { status: 'merged' }
                 })
 
+                if (data.field === 'previousNames') {
+                    data.new = data.new.split(',').map(i => ({ // comma separated values
+                        tag: i.trim()
+                    }))
+                } // get the previous names array into the correct format
+
                 //merge changes into currencies collection
                 Currencies.update({ _id: data.coin_id }, {
                     $set: {
