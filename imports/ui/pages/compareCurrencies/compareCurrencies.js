@@ -3,6 +3,7 @@ import { Features, Currencies, GraphData, Redflags } from '/imports/api/indexDB.
 
 import Cookies from 'js-cookie'
 
+import './compareCurrencies.css'
 import './compareCurrencies.html'
 
 Template.compareCurrencies.onCreated(function() {
