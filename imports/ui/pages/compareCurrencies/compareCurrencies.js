@@ -141,7 +141,10 @@ Template.compareCurrencies.onRendered(function () {
 			cmpArr.push(value.currencySymbol)
 			templateInstance.compared.set(cmpArr)
 
-			history.pushState({}, 'compareCurrencies', `/compareCurrencies/${_.uniq(templateInstance.compared.get()).toString().replace(/,/g, '-')}`) // replace the url field in the browser without reloading the page
+			let path = `/compareCurrencies/${_.uniq(templateInstance.compared.get()).toString().replace(/,/g, '-')}`
+			history.replaceState({
+				path: path
+			}, 'compareCurrencies', path) // replace the url field in the browser without reloading the page
 
 			//this whole dance is necessery because the datasource doesn't update if not reinitialized
 			//and because it can't be focued if opened, and it can't be opened if already focused on select event
@@ -260,7 +263,10 @@ Template.compareCurrencies.events({
 		templateInstance.radarchart.data.datasets = templateInstance.radarchart.data.datasets.filter(i => i.label !== this._id)
 		templateInstance.radarchart.update()
 
-		history.pushState({}, 'compareCurrencies', `/compareCurrencies/${_.uniq(templateInstance.compared.get()).toString().replace(/,/g, '-')}`) // replace the url field in the browser without reloading the page
+		let path = `/compareCurrencies/${_.uniq(templateInstance.compared.get()).toString().replace(/,/g, '-')}`
+		history.replaceState({
+			path: path
+		}, 'compareCurrencies', path) // replace the url field in the browser without reloading the page
 	},
 })
 
