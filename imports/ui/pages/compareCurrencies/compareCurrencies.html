@@ -10,22 +10,16 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th><h3 style="display: inline">Name</h3></th>
-                                {{#each comparedCurrencies}}
-                                <th scope="col"><h3 style="color: {{color}};display: inline;"><a href="/currency/{{slug}}"><i class="fa fa-link"></i></a>{{currencyName}}<sup><a href="#" class="js-delete">X</a></sup></h3></th>
-                                {{/each}}
-                                <th scope="col">
-                                    <a href="#" id="js-add"><h3 style="display: inline">+</h3></a>
-                                    <h5 style="display: {{add}}">
-                                        <input type="text" id="js-filter" style="width: 120px;" placeholder="Filter by name..." />
-                                        <select id="js-compare">
-                                            <option value="">-</option>
-                                            {{#each currencies}}
-                                            <option value="{{_id}}">{{currencyName}}</option>
-                                            {{/each}}
-                                        </select>
-                                    </h5>
+                                <th><h3 style="display: inline">Name</h3><br/>
+                                            <h5>
+                                                <!-- <input type="text" id="js-filter" style="width: 120px;" placeholder="Filter by name..." /> -->
+                                                <input class="typeahead" type="text" placeholder="States of USA">
+                                            </h5>
                                 </th>
+                                {{#each comparedCurrencies}}
+                                <th scope="col"><h3 style="color: {{color}};display: inline;"><a href="/currency/{{slug}}"><i class="fa fa-external-link"></i></a>{{currencyName}}<sup><a href="#" class="js-delete">X</a></sup></h3></th>
+                                {{/each}}
+
                             </tr>
                         </thead>
                         <tbody>
