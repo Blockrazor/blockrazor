@@ -11,6 +11,8 @@ import {
 import Cookies from 'js-cookie'
 import typeahead from 'corejs-typeahead' //maintained typeahead
 
+import '/imports/ui/stylesheets/typeahead.css'
+
 import { FlowRouter } from 'meteor/staringatlights:flow-router'
 
 import './compareCurrencies.css'
