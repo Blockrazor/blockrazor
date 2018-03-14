@@ -11,6 +11,7 @@
     "bcrypt": "^1.0.3",
     "chart.js": "^2.7.1",
     "core-js": "^2.5.3",
+    "corejs-typeahead": "^1.2.1",
     "disposable-email": "^0.2.3",
     "fibers": "^2.0.0",
     "jquery-validation": "^1.17.0",
