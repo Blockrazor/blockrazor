@@ -80,7 +80,7 @@ FlowRouter.route('/profile/:slug', {
   }
 })
 
-FlowRouter.route('/compareCurrencies', {
+FlowRouter.route('/compareCurrencies/:currencies?', {
   name: 'compare-currencies',
   subscriptions: function (params) {
     this.register('approvedcurrencies', SubsCache.subscribe('approvedcurrencies'))

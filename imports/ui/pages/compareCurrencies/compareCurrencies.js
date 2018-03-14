@@ -11,6 +11,8 @@ import {
 import Cookies from 'js-cookie'
 import typeahead from 'corejs-typeahead' //maintained typeahead
 
+import { FlowRouter } from 'meteor/staringatlights:flow-router'
+
 import './compareCurrencies.css'
 import './compareCurrencies.html'
 
@@ -23,8 +25,17 @@ Template.compareCurrencies.onCreated(function () {
 		SubsCache.subscribe('redflags')
 	})
 
-	this.compared = new ReactiveVar([])
+	let currencies = FlowRouter.getParam('currencies') && FlowRouter.getParam('currencies').split('-') || []
+
+	this.compared = new ReactiveVar(currencies)
 	this.colors = new ReactiveDict()
+
+	currencies.forEach(i => {
+		let color = '#' + (Math.random() * 0xFFFFFF << 0).toString(16)
+		let rgb = parseInt(color.substring(1), 16)
+
+		this.colors.set(i, color)
+	})
 })
 
 Template.compareCurrencies.onRendered(function () {
@@ -111,7 +122,7 @@ Template.compareCurrencies.onRendered(function () {
 					}, {
 						currencySymbol: new RegExp(entry, 'ig')
 					}],
-					_id: {
+					currencySymbol: {
 						$nin: template.compared.get()
 					}
 				}).fetch()
@@ -125,8 +136,10 @@ Template.compareCurrencies.onRendered(function () {
 			cmpArr = templateInstance.compared.get()
 
 			// don't add a new currency if it's already on the graph
-			cmpArr.push(value._id)
+			cmpArr.push(value.currencySymbol)
 			templateInstance.compared.set(cmpArr)
+
+			history.pushState({}, 'compareCurrencies', `/compareCurrencies/${_.uniq(templateInstance.compared.get()).toString().replace(/,/g, '-')}`) // replace the url field in the browser without reloading the page
 
 			//this whole dance is necessery because the datasource doesn't update if not reinitialized
 			//and because it can't be focued if opened, and it can't be opened if already focused on select event
@@ -141,7 +154,7 @@ Template.compareCurrencies.onRendered(function () {
 			let color = '#' + (Math.random() * 0xFFFFFF << 0).toString(16)
 			let rgb = parseInt(color.substring(1), 16)
 
-			templateInstance.colors.set(value._id, color)
+			templateInstance.colors.set(value.currencySymbol, color)
 
 			let currency = Currencies.findOne({
 				_id: value._id
@@ -205,7 +218,7 @@ Template.compareCurrencies.onRendered(function () {
 				}, {
 					currencySymbol: new RegExp(event.target.value, 'ig')
 				}],
-				_id: {
+				currencySymbol: {
 					$nin: event.data.templ.compared.get()
 				}
 			})
@@ -222,13 +235,19 @@ Template.compareCurrencies.onRendered(function () {
 	$('.typeahead').bind('typeahead:select', curryEvent(Template.instance()))
 
 	$('.typeahead').bind('typeahead:autocomplete', curryEvent(Template.instance()))
+
+	Template.instance().compared.get().forEach(i => {
+		curryEvent(Template.instance())(null, Currencies.findOne({
+			currencySymbol: i
+		}) || {})
+	})
 })
 
 Template.compareCurrencies.events({
 	'click .js-delete': function (event, templateInstance) {
 		event.preventDefault()
 		
-		cmpArr = cmpArr.filter(i => i !== this._id)
+		cmpArr = cmpArr.filter(i => i !== this.currencySymbol)
 		templateInstance.compared.set(cmpArr)
 
 		//this whole dance is necessery because the datasource doesn't update if not reinitialized
@@ -238,6 +257,8 @@ Template.compareCurrencies.events({
 		// remove data from the chart and update it accordingly
 		templateInstance.radarchart.data.datasets = templateInstance.radarchart.data.datasets.filter(i => i.label !== this._id)
 		templateInstance.radarchart.update()
+
+		history.pushState({}, 'compareCurrencies', `/compareCurrencies/${_.uniq(templateInstance.compared.get()).toString().replace(/,/g, '-')}`) // replace the url field in the browser without reloading the page
 	},
 })
 
@@ -245,7 +266,7 @@ Template.compareCurrencies.helpers({
 	// get all currencies currently on the list
 	comparedCurrencies: () => {
 		let cur = Currencies.find({
-			_id: {
+			currencySymbol: {
 				$in: Template.instance().compared.get()
 			}
 		}, {
@@ -257,11 +278,12 @@ Template.compareCurrencies.helpers({
 				maxCoins: 1,
 				hashpower: 1,
 				slug: 1,
+				price: 1
 			}
 		}).fetch()
 
 		// add the color field
-		cur.forEach(i => i.color = Template.instance().colors.get(i._id))
+		cur.forEach(i => i.color = Template.instance().colors.get(i.currencySymbol))
 
 		return cur
 	},
