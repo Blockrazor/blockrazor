@@ -260,7 +260,6 @@ Template.compareCurrencies.helpers({
 			}
 		}).fetch()
 
-
 		// add the color field
 		cur.forEach(i => i.color = Template.instance().colors.get(i._id))
 
