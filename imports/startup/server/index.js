@@ -25,11 +25,13 @@ import '/imports/api/users/server/methods'
 import '/imports/api/communities/server/methods'
 import '/imports/api/hashing/server/methods'
 import '/imports/api/auctions/server/methods'
+import '/imports/api/rewards/server/methods'
 
 // import './fastRender.js'
 import './fixtures.js'
 
 import '/imports/api/auctions/server/startup'
+import '/imports/api/rewards/server/startup'
 
 // collection configs
 import '/imports/api/users/users.js'
