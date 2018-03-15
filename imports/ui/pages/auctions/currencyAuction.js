@@ -74,7 +74,7 @@ Template.currencyAuction.helpers({
 			_id: (this.options || {}).currency
 		}) || {}).currencyName || ''
 	},
-	fixed: (val) => val.toFixed(2)
+	fixed: (val) => val.toFixed(5)
 })
 
 Template.currencyAuction.events({
