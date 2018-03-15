@@ -123,7 +123,21 @@ Template.radarGraph.onRendered(function () {
 
 // Template.radarGraph.events({})
 
+const quality = function() {
+  
+}
+
 Template.radarGraph.helpers({
+  dataQuality: () => {
+    let graphdata = GraphData.findOne({
+      _id: 'elodata'
+    }) || {}
+
+    let currency = Currencies.findOne(Template.instance().filter)
+    
+    const {eloMinElo, eloMaxElo} = graphdata
+    return Math.ceil((((currency.eloRanking || 0) - eloMinElo) / ((eloMaxElo - eloMinElo) || 1)) * 10)
+  },
   thisId(){
     return Template.instance().id
   },
