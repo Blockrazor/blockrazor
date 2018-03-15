@@ -47,6 +47,7 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   import '../../ui/pages/moderator/flaggedUsers/flaggedUsers'
   import '../../ui/pages/moderator/hashpower/flaggedHashpower'
   import '../../ui/pages/addHashpower/addHashpower.js'
+  import '../../ui/pages/moderator/appLogs/appLogs'
 
   // New Layout doesn't use side Template.dynamic side
   import '../../ui/layouts/mainLayout/mainLayout'
@@ -105,6 +106,20 @@ FlowRouter.route('/currencyAuction', {
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {
       main: 'currencyAuction',
+      //left: 'sideNav'
+    })
+  }
+})
+
+FlowRouter.route('/applogs', {
+  name: 'app-logs',
+  subscriptions: function (params) {
+    this.register('applogs', SubsCache.subscribe('applogs', 1, 50))
+    this.register('users', SubsCache.subscribe('users'))
+  },
+  action: (params, queryParams) => {
+    BlazeLayout.render('mainLayout', {
+      main: 'appLogs',
       //left: 'sideNav'
     })
   }
