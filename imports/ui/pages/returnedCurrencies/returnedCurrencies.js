@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Currencies, LocalCurrencies } from '/imports/api/indexDB.js';
 
-import ScrollMagic from 'ScrollMagic';
+import scrollmagic from 'scrollmagic';
 import './returnedCurrencies.html'
 import './currency.js'
 
