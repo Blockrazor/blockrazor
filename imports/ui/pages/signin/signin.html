@@ -1,24 +1,27 @@
 <template name="signin">
-	{{> sAlert}}
-	<div class="container-fluid">
-  		<div class="row d-flex justify-content-center" style="margin-top:2px;">
-    		<div class="col-xs-12 col-sm-12 col-md-10 col-lg-8 col-xl-8" style="margin-bottom:10px;">
-  				<div class="card border-secondary mb-3 mb-3" style="min-width:300px;overflow:hidden;">
-  					<div class="card-header" style="height:50px"><h4 class="pull-left">Login</h4></div>
-  					<div class="card-body">
-    					<button type="button" class="btn btn-success" id="js-facebook" style="width: 100%; background-color: #4267b2;">Login with Facebook!</button><br /><br />
-    					<button type="button" class="btn btn-success" id="js-github" style="width: 100%; background-color: #24292e;">Login with GitHub!</button><br /><br />
-    						
-    					<span style="text-align: center; width: 100%; display: block">or</span><br />
-    
-    					E-mail: <input type="text" id="js-email" style="width: 100%" /><br />
-    					Password: <input type="password" id="js-password" style="width: 100%" /><br /><br />
-    					<button type="button" class="btn btn-success" id="js-login" style="width: 30%">Login</button><br />
-    					<br><br>
-    					Don't have an account? <a href="/signup">Sign up here</a>.
-  					</div>
-  				</div>
-  			</div>
-		</div>
-	</div>
+  {{> sAlert}}
+  <div class="sign-in">
+    <div class="title">Login</div>
+    <div class="email-sign-in">
+      <form id="signIn">
+        <div class="form-group input-group">
+          <span class="input-group-addon" id="basic-addon1"><i class="fa fa-envelope"></i></span>
+          <input type="email" id="email" class="form-control" placeholder="Email ID" required>
+        </div>
+        <div class="form-group input-group">
+          <span class="input-group-addon" id="basic-addon1"><i class="fa fa-key"></i></span>
+          <input type="password" id="password" class="form-control" placeholder="Password" required>
+        </div>
+        <button class="btn btn-sucess" type="submit">Login</button>
+      </form>
+      <div class="section-title">OR Login with</div>
+      <div class="alternate-options">
+        <a href="#" id="js-facebook"><i class="fa fa-facebook"></i><span>Facebook</span></a>
+        <a href="#" id="js-github"><i class="fa fa-github"></i><span>Github</span></a>
+      </div>
+      <div class="sign-up-link">
+        Don't have an account? <a href="/signup">Create account</a>.
+      </div>
+    </div>
+  </div>
 </template>
