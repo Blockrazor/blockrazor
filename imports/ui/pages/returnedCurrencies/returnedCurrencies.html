@@ -22,5 +22,12 @@
         {{else}}
             {{> loading}}
         {{/if}}
+        <div id="loader">
+            <!-- used to determine that page is ending for infinite scroll -->
+            <!-- Loading more... -->
+        </div>
+        {{#if reactiveVar 'everythingLoaded'}}
+            <h3>All records shown</h3>
+        {{/if}}
     </div>
 </template>
