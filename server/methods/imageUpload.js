@@ -397,7 +397,7 @@ Meteor.methods({
 if (gm.isAvailable) {
 
   //create thumbnail
-  var size = { width: 100, height: 100 };
+  var size = { width: 200, height: 200 };
   gm(filename)
       .resize(size.width, size.height + ">")
       .gravity('Center')

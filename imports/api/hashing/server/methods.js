@@ -406,6 +406,8 @@ Meteor.methods({
         let validFile = _supportedFileTypes.includes(mimetype)
         let fileExtension = mime.extension(mimetype)
         let filename = `${_hashPowerUploadDirectory}${md5}.${fileExtension}`
+        var filename_thumbnail = `${_hashPowerUploadDirectory}${md5}_thumbnail.${fileExtension}`
+
         let filenameWatermark = `${_hashPowerUploadDirectory}${md5}_watermark.${fileExtension}`
 
         let insert = false
@@ -423,6 +425,7 @@ Meteor.methods({
             	extension: fileExtension
           	})
         } catch(error) {
+        	console.log(error)
         	throw new Meteor.Error('Error.', 'That image has already been used on Blockrazor. You must take your own original screenshot of your mining rig.');
         }
 
@@ -440,6 +443,17 @@ Meteor.methods({
 
 		//Add watermark to image
 		if (gm.isAvailable) {
+
+			//create thumbnail
+            var size = { width: 100, height: 100 };
+            gm(filename)
+                .resize(size.width, size.height + ">")
+                .gravity('Center')
+                .extent(size.width, size.height)
+                .write(filename_thumbnail, function(error) {
+                    if (error) console.log('Error - ', error);
+            });
+
     		gm(filename).command('composite').gravity('SouthEast').out('-geometry', '+1+1').in(_watermarkLocation).write(filenameWatermark, Meteor.bindEnvironment((err, stdout, stderr, command) => {
     			if (!err) {
 	                fs.unlinkSync(filename)

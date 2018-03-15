@@ -23,7 +23,8 @@ Template.registerHelper( '_coinUpoadDirectory', ( string ) => {
 
 Template.registerHelper('doesCoinImageExist', function(img) {
     if(img){
-    	return _coinUpoadDirectoryPublic + img;
+      let thumbnail_filename = img.split('.')[0] + '_thumbnail.' + img.split('.')[1];
+    	return _coinUpoadDirectoryPublic + thumbnail_filename;
     }else{
     	return '/images/noimage.png'
     }

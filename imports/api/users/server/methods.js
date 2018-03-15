@@ -101,6 +101,7 @@ Meteor.methods({
         let mimetype = mime.lookup(fileName)
         let validFile = _supportedFileTypes.includes(mimetype)
         let fileExtension = mime.extension(mimetype)
+        let filename_thumbnail = `${_profilePictureUploadDirectory}${md5}_thumbnail.${fileExtension}`
         let filename = `${_profilePictureUploadDirectory}${md5}.${fileExtension}`
 
         let insert = false
@@ -132,5 +133,15 @@ Meteor.methods({
                 log.error('Error in uploadProfilePicture', error)
             }
         }))
+
+          var size = { width: 200, height: 200 };
+  gm(filename)
+      .resize(size.width, size.height + ">")
+      .gravity('Center')
+      .extent(size.width, size.height)
+      .write(filename_thumbnail, function(error) {
+          if (error) console.log('Error - ', error);
+      });
+
     },
 });
