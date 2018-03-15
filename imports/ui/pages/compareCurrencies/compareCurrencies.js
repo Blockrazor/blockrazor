@@ -34,6 +34,7 @@ Template.compareCurrencies.onCreated(function () {
 
 	this.compared = new ReactiveVar(currencies)
 	this.colors = new ReactiveDict()
+	this.methodReady = new ReactiveVar(false)
 
 	currencies.forEach(i => {
 		let color = '#' + (Math.random() * 0xFFFFFF << 0).toString(16)
@@ -41,83 +42,7 @@ Template.compareCurrencies.onCreated(function () {
 
 		this.colors.set(i, color)
 	})
-
-	//logic for receiving benefits of fast-render and yet using nonreactive data from method
-	if (!LocalCurrencies.find().count()) {
-		this.TransitoryCollection = Currencies
-		// this.transitioning = new ReactiveVar(true)
-		Meteor.call('fetchCurrencies', (err, res) => {
-			res.forEach(x => {
-				LocalCurrencies.insert(x)
-			})
-			this.TransitoryCollection = LocalCurrencies
-		})
-	} else {
-		this.TransitoryCollection = LocalCurrencies
-		// this.transitioning = new ReactiveVar(false)
-	}
-})
-
-Template.compareCurrencies.onRendered(function () {
-	const radar = document.getElementById('radar').getContext('2d')
-	radar.canvas.width = 800
-	radar.canvas.height = 600
-
-	this.radarchart = new Chart(radar, {
-		type: 'radar',
-		data: {
-			labels: ['Ongoing Development', 'Code Quality', 'Community', 'Hash Power', 'Settlement Speed', 'Ease of Use', 'Coin Distribution', 'Transactions', 'Decentralization'],
-			datasets: [{
-				label: '2',
-				fill: false,
-				backgroundColor: '#fff',
-				borderColor: '#ccc',
-				pointBorderColor: '#fff',
-				borderWidth: 4,
-				pointRadius: 0,
-				pointBackgroundColor: '#fff',
-				data: [10, 10, 10, 10, 10, 10, 10, 10, 10]
-			}, {
-				label: '3',
-				fill: false,
-				backgroundColor: '#fff',
-				borderColor: '#fff',
-				borderWidth: 1,
-				pointBorderColor: '#fff',
-				pointBackgroundColor: '#fff',
-				data: [0, 0, 0, 0, 0, 0, 0, 0, 0]
-			}]
-		},
-		options: {
-			responsive: false,
-			defaultFontColor: 'red',
-			tooltips: {
-				enabled: false
-			},
-			maintainAspectRatio: false,
-			title: {
-				display: false
-			},
-			legend: {
-				display: false,
-				position: 'bottom',
-				labels: {
-					fontColor: 'red',
-					display: true,
-				}
-			},
-			scale: {
-				pointLabels: {
-					fontSize: 14
-				},
-
-				// Hides the scale
-				display: true
-			}
-		}
-	})
-
-	function init() {
+	this.init = function () {
 		var option1 = {
 			hint: true,
 			highlight: true,
@@ -269,21 +194,91 @@ Template.compareCurrencies.onRendered(function () {
 
 		$('.typeahead').bind('typeahead:autocomplete', curryEvent(Template.instance()))
 	}
+	//logic for receiving benefits of fast-render and yet using nonreactive data from method
+	if (!LocalCurrencies.find().count()) {
+		this.TransitoryCollection = Currencies
+		// this.transitioning = new ReactiveVar(true)
+		Meteor.call('fetchCurrencies', (err, res) => {
+			res.forEach(x => {
+				LocalCurrencies.insert(x)
+			})
+			this.TransitoryCollection = LocalCurrencies
+			$('.typeahead').typeahead('destroy')
+			this.methodReady.set(true)
+			console.log(this.TransitoryCollection.find().fetch())
+		})
+	} else {
+		this.TransitoryCollection = LocalCurrencies
+		// this.transitioning = new ReactiveVar(false)
+	}
+})
 
-	init()
+Template.compareCurrencies.onRendered(function () {
+	const radar = document.getElementById('radar').getContext('2d')
+	radar.canvas.width = 800
+	radar.canvas.height = 600
 
-	//couldn't tell if this is necessery
-	// this.autorun((comp) => {
-	// 	if (LocalCurrencies.find().count() && this.transitioning.get() == true) {
-	// 		this.TransitoryCollection = LocalCurrencies
-	// 		this.transitioning.set(false)
-	// 		// $('.typeahead').typeahead('destroy')
-	// 		// init()
-	// 		comp.stop()
-	// 	} else if (this.transitioning.get() == false) {
-	// 		comp.stop()
-	// 	}
-	// })
+	this.radarchart = new Chart(radar, {
+		type: 'radar',
+		data: {
+			labels: ['Ongoing Development', 'Code Quality', 'Community', 'Hash Power', 'Settlement Speed', 'Ease of Use', 'Coin Distribution', 'Transactions', 'Decentralization'],
+			datasets: [{
+				label: '2',
+				fill: false,
+				backgroundColor: '#fff',
+				borderColor: '#ccc',
+				pointBorderColor: '#fff',
+				borderWidth: 4,
+				pointRadius: 0,
+				pointBackgroundColor: '#fff',
+				data: [10, 10, 10, 10, 10, 10, 10, 10, 10]
+			}, {
+				label: '3',
+				fill: false,
+				backgroundColor: '#fff',
+				borderColor: '#fff',
+				borderWidth: 1,
+				pointBorderColor: '#fff',
+				pointBackgroundColor: '#fff',
+				data: [0, 0, 0, 0, 0, 0, 0, 0, 0]
+			}]
+		},
+		options: {
+			responsive: false,
+			defaultFontColor: 'red',
+			tooltips: {
+				enabled: false
+			},
+			maintainAspectRatio: false,
+			title: {
+				display: false
+			},
+			legend: {
+				display: false,
+				position: 'bottom',
+				labels: {
+					fontColor: 'red',
+					display: true,
+				}
+			},
+			scale: {
+				pointLabels: {
+					fontSize: 14
+				},
+
+				// Hides the scale
+				display: true
+			}
+		}
+	})
+
+	this.autorun((comp)=>{
+		if (this.methodReady.get()) {
+			this.init()
+			comp.stop()
+		}
+	})
+	this.init()
 
 	Template.instance().compared.get().forEach(i => {
 		curryEvent(Template.instance())(null, TransitoryCollection.findOne({
