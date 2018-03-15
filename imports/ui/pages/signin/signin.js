@@ -1,11 +1,11 @@
 import { Template } from 'meteor/templating'
 import {FlowRouter} from 'meteor/staringatlights:flow-router';
 import './signin.html'
+import './signin.scss'
 
 Template.signin.events({
 	'click #js-facebook': (event, templateInstance) => {
 		event.preventDefault()
-
 		Meteor.loginWithFacebook({}, (err) => {
 			if (!err) {
 				FlowRouter.go(window.last || '/')
@@ -25,12 +25,12 @@ Template.signin.events({
 			}
 		})
 	},
-	'click #js-login': (event, templateInstance) => {
+	'submit #signIn': (event, templateInstance) => {
 		event.preventDefault()
 
 		Meteor.loginWithPassword({
-			username: $('#js-email').val()
-		}, $('#js-password').val(), (err) => {
+			username: $('#email').val()
+		}, $('#password').val(), (err) => {
 			if (!err) {
 				FlowRouter.go(window.last || '/')
 			} else {

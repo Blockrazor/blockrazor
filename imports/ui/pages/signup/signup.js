@@ -4,7 +4,7 @@ import { FlowRouter } from 'meteor/staringatlights:flow-router';
 import './signup.html'
 
 Template.signup.events({
-	'click #js-signup': (event, templateInstance) => {
+	'submit #signUp': (event, templateInstance) => {
 		event.preventDefault()
 
 		if ($('#js-email').val() && $('#js-password').val()) {
