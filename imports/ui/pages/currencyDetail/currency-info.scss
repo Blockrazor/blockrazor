@@ -1,0 +1,59 @@
+.currency-info{
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  .currency-title {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: #fff;
+    img{
+      max-width: 80px;
+      height: auto;
+    }
+    .name {
+      font-size: 20px;
+      padding-left: 20px;
+      font-weight: 800;
+    }
+  }
+  .basic-details {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    .single-detail{
+      width: calc(33.333% - 20px);
+      margin: 10px;
+      padding: 10px;
+      background: #fff;
+      .title{
+        font-weight: 600;
+      }
+      .value {
+        padding-top: 5px;
+        margin-left: 10px;
+        padding-bottom: 5px;
+      }
+    }
+  }
+  .editable-input{
+    input, select{
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      border-bottom: dashed 1px;
+      padding: 0 0 10px 0;
+    }
+  }
+  .editableform{
+    .editable-error-block.help-block {
+      background: red;
+      position: absolute;
+      border: 0;
+      left: 0;
+      color: #fff;
+      padding: 10px;
+      transform: translateY(100%);
+    }
+  }
+}
