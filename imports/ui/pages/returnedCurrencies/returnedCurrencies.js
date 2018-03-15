@@ -70,10 +70,10 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
 
 Template.returnedCurrencies.onRendered( function () {	
 	// init controller
-	this.controller = new ScrollMagic.Controller();
+	this.controller = new scrollmagic.Controller();
   var templ = Template.instance()
 	// build scene
-	 var scene = new ScrollMagic.Scene({triggerElement: "#loader", triggerHook: "onEnter"})
+	 var scene = new scrollmagic.Scene({triggerElement: "#loader", triggerHook: "onEnter"})
 					.addTo(templ.controller)
 					.on("enter", function (e) {
              templ.limit.set(templ.limit.get()+templ.increment)
