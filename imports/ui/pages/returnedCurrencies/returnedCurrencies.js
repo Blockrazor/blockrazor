@@ -125,7 +125,6 @@ Template.returnedCurrencies.helpers({
     }
 });
 
-
 Template.returnedCurrencies.events({
   'keyup #searchInput': function(event) {
     event.preventDefault();
@@ -140,28 +139,10 @@ Template.returnedCurrencies.events({
      Template.instance().searchInputFilter.set(query); //done
     }
 
-  },
-    'click #clear': function(event) {
-    event.preventDefault();
-    //clear all values in filter
-    $('#currencyFilter').trigger("reset");
+  }, 
+})
 
-    //set all session to undefined, its undefined as the currencies() helper checks on this
-    clearSessions();
-
-  },
-  'change input': function(event) { 
-    event.preventDefault(); 
-    if($(event.target).val().length > 0){ 
-        $(event.target).addClass('filled'); 
-      } 
-      else{ 
-        $(event.target).removeClass('filled'); 
-      } 
-    } 
-  })
-
-  Template.returnedCurrencies.onDestroyed( function () {	
-    // destroys scenes and controller
-    this.controller.destroy()
-  });
+Template.returnedCurrencies.onDestroyed( function () {	
+  // destroys scenes and controller
+  this.controller.destroy()
+});

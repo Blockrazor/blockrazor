@@ -10,8 +10,6 @@ import './currencyInfo'
 import './discussion.js'
 import './fundamentalMetrics.js'
 import './walletimages.js'
-
-import './currency.css'
 import './currency.scss'
 
 Template.currencyDetail.onCreated(function bodyOnCreated() {
