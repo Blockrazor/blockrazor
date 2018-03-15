@@ -337,6 +337,6 @@ if (Meteor.isServer) {
 
             }));
 
-        }
+        },
     });
 }
