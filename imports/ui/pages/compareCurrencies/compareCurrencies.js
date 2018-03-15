@@ -42,7 +42,11 @@ Template.compareCurrencies.onCreated(function () {
 
 		this.colors.set(i, color)
 	})
+
+
+
 	this.init = function () {
+		
 		var option1 = {
 			hint: true,
 			highlight: true,
@@ -54,7 +58,7 @@ Template.compareCurrencies.onCreated(function () {
 			limit: 15,
 			source: currySearch(Template.instance())
 		}
-
+	
 		//binding for updating autocomplete source on deletion of items
 		this.option1 = option1
 		this.option2 = option2
@@ -81,20 +85,20 @@ Template.compareCurrencies.onCreated(function () {
 			}
 		}
 
-		function curryEvent(template) {
+		function curryEvent (template) {
 			return function addSelection(event, value) {
 				var templateInstance = template
 				cmpArr = templateInstance.compared.get()
-
+	
 				// don't add a new currency if it's already on the graph
 				cmpArr.push(value.currencySymbol)
 				templateInstance.compared.set(cmpArr)
-
+	
 				let path = `/compareCurrencies/${_.uniq(templateInstance.compared.get()).toString().replace(/,/g, '-')}`
 				history.replaceState({
 					path: path
 				}, 'compareCurrencies', path) // replace the url field in the browser without reloading the page
-
+	
 				//this whole dance is necessery because the datasource doesn't update if not reinitialized
 				//and because it can't be focued if opened, and it can't be opened if already focused on select event
 				$('.typeahead').typeahead('destroy')
@@ -103,22 +107,22 @@ Template.compareCurrencies.onCreated(function () {
 				$('.typeahead').typeahead('val', '');
 				$('.typeahead').focus()
 				// $('.typeahead').typeahead('open');
-
+	
 				// a way to randomly generate a color
 				let color = '#' + (Math.random() * 0xFFFFFF << 0).toString(16)
 				let rgb = parseInt(color.substring(1), 16)
-
+	
 				templateInstance.colors.set(value.currencySymbol, color)
-
+	
 				let currency = templateInstance.TransitoryCollection.findOne({
 					_id: value._id
 				}) || {}
-
+	
 				let graphdata = GraphData.findOne({
 					_id: 'elodata'
 				}) || {}
-
-
+	
+	
 				const {
 					codebaseMaxElo,
 					codebaseMinElo,
@@ -127,23 +131,23 @@ Template.compareCurrencies.onCreated(function () {
 					walletMinElo,
 					walletMaxElo
 				} = graphdata
-
+	
 				var wallet = ((currency.walletRanking - walletMinElo) / ((walletMaxElo - walletMinElo) || 1)) * 10;
 				var community = (((currency.communityRanking || communityMinElo) - communityMinElo) / ((communityMaxElo - communityMinElo) || 1)) * 10;
 				let codebase = (((currency.codebaseRanking || codebaseMinElo) - codebaseMinElo) / ((codebaseMaxElo - codebaseMinElo) || 1)) * 10
-
+	
 				let maxD = graphdata.decentralizationMaxElo
 				let minD = graphdata.decentralizationMinElo
-
+	
 				let decentralization = (((currency.decentralizationRanking || minD) - minD) / ((maxD - minD) || 1)) * 10
-
+	
 				let minDev = graphdata.developmentMinElo
 				let maxDev = graphdata.developmentMaxElo
-
+	
 				let development = (((currency.gitCommits || minDev) - minDev) / ((maxDev - minDev) || 1)) * 10
-
+	
 				let nums = [development, codebase, community, 2, 7, wallet, 1, 3, decentralization]
-
+	
 				// push the new data to the chart
 				templateInstance.radarchart.data.datasets.push({
 					label: value._id,
@@ -155,11 +159,13 @@ Template.compareCurrencies.onCreated(function () {
 					pointBackgroundColor: color,
 					data: nums
 				})
-
+	
 				// update the chart to reflect new data
 				templateInstance.radarchart.update()
 			}
 		}
+
+		this.curryEvent = curryEvent
 
 		//adds first found entry in autocomplete on enter keypress
 		$('.typeahead').typeahead(option1, option2).on('keyup', {
@@ -205,7 +211,6 @@ Template.compareCurrencies.onCreated(function () {
 			this.TransitoryCollection = LocalCurrencies
 			$('.typeahead').typeahead('destroy')
 			this.methodReady.set(true)
-			console.log(this.TransitoryCollection.find().fetch())
 		})
 	} else {
 		this.TransitoryCollection = LocalCurrencies
@@ -272,7 +277,7 @@ Template.compareCurrencies.onRendered(function () {
 		}
 	})
 
-	this.autorun((comp)=>{
+	this.autorun((comp) => {
 		if (this.methodReady.get()) {
 			this.init()
 			comp.stop()
@@ -281,7 +286,7 @@ Template.compareCurrencies.onRendered(function () {
 	this.init()
 
 	Template.instance().compared.get().forEach(i => {
-		curryEvent(Template.instance())(null, TransitoryCollection.findOne({
+		Template.instance().curryEvent(Template.instance())(null, Template.instance().TransitoryCollection.findOne({
 			currencySymbol: i
 		}) || {})
 	})
