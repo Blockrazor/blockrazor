@@ -7,6 +7,18 @@ SyncedCron.add({
     job: () => Meteor.call('updateGraphdata', (err, data) => {})
 })
 
+SyncedCron.add({
+    name: 'Average ELO rankings',
+    schedule: parser => parser.text('every 10 minutes'),
+    job: () => ['wallet', 'community', 'codebase', 'decentralization'].forEach(i => Meteor.call('averageElo', i, (err, data) => {}))
+})
+
+SyncedCron.add({
+    name: 'Count ELO rankings',
+    schedule: parser => parser.text('every 10 minutes'),
+    job: () => Meteor.call('eloCount', (err, data) => {})
+})
+
 Meteor.methods({
     updateGraphdata: () => {
         let currencies = Currencies.find().fetch()
@@ -14,20 +26,22 @@ Meteor.methods({
         let ratings = {}
         let commits = []
 
-        let pos = ['wallet', 'community', 'codebase', 'decentralization']
+        let pos = ['wallet', 'community', 'codebase', 'decentralization', 'elo']
 
         currencies.forEach(i => {
             commits.push(i.gitCommits || 0)
 
             pos.forEach(j => {
+                let min = j === 'elo' ? 0 : 400
+
                 ratings[j] = ratings[j] || []
-                ratings[j].push(i[`${j}Ranking`] || 400) // apparently there's a chance that ...Ranking is undefined, so we have to have a default value here as well       
-            }) 
+                ratings[j].push(i[`${j}Ranking`] || min) // apparently there's a chance that ...Ranking is undefined, so we have to have a default value here as well       
+            })
         })
 
         pos.forEach(i => {
-            let min = 400 // default value
-            let max = 400
+            let min = i === 'elo' ? 0 : 400 // default value
+            let max = i === 'elo' ? 0 : 400
 
             if (!_.isEmpty(ratings[i])) { // if the array is empty, we get -Infinity to Infinity, which is incorrect, so we have to check whether the array is empty or not
                 min = _.min(ratings[i])
@@ -60,6 +74,25 @@ Meteor.methods({
                 'developmentMaxElo': max
             }
         })
+    },
+    eloCount: () => {
+        let currencies = Currencies.find({}).fetch()
+
+        currencies.forEach(i => {
+            let ratings = EloRankings.find({
+                currencyId: i._id
+            }).count()
+
+            Currencies.upsert({
+                _id: i._id
+            }, {
+                $set: {
+                    [`eloRanking`]: ratings
+                }
+            })
+        })
+
+        Meteor.call('updateGraphdata', (err, data) => {}) // ensure that radar graph upper and lower bounds are correct
     },
     averageElo: (type) => {
         if (!~['wallet', 'community', 'codebase', 'decentralization'].indexOf(type)) {
