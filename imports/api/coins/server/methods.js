@@ -370,5 +370,8 @@ Meteor.methods({
 
 
 
-      }
+      },
+      fetchCurrencies(){
+        return Currencies.find({}, {fields: {consensusSecurity: 0, hashAlgorithm: 0, gitAPI: 0}}).fetch()
+    },
 });

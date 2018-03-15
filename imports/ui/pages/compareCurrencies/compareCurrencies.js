@@ -5,7 +5,8 @@ import {
 	Features,
 	Currencies,
 	GraphData,
-	Redflags
+	Redflags,
+	LocalCurrencies,
 } from '/imports/api/indexDB.js'
 
 import Cookies from 'js-cookie'
@@ -13,7 +14,9 @@ import typeahead from 'corejs-typeahead' //maintained typeahead
 
 import '/imports/ui/stylesheets/typeahead.css'
 
-import { FlowRouter } from 'meteor/staringatlights:flow-router'
+import {
+	FlowRouter
+} from 'meteor/staringatlights:flow-router'
 
 import './compareCurrencies.css'
 import './compareCurrencies.html'
@@ -38,6 +41,21 @@ Template.compareCurrencies.onCreated(function () {
 
 		this.colors.set(i, color)
 	})
+
+	//logic for receiving benefits of fast-render and yet using nonreactive data from method
+	if (!LocalCurrencies.find().count()) {
+		this.TransitoryCollection = Currencies
+		// this.transitioning = new ReactiveVar(true)
+		Meteor.call('fetchCurrencies', (err, res) => {
+			res.forEach(x => {
+				LocalCurrencies.insert(x)
+			})
+			this.TransitoryCollection = LocalCurrencies
+		})
+	} else {
+		this.TransitoryCollection = LocalCurrencies
+		// this.transitioning = new ReactiveVar(false)
+	}
 })
 
 Template.compareCurrencies.onRendered(function () {
@@ -99,150 +117,176 @@ Template.compareCurrencies.onRendered(function () {
 		}
 	})
 
-	var option1 = {
-		hint: true,
-		highlight: true,
-		minLength: 0,
-	}
-	var option2 = {
-		name: 'states',
-		display: (x) => x.currencyName,
-		limit: 9999999999999,
-		source: currySearch(Template.instance())
-	}
+	function init() {
+		var option1 = {
+			hint: true,
+			highlight: true,
+			minLength: 0,
+		}
+		var option2 = {
+			name: 'states',
+			display: (x) => x.currencyName,
+			limit: 15,
+			source: currySearch(Template.instance())
+		}
 
-	//binding for updating autocomplete source on deletion of items
-	this.option1 = option1
-	this.option2 = option2
+		//binding for updating autocomplete source on deletion of items
+		this.option1 = option1
+		this.option2 = option2
 
-	function currySearch(template) {
-		return function typeAheadSearch(entry, CB) {
-			CB(
-				Currencies.find({
-					$or: [{
-						currencyName: new RegExp(entry, 'ig')
+		function currySearch(template) {
+			return function typeAheadSearch(entry, CB) {
+				CB(
+					template.TransitoryCollection.find({
+						$or: [{
+							currencyName: new RegExp(entry, 'ig')
+						}, {
+							currencySymbol: new RegExp(entry, 'ig')
+						}],
+						currencySymbol: {
+							$nin: template.compared.get()
+						}
 					}, {
-						currencySymbol: new RegExp(entry, 'ig')
-					}],
-					currencySymbol: {
-						$nin: template.compared.get()
-					}
-				}).fetch()
-			)
-		}
-	}
-
-	function curryEvent(template) {
-		return function addSelection(event, value) {
-			var templateInstance = template
-			cmpArr = templateInstance.compared.get()
-
-			// don't add a new currency if it's already on the graph
-			cmpArr.push(value.currencySymbol)
-			templateInstance.compared.set(cmpArr)
-
-			let path = `/compareCurrencies/${_.uniq(templateInstance.compared.get()).toString().replace(/,/g, '-')}`
-			history.replaceState({
-				path: path
-			}, 'compareCurrencies', path) // replace the url field in the browser without reloading the page
-
-			//this whole dance is necessery because the datasource doesn't update if not reinitialized
-			//and because it can't be focued if opened, and it can't be opened if already focused on select event
-			$('.typeahead').typeahead('destroy')
-			$('.typeahead').blur()
-			$('.typeahead').typeahead(option1, option2)
-			$('.typeahead').typeahead('val', '');
-			$('.typeahead').focus()
-			// $('.typeahead').typeahead('open');
-
-			// a way to randomly generate a color
-			let color = '#' + (Math.random() * 0xFFFFFF << 0).toString(16)
-			let rgb = parseInt(color.substring(1), 16)
-
-			templateInstance.colors.set(value.currencySymbol, color)
-
-			let currency = Currencies.findOne({
-				_id: value._id
-			}) || {}
-
-			let graphdata = GraphData.findOne({
-				_id: 'elodata'
-			}) || {}
-
-
-			const {
-				codebaseMaxElo,
-				codebaseMinElo,
-				communityMaxElo,
-				communityMinElo,
-				walletMinElo,
-				walletMaxElo
-			} = graphdata
-
-			var wallet = ((currency.walletRanking - walletMinElo) / ((walletMaxElo - walletMinElo) || 1)) * 10;
-			var community = (((currency.communityRanking || communityMinElo) - communityMinElo) / ((communityMaxElo - communityMinElo) || 1)) * 10;
-			let codebase = (((currency.codebaseRanking || codebaseMinElo) - codebaseMinElo) / ((codebaseMaxElo - codebaseMinElo) || 1)) * 10
-
-			let maxD = graphdata.decentralizationMaxElo
-			let minD = graphdata.decentralizationMinElo
-
-			let decentralization = (((currency.decentralizationRanking || minD) - minD) / ((maxD - minD) || 1)) * 10
-
-			let minDev = graphdata.developmentMinElo
-			let maxDev = graphdata.developmentMaxElo
-
-			let development = (((currency.gitCommits || minDev) - minDev) / ((maxDev - minDev) || 1)) * 10
-
-			let nums = [development, codebase, community, 2, 7, wallet, 1, 3, decentralization]
-
-			// push the new data to the chart
-			templateInstance.radarchart.data.datasets.push({
-				label: value._id,
-				fill: true,
-				backgroundColor: `rgba(${(rgb >> 16) & 255}, ${(rgb >> 8) & 255}, ${rgb & 255}, 0.2)`, // a way to convert color from hex to rgb
-				borderColor: color,
-				pointBorderColor: '#fff',
-				pointStyle: 'dot',
-				pointBackgroundColor: color,
-				data: nums
-			})
-
-			// update the chart to reflect new data
-			templateInstance.radarchart.update()
-		}
-	}
-
-	//adds first found entry in autocomplete on enter keypress
-	$('.typeahead').typeahead(option1, option2).on('keyup', {
-		templ: Template.instance()
-	}, function (event) {
-		if (event.keyCode == 13) {
-			var a = Currencies.findOne({
-				$or: [{
-					currencyName: new RegExp(event.target.value, 'ig')
-				}, {
-					currencySymbol: new RegExp(event.target.value, 'ig')
-				}],
-				currencySymbol: {
-					$nin: event.data.templ.compared.get()
-				}
-			})
-			if (a) {
-				$('.typeahead').typeahead('val', '');
-				$('.typeahead').focus()
-				curryEvent(event.data.templ)(null, a)
+						limit: 15,
+						sort: {
+							currencyName: 1
+						}
+					}).fetch()
+				)
 			}
 		}
-	});
 
-	$('.typeahead').focus()
+		function curryEvent(template) {
+			return function addSelection(event, value) {
+				var templateInstance = template
+				cmpArr = templateInstance.compared.get()
 
-	$('.typeahead').bind('typeahead:select', curryEvent(Template.instance()))
+				// don't add a new currency if it's already on the graph
+				cmpArr.push(value.currencySymbol)
+				templateInstance.compared.set(cmpArr)
 
-	$('.typeahead').bind('typeahead:autocomplete', curryEvent(Template.instance()))
+				let path = `/compareCurrencies/${_.uniq(templateInstance.compared.get()).toString().replace(/,/g, '-')}`
+				history.replaceState({
+					path: path
+				}, 'compareCurrencies', path) // replace the url field in the browser without reloading the page
+
+				//this whole dance is necessery because the datasource doesn't update if not reinitialized
+				//and because it can't be focued if opened, and it can't be opened if already focused on select event
+				$('.typeahead').typeahead('destroy')
+				$('.typeahead').blur()
+				$('.typeahead').typeahead(option1, option2)
+				$('.typeahead').typeahead('val', '');
+				$('.typeahead').focus()
+				// $('.typeahead').typeahead('open');
+
+				// a way to randomly generate a color
+				let color = '#' + (Math.random() * 0xFFFFFF << 0).toString(16)
+				let rgb = parseInt(color.substring(1), 16)
+
+				templateInstance.colors.set(value.currencySymbol, color)
+
+				let currency = templateInstance.TransitoryCollection.findOne({
+					_id: value._id
+				}) || {}
+
+				let graphdata = GraphData.findOne({
+					_id: 'elodata'
+				}) || {}
+
+
+				const {
+					codebaseMaxElo,
+					codebaseMinElo,
+					communityMaxElo,
+					communityMinElo,
+					walletMinElo,
+					walletMaxElo
+				} = graphdata
+
+				var wallet = ((currency.walletRanking - walletMinElo) / ((walletMaxElo - walletMinElo) || 1)) * 10;
+				var community = (((currency.communityRanking || communityMinElo) - communityMinElo) / ((communityMaxElo - communityMinElo) || 1)) * 10;
+				let codebase = (((currency.codebaseRanking || codebaseMinElo) - codebaseMinElo) / ((codebaseMaxElo - codebaseMinElo) || 1)) * 10
+
+				let maxD = graphdata.decentralizationMaxElo
+				let minD = graphdata.decentralizationMinElo
+
+				let decentralization = (((currency.decentralizationRanking || minD) - minD) / ((maxD - minD) || 1)) * 10
+
+				let minDev = graphdata.developmentMinElo
+				let maxDev = graphdata.developmentMaxElo
+
+				let development = (((currency.gitCommits || minDev) - minDev) / ((maxDev - minDev) || 1)) * 10
+
+				let nums = [development, codebase, community, 2, 7, wallet, 1, 3, decentralization]
+
+				// push the new data to the chart
+				templateInstance.radarchart.data.datasets.push({
+					label: value._id,
+					fill: true,
+					backgroundColor: `rgba(${(rgb >> 16) & 255}, ${(rgb >> 8) & 255}, ${rgb & 255}, 0.2)`, // a way to convert color from hex to rgb
+					borderColor: color,
+					pointBorderColor: '#fff',
+					pointStyle: 'dot',
+					pointBackgroundColor: color,
+					data: nums
+				})
+
+				// update the chart to reflect new data
+				templateInstance.radarchart.update()
+			}
+		}
+
+		//adds first found entry in autocomplete on enter keypress
+		$('.typeahead').typeahead(option1, option2).on('keyup', {
+			templ: Template.instance()
+		}, function (event) {
+			if (event.keyCode == 13) {
+				var a = event.data.templ.TransitoryCollection.findOne({
+					$or: [{
+						currencyName: new RegExp(event.target.value, 'ig')
+					}, {
+						currencySymbol: new RegExp(event.target.value, 'ig')
+					}],
+					currencySymbol: {
+						$nin: event.data.templ.compared.get()
+					}
+				}, {
+					sort: {
+						currencyName: 1
+					}
+				})
+				if (a) {
+					$('.typeahead').typeahead('val', '');
+					$('.typeahead').focus()
+					curryEvent(event.data.templ)(null, a)
+				}
+			}
+		});
+
+		$('.typeahead').focus()
+
+		$('.typeahead').bind('typeahead:select', curryEvent(Template.instance()))
+
+		$('.typeahead').bind('typeahead:autocomplete', curryEvent(Template.instance()))
+	}
+
+	init()
+
+	//couldn't tell if this is necessery
+	// this.autorun((comp) => {
+	// 	if (LocalCurrencies.find().count() && this.transitioning.get() == true) {
+	// 		this.TransitoryCollection = LocalCurrencies
+	// 		this.transitioning.set(false)
+	// 		// $('.typeahead').typeahead('destroy')
+	// 		// init()
+	// 		comp.stop()
+	// 	} else if (this.transitioning.get() == false) {
+	// 		comp.stop()
+	// 	}
+	// })
 
 	Template.instance().compared.get().forEach(i => {
-		curryEvent(Template.instance())(null, Currencies.findOne({
+		curryEvent(Template.instance())(null, TransitoryCollection.findOne({
 			currencySymbol: i
 		}) || {})
 	})
@@ -251,7 +295,7 @@ Template.compareCurrencies.onRendered(function () {
 Template.compareCurrencies.events({
 	'click .js-delete': function (event, templateInstance) {
 		event.preventDefault()
-		
+
 		cmpArr = cmpArr.filter(i => i !== this.currencySymbol)
 		templateInstance.compared.set(cmpArr)
 

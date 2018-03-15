@@ -33,6 +33,7 @@ import { Features } from './features/features.js'
 import { Communities } from './communities/communities.js'
 
 import { Currencies } from '/imports/api/coins/currencies.js'
+import { LocalCurrencies } from '/imports/api/coins/currencies.js'
 import { PendingCurrencies } from '/imports/api/coins/pendingCurrencies.js'
 import { RejectedCurrencies } from '/imports/api/coins/rejectedCurrencies.js'
 import { ChangedCurrencies } from '/imports/api/coins/changedCurrencies.js'
@@ -51,6 +52,7 @@ export {
   REWARDCOEFFICIENT,
 
   Currencies,
+  LocalCurrencies,
   PendingCurrencies,
   RejectedCurrencies,
   ChangedCurrencies,
