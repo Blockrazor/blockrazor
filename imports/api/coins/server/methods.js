@@ -350,6 +350,7 @@ Meteor.methods({
         var mimetype = mime.lookup(fileName);
         var validFile = _supportedFileTypes.includes(mimetype);
         var fileExtension = mime.extension(mimetype);
+        var filename_thumbnail = (_coinUpoadDirectory + md5 + '_thumbnail.' + fileExtension);
         var filename = (_coinUpoadDirectory + md5 + '.' + fileExtension);
 
         var insert = false;
@@ -359,16 +360,25 @@ Meteor.methods({
             return false;
         }
 
-        fs.writeFile(filename, binaryData, {encoding: 'binary'}, Meteor.bindEnvironment(function(error){
-            if(error){
-              log.error('Error in file upload in uploadCoinImage', error)
+        fs.writeFileSync(filename, binaryData, { encoding: 'binary' }, Meteor.bindEnvironment(function(error) {
+            if (error) {
+                log.error('Error in uploadWalletImage', error)
             };
+        }))
 
+        //create thumbnail for coin
+        if (gm.isAvailable) {
 
-        }));
-
-
-
+            //create thumbnail
+            var size = { width: 100, height: 100 };
+            gm(filename)
+                .resize(size.width, size.height + ">")
+                .gravity('Center')
+                .extent(size.width, size.height)
+                .write(filename_thumbnail, function(error) {
+                    if (error) console.log('Error - ', error);
+                });
+        }
 
       },
       fetchCurrencies(){

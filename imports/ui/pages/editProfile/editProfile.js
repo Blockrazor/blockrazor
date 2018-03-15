@@ -1,4 +1,5 @@
 import { Template } from 'meteor/templating';
+import { ProfileImages } from '/imports/api/indexDB.js'
 
 import './editProfile.html'
 
@@ -61,8 +62,7 @@ Template.editProfile.events({
                         sAlert.error(error.message)
                     } else {
                         sAlert.success('Upload success')
-                        
-                        $('#js-profilePic').attr('src', `${_profilePictureUploadDirectoryPublic}${md5}.${fileExtension}`)
+                        $('#js-profilePic').attr('src', `${_profilePictureUploadDirectoryPublic}${md5}_thumbnail.${fileExtension}`)
                     }
                 })
            }
@@ -74,5 +74,11 @@ Template.editProfile.events({
 Template.editProfile.helpers({
     user: () => {
         return Meteor.user();
-    }
+    },
+    ProfileImages: () => {
+        return ProfileImages.findOne({createdBy:Meteor.userId()});
+    },
+
+
+
 });

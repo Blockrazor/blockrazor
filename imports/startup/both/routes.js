@@ -291,7 +291,8 @@ FlowRouter.route('/developers', {
 FlowRouter.route('/profile', {
   name: 'profile',
   subscriptions: function () {
-    
+   this.register('profileimages', SubsCache.subscribe('profileimages'));
+
  },
   action: () => {
     BlazeLayout.render('mainLayout', {
