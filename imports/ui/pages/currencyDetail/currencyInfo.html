@@ -1,68 +1,101 @@
 
 <template name="currencyInfo">
   <div class="currency-info">
-    <div class="currency-title">
-      <img class="currency-logo" src="{{doesCoinImageExist currencyLogoFilename}}" alt="{{currencyName}}">
-      <div class="name">{{currencyName}} {{#with thiscurrency}}({{currencySymbol}}) {{/with}}</div>
-    </div>
-    <div class="basic-details">
-      <input type="hidden" id="_id" value="{{_id}}">
-      <input type="hidden" id="name" value="{{currencyName}}">
-      <div class="single-detail">
-        <div class="title">Currency Name</div>
-        <div class="value" id="currencyName">{{isNull currencyName 'currencyName'}}</div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-header d-flex align-items-center flex-row">
+          <img class="currency-logo" src="{{doesCoinImageExist currencyLogoFilename}}" alt="{{currencyName}}">
+          <div class="name">{{currencyName}} {{#with thiscurrency}}({{currencySymbol}}) {{/with}}</div>
+        </div>
       </div>
-      <div class="single-detail">
-        <div class="title">Currency Symbol</div>
-        <div class="value" id="currencySymbol">{{isNull currencySymbol 'currencySymbol'}}</div>
+      <div class="col-sm-12">
+        <div class="basic-details">
+          <input type="hidden" id="_id" value="{{_id}}">
+          <input type="hidden" id="name" value="{{currencyName}}">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Currency Name</div>
+                <div class="value" id="currencyName">{{isNull currencyName 'currencyName'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Currency Symbol</div>
+                <div class="value" id="currencySymbol">{{isNull currencySymbol 'currencySymbol'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Genesis Timestamp</div>
+                <div class="value" id="genesisTimestamp">{{isDateNull genesisTimestamp 'genesisTimestamp'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Premine</div>
+                <div class="value" id="premine">{{isNull premine 'premine'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Circulating</div>
+                <div class="value" id="circulating">{{isNull circulating 'circulating'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Max Coins</div>
+                <div class="value" id="maxCoins">{{isNull maxCoins 'maxCoins'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Consensus Security</div>
+                <div class="value" id="consensusSecurity">{{isNull consensusSecurity 'consensusSecurity'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Hash Algorithm</div>
+                <div class="value" id="hashAlgorithm">{{isNull hashAlgorithm 'hashAlgorithm'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Wallet Ranking</div>
+                <div class="value" id="walletRanking">{{isNull walletRanking 'walletRanking'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Git Update</div>
+                <div class="value" id="gitUpdate">{{isNullReadOnly gitUpdate}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Market Cap</div>
+                <div class="value" id="marketCap">{{isNull marketCap 'marketCap'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Previous Names</div>
+                <div class="value" id="previousNames">{{previousNames}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Git Repo</div>
+                <div class="value" id="gitRepo">{{isNull gitRepo 'gitRepo'}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="single-detail">
-        <div class="title">Genesis Timestamp</div>
-        <div class="value" id="genesisTimestamp">{{isDateNull genesisTimestamp 'genesisTimestamp'}}</div>
-      </div>
-      <div class="single-detail">
-        <div class="title">Premine</div>
-        <div class="value" id="premine">{{isNull premine 'premine'}}</div>
-      </div>
-      <div class="single-detail">
-        <div class="title">Circulating</div>
-        <div class="value" id="circulating">{{isNull circulating 'circulating'}}</div>
-      </div>
-      <div class="single-detail">
-        <div class="title">Max Coins</div>
-        <div class="value" id="maxCoins">{{isNull maxCoins 'maxCoins'}}</div>
-      </div>
-      <div class="single-detail">
-        <div class="title">Consensus Security</div>
-        <div class="value" id="consensusSecurity">{{isNull consensusSecurity 'consensusSecurity'}}</div>
-      </div>
-      <div class="single-detail">
-        <div class="title">Hash Algorithm</div>
-        <div class="value" id="hashAlgorithm">{{isNull hashAlgorithm 'hashAlgorithm'}}</div>
-      </div>
-      <div class="single-detail">
-        <div class="title">Wallet Ranking</div>
-        <div class="value" id="walletRanking">{{isNull walletRanking 'walletRanking'}}</div>
-      </div>
-      <div class="single-detail">
-        <div class="title">Git Update</div>
-        <div class="value" id="gitUpdate">{{isNullReadOnly gitUpdate}}</div>
-      </div>
-      <div class="single-detail">
-        <div class="title">Market Cap</div>
-        <div class="value" id="marketCap">{{isNull marketCap 'marketCap'}}</div>
-      </div>
-      <div class="single-detail">
-        <div class="title">Previous Names</div>
-        <div class="value" id="previousNames">{{previousNames}}</div>
-      </div>
-      <div class="single-detail">
-        <div class="title">Git Repo</div>
-        <div class="value" id="gitRepo">{{isNull gitRepo 'gitRepo'}}</div>
-      </div>
-    </div>
+    </div>    
   </div>
-
   <!-- Modals -->
   <div class="modal" id="coinChangeModal">
     <div class="modal-dialog" role="document">
