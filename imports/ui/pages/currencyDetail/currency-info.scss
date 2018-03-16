@@ -1,31 +1,21 @@
 .currency-info{
   position: relative;
-  max-width: 1200px;
-  margin: 0 auto;
-  .currency-title {
-    position: relative;
-    display: flex;
-    align-items: center;
-    background: #fff;
-    img{
-      max-width: 80px;
-      height: auto;
-    }
-    .name {
-      font-size: 20px;
-      padding-left: 20px;
-      font-weight: 800;
-    }
+  img.currency-logo{
+    max-width: 80px;
+    height: auto;
   }
+  
+  .name {
+    font-size: 20px;
+    padding-left: 20px;
+    font-weight: 800;
+  }
+
   .basic-details {
     position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    .single-detail{
-      width: calc(33.333% - 20px);
-      margin: 10px;
-      padding: 10px;
-      background: #fff;
+    .card{
+      margin: 5px 0;
+
       .title{
         font-weight: 600;
       }
@@ -59,18 +49,11 @@
 }
 
 // Charts
-.fundamental-metrics{
+.data-quality-rank {
   position: relative;
-  .section-title {
-    position: relative;
-    text-align: center;
-    margin: 30px 0;
-    font-size: 24px;
-  }
-  .chart{
-    text-align: center;
-    canvas{
-      margin: 0 auto;
-    }
-  }
+  margin-top: 40px;
+}
+
+.currency-features {
+  margin: 50px 0;
 }

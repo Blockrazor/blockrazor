@@ -1,48 +1,19 @@
 <template name="fundamentalMetrics">
-  <div class="fundamental-metrics">
-    <div class="row">
-      <div class="col-md-8">
-        <div class="section-title">
-          Fundamental Metrics
-        </div>
-        <div  class="chart">
-          {{> radarGraph width=600 height=300 options=options class="mx-auto"}}
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="distribution-chart">
-          <div class="section-title">
-            Coin Distribution
-          </div>
-          <div class="chart">
-            <canvas id="distribution"></canvas>
-          </div>
-        </div>
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">Fundamental Metrics</div>
+      <div class="card-body d-flex flex-column align-items-center justify-content-center">
+        {{> radarGraph width=600 height=300 options=options class="mx-auto"}}
       </div>
     </div>
-    
-    <a href="/compareCurrencies">Compare with other currencies</a>
   </div>
-  
-
-  
-  <!-- <div class="currencyDetailBox">    -->
-    <!-- TODO : this does nothing, delete or update after confirming -->
-    <!-- <div class="row" style="margin-top:10px;">
-        <div class="col-lg-3">
-          <div class="btn-group-vertical">
-            {{#each metrics}}
-              <button id="name" type="button" class="btn btn-secondary">{{name}}</button>
-            {{/each}}
-          </div>
-        </div>
-        <div class="col-lg-9">
-          {{#each metrics}}
-            <div id={{_id}} style="display:none;" class="">{{currencyName}} {{name}} text
-            <br />
-          <hr /> {{metricDescription}}</div>
-        {{/each}}
-        </div>
-    </div> -->
-  <!-- </div> -->
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">Coin Distribution</div>
+      <div class="card-body d-flex align-items-center justify-content-center">
+        <canvas id="distribution"></canvas>
+      </div>
+    </div>
+  </div>
+  <a class="btn btn-outline-info m-3" href="/compareCurrencies">Compare with other currencies</a>
 </template>
