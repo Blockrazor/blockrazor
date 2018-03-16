@@ -57,3 +57,20 @@
     }
   }
 }
+
+// Charts
+.fundamental-metrics{
+  position: relative;
+  .section-title {
+    position: relative;
+    text-align: center;
+    margin: 30px 0;
+    font-size: 24px;
+  }
+  .chart{
+    text-align: center;
+    canvas{
+      margin: 0 auto;
+    }
+  }
+}
