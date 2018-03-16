@@ -1,8 +1,40 @@
 <template name="returnedCurrencies">
+<div class="row">
+    <div class="col-3 mx-auto">
+        <div class="nauk-info-connections text-center">
+              <img src="https://user-images.githubusercontent.com/8143945/37496855-eec0cd58-28ef-11e8-9de3-b0df665daa67.png" style="width:200px"><br />
+
+<br />
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".underDev">Learn more</button><br />
+              <a href="https://github.com/Blockrazor/blockrazor/"><i class="fa fa-github" aria-hidden="true" style="font-size:32px;padding:10px"></i></a> <a href="https://twitter.com/blockrazor"><i class="fa fa-twitter" aria-hidden="true" style="font-size:32px;padding:10px"></i></a>
+
+
+        </div>
+    </div>
+</div>
+
+<div class="modal underDev" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <p>"Blockrazor is under active development. The site goes down often. Things break at least once a day. Bounty rewards and wallets are reset often. <br /><br />Follow @Blockrazor on Twitter to be notified when we go 'live' and you can earn real Krazor. Check out the code on Github."</p>
+     <a href="https://github.com/Blockrazor/blockrazor/"><i class="fa fa-github" aria-hidden="true" style="font-size:32px;padding:10px"></i></a> <a href="https://twitter.com/blockrazor"><i class="fa fa-twitter" aria-hidden="true" style="font-size:32px;padding:10px"></i></a>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
   <div class="search-bar"> 
     <input id="searchInput" name="searchInput" type="search" placeholder="Search BlockRazor now"> 
     <div class="found-result">
-      {{#if filterCount}} Found {{filterCount}} results {{/if}}
+      {{#if reactiveVar 'countReady'}}
+        Found {{filterCount}} results
+      {{else}}
+        Loading count of results
+      {{/if}}
     </div> 
   </div>
   <div class="currency-container">
