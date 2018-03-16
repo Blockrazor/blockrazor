@@ -2,6 +2,7 @@ import { Template } from 'meteor/templating'
 import { WalletImages } from '../../../api/indexDB.js'
 import { Currencies } from '../../../api/indexDB.js'
 import { GraphData } from '../../../api/indexDB.js'
+import Chart from 'chart.js';
 
 import "../../components/radarGraph.js"
 import './fundamentalMetrics.html'
@@ -26,26 +27,25 @@ Template.fundamentalMetrics.events({
 Template.fundamentalMetrics.helpers({
   options: function (){
     return {
-                responsive: false,
-                defaultFontColor: 'red',
-              tooltips: {enabled: false},
-              maintainAspectRatio: false,
-              title: {display: false},
-              legend: {
-                display: false,
-                position: 'bottom',
-                labels: {
-                  fontColor: 'red',
-                  display: true,
-                }
-              },
-              scale: {
-                pointLabels: {fontSize: 14},
-    
-              // Hides the scale
-              display: true
-          }
-            }
+      responsive: false,
+      defaultFontColor: 'red',
+      tooltips: {enabled: false},
+      maintainAspectRatio: false,
+      title: {display: false},
+      legend: {
+        display: false,
+        position: 'bottom',
+        labels: {
+          fontColor: 'red',
+          display: true,
+        }
+      },
+      scale: {
+        pointLabels: {fontSize: 14},
+      // Hides the scale
+      display: true
+    }
+  }
   },
   metricDescription: function () {
     return this.metricTag; //find metricTag data from collection
@@ -82,18 +82,43 @@ Template.fundamentalMetrics.helpers({
   }
 });
 
-
-
-
-
-
-
 //
-// Template.metricContent.onRendered(function (){
-//   // Session.set('thisId', this.data._id);
-//   // if (Session.get('lastId')) {
-//   //   document.getElementById(Session.get('lastId')).style.display = "none";
-//   // }
-//   // document.getElementById(this.data._id).style.display = "block";
-//   // Session.set('lastId', this.data._id);
-// });
+Template.fundamentalMetrics.onRendered(function (){
+  var currencyData = Template.currentData();
+  var ctx = document.getElementById("distribution").getContext('2d');
+  ctx.canvas.width = 200;
+  ctx.canvas.height = 260;
+  var chart = new Chart(ctx, {
+      // The type of chart we want to create
+      type: 'doughnut',
+      // The data for our dataset
+      data: {
+          labels: ["Founder(s) share: " + currencyData.premine, "Mined coins: " + currencyData.circulating, "Not yet mined: " + (currencyData.maxCoins - currencyData.circulating)],
+          datasets: [{
+            data: [(((currencyData.premine / currencyData.maxCoins) * 100).toFixed()), ((((currencyData.circulating - currencyData.premine) / currencyData.maxCoins) * 100).toFixed()), ((((currencyData.maxCoins - currencyData.circulating)/currencyData.maxCoins) * 100).toFixed())],
+            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f"]
+          }]
+      },
+
+      // Configuration options go here
+      options: {
+        tooltips: {enabled: false},
+        responsive: false,
+        maintainAspectRatio: false,
+        title: {display: false},
+        legend: {
+          display: true,
+          position: 'bottom',
+          labels: {
+            boxWidth: 15
+          }
+        }
+      }
+  });
+  // Session.set('thisId', this.data._id);
+  // if (Session.get('lastId')) {
+  //   document.getElementById(Session.get('lastId')).style.display = "none";
+  // }
+  // document.getElementById(this.data._id).style.display = "block";
+  // Session.set('lastId', this.data._id);
+});
