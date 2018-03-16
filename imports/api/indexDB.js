@@ -66,6 +66,7 @@ export {
   HashHardware,
   HashPower,
   HashUnits,
+  HashPowerImages,
 
   UserData,
   ProfileImages,
