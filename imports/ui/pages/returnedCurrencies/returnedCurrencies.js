@@ -31,6 +31,7 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
 			this.TransitoryCollection.set(LocalCurrencies)
 		})
 	} else {
+    this.countReady.set(true)
 		this.TransitoryCollection.set(LocalCurrencies)
   }
   

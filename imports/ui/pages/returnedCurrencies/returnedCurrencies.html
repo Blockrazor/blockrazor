@@ -30,7 +30,11 @@
   <div class="search-bar"> 
     <input id="searchInput" name="searchInput" type="search" placeholder="Search BlockRazor now"> 
     <div class="found-result">
-      {{#if filterCount}} Found {{filterCount}} results {{/if}}
+      {{#if reactiveVar 'countReady'}}
+        Found {{filterCount}} results
+      {{else}}
+        Loading count of results
+      {{/if}}
     </div> 
   </div>
   <div class="currency-container">
