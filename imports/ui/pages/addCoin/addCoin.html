@@ -45,12 +45,12 @@
 								<div>
 									<div class="card bg-white required mx-auto" style="width:80% !important">
 										<div class="card-body">
-											
+
 									        <h5 class="card-title">Coin Basics</h5>
-									 
+
 									        <div class="input-group">
-									        	
-									        <input type="text" id="currencyName" name="currencyName" placeholder="Currency Name"  class="form-control" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'currencyName'}}">					        					   
+
+									        <input type="text" id="currencyName" name="currencyName" placeholder="Currency Name"  class="form-control" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'currencyName'}}">
 
 									        <input type="text" id="currencySymbol" name="currencySymbol" placeholder="Symbol" class="form-control padLeft" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'currencySymbol'}}">
 									    </div>
@@ -104,12 +104,7 @@
 											<input type="number" min="0" name="ICOcoinsIntended" id="ICOcoinsIntended" placeholder="Coins to be allocated" class="form-control">
 											Start time (GMT)
 											<div class="float-right" style="width:100%; display:flex;">
-												<input type="number" min="2017" max="2020" name="ICOyear" placeholder="YYYY" id="icodate" class="form-control">
-												<input type="number" min="1" max="12" name="ICOmonth" placeholder="MM" id="icodate" class="form-control">
-												<input type="number" min="1" max="31" name="ICOday" placeholder="DD" id="icodate" class="form-control">
-												<input type="number" min="0" max="23" name="ICOhour" placeholder="HH" id="icodate" class="form-control">
-												<input type="number" min="0" max="59" name="ICOminute" placeholder="MM" id="icodate" class="form-control">
-												<input type="number" min="0" max="59" name="ICOsecond" placeholder="SS" id="icodate" class="form-control">
+												<input type="text" id="icoDate" name="ICOyear">
 											</div>
 											{{ /unless }}
 
@@ -117,13 +112,14 @@
 
 											{{ #unless reactiveVar 'btcfork'}}
 											{{ #if reactiveVar 'coinExists'}}
-<hr>
-											<h5 class="card-title mt-3">Genesis Block Date</h5>{{ /if }}
-											{{ #unless reactiveVar 'coinExists'}}Genesis Block ETA{{ /unless }}
+												<hr>
+												<h5 class="card-title mt-3">Genesis Block Date</h5>
+											{{ /if }}
+											{{ #unless reactiveVar 'coinExists'}}
+												<div>Genesis Block ETA</div>
+											{{ /unless }}
 											<div class="float-right" style="width:100%; display:flex;">
-												<input type="number" min="2008" max="2020" name="genesisYear" placeholder="YYYY" id="genesis" class="form-control" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'genesisTimestamp'}}">
-											    <input type="number" min="1" max="12" name="genesisMonth" placeholder="MM" id="genesis" class="form-control" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'genesisTimestamp'}}">
-											    <input type="number" min="1" max="31" name="genesisDay" placeholder="DD" id="genesis" class="form-control" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'genesisTimestamp'}}">
+												<input type="text" id="genesisDate" name="genesisYear" value="YYYY-MM-DD" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'genesisTimestamp'}}">
 											</div>
 
 											<div class="clearfix"></div>
@@ -142,7 +138,7 @@
 											</select>
 											<br />
 											<input type="number" class="form-control" min="478500" max="600000" name="forkHeight" id="forkHeight" placeholder="Fork Height" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'forkHeight'}}">
-											
+
 											{{ /if }}
 											<br />
 											<div class="input-group">
@@ -164,12 +160,12 @@
 											<h5 class="card-title">Community</h5>
 											<div class="input-group padBottom">
 											<input type='text' class="form-control" id="gitRepo" placeholder="GitHub repository for main node software" name="gitRepo" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'gitRepo'}}">
-											
+
 											<input type="text" class="form-control padLeft" id="officialSite" placeholder="Official website" name="officialSite" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'officialSite'}}">
 											</div>
 											<div class="input-group">
 											<input type='text' class="form-control" id="reddit" placeholder="Reddit" name="reddit" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'reddit'}}">
-											
+
 											<input type="text" class="form-control padLeft" id="blockExplorer" placeholder="Block Explorer" name="blockExplorer">
 </div>
 																			{{#if reactiveVar 'coinExists'}}
@@ -182,10 +178,10 @@
 							<br />
 												<h5 class="card-title">Exchanges</h5>
 												<textarea class="form-control" id="exchanges" rows="4" placeholder="Exchanges separated with commas (,). Look to the right for examples =>" name="exchanges" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'exchanges'}}"></textarea>
-												
+
 
 								{{/if}}
-										
+
 									</div>
 									</div>
 								</div>
@@ -193,7 +189,7 @@
 								{{#if questions.length}}
 									<div class="col-md-6">
 										<div class="card bg-white">
-											<div class="card-body">								
+											<div class="card-body">
 												<h5 class="card-title text-primary">Additional questions</h5>
 												{{#each questions}}
 												{{question}} <span style="float: right;"><input type="radio" name="question_{{_id}}" value="true"><label>Yes</label>&nbsp;&nbsp;<input type="radio" name="question_{{_id}}" value="false"><label>No</label></span><br /><br />
@@ -201,8 +197,8 @@
 											</div>
 										</div>
 									</div>
-								{{/if}}			
-							</div>							
+								{{/if}}
+							</div>
 					</div>
 <br />
 								<div class="card bg-white required mx-auto" style="width:80%">
@@ -216,9 +212,9 @@
     <input type='hidden' id='currencyLogoFilename'>
 </div>
 
-						<div class="additional-info">						
+						<div class="additional-info">
 							<br /><h5>Additional information</h5>
-							<textarea class="form-control" id="exampleFormControlTextarea1" rows="6" placeholder="You can add a message here and it will be seen by the person responsible for fact-checking and approval." name="notes"></textarea>				
+							<textarea class="form-control" id="exampleFormControlTextarea1" rows="6" placeholder="You can add a message here and it will be seen by the person responsible for fact-checking and approval." name="notes"></textarea>
 						</div>
 
 						<div class="submit-form">
