@@ -1,15 +1,18 @@
-
 <template name="currencyInfo">
   <div class="currency-info">
     <div class="row">
       <div class="col-sm-12">
         <div class="card card-header d-flex align-items-center flex-row">
-          <img class="currency-logo" src="{{doesCoinImageExist currencyLogoFilename}}" alt="{{currencyName}}">
+          <img class="currency-logo changeCoinImage pointer" src="{{doesCoinImageExist currencyLogoFilename}}" alt="{{currencyName}}">
+          <input type="hidden" value="{{currencyLogoFilenam}}" id="currencyLogoFilename_existing">
           <div class="name">{{currencyName}} {{#with thiscurrency}}({{currencySymbol}}) {{/with}}</div>
         </div>
       </div>
       <div class="col-sm-12">
         <div class="basic-details">
+
+  <div class="card border-secondary mb-3 mb-3" style="min-width:100px;overflow:hidden;">
+      <div class="card-body" style="display:{{bodydisplay}};">
           <input type="hidden" id="_id" value="{{_id}}">
           <input type="hidden" id="name" value="{{currencyName}}">
           <div class="row">
@@ -96,7 +99,51 @@
       </div>
     </div>    
   </div>
+
+</div>
+</div>
+
   <!-- Modals -->
+
+
+  <div class="modal" id="coinChangeImage" style="width:50%">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Coin Image Change</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>
+          <div class="logo-upload">
+    <h5>Select new logo</h5>
+    <label class="btn btn-primary" for="currencyLogoInput" id="currencyLogoInputLabel">
+        <input id="currencyLogoInput" type="file" style="display:none" onchange="$('#fileInfo2').html(this.files[0].name)"> <span id="fileUploadValue">UPLOAD</span>
+    </label>
+    <span class='label label-info' id="fileInfo2"></span>
+    <input type='hidden' id='currencyLogoFilename'>
+</div>
+<br /><br />
+        <input id="imageCurrencyNotes" type="text" placeholder="Why is this change needed for this image?" style="width:100%" class="form-control">
+
+          <input id="coinModal_field" type="hidden">
+          <input id="coinModal_old" type="hidden">
+          <input id="coinModal_new" type="hidden">
+
+        </p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="proposeCoinChange">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
   <div class="modal" id="coinChangeModal">
     <div class="modal-dialog" role="document">
     <div class="modal-content">
