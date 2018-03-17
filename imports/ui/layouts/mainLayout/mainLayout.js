@@ -89,8 +89,4 @@ Template.mainLayout.onCreated(function () {
       Session.set("openedSidebar", false) 
     } 
   })
-
-  // var user = this.user.get()
-  // if (Session.set)
-  // Session.set("openedSidebar", user && user.screenSize ? user.screenSize <= Session.get("screenSize") : 3 <= Session.get("screenSize"))
 })
