@@ -12,6 +12,8 @@ import './fundamentalMetrics.js'
 import './walletimages.js'
 import './currency.scss'
 import './currency-info.scss'
+import './summary'
+import './summaries'
 
 Template.currencyDetail.onCreated(function bodyOnCreated() {
   var self = this

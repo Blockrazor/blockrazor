@@ -1,0 +1,84 @@
+<template name="summaries">
+    <div class="modal fade" id="addSummaryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Adding a new summary</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    You're adding a summary for {{currencyName}}. If gets voted to the top, you'll receive some Krazors as a reward.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Thanks, don't show this again</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="summaryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add a new summary</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    It looks like {{currencyName}} has only recently been added to Blockrazor and
+                    its summaries have not yet been added. This is a great opportunity for you to
+                    add a summary for {{currencyName}} and earn some Krazor!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Thanks, don't show this again</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 currency-summaries">
+        <div class="card card-header"  role="button" aria-expanded="true">Summary</div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row commentThread">
+                {{#if subsCacheReady}}
+                    {{#each summaries}}
+                    <div class="col-md-12">{{> summary}}</div>
+                    {{else}}
+                        {{> empty}}
+                    {{/each}}
+                {{else}}
+                    {{> loading}}
+                {{/if}}
+                </div>
+                <button class="btn btn-primary m-2" id="loadMoreSummaries">{{#unless moreThanOne}}Show other summaries{{else}}Load more summaries{{/unless}}</button>
+                {{#if moreThanOne}}<button class="btn btn-primary m-2" id="hideSummaries">Hide other summaries</button>{{/if}}
+                <button class="btn btn-primary m-2"  data-toggle="collapse" href="#addNewSummary" role="button" aria-expanded="false" aria-controls="addNewSummary">
+                    <i class="fa fa-plus" aria-hidden="true"></i> Add summary
+                </button>
+                <div class="collapse multi-collapse" id="addNewSummary">
+                    <div class="card card-body">
+                        <b>Rules:</b><br />
+                        <ul>
+                            <li>Use clear language, keep it as short as possible</li>
+                            <li>No jokes (people new to crypto will just be confused)</li>
+                            <li>Any claims must be factually correct</li>
+                        </ul>
+                        <textarea class="" id="summary" style="width:100%; height: 100px" placeholder="*Markdown* is supported" maxlength="500" minlength="10"></textarea>
+                        <br />
+                        <div style="display:flex;">
+                            <button class="btn btn-primary float-left submitNewSummary">Submit</button>
+                            <h4>&nbsp;&nbsp;<i class="fa fa-question-circle help" aria-hidden="true"></i></h4>
+                            <div class="float-right" id="charNum" style="margin-left:50px;"></div>
+                        </div>
+                    </div>
+                </div>  
+            </div>
+        </div>
+    </div>
+</template>
+
+
+
+
