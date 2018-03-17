@@ -215,8 +215,12 @@ $('#coinChangeModal').modal('hide');
         notes: $('#currencyNotes').val()
       }], (error, result) => {
           if (error) {
-            console.log(error.reason)
-            sAlert.error(error.reason)
+            if(error.reason){
+              sAlert.error(error.reason)
+            }else{
+              sAlert.error(error);
+            }
+            
           } else {
             console.log('yay')
             sAlert.success('Change proposed.')
