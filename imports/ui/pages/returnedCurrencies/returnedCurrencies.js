@@ -92,6 +92,7 @@ Template.returnedCurrencies.helpers({
 
             return templ.TransitoryCollection.get().find(filter, { sort: { featured: -1, createdAt: -1 }, limit: templ.limit.get(), 
               fields: {  
+                eloRanking: 1,
                 slug: 1,  
                 currencySymbol: 1,  
                 marketCap: 1,  
