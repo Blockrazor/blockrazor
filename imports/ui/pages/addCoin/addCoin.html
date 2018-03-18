@@ -106,6 +106,12 @@
 											<div class="float-right" style="width:100%; display:flex;">
 												<input type="text" id="icoDate" name="ICOyear">
 											</div>
+
+											<br />
+											End time (GMT)
+											<div class="float-right" style="width:100%; display:flex;">
+												<input type="text" id="icoDateEnd" name="icoDateEnd">
+											</div>
 											{{ /unless }}
 
 											{{ /if }}
@@ -119,7 +125,7 @@
 												<div>Genesis Block ETA</div>
 											{{ /unless }}
 											<div class="float-right" style="width:100%; display:flex;">
-												<input type="text" id="genesisDate" name="genesisYear" value="YYYY-MM-DD" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'genesisTimestamp'}}">
+												<input type="text" id="genesisDate" name="genesisYear" value="YYYY-MM-DD" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'genesisTimestamp'}}" style="width:100%">
 											</div>
 
 											<div class="clearfix"></div>

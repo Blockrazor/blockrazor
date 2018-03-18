@@ -241,6 +241,7 @@ Meteor.methods({
     if (ico && proposal) {
       checkSanity(data.ICOcoinsIntended, "ICOcoinsIntended", "number", 1, 15);
       checkSanity(data.ICOnextRound, "ICOnextRound", "number", 13, 16);
+      checkSanity(data.icoDateEnd, "icoDateEnd", "number", 13, 16);
       if (data.premine < data.ICOcoinsProduced + data.ICOcoinsIntended) {
         error.push("premine");
         allowed = allowed.filter(function(i) {return i != "premine"})

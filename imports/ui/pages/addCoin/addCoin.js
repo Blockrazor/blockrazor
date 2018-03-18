@@ -50,6 +50,7 @@ Template.addCoin.onRendered(function() {
 	// init genesis and ico date pickers
 	initDatePicker('genesisDate', 'YYYY-MM-DD', 'YYYY MM D', 'genesis-date');
 	initDatePicker('icoDate', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
+  initDatePicker('icoDateEnd', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
 });
 
 //Functions to help with client side validation and data manipulation
@@ -120,7 +121,7 @@ Template.addCoin.events({
      initPopOvers();
 	 initDatePicker('genesisDate', 'YYYY-MM-DD', 'YYYY MM D', 'genesis-date');
 	 initDatePicker('icoDate', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
-
+  initDatePicker('icoDateEnd', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
   },
   'change .btcfork': function(dataFromForm) {
     Template.instance().btcfork.set(dataFromForm.target.checked);
@@ -129,6 +130,7 @@ Template.addCoin.events({
      initPopOvers();
 	 initDatePicker('genesisDate', 'YYYY-MM-DD', 'YYYY MM D', 'genesis-date');
 	 initDatePicker('icoDate', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
+  initDatePicker('icoDateEnd', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
 
 
   },
@@ -140,6 +142,7 @@ Template.addCoin.events({
 	 // init genesis and ico date pickers again
 	 initDatePicker('genesisDate', 'YYYY-MM-DD', 'YYYY MM D', 'genesis-date');
 	 initDatePicker('icoDate', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
+  initDatePicker('icoDateEnd', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
 
 
   },
@@ -305,7 +308,10 @@ if(!uploadError){
   if(d.ICOyear) {
 	  if (d.ICOyear.value) {
 		  var icoDate = formatICODate(d.ICOyear.value);
+      var icoDateEnd = formatICODate(d.icoDateEnd.value);
 		  addToInsert(Date.parse(new Date(Date.UTC(icoDate[0], icoDate[1], icoDate[2], icoDate[3], icoDate[4], icoDate[5]))), "ICOnextRound")
+      addToInsert(Date.parse(new Date(Date.UTC(icoDateEnd[0], icoDateEnd[1], icoDateEnd[2], icoDateEnd[3], icoDateEnd[4], icoDateEnd[5]))), "icoDateEnd")
+
 	  }
   };
   //if(!insert.genesisTimestamp) {insert.genesisTimestamp = 0};
