@@ -91,10 +91,13 @@ Template.features.events({
     } else {
       Meteor.call('newFeature', this._id, data);
       $('#featureName').val(" ");
-      $('#addNewFeature').toggle();
+      $('#addNewFeature').collapse('hide');
       $('.featuresheading').text("Features");
       Template.instance().addingnewfeature.set(false);
       sAlert.success("Thanks! That feature has been added!");
+     
+
+      
     }
   },
   'click .showAddNewFeature': function() {
