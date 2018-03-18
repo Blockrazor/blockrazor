@@ -52,11 +52,17 @@
                     {{> loading}}
                 {{/if}}
                 </div>
-                <button class="btn btn-primary m-2" id="loadMoreSummaries">{{#unless moreThanOne}}Show other summaries{{else}}Load more summaries{{/unless}}</button>
-                {{#if moreThanOne}}<button class="btn btn-primary m-2" id="hideSummaries">Hide other summaries</button>{{/if}}
+                {{#if anyExist}}
+                <button class="btn btn-primary m-2" id="loadMoreSummaries">Load more</button>
+                <button class="btn btn-secondary m-2"  style="display:none;" id="hideSummaries">Hide</button>
+                {{/if}}
+
                 <button class="btn btn-primary m-2"  data-toggle="collapse" href="#addNewSummary" role="button" aria-expanded="false" aria-controls="addNewSummary">
                     <i class="fa fa-plus" aria-hidden="true"></i> Add summary
                 </button>
+
+                
+
                 <div class="collapse multi-collapse" id="addNewSummary">
                     <div class="card card-body">
                         <b>Rules:</b><br />

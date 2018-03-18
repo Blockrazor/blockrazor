@@ -5,8 +5,8 @@ import Cookies from 'js-cookie'
 import './summaries.html'
 
 Template.summaries.onCreated(function() {
-    this.inc = 5
     this.summaryLimit = new ReactiveVar(1)
+    this.summaryCount = new ReactiveVar()
     this.summaries = new ReactiveVar([])
 
     this.autorun(() => {
@@ -25,6 +25,8 @@ Template.summaries.onCreated(function() {
                 appealNumber: -1
             }
         }))
+
+        this.summaryCount.set(Summaries.find({currencySlug: FlowRouter.getParam('slug')}).count());
         
         // prefetch
         Summaries.find(query, {
@@ -39,20 +41,24 @@ Template.summaries.onCreated(function() {
 
 Template.summaries.helpers({
     summaries: () => Template.instance().summaries.get(),
-    moreThanOne: () => Template.instance().summaryLimit.get() > 1
+    moreThanOne: () => Template.instance().summaryLimit.get() > 1,
+    anyExist: () =>  Template.instance().summaryCount.get()
 })
 
 
 Template.summaries.events({
     'click #hideSummaries': (event, templateInstance) => {
         event.preventDefault()
+        templateInstance.summaryLimit.set(1);
+        $('#hideSummaries').toggle();
+        $('#loadMoreSummaries').toggle();
 
-        templateInstance.summaryLimit.set(1)
     },
     'click #loadMoreSummaries': (event, templateInstance) => {
         event.preventDefault()
-
-        templateInstance.summaryLimit.set(templateInstance.summaryLimit.get() + templateInstance.inc)
+        templateInstance.summaryLimit.set(templateInstance.summaryCount.get());
+        $('#hideSummaries').toggle();
+        $('#loadMoreSummaries').toggle();
     },
     'click .help': (event, templateInstance) => {
         event.preventDefault()
@@ -105,7 +111,7 @@ Template.summaries.events({
         } else {
             Meteor.call('newSummary', this._id, data, (err, data) => {
                 $('#summary').val('')
-                $('#addNewSummary').toggle()
+                $('#addNewSummary').collapse('hide');
                 
                 sAlert.success('Thanks! Your summary has been successfully added!')
             })
