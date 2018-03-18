@@ -2,19 +2,16 @@ import {
   Template
 } from 'meteor/templating';
 import {
-  Currencies,
   GraphData,
 } from '/imports/api/indexDB.js';
 import Chart from 'chart.js';
 
 import './radarGraph.html'
 
-const quality = () => {
+const quality = (currency) => {
   let graphdata = GraphData.findOne({
     _id: 'elodata'
   }) || {}
-
-  let currency = Currencies.findOne(Template.instance().filter)
     
   const {eloMinElo, eloMaxElo} = graphdata
   return ((currency.eloRanking || 0) - eloMinElo) / ((eloMaxElo - eloMinElo) || 1)
@@ -23,27 +20,20 @@ const quality = () => {
 Template.radarGraph.onCreated(function () {
   var self = this
   self.autorun(function(){
-    SubsCache.subscribe('approvedcurrencies');
     SubsCache.subscribe('graphdata');
   })
   this.filter = !this.data._id? {slug: FlowRouter.getParam("slug")}: {_id: this.data._id}
   this.id = (!this.data._id? FlowRouter.getParam("slug"): this.data._id)+"-radar"
+  this.quality = quality(Template.parentData())
 })
 
 Template.radarGraph.onRendered(function () {
-  // self.autorun(function(){
-  //   // Gets the _id of the current currency and only subscribes to that particular currency
-  //   SubsCache.subscribe('approvedcurrency', FlowRouter.getParam('slug'))
-  //   SubsCache.subscribe('hashalgorithm')
-  // })
-// })
   var self = this
-  // console.log(filter, (filter.slug? filter.slug: filter._id)+"-radar")
   var radar = document.getElementById(self.id).getContext('2d')
   radar.canvas.width = this.data.width;
   radar.canvas.height = this.data.height
 
-  let currency = Currencies.findOne(self.filter) || {}
+  let currency = Template.parentData()
 
   let graphdata = GraphData.findOne({
     _id: 'elodata'
@@ -90,7 +80,7 @@ Template.radarGraph.onRendered(function () {
     this.data.options
   )
 
-  let q = quality()
+  let q = this.quality
   this.radarchart = new Chart(radar, {
     type: 'radar',
     data: {
@@ -135,9 +125,9 @@ Template.radarGraph.onRendered(function () {
 
 Template.radarGraph.helpers({
   dataQuality: () => {
-    return Math.ceil(quality() * 10)
+    return Math.ceil(Template.instance().quality * 10)
   },
-  needsQuality: () => quality() <= 0.1,
+  needsQuality: () => Template.instance().quality <= 0.1,
   thisId(){
     return Template.instance().id
   },
