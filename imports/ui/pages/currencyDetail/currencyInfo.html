@@ -1,83 +1,151 @@
-
 <template name="currencyInfo">
-  <div class="card border-secondary mb-3 mb-3" style="min-width:300px;overflow:hidden;">
-      <div class="card-header">
-          <h4 class="pull-left">
-              <img style=";padding-right:20px" src="{{doesCoinImageExist currencyLogoFilename}}">{{currencyName}} {{#with thiscurrency}}({{currencySymbol}}) {{/with}}
-</h4>
-          </div>
+  <div class="currency-info">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-header d-flex align-items-center flex-row">
+          <img class="currency-logo changeCoinImage pointer" src="{{doesCoinImageExist currencyLogoFilename}}" alt="{{currencyName}}">
+          <input type="hidden" value="{{currencyLogoFilenam}}" id="currencyLogoFilename_existing">
+          <div class="name">{{currencyName}} {{#with thiscurrency}}({{currencySymbol}}) {{/with}}</div>
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <div class="basic-details">
+
+  <div class="card border-secondary mb-3 mb-3" style="min-width:100px;overflow:hidden;">
       <div class="card-body" style="display:{{bodydisplay}};">
           <input type="hidden" id="_id" value="{{_id}}">
           <input type="hidden" id="name" value="{{currencyName}}">
-          <table class="table" style="float:left;width:45%">
-              <tbody>
-                  <tr>
-                      <th scope="row"><h6>currencyName</h6></th>
-                      <td><span id="currencyName">{{isNull currencyName 'currencyName'}}</span></td>
-                  </tr>
-                  <tr>
-                      <th scope="row"><h6>currencySymbol</h6></th>
-                      <td><span id="currencySymbol">{{isNull currencySymbol 'currencySymbol'}}</span></td>
-                  </tr>
-                  <tr>
-                      <th scope="row"><h6>genesisTimestamp</h6></th>
-                      <td><span id="genesisTimestamp">{{isDateNull genesisTimestamp 'genesisTimestamp'}}</span></td>
-                  </tr>
-                  <tr>
-                      <th scope="row"><h6>premine</h6></th>
-                      <td><span id="premine">{{isNull premine 'premine'}}</span></td>
-                  </tr>
-                  <tr>
-                      <th scope="row"><h6>circulating</h6></th>
-                      <td><span id="circulating">{{isNull circulating 'circulating'}}</span></td>
-                  </tr>
-                  <tr>
-                      <th scope="row"><h6>maxCoins</h6></th>
-                      <td><span id="maxCoins">{{isNull maxCoins 'maxCoins'}}</span></td>
-                  </tr>
-                  <tr>
-                      <th scope="row"><h6>consensusSecurity</h6></th>
-                      <td><span id="consensusSecurity">{{isNull consensusSecurity 'consensusSecurity'}}</span></td>
-                  </tr>
-                  <tr>
-                      <th scope="row"><h6>hashAlgorithm</h6></th>
-                      <td><span id="hashAlgorithm">{{hashAlgorithm}}</span></td>
-                  </tr>
-              </tbody>
-          </table>
-          <table class="table" style="float:right;width:45%">
-              <tbody>
-                  <tr>
-                      <th scope="row"><h6>walletRanking</h6></th>
-                      <td>{{isNull walletRanking 'walletRanking'}}</td>
-                  </tr>
-                  <tr>
-                      <th scope="row"><h6>gitUpdate</h6></th>
-                      <td>{{isNullReadOnly gitUpdate}}</td>
-                  </tr>
-                  <tr>
-                      <th scope="row"><h6>gitCommits</h6></th>
-                      <td>{{isNullReadOnly gitCommits}}</td>
-                  </tr>
-                  <tr>
-                      <th scope="row"><h6>marketCap</h6></th>
-                      <td><span id="marketCap">{{isNull marketCap 'marketCap'}}</span></td>
-                  </tr>
-                  <tr>
-                      <th scope="row"><h6>Previous names <br />(comma separated)</h6></th>
-                      <td><span id="previousNames">{{previousNames}}</span></td>
-                  </tr>
-                  <tr>
-                      <th scope="row"><h6>gitRepo</h6></th>
-                      <td class="tableWrap"><span id="gitRepo">{{isNull gitRepo 'gitRepo'}}</span></td>
-                  </tr>
-              </tbody>
-          </table>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Currency Name</div>
+                <div class="value" id="currencyName">{{isNull currencyName 'currencyName'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Currency Symbol</div>
+                <div class="value" id="currencySymbol">{{isNull currencySymbol 'currencySymbol'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Genesis Timestamp</div>
+                <div class="value" id="genesisTimestamp">{{isDateNull genesisTimestamp 'genesisTimestamp'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Premine</div>
+                <div class="value" id="premine">{{isNull premine 'premine'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Circulating</div>
+                <div class="value" id="circulating">{{isNull circulating 'circulating'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Max Coins</div>
+                <div class="value" id="maxCoins">{{isNull maxCoins 'maxCoins'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Consensus Security</div>
+                <div class="value" id="consensusSecurity">{{isNull consensusSecurity 'consensusSecurity'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Hash Algorithm</div>
+                <div class="value" id="hashAlgorithm">{{isNull hashAlgorithm 'hashAlgorithm'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Wallet Ranking</div>
+                <div class="value" id="walletRanking">{{isNull walletRanking 'walletRanking'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Git Update</div>
+                <div class="value" id="gitUpdate">{{isNullReadOnly gitUpdate}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Market Cap</div>
+                <div class="value" id="marketCap">{{isNull marketCap 'marketCap'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Previous Names</div>
+                <div class="value" id="previousNames">{{previousNames}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Git Repo</div>
+                <div class="value" id="gitRepo">{{isNull gitRepo 'gitRepo'}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+    </div>    
   </div>
 
-  <div class="modal" id="coinChangeModal">
+</div>
+</div>
+
+  <!-- Modals -->
+
+
+  <div class="modal" id="coinChangeImage" style="width:50%">
   <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Coin Image Change</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>
+          <div class="logo-upload">
+    <h5>Select new logo</h5>
+    <label class="btn btn-primary" for="currencyLogoInput" id="currencyLogoInputLabel">
+        <input id="currencyLogoInput" type="file" style="display:none" onchange="$('#fileInfo2').html(this.files[0].name)"> <span id="fileUploadValue">UPLOAD</span>
+    </label>
+    <span class='label label-info' id="fileInfo2"></span>
+    <input type='hidden' id='currencyLogoFilename'>
+</div>
+<br /><br />
+        <input id="imageCurrencyNotes" type="text" placeholder="Why is this change needed for this image?" style="width:100%" class="form-control">
+
+          <input id="coinModal_field" type="hidden">
+          <input id="coinModal_old" type="hidden">
+          <input id="coinModal_new" type="hidden">
+
+        </p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="proposeCoinChange">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <div class="modal" id="coinChangeModal">
+    <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Proposing Change</h5>
@@ -87,7 +155,7 @@
       </div>
       <div class="modal-body">
         <p>Are you sure you want to change <span class="text-primary" id="from"></span> to <span class="text-primary" id="to"></span> for <span class="text-primary" id="forField"></span> 
-<br /><br />
+        <br /><br />
         <input id="currencyNotes" type="text" placeholder="Why is this change needed?" style="width:100%" class="form-control">
 
         </p>

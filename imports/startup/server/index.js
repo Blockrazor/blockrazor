@@ -15,6 +15,7 @@ import '/imports/api/coins/server/publications'
 import '/imports/api/redflags/server/publications'
 import '/imports/api/activityLog/server/publications'
 import '/imports/api/auctions/server/publications'
+import '/imports/api/summaries/server/publications'
 
 //server methods
 import '/imports/api/coins/server/methods'
@@ -26,6 +27,7 @@ import '/imports/api/communities/server/methods'
 import '/imports/api/hashing/server/methods'
 import '/imports/api/auctions/server/methods'
 import '/imports/api/rewards/server/methods'
+import '/imports/api/summaries/server/methods'
 
 // import './fastRender.js'
 import './fixtures.js'

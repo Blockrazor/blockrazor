@@ -55,7 +55,7 @@
                     {{#each currencies}}
                         <tr>
                             <td>{{currency}}</td>
-                            <td>{{fixed amount}}</td>
+                            <td>{{amountCurrency}}</td>
                         </tr>
                     {{else}}
                         {{> empty}}
@@ -83,7 +83,7 @@
                     {{#each myBids}}
                         <tr>
                             <td>{{currency}}</td>
-                            <td>{{fixed amount}}</td>
+                            <td>{{amountBid}}</td>
                             <td><a href="#" class="js-cancel">Cancel</a></td>
                         </tr>
                     {{else}}
@@ -111,7 +111,7 @@
                     {{#each bids}}
                         <tr>
                             <td>{{currency}}</td>
-                            <td>{{fixed amount}}</td>
+                            <td>{{amountBid}}</td>
                         </tr>
                     {{else}}
                         {{> empty}}

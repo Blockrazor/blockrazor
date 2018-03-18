@@ -72,7 +72,7 @@ Template.mainLayout.onCreated(function () {
 
 
   //sets width size by breakpoints, numbers used to make general comparisons (screensize < 3)
-  window.addEventListener("resize", _.debounce(setScreenSize, 50));
+  window.addEventListener("resize", _.debounce(setScreenSize, 10));
   //initialize screenSize session var
   setScreenSize()
   this.user = new ReactiveVar(UserData.findOne())
@@ -81,9 +81,6 @@ Template.mainLayout.onCreated(function () {
   })
   this.autorun(() => {
     var user = this.user.get()
-    if (!user){
-      return
-    }
     var pref = user && user.screenSize? user.screenSize: 3
     var screen = Session.get("screenSize")
     if (screen >= pref){ 
@@ -92,7 +89,4 @@ Template.mainLayout.onCreated(function () {
       Session.set("openedSidebar", false) 
     } 
   })
-
-  var user = this.user.get()
-  Session.set("openedSidebar", user && user.screenSize ? user.screenSize <= Session.get("screenSize") : 3 <= Session.get("screenSize"))
 })

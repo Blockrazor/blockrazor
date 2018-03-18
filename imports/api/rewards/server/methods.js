@@ -74,6 +74,17 @@ Meteor.methods({
 			} else {
 				val = featCom || flagCom
 			}
+		} else if (type === 'summary') {
+			val = Summaries.findOne({
+				summary: {
+					$exists: true
+				}
+			}, {
+				sort: {
+					ratings: -1, // first search by rating
+					appeal: -1 // if there are mutliple results, search by the appeal
+				}
+			})
 		}
 
 		if (val) {
@@ -83,6 +94,6 @@ Meteor.methods({
 	rewardAll: (reward) => {
 		check(reward, Number);
 
-		['feature', 'comment', 'redflag'].forEach(i => Meteor.call('rewardTopAction', i, reward, (err, data) => {}))
+		['feature', 'comment', 'redflag', 'summary'].forEach(i => Meteor.call('rewardTopAction', i, reward, (err, data) => {}))
 	}
 })

@@ -5,6 +5,7 @@ import swal from 'sweetalert';
 import Cookies from 'js-cookie';
 
 import './addCoin.html'
+import './addCoin.scss'
 
 function initPopOvers(){
   //gotta set a small delay as dom isn't ready straight away
@@ -13,9 +14,42 @@ function initPopOvers(){
     }.bind(this), 500);
 }
 
+function initDatePicker(id, format, template, klass) {
+	Meteor.setTimeout(function() {
+		$('#' + id).combodate({
+			format: format,
+			template: template,
+			customClass: klass + ' form-control',
+			maxYear: 2020,
+			minYear: 2008,
+			firstItem: 'name'
+		});
+	}.bind(this), 200)
+}
+
+// convert a string of integers into an array of integers
+function stringListToInt(stringList, delimiter) {
+	return stringList.split(delimiter).map(Number);
+}
+
+// convert ICODate into an Array Date
+// purpose of this is to have it easily supported by Date.UTC
+function formatICODate(dateString) {
+	var dateArr = dateString.split(" ");
+	var date = stringListToInt(dateArr[0], "-");
+	var time = stringListToInt(dateArr[1], ":");;
+	date[1] = date[1] - 1;
+	return date.concat(time);
+
+}
+
 Template.addCoin.onRendered(function() {
     //init popovers
     $('[data-toggle="popover"]').popover({ trigger: 'focus' })
+
+	// init genesis and ico date pickers
+	initDatePicker('genesisDate', 'YYYY-MM-DD', 'YYYY MM D', 'genesis-date');
+	initDatePicker('icoDate', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
 });
 
 //Functions to help with client side validation and data manipulation
@@ -82,28 +116,36 @@ Template.addCoin.events({
 //Select form elements to display to user based on their selection
   'change .isICO': function(dataFromForm) {
     Template.instance().isICO.set(dataFromForm.target.checked);
-    //init popovers again, can't init on hidden dom elements 
+    //init popovers again, can't init on hidden dom elements
      initPopOvers();
+	 initDatePicker('genesisDate', 'YYYY-MM-DD', 'YYYY MM D', 'genesis-date');
+	 initDatePicker('icoDate', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
 
   },
   'change .btcfork': function(dataFromForm) {
     Template.instance().btcfork.set(dataFromForm.target.checked);
 
-    //init popovers again, can't init on hidden dom elements 
+    //init popovers again, can't init on hidden dom elements
      initPopOvers();
+	 initDatePicker('genesisDate', 'YYYY-MM-DD', 'YYYY MM D', 'genesis-date');
+	 initDatePicker('icoDate', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
 
 
   },
   'change .exists': function(dataFromForm) {
     Template.instance().coinExists.set(dataFromForm.target.checked);
-        //init popovers again, can't init on hidden dom elements 
+        //init popovers again, can't init on hidden dom elements
      initPopOvers();
+
+	 // init genesis and ico date pickers again
+	 initDatePicker('genesisDate', 'YYYY-MM-DD', 'YYYY MM D', 'genesis-date');
+	 initDatePicker('icoDate', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
 
 
   },
   'change #consensusType': function(consensusType) {
     Template.instance().consensusType.set(consensusType.target.value);
-         //init popovers again, can't init on hidden dom elements 
+         //init popovers again, can't init on hidden dom elements
      initPopOvers();
 
 
@@ -163,7 +205,7 @@ if(!uploadError){
          button: { className: 'btn btn-primary' }
      });
        }else{
-    
+
     $("#currencyLogoFilename").val(md5+'.'+fileExtension);
 
        $("#fileUploadValue").html("Change");
@@ -259,8 +301,13 @@ if(!uploadError){
   if(d.icocurrency){if (d.icocurrency.value != "----") {addToInsert(d.icocurrency.value, "icocurrency")}};
   if(d.ICOcoinsProduced) {if(d.ICOcoinsProduced.value) {addToInsert(parseInt(d.ICOcoinsProduced.value), "ICOcoinsProduced")}};
   if(d.ICOcoinsIntended) {if(d.ICOcoinsIntended.value) {addToInsert(parseInt(d.ICOcoinsIntended.value), "ICOcoinsIntended")}};
-  if(d.ICOyear) {if (d.ICOyear.value) {addToInsert(Date.parse(new Date(Date.UTC(d.ICOyear.value, d.ICOmonth.value - 1, d.ICOday.value, d.ICOhour.value, d.ICOminute.value, d.ICOsecond.value))), "ICOnextRound")}};
-  if(d.genesisYear) {addToInsert(Date.parse(d.genesisYear.value + "-" + d.genesisMonth.value + "-" + d.genesisDay.value), "genesisTimestamp")};
+  if(d.genesisYear) {addToInsert(Date.parse(d.genesisYear.value), "genesisTimestamp")};
+  if(d.ICOyear) {
+	  if (d.ICOyear.value) {
+		  var icoDate = formatICODate(d.ICOyear.value);
+		  addToInsert(Date.parse(new Date(Date.UTC(icoDate[0], icoDate[1], icoDate[2], icoDate[3], icoDate[4], icoDate[5]))), "ICOnextRound")
+	  }
+  };
   //if(!insert.genesisTimestamp) {insert.genesisTimestamp = 0};
 
     data.preventDefault(); //this goes after the 'insert' array is built, strange things happen when it's used too early; #1
@@ -379,7 +426,7 @@ switch (val) {
             break;
         }
 
-} 
+}
 
   },
   questions: () => RatingsTemplates.find({}).fetch(),
@@ -406,7 +453,7 @@ switch (val) {
         expiresAt: -1
       }
     }).fetch()[0]
-  
+
     return `You have ${Math.round((bounty.expiresAt - Template.instance().now.get())/1000/60)} minutes to complete the bounty for ${Number(bounty.currentReward).toFixed(2)} KZR.`;
   },
   security () {

@@ -1,0 +1,12 @@
+.combodate {
+	display: inline-flex;
+	width: 100%;
+
+	select.genesis-date {
+		width: calc(100%/3) !important;
+	}
+
+	select.ico-date {
+		width: calc(100%/6) !important;
+	}
+}

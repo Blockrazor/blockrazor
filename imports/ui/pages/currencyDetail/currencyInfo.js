@@ -92,6 +92,111 @@ Template.currencyInfo.onRendered(function() {
 });
 
 Template.currencyInfo.events({
+  'change #currencyLogoInput': function(event){
+
+  var mime = require('mime-types')
+  var instance = this;
+  var file = event.target.files[0];
+  var uploadError = false;
+  var mimetype = mime.lookup(file);
+  var fileExtension = mime.extension(file.type);
+
+if(file){
+  //check if filesize of image exceeds the global limit
+  if (file.size > _coinFileSizeLimit) {
+                swal({
+                    icon: "error",
+                    text: "Image must be under 2mb",
+                    button: { className: 'btn btn-primary' }
+                });
+      uploadError = true;
+  }
+
+ if (!_supportedFileTypes.includes(file.type)) {
+     swal({
+         icon: "error",
+         text: "File must be an image",
+         button: { className: 'btn btn-primary' }
+     });
+     uploadError = true;
+ }
+
+//Only upload if above validation are true
+if(!uploadError){
+
+  $("#fileUploadValue").html("<i class='fa fa-circle-o-notch fa-spin'></i> Uploading");
+
+
+   var reader = new FileReader();
+   reader.onload = function(fileLoadEvent){
+     //var binary = event.target.result;
+     var binary = reader.result;
+     var md5 = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(binary)).toString();
+
+     Meteor.call('changeCoinImage', file.name, event.target.id, instance._id, reader.result,md5, function(error, result){
+       if(error){
+        console.log(error)
+         swal({
+         icon: "error",
+         text: error.message,
+         button: { className: 'btn btn-primary' }
+     });
+       }else{
+    
+    $("#currencyLogoFilename").val(md5+'.'+fileExtension);
+
+       $("#fileUploadValue").html("Change");
+       $("#currencyLogoInputLabel").removeClass('btn-primary');
+       $("#currencyLogoInputLabel").addClass('btn-success');
+
+       }
+
+     });
+   }
+   reader.readAsBinaryString(file);
+ }
+ }
+},
+
+'click .changeCoinImage': function(event) {
+    $('#coinChangeImage').modal('show');
+
+
+    $('#coinModal_field').val($(this).attr('id'));
+},
+
+'click #proposeCoinChange': function(event){
+
+
+$('#coinChangeImage').modal('hide');
+
+
+
+
+      Meteor.call('editCoin', [{
+        coin_id: $('#_id').val(),
+        coinName: $('#name').val(),
+        field: 'currencyLogoFilename',
+        old: $('#currencyLogoFilename_existing').val(),
+        new: $('#currencyLogoFilename').val(),
+        changedDate: new Date().getTime(),
+        score: 0,
+        status: 'pending review',
+        notes: $('#currencyNotes').val()
+      }], (error, result) => {
+          if (error) {
+            console.log(error.reason)
+            sAlert.error(error.reason)
+          } else {
+            console.log('coinChangeModal ran successfully')
+            sAlert.success('Change proposed.')
+          }
+      })
+
+
+},
+
+
   'click #proposeChange': function(event){
 //close modal
 $('#coinChangeModal').modal('hide');
@@ -110,8 +215,12 @@ $('#coinChangeModal').modal('hide');
         notes: $('#currencyNotes').val()
       }], (error, result) => {
           if (error) {
-            console.log(error.reason)
-            sAlert.error(error.reason)
+            if(error.reason){
+              sAlert.error(error.reason)
+            }else{
+              sAlert.error(error);
+            }
+            
           } else {
             console.log('yay')
             sAlert.success('Change proposed.')

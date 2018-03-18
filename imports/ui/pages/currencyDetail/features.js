@@ -8,9 +8,19 @@ Template.features.onCreated(function(){
   this.showflagged = new ReactiveVar(false)
   this.addingnewfeature = new ReactiveVar(false)
   this.lastId = new ReactiveVar('')
-
+  this.featureIncrement = 6
+  this.featureLimit = new ReactiveVar(this.featureIncrement)
+  this.featuresShow = new ReactiveVar(null)
   this.autorun(() => {
     SubsCache.subscribe('featuresSlug', FlowRouter.getParam('slug'))
+  })
+
+  //prefetch next load of features into minimongo
+  this.autorun(()=>{
+    var query = {currencySlug: FlowRouter.getParam('slug'), flagRatio: {$lt: 0.6}}
+    this.featuresShow.set(Features.find(query, {limit: this.featureLimit.get(), sort: {rating: -1, appealNumber: -1}}));
+    //prefetch
+    Features.find(query, {limit: this.featureLimit.get()+this.featureIncrement, sort: {rating: -1, appealNumber: -1}}).fetch()
   })
 });
 
@@ -19,7 +29,7 @@ Template.features.helpers({
     return this.featureTag; //find metricTag data from collection
   },
   features: function() {
-    return Features.find({currencySlug: FlowRouter.getParam('slug'), flagRatio: {$lt: 0.6}}, {sort: {rating: -1, appealNumber: -1}});
+    return Template.instance().featuresShow.get()
   },
   flaggedfeatures: function() {
     return Features.find({currencySlug: FlowRouter.getParam('slug'), flagRatio: {$gt: 0.6}});
@@ -37,6 +47,9 @@ Template.features.events({
       Template.instance().showflagged.set(false)
       $('.showFlagged').text("Show");
     }
+  },
+  'click #loadMoreFeatures': function(ev, templ){
+    templ.featureLimit.set(templ.featureLimit.get()+templ.featureIncrement)
   },
   'click .help': function() {
     $('#addFeatureModal').modal('show');

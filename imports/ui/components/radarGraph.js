@@ -9,6 +9,17 @@ import Chart from 'chart.js';
 
 import './radarGraph.html'
 
+const quality = () => {
+  let graphdata = GraphData.findOne({
+    _id: 'elodata'
+  }) || {}
+
+  let currency = Currencies.findOne(Template.instance().filter)
+    
+  const {eloMinElo, eloMaxElo} = graphdata
+  return ((currency.eloRanking || 0) - eloMinElo) / ((eloMaxElo - eloMinElo) || 1)
+}
+
 Template.radarGraph.onCreated(function () {
   var self = this
   self.autorun(function(){
@@ -46,7 +57,7 @@ Template.radarGraph.onRendered(function () {
   let decentralization = (((currency.decentralizationRanking || decentralizationMinElo) - decentralizationMinElo) / ((decentralizationMaxElo - decentralizationMinElo) || 1)) * 10 
   let development = (((currency.gitCommits || developmentMinElo) - developmentMinElo) / ((developmentMaxElo - developmentMinElo) || 1)) * 10
 
-  var datanums = [development,codebase,community,2,7,wallet,1,3,decentralization];
+  var datanums = [development,codebase,community,2,7,wallet,1,3,decentralization]
 
   var options = Object.assign(
     {
@@ -78,6 +89,8 @@ Template.radarGraph.onRendered(function () {
     },
     this.data.options
   )
+
+  let q = quality()
   this.radarchart = new Chart(radar, {
     type: 'radar',
     data: {
@@ -85,11 +98,11 @@ Template.radarGraph.onRendered(function () {
       datasets: [{
           label: "1950",
           fill: true,
-          backgroundColor: "rgba(255,120,50,0.2)",
-          borderColor: "#FF6600",
+          backgroundColor: q > 0.1 ? "rgba(255,120,50,0.2)" : 'rgba(202,202,202,0.2)', // if quality is ok, leave the current color, else, set the color to #cacaca
+          borderColor: q > 0.1 ? '#FF6600' : '#cacaca',
           pointBorderColor: "#fff",
           pointStyle: "dot",
-          pointBackgroundColor: "#FF0000",
+          pointBackgroundColor: q > 0.1 ? '#FF0000' : '#cacaca',
           data: datanums //[6,7,2,2,7,8,1,3]
         },
         {
@@ -120,24 +133,11 @@ Template.radarGraph.onRendered(function () {
 
 });
 
-
-// Template.radarGraph.events({})
-
-const quality = function() {
-  
-}
-
 Template.radarGraph.helpers({
   dataQuality: () => {
-    let graphdata = GraphData.findOne({
-      _id: 'elodata'
-    }) || {}
-
-    let currency = Currencies.findOne(Template.instance().filter)
-    
-    const {eloMinElo, eloMaxElo} = graphdata
-    return Math.ceil((((currency.eloRanking || 0) - eloMinElo) / ((eloMaxElo - eloMinElo) || 1)) * 10)
+    return Math.ceil(quality() * 10)
   },
+  needsQuality: () => quality() <= 0.1,
   thisId(){
     return Template.instance().id
   },

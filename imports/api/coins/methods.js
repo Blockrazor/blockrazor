@@ -123,6 +123,15 @@ if (Meteor.isServer) {
             //Check that user is logged in
             if (!Meteor.userId()) { throw new Meteor.Error("Please log in first") };
 
+            //check to see if a coin change exists already, if so, thow an exception.
+            let coinChangeExist = ChangedCurrencies.find({
+             coin_id: data[0].coin_id,
+             field: data[0].field,
+             status: 'pending review'}).count();
+
+            if (coinChangeExist>=1) { throw new Meteor.Error("A change already exists for this field") };
+
+
             //Initialize arrays to store which data.<item>s pass or fail validation
             var allowed = [];
             var error = [];
@@ -321,6 +330,8 @@ if (Meteor.isServer) {
             var validFile = _supportedFileTypes.includes(mimetype);
             var fileExtension = mime.extension(mimetype);
             var filename = (_coinUpoadDirectory + md5 + '.' + fileExtension);
+            var filename_thumbnail = (_coinUpoadDirectory + md5 + '_thumbnail.' + fileExtension);
+
 
             var insert = false;
 
@@ -329,14 +340,22 @@ if (Meteor.isServer) {
                 return false;
             }
 
-            fs.writeFile(filename, binaryData, { encoding: 'binary' }, Meteor.bindEnvironment(function(error) {
+             fs.writeFileSync(filename, binaryData, { encoding: 'binary' }, Meteor.bindEnvironment(function(error) {
                 if (error) {
                     log.error('Error in file upload in uploadCoinImage', error)
                 };
-
-
             }));
 
-        },
-    });
+              //create thumbnail
+              var size = { width: 200, height: 200 };
+              gm(filename)
+                  .resize(size.width, size.height + ">")
+                  .gravity('Center')
+                  .extent(size.width, size.height)
+                  .write(filename_thumbnail, function(error) {
+                      if (error) console.log('Error - ', error);
+                  });
+
+              },
+              });
 }

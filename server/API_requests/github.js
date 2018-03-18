@@ -1,4 +1,4 @@
-import { Currencies } from '/imports/api/indexDB.js';
+import { Currencies, AppLogs } from '/imports/api/indexDB.js';
 import { MetaCurrency } from '../serverdb/metacurrency.js';
 import { HTTP } from 'meteor/http'
 import { log } from '../main'
@@ -37,27 +37,68 @@ SyncedCron.add({
 
 
 Meteor.methods({
+  fetchGitCommits: (repo, id, time) => {
+    HTTP.get(repo, {
+      headers: {
+        "User-Agent": "gazhayes-blockrazor"
+      }
+    }, (error, result) => {
+      let err = false
+      if (!error) {
+        if (result && result.data && result.data.all) {
+          // alles gut
+          last4weeks = result.data.all[51] + result.data.all[50] + result.data.all[49] + result.data.all[48];
+          Currencies.upsert(id, {
+            $set: {
+              gitCommits: last4weeks,
+              gitUpdate: time
+            }
+          })
+        } else {
+          logs.error('Error when fetching git commits.', {
+            id: id,
+            repo: repo,
+            error: 'Result not defined.'
+          })
 
- fetchGitCommits (repo, id, time) {
-    //var result = HTTP.call( 'GET', repo, {headers: {"User-Agent": "gazhayes-blockrazor"}} );
-   HTTP.get(repo, {
-   headers: {"User-Agent": "gazhayes-blockrazor"}},
-   (error, result) => {
-       if (!error) {
-         last4weeks = result.data.all[51] + result.data.all[50] + result.data.all[49] + result.data.all[48];
-         Currencies.upsert(id, {
-           $set: {
-             gitCommits: last4weeks,
-             gitUpdate: time
-           }
-         }
-         )
+          err = true
+        }
+      } else {
+        log.error('Error in fetchGitCommits',{
+          id: id,
+          repo: repo,
+          error: error
+        })
 
-       } else {
-        log.error('Error in fetchGitCommits', error)
-       }
-     })
-},
+        err = true
+      }
+
+      if (err) { // to prevent unnecessary checks
+        let count = AppLogs.find({ // get all previous
+          level: 'ERROR',
+          'additional.id': id,
+          'additional.repo': repo
+        }).count()
+
+        if (count >= 3) { // if this happened three times, remove the git repo, apparently something is wrong
+          Currencies.upsert({
+            _id: id
+          }, {
+            $set: {
+              gitRepo: ''
+            }
+          })
+        }
+      } else {
+        // if the url returns results, clean out the app logs to prevent it from getting purged
+        AppLogs.remove({
+          level: 'ERROR',
+          'additional.id': id,
+          'additional.repo': repo
+        })
+      }
+    })
+  },
 
 updateMarketCap () {
 var allcurrencies = Currencies.find({}, { sort: { createdAt: -1 }}).fetch();
