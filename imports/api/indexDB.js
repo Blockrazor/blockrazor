@@ -45,6 +45,7 @@ import { ActivityLog } from '/imports/api/activityLog/activityLog.js'
 import { Bids } from '/imports/api/auctions/bids'
 import { Auctions } from '/imports/api/auctions/auctions'
 
+import { Summaries } from '/imports/api/summaries/summaries'
 
 export {
   Bounties,
@@ -90,5 +91,7 @@ export {
   ActivityLog,
 
   Bids,
-  Auctions
+  Auctions,
+
+  Summaries
 }
