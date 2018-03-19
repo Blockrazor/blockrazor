@@ -14,7 +14,7 @@
             </div>
             <div class="pull-right">
                 <small class="text-muted">{{#hovercard template="userHover" direction="vertical" trigger="hover"}}
-                    <a href="#">{{author}}</a>
+                    <a href="/profile/{{slugify author}}">{{author}}</a>
                 {{/hovercard}}</small>
             </div>
             <small class="text-muted padLeft">{{relativeTime createdAt}}</small>

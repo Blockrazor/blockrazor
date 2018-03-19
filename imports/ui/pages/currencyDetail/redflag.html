@@ -4,7 +4,7 @@
       <div class="card-body">
           <span class="text-muted">{{name}}</span>
           <small class="text-muted"> - Posted by {{#hovercard template="userHover" direction="vertical" trigger="hover"}}
-          <a href="#">{{author}}</a>
+          <a href="/profile/{{slugify author}}">{{author}}</a>
         {{/hovercard}}</small>
           <br />
           <br />
@@ -39,7 +39,7 @@
               <div class="modal-body">
                   <p><b><i>"{{featureName}}"</i></b></p>
                   Written by: {{#hovercard template="userHover" direction="vertical" trigger="hover"}}
-          <a href="#">{{author}}</a>
+          <a href="/profile/{{slugify author}}">{{author}}</a>
         {{/hovercard}}
               </div>
               <div class="modal-footer">
