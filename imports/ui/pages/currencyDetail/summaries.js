@@ -22,7 +22,8 @@ Template.summaries.onCreated(function() {
             limit: this.summaryLimit.get(),
             sort: {
                 rating: -1,
-                appealNumber: -1
+                appealNumber: -1,
+                createdAt:-1
             }
         }))
 
@@ -33,7 +34,8 @@ Template.summaries.onCreated(function() {
             limit: this.summaryLimit.get() + this.inc,
             sort: {
                 rating: -1,
-                appealNumber: -1
+                appealNumber: -1,
+                createdAt:-1
             }
         }).fetch()
     })
