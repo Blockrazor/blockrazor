@@ -2,7 +2,7 @@
 <template name="redflagComment">
   <div class="card padBottom commentParent-{{parentId}} pull-right rounded" style="background-color:#F5F5F7;display:none;width:80%">
       <div class="card-body">
-          <span class="text-muted"><a href="/profile/{{author}}">{{author}}</a> {{comment}}</span>
+          <span class="text-muted"><a href="/profile/{{slugify author}}">{{author}}</a> {{comment}}</span>
           <br />
           <div class="pull-left card-link">
         {{#unless alreadyVotedOnComment parentId}}
@@ -28,7 +28,7 @@
               </div>
               <div class="modal-body">
                   <p><b><i>"{{comment}}"</i></b></p>
-                  Written by: {{author}}
+                  Written by: <a href="/profile/{{slugify author}}">{{author}}</a>
               </div>
               <div class="modal-footer">
                   <button type="button" class="btn btn-danger commentFlag">Report</button>

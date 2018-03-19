@@ -59,3 +59,13 @@ Template.registerHelper('relativeTime', function(date) {
    Template.registerHelper('subsCacheReady', () => {
        return SubsCache.ready()
    })
+
+
+
+Template.registerHelper('slugify', function(author) {
+  var author = author.toLowerCase()
+  let slug = author.replace(/'/g, '').replace(/[^0-9a-z-]/g, '-').replace(/\-\-+/g, '-').replace(/^-+/, '').replace(/-+$/, '');
+
+  return slug;
+
+});
