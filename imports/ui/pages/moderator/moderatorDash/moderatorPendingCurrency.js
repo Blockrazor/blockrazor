@@ -1,6 +1,8 @@
 import { Template } from 'meteor/templating'
 import './moderatorPendingCurrency.html'
 
+import swal from 'sweetalert'
+
 Template.moderatorPendingCurrency.onCreated(function() {
   // a way to get parent's template instance
   let view = this.view
@@ -20,21 +22,30 @@ Template.moderatorPendingCurrency.onRendered(function (){
   });
 
 Template.moderatorPendingCurrency.events({
-  'click #approve': function(data) {
-    data.preventDefault();
-    Meteor.call('approveCurrency', this._id);
-  },
-  'click #reject': function(data, templateInstance) {
-    data.preventDefault();
-    Meteor.call('setRejected', this._id, true);
-    templateInstance.parent.currentlyRejecting.set(this._id)
-    templateInstance.parent.reject.set(true)
-    templateInstance.parent.submittername.set(this.username)
-    templateInstance.parent.owner.set(this.owner)
-    templateInstance.parent.currencyName.set(this.currencyName)
-  }
-});
+    'click #approve': function(data) {
+        data.preventDefault();
 
+        Meteor.call('approveCurrency', this._id, (err, data) => {
+
+            if (err) {
+                swal({
+                    icon: "error",
+                    text: "You can't approve your own currency",
+                    button: { className: 'btn btn-primary' }
+                });
+            }
+        })
+    },
+    'click #reject': function(data, templateInstance) {
+        data.preventDefault();
+        Meteor.call('setRejected', this._id, true);
+        templateInstance.parent.currentlyRejecting.set(this._id)
+        templateInstance.parent.reject.set(true)
+        templateInstance.parent.submittername.set(this.username)
+        templateInstance.parent.owner.set(this.owner)
+        templateInstance.parent.currencyName.set(this.currencyName)
+    }
+});
 Template.moderatorPendingCurrency.helpers({
   display () {
     if(this.rejected) {

@@ -3,14 +3,17 @@ import { Currencies, Features } from '/imports/api/indexDB.js'
 
 Meteor.methods({
   vote: function(id, direction) {
+console.log(id, direction)
     if(this.userId) {
-      if(_.include(Features.findOne(id).appealVoted, this.userId)) { throw new Meteor.Error('Error', 'You can only vote once.') }
+      // if(_.include(Features.findOne(id).appealVoted, this.userId)) { throw new Meteor.Error('Error', 'You can only vote once.') }
       var amount = direction == "down" ? -1 : 1;
       Features.update(id, {
         $addToSet: {appealVoted: this.userId},
         $inc: {appeal: amount, appealNumber: 1}
       });
       var rating = Features.findOne(id).appeal / Features.findOne(id).appealNumber;
+      console.log('amount: ', amount)
+      console.log('rating: ',rating)
       Features.upsert(id, {
         $set: {rating: rating}
       });
