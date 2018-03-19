@@ -2,7 +2,7 @@ import { Template } from 'meteor/templating'
 import { AppLogs } from '/imports/api/indexDB'
 import { FlowRouter } from 'meteor/staringatlights:flow-router'
 
-import './appLogs.template.html'
+import './appLogs.html'
 
 Template.appLogs.onCreated(function() {
 	this.page = 1
@@ -13,6 +13,8 @@ Template.appLogs.onCreated(function() {
 	})
 
 	this.filter = new ReactiveVar('')
+	this.filterUsername = new ReactiveVar("")
+	this.filterIp = new ReactiveVar("")
 	this.level = new ReactiveVar('ALL')
 })
 
@@ -21,6 +23,16 @@ Template.appLogs.events({
 		event.preventDefault()
 
 		templateInstance.filter.set($(event.currentTarget).val())
+	},
+	'keyup #js-search-username': (event, templateInstance) => {
+		event.preventDefault()
+
+		templateInstance.filterUsername.set($(event.currentTarget).val())
+	},
+	'keyup #js-search-ip': (event, templateInstance) => {
+		event.preventDefault()
+
+		templateInstance.filterIp.set($(event.currentTarget).val())
 	},
 	'change #js-level': (event, templateInstance) => {
 		event.preventDefault()
@@ -36,10 +48,19 @@ Template.appLogs.events({
 
 Template.appLogs.helpers({
 	applogs: () => {
-		return AppLogs.find({
-			level: new RegExp(Template.instance().level.get() === 'ALL' ? '' : Template.instance().level.get(), 'i'),
-			message: new RegExp(Template.instance().filter.get(), 'ig')
-		}, {
+		var templ = Template.instance()
+		var query = {
+			level: new RegExp(templ.level.get() === 'ALL' ? '' : templ.level.get(), 'i'),
+			message: new RegExp(templ.filter.get(), 'ig'),
+		}
+		if (templ.filterUsername.get() != ""){
+			query["$or"] = [{"additional.user.username": new RegExp(templ.filterUsername.get(), 'ig')}, {"additional.user.user.username": new RegExp(templ.filterUsername.get(), 'ig')}] 
+		}
+		if (templ.filterIp.get() != ""){
+			query["additional.connection.clientAddress"] = new RegExp(templ.filterIp.get(), 'ig')
+		}
+		console.log(query)
+		return AppLogs.find( query, {
 			sort: {
 				date: -1
 			}
