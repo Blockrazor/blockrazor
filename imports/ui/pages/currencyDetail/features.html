@@ -77,8 +77,8 @@
   </div>
   {{featureModal}}
   <div class="col-sm-12 currency-features">
-    <div class="card card-header" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="true" aria-controls="multiCollapseExample1">Features</div>
-    <div class="collapse multi-collapse" id="multiCollapseExample1">
+    <div class="card card-header" >Features</div>
+    <div>
       <div class="row">
         <div class="col-sm-12">
           <button class="btn btn-primary m-2"  data-toggle="collapse" href="#addNewFeature" role="button" aria-expanded="false" aria-controls="addNewFeature">
@@ -98,11 +98,12 @@
                 <div class="float-right" id="charNum" style="margin-left:50px;"></div>
               </div>
             </div>
-          </div>  
+          </div>
         </div>
       </div>
-        <div class="row commentThread">
+
         {{#unless reactiveVar 'showflagged'}}
+		<div class="row commentThread" style="padding-top: 5px;">
           {{#if subsCacheReady}}
             {{#each features}}
               <div class="col-md-4">{{> feature}}</div>
@@ -113,9 +114,10 @@
             {{> loading}}
           {{/if}}
 
-          <button id="loadMoreFeatures">Load More</button>
+		</div>
+		<button class="btn btn-outline-info m-3" id="loadMoreFeatures">Load More</button>
         {{/unless}}
-        
+
         <!-- TODO : Confirm and Delete -->
         <!-- {{#if reactiveVar 'showflagged'}}
         {{#if subsCacheReady}}
@@ -128,11 +130,7 @@
         {{> loading}}
       {{/if}}
       {{/if}} -->
-    </div>
+
     </div>
   </div>
 </template>
-
-
-
-
