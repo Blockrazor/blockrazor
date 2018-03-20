@@ -3,7 +3,13 @@
   <div class="row">
     <div class="col-sm-12">
       <div class="card card-header d-flex align-items-center flex-row">
-        <div class="name" style="width: 100%">{{#with problem}}<h4 id="header">{{header}}</h4><span>{{amount}} KZR</span> {{#if canCancel}}<a href="#" class="pull-right" id="js-cancel">Cancel</a>{{/if}}{{/with}}</div>
+        <div class="name" style="width: 100%">
+          {{#with problem}}
+          <h4 id="header">{{header}}</h4>
+          <span>{{type}}{{#unless question}} {{amount}} KZR{{/unless}}</span>
+          {{#if canCancel}}<a href="#" class="pull-right" id="js-cancel">Cancel</a>{{/if}}
+          {{/with}}
+        </div>
       </div>
     </div>
     <div class="col-sm-12">
