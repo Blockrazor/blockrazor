@@ -6,7 +6,10 @@ import "/imports/ui/components/radarGraph.js"
 import "./currency.html"
 
 Template.currency.events({
-  'click .currency-card': function() {
+  'click .currency-card': function(event) {
+    if (event.target.tagName == "I"){
+      return
+    }
     var route = "/currency/" + this.slug;
     FlowRouter.go(route);
   }
