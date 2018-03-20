@@ -5,7 +5,7 @@ import './commentRender.html'
 
 Template.commentRender.helpers({
   alreadyVotedOnComment: function(id) {
-      if (_.include(Features.findOne({parentId: id}).appealVoted, Meteor.userId())) {
+      if (_.include(Features.findOne({_id: id}).appealVoted, Meteor.userId())) {
           return true;
       }
   },
