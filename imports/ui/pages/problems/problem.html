@@ -41,6 +41,21 @@
   {{#unless question}}
   <div class="row">
     <div class="col-sm-12">
+      <div class="card border-secondary mb-3 mb-3" style="min-width:100px;overflow:hidden;">
+          <div class="card-body">
+            <div>Add credit to bounty: <input placeholder="100" style="width: 50%; z-index: auto; position: relative; line-height: 21px; font-size: 14px; transition: none; background: transparent !important;" type="number" step="0.01" min="0" id="js-credit" /> <span><b style="color: green">{{fixed balance}}</b> KZR</span></div>
+            <button class="btn btn-primary m-2" id="js-addCredit">
+                Add credit
+            </button>
+            <button class="btn btn-primary m-2" id="js-removeCredit">
+                Remove all credit
+            </button>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
       <div class="card card-header d-flex align-items-center flex-row">
         <div class="name"><h4>{{#if problem.solved}}Solved by {{user}}{{else if isTaken}}Currently taken by {{user}}{{else}}Not taken by anyone{{/if}}</h4></div>
       </div>
