@@ -1,0 +1,60 @@
+<template name="problemComments">
+    <div class="modal fade" id="addCommentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Adding a new comment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    You're adding a new comment for {{header}}.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Thanks, don't show this again</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 problem-comments">
+        <div class="card card-header"  role="button" aria-expanded="true">Comments</div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row commentThread">
+                {{#if subsCacheReady}}
+                    {{#each problemComments}}
+                    <div class="col-md-12">{{> problemComment}}</div>
+                    {{/each}}
+                {{else}}
+                    {{> loading}}
+                {{/if}}
+                </div>
+                <button class="btn btn-primary m-2"  data-toggle="collapse" href="#addNewComment" role="button" aria-expanded="false" aria-controls="addNewComment">
+                    <i class="fa fa-plus" aria-hidden="true"></i> Add comment
+                </button>
+
+                <div class="collapse multi-collapse" id="addNewComment">
+                    <div class="card card-body">
+                        <b>Rules:</b><br />
+                        <ul>
+                            <li>Use clear language, keep it as short as possible</li>
+                            <li>Any claims must be factually correct</li>
+                        </ul>
+                        <textarea class="" id="comment" style="width:100%; height: 100px" placeholder="*Markdown* is supported" maxlength="500" minlength="10"></textarea>
+                        <br />
+                        <div style="display:flex;">
+                            <button class="btn btn-primary float-left submitNewComment">Submit</button>
+                            <h4>&nbsp;&nbsp;<i class="fa fa-question-circle help" aria-hidden="true"></i></h4>
+                            <div class="float-right" id="charNum" style="margin-left:50px;"></div>
+                        </div>
+                    </div>
+                </div>  
+            </div>
+        </div>
+    </div>
+</template>
+
+
+
+
