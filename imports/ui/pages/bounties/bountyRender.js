@@ -83,7 +83,6 @@ Template.bountyRender.events({
           FlowRouter.go("/bounties/" + this._id)
         }
     }
-
   },
   'click .cancel': function() {
     if (~custom.indexOf(this._id)) {

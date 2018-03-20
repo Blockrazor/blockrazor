@@ -10,7 +10,7 @@
     <div class="right-nav-item">
         {{#if currentUser}}
         <div class="dropdown show">
-          <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="btn dropdown-toggle text-white" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {{currentUser.username}}
           </a>      
           <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -20,10 +20,10 @@
           </div>
       </div>
       <div class="notifications"> 
-        <a href="/notifications" title="activity"><i class="fa fa-bell"></i>
+        <a href="/notifications" title="activity"><i class="fa fa-bell text-white"></i>
           {{#if activityNotifications}}<span class="badge badge-success">{{activityNotifications}}</span>{{/if}}
         </a>
-        <a href="/wallet" title="wallet"><i class="fa fa-university"></i>
+        <a href="/wallet" title="wallet"><i class="fa fa-university text-white"></i>
           {{#if walletNotifications}}<span class="badge badge-success">{{walletNotifications}}</span>{{/if}}
         </a>
       </div>
