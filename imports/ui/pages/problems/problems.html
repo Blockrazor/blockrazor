@@ -1,9 +1,9 @@
 <template name="problems">
-    <h3>Problems</h3>
-     <div id="problemsFilterContainer" class="container"> 
-        <form id="problemsFilter" name="problemsFilter"> 
-            <div class="row form-items"> 
-                <div class="col-12 form-group"> 
+    <h3 class="mt-3">Problems</h3>
+     <div id="problemsFilterContainer" class="container">
+        <form id="problemsFilter" name="problemsFilter">
+            <div class="row form-items">
+                <div class="col-12 form-group" style="padding: 0">
                     <select class="form-control" id="js-level">
                         <option>ALL</option>
                         <option>OPEN</option>
@@ -12,32 +12,34 @@
                         <option>CLOSED</option>
                     </select>
                     <input id="js-search" name="searchInput" type="text" class="form-control" placeholder="Search problems...">
-                </div> 
+                </div>
             </div>
             <div class="found-result">
                {{#if filterCount}} Found {{filterCount}} results {{/if}}
-            </div> 
-        </form> 
+            </div>
+        </form>
     </div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Status</th>
-                <th scope="col">Date &amp; Time</th>
-                <th scope="col">Problem</th>
-                <th scope="col">Proposed by</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each problems}}
-            <tr>
-                <td style="color: {{statusColor status}}">{{status}}</td>
-                <td>{{date}}</td>
-                <td><a href="/problem/{{_id}}">{{header}}</a></td>
-                <td>{{user}}</td>
-            </tr>
-            {{/each}}
-            <h4>Your problem is not on the list? <a href="/new-problem">Add it!</a></h4>
-        </tbody>
-    </table>
+
+	{{#each problems}}
+		<div class="card padBottom hoverCard">
+			<div class="card-header">
+				{{header}}
+				<h5 class="float-right my-4 my-sm-0">
+					<span class="mr-2" style="color: {{statusColor status}}">{{status}}</span>
+				</h5>
+			</div>
+			<div class="card-body">
+				<p class="card-text"> {{ text }}</p>
+				<div class="pull-left">
+					<small class="text-muted">{{date}}</small>
+				</div>
+				<div class="pull-right">
+					<small class="text-muted"> Proposed by: <a href="/profile/{{slugify author}}">{{user}}</a> </small>
+				</div>
+
+			</div>
+		</div>
+	{{/each}}
+
+	<h4>Your problem is not on the list? <a href="/new-problem">Add it!</a></h4>
 </template>
