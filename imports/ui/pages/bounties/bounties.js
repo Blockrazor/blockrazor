@@ -1,9 +1,9 @@
 import { Template } from 'meteor/templating';
-import { Bounties, REWARDCOEFFICIENT } from '/imports/api/indexDB.js';
+import { Bounties, REWARDCOEFFICIENT, Problems } from '/imports/api/indexDB.js';
 import Cookies from 'js-cookie';
 
 export function calculateReward (now) { //used in bountyRender too
-  return (((now - this.creationTime) / REWARDCOEFFICIENT) * (this.multiplier || 1)).toFixed(6)
+  return (this.credit ? this.credit.reduce((i1, i2) => i1 + i2.bounty, 0) : (((now - this.creationTime) / REWARDCOEFFICIENT) * (this.multiplier || 1))).toFixed(6)
 }
 
 import './bounties.html'
@@ -16,7 +16,8 @@ import './activeBounty.js'
 
 Template.bounties.onCreated(function(){
   this.autorun(() => {
-    SubsCache.subscribe('bounties');
+    SubsCache.subscribe('bounties')
+    SubsCache.subscribe('problems')
   })
 
   Session.set('bountyType', "")
@@ -66,13 +67,36 @@ Template.bounties.onRendered(function(){
 
 Template.bounties.helpers({
   bounties: function() {
-    return Bounties.find({
+    let problems = Problems.find({ // dont show questions in here
+      $or: [{
+        type: 'feature'
+      }, {
+        type: 'bug'
+      }],
+      open: true,
+      solved: false
+    }).fetch().map(i => ({
+      problem: i.header, 
+      solution: 'Check the problem page.',
+      types: {
+        heading: i.header
+      },
+      credit: i.credit,
+      currentlyAvailable: !i.locked, 
+      currencyName: 'Blockrazor', 
+      pendingApproval : false, 
+      url : `/problem/${i._id}`,
+      isProblem: true,
+      workingText: i.locked ? 'Someone is working on it.' : ''
+    }))
+
+    return _.union(Bounties.find({ // inject problems here
       pendingApproval: false
     }).fetch().map(i => {
       i.creationTime = i.creationTime || Template.instance().times.get()[i._id]
 
       return i
-    }).sort((i1, i2) => {
+    }), problems).sort((i1, i2) => {
       return calculateReward.call(i2, Session.get('now'), Template.instance()) - calculateReward.call(i1, Session.get('now'))
     })
   }

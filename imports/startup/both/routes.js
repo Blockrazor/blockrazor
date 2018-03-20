@@ -314,7 +314,8 @@ FlowRouter.route('/profile', {
 FlowRouter.route('/bounties', {
   name: 'bounties',
   subscriptions: function () {
-    this.register('bounties', SubsCache.subscribe('bounties'));
+    this.register('bounties', SubsCache.subscribe('bounties'))
+    this.register('problems', SubsCache.subscribe('problems'))
     this.register('bountytypes', SubsCache.subscribe('bountytypes'));
   },
   action() {
