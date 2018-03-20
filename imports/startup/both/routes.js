@@ -42,14 +42,15 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   import '../../ui/pages/problems/problems'
   import '../../ui/pages/problems/newProblem'
   import '../../ui/pages/problems/problem'
+  import '../../ui/pages/allHashaverage/allHashaverage'
+  import '../../ui/pages/addHashpower/addHashpower.js'
+
 
   //moderator pages
   import '../../ui/pages/moderator/moderatorDash/moderatorDash'
   import '../../ui/pages/moderator/questions/questions'
-  import '../../ui/pages/moderator/hashpower/allHashaverage'
   import '../../ui/pages/moderator/flaggedUsers/flaggedUsers'
   import '../../ui/pages/moderator/hashpower/flaggedHashpower'
-  import '../../ui/pages/addHashpower/addHashpower.js'
   import '../../ui/pages/moderator/appLogs/appLogs'
   import '../../ui/pages/moderator/problems/solvedProblems'
 
@@ -115,20 +116,6 @@ FlowRouter.route('/currencyAuction', {
   }
 })
 
-FlowRouter.route('/applogs', {
-  name: 'app-logs',
-  subscriptions: function (params) {
-    this.register('applogs', SubsCache.subscribe('applogs', 1, 50))
-    this.register('users', SubsCache.subscribe('users'))
-  },
-  action: (params, queryParams) => {
-    BlazeLayout.render('mainLayout', {
-      main: 'appLogs',
-      //left: 'sideNav'
-    })
-  }
-})
-
 FlowRouter.route('/problems', {
   name: 'problems',
   subscriptions: function (params) {
@@ -152,20 +139,6 @@ FlowRouter.route('/problem/:id', {
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {
       main: 'problem',
-      //left: 'sideNav'
-    })
-  }
-})
-
-FlowRouter.route('/solved-problems', {
-  name: 'solved-problems',
-  subscriptions: function (params) {
-    this.register('solvedProblems', SubsCache.subscribe('solvedProblems'))
-    this.register('users', SubsCache.subscribe('users'))
-  },
-  action: (params, queryParams) => {
-    BlazeLayout.render('mainLayout', {
-      main: 'solvedProblems',
       //left: 'sideNav'
     })
   }
@@ -251,22 +224,6 @@ FlowRouter.route('/add-hashpower', {
   }
 })
 
-FlowRouter.route('/flagged-hashpower', {
-  name: 'flagged-hashpower',
-  subscriptions: function () {
-    this.register('flaggedhashpower', SubsCache.subscribe('flaggedhashpower'));
-    this.register('hashhardware', SubsCache.subscribe('hashhardware'));
-    this.register('hashalgorithm', SubsCache.subscribe('hashalgorithm'));
-    this.register('hashunits', SubsCache.subscribe('hashunits'));
-  },
-  action: () => {
-    BlazeLayout.render('mainLayout', {
-      main: 'flaggedHashpower',
-      //left: 'sideNav'
-    })
-  }
-})
-
 FlowRouter.route('/avg-hashpower', {
   name: 'avg-haspower',
   subscriptions: function () {
@@ -312,25 +269,6 @@ FlowRouter.route('/communities', {
   }
 })
 
-FlowRouter.route('/flagged-users', {
-  name: 'flaggedUsers',
-  subscriptions: function () {
-    this.register('userData', SubsCache.subscribe('userData'));
-    this.register('users', SubsCache.subscribe('users'));
-  },
-  action: function () {
-    if (Meteor.userId()) {
-      BlazeLayout.render('mainLayout', {
-        main: 'flaggedUsers',
-        //left: 'sideNav'
-      })
-    } else {
-      window.last = window.location.pathname
-      FlowRouter.go('/login')
-    }
-  }
-})
-
 FlowRouter.route('/codebase', {
   name: 'codebase',
   subscriptions: function () {
@@ -372,20 +310,6 @@ FlowRouter.route('/profile', {
     })
   }
 })
-
-FlowRouter.route('/questions', {
-  name: 'questions',
-  subscriptions: function () {
-    this.register('ratings_templates', SubsCache.subscribe('ratings_templates'));
-  },
-  action() {
-    BlazeLayout.render('mainLayout', {
-      main: 'questions',
-      //left: 'sideNav'
-    });
-    //  if(Meteor.isServer) {    }
-  }
-});
 
 FlowRouter.route('/bounties', {
   name: 'bounties',
@@ -489,17 +413,6 @@ FlowRouter.route('/changedcurrencies', {
   }
 });
 
-FlowRouter.route('/moderator', {
-  subscriptions: function () {
-    this.register('pendingcurrencies', SubsCache.subscribe('pendingcurrencies'));
-    this.register('bounties', SubsCache.subscribe('bounties'));
-    this.register('walletimages', SubsCache.subscribe('walletimages'));
-  },
-  action: function (params, queryParams) {
-    BlazeLayout.render('mainLayout', {main: 'moderatorDash'});
-  }
-});
-
 FlowRouter.route('/notifications', {
   subscriptions: function () {
     this.register('activitylog', SubsCache.subscribe('activitylog'));
@@ -561,3 +474,98 @@ FlowRouter.notFound = {
     BlazeLayout.render('error', {main: 'App_notFound'});
   }
 };
+
+
+//moderator routes
+var adminRoutes = FlowRouter.group({
+  prefix: '/moderator',
+  name: 'moderator',
+});
+
+adminRoutes.route('/', {
+  subscriptions: function () {
+    this.register('pendingcurrencies', SubsCache.subscribe('pendingcurrencies'));
+    this.register('bounties', SubsCache.subscribe('bounties'));
+    this.register('walletimages', SubsCache.subscribe('walletimages'));
+  },
+  action: function (params, queryParams) {
+    BlazeLayout.render('mainLayout', {main: 'moderatorDash'});
+  }
+});
+
+adminRoutes.route('/questions', {
+  name: 'questions',
+  subscriptions: function () {
+    this.register('ratings_templates', SubsCache.subscribe('ratings_templates'));
+  },
+  action() {
+    BlazeLayout.render('mainLayout', {
+      main: 'questions',
+      //left: 'sideNav'
+    });
+    //  if(Meteor.isServer) {    }
+  }
+});
+
+adminRoutes.route('/flagged-users', {
+  name: 'flaggedUsers',
+  subscriptions: function () {
+    this.register('userData', SubsCache.subscribe('userData'));
+    this.register('users', SubsCache.subscribe('users'));
+  },
+  action: function () {
+    if (Meteor.userId()) {
+      BlazeLayout.render('mainLayout', {
+        main: 'flaggedUsers',
+        //left: 'sideNav'
+      })
+    } else {
+      window.last = window.location.pathname
+      FlowRouter.go('/login')
+    }
+  }
+})
+
+adminRoutes.route('/flagged-hashpower', {
+  name: 'flagged-hashpower',
+  subscriptions: function () {
+    this.register('flaggedhashpower', SubsCache.subscribe('flaggedhashpower'));
+    this.register('hashhardware', SubsCache.subscribe('hashhardware'));
+    this.register('hashalgorithm', SubsCache.subscribe('hashalgorithm'));
+    this.register('hashunits', SubsCache.subscribe('hashunits'));
+  },
+  action: () => {
+    BlazeLayout.render('mainLayout', {
+      main: 'flaggedHashpower',
+      //left: 'sideNav'
+    })
+  }
+})
+
+adminRoutes.route('/applogs', {
+  name: 'app-logs',
+  subscriptions: function (params) {
+    this.register('applogs', SubsCache.subscribe('applogs', 1, 50))
+    this.register('users', SubsCache.subscribe('users'))
+  },
+  action: (params, queryParams) => {
+    BlazeLayout.render('mainLayout', {
+      main: 'appLogs',
+      //left: 'sideNav'
+    })
+  }
+})
+
+adminRoutes.route('/solved-problems', {
+  name: 'solved-problems',
+  subscriptions: function (params) {
+    this.register('solvedProblems', SubsCache.subscribe('solvedProblems'))
+    this.register('users', SubsCache.subscribe('users'))
+  },
+  action: (params, queryParams) => {
+    BlazeLayout.render('mainLayout', {
+      main: 'solvedProblems',
+      //left: 'sideNav'
+    })
+  }
+})
