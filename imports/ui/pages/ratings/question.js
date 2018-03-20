@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Currencies, Ratings } from '/imports/api/indexDB.js';
 
-import './questions.html'
+import './question.html'
 
 Template.question.onCreated(function bodyOnCreated() {
   var self = this

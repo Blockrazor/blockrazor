@@ -5,7 +5,7 @@ import './ratings.html'
 import './currencyChoices'
 import './currencyChoice'
 import './displayRatings'
-import './questions'
+import './question'
 import './upload'
 
 import Cookies from 'js-cookie'
