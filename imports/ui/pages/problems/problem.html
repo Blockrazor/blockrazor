@@ -1,0 +1,98 @@
+<template name="problem">
+  {{> sAlert}}
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card card-header d-flex align-items-center flex-row">
+        <div class="name" style="width: 100%">{{#with problem}}<h4 id="header">{{header}}</h4><span>{{amount}} KZR</span> {{#if canCancel}}<a href="#" class="pull-right" id="js-cancel">Cancel</a>{{/if}}{{/with}}</div>
+      </div>
+    </div>
+    <div class="col-sm-12">
+      <div class="basic-details">
+        <div class="card border-secondary mb-3 mb-3" style="min-width:100px;overflow:hidden;">
+          <div class="card-body">
+          {{#with problem}}
+          <p id="text">{{text}}</p>
+          <br />
+          <div>
+            {{#if closed}}
+            <span class="pull-right" style="color: red;">CLOSED</span>
+            {{else if cancelled}}
+            <span class="pull-right" style="color: red;">CANCELLED</span>
+            {{else if solved}}
+            <span class="pull-right" style="color: orange;">SOLVED</span>
+            {{else if locked}}
+            <span class="pull-right" style="color: orange;">IN PROGRESS</span>
+            {{else if open}}
+            <span class="pull-right" style="color: green;">OPEN</span>
+            {{/if}}
+          </div>
+          {{/with}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{#unless question}}
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card card-header d-flex align-items-center flex-row">
+        <div class="name"><h4>{{#if problem.solved}}Solved by {{user}}{{else if isTaken}}Currently taken by {{user}}{{else}}Not taken by anyone{{/if}}</h4></div>
+      </div>
+    </div>
+    <div class="col-sm-12">
+      <div class="basic-details">
+        <div class="card border-secondary mb-3 mb-3" style="min-width:100px;overflow:hidden;">
+          <div class="card-body">
+          {{#if isTaken}}
+          {{#with problem}}
+          <div>GitHub fork: <a href="{{taken.additional.fork}}">{{taken.additional.fork}}</a></div>
+          <div>Issue: <a href="{{taken.additional.issue}}">{{taken.additional.issue}}</a></div>
+          {{#unless solved}}
+          <div>Time left: {{timeLeft}}</div>
+
+          {{#if isTakenByMe}}
+          <button class="btn btn-primary m-2" id="js-giveup">
+              Give up
+          </button>
+          <button class="btn btn-primary m-2" id="js-solve">
+              Mark as solved
+          </button>
+          {{/if}}
+          {{/unless}}
+          {{/with}}
+          {{else}}
+          {{#if canTake}}
+          {{#if takeable}}
+          <div>GitHub fork: <input placeholder="https://github.com/test/blockrazor" style="width: 100%; z-index: auto; position: relative; line-height: 21px; font-size: 14px; transition: none; background: transparent !important;" type="text" id="js-fork" /></div>
+          <div>Issue: <input placeholder="https://github.com/test/blockrazor/issues/580" style="width: 100%; z-index: auto; position: relative; line-height: 21px; font-size: 14px; transition: none; background: transparent !important;" type="text" id="js-issue" /></div>
+          <button class="btn btn-primary m-2" id="js-take">
+              Take it
+          </button>
+          {{else}}
+          You can't take a cancelled issue.
+          {{/if}}
+          {{else}}
+          You are already working on another issue.
+          {{/if}}
+          {{/if}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/unless}}
+  {{#if problem.images}}
+  <div class="row">
+    <div class="col-sm-12">
+    {{#with problem}}
+      {{> problemImages}}
+    {{/with}}
+    </div>
+  </div>
+  {{/if}}
+  <div class="row">
+    {{#with problem}}
+      {{> problemComments}}
+    {{/with}}
+  </div>
+</template>

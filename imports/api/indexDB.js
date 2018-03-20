@@ -47,6 +47,10 @@ import { Auctions } from '/imports/api/auctions/auctions'
 
 import { Summaries } from '/imports/api/summaries/summaries'
 
+import { Problems } from '/imports/api/problems/problems'
+import { ProblemImages } from '/imports/api/problems/problemImages'
+import { ProblemComments } from '/imports/api/problems/problemComments'
+
 export {
   Bounties,
   BountyTypes,
@@ -93,5 +97,9 @@ export {
   Bids,
   Auctions,
 
-  Summaries
+  Summaries,
+
+  Problems,
+  ProblemImages,
+  ProblemComments
 }

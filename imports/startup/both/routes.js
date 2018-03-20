@@ -39,6 +39,9 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   import '../../ui/pages/signin/signin'
   import '../../ui/pages/signup/signup'
   import '../../ui/pages/auctions/currencyAuction'
+  import '../../ui/pages/problems/problems'
+  import '../../ui/pages/problems/newProblem'
+  import '../../ui/pages/problems/problem'
 
   //moderator pages
   import '../../ui/pages/moderator/moderatorDash/moderatorDash'
@@ -48,6 +51,7 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   import '../../ui/pages/moderator/hashpower/flaggedHashpower'
   import '../../ui/pages/addHashpower/addHashpower.js'
   import '../../ui/pages/moderator/appLogs/appLogs'
+  import '../../ui/pages/moderator/problems/solvedProblems'
 
   // New Layout doesn't use side Template.dynamic side
   import '../../ui/layouts/mainLayout/mainLayout'
@@ -120,6 +124,58 @@ FlowRouter.route('/applogs', {
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {
       main: 'appLogs',
+      //left: 'sideNav'
+    })
+  }
+})
+
+FlowRouter.route('/problems', {
+  name: 'problems',
+  subscriptions: function (params) {
+    this.register('problems', SubsCache.subscribe('problems'))
+    this.register('users', SubsCache.subscribe('users'))
+  },
+  action: (params, queryParams) => {
+    BlazeLayout.render('mainLayout', {
+      main: 'problems',
+      //left: 'sideNav'
+    })
+  }
+})
+
+FlowRouter.route('/problem/:id', {
+  name: 'problem',
+  subscriptions: function (params) {
+    this.register('problem', SubsCache.subscribe('problem', params.id))
+    this.register('users', SubsCache.subscribe('users'))
+  },
+  action: (params, queryParams) => {
+    BlazeLayout.render('mainLayout', {
+      main: 'problem',
+      //left: 'sideNav'
+    })
+  }
+})
+
+FlowRouter.route('/solved-problems', {
+  name: 'solved-problems',
+  subscriptions: function (params) {
+    this.register('solvedProblems', SubsCache.subscribe('solvedProblems'))
+    this.register('users', SubsCache.subscribe('users'))
+  },
+  action: (params, queryParams) => {
+    BlazeLayout.render('mainLayout', {
+      main: 'solvedProblems',
+      //left: 'sideNav'
+    })
+  }
+})
+
+FlowRouter.route('/new-problem', {
+  name: 'new-problem',
+  action: (params, queryParams) => {
+    BlazeLayout.render('mainLayout', {
+      main: 'newProblem',
       //left: 'sideNav'
     })
   }
