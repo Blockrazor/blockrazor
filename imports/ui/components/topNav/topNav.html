@@ -1,10 +1,11 @@
 <template name="topNav">
-  <nav class="navbar navbar-toggleable-md navbar-light bg-faded" id="topnav">
+  <nav class="navbar navbar-toggleable-md navbar-dark bg-primary text-white" id="topnav">
+
     <div>
       <button class="navbar-toggler navbar-toggler-right" type="button" id="navbar-toggler">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <a class="navbar-brand" href="/">BLOCKRAZOR</a>
+      <a class="navbar-brand text-white" href="/">BLOCKRAZOR</a>
     </div>  
     <div class="right-nav-item">
         {{#if currentUser}}
@@ -27,7 +28,7 @@
         </a>
       </div>
       {{else}}
-        <a href="/login">Sign in</a>
+        <a href="/login" class="text-white">Sign in</a>
       {{/if}}
     </div>
 
