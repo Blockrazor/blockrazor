@@ -3,20 +3,69 @@ import { UserData } from '/imports/api/indexDB'
 import { FlowRouter } from 'meteor/staringatlights:flow-router'
 
 import './newProblem.html'
+import { format } from 'url';
 
 Template.newProblem.onCreated(function() {
 	this.lastAmount = 0
+	this.summaryCharsCount = new ReactiveVar(0)
+	this.type = new ReactiveVar(null)
+	this.typeSelected = new ReactiveVar(false)
+	this.isNotQuestion = new ReactiveVar(true)
+	this.problemDescriptionPrompt = new ReactiveVar("")
+	this.problemSummaryPrompt = new ReactiveVar("")
+	this.problemVariablePrompt = new ReactiveVar("")
+	this.problemVariableTitle = new ReactiveVar("")
+	this.autorun(()=>{
+		var type = this.type.get()
+		if (type != null){
+			this.typeSelected.set(true)
+			var description = this.problemDescriptionPrompt
+			var summary = this.problemSummaryPrompt
+			var variable = this.problemVariablePrompt
+			this.isNotQuestion.set(true)
+			if (type == "question"){
+				this.isNotQuestion.set(false)
+				description.set("Describe your question")
+				summary.set("Summarize question for a title of problem")
+			} else if (type == "feature"){
+				description.set("Describe the problem you are facing that your feature request will solve")
+				summary.set("Summarize problem to solve for in less than 60 characters.")
+				variable.set("If you have thought of a potential solution to this problem, describe it here. You can attache pictures below.")
+				this.problemVariableTitle.set("Potential Solution")
+			} else {
+				//type = bug
+				description.set("Describe the problem you are facing that your feature request will solve")
+				summary.set("Summarize problem to solve for in less than 60 characters.")
+				variable.set("Explain step-by-step how others can reproduce this bug to see the same problem. You can attache pictures below.")
+				this.problemVariableTitle.set("Steps to Reproduce the Bug")
+			}
+
+		}
+	})
 })
 
 Template.newProblem.events({
-	'submit #js-form': (event, templateInstance) => {
+	'input #js-header': (event, templ) => {
+		templ.summaryCharsCount.set(event.target.value.length)
+	},
+	'submit #js-form': (event, templ) => {
 		event.preventDefault()
 
 		let images = $('#js-images').children('img').map(function() {
 		    return $(this).attr('src').replace(`${_problemUploadDirectoryPublic}`, '')
 		}).get()
 
-		Meteor.call('newProblem', $('#js-type').val(), $('#js-header').val(), $('#js-text').val(), images, Number($('#js-amount').val()), (err, data) => {
+		var formattedBody = ""
+		var type = templ.type.get()
+		if (type == "question"){
+			formattedBody += $('#js-text').val()
+		} else if (type == "feature"){
+			formattedBody += "Problem:\n\r" + $('#js-text').val() + "\n\n\rPotential Solution:\n\r" + $('#js-variable').val()
+		} else {
+			formattedBody += "Problem:\n\r" + $('#js-text').val() + "\n\n\rSteps to Reproduce:\n\r" + $('#js-variable').val()
+		}
+
+		Meteor.call('newProblem', $('#js-type').val(), $('#js-header').val(), formattedBody, images, Number($('#js-amount').val()), (err, data) => {
 			if (!err) {
 				FlowRouter.go('/problems')
 			} else {
@@ -24,7 +73,8 @@ Template.newProblem.events({
 			}
 		})
 	},
-	'change #js-type': (event, templateInstance) => {
+	'change #js-type': (event, templ) => {
+		templ.type.set(event.target.value)
 		if ($(event.currentTarget).val() === 'question') {
 			this.lastAmount = Number($('#js-amount').val())
 
