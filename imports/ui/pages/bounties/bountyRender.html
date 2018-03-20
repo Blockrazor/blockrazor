@@ -26,10 +26,17 @@
       </div>
       <div class="row">
         <div class="col">
+          {{#unless isProblem}}
           <div class="float-right" style="display:inline-flex;clear:both;" id="takeBounty{{id}}">
             <button type="button" class="btn {{buttonClass}}">{{#if canContinue}}Continue{{else}}Take{{/if}} Bounty</button>
           </div>
           <div class="float-right" style="display:inline-flex;clear:both;"><i>{{workingText}}</i></div>
+          {{else}}
+          <div class="float-right gotoProblem" style="display:inline-flex;clear:both;">
+            <button type="button" class="btn {{buttonClass}}">Check the problem</button>
+          </div>
+          <div class="float-right" style="display:inline-flex;clear:both;"><i>{{workingText}}</i></div>
+          {{/unless}}
         </div>
       </div>
     </div>
