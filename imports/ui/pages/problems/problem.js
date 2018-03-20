@@ -95,10 +95,36 @@ Template.problem.helpers({
 	isTakenByMe: function() {
 		return this.taken.userId === Meteor.userId()
 	},
-	canTake: () => !Template.instance().working.get()
+	canTake: () => !Template.instance().working.get(),
+	balance: () => (UserData.findOne({
+		_id: Meteor.userId()
+	}) || {}).balance,
+	fixed: (val) => val.toFixed(6)
 })
 
 Template.problem.events({
+	'click #js-addCredit': (event, templateInstance) => {
+		event.preventDefault()
+
+		Meteor.call('addProblemCredit', FlowRouter.getParam('id'), Number($('#js-credit').val()), (err, data) => {
+			if (err) {
+				sAlert.error(err.reason)
+			} else {
+				sAlert.success('Credit added.')
+			}
+		})
+	},
+	'click #js-removeCredit': (event, templateInstance) => {
+		event.preventDefault()
+
+		Meteor.call('removeProblemCredit', FlowRouter.getParam('id'), (err, data) => {
+			if (err) {
+				sAlert.error(err.reason)
+			} else {
+				sAlert.success('Credit removed.')
+			}
+		})
+	},
 	'click #js-cancel': (event, templateInstance) => {
 		event.preventDefault()
 
