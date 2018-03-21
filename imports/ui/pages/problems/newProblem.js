@@ -1,6 +1,7 @@
 import { Template } from 'meteor/templating'
 import { UserData } from '/imports/api/indexDB'
 import { FlowRouter } from 'meteor/staringatlights:flow-router'
+import { newProblem } from '/imports/api/problems/methods'
 
 import './newProblem.html'
 import { format } from 'url';
@@ -15,6 +16,8 @@ Template.newProblem.onCreated(function() {
 	this.problemSummaryPrompt = new ReactiveVar("")
 	this.problemVariablePrompt = new ReactiveVar("")
 	this.problemVariableTitle = new ReactiveVar("")
+
+	//determines field placeholders and wether to show 3rd field, and when to show the other 2
 	this.autorun(()=>{
 		var type = this.type.get()
 		if (type != null){
@@ -55,6 +58,7 @@ Template.newProblem.events({
 		    return $(this).attr('src').replace(`${_problemUploadDirectoryPublic}`, '')
 		}).get()
 
+		//formats and combines variable and text fields into a single fields with field title appended before each section.
 		var formattedBody = ""
 		var type = templ.type.get()
 		if (type == "question"){
@@ -65,13 +69,24 @@ Template.newProblem.events({
 			formattedBody += "Problem:\n\r" + $('#js-text').val() + "\n\n\rSteps to Reproduce:\n\r" + $('#js-variable').val()
 		}
 
-		Meteor.call('newProblem', $('#js-type').val(), $('#js-header').val(), formattedBody, images, Number($('#js-amount').val()), (err, data) => {
+		console.log("method", newProblem)
+		newProblem.call({type: $('#js-type').val(), header: $('#js-header').val(), text: formattedBody, images: images, bounty: Number($('#js-amount').val())}, (err, data)=>{
 			if (!err) {
 				FlowRouter.go('/problems')
 			} else {
+				console.log(err, "reason", err.reason)
+
 				sAlert.error(err.reason)
 			}
 		})
+
+		// Meteor.call('newProblem', $('#js-type').val(), $('#js-header').val(), formattedBody, images, Number($('#js-amount').val()), (err, data) => {
+		// 	if (!err) {
+		// 		FlowRouter.go('/problems')
+		// 	} else {
+		// 		sAlert.error(err.reason)
+		// 	}
+		// })
 	},
 	'change #js-type': (event, templ) => {
 		templ.type.set(event.target.value)
