@@ -32,6 +32,7 @@ Template.bounties.onCreated(function(){
     this.times.set(times)
   })
 
+  //may return a document field without createdAt field
   Meteor.call('getLastHashPower', (err, data) => {
     let times = this.times.get()
     times['new-hashpower'] = data.createdAt || Date.now()

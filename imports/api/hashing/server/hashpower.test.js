@@ -9,6 +9,9 @@ Meteor.userId = () => 'test-user' // override the meteor userId, so we can test 
 Meteor.users.findOne = () => ({
     username: 'test'
 }) // stub user data as well
+Meteor.user = ()=> ({
+    username: 'test'
+})
 
 describe('Hash power data', function() { // describes the feature we're testing
 	it('Hash power data can be added', function() { // describes things that the feature should do
