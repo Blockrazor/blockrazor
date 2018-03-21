@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { FormData, Bounties, RatingsTemplates, HashAlgorithm } from '/imports/api/indexDB.js'; //database
+import { devValidationEnabled, FormData, Bounties, RatingsTemplates, HashAlgorithm } from '/imports/api/indexDB.js'; //database
 
 import swal from 'sweetalert';
 import Cookies from 'js-cookie';
@@ -188,7 +188,8 @@ if(file){
  }
 
 //Only upload if above validation are true
-if(!uploadError){
+//Disabled validation in development environment for easy testing (adjust in both startup index)
+if(devValidationEnabled && !uploadError){
 
   $("#fileUploadValue").html("<i class='fa fa-circle-o-notch fa-spin'></i> Uploading");
 

@@ -1,4 +1,3 @@
-import '../../api/bounties/server/methods.js'
 import '../both/index.js'
 
 //publications
@@ -30,6 +29,8 @@ import '/imports/api/auctions/server/methods'
 import '/imports/api/rewards/server/methods'
 import '/imports/api/summaries/server/methods'
 import '/imports/api/problems/server/methods'
+import '../../api/bounties/server/methods.js'
+
 
 // import './fastRender.js'
 import './fixtures.js'

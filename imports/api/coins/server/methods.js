@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { ActivityLog, Bounties, REWARDCOEFFICIENT, UserData,
   Currencies, PendingCurrencies, RejectedCurrencies, ChangedCurrencies,
-  HashAlgorithm } from '/imports/api/indexDB.js'
+  HashAlgorithm, devValidationEnabled } from '/imports/api/indexDB.js'
 import { rewardCurrencyCreator } from '/imports/api/utilities.js';
 import { log } from '/server/main'
 
@@ -136,6 +136,7 @@ Meteor.methods({
   }
   },
   addCoin(data) {
+    //validat clien
   //Check that user is logged in
   if (!Meteor.userId()) {throw new Meteor.Error("Please log in first")};
   Meteor.call('isCurrencyNameUnique', data.currencyName);
@@ -146,6 +147,7 @@ Meteor.methods({
 
     //Function to validate data (checkSanity)
     var checkSanity = function (value, name, type, minAllowed, maxAllowed, nullAllowed) {
+      if (!devValidationEnabled) return true
       if (type == "object") {
         if (typeof value == type && _.size(value) >= minAllowed && _.size(value) <= maxAllowed) {
           allowed.push(name);
@@ -195,10 +197,10 @@ Meteor.methods({
     checkSanity(data.currencyLogoFilename, "currencyLogoFilename", "string", 1, 300);
 
     //Check the self-populating dropdowns
-    if (data.consensusSecurity != "--Select One--") {
+    if (!devValidationEnabled || data.consensusSecurity != "--Select One--") {
       checkSanity(data.consensusSecurity, "consensusSecurity", "string", 6, 20);
       } else {error.push("consensusSecurity")};
-    if (data.hashAlgorithm) { if (data.hashAlgorithm == "--Select One--") {
+    if (data.hashAlgorithm) { if (devValidationEnabled && data.hashAlgorithm == "--Select One--") {
       error.push("hashAlgorithm")} else {
       checkSanity(data.hashAlgorithm, "hashAlgorithm", "string", 3, 40, true);
     }};
@@ -304,7 +306,8 @@ Meteor.methods({
 
 
   if (error.length != 0) {throw new Meteor.Error(error)}
-  if(error.length == 0 && _.size(data) == _.size(allowed)){
+  //skips data==allowed in development, adjust in config startup
+  if(!devValidationEnabled || error.length == 0 && _.size(data) == _.size(allowed)){
     console.log("----inserting------");
     var insert = _.extend(data, {
       createdAt: new Date().getTime(),
