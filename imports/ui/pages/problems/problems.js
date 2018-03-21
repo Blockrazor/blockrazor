@@ -85,9 +85,6 @@ Template.problems.helpers({
 	statusColor: function(status) {
 		return status === 'OPEN' ? 'green' : (status === 'SOLVED' || status === 'IN PROGRESS') ? 'orange' : 'red'
 	},
-	date: function() {
-		return moment(this.date).format(`${_globalDateFormat} HH:MM:SS`)
-	},
 	user: function() {
 		return (Meteor.users.findOne({
 			_id: this.createdBy
