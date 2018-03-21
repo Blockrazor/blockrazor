@@ -51,6 +51,8 @@ import { Problems } from '/imports/api/problems/problems'
 import { ProblemImages } from '/imports/api/problems/problemImages'
 import { ProblemComments } from '/imports/api/problems/problemComments'
 
+import { devValidationEnabled } from '/imports/startup/both/devValidationEnabled'
+
 export {
   Bounties,
   BountyTypes,
@@ -101,5 +103,7 @@ export {
 
   Problems,
   ProblemImages,
-  ProblemComments
+  ProblemComments,
+
+  devValidationEnabled
 }
