@@ -30,6 +30,7 @@ import '/imports/api/auctions/server/methods'
 import '/imports/api/rewards/server/methods'
 import '/imports/api/summaries/server/methods'
 import '/imports/api/problems/server/methods'
+import '/imports/api/ratings/server/methods'
 
 // import './fastRender.js'
 import './fixtures.js'
