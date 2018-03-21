@@ -29,6 +29,7 @@ import '/imports/api/auctions/server/methods'
 import '/imports/api/rewards/server/methods'
 import '/imports/api/summaries/server/methods'
 import '/imports/api/problems/server/methods'
+import '/imports/api/common/votes'
 import '../../api/bounties/server/methods.js'
 
 
