@@ -15,9 +15,12 @@ Template.problems.onCreated(function() {
 })
 
 Template.problems.events({
+	'click .focusSearch':function(){
+		$('#js-search').focus();
+	},
 	'keyup #js-search': (event, templateInstance) => {
 		event.preventDefault()
-
+		$('#addProblemButton').removeClass('disabled not-allowed');
 		templateInstance.filter.set($(event.currentTarget).val())
 	},
 	'change #js-level': (event, templateInstance) => {
