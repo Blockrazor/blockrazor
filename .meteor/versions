@@ -81,6 +81,7 @@ livedata@1.0.18
 localstorage@1.2.0
 logging@1.1.19
 matb33:collection-hooks@0.7.15
+mdg:validated-method@1.1.0
 meteor@1.8.2
 meteor-base@1.2.0
 meteorhacks:meteorx@1.4.1
