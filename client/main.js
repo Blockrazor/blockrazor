@@ -30,10 +30,6 @@ Template.registerHelper('doesCoinImageExist', function(img) {
     }
 })
 
-Template.registerHelper('relativeTime', function(date) {
-  var timePassed = moment(date).fromNow();
-  return timePassed;
-});
 
 
     //Global helpers
@@ -44,7 +40,7 @@ Template.registerHelper('relativeTime', function(date) {
         }
     });
 
-   Template.registerHelper('isDeveloper', () => {
+Template.registerHelper('isDeveloper', () => {
        let udata = UserData.findOne({
            _id: Meteor.userId()
        }, {
@@ -69,3 +65,9 @@ Template.registerHelper('slugify', function(author) {
   return slug;
 
 });
+
+Template.registerHelper('relativeTime', function(date) {
+  var timePassed = moment(date).fromNow();
+  return timePassed;
+});
+
