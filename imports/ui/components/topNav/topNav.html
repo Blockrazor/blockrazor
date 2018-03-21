@@ -20,12 +20,14 @@
           </div>
       </div>
       <div class="notifications"> 
+
         <a href="/notifications" title="activity"><i class="fa fa-bell text-white"></i>
           {{#if activityNotifications}}<span class="badge badge-success">{{activityNotifications}}</span>{{/if}}
         </a>
         <a href="/wallet" title="wallet"><i class="fa fa-university text-white"></i>
           {{#if walletNotifications}}<span class="badge badge-success">{{walletNotifications}}</span>{{/if}}
         </a>
+        <small class="text-muted d-none d-sm-block"><a href="wallet" class="text-white">{{balance}} ZRQ</a></small>
       </div>
       {{else}}
         <a href="/login" class="text-white">Sign in</a>

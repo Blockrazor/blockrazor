@@ -1,15 +1,19 @@
-import { ActivityLog, Wallet } from '/imports/api/indexDB.js';
+import { ActivityLog, Wallet, UserData } from '/imports/api/indexDB.js';
 
 import './sideNav.html'
 import './sideNav.scss'
 
 Template.sideNav.helpers({
-  activityNotifications() {
-    return ActivityLog.find({owner: Meteor.userId(), type: "message", read: {$ne: true}}).count();
-  },
-  walletNotifications(){
-    return Wallet.find({owner: Meteor.userId(), type: "transaction", read: {$ne: true}}).count();
-  },
+    activityNotifications() {
+        return ActivityLog.find({ owner: Meteor.userId(), type: "message", read: { $ne: true } }).count();
+    },
+    walletNotifications() {
+        return Wallet.find({ owner: Meteor.userId(), type: "transaction", read: { $ne: true } }).count();
+    },
+    balance() {
+      let balance = UserData.findOne({}, { fields: { balance: 1 } }).balance
+      return Number( balance.toPrecision(3) )
+    }
 });
 
 Template.sideNav.onCreated(function() {
