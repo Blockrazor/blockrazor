@@ -58,7 +58,8 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   import '../../ui/layouts/mainLayout/mainLayout'
 
   //Stylesheet
-  import '/imports/ui/stylesheets/lux.min.css';
+  //is in client folder
+  // import '/imports/ui/stylesheets/lux.min.css';
 } else {
   SubsCache = Meteor
 }

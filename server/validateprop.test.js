@@ -1,6 +1,6 @@
 import { chai, assert } from 'meteor/practicalmeteor:chai'
 import { Meteor } from 'meteor/meteor'
-import { callWithPromise } from '../utils'
+import { callWithPromise } from '/imports/api/utilities'
 
 var test_walletUpoadDirectory = '/var/www/static/images/wallets/';
 var test_walletUpoadDirectoryPublic = '/static/images/wallets/';

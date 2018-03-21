@@ -12,7 +12,7 @@ import {
 import Cookies from 'js-cookie'
 import typeahead from 'corejs-typeahead' //maintained typeahead
 
-import '/imports/ui/stylesheets/typeahead.css'
+import '/.typeahead.css'
 
 import {
 	FlowRouter

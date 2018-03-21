@@ -6,6 +6,8 @@ import { creditUserWith } from '../../utilities.js';
 
 import {REWARDCOEFFICIENT} from '../REWARDCOEFFICIENT' //needed on client
 
+import { sendMessage } from '/imports/api/activityLog/server/methods'
+
 Meteor.methods({
   rejectBounty: function(bountyId, reason) {
     if(UserData.findOne({_id: this.userId}).moderator) {
@@ -19,7 +21,7 @@ Meteor.methods({
           rejectedBy: Meteor.user().username
         }
       });
-      Meteor.call("sendMessage", original.completedBy, ("The " + original.bountyType + " bounty you submitted for " + original.currencyName + "has been denied by a moderator. Please see your Pending list to see more details."))
+      sendMessage(original.completedBy, ("The " + original.bountyType + " bounty you submitted for " + original.currencyName + "has been denied by a moderator. Please see your Pending list to see more details."))
     }
   },
   addNewBounty: (type, reward, time) => {
@@ -110,7 +112,7 @@ Meteor.methods({
         })
       }
       creditUserWith(original.bountyReward, original.completedBy, ("completing the " + original.currencyName + " " + original.bountyType + "."));
-      Meteor.call("sendMessage", original.completedBy, ("I have approved your bounty for " + original.currencyName), Meteor.user().username);
+      sendMessage(original.completedBy, ("I have approved your bounty for " + original.currencyName), Meteor.user().username);
     }
   },
   completeAPIbounty: function(apiData){
