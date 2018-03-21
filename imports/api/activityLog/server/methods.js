@@ -2,8 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { ActivityLog } from '/imports/api/indexDB.js'
 import { log } from '/server/main.js'
 
-Meteor.methods({
-  sendMessage: function(userId, message, from) {
+export const sendMessage = function(userId, message, from) {
     ActivityLog.insert({
       time: new Date().getTime(),
       owner: userId,
@@ -11,7 +10,9 @@ Meteor.methods({
       from: from ? from : "System",
       content: message
     })
-  },
+  }
+
+Meteor.methods({
   initializeActivityLog: function() {
     if (_.size(ActivityLog.findOne({owner: this.userId})) == 0) {
       ActivityLog.insert({
