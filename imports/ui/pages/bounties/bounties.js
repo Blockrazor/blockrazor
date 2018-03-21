@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { Bounties, REWARDCOEFFICIENT, Problems } from '/imports/api/indexDB.js';
+import { Bounties, REWARDCOEFFICIENT, Problems, Currencies } from '/imports/api/indexDB.js';
 import Cookies from 'js-cookie';
 
 export function calculateReward (now) { //used in bountyRender too
@@ -18,6 +18,7 @@ Template.bounties.onCreated(function(){
   this.autorun(() => {
     SubsCache.subscribe('bounties')
     SubsCache.subscribe('problems')
+    SubsCache.subscribe('approvedcurrencies')
   })
 
   Session.set('bountyType', "")
@@ -90,13 +91,33 @@ Template.bounties.helpers({
       workingText: i.locked ? 'Someone is working on it.' : ''
     }))
 
+    let currencies = Currencies.find({
+      hashpowerApi: {
+        $ne: true
+      }
+    }).fetch().map(i => ({
+      _id: `currency-${i.slug}`,
+      problem: 'Hash power API call is not available or it\'s broken', 
+      solution: 'Add a hash power API call to help us determine the hash power',
+      types: {
+        heading: 'Add a hash power API call',
+        rules : 'If you accept this bounty, you\'ll have 2 hours to complete it and send a pull request with hash power API call for the given reward. 10 minutes before expiration, you\'ll get a chance to extend the time limit.'
+      },
+      currencyName: i.currencyName, 
+      pendingApproval : false, 
+      url: `/currency/${i.slug}`,
+      creationTime: i.createdAt,
+      time: 7200000.0,
+      multiplier: 0.9
+    }))
+
     return _.union(Bounties.find({ // inject problems here
       pendingApproval: false
     }).fetch().map(i => {
       i.creationTime = i.creationTime || Template.instance().times.get()[i._id]
 
       return i
-    }), problems).sort((i1, i2) => {
+    }), problems, currencies).sort((i1, i2) => {
       return calculateReward.call(i2, Session.get('now'), Template.instance()) - calculateReward.call(i1, Session.get('now'))
     })
   }

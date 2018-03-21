@@ -317,6 +317,7 @@ FlowRouter.route('/bounties', {
   subscriptions: function () {
     this.register('bounties', SubsCache.subscribe('bounties'))
     this.register('problems', SubsCache.subscribe('problems'))
+    this.register('approvedcurrencies', SubsCache.subscribe('approvedcurrencies'))
     this.register('bountytypes', SubsCache.subscribe('bountytypes'));
   },
   action() {
@@ -381,6 +382,7 @@ FlowRouter.route('/currency/:slug', {
     this.register('graphdata', SubsCache.subscribe('graphdata'))
     this.register('formdata', SubsCache.subscribe('formdata'))
     this.register('summaries', SubsCache.subscribe('summaries'), param.slug)
+    this.register('bounties', SubsCache.subscribe('bounties'))
   },
   action: function (params, queryParams) {
     BlazeLayout.render('mainLayout', {
@@ -571,3 +573,6 @@ adminRoutes.route('/solved-problems', {
     })
   }
 })
+
+// server side routes
+

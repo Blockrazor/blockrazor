@@ -52,6 +52,29 @@ Meteor.methods({
       }
     }
   },
+  extendBounty: (currency) => {
+    if (Meteor.userId()) {
+      let b = Bounties.find({
+        type: `currency-${currency}`
+      }, {
+        sort: {
+          expiresAt: -1
+        }
+      }).fetch()[0]
+
+      if (b && b.expiresAt > Date.now() && b.type.startsWith('currency-')) { // you can only extend if it's not already expired, and it's only for currency hash power api bounties
+        Bounties.update({
+          type: `currency-${currency}`
+        }, {
+          $inc: {
+            expiresAt: 3600000.0 // extend by one hour
+          }
+        })
+      } else {
+        throw new Meteor.Error('Invalid bounty.')
+      }
+    }
+  },
   completeNewBounty: (type, id) => {
     Bounties.update({
       type: type,
