@@ -4,23 +4,16 @@ import SimpleSchema from 'simpl-schema';
 
 export const newProblem = new ValidatedMethod({
   name: 'newProblem',
-  // Validation function for the arguments. Only keyword arguments are accepted,
-  // so the arguments are an object rather than an array. The SimpleSchema validator
-  // throws a ValidationError from the mdg:validation-error package if the args don't
-  // match the schema
   validate: //null,
   new SimpleSchema({
-    type: String,
+    type: {type: String, allowedValues: ['bug', 'feature', 'question']},
     header: {type: String, max: 80, /*label: "summary above 80 characters"*/}, //label makes it into the error, but it's concatenated with default error message
     text: String,
     images: [String],
-    bounty: Number,
-  }, {requiredByDefault: false && devValidationEnabled}).validator(),
-
-  // This is the body of the method. Use ES2015 object destructuring to get
-  // the keyword arguments
+    bounty: {required: false, optional: true, type: Number, /*autoValue: function(){console.log(this);if (Number.isNaN(this.value)){return 0} else {return this.value}}*/}, //can't call clean() within method call
+  }, {requiredByDefault: true || devValidationEnabled}).validator(),
   run({ type, header, text, images, bounty }) {
-    if (~['bug', 'feature', 'question'].indexOf(type)) {
+		console.log(bounty)
 			if (Meteor.userId()) {
 				if (bounty > 0) { // check if the user can finance the bounty
 					let user = UserData.findOne({
@@ -74,8 +67,5 @@ export const newProblem = new ValidatedMethod({
 			} else {
 				throw new Meteor.Error('Error.', 'You have to be logged in.')
 			}
-		} else {
-			throw new Meteor.Error('Error.', 'Invalid type.')
-		}
   }
 });
