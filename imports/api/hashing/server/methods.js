@@ -1,9 +1,10 @@
 import { Meteor } from 'meteor/meteor'
 
-import { HashAlgorithm, HashAverage, HashHardware, HashPower, HashPowerImages, HashUnits, UserData, Currencies, Bounties, REWARDCOEFFICIENT } from '/imports/api/indexDB.js'
+import { devValidationEnabled, HashAlgorithm, HashAverage, HashHardware, HashPower, HashPowerImages, HashUnits, UserData, Currencies, Bounties, REWARDCOEFFICIENT } from '/imports/api/indexDB.js'
 
 import { parseString } from 'xml2js'
 import { creditUserWith, removeUserCredit } from '/imports/api/utilities'
+
 
 const parseUnit = unit => {
 	let u = unit[0].toLowerCase()
@@ -24,6 +25,7 @@ const parseUnit = unit => {
 
 Meteor.methods({
 	addHashpower: (category, device, algo, hashrate, unit, power, image) => {
+		////is used by client, but is server only #682 //server-only validation, no optimistic UI #681
 		const Future = require('fibers/future')
 		const fut = {
 			hw: new Future(), 
@@ -32,7 +34,8 @@ Meteor.methods({
 		}
 
 		if (Meteor.userId()) {
-			if (category && device && algo && hashrate && unit && power && image) {
+			//ignored validation in development
+			if (!devValidationEnabled || category && device && algo && hashrate && unit && power && image) {
 				// if the hardware already exists, just continue, but if it doesn't, create it
 				if (!HashHardware.findOne({
 					_id: device
