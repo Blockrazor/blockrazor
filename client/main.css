@@ -37,6 +37,9 @@ select {
 .pointer:hover {
     cursor: pointer;
 }
+.not-allowed { 
+cursor: not-allowed;
+}
 
 .greyHover:hover {
     background-color: #f5f5f5;

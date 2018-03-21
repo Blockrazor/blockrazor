@@ -36,7 +36,14 @@ Template.bountyRender.helpers({
   id: function() {
     return this._id;
   },
+  isProblem: function() {
+    return !!this.isProblem
+  },
   workingText: function () {
+    if (this.workingText) {
+      return this.workingText
+    }
+    
     if(this.currentlyAvailable == false) {
         return this.currentUsername + " is working on this right now!";
     } else { return null;}
@@ -64,6 +71,11 @@ Template.bountyRender.helpers({
 });
 
 Template.bountyRender.events({
+  'click .gotoProblem': function(event, templateInstance) {
+    event.preventDefault()
+
+    FlowRouter.go(this.url)
+  },
   'click .start': function (event, templateInstance) {
     if (canContinue(this._id)) {
       FlowRouter.go(this.url)

@@ -15,9 +15,12 @@ Template.problems.onCreated(function() {
 })
 
 Template.problems.events({
+	'click .focusSearch':function(){
+		$('#js-search').focus();
+	},
 	'keyup #js-search': (event, templateInstance) => {
 		event.preventDefault()
-
+		$('#addProblemButton').removeClass('disabled not-allowed');
 		templateInstance.filter.set($(event.currentTarget).val())
 	},
 	'change #js-level': (event, templateInstance) => {
@@ -84,9 +87,6 @@ Template.problems.helpers({
 	},
 	statusColor: function(status) {
 		return status === 'OPEN' ? 'green' : (status === 'SOLVED' || status === 'IN PROGRESS') ? 'orange' : 'red'
-	},
-	date: function() {
-		return moment(this.date).format(`${_globalDateFormat} HH:MM:SS`)
 	},
 	user: function() {
 		return (Meteor.users.findOne({

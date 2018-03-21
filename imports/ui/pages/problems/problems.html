@@ -1,37 +1,43 @@
 <template name="problems">
     <h3 class="mt-3">Problems</h3>
-     <div id="problemsFilterContainer" class="container">
-        <form id="problemsFilter" name="problemsFilter">
-            <div class="row form-items">
-                <div class="col-12 form-group" style="padding: 0">
-                    <select class="form-control" id="js-level">
-                        <option>ALL</option>
-                        <option>OPEN</option>
-                        <option>IN PROGRESS</option>
-                        <option>SOLVED</option>
-                        <option>CLOSED</option>
-                    </select>
-                    <input id="js-search" name="searchInput" type="text" class="form-control" placeholder="Search problems...">
+<div id="problemsFilterContainer" class="container">
+    <form id="problemsFilter" name="problemsFilter">
+        <div class="row form-items">
+            <div class="col-12 form-group" style="padding: 0">
+                <select class="form-control" id="js-level">
+                    <option>ALL</option>
+                    <option>OPEN</option>
+                    <option>IN PROGRESS</option>
+                    <option>SOLVED</option>
+                    <option>CLOSED</option>
+                </select>
+                <br />
+                <div class="input-group mb-3">
+                    <input id="js-search" name="searchInput" type="text" class="form-control" placeholder="Search problems before adding a new problem..." aria-label="" aria-describedby="basic-addon1">
+                    <div class="input-group-append">
+                        <a href="/new-problem" class="not-allowed btn btn-primary disabled" id="addProblemButton">Add Problem</a>
+                    </div>
                 </div>
             </div>
-            <div class="found-result">
-               {{#if filterCount}} Found {{filterCount}} results {{/if}}
-            </div>
-        </form>
-    </div>
+        </div>
+        <div class="found-result">
+            {{#if filterCount}} Found {{filterCount}} results {{/if}}
+        </div>
+    </form>
+</div>
 
 	{{#each problems}}
 		<div class="card padBottom hoverCard">
-			<div class="card-header">
+			<div class="card-header"><span class="badge badge-primary">{{type}}</span>
 				<a href="/problem/{{_id}}">{{header}}</a>
 				<h5 class="float-right my-4 my-sm-0">
 					<span class="mr-2" style="color: {{statusColor status}}">{{status}}</span>
 				</h5>
 			</div>
 			<div class="card-body">
-				<p class="card-text"> {{ text }}</p>
+				<p class="card-text"> {{{nlToBr text }}}</p>
 				<div class="pull-left">
-					<small class="text-muted">{{date}}</small>
+					<small class="text-muted">Created {{relativeTime date}}</small>
 				</div>
 				<div class="pull-right">
 					<small class="text-muted"> Proposed by: <a href="/profile/{{slugify author}}">{{user}}</a> </small>
@@ -41,5 +47,8 @@
 		</div>
 	{{/each}}
 
-	<h4>Your problem is not on the list? <a href="/new-problem">Add it!</a></h4>
+<br />
+  <p>Your problem is not on the list? Try <a href="#" class="focusSearch pointer">searching</a> for the problem, then adding it.
+  </p>
+
 </template>
