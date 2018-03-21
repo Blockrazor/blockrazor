@@ -71,3 +71,7 @@ Template.registerHelper('relativeTime', function(date) {
   return timePassed;
 });
 
+Template.registerHelper('nlToBr', function(value) {
+    return value.replace(/(?:\r\n|\r|\n)/g, '<br />');
+});
+
