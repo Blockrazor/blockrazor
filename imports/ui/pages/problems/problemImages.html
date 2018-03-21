@@ -18,8 +18,8 @@
 </template>
 
 <template name="problemImage">
-  <img src="{{problemImagesDir}}{{thumbnail}}" class="problemImageOpen" data-toggle="modal" data-target="img_{{this}}" id="{{this}}"> 
-  <div class="modal fade" id="img_{{this}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <img src="{{problemImagesDir}}{{thumbnail}}" class="problemImageOpen" data-toggle="modal" data-target="img_{{_id}}" id="{{_id}}"> 
+  <div class="modal fade" id="img_{{_id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-body">
