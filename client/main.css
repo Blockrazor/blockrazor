@@ -90,3 +90,7 @@ body .modal-dialog {
 .error {
     color:red;
 }
+
+.modal-lg {
+    max-width: 90% !important;
+}
