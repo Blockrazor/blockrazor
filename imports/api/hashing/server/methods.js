@@ -552,7 +552,7 @@ Meteor.methods({
     	}, (err, data) => {
     		if (!err) {
 		    	Bounties.update({
-		    		type: `currency-${currency}`
+		    		type: `currency-${currency}`,
 		    	}, {
 		    		$set: {
 		    			completed: true,
