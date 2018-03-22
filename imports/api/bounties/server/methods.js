@@ -40,6 +40,7 @@ Meteor.methods({
         Bounties.insert({
           _id: Random.id(16),
           userId: Meteor.userId(),
+          currentUsername: Meteor.user().username,
           type: type,
           expiresAt: Date.now() + time,
           currentlyAvailable: false,
