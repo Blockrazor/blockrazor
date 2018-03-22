@@ -20,12 +20,16 @@ Template.bounties.onCreated(function(){
     SubsCache.subscribe('problems')
     SubsCache.subscribe('approvedcurrencies')
   })
-
+  
   Session.set('bountyType', "")
   Session.set("now", Date.now())
   Session.set("workingBounty", false)
 
   this.times = new ReactiveVar({})
+  this.bounties = new ReactiveVar(null)
+
+  this.LocalBounties = new Mongo.Collection(null);
+  this.currentIds = new ReactiveVar(null)
 
   Meteor.call('getLastCurrency', (err, data) => {
     let times = this.times.get()
@@ -57,18 +61,8 @@ Template.bounties.onCreated(function(){
     times['new-codebase'] = data.answeredAt || Date.now()
     this.times.set(times)
   })
-})
 
-Template.bounties.onRendered(function(){
-  Session.set('workingBounty', false) 
-  Meteor.setInterval(() => {
-      Session.set('now', Date.now())
-  }, 10);
-});
-
-
-Template.bounties.helpers({
-  bounties: function() {
+  this.autorun((comp)=>{
     let problems = Problems.find({ // dont show questions in here
       $or: [{
         type: 'feature'
@@ -78,6 +72,7 @@ Template.bounties.helpers({
       open: true,
       solved: false
     }).fetch().map(i => ({
+      _id: i._id,
       problem: i.header, 
       solution: 'Check the problem page.',
       types: {
@@ -112,7 +107,7 @@ Template.bounties.helpers({
       multiplier: 0.9
     }))
 
-    return _.union(Bounties.find({ // inject problems here
+    var union = _.union(Bounties.find({ // inject problems here
       pendingApproval: false
     }).fetch().map(i => {
       i.creationTime = i.creationTime || Template.instance().times.get()[i._id]
@@ -121,6 +116,56 @@ Template.bounties.helpers({
     }), problems, currencies).sort((i1, i2) => {
       return calculateReward.call(i2, Session.get('now'), Template.instance()) - calculateReward.call(i1, Session.get('now'))
     })
+
+    //this map copies over values to local collection so that updates can be diffed in order to notify user that bounty reward has been reset
+    //  and adds last reward from when bounty was completed previously
+    union.map((x, i)=>{
+      // return this.LocalBounties.insert(x)
+      //note the field projection
+      var lastCompletedBounty = Bounties.findOne({type: x._id, completed: true, currentReward: {$exists: true}}, {sort: {completedAt: -1}, fields: {currentReward: 1, completedAt: 1, currentUsername: 1}})
+      //preserves previous sort operation
+      x.sort = i
+      var copy = this.LocalBounties.findOne(x._id)
+      if (lastCompletedBounty && copy){
+        x.previousReward = lastCompletedBounty.currentReward
+        //detects if bounty has been reset
+        if (x.previousCompletedAt = lastCompletedBounty.completedAt){
+          sAlert.warning('Bounty reset')
+          x.previousCompletedAt = lastCompletedBounty.completedAt
+        }
+        this.LocalBounties.update(x._id, x)
+      } else if (copy) {
+        this.LocalBounties.update(x._id, x)
+      } else {
+        if (lastCompletedBounty) {
+          x.currentUsername = lastCompletedBounty.currentUsername
+          x.previousReward = lastCompletedBounty.currentReward
+          x.previousCompletedAt = lastCompletedBounty.completedAt
+        }
+        this.LocalBounties.insert(x)
+      }
+    })
+
+      //lets filter out removed/replaced items from union since _id field is transcient for Bounties
+      var ids = union.map(x=>x._id)
+      this.currentIds.set(ids)
+
+  })
+})
+
+Template.bounties.onRendered(function(){
+  Session.set('workingBounty', false) 
+  Meteor.setInterval(() => {
+      Session.set('now', Date.now())
+  }, 10);//10
+});
+
+
+Template.bounties.helpers({
+  bounties: function() {
+    var templ = Template.instance()
+    //returns transformed group of collections
+    return templ.LocalBounties.find({_id: {$in: templ.currentIds.get()}}, {sort: {sort: 1}})
   }
 });
 
