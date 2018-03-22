@@ -64,6 +64,11 @@ Template.problem.helpers({
 	problem: () => Problems.findOne({
 		_id: FlowRouter.getParam('id')
 	}),
+	problemNR: () => Problems.find({
+		_id: FlowRouter.getParam('id')
+	}, {
+		reactive: false
+	}).fetch()[0] || {}, // a non reactive problem, to prevent duplication of text when used with x-editable
 	isAuthor: () => (Problems.findOne({
 		_id: FlowRouter.getParam('id')
 	}) || {}).createdBy === Meteor.userId(),
