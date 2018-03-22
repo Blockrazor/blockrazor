@@ -2,8 +2,10 @@
 	<div class="card padBottom hoverCard">
 		<div class="card-body">
 			<span class="text-muted">{{featureName}}</span>
-			<small class="text-muted">
-				- Posted by {{#hovercard template="userHover" direction="vertical" trigger="hover"}}{{/hovercard}}
+			<small class="text-muted">- Posted by
+				{{#hovercard template="userHover" direction="vertical" trigger="hover"}}
+					<a href="/profile/{{slugify author}}">{{author}}</a>
+				{{/hovercard}} {{comment}}
 			</small>
 			<br /><br />
 			<div class="pull-left">
