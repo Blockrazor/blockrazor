@@ -9,11 +9,11 @@ export const newProblem = new ValidatedMethod({
     type: {type: String, allowedValues: ['bug', 'feature', 'question']},
     header: {type: String, max: 80, /*label: "summary above 80 characters"*/}, //label makes it into the error, but it's concatenated with default error message
     text: String,
-    images: [String],
-    bounty: {required: false, optional: true, type: Number, /*autoValue: function(){console.log(this);if (Number.isNaN(this.value)){return 0} else {return this.value}}*/}, //can't call clean() within method call
-  }, {requiredByDefault: true || devValidationEnabled}).validator(),
+		images: {type: Array, required: false},
+		"images.$": String,
+    bounty: {required: false, type: Number, /*autoValue: function(){console.log(this);if (Number.isNaN(this.value)){return 0} else {return this.value}}*/}, //can't call clean() within method call
+  }, {requiredByDefault: devValidationEnabled}).validator(),
   run({ type, header, text, images, bounty }) {
-		console.log(bounty)
 			if (Meteor.userId()) {
 				if (bounty > 0) { // check if the user can finance the bounty
 					let user = UserData.findOne({
