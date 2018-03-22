@@ -16,7 +16,7 @@ Template.bountyRender.onCreated(function(){
 const custom = ['new-currency', 'new-hashpower', 'new-codebase', 'new-community', 'new-wallet']
 
 const canContinue = (id) => {
-  if (~custom.indexOf(id)) {
+  if (id && (~custom.indexOf(id) || id.startsWith('currency-'))) {
     let b = Bounties.findOne({
       userId: Meteor.userId(),
       type: id,
@@ -87,7 +87,7 @@ Template.bountyRender.events({
         Cookies.set('bountyItem', this._id, { expires: 1});
         Cookies.set('bountyType', this.bountyType, { expires: 1});
         Session.set('bountyType', this.bountyType);
-        if (~custom.indexOf(this._id)) {
+        if (this._id && (~custom.indexOf(this._id) || this._id.startsWith('currency-'))) {
           Meteor.call('addNewBounty', this._id, calculateReward.call(this, Date.now()), this.time, (err, data) => {})
           FlowRouter.go(this.url)
         } else {
@@ -97,7 +97,7 @@ Template.bountyRender.events({
     }
   },
   'click .cancel': function() {
-    if (~custom.indexOf(this._id)) {
+    if (this._id && (~custom.indexOf(this._id) || this._id.startsWith('currency-'))) {
       Meteor.call('deleteNewBountyClient', this._id, (err, data) => {})
       Cookies.set('workingBounty', false, { expires: 1 })
     }

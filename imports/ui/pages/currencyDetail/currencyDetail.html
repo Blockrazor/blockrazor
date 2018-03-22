@@ -1,5 +1,14 @@
 <template name="currencyDetail">
   {{> sAlert}}
+  {{#if activeBounty}}
+    <div class="alert alert-danger" role="alert">
+    <h5 class="text-center">{{timeRemaining}}</h5>
+    <input type="text" placeholder="https://github.com/Blockrazor/blockrazor/pull/362" id="js-pr" style="padding: 10px; margin-top: 10px; margin-bottom: 10px;width: 100%"><br />
+    <button class="btn btn-danger" id="js-submitPR">Submit PR link</button>
+    {{#if canExtend}}<button class="btn btn-danger" id="js-extend">Extend time by 1 hour</button>{{/if}}
+    <button class="btn btn-danger" id="js-cancel">Cancel</button>
+    </div>
+  {{/if}}
   <div class="row">
     <div class="col-sm-12">
       {{#with thiscurrency}}

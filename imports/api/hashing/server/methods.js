@@ -513,5 +513,127 @@ Meteor.methods({
         	console.log('no bounty')
         	return ((Date.now() - lastHashPower.createdAt) / REWARDCOEFFICIENT) * 0.9
       	}
+    },
+    getHashPowerAPIReward: (userId, currency) => {
+    	let bounty = Bounties.findOne({
+        	userId: userId,
+        	type: `currency-${currency}`
+      	})
+
+      	let cur = Currencies.findOne({
+        	slug: currency
+      	}) || {}
+
+      	if (bounty) {
+        	Meteor.call('deleteNewBounty', bounty._id, 's3rver-only', (err, data) => {}) // delete the bounty, we're done with it
+
+        	if (bounty.expiresAt < bounty.completedAt) {
+          		console.log('already expired')
+          		return 0 // no reward
+        	} else {
+          		console.log('actual bounty')
+          		return Number(bounty.currentReward)
+        	}
+      	} else {
+        	console.log('no bounty')
+        	return 0 // no reward
+      	}
+    },
+    completeHashPowerBounty: (currency, prLink) => {
+    	const Future = require('fibers/future')
+    	const fut = new Future()
+    	// check PR link
+    	let pr = prLink.replace(/((http|https):\/\/)?github.com\//, '').replace(/\/+$/, '').replace('pull', 'pulls')
+
+		HTTP.get(`https://api.github.com/repos/${pr}`, {
+      		headers: {
+        		"User-Agent": "gazhayes-blockrazor"
+      		}
+    	}, (err, data) => {
+    		if (!err) {
+		    	Bounties.update({
+		    		type: `currency-${currency}`
+		    	}, {
+		    		$set: {
+		    			completed: true,
+		    			completedAt: new Date().getTime()
+		    		}
+		    	})
+
+		    	Currencies.update({
+		    		slug: currency
+		    	}, {
+		    		$set: {
+		    			hashpowerApi: true,
+		    			hashpowerPR: prLink
+		    		}
+		    	})
+
+		    	fut.return(true)
+    		} else {
+    			fut.return(false)
+    		}
+    	})
+
+    	return fut.wait()
+    },
+    parseGitPull: (data) => {
+    	if (data && data.pull_request) { // check if it exists and if its merged
+    		if (data.pull_request.merged_at) {
+	    		let pr = data.pull_request.html_url
+
+	    		let currency = Currencies.findOne({
+	    			$or: [{
+	    				hashpowerPR: pr
+	    			}, {
+	    				hashpowerPR: pr.replace('https', 'http') // just to be safe
+	    			}]
+	    		})
+
+	    		if (currency) {
+		    		let b = Bounties.findOne({
+		    			type: `currency-${currency.slug}`,
+		    			completed: true
+		    		})
+
+		    		Meteor.call('getHashPowerAPIReward', b.userId, currency.slug, (err, data) => {
+		    			console.log(data)
+		    			if (data) {
+		    				creditUserWith(data, b.userId, 'adding a new hash power API call.')
+		    			}
+		    		})
+	    		}
+    		} else if (data.pull_request.state === 'closed') { // it's not merged and it's closed, so it's not a solution
+    			let pr = data.pull_request.html_url
+
+	    		let currency = Currencies.findOne({
+	    			$or: [{
+	    				hashpowerPR: pr
+	    			}, {
+	    				hashpowerPR: pr.replace('https', 'http') // just to be safe
+	    			}]
+	    		})
+
+	    		if (currency) { // remove it from solutions so the bounty can be active again
+	    			let b = Bounties.findOne({
+		    			type: `currency-${currency.slug}`,
+		    			completed: true
+		    		})
+
+		    		if (b) {
+		    			Meteor.call('deleteNewBounty', b._id, 's3rver-only', (err, data) => {}) // delete the bounty, we're done with it
+		    		}
+
+	    			Currencies.update({
+	    				_id: currency._id
+	    			}, {
+	    				$set: {
+	    					hashpowerPR: '',
+	    					hashpowerApi: false
+	    				}
+	    			})
+	    		}
+    		}
+    	}
     }
 })

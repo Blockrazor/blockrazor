@@ -35,6 +35,7 @@ import '/imports/api/ratings/server/methods'
 
 // import './fastRender.js'
 import './fixtures.js'
+import './routes.js'
 
 import '/imports/api/auctions/server/startup'
 import '/imports/api/rewards/server/startup'
