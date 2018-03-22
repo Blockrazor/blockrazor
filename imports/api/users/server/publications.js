@@ -105,7 +105,9 @@ import { UserData, ProfileImages } from '/imports/api/indexDB.js'
 			} // only show the absolutely required fields
 		})
 	})
-
+ 
+  //is used to switch out accounts with constellation account module
+  //you might wrap this in Meteor.isDevelopment
   Meteor.publish('users', (slug) => {
     return Meteor.users.find({}, {
       fields: {

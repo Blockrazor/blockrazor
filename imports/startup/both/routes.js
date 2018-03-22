@@ -64,12 +64,18 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   SubsCache = Meteor
 }
 
+//resets window position on navigation
 FlowRouter.triggers.enter([ () => { window.scrollTo(0, 0); } ]);
 
 //global subscriptions (on client side immidiately available)
 FlowRouter.subscriptions = function() {
   this.register('publicUserData', SubsCache.subscribe('publicUserData'));
   this.register('graphdata', SubsCache.subscribe('graphdata'))
+
+  //subscribe to users so that people can switch out accounts with constellation's account module
+  if (Meteor.isDevelopment){
+    this.register('users', SubsCache.subscribe('users'))
+  }
 };
 
 FlowRouter.route('/profile/:slug', {
