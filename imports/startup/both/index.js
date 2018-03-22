@@ -5,7 +5,7 @@ SimpleSchema.defineValidationErrorTransform(error => {
   const ddpError = new Meteor.Error(error.message);
   ddpError.error = 'validation-error';
   ddpError.details = error.details;
-  ddpError.reason = error.details.reduce((a,x)=>a+x.message, "")
+  ddpError.reason = error.details.reduce((a,x)=>a+x.message+". ", "")
   return ddpError;
 });
 
