@@ -69,8 +69,9 @@ Template.newProblem.events({
 			formattedBody += "Problem:\n\r" + $('#js-text').val() + "\n\n\rSteps to Reproduce:\n\r" + $('#js-variable').val()
 		}
 
-		console.log("method", newProblem)
-		newProblem.call({type: $('#js-type').val(), header: $('#js-header').val(), text: formattedBody, images: images, bounty: Number($('#js-amount').val())}, (err, data)=>{
+		var params = {type: $('#js-type').val(), header: $('#js-header').val(), text: formattedBody, images: images, bounty: Number.isNaN(Number($('#js-amount').val()))? 0: Number($('#js-amount').val())}
+		console.log(params)
+		newProblem.call(params, (err, data)=>{
 			if (!err) {
 				FlowRouter.go('/problems')
 			} else {
@@ -79,14 +80,6 @@ Template.newProblem.events({
 				sAlert.error(err.reason)
 			}
 		})
-
-		// Meteor.call('newProblem', $('#js-type').val(), $('#js-header').val(), formattedBody, images, Number($('#js-amount').val()), (err, data) => {
-		// 	if (!err) {
-		// 		FlowRouter.go('/problems')
-		// 	} else {
-		// 		sAlert.error(err.reason)
-		// 	}
-		// })
 	},
 	'change #js-type': (event, templ) => {
 		templ.type.set(event.target.value)
