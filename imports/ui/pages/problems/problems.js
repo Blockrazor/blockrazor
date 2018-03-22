@@ -85,6 +85,16 @@ Template.problems.helpers({
 			return 'OPEN'
 		}
 	},
+	newType:function(){
+		 if(this.type =='bug' || this.type =='feature'){
+		 	return 'PROBLEM';
+		 }else{
+		 	return 'QUESTION';
+		 }
+		
+	},
+
+
 	statusColor: function(status) {
 		return status === 'OPEN' ? 'green' : (status === 'SOLVED' || status === 'IN PROGRESS') ? 'orange' : 'red'
 	},
