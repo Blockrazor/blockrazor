@@ -21,6 +21,14 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
   //necessery as tracker doesn't appear to recognize that collection is different (try modifying LocalCurrencies records before swap)
   this.TransitoryCollection = new ReactiveVar(Currencies)
 
+  this.noFeatured = new ReactiveVar(false)
+
+  this.autorun(() => {
+    this.noFeatured.set(!Currencies.findOne({
+      featured: true
+    }))
+  })
+
 	//logic for receiving benefits of fast-render and yet using nonreactive data from method
   if (!LocalCurrencies.find().count()) {
 		Meteor.call('fetchCurrencies', (err, res) => {
@@ -86,6 +94,7 @@ Template.returnedCurrencies.onRendered( function () {
 });
 
 Template.returnedCurrencies.helpers({
+    noFeatured: () => Template.instance().noFeatured.get(),
     currencies() {
       var templ = Template.instance()
         let filter = templ.filter.get();
