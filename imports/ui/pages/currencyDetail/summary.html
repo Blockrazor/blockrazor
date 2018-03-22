@@ -2,22 +2,18 @@
     <div class="card padBottom hoverCard">
         <div class="card-body">
             <span class="text-muted">{{{summary}}}</span>
-  
+
             <br />
             <div class="pull-left">
-            {{#unless alreadyVoted}}
-                <i class="fa fa-thumbs-down" aria-hidden="true"></i>
-                <i class="fa fa-thumbs-up fa-flip-horizontal" aria-hidden="true"></i>
-            {{else}}
-                <i class="fa fa-check padRight" aria-hidden="true"></i><small>Voted</small>
-            {{/unless}}
+				<i class="fa fa-thumbs-up {{#if hasUserVoted 'Summaries' _id 'up'}} text-info {{/if}}" aria-hidden="true"></i>
+				<i class="fa fa-thumbs-down fa-flip-horizontal {{#if hasUserVoted 'Summaries' _id 'down'}} text-info {{/if}}" aria-hidden="true"></i>
             </div>
             <div class="pull-right">
                 <small class="text-muted">{{#hovercard template="userHover" direction="vertical" trigger="hover"}}
                     <a href="/profile/{{slugify author}}">{{author}}</a>
                 {{/hovercard}}</small>
             </div>
-            <small class="text-muted padLeft">{{relativeTime createdAt}}</small>
+            <small class="text-muted padLeft">&nbsp;&nbsp;{{relativeTime createdAt}}</small>
         </div>
     </div>
 </template>

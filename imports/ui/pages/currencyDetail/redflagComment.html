@@ -5,12 +5,8 @@
           <span class="text-muted"><a href="/profile/{{slugify author}}">{{author}}</a> {{comment}}</span>
           <br />
           <div class="pull-left card-link">
-        {{#unless alreadyVotedOnComment _id}}
-        <i class="fa fa-thumbs-down" aria-hidden="true"></i>
-        <i class="fa fa-thumbs-up fa-flip-horizontal" aria-hidden="true"></i>
-          {{else}}
-        <i class="fa fa-check padRight" aria-hidden="true"></i><small>Voted</small>
-          {{/unless}}
+			  <i class="fa fa-thumbs-up {{#if hasUserVoted 'Redflags' _id 'up'}} text-info {{/if}}" aria-hidden="true"></i>
+			  <i class="fa fa-thumbs-down fa-flip-horizontal {{#if hasUserVoted 'Redflags' _id 'down'}} text-info {{/if}}" aria-hidden="true"></i>
 
               <small class="text-muted padLeft">{{relativeTime createdAt}}</small>
           </div>

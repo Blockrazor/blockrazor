@@ -1,7 +1,8 @@
 import { Accounts } from 'meteor/accounts-base';
 import '/imports/startup/client';
-import { UserData } from '/imports/api/indexDB.js';
+import { UserData, Features, Summaries, Redflags } from '/imports/api/indexDB.js';
 
+const collections = { Features, Summaries, Redflags }
 
 Accounts.ui.config({
   passwordSignupFields: 'USERNAME_ONLY',
@@ -75,3 +76,11 @@ Template.registerHelper('nlToBr', function(value) {
     return value.replace(/(?:\r\n|\r|\n)/g, '<br />');
 });
 
+Template.registerHelper('hasUserVoted', (collection, collectionId, direction) => {
+	var doc = collections[collection].findOne(collectionId);
+	var downVoted = doc.downVoted;
+	var appealVoted = doc.appealVoted;
+
+	if (direction === 'down') { return _.include(downVoted, Meteor.userId()) }
+	return _.include(appealVoted, Meteor.userId());
+});

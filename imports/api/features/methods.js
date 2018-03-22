@@ -1,26 +1,17 @@
 import { Meteor } from 'meteor/meteor'
 import { Currencies, Features } from '/imports/api/indexDB.js'
 
+var hasUserVoted = (id, direction) => {
+	var feature = Features.findOne(id);
+
+	if (direction === 'up') {
+		return _.include(feature.appealVoted, Meteor.userId());
+	} else if (direction === 'down') {
+		return _.include(feature.downVoted, Meteor.userId());
+	}
+}
+
 Meteor.methods({
-  vote: function(id, direction) {
-console.log(id, direction)
-    if(this.userId) {
-      // if(_.include(Features.findOne(id).appealVoted, this.userId)) { throw new Meteor.Error('Error', 'You can only vote once.') }
-      var amount = direction == "down" ? -1 : 1;
-      Features.update(id, {
-        $addToSet: {appealVoted: this.userId},
-        $inc: {appeal: amount, appealNumber: 1}
-      });
-      var rating = Features.findOne(id).appeal / Features.findOne(id).appealNumber;
-      console.log('amount: ', amount)
-      console.log('rating: ',rating)
-      Features.upsert(id, {
-        $set: {rating: rating}
-      });
-    } else {
-      throw new Meteor.Error('Error', 'You must be signed in to rate something');
-    }
-  },
   flag: function(id) {
     if(this.userId) {
       if(_.include(Features.findOne(id).flaggedBy, this.userId)) { throw new Meteor.Error('Error', 'You can only flag something once.') }

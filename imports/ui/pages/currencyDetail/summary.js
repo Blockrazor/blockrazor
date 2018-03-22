@@ -21,11 +21,17 @@ Template.summary.helpers({
 
 Template.summary.events({
     'click .fa-thumbs-down, click .fa-thumbs-up': (event, templateInstance) => {
-        Meteor.call('summaryVote', Template.instance().data._id, $(event.currentTarget).hasClass('fa-thumbs-down') ? -1 : 1, (err, data) => {
-            if (err) {
-                sAlert.error(err.reason)
-            }
-        })
+		Meteor.call('vote', 'Summaries', Template.instance().data._id, $(event.currentTarget).hasClass('fa-thumbs-down') ? 'down' : 'up', (error, data) => {
+			if(!error) {
+				$(event.currentTarget).addClass('text-info');
+				if ($(event.currentTarget).hasClass('fa-thumbs-down')) {
+					$(event.currentTarget).parent().find('.fa-thumbs-up').removeClass('text-info');
+				} else {
+					$(event.currentTarget).parent().find('.fa-thumbs-down').removeClass('text-info');
+				}
+
+			} else {sAlert.error(error.reason)};
+		});
     },
     'mouseover .fa-thumbs-down, mouseover .fa-thumbs-up': (event, templateInstance) => {
         $(event.currentTarget).css('cursor', 'pointer')
