@@ -19,6 +19,7 @@ Template.bounties.onCreated(function(){
     SubsCache.subscribe('bounties')
     SubsCache.subscribe('problems')
     SubsCache.subscribe('approvedcurrencies')
+    SubsCache.subscribe('users')
   })
 
   Session.set('bountyType', "")
@@ -96,21 +97,30 @@ Template.bounties.helpers({
       hashpowerApi: {
         $ne: true
       }
-    }).fetch().map(i => ({
-      _id: `currency-${i.slug}`,
-      problem: 'Hash power API call is not available or it\'s broken', 
-      solution: 'Add a hash power API call to help us determine the hash power',
-      types: {
-        heading: 'Add a hash power API call',
-        rules : 'If you accept this bounty, you\'ll have 2 hours to complete it and send a pull request with hash power API call for the given reward. 10 minutes before expiration, you\'ll get a chance to extend the time limit.'
-      },
-      currencyName: i.currencyName, 
-      pendingApproval : false, 
-      url: `/currency/${i.slug}`,
-      creationTime: i.createdAt,
-      time: 7200000.0,
-      multiplier: 0.9
-    }))
+    }).fetch().map(i => {
+      let b = Bounties.findOne({
+        type: `currency-${i.slug}`
+      })
+      return {
+        _id: `currency-${i.slug}`,
+        problem: 'Hash power API call is not available or it\'s broken', 
+        solution: 'Add a hash power API call to help us determine the hash power',
+        types: {
+          heading: 'Add a hash power API call',
+          rules : 'If you accept this bounty, you\'ll have 2 hours to complete it and send a pull request with hash power API call for the given reward. 10 minutes before expiration, you\'ll get a chance to extend the time limit.'
+        },
+        currencyName: i.currencyName,
+        pendingApproval : false, 
+        currentlyAvailable: !(b && b.expiresAt > Date.now()),
+        currentUsername: b && (Meteor.users.findOne({
+          _id: b.userId
+        }) || {}).username,
+        url: `/currency/${i.slug}`,
+        creationTime: i.createdAt,
+        time: 7200000.0,
+        multiplier: 0.9
+      }
+    })
 
     return _.union(Bounties.find({ // inject problems here
       pendingApproval: false

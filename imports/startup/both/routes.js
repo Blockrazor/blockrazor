@@ -322,6 +322,7 @@ FlowRouter.route('/bounties', {
   name: 'bounties',
   subscriptions: function () {
     this.register('bounties', SubsCache.subscribe('bounties'))
+    this.register('users', SubsCache.subscribe('users'))
     this.register('problems', SubsCache.subscribe('problems'))
     this.register('approvedcurrencies', SubsCache.subscribe('approvedcurrencies'))
     this.register('bountytypes', SubsCache.subscribe('bountytypes'));

@@ -57,8 +57,25 @@ Template.bountyRender.helpers({
       completed: false
     })
 
+    /*if (this._id.startsWith('currency-')) {
+      this.currentlyAvailable = !b || b.type !== this._id || canContinue(this._id)
+
+      if (!this.currentlyAvailable) {
+        this.workingText = 'Someone is working on it.'
+      }
+    }*/
+
     // grey out the button if the bounty is not currently available, or if the use is already working on another bounty
     // of course, don't grey it out if the user can continue tha current bounty
+    // special case
+    if (this._id && this._id.startsWith('currency-')) {
+      if (canContinue(this._id) || (this.currentlyAvailable && !(b && b.expiresAt > Date.now()))) {
+        return "btn-outline-primary takeBounty"
+      } else {
+        return "btn-outline-secondary"
+      }
+    }
+
     if(this.currentlyAvailable === false || (b && b.expiresAt > Date.now()) && !canContinue(this._id)) {
         return "btn-outline-secondary";
     } else { 
