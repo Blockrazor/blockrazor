@@ -330,7 +330,9 @@ Template.compareCurrencies.helpers({
 				maxCoins: 1,
 				hashpower: 1,
 				slug: 1,
-				price: 1
+				price: 1,
+				cpt: 1,
+				cpc: 1
 			}
 		}).fetch()
 
