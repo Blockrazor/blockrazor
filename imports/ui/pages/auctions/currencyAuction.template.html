@@ -15,13 +15,8 @@
                         <div class="card bg-white required mx-auto" style="width:80% !important">
                             <div class="card-body">
                                 <h5 class="card-title">Cryptocurrency</h5>
-                                <input type="text" id="js-cur" name="cur" placeholder="Search cryptocurrencies" class="form-control"><br />
-                                <select class="form-control" id="js-currency" name="currency">
-                                    <option disabled selected>--Select One--</option>
-                                    {{#each allCurrencies}}
-                                    <option value="{{_id}}">{{currencyName}}</option>
-                                    {{/each}}
-                                </select>
+                                <input type="text" placeholder="Search cryptocurrencies" class="form-control typeahead" id="js-currencyVisible" name="currency"><br />
+                                <input type="hidden" id="js-currency" name="currency"><br />
                                 <hr>                                           
                                 <h5 class="card-title">Amount</h5>         
                                 <div class="input-group">
