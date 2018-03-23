@@ -32,6 +32,8 @@ Template.bounties.onCreated(function(){
   this.LocalBounties = new Mongo.Collection(null);
   this.currentIds = new ReactiveVar(null)
 
+  this.filter = new ReactiveVar({})
+
   Meteor.call('getLastCurrency', (err, data) => {
     let times = this.times.get()
     times['new-currency'] = data.approvedTime
@@ -168,14 +170,52 @@ Template.bounties.onRendered(function(){
   Meteor.setInterval(() => {
       Session.set('now', Date.now())
   }, 10);//10
-});
+})
+
+Template.bounties.events({
+    'change #js-filter': (event, templateInstance) => {
+        let ev = $(event.currentTarget).val()
+        let filter = {}
+
+        if (ev === 'coding') {
+            filter = {
+                $or: [{
+                    _id: 'new-codebase' // codebase questions
+                }, {
+                    isProblem: true // problems
+                }, {
+                    _id: new RegExp('currency-', 'ig') // hash power API PR
+                }]
+            }
+        } else if (ev === 'questions') {
+            filter = {
+                $or: [{
+                    _id: 'new-community' // community questions
+                }, {
+                    _id: 'new-wallet' // wallet questions
+                }]
+            }
+        } else if (ev === 'data') {
+            filter = {
+                $or: [{
+                    _id: 'new-currency' // add new currency
+                }, {
+                    _id: 'new-hashpower' // add new hashpower data
+                }]
+            }
+        }
+
+        templateInstance.filter.set(filter)
+    }
+})
 
 
 Template.bounties.helpers({
   bounties: function() {
     var templ = Template.instance()
     //returns transformed group of collections
-    return templ.LocalBounties.find({_id: {$in: templ.currentIds.get()}}, {sort: {sort: 1}})
+    filter = _.extend(templ.filter.get(), {_id: {$in: templ.currentIds.get()}})
+    return templ.LocalBounties.find(filter, {sort: {sort: 1}})
   }
 });
 
