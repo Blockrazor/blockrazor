@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import { Ratings, RatingsTemplates, UserData } from '/imports/api/indexDB.js'
+import { Ratings, RatingsTemplates, UserData, WalletImages } from '/imports/api/indexDB.js'
 import { log } from '/server/main.js'
 
 Meteor.methods({

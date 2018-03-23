@@ -3,6 +3,7 @@ import { Currencies, Ratings, Bounties } from '/imports/api/indexDB.js';
 import Cookies from 'js-cookie'
 
 import './codebase.html'
+import './codCurrencyChoices'
 
 Template.codebase.onCreated(function() {
     this.autorun(() => {
@@ -184,7 +185,7 @@ Template.codebase.helpers({
                 expiresAt: -1
             }
         }).fetch()[0]
-      
+
         return `You have ${Math.round((bounty.expiresAt - Template.instance().now.get())/1000/60)} minutes to complete the bounty for ${Number(bounty.currentReward).toFixed(2)} (* number of questions) KZR.`;
     },
     proofs: () => Template.instance().proofs.get(),
@@ -255,5 +256,18 @@ Template.codebase.helpers({
         return Currencies.findOne({
             _id: this.currency1Id
         }).currencyName
+    },
+	getLogo(img){
+      if (img){
+        return _coinUpoadDirectoryPublic + img;
+      }else{
+        return '/images/noimage.png'
+      }
+  },
+    currency0: function() {
+        return Currencies.findOne({_id: this.currency0Id })
+    },
+    currency1: function() {
+        return Currencies.findOne({ _id: this.currency1Id })
     }
 })
