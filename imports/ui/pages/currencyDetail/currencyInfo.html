@@ -78,6 +78,24 @@
             </div>
             <div class="col-md-4">
               <div class="card card-body">
+                <div class="title">Price</div>
+                <div class="value" id="price">{{isNull price 'price'}}$</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Comparison Price (Circulation)</div>
+                <div class="value" id="cpc">{{isNull cpc 'cpc'}}$</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Comparison Price (Total)</div>
+                <div class="value" id="cpt">{{isNull cpt 'cpt'}}$</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
                 <div class="title">Market Cap</div>
                 <div class="value" id="marketCap">{{isNull marketCap 'marketCap'}}</div>
               </div>

@@ -27,6 +27,18 @@
                                 {{/each}}
                             </tr>
                             <tr>
+                                <td>Comparison Price (Circulation)</td>
+                                {{#each comparedCurrencies}}
+                                <td style="color: {{color}};">{{cpc}}$</td>
+                                {{/each}}
+                            </tr>
+                            <tr>
+                                <td>Comparison Price (Total)</td>
+                                {{#each comparedCurrencies}}
+                                <td style="color: {{color}};">{{cpt}}$</td>
+                                {{/each}}
+                            </tr>
+                            <tr>
                                 <td style="text-align: center" colspan="{{colspan}}">Features</td>
                             </tr>
                             {{#each top3}}

@@ -6,7 +6,7 @@ import { log } from '../main'
 SyncedCron.add({
   name: 'Update from CoinMarketCap',
   schedule: function(parser) {
-    return parser.text('every 10 minutes');
+    return parser.text('every 5 minutes');
   },
   job: function() {
     Meteor.call('updateMarketCap');
@@ -109,20 +109,21 @@ var allcurrencies = Currencies.find({}, { sort: { createdAt: -1 }}).fetch();
         for (var key in result.data) {
           for (var currency in allcurrencies) {//i = 0; i < Currencies.find({}, { sort: { createdAt: -1 }}).count(); i++) {
             if (result.data[key].name.toLowerCase() == allcurrencies[currency].currencyName.toLowerCase() || result.data[key].name == allcurrencies[currency].currencySymbol) {
-            console.log("Updating: " + allcurrencies[currency].currencyName);
-            Currencies.upsert(allcurrencies[currency]._id,
-            {
-              $set: {
-                marketCap: Math.round(result.data[key].market_cap_usd),
-                circulating: Math.round(result.data[key].available_supply),
-                price:   (result.data[key].market_cap_usd / result.data[key].available_supply).toFixed(2)//.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-              }
+              console.log("Updating: " + allcurrencies[currency].currencyName)
 
-            });
+              let price = result.data[key].market_cap_usd / result.data[key].available_supply
+
+              Currencies.upsert(allcurrencies[currency]._id,
+              {
+                $set: {
+                  marketCap: Math.round(result.data[key].market_cap_usd),
+                  circulating: Math.round(result.data[key].available_supply),
+                  price: price.toFixed(2),//.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  cpc: ((result.data[key].available_supply / 100000000) * price).toFixed(2),
+                  cpt: (((allcurrencies[currency].maxCoins || 0) / 100000000) * price).toFixed(2), // just to be safe
+                }
+              })
             }
-
-
-
           }
           // Currencies.insert({
           // currencyName: result.data[key].name,
