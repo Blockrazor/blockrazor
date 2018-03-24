@@ -36,7 +36,7 @@ Template.bounties.onCreated(function(){
 
   Meteor.call('getLastCurrency', (err, data) => {
     let times = this.times.get()
-    times['new-currency'] = data.approvedTime
+    times['new-currency'] = data.createdAt
     this.times.set(times)
   })
 
