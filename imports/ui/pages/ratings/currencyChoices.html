@@ -1,17 +1,20 @@
 <template name="currencyChoices">
-  <b>You have already added the following cryptocurrency wallets:</b>
-  <div class="row" style="margin-top: 15px;">
-      <div class="col-sm-4 col-md-4 col-lg-4">
+	<b>You have already added the following cryptocurrency wallets:</b>
+
+	<div class="row" style="margin-top: 15px;">
+		<div class="col-sm-4 col-md-4 col-lg-4">
               <a href="#" class="toggle">{{currencyName}}</a>
               <div class="row" style="display:none;" id="links_{{_id}}">
-                  <p>Please add a URL to a {{currencyName}} community you are a part of:<br /> 
+                  <p>Please add a URL to a {{currencyName}} community you are a part of:<br />
                   <input type='text' id='js-com-url_{{_id}}' placeholder="URL here"><button class="js-save">Save</button></p>
               </div>
           </div>
       {{#if subsCacheReady}}
           {{#each alreadyAdded}}
               <div class="col-sm-4 col-md-4 col-lg-4">
-                  <a href="/currency/{{slug}}" class="btn btn-secondary" style="width:100%">{{currencyName}}</a>
+                  <a href="/currency/{{slug}}" class="btn btn-secondary" style="width:100%">
+					  {{currencyName}}
+				  </a>
               </div>
           {{else}}
               {{> empty}}
@@ -38,7 +41,7 @@
       {{#if subsCacheReady}}
           {{#each currencies}}
               <div class="col-sm-4 col-md-4 col-lg-4">
-                  {{> currencyChoice}}    
+                  {{> currencyChoice}}
               </div>
               {{> upload}}
           {{else}}

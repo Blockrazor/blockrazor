@@ -1,19 +1,43 @@
 <template name="codebase">
+	<div class="page-header" id="banner">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>Codebase</h1>
+            </div>
+        </div>
+    </div>
+
     {{#if activeBounty}}
-    <div class="alert alert-danger" role="alert">
-    <h5 class="text-center">{{timeRemaining}}</h5><button class="btn btn-danger" id="js-cancel">Cancel</button></div>
+    	<div class="alert alert-danger" role="alert">
+    	<h5 class="text-center">{{timeRemaining}}</h5><button class="btn btn-danger" id="js-cancel">Cancel</button></div>
     {{/if}}
+
     <div id="outstandingRatings" class="text-center">You still have to answer {{outstandingRatings}} questions.
     {{#with questions}}
         <h3 style="margin-top:50px;">{{questionText}}?</h3>
-        <div class="row" style="margin-top:50px;">
-            <div class="col-4 text-center choice" id={{currency0Id}}><h3>{{currency0Name}}<br />
-                <img src="https://raw.githubusercontent.com/reactjs/redux/master/logo/logo.png" width="100px" /></h3>
-            </div>
-            <div class="col-4 text-center choice" id="tie"><br />Both are about the same<br /></div>
-            <div class="col-4 text-center choice" id={{currency1Id}}><h3>{{currency1Name}}<br />
-                <img src="https://raw.githubusercontent.com/reactjs/redux/master/logo/logo.png" width="100px" /></h3>
-            </div>
+
+			<div class="row text-center">
+		        <div class="card-deck text-center" style="margin: 0 auto; padding-top:2em">
+		            <div class="card pointer greyHover choice" id="{{currency0Name}}">
+		                <div class="card-body">
+		                    <h5 class="card-title">{{currency0.currencyName}}</h5>
+		                    <img class="card-img-top mx-auto d-block" style="width: 8rem;padding:10px" src="{{getLogo currency0.currencyLogoFilename}}" alt="Card image cap">
+		                </div>
+		            </div>
+		            <div class="card pointer greyHover text-white bg-dark choice" id="tie">
+		                <div class="card-body">
+		                    <h5 class="card-title"><br />Both are about the same</h5>
+		                    <img src="/images/equal-symbol.png">
+		                </div>
+		            </div>
+		            <div class="card pointer greyHover choice" id="{{currency1Name}}">
+		                <div class="card-body">
+		                    <h5 class="card-title">{{currency1.currencyName}}</h5>
+		                    <img class="card-img-top mx-auto d-block" style="width: 8rem;padding:10px" src="{{getLogo currency1.currencyLogoFilename}}" alt="Card image cap">
+		                </div>
+		            </div>
+		        </div>
+		    
         </div>
     {{/with}}
     </div>
@@ -23,58 +47,28 @@
     {{#if isDeveloper}}
         <h5>Since you're a developer, you can approve other developer applications <a href="/developers">here</a>.</h5>
         <br />
-        <b>You have already rated codebases for the following cryptocurrencies:</b>
-        <div class="row" style="margin-top: 15px;">
-            {{#if subsCacheReady}}
-                {{#each alreadyAdded}}
-                    <div class="col-sm-4 col-md-4 col-lg-4">
-                        <a href="/currency/{{slug}}">{{currencyName}}</a>
-                    </div>
-                {{else}}
-                    {{> empty}}
-                {{/each}}
-            {{else}}
-                {{> loading}}
-            {{/if}}
-        </div>
-        <br />
-        <b>Please select any currencies with whose codebase you're familiar and you haven't added previously.</b> <br />
-        If you don't see your currency, you might want to <a href="/addcoin">add it here</a>. <br />
-        <br />
-        <b>Filter available cryptocurrencies:</b>
-        <form id="js-form">
-            Name: <input type="text" id="js-name" style="width: 50%" placeholder="Enter the name of the cryptocurrency" /><br />
-            Symbol: <input type="text" id="js-symbol" style="width: 50%" placeholder="Enter the symbol of the cryptocurrency" />
-        </form>
-        <div class="row" style="margin-top: 15px;">
-            {{#if subsCacheReady}}
-                {{#each currencies}}
-                    <div class="col-sm-4 col-md-4 col-lg-4">
-                        <a href="#" class="toggle">{{currencyName}}</a>
-                        <div class="row" style="display:none;" id="links_{{_id}}">
-                            <p>Please add a URL to a {{currencyName}} codebase you want to rate:<br /> 
-                            <input type='text' id='js-cod-url_{{_id}}' placeholder="URL here"><button class="js-save">Save</button></p>
-                        </div>
-                    </div>
-                {{else}}
-                    {{> empty}}
-                {{/each}}
-            {{else}}
-                {{> loading}}
-            {{/if}}
-        </div>
-        <button id="populateRatings">Next</button>
+        {{> codCurrencyChoices}}
     {{else}}
-    You have to be a developer in order to rate currency codebases. You can apply for a developer status by leaving your public github/gitlab/bitbucket/... profile here:<br />
+    You have to be a developer in order to rate currency codebases. You can apply for a developer status by leaving your public github/gitlab/bitbucket/... profile here:<br /><br />
     <div id="js-proof">
         {{#each proofs}}
-        <div class="proof"><input type="text" name="service" class="js-service" placeholder="Service name"> <input type="text" name="service" class="js-profile" placeholder="Public profile"></div>
+        	<div class="proof row">
+				<div class="col">
+					<input type="text" name="service" class="form-control js-service" placeholder="Service name">
+				</div>
+				<div class="col">
+					<input type="text" name="service" class="form-control js-profile" placeholder="Public profile">
+				</div>
+			</div>
+			<br>
         {{/each}}
     </div>
-    <button id="js-add">+</button>
+    <button id="js-add" class="btn btn-outline-info">
+		<i class="fa fa-plus"></i>
+	</button>
     <br />
     <br />
-    <button id="js-apply">Apply</button>
+    <button id="js-apply" class="btn btn-primary">Apply</button>
     {{/if}}
     </div>
     <hr />
