@@ -41,13 +41,21 @@ Template.radarGraph.onRendered(function () {
   
   const {codebaseMaxElo, codebaseMinElo, communityMaxElo, communityMinElo, walletMinElo, walletMaxElo, decentralizationMaxElo, decentralizationMinElo, developmentMinElo, developmentMaxElo} = graphdata
   
-  var wallet = ((currency.walletRanking - walletMinElo)/((walletMaxElo - walletMinElo) || 1)) * 10;
+  // var wallet = ((currency.walletRanking - walletMinElo)/((walletMaxElo - walletMinElo) || 1)) * 10;
+  currency.circulating = currency.circulating || 0 // this is fetched from an API and may not be available
+
+  let distribution = ((currency.maxCoins - (Number(currency.circulating) + Number(currency.premine))) / currency.maxCoins) * 10
+  if (isNaN(distribution) || distribution < 0) {
+    distribution = 0
+  } else if (distribution > 10) {
+    distribution = 10
+  } // some data points may be invalid
   var community = (((currency.communityRanking || communityMinElo) - communityMinElo) / ((communityMaxElo - communityMinElo) || 1)) * 10;
   let codebase = (((currency.codebaseRanking || codebaseMinElo) - codebaseMinElo) / ((codebaseMaxElo - codebaseMinElo) || 1)) * 10
   let decentralization = (((currency.decentralizationRanking || decentralizationMinElo) - decentralizationMinElo) / ((decentralizationMaxElo - decentralizationMinElo) || 1)) * 10 
   let development = (((currency.gitCommits || developmentMinElo) - developmentMinElo) / ((developmentMaxElo - developmentMinElo) || 1)) * 10
 
-  var datanums = [development,codebase,community,2,7,wallet,1,3,decentralization]
+  var datanums = [development,codebase,community,distribution,decentralization]
 
   var options = Object.assign(
     {
@@ -84,7 +92,7 @@ Template.radarGraph.onRendered(function () {
   this.radarchart = new Chart(radar, {
     type: 'radar',
     data: {
-      labels: ["Ongoing Development", "Code Quality", "Community", "Hash Power", "Settlement Speed", "Ease of Use", "Coin Distribution", "Transactions", "Decentralization"],
+      labels: ["Ongoing Development", "Code Quality", "Community", "Coin Distribution", "Decentralization"],
       datasets: [{
           label: "1950",
           fill: true,
@@ -104,7 +112,7 @@ Template.radarGraph.onRendered(function () {
           borderWidth: 4,
           pointRadius: 0,
           pointBackgroundColor: "#fff",
-          data: [10, 10, 10, 10, 10, 10, 10, 10, 10]
+          data: [10, 10, 10, 10, 10]
         },
         {
           label: "3",
@@ -114,7 +122,7 @@ Template.radarGraph.onRendered(function () {
           borderWidth: 1,
           pointBorderColor: "#fff",
           pointBackgroundColor: "#fff",
-          data: [0, 0, 0, 0, 0, 0, 0, 0, 0]
+          data: [0, 0, 0, 0, 0]
         }
       ]
     },
