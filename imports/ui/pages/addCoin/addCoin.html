@@ -66,15 +66,21 @@
     {{ /each }}
 </select>
 
-											{{#if reactiveVar 'POWSelect'}}
+											{{ #if reactiveVar 'powselect' }}
 											<br />
 											<div class="form-group">
+												{{#unless showAlgoField}}
 												<select class="form-control" id="exampleFormControlSelect1" name="hashAlgorithm">
 													<option disabled selected>--Select One--</option>
 													{{#each subsecurity}}
-													<option>{{name}}</option>
+													<option value="{{_id}}">{{name}}</option>
 													{{ /each }}
 												</select>
+												<a href="#" id="js-nothere">Your algorithm is not here? Add it.</a>
+												{{else}}
+												<input type="text" class="form-control" name="hashAlgorithm" placeholder="Algorithm name" />
+												<a href="#" id="js-nothere">Return to selection</a>
+												{{/unless}}
 											</div>
 											{{/if}}
 											{{ #if reactiveVar 'btcfork' }}

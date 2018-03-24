@@ -156,6 +156,8 @@ Meteor.methods({
   }
   },
   addCoin(data) {
+    const Future = require('fibers/future')
+    const fut = new Future()
     ////server-only validation, no optimistic UI #681 //is used by client, but is server only #682
   //Check that user is logged in
   if (!Meteor.userId()) {throw new Meteor.Error("Please log in first")};
@@ -220,6 +222,7 @@ Meteor.methods({
     if (!devValidationEnabled || data.consensusSecurity != "--Select One--") {
       checkSanity(data.consensusSecurity, "consensusSecurity", "string", 6, 20);
       } else {error.push("consensusSecurity")};
+
     if (data.hashAlgorithm) { if (devValidationEnabled && data.hashAlgorithm == "--Select One--") {
       error.push("hashAlgorithm")} else {
       checkSanity(data.hashAlgorithm, "hashAlgorithm", "string", 3, 40, true);
@@ -328,6 +331,23 @@ Meteor.methods({
   if (error.length != 0) {throw new Meteor.Error(error)}
   //skips data==allowed in development, adjust in config startup
   if(!devValidationEnabled || error.length == 0 && _.size(data) == _.size(allowed)){
+        // add the algorithm if it doesn't exist
+        if (!HashAlgorithm.findOne({
+          _id: data.hashAlgorithm
+        })) {
+          Meteor.call('addAlgo', data.hashAlgorithm, data.consensusSecurity.toLowerCase().split(' ').reduce((i1, i2) => i1 + i2[0], ''), (err, data) => { // 'Proof of Work' -> 'pow'
+            if (!err) {
+              fut.return(data)
+            } else {
+              throw new Meteor.Error('Error.', err.reason)
+            }
+          })
+        } else {
+          fut.return(data.hashAlgorithm)
+        }
+
+        data.hashAlgorithm = fut.wait()
+
     console.log("----inserting------");
     var insert = _.extend(data, {
       createdAt: new Date().getTime(),
