@@ -11,6 +11,7 @@ Template.question.onCreated(function bodyOnCreated() {
 
   this.cnt = 0
   this.ties = 0
+  this.timeToAnswer = 0
 })
 
 
@@ -58,6 +59,24 @@ Template.question.events({
         }
 
         Meteor.call('answerRating', this._id, event.currentTarget.id, (err, data) => {
+			if (templateInstance.timeToAnswer === 0) {
+				// if timeToAnswer is 0 then we are in the first question
+				// assign current time to timeToAnswer and proceed
+				templateInstance.timeToAnswer = moment()
+			} else {
+				if (moment().diff(templateInstance.timeToAnswer, 'seconds') >= 5) {
+					// time to answer difference between previous question and current question is > 5
+					// assign new time to timeToAnswer and proceed
+					templateInstance.timeToAnswer = moment()
+				} else {
+					// time to answer difference between previous question and current question is < 5
+					// lazy answering detected so reset user's progress and assign 0 to timeToAnswer
+					sAlert.error('Lazy answering detected. You\'ll have to start all over again.')
+	                Meteor.call('deleteWalletRatings', (err, data) => {})
+					templateInstance.timeToAnswer = 0
+				}
+			}
+
             if (err && err.reason === 'xor') {
                 if (templateInstance.cnt++ === 0) {
                     swal('Your answer is in contradiction with your previous answers. Please try again. If this persists, your progress will be purged and bounties will be nullified.')
