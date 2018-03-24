@@ -132,11 +132,12 @@ Meteor.methods({
 			throw new Meteor.Error('Error.', 'You have to log in first.')
 		}
 	},
-	addAlgo: (name) => {
+	addAlgo: (name, type) => {
 		if (Meteor.userId()) {
 			if (name) {
 				return HashAlgorithm.insert({
-					name: name
+					name: name,
+					type: type || 'pow'
 				})
 			} else {
 				throw new Meteor.Error('Error.', 'Please fill all fields.')

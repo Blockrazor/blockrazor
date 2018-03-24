@@ -69,7 +69,7 @@ var makeTagArrayFrom = function(string) {
 
 Template.addCoin.onCreated(function() {
   this.coinExists = new ReactiveVar(true)
-  this.POWSelect = new ReactiveVar(false)
+  this.powselect = new ReactiveVar(false)
   this.btcfork = new ReactiveVar(false)
   this.isICO = new ReactiveVar(false)
   this.currencyName = new ReactiveVar(false)
@@ -87,6 +87,7 @@ Template.addCoin.onCreated(function() {
   this.confirmations = new ReactiveVar(false)
   this.previousNames = new ReactiveVar(false)
   this.exchanges = new ReactiveVar(false)
+  this.showAlgoField = new ReactiveVar(false)
 
   this.currencyNameMessage = new ReactiveVar(null)
   this.consensusType = new ReactiveVar('')
@@ -105,6 +106,11 @@ Template.addCoin.onCreated(function() {
 
 //Events
 Template.addCoin.events({
+  'click #js-nothere': (event, templateInstance) => {
+    event.preventDefault()
+
+    templateInstance.showAlgoField.set(!templateInstance.showAlgoField.get())
+  },
   'blur #currencyName': function(e, templateInstance){
     templateInstance.currencyName.set(false);
     Meteor.call('isCurrencyNameUnique', e.currentTarget.value);
@@ -149,14 +155,9 @@ Template.addCoin.events({
   'change #consensusType': function(consensusType) {
     Template.instance().consensusType.set(consensusType.target.value);
          //init popovers again, can't init on hidden dom elements
-     initPopOvers();
+     initPopOvers()
 
-
-    if (consensusType.target.value == "Proof of Work" || consensusType.target.value == "Hybrid") {
-      Template.instance().POWSelect.set(true);
-    } else {
-      Template.instance().POWSelect.set(false);
-    }
+     Template.instance().powselect.set(consensusType.target.value !== '--Select One--')
   },
   'change #currencyLogoInput': function(event){
 
@@ -468,9 +469,21 @@ switch (val) {
   },
   subsecurity () {
     if (Template.instance().consensusType.get() === 'Proof of Work') {
-      return HashAlgorithm.find({}).fetch()
+      return HashAlgorithm.find({
+        $or: [{
+          type: 'pow' 
+        }, {
+          type: {
+            $exists: false // previous data doesn't have this field, so we have to check
+          }
+        }]
+      }).fetch()
+    } else if (Template.instance().consensusType.get() === 'Proof of Stake') {
+      return HashAlgorithm.find({
+        type: 'pos'
+      }).fetch()
     } else if (Template.instance().consensusType.get() === 'Hybrid') {
-      return HashAlgorithm.find({}).fetch().map(i => {
+      return HashAlgorithm.find({}).fetch().map(i => { // list all here
         i.name = `Staking and ${i.name}`
 
         return i
@@ -494,6 +507,7 @@ switch (val) {
         return "This was a fork of the Bitcoin blockchain"
     } else {
         return "This is a planned fork of the Bitcoin blockchain"
-    }}
+    }},
+    showAlgoField: () => Template.instance().showAlgoField.get()
 
   });
