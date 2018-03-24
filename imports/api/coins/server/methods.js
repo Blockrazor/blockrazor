@@ -6,11 +6,23 @@ import { rewardCurrencyCreator } from '/imports/api/utilities.js';
 import { log } from '/server/main'
 
 Meteor.methods({
-  getLastCurrency: () => Currencies.find({}, {
-    sort: {
-      approvedTime: -1
+  getLastCurrency: () => {
+    let pending = PendingCurrencies.find({}, {
+      sort: {
+        createdAt: -1
+      }
+    }).fetch()[0]
+
+    if (!pending) { // in case there's no pending currencies, use the last added currency
+      pending = Currencies.find({}, {
+        sort: {
+          createdAt: -1
+        }
+      }).fetch()[0]
     }
-  }).fetch()[0],
+
+    return pending
+  },
   getCurrentReward: (userId, currencyName) => {
     let bounty = Bounties.findOne({
       userId: userId,
@@ -21,11 +33,19 @@ Meteor.methods({
 
     console.log(bounty)
 
-    let lastCurrency = Currencies.find({}, {
+    let lastCurrency = PendingCurrencies.find({}, {
       sort: {
-        approvedTime: -1
+        createdAt: -1
       }
     }).fetch()[0]
+
+    if (!lastCurrency) { // in case there's no pending currencies, use the last added currency
+      lastCurrency = Currencies.find({}, {
+        sort: {
+          createdAt: -1
+        }
+      }).fetch()[0]
+    }
 
     let currency = Currencies.findOne({
       currencyName: currencyName
@@ -36,14 +56,14 @@ Meteor.methods({
 
       if (bounty.expiresAt < currency.createdAt) {
         console.log('already expired')
-        return ((Date.now() - lastCurrency.approvedTime) / REWARDCOEFFICIENT) * 1.8
+        return ((Date.now() - lastCurrency.createdAt) / REWARDCOEFFICIENT) * 1.8
       } else {
         console.log('actual bounty')
         return Number(bounty.currentReward)
       }
     } else {
       console.log('no bounty')
-      return ((Date.now() - lastCurrency.approvedTime) / REWARDCOEFFICIENT) * 1.8
+      return ((Date.now() - lastCurrency.createdAt) / REWARDCOEFFICIENT) * 1.8
     }
   },
   approveCurrency: function(currencyId) {
