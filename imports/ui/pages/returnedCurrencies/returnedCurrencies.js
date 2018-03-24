@@ -115,7 +115,8 @@ Template.returnedCurrencies.helpers({
                 walletRanking: 1,  
                 decentralizationRanking: 1,  
                 gitCommits: 1,  
-                featured: 1
+                featured: 1,
+                premine: 1
               }
              });
 
