@@ -21,7 +21,10 @@ Template.changedCurrencies.events({
 
             if (error && error.error == 'moderatorOnlyAction') {
                 sAlert.error('Only moderators can vote');
+            }else if (error && error.error == 'noVoteOnOwn') {
+                sAlert.error('You can not vote on your own proposed change');
             }
+
             if (result == 'merged') {
                 sAlert.success('Success, proposed change has been merged');
             }
