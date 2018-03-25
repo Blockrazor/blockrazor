@@ -180,6 +180,7 @@ $('#coinChangeImage').modal('hide');
         old: $('#currencyLogoFilename_existing').val(),
         new: $('#currencyLogoFilename').val(),
         changedDate: new Date().getTime(),
+        createdBy: Meteor.userId(),
         score: 0,
         status: 'pending review',
         notes: $('#currencyNotes').val()
@@ -210,6 +211,7 @@ $('#coinChangeModal').modal('hide');
         old: $('#modal_old').val(),
         new: $('#modal_new').val(),
         changedDate: new Date().getTime(),
+        createdBy: Meteor.userId(),
         score: 0,
         status: 'pending review',
         notes: $('#currencyNotes').val()
