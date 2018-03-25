@@ -1,6 +1,6 @@
 import {FlowRouter} from 'meteor/staringatlights:flow-router';
 import {FastRender} from 'meteor/staringatlights:fast-render'
-// import {SubsCache} from 'meteor/ccorcos:subs-cache' 
+// import {SubsCache} from 'meteor/ccorcos:subs-cache'
 import {SubsManager} from 'meteor/meteorhacks:subs-manager'
 
 // SubsCache = new SubsManager({
@@ -70,7 +70,10 @@ FlowRouter.triggers.enter([ () => { window.scrollTo(0, 0); } ]);
 //global subscriptions (on client side immidiately available)
 FlowRouter.subscriptions = function() {
   this.register('publicUserData', SubsCache.subscribe('publicUserData'));
-  this.register('graphdata', SubsCache.subscribe('graphdata'))
+  this.register('graphdata', SubsCache.subscribe('graphdata'));
+
+  // subscribe to bounties so user's can keep track of active bounties
+  this.register('bounties', SubsCache.subscribe('bounties'));
 
   //subscribe to users so that people can switch out accounts with constellation's account module
   if (Meteor.isDevelopment){
@@ -188,7 +191,7 @@ FlowRouter.route('/', {
   }
 })
 
-FlowRouter.route('/ratings', { 
+FlowRouter.route('/ratings', {
   name: 'ratings',
   subscriptions: function () {
     this.register('approvedcurrencies', SubsCache.subscribe('approvedcurrencies'));
@@ -204,7 +207,7 @@ FlowRouter.route('/ratings', {
   }
 })
 
-FlowRouter.route('/theme', { 
+FlowRouter.route('/theme', {
   name: 'theme',
   action() {
     BlazeLayout.render('mainLayout', {
@@ -367,7 +370,7 @@ FlowRouter.route('/addcoin', {
       main: 'addCoin',
       //left: 'luxMenu'
     });
-    
+
       this.register('formdata', SubsCache.subscribe('formdata'));
 
     } else {
@@ -582,4 +585,3 @@ adminRoutes.route('/solved-problems', {
 })
 
 // server side routes
-

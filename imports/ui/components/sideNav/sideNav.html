@@ -21,7 +21,12 @@
           <a href="/addcoin">Add New Coin or ICO</a>
         </li>
         <li>
-          <a href="/bounties">Bounties</a>
+          <a href="/bounties">
+			  Bounties
+			  {{#if hasBounties activeBounties }}
+				  <span class="badge badge-danger">{{ activeBounties.length }}</span>
+			  {{/if}}
+		  </a>
         </li>
         <li>
           <a href="/problems">Problems</a>

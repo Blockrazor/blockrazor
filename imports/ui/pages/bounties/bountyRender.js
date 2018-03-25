@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 
 import './bountyRender.html'
 import { calculateReward } from './bounties'
+import '/imports/ui/components/global/globalHelpers'
 
 Template.bountyRender.onCreated(function(){
   this.autorun(() => {
@@ -43,7 +44,7 @@ Template.bountyRender.helpers({
     if (this.workingText) {
       return this.workingText
     }
-    
+
     if(this.currentlyAvailable == false) {
         return this.currentUsername + " is working on this right now!";
     } else { return null;}
@@ -78,7 +79,7 @@ Template.bountyRender.helpers({
 
     if(this.currentlyAvailable === false || (b && b.expiresAt > Date.now()) && !canContinue(this._id)) {
         return "btn-outline-secondary";
-    } else { 
+    } else {
       return "btn-outline-primary takeBounty"
     }
   },
