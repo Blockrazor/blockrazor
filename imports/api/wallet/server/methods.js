@@ -291,7 +291,6 @@ Meteor.methods({
 			gm(filename)
 				.resize(size.width, size.height + ">")
 				.gravity('Center')
-				.extent(size.width, size.height)
 				.write(filename_thumbnail, function(error) {
 					if (error) console.log('Error - ', error);
 				});
