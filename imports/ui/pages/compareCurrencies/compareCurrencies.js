@@ -133,7 +133,9 @@ Template.compareCurrencies.onCreated(function () {
 					communityMaxElo,
 					communityMinElo,
 					walletMinElo,
-					walletMaxElo
+					walletMaxElo,
+					hashpowerMinElo,
+					hashpowerMaxElo
 				} = graphdata
 
 				currency.circulating = currency.circulating || 0 // this is fetched from an API and may not be available
@@ -158,6 +160,8 @@ Template.compareCurrencies.onCreated(function () {
 				let maxDev = graphdata.developmentMaxElo
 	
 				let development = (((currency.gitCommits || minDev) - minDev) / ((maxDev - minDev) || 1)) * 10
+
+				let hashpower = (((currency.hashpower || hashpowerMinElo) - hashpowerMinElo) / ((hashpowerMaxElo - hashpowerMinElo) || 1)) * 10
 	
 				let nums = [development, codebase, community, distribution, decentralization]
 	
@@ -178,7 +182,7 @@ Template.compareCurrencies.onCreated(function () {
 					backgroundColor: `rgba(${(rgb >> 16) & 255}, ${(rgb >> 8) & 255}, ${rgb & 255}, 0.2)`,
 					borderColor: color,
 					borderWidth: 1,
-					data: [development, codebase, community, 2, 7, wallet, distribution, 3, decentralization]
+					data: [hashpower, 7, wallet, 3]
 				})
 	
 				// update the chart to reflect new data
@@ -305,7 +309,7 @@ Template.compareCurrencies.onRendered(function () {
 	this.barchart = new Chart(ctx, {
 		type: 'horizontalBar',
 		data: {
-			labels: ['Ongoing Development', 'Code Quality', 'Community', 'Hash Power', 'Settlement Speed', 'Ease of Use', 'Coin Distribution', 'Transactions', 'Decentralization'],
+			labels: ['Hash Power', 'Settlement Speed', 'Ease of Use', 'Transactions'],
 			datasets: []
 		},
 		options: {

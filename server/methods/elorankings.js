@@ -25,11 +25,13 @@ Meteor.methods({
 
         let ratings = {}
         let commits = []
+        let power = []
 
         let pos = ['wallet', 'community', 'codebase', 'decentralization', 'elo']
 
         currencies.forEach(i => {
             commits.push(i.gitCommits || 0)
+            power.push(i.hashpower || 0)
 
             pos.forEach(j => {
                 let min = j === 'elo' ? 0 : 400
@@ -74,6 +76,23 @@ Meteor.methods({
                 'developmentMaxElo': max
             }
         })
+
+        min = 0
+        max = 0
+
+        if (!_.isEmpty(power)) {
+            min = _.min(power)
+            max = _.max(power)
+        }
+
+        GraphData.upsert({
+            _id: 'elodata'
+        }, {
+            $set: {
+                'hashpowerMinElo': min,
+                'hashpowerMaxElo': max
+            }
+        })
     },
     eloCount: () => {
         let currencies = Currencies.find({}).fetch()
@@ -87,7 +106,7 @@ Meteor.methods({
                 _id: i._id
             }, {
                 $set: {
-                    [`eloRanking`]: ratings
+                    eloRanking: ratings
                 }
             })
         })
