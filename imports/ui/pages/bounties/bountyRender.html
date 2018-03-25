@@ -3,7 +3,17 @@
     <div class="card-body">
       <div class="row">
         <div class="col-sm-8">
-          <h5 class="card-title mb-3">{{types.heading}} for {{currencyName}}</h5>
+          <h5 class="card-title mb-3">
+			  {{#if canContinue}}
+			  	<a href="{{bountyUrl activeBounties}}" style="text-decoration: underline;">
+					{{types.heading}} for {{currencyName}}
+				</a>
+				&nbsp;&nbsp;
+			  	<span class="badge badge-danger">in progress</span>
+			  {{else}}
+			  	{{types.heading}} for {{currencyName}}
+			  {{/if}}
+		  </h5>
           <h6 class="card-subtitle mb-2 text-muted"></h6>
 
           <div class="card-text"><b>Problem:</b> {{problem}}.</div>

@@ -1,8 +1,8 @@
-import { ActivityLog, Wallet, UserData } from '/imports/api/indexDB.js';
-
+import { ActivityLog, Wallet, UserData, Bounties } from '/imports/api/indexDB.js';
 
 import './topNav.html'
 import './topNav.scss'
+import '../global/globalHelpers'
 
 Template.topNav.events({
   'click #js-logout': (event, templateInstance) => {
@@ -23,7 +23,7 @@ Template.topNav.helpers({
     balance() {
       let balance = UserData.findOne({}, { fields: { balance: 1 } }).balance
       return Number( balance.toPrecision(3) )
-    }
+  	}
 });
 
 Template.topNav.onCreated(function() {

@@ -6,21 +6,26 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <a class="navbar-brand text-white" href="/">BLOCKRAZOR</a>
-    </div>  
+    </div>
     <div class="right-nav-item">
         {{#if currentUser}}
         <div class="dropdown show">
           <a class="btn dropdown-toggle text-white" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="d-none d-sm-block">{{currentUser.username}}</span><span class="d-sm-none"><i class="fa fa-user text-white"></i></span>
-          </a>      
+          </a>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             <a class="dropdown-item" href="/profile/{{slug}}">My profile</a>
             <a class="dropdown-item" href="/profile">Edit Profile</a>
             <a class="dropdown-item" href="#" id="js-logout">Logout</a>
           </div>
       </div>
-      <div class="notifications"> 
-
+      <div class="notifications">
+		<a href="{{bountyUrl activeBounties}}" title="bounty">
+			<i class="fa fa-dot-circle-o text-white" style="font-size: 19px"></i>
+			{{#if hasBounties activeBounties }}
+				<span class="badge badge-danger">{{ activeBounties.length }}</span>
+			{{/if}}
+		</a>
         <a href="/notifications" title="activity"><i class="fa fa-bell text-white"></i>
           {{#if activityNotifications}}<span class="badge badge-success">{{activityNotifications}}</span>{{/if}}
         </a>
