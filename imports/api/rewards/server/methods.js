@@ -88,7 +88,7 @@ Meteor.methods({
 		}
 
 		if (val) {
-			creditUserWith(reward, val.createdBy, `having a top ${type} in the last hour`)
+			creditUserWith(reward, val.createdBy, `having a top ${type} in the last hour`,'topCommentReward')
 		}
 	},
 	rewardAll: (reward) => {

@@ -141,7 +141,7 @@ Meteor.methods({
             multi: true
         }) // reset only ratings from this session, don't reset already processed ratings, as this would mess up previous ELO calculations
 
-        removeUserCredit(reward, Meteor.userId(), 'cheating on wallet questions')
+        removeUserCredit(reward, Meteor.userId(), 'cheating on wallet questions','cheating')
     },
 
 	getLastWalletAnswer: () => {
@@ -196,13 +196,26 @@ Meteor.methods({
 		return sum.toFixed(2)
 	},
 
-	transactions: (page) => {
-		return Wallet.find({
-			type: 'transaction',
-			amount: {
-				$nin: [0, NaN] // filter out invalid transactions
-			}
-		}, {
+	transactions: (page,rewardType) => {
+
+		if (rewardType) {
+		    var query = {
+		        rewardType: rewardType,
+		        type: 'transaction',
+		        amount: {
+		            $nin: [0, NaN] // filter out invalid transactions
+		        }
+		    }
+		} else {
+		    var query = {
+		        type: 'transaction',
+		        amount: {
+		            $nin: [0, NaN] // filter out invalid transactions
+		        }
+		    }
+		}
+
+		return Wallet.find(query, {
 			sort: { time: -1 },
 			fields: {
 				time: 1,

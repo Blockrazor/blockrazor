@@ -101,7 +101,7 @@ Meteor.methods({
 				Meteor.call('getHashPowerReward', Meteor.userId(), n, (err, data) => {
 					console.log(data)
 					if (!err) {
-						creditUserWith(data, Meteor.userId(), 'adding new hash power data') // credit the user for adding new hash power data, the same way we credit users when adding new currencies
+						creditUserWith(data, Meteor.userId(), 'adding new hash power data','hashReward') // credit the user for adding new hash power data, the same way we credit users when adding new currencies
 
 						HashPower.update({
 							_id: n
@@ -258,7 +258,7 @@ Meteor.methods({
 					_id: hp._id
 				})
 
-				removeUserCredit(hp.reward || 0, hp.createdBy, 'removing added hash power data.') // remove the reward
+				removeUserCredit(hp.reward || 0, hp.createdBy, 'removing added hash power data.','hashDataDeleted') // remove the reward
 			} else {
 				throw new Meteor.Error('Error.', 'Wrong id.')
 			}
@@ -278,7 +278,7 @@ Meteor.methods({
 						_id: id
 					})
 
-					removeUserCredit(hp.reward || 0, hp.createdBy, 'removing added hash power data.') // remove the reward
+					removeUserCredit(hp.reward || 0, hp.createdBy, 'removing added hash power data.','hashDataDeleted') // remove the reward
 				} else {
 					throw new Meteor.Error('Error.', 'Error ocurred while deleting.')
 				}
@@ -599,7 +599,7 @@ Meteor.methods({
 		    		Meteor.call('getHashPowerAPIReward', b.userId, currency.slug, (err, data) => {
 		    			console.log(data)
 		    			if (data) {
-		    				creditUserWith(data, b.userId, 'adding a new hash power API call.')
+		    				creditUserWith(data, b.userId, 'adding a new hash power API call.','hashReward')
 		    			}
 		    		})
 	    		}
