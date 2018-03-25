@@ -23,7 +23,7 @@ var getRewardFor = function(itemType, creationTime) {
   }
 };
 
-export var creditUserWith = function(amount, userId, reason) {
+export var creditUserWith = function(amount, userId, reason,rewardType) {
   if(Meteor.isServer) {
     UserData.upsert({_id: userId}, {$inc: {balance: amount}});
     Wallet.insert({
@@ -34,12 +34,13 @@ export var creditUserWith = function(amount, userId, reason) {
       message: `Congratulations! You've been awarded ${amount > 0.00001 ? amount : amount.toExponential(3)} KZR for ${reason}`,
       amount: amount,
       read: false,
+      rewardType: rewardType
     });
     return true;
   }
 }
 
-export var removeUserCredit = (amount, userId, reason) => { // if we need to remove user's credit for whatever reason
+export var removeUserCredit = (amount, userId, reason, rewardType) => { // if we need to remove user's credit for whatever reason
   if(Meteor.isServer) {
     UserData.upsert({_id: userId}, {$inc: {balance: -amount}});
     Wallet.insert({
@@ -50,6 +51,7 @@ export var removeUserCredit = (amount, userId, reason) => { // if we need to rem
       message: `${amount} KZR has been deduced from your account for ${reason}`,
       amount: -amount,
       read: false,
+      rewardType: rewardType
     });
     return true;
   }

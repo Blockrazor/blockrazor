@@ -14,12 +14,15 @@ Template.transactions.onCreated(function() {
 	this.transactionsCount = new ReactiveVar(1)
 	this.transactions = new ReactiveVar([])
 	this.total = new ReactiveVar(0)
+	this.rewardType = new ReactiveVar()
+
+
 
 	// we can't use Meteor subscribe for data, because another global wallet (transactions) subscription in the navBar is messing with the transaction data that should be displayed here (the curse of meteor reactivity)
 	// another possiblity would be to subscribe to all transactions at once and filter them on the client side, but that wouldn't be quite optimal for a lot of transactions (even on localhost, it takes a bit of time to subscribe to 400+ transactions)
 
 	this.autorun(() => {
-		Meteor.call('transactions', FlowRouter.getParam('page') || '1', (err, data) => {
+		Meteor.call('transactions', FlowRouter.getParam('page') || '1', Template.instance().rewardType.get(),  (err, data) => {
 			this.transactions.set(data)
 		})
 	})
@@ -84,3 +87,16 @@ Template.transactions.helpers({
 		return (this + '') === page ? 'active' : ''
 	}
 })
+
+Template.transactions.events({
+    'change .rewardTypeFilter': function(event) {
+        Template.instance().rewardType.set(event.target.value)
+    },
+    'click .clearFilter': function(event) {
+        Template.instance().rewardType.set(false);
+
+        $(".rewardTypeFilter option").filter(function() {
+            return $(this).text() == "--Select transaction type--";
+        }).prop('selected', true);
+    }
+});

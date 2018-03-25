@@ -135,7 +135,7 @@ Meteor.methods({
         }, function(error, result){
         })
       }
-      creditUserWith(original.bountyReward, original.completedBy, ("completing the " + original.currencyName + " " + original.bountyType + "."));
+      creditUserWith(original.bountyReward, original.completedBy, ("completing the " + original.currencyName + " " + original.bountyType + "."),'bountyReward');
       sendMessage(original.completedBy, ("I have approved your bounty for " + original.currencyName), Meteor.user().username);
     }
   },

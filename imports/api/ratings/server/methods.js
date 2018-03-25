@@ -62,7 +62,7 @@ Meteor.methods({
 					}
 				})
 
-				creditUserWith(data, Meteor.userId(), 'answering a wallet question')
+				creditUserWith(data, Meteor.userId(), 'answering a wallet question','answerQuestion')
 			})
 		}
     },
