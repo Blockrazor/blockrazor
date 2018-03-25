@@ -3,8 +3,14 @@ import { HashAlgorithm, FormData, Currencies } from '/imports/api/indexDB.js'
 
 import './currencyInfo.html'
 
+Template.currencyInfo.onCreated(function() {
+  this.newAlgo = new ReactiveVar(false)
+  this.showText = new ReactiveVar(false)
+})
+
 Template.currencyInfo.onRendered(function() {
   $('[data-toggle="tooltip"]').tooltip()
+  const self = this
 
   $.fn.editable.defaults.mode = 'inline' // display them inline
   $.fn.editableform.buttons = `<button type="submit" class="btn btn-primary btn-sm editable-submit"><i class="fa fa-check"></i></button><button type="button" class="btn btn-default btn-sm editable-cancel"><i class="fa fa-close"></i></button>` // custom buttons with fa icons
@@ -15,6 +21,16 @@ Template.currencyInfo.onRendered(function() {
   const validate = function(val) { // the actual proposing part
     if ($(this).attr('id') === 'genesisTimestamp') {
       val = new Date(val).getTime()
+    }
+
+    if ($(this).attr('id') === 'hashAlgorithm') {
+      let algo = HashAlgorithm.findOne({
+        _id: val
+      })
+
+      val = algo ? algo.name : val
+
+      self.showText.set(false) // hide the tooltip
     }
 
     if ($(this).text() !== val) {
@@ -68,10 +84,25 @@ Template.currencyInfo.onRendered(function() {
 
   $('#hashAlgorithm').editable({
     validate: validate,
-    type: ($('#consensusSecurity').text() === 'Proof of Work' || $('#consensusSecurity').text() === 'Hybrid') ? 'select' : 'text', // only show select for these two
+    type: 'select', // only show select for these two
     source: () => {
       if ($('#consensusSecurity').text() === 'Proof of Work') {
-        return HashAlgorithm.find({}).fetch().map(i => ({
+        return HashAlgorithm.find({
+          $or: [{
+            type: 'pow' 
+          }, {
+            type: {
+              $exists: false // previous data doesn't have this field, so we have to check
+            }
+          }]
+        }).fetch().map(i => ({
+          text: i.name,
+          value: i._id
+        }))
+      } else if ($('#consensusSecurity').text() === 'Proof of Stake') {
+        return HashAlgorithm.find({
+          type: 'pos'
+        }).fetch().map(i => ({
           text: i.name,
           value: i._id
         }))
@@ -92,6 +123,35 @@ Template.currencyInfo.onRendered(function() {
 });
 
 Template.currencyInfo.events({
+  'click .editable-click': (event, templateInstance) => {
+    if ($(event.currentTarget).attr('id') === 'hashAlgorithm') {
+      templateInstance.showText.set(!templateInstance.showText.get())
+    }
+  },
+  'click #js-addAlgo': (event, templateInstance) => {
+    event.preventDefault()
+
+    Meteor.call('addAlgo', $('#js-newAlgo').val(), $('#consensusSecurity').text().toLowerCase().split(' ').reduce((i1, i2) => i1 + i2[0], ''), (err, data) => {
+      if (data) {
+        $('.editable-input').find('select').val(data) // set the selected item to the newly added algorithm
+      }
+    })
+
+    templateInstance.newAlgo.set(false)
+    templateInstance.showText.set(false)
+  },
+  'click #js-add': (event, templateInstance) => {
+    event.preventDefault()
+
+    templateInstance.newAlgo.set(true)
+    templateInstance.showText.set(false)
+  },
+  'click #js-cancel': (event, templateInstance) => {
+    event.preventDefault()
+
+    templateInstance.newAlgo.set(false)
+    templateInstance.showText.set(true)
+  },
   'change #currencyLogoInput': function(event){
 
   var mime = require('mime-types')
@@ -237,6 +297,8 @@ $('#coinChangeModal').modal('hide');
 });
 
 Template.currencyInfo.helpers({
+  newAlgo: () => Template.instance().newAlgo.get() ? 'block' : 'none',
+  showText: () => Template.instance().showText.get() ? 'block' : 'none',
   previousNames: () => {
     return (Template.instance().data.previousNames || []).map(i => i.tag) || 'N\\A'
   },
