@@ -56,7 +56,9 @@ Template.changedCurrencies.helpers({
             if (typeof val == "string") {
                 //check if it is image else show the string
                 if (_.contains(['png', 'gif', 'jpg', 'jpeg'], val.split('.').pop())){
-                    return '<img class="_50x50" src="'+_coinUpoadDirectoryPublic+val+'">';
+                    let a = val.split('.');
+                    let thumbnail = a[0] + '_thumbnail.' + a[1];
+                    return '<img class="_50x50" src="'+_coinUpoadDirectoryPublic+thumbnail+'">';
                 }else{
                     if (this.field === 'hashAlgorithm') { // show algorithm name
                         if (val === this.new || val === this.old) {
