@@ -51,7 +51,7 @@ Template.userProfile.helpers({
 		}) || {}
 	},
 		HashPower: () => {
-		return HashPower.find({createdBy:Meteor.userId()})
+		return HashPower.find({createdBy:Template.instance().user._id})
 		 
 	},
 	currencies: () => {
