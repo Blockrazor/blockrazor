@@ -19,6 +19,11 @@ Template.userProfile.onCreated(function() {
 })
 
 Template.userProfile.helpers({
+		isYourPage() {
+		    if (FlowRouter.getParam('slug') == Meteor.user().slug) {
+		        return true;
+		    }
+		},
     balance() {
       let balance = UserData.findOne({}, { fields: { balance: 1 } }).balance
       return Number( balance.toPrecision(3) )
