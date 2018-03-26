@@ -10,13 +10,11 @@ Template.editProfile.events({
         var email = e.target.email.value;
         var username = e.target.username.value;
         var bio = e.target.bio.value
-        let profilePicture = $('#js-profilePic').attr('src')
 
         var data = {
             email: email,
             bio: bio,
             username: username,
-            profilePicture: profilePicture
         }
 
         Meteor.call('editProfile', data, (err, data) => {
@@ -56,7 +54,7 @@ Template.editProfile.events({
             reader.onload = fEvent => {
                 let binary = reader.result
                 let md5 = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(binary)).toString()
-
+                
                 Meteor.call('uploadProfilePicture', file.name, reader.result, md5, (error, result) => {
                     if (error) {
                         sAlert.error(error.message)

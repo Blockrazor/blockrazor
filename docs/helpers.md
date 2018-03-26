@@ -10,4 +10,14 @@ Turns 'Hello\nWorld' into 'Hello<br />World'
 
 {{{nlToBr text}}}
 
-*Notice the three {{{ text }}}, this is required to parse html in Blaze. 
+*Notice the three {{{ text }}}, this is required to parse html in Blaze*
+
+
+######Profile Picture
+Return the users profile picture as a thumbnail or the original size (default to large if no size is defined)
+
+{{profilePicture small}}
+
+*or*
+
+{{profilePicture large}}
