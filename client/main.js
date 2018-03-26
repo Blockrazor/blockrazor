@@ -60,12 +60,16 @@ Template.registerHelper('isDeveloper', () => {
 
 
 Template.registerHelper('slugify', function(author) {
-  var author = author.toLowerCase()
+    SubsCache.subscribe('user', author)
+
+    return (Meteor.users.findOne({
+        username: author
+    }) || {}).slug
+  /*var author = author.toLowerCase()
   let slug = author.replace(/'/g, '').replace(/[^0-9a-z-]/g, '-').replace(/\-\-+/g, '-').replace(/^-+/, '').replace(/-+$/, '');
 
-  return slug;
-
-});
+  return slug;*/
+})
 
 Template.registerHelper('relativeTime', function(date) {
   var timePassed = moment(date).fromNow();

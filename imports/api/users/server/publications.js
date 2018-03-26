@@ -93,7 +93,9 @@ import { UserData, ProfileImages } from '/imports/api/indexDB.js'
 				slug: slug
 			}, {
 				_id: slug
-			}]
+			}, {
+        username: slug
+      }]
 		}, {
 			fields: {
 				username: 1,
