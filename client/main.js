@@ -85,17 +85,12 @@ Template.registerHelper('hasUserVoted', (collection, collectionId, direction) =>
 	return _.include(appealVoted, Meteor.userId());
 });
 
-Template.registerHelper( 'profilePicture', ( size ) => {
 
-  if(Meteor.user().profilePicture){
-  if(size =="small"){
-  return _profilePictureUploadDirectoryPublic + Meteor.user().profilePicture.small;
-}else if(size =="large"){
-  return _profilePictureUploadDirectoryPublic + Meteor.user().profilePicture.large;
-}else{
-  return _profilePictureUploadDirectoryPublic + Meteor.user().profilePicture.large;
-}
-}else{
-  return '/images/noprofile.png'
-}
+Template.registerHelper('profilePicture', (pic) => {
+
+    if (pic) {
+        return _profilePictureUploadDirectoryPublic + pic
+    } else {
+        return '/images/noprofile.png'
+    }
 });

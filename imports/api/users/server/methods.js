@@ -73,8 +73,7 @@ Meteor.methods({
                     $set: {
                         email: data.email,
                         username: data.username,
-                        bio: data.bio,
-                        profilePicture: data.profilePicture
+                        bio: data.bio
                     }
                 },
                 function(error) {
@@ -113,8 +112,8 @@ Meteor.methods({
         Meteor.users.update({ _id: Meteor.userId() }, {
                 $set: {
                     profilePicture: {
-                        large: `${md5}_thumbnail.${fileExtension}`,
-                        small: `${md5}.${fileExtension}`
+                        small: `${md5}_thumbnail.${fileExtension}`,
+                        large: `${md5}.${fileExtension}`
                     }
                 }
             },
