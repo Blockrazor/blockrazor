@@ -78,7 +78,8 @@ Accounts.validateLoginAttempt(function(result){
       if  ( user.services && user.services.facebook && user.services.facebook.name ) {
           user.username = user.services.facebook.name;
           user.email = user.services.facebook.email;
-  
+
+          user.profilePicture = `https://graph.facebook.com/${user.services.facebook.id}/picture?type=small`
           user.profilePicture = `https://graph.facebook.com/${user.services.facebook.id}/picture?type=large` // default url for facebook images
       }
   
@@ -87,7 +88,9 @@ Accounts.validateLoginAttempt(function(result){
           user.username = user.services.github.username;
           user.email = user.services.github.email
   
-          user.profilePicture = `https://avatars.githubusercontent.com/u/${user.services.github.id}?s=400` // default url for github images
+          user.profilePicture.small = `https://avatars.githubusercontent.com/u/${user.services.github.id}?s=400` // default url for github images
+          user.profilePicture.large = `https://avatars.githubusercontent.com/u/${user.services.github.id}?s=400` // default url for github images
+
       }
   
       if (!user.email) {

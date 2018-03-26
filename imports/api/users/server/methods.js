@@ -68,7 +68,6 @@ Meteor.methods({
             check(data.email, String)
             check(data.bio, String)
             check(data.username, String)
-            check(data.profilePicture, String)
 
             Meteor.users.update({ _id: this.userId }, {
                     $set: {
@@ -111,20 +110,17 @@ Meteor.methods({
             return false
         }
 
-        try {
-            insert = ProfileImages.insert({
-                _id: md5,
-                createdAt: new Date().getTime(),
-                createdBy: Meteor.userId(),
-                extension: fileExtension
-            })
-        } catch(error) {
-            throw new Meteor.Error('Error.', 'That image has already been used on Blockrazor, please choose another profile image.');
-        }
-
-        if (insert !== md5) {
-            throw new Meteor.Error('Error.', 'Something is wrong, please contact help.')
-        }
+        Meteor.users.update({ _id: Meteor.userId() }, {
+                $set: {
+                    profilePicture: {
+                        large: `${md5}_thumbnail.${fileExtension}`,
+                        small: `${md5}.${fileExtension}`
+                    }
+                }
+            },
+            function(error) {
+                console.log('editProfile method failed', error)
+            });
 
         fs.writeFileSync(filename, binaryData, {
             encoding: 'binary'
