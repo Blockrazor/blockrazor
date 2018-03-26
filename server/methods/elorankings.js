@@ -96,11 +96,18 @@ Meteor.methods({
     },
     eloCount: () => {
         let currencies = Currencies.find({}).fetch()
+        let graphdata = GraphData.findOne({
+            _id: 'elodata'
+        })
 
         currencies.forEach(i => {
             let ratings = EloRankings.find({
                 currencyId: i._id
             }).count()
+
+            if (i.gitCommits || i.gitCommits === 0) { // if it has this field, the github url is valid and functional, as it can be fetched with the API (0 can still be a valid result)
+                ratings += (graphdata.eloMaxElo * 0.8) / 4 // increase the rating by 25% of the max rating if the github URL is ok
+            }
 
             Currencies.upsert({
                 _id: i._id
