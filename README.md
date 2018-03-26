@@ -2,6 +2,10 @@
 #### Absolutely _all_ information about _every_ blockchain project in a comparison tool that _anyone_ can understand.   
 
 [![Build Status](https://travis-ci.org/Blockrazor/blockrazor.svg?branch=master)](https://travis-ci.org/Blockrazor/blockrazor)   
+https://blockrazor.org builds directly from Master with every merge.  
+**Sample login credentials:**   
+moderator: frank:rodviv   
+user: simply create a new account for yourself.   
 
 <img src="https://i.imgur.com/strfbRx.png" width="800px" height="auto">
 <img src="https://i.imgur.com/BgiN7VA.png" width="800px" height="auto">       
