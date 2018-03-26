@@ -19,6 +19,10 @@ Template.userProfile.onCreated(function() {
 })
 
 Template.userProfile.helpers({
+    balance() {
+      let balance = UserData.findOne({}, { fields: { balance: 1 } }).balance
+      return Number( balance.toPrecision(3) )
+  	},
 	hashPowerUploadDirectoryPublic: () => _hashPowerUploadDirectoryPublic,
 	user: () => Template.instance().user,
 	val: val => val || '-',

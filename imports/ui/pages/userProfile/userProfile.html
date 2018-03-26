@@ -1,76 +1,84 @@
 <template name="userProfile">
-    <div class="card border-secondary mb-3 mb-3" style="min-width:300px;overflow:hidden;">
-        <div class="card-header" style="height:50px">
-            <h4 class="pull-left">
-                {{user.username}}
-            </h4>
-        </div>
-        <div class="card-body">
-            {{#if user.profilePicture}}<img src="{{user.profilePicture}}" style="width: 400px;"/><br /><br />{{/if}}
-            Full name: {{val userData.fullname}}<br />
-            Email address: {{val user.email}}<br />
-            Biography: <pre>{{val user.bio}}</pre><br />
-            Roles: {{val roles}}<br />
-        </div>
-    </div>
-    <div class="card border-secondary mb-3 mb-3" style="min-width:300px;overflow:hidden;">
-        <div class="card-header" style="height:50px">
-            <h4 class="pull-left">
-                Addedd currencies
-            </h4>
-        </div>
-        <div class="card-body">
-            {{#if subsCacheReady}}
-                {{#each currencies}}
-                    <a style="padding: 10px" href="/currency/{{slug}}">{{currencyName}}</a> 
-                {{else}}
-                    {{> empty}}
-                {{/each}}
-            {{else}}
-                {{> loading}}
-            {{/if}}
-        </div>
-    </div>
-        <div class="card border-secondary mb-3 mb-3" style="min-width:300px;overflow:hidden;">
-        <div class="card-header" style="height:50px">
-            <h4 class="pull-left">
-                My Hash Rigs
-            </h4>
-        </div>
-        <div class="card-body">
-            {{#if subsCacheReady}}
-                {{#each HashPower}}
-                    <img src="{{hashPowerUploadDirectoryPublic}}{{image}}" style="width:100px;height:100px"> 
-                {{else}}
-                    {{> empty}}
-                {{/each}}
-            {{else}}
-                {{> loading}}
-            {{/if}}
-        </div>
-    </div>
-    <div class="card border-secondary mb-3 mb-3" style="min-width:300px;overflow:hidden;">
-        <div class="card-header" style="height:50px">
-            <h4 class="pull-left">
-                Comment history
-            </h4>
-        </div>
-        <div class="card-body">
-            {{#if subsCacheReady}}
-                {{#each comments}}
-                    <div class="bigCommentBox">
-                        <div class="commentBody">
-                          <div class="commentText">{{comment}} <small class="text-muted" style="white-space:nowrap;">&#x2015;{{author}}</small>
+    <div class="container">
+        <div class="row my-2">
+            <div class="col-lg-8 order-lg-2">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" data-target="#addedCurrencies" data-toggle="tab" class="nav-link">Added Currencies</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" data-target="#hashRigs" data-toggle="tab" class="nav-link">Hash Rigs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" data-target="#edit" data-toggle="tab" class="nav-link">Edit</a>
+                    </li>
+                </ul>
+                <div class="tab-content py-4" style="background-color:#fff;padding:20px">
+                    <div class="tab-pane active" id="profile">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Email</h6>
+                                <p>
+                                    {{val user.email}}
+                                </p>
+                                <h6>Role</h6>
+                                <p>
+                                    {{val roles}}
+                                </p>
+                                <h6>About Me</h6>
+                                <p>
+                                    {{val user.bio}}
+                                </p>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="card border-secondary mb-3" style="max-width: 100%">
+                                    <div class="card-header">Recent Comments</div>
+                                    <div class="card-body">
+                                        {{#if subsCacheReady}} {{#each comments}}
+                                        <div class="bigCommentBox">
+                                            <div class="commentBody">
+                                                <div class="commentText">{{comment}} <small class="text-muted" style="white-space:nowrap;"> {{author}} </small>
+                                                </div>
+                                            </div>
+                                            <div class="commentFooter">
+                                                <div class="pull-left"> 
+
+                                                <span class="badge badge-primary text-white" style="margin-right:10px;">Posted in <a class="text-white" href="/currency/{{commentMeta.currencySlug}}"> {{commentMeta.currency}} </a> </span>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        {{else}} {{> empty}} {{/each}} {{else}} {{> loading}} {{/if}}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        </div>
-                          <div class="commentFooter"><div class="pull-left">Posted in <a href="/currency/{{commentMeta.currencySlug}}">{{commentMeta.currency}}</a></div></div>
                     </div>
-                {{else}}
-                    {{> empty}}
-                {{/each}}
-            {{else}}
-                {{> loading}}
-            {{/if}}
+                    <div class="tab-pane" id="addedCurrencies">
+                        {{#if subsCacheReady}} {{#each currencies}}
+                        <a style="padding: 10px" href="/currency/{{slug}}">{{currencyName}}</a> {{else}} {{> empty}} {{/each}} {{else}} {{> loading}} {{/if}}
+                    </div>
+                    <div class="tab-pane" id="hashRigs">
+                        {{#if subsCacheReady}} {{#each HashPower}}
+                        <img src="{{hashPowerUploadDirectoryPublic}}{{image}}" style="width:100px;height:100px"> {{else}} {{> empty}} {{/each}} {{else}} {{> loading}} {{/if}}
+                    </div>
+                    <div class="tab-pane" id="edit" style="background-color:#fff">
+                        {{>editProfile}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 order-lg-1 text-center">
+                <div class="card bg-primary text-white mb-3" style="max-width: 100%">
+                    <div class="card-header">{{profileExistuser.username}}</div>
+                    <div class="card-body">
+                        <img src="{{user.profilePicture}}" class="mx-auto img-fluid img-circle d-block" alt="your avatar profile" style="width: 200px;" /><br />
+                        <a href="/wallet" class="btn btn-secondary">{{balance}} KZR</a>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
