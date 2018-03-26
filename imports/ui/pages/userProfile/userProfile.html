@@ -33,21 +33,19 @@
                                     {{val user.bio}}
                                 </p>
                             </div>
-                            <div class="col-md-12">
+    <div class="col-md-12">
                                 <div class="card border-secondary mb-3" style="max-width: 100%">
                                     <div class="card-header">Recent Comments</div>
                                     <div class="card-body">
                                         {{#if subsCacheReady}} {{#each comments}}
                                         <div class="bigCommentBox">
                                             <div class="commentBody">
-                                                <div class="commentText">{{comment}} <small class="text-muted" style="white-space:nowrap;"> {{author}} </small>
-                                                </div>
-                                            </div>
-                                            <div class="commentFooter">
-                                                <div class="pull-left"> 
+                                                <div class="commentText">
+                                                    <small class="pull-right">{{relativeTime createdAt}}</small>
+                                                    <span class="badge badge-primary text-white" style="margin-right:10px;">Posted in <a class="text-white" href="/currency/{{commentMeta.currencySlug}}"> {{commentMeta.currency}} </a> </span><br />
 
-                                                <span class="badge badge-primary text-white" style="margin-right:10px;">Posted in <a class="text-white" href="/currency/{{commentMeta.currencySlug}}"> {{commentMeta.currency}} </a> </span>
-                                            </div>
+                                                <small>{{comment}}</small><br /><br />
+                                                </div>
                                             </div>
                                         </div>
                                         {{else}} {{> empty}} {{/each}} {{else}} {{> loading}} {{/if}}
