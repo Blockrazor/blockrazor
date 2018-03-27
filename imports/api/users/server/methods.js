@@ -1,8 +1,70 @@
 import { check } from 'meteor/check'
-import { ProfileImages, UserData } from '/imports/api/indexDB.js'
-
+import { ProfileImages, UserData, Wallet } from '/imports/api/indexDB.js'
+import { creditUserWith } from '/imports/api/utilities.js'
 
 Meteor.methods({
+    generateInviteCode: () => { // for backwards compability
+      Meteor.users.find({
+        inviteCode: {
+          $exists: false
+        }
+      }).fetch().forEach(i => {
+        Meteor.users.update({
+          _id: i._id
+        }, {
+          $set: {
+            inviteCode: Random.id(20)
+          }
+        })
+      })
+    },
+    setReferral: (inviteCode) => {
+      let invitedBy = Meteor.users.findOne({
+        inviteCode: inviteCode
+      })
+
+      if (invitedBy && invitedBy._id !== Meteor.userId()) { // you can't invite yourself, duh
+        Meteor.users.update({
+          _id: Meteor.userId(),
+          invitedBy: {
+            $exists: false // can't update if user already has a referral
+          }
+        }, {
+          $set: {
+            referral: {
+              invitedBy: invitedBy._id
+            }
+          }
+        })
+      }
+    },
+    rewardReferral: () => {
+      Meteor.users.find({}).fetch().forEach(i => {
+        let invited = Meteor.users.find({
+          'referral.invitedBy': i._id
+        }).fetch()
+
+        if (invited.length) {
+          let last24h = new Date().getTime() - 86400000 // last 24 hours
+
+          let earnedToday = invited.reduce((i1, i2) => { // sum everything referrals have earned in the last 24hours
+            let val = Wallet.find({
+              rewardType: {
+                $ne: 'referral'
+              },
+              owner: i2._id,
+              time: {
+                $gt: last24h
+              }
+            }).fetch().reduce((j1, j2) => j1 + j2.amount, 0)
+
+            return i1 + val
+          }, 0)
+
+          creditUserWith(earnedToday * 0.05, i._id, 'inviting other users to Blockrazor.', 'referral') // reward with 5% of all
+        }
+      })
+    },
     initializeUser: function() {
         if (_.size(UserData.findOne({_id: this.userId})) == 0) {
           let u = UserData.find({

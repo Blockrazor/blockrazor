@@ -90,8 +90,9 @@ Accounts.validateLoginAttempt(function(result){
   
           user.profilePicture.small = `https://avatars.githubusercontent.com/u/${user.services.github.id}?s=400` // default url for github images
           user.profilePicture.large = `https://avatars.githubusercontent.com/u/${user.services.github.id}?s=400` // default url for github images
-
       }
+
+      user.inviteCode = Random.id(20)
   
       if (!user.email) {
         user.email = user.emails[0].address
@@ -140,3 +141,13 @@ Accounts.validateLoginAttempt(function(result){
   
       return ( user );
   })
+
+Meteor.startup(() => {
+    Meteor.call('generateInviteCode', (err, data) => {})
+
+    SyncedCron.add({
+        name: 'Reward referral programme',
+        schedule: (parser) => parser.cron('0 12 * * *'), // every day at 12pm
+        job: () => Meteor.call('rewardReferral', (err, data) => {}) // drain rate is 0.01 KZR per minute
+    })
+})

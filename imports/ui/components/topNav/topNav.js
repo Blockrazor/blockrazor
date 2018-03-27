@@ -7,10 +7,15 @@ import '../global/globalHelpers'
 Template.topNav.events({
   'click #js-logout': (event, templateInstance) => {
     Meteor.logout()
+  },
+  'click #js-copyUrl': (event, templateInstance) => {
+    event.preventDefault()
+    $('#js-copyUrl').select()
   }
 });
 
 Template.topNav.helpers({
+    shareUrl: () => `${window.location.href}#${(Meteor.users.findOne({_id: Meteor.userId()}) || {}).inviteCode}`,
     activityNotifications() {
         return ActivityLog.find({ owner: Meteor.userId(), type: "message", read: { $ne: true } }).count();
     },

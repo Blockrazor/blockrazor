@@ -4,6 +4,8 @@ import { UserData, Features, Summaries, Redflags } from '/imports/api/indexDB.js
 
 const collections = { Features, Summaries, Redflags }
 
+import Cookies from 'js-cookie'
+
 Accounts.ui.config({
   passwordSignupFields: 'USERNAME_ONLY',
 });
@@ -137,4 +139,36 @@ Template.registerHelper('transactionTypes', (transaction) => {
             break;
     }
   }
-});
+})
+
+if (window.location.hash) {
+    if (!Meteor.userId()) { // if user is not logged in, save the token for later usage, e.g. when the user registers
+        if (localStorage) {
+            localStorage.setItem('inviteToken', window.location.hash.substr(1))
+        } else { // fallback to Cookies as some devices do not support localstorage
+            Cookies.set('inviteToken', window.location.hash.substr(1))
+        }
+    }
+
+    window.location.hash = '' // remove the hash
+}
+
+Tracker.autorun(() => {
+    let token = (localStorage && localStorage.getItem('inviteToken')) || Cookies.get('inviteToken')
+
+    if (token && Meteor.userId()) {
+        let user = Meteor.users.findOne({
+            _id: Meteor.userId()
+        })
+
+        if (user && !user.referral) { // user is not referred by anyone and he has a token in the local storage
+            Meteor.call('setReferral', token, (err, data) => {
+                if (localStorage) {
+                    localStorage.setItem('inviteToken', '')
+                } else {
+                    Cookies.set('inviteToken', '')
+                }
+            })
+        }
+    }
+})

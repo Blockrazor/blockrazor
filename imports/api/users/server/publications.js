@@ -82,7 +82,9 @@ import { UserData, ProfileImages } from '/imports/api/indexDB.js'
 				email: 1,
 				bio: 1,
 				slug: 1,
-				profilePicture: 1
+				profilePicture: 1,
+        referral: 1,
+        inviteCode: 1
 			}
 		})
 	})
