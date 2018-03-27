@@ -1,66 +1,90 @@
 <template name="addHashpower">
-	{{#if activeBounty}}
+<!-- 	 -->
+		<div class="card">
+  <div class="card-body">
+    <h4 class="card-title">Add Hash Power Data</h4>
+
+<!--     <div class="form-group row">
+      <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="staticEmail" value="email@example.com">
+      </div>
+    </div> -->
+    {{#if activeBounty}}
 	<div class="alert alert-danger" role="alert">
 	<h5 class="text-center">{{timeRemaining}}</h5></div>
 	{{/if}}
-	<h3>Add hash power data</h3>
+	<label for="js-add-haspower">Hardware Category</label>
 	<form id="js-add-haspower">
-		Hardware category: <select id="js-hw-cat">
+		 <select id="js-hw-cat" class="form-control" style="width:40%">
 			<option value="ASIC">ASIC</option>
 			<option value="GPU">GPU</option>
 			<option value="CPU">CPU</option>
 		</select><br />
 		{{#if hwDevices.length}}
-		Hardware device: <select id="js-hw-dev">
+		<label for="js-hw-dev">Hardware Device</label> <select id="js-hw-dev" class="form-control" style="width:40%">
 			{{#each hwDevices}}
 			<option value="{{_id}}">{{name}}</option>
 			{{/each}}
-		</select><br />
-		Your device is not on the list? <a href="#" id="js-add-hw">Add it</a>.<br />
+		</select>
+		<small>Your device is not on the list? <a href="#" id="js-add-hw">Add it.</a></small><br />
 		<div style="display: {{addHw}}">
-			Device name: <input type="text" id="js-hw-new" />
+			<label for="js-hw-new">Device Name</label> <input type="text" id="js-hw-new" class="form-control" style="width:40%"/>
 		</div>
 		{{else}}
-			Hardware device: <input type="text" id="js-hw-new" /><br />
+			<label id="js-hw-new">Hardware Device</label> <input type="text" id="js-hw-new" class="form-control" style="width:40%"/><br />
 		{{/if}}
+		<br />
 		{{#if hwAlgo.length}}
-		Algorithm: <select id="js-algo">
+		<label for="js-algo">Algorithm</label> <select id="js-algo" class="form-control" style="width:40%">
 			{{#each hwAlgo}}
 			<option value="{{_id}}">{{name}}</option>
 			{{/each}}
-		</select><br />
-		Your algorithm is not on the list? <a href="#" id="js-add-algo">Add it</a>.<br />
+		</select>
+		<small>Your algorithm is not on the list? <a href="#" id="js-add-algo">Add it</a>.</small><br /><br />
 		<div style="display: {{addAlgo}}">
-			Algorithm name: <input type="text" id="js-algo-new" />
+			<label for="js-algo-new">Algorithm Name</label><input type="text" id="js-algo-new" class="form-control" style="width:40%"/>
 		</div>
 		{{else}}
-			Algorithm: <input type="text" id="js-algo-new" /><br />
+			<label for="js-algo-new">Algorithm</label> <input type="text" id="js-algo-new" class="form-control" style="width:40%"/><br />
 		{{/if}}
-		Hash rate *: <input type="number" min="0" id="js-hr" required/>
+
 		{{#if units.length}}
-		<select id="js-unit">
+<label for="js-hr">Hash Rate *</label>
+				<div class="input-group" style="width:40%">
+					
+		<input type="number" min="0" id="js-hr" class="form-control" required/>
+		<select id="js-unit" class="form-control" style="width:10px">
 			{{#each units}}
 			<option value="{{_id}}">{{name}}</option>
 			{{/each}}
-		</select><br />
-		Unit not on the list? <a href="#" id="js-add-unit">Add it</a>.<br />
+		</select>
+	</div>
+		<small>Unit not on the list? <a href="#" id="js-add-unit">Add it</a>.</small><br />
 		<div style="display: {{addUnit}}">
-			Unit name: <input type="text" style="width: 40px" id="js-unit-new" /><br />
+			<label for="js-unit-new">Unit Name</label> <input type="text" style="width: 40%" id="js-unit-new" class="form-control"/><br />
 		</div>
 		{{else}}
-			<input type="text" id="js-unit-new" style="width: 40px" /><br />
+			<input type="text" id="js-unit-new" style="width: 40%" class="form-control"/><br />
 		{{/if}}
-		Power consumption *: <input type="number" min="0" id="js-pc" name="js-pc" required/> Watts<br />
-		Mining rig image (as a proof) *: 
+		<br />
+		<label for="js-pc">Power Consumption</label> <input type="number" min="0" id="js-pc" name="js-pc" class="form-control" style="width:40%" placeholder="Metric in Watts" required/><br />
+		
+
 
     <label id="uploadLabel" class="btn btn-primary" for="imageInput">
-        <input id="imageInput" name="imageInput" type="file" style="display:none" onchange="$('#fileInfo').html(this.files[0].name)" class="required" accept="image/*"> <span class="uploadText">UPLOAD</span>
+        <input id="imageInput" name="imageInput" type="file" style="display:none;" onchange="$('#fileInfo').html(this.files[0].name)" class="required" accept="image/*"> <span class="uploadText">UPLOAD</span>
     </label>
+    <br />
+    <small>Mining rig image (as a proof) *</small><br />
 
     <span class='label label-info fileInfo' id="fileInfo"></span>
 
 		<input type='hidden' id='js-image'><br />
 
 		<button type="submit" id="js-add" class="btn btn-primary">Add!</button> <button id="js-cancel" class="btn btn-secondary">Cancel</button>
+
 	</form>
+  </div>
+</div>
 </template>
