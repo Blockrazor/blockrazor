@@ -221,7 +221,8 @@ Meteor.methods({
 				time: 1,
 				owner: 1,
 				from: 1,
-				amount: 1
+				amount: 1,
+				rewardType:1
 			},
 			skip: (page - 1) * 10,
 			limit: 10 // show 10 transactions per page
