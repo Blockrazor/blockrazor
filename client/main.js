@@ -100,7 +100,7 @@ Template.registerHelper('profilePicture', (pic) => {
 Template.registerHelper('significant', (val) => {
     if (val) {
         var val = parseInt(val);
-        return Number(val.toPrecision(3));
+        return Number(val.toPrecision(5));
     }else{
       return 0;
     }
