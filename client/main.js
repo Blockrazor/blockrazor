@@ -98,3 +98,12 @@ Template.registerHelper('profilePicture', (pic) => {
         return '/images/noprofile.png'
     }
 });
+
+Template.registerHelper('significant', (val) => {
+    if (val) {
+        var val = parseInt(val);
+        return Number(val.toPrecision(3));
+    }else{
+      return 0;
+    }
+});

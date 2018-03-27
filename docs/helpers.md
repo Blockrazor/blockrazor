@@ -1,5 +1,10 @@
 #Global Helpers#
 
+######Significant Numbers
+Turns '449.02' to '449'
+
+{{significant var}}
+
 ######Relative Time
 Turns '1518905233736.0' into '5 mins ago'
 
