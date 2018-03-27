@@ -40,21 +40,46 @@ Meteor.methods({
       if(data.length > 140 || data.length < 6) {
         throw new Meteor.Error('Error', 'That name is too long or too short.')
       }
-    Redflags.insert({
-      currencyId: coinId,
-      name: data,
-      appeal: 2,
-      appealNumber: 2,
-      appealVoted: [this.userId],
-      flags: 0,
-      flagRatio: 0,
-      flaggedBy: [],
-      commenters: [],
-      createdAt: Date.now(),
-      author: Meteor.user().username,
-      createdBy: this.userId,
-      rating: 1
-    })
+
+      let added = Redflags.find({
+        createdBy: this.userId,
+        currencyId: coinId
+      }).count()
+
+      let canAdd = true
+
+      if (added > 10) { // if the user has added more than 10 items
+        let last = Redflags.findOne({
+          createdBy: this.userId,
+          currencyId: coinId
+        }, {
+          sort: {
+          createdAt: -1
+        }
+      })
+
+      canAdd = !(last && new Date(last.createdAt).getTime() > (new Date().getTime() - 259200000)) // 3 days have to pass between adding new if the user has added more than 10 redflags
+    }
+
+    if (canAdd) {
+      Redflags.insert({
+        currencyId: coinId,
+        name: data,
+        appeal: 2,
+        appealNumber: 2,
+        appealVoted: [this.userId],
+        flags: 0,
+        flagRatio: 0,
+        flaggedBy: [],
+        commenters: [],
+        createdAt: Date.now(),
+        author: Meteor.user().username,
+        createdBy: this.userId,
+        rating: 1
+      })
+    } else {
+      throw new Meteor.Error('Error.', 'You have to wait until you can post another red flag.')
+    }
 
   } else {throw new Meteor.Error('Error', 'You must be signed in to add a new red flag')}
 },
