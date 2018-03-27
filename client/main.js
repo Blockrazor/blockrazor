@@ -97,6 +97,14 @@ Template.registerHelper('profilePicture', (pic) => {
 });
 
 
+Template.registerHelper('significant', (val) => {
+    if (val) {
+        var val = parseInt(val);
+        return Number(val.toPrecision(3));
+    }else{
+      return 0;
+    }
+
 Template.registerHelper('transactionTypes', (transaction) => {
 
   if(!_validTransactionTypes.includes(transaction)){
@@ -125,7 +133,6 @@ Template.registerHelper('transactionTypes', (transaction) => {
         case 'anwserQuestion':
             return 'Question Reward'
             break;
-
     }
   }
 });
