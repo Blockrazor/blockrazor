@@ -18,6 +18,14 @@
             <a class="dropdown-item" href="#" id="js-logout">Logout</a>
           </div>
       </div>
+      <div class="dropdown show">
+        <a href="#" title="Share" class="btn dropdown-toggle text-white" style="margin-left: -50px;
+    width: 10px;/*this needs fixing*/" data-toggle="dropdown" id="js-shareUrl"><i class="fa fa-share-alt text-white"></i></a>
+        <div class="dropdown-menu">
+          Share with friends and earn 5% of KZR they earn every day.
+            <input class="dropdown-item" type="text" style="width: 300px;" id="js-copyUrl" value="{{shareUrl}}" />
+        </div>
+      </div>
       <div class="notifications">
 		<a href="{{bountyUrl activeBounties}}" title="bounty">
 			<i class="fa fa-dot-circle-o text-white" style="font-size: 19px"></i>
