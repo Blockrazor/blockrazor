@@ -105,6 +105,8 @@ Template.registerHelper('significant', (val) => {
       return 0;
     }
 
+});
+
 Template.registerHelper('transactionTypes', (transaction) => {
 
   if(!_validTransactionTypes.includes(transaction)){
