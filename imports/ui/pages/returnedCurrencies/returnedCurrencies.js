@@ -118,7 +118,8 @@ Template.returnedCurrencies.helpers({
                 featured: 1,
                 premine: 1,
                 cpc: 1,
-                cpt: 1  
+                cpt: 1,
+                price: 1
               }
              });
 
