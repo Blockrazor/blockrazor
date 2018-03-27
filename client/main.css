@@ -35,7 +35,7 @@ select {
 }
 
 .pointer:hover {
-    cursor: pointer;
+    cursor: pointer !important;
 }
 .not-allowed { 
 cursor: not-allowed;
@@ -93,4 +93,8 @@ body .modal-dialog {
 
 .modal-lg {
     max-width: 90% !important;
+}
+
+.upper{
+   text-transform:uppercase !important
 }

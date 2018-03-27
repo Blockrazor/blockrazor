@@ -2,38 +2,45 @@
   {{> sAlert}}
   <div class="row">
     <div class="col-sm-12">
-      <div class="card card-header d-flex align-items-center flex-row">
+      <div class="card">
+      <div class="card-body">
         <div class="name" style="width: 100%">
-          <h4 id="header">{{problemNR.header}}</h4>
+          <span class="upper pull-left badge badge-primary" style="margin-right:20px;text-transform:uppercase;">{{problemNR.type}}</span> 
+          <h4 id="header" style="width:40%;cursor: pointer;">{{problemNR.header}}</h4>
           {{#with problem}}
-          <span>{{type}}{{#unless question}} {{amount}} KZR{{/unless}}</span>
-          {{#if canCancel}}<a href="#" class="pull-right" id="js-cancel">Cancel</a>{{/if}}
+          <span style="width:30%;cursor: pointer;">{{#unless question}} {{amount}} KZR{{/unless}}</span>
+          {{#if canCancel}}<a href="#" class="pull-right btn btn-danger" id="js-cancel">Cancel</a>{{/if}}
           {{/with}}
         </div>
       </div>
     </div>
+    <br />
+    </div>
     <div class="col-sm-12">
-      <div class="basic-details">
-        <div class="card border-secondary mb-3 mb-3" style="min-width:100px;overflow:hidden;">
+      <div class="card bg-secondary mb-3">
+        <div class="card" style="min-width:100px;overflow:hidden;">
+  
           <div class="card-body">
-          <p style="white-space: pre-wrap" id="text">{{problemNR.text}}</p>
-          <br />
           {{#with problem}}
           <div>
             {{#if closed}}
-            <span class="pull-right" style="color: red;">CLOSED</span>
+            <span class="pull-left" style="color: red;">CLOSED</span>
             {{else if cancelled}}
-            <span class="pull-right" style="color: red;">CANCELLED</span>
+            <span class="pull-left" style="color: red;">CANCELLED</span>
             {{else if solved}}
-            <span class="pull-right" style="color: orange;">SOLVED</span>
+            <span class="pull-left badge badge-warning">SOLVED</span>
             {{else if locked}}
-            <span class="pull-right" style="color: orange;">IN PROGRESS</span>
+            <span class="pull-left badge badge-warning">IN PROGRESS</span>
             {{else if open}}
-            <span class="pull-right" style="color: green;">OPEN</span>
+            <span class="pull-left badge badge-success">OPEN</span>
             {{/if}}
           </div>
           {{/with}}
+          <br />
+                     <p style="white-space: pre-wrap" id="text">{{problemNR.text}}</p>
+
           </div>
+          
         </div>
       </div>
     </div>
@@ -41,13 +48,15 @@
   {{#unless question}}
   <div class="row">
     <div class="col-sm-12">
-      <div class="card border-secondary mb-3 mb-3" style="min-width:100px;overflow:hidden;">
+      <div class="card bg-secondary mb-3 mb-3" style="min-width:100px;overflow:hidden;">
+
           <div class="card-body">
-            <div>Add credit to bounty: <input placeholder="100" style="width: 50%; z-index: auto; position: relative; line-height: 21px; font-size: 14px; transition: none; background: transparent !important;" type="number" step="0.01" min="0" id="js-credit" /> <span><b style="color: green">{{fixed balance}}</b> KZR</span></div>
+            <div><lable for="js-credit">Add credit to bounty</lable>
+              <input class="form-control" placeholder="100" type="number" step="0.01" min="0" id="js-credit" style="width:70%"/><br /><small><b style="color: green">{{fixed balance}}</b> KZR</small></div>
             <button class="btn btn-primary m-2" id="js-addCredit">
                 Add credit
             </button>
-            <button class="btn btn-primary m-2" id="js-removeCredit">
+            <button class="btn btn-secondary m-2" id="js-removeCredit">
                 Remove all credit
             </button>
           </div>
@@ -57,12 +66,13 @@
   <div class="row">
     <div class="col-sm-12">
       <div class="card card-header d-flex align-items-center flex-row">
+
         <div class="name"><h4>{{#if problem.solved}}Solved by {{user}}{{else if isTaken}}Currently taken by {{user}}{{else}}Not taken by anyone{{/if}}</h4></div>
       </div>
     </div>
     <div class="col-sm-12">
       <div class="basic-details">
-        <div class="card border-secondary mb-3 mb-3" style="min-width:100px;overflow:hidden;">
+        <div class="card bg-secondary mb-3" style="min-width:100px;overflow:hidden;">
           <div class="card-body">
           {{#if isTaken}}
           {{#with problem}}
@@ -84,8 +94,10 @@
           {{else}}
           {{#if canTake}}
           {{#if takeable}}
-          <div>GitHub fork: <input placeholder="https://github.com/test/blockrazor" style="width: 100%; z-index: auto; position: relative; line-height: 21px; font-size: 14px; transition: none; background: transparent !important;" type="text" id="js-fork" /></div>
-          <div>Issue: <input placeholder="https://github.com/test/blockrazor/issues/580" style="width: 100%; z-index: auto; position: relative; line-height: 21px; font-size: 14px; transition: none; background: transparent !important;" type="text" id="js-issue" /></div>
+          <div><label for="js-fork">GitHub Fork</label> <input class="form-control" placeholder="https://github.com/test/blockrazor" type="text" id="js-fork" /></div>
+          <div>
+            <br />
+          <label for="js-issue">Issue</label> <input placeholder="https://github.com/test/blockrazor/issues/580" class="form-control" type="text" id="js-issue" /></div>
           <button class="btn btn-primary m-2" id="js-take">
               Take it
           </button>

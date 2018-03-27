@@ -1,6 +1,7 @@
 import { Template } from 'meteor/templating'
 import { UserData, Problems } from '/imports/api/indexDB'
 import { FlowRouter } from 'meteor/staringatlights:flow-router'
+import swal from 'sweetalert'
 
 import './problem.html'
 import './problemImages'
@@ -166,6 +167,11 @@ Template.problem.events({
 	'click #js-take': (event, templateInstance) => {
 		event.preventDefault()
 
+		if($('#js-fork').val()=="" || $('#js-issue').val() ==""){
+				sAlert.error('Please ensure both fields are populated')
+
+		}else{
+
 		Meteor.call('takeProblem', FlowRouter.getParam('id'), {
 			fork: $('#js-fork').val(),
 			issue: $('#js-issue').val()
@@ -176,5 +182,6 @@ Template.problem.events({
 				sAlert.error(err.reasom)
 			}
 		})
+	}
 	}
 })
