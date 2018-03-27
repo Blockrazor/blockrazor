@@ -110,7 +110,7 @@ Template.registerHelper('significant', (val) => {
 Template.registerHelper('transactionTypes', (transaction) => {
 
   if(!_validTransactionTypes.includes(transaction)){
-    throw new Meteor.Error('error', 'Invalid Transaction Type Used')
+    return ' - ';
   }else{
 
     switch (transaction) {
