@@ -27,13 +27,16 @@
 </div>
 
 	{{#each problems}}
+    
 		<div class="card padBottom hoverCard">
+            <a href="/problem/{{_id}}">
 			<div class="card-header"><span class="badge badge-primary">{{newType type}}</span>
-				<a href="/problem/{{_id}}">{{header}}</a>
+{{header}}
 				<h5 class="float-right my-4 my-sm-0">
 					<span class="mr-2" style="color: {{statusColor status}}">{{status}}</span>
 				</h5>
 			</div>
+            </a>
 			<div class="card-body">
 				<p class="card-text"> {{{nlToBr text }}}</p>
 				<div class="pull-left">
@@ -45,6 +48,7 @@
 
 			</div>
 		</div>
+        <br />
 	{{/each}}
 
 <br />
