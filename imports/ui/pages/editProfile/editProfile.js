@@ -21,7 +21,7 @@ Template.editProfile.events({
             if (err) {
                 console.log('error editing profile', err)
             } else {
-                FlowRouter.go('/');
+                FlowRouter.go('/profile');
             }
         })
     },
