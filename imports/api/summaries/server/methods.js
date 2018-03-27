@@ -45,22 +45,46 @@ Meteor.methods({
                 throw new Meteor.Error('Error', 'That name is too long or too short.')
             }
 
-            Summaries.insert({
-                currencyId: coinId,
-                currencySlug: (Currencies.findOne({
-                    _id: coinId
-                }) || {}).slug,
-                summary: summary,
-                appeal: 2,
-                appealNumber: 2,
-                appealVoted: [this.userId],
-                createdAt: Date.now(),
-                author: Meteor.users.findOne({
-                    _id: this.userId
-                }).username,
+            let added = Summaries.find({
                 createdBy: this.userId,
-                rating: 1
-          })
+                currencyId: coinId
+            }).count()
+
+            let canAdd = true
+
+            if (added > 10) { // if the user has added more than 10 items
+                let last = Summaries.findOne({
+                    createdBy: this.userId,
+                    currencyId: coinId
+                }, {
+                    sort: {
+                        createdAt: -1
+                    }
+                })
+
+                canAdd = !(last && new Date(last.createdAt).getTime() > (new Date().getTime() - 259200000)) // 3 days have to pass between adding new if the user has added more than 10 summaries
+            }
+
+            if (canAdd) {
+                Summaries.insert({
+                    currencyId: coinId,
+                    currencySlug: (Currencies.findOne({
+                        _id: coinId
+                    }) || {}).slug,
+                    summary: summary,
+                    appeal: 2,
+                    appealNumber: 2,
+                    appealVoted: [this.userId],
+                    createdAt: Date.now(),
+                    author: Meteor.users.findOne({
+                        _id: this.userId
+                    }).username,
+                    createdBy: this.userId,
+                    rating: 1
+                })
+            } else {
+                throw new Meteor.Error('Error.', 'You have to wait until you can post another summary.')
+            }
         } else {
             throw new Meteor.Error('Error', 'You must be signed in to add a new summary')
         }

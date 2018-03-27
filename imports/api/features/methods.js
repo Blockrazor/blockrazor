@@ -46,22 +46,47 @@ Meteor.methods({
       if(featureName.length > 140 || featureName.length < 6) {
         throw new Meteor.Error('Error', 'That name is too long or too short.')
       }
-    Features.insert({
-      currencyId: coinId,
-      currencySlug: (Currencies.findOne({ _id: coinId }) || {}).slug,
-      featureName: featureName,
-      appeal: 2,
-      appealNumber: 2,
-      appealVoted: [this.userId],
-      flags: 0,
-      flagRatio: 0,
-      flaggedBy: [],
-      commenters: [],
-      createdAt: Date.now(),
-      author: Meteor.user().username,
+
+    let added = Features.find({
       createdBy: this.userId,
-      rating: 1
-    })
+      currencyId: coinId
+    }).count()
+
+    let canAdd = true
+
+    if (added > 10) { // if the user has added more than 10 items
+      let last = Features.findOne({
+        createdBy: this.userId,
+        currencyId: coinId
+      }, {
+        sort: {
+          createdAt: -1
+        }
+      })
+
+      canAdd = !(last && new Date(last.createdAt).getTime() > (new Date().getTime() - 259200000)) // 3 days have to pass between adding new if the user has added more than 10 features
+    }
+
+    if (canAdd) {
+      Features.insert({
+        currencyId: coinId,
+        currencySlug: (Currencies.findOne({ _id: coinId }) || {}).slug,
+        featureName: featureName,
+        appeal: 2,
+        appealNumber: 2,
+        appealVoted: [this.userId],
+        flags: 0,
+        flagRatio: 0,
+        flaggedBy: [],
+        commenters: [],
+        createdAt: Date.now(),
+        author: Meteor.user().username,
+        createdBy: this.userId,
+        rating: 1
+      })
+    } else {
+      throw new Meteor.Error('Error.', 'You have to wait until you can post another feature.')
+    }
 
   } else {throw new Meteor.Error('Error', 'You must be signed in to add a new feature')}
 },

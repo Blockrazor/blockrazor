@@ -112,10 +112,14 @@ Template.summaries.events({
             sAlert.error('That entry is too short, or too long.')
         } else {
             Meteor.call('newSummary', this._id, data, (err, data) => {
-                $('#summary').val('')
-                $('#addNewSummary').collapse('hide');
-                
-                sAlert.success('Thanks! Your summary has been successfully added!')
+                if (!err) {
+                    $('#summary').val('')
+                    $('#addNewSummary').collapse('hide');
+                    
+                    sAlert.success('Thanks! Your summary has been successfully added!')
+                } else {
+                    sAlert.error(err.reason)
+                }
             })
         }
     },
