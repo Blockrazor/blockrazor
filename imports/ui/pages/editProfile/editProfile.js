@@ -48,6 +48,13 @@ Template.editProfile.events({
             uploadError = true
         }
 
+        if(file){
+        $('#uploadLabel').removeClass('btn-success');
+        $('#uploadLabel').addClass('btn-primary');
+        $("button").attr("disabled", "disabled"); //disable all buttons
+        $(".uploadText").html("<i class='fa fa-circle-o-notch fa-spin'></i> Uploading"); //show upload progress
+
+
         //Only upload if above validation are true
         if (!uploadError) {
             let reader = new FileReader()
@@ -56,16 +63,24 @@ Template.editProfile.events({
                 let md5 = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(binary)).toString()
                 
                 Meteor.call('uploadProfilePicture', file.name, reader.result, md5, (error, result) => {
-                    if (error) {
-                        sAlert.error(error.message)
-                    } else {
-                        sAlert.success('Upload success')
-                        $('#js-profilePic').attr('src', `${_profilePictureUploadDirectoryPublic}${md5}_thumbnail.${fileExtension}`)
+                                        if (error) {
+                        sAlert.error(error.message);
+                        $('#uploadLabel').removeClass('btn-success');
+                        $('#uploadLabel').addClass('btn-primary');
+                        $(".uploadText").html("Upload");
+                    } else {                        
+                        $('#js-image').val(`${md5}.${fileExtension}`)
+                    $("button").attr("disabled", false); //enable all buttons
+                    $('#uploadLabel').addClass('btn-success');
+                    $(".uploadText").html("Change"); //update button text now upload is complete
+                    $('#profilePicture').attr('src', `${_profilePictureUploadDirectoryPublic}${md5}_thumbnail.${fileExtension}`)
+
                     }
                 })
            }
            reader.readAsBinaryString(file)
         }
+    }
     }
 });
 
