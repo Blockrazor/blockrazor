@@ -65,10 +65,7 @@ Template.registerHelper('slugify', function(author) {
     return (Meteor.users.findOne({
         username: author
     }) || {}).slug
-  /*var author = author.toLowerCase()
-  let slug = author.replace(/'/g, '').replace(/[^0-9a-z-]/g, '-').replace(/\-\-+/g, '-').replace(/^-+/, '').replace(/-+$/, '');
 
-  return slug;*/
 })
 
 Template.registerHelper('relativeTime', function(date) {
@@ -99,6 +96,7 @@ Template.registerHelper('profilePicture', (pic) => {
     }
 });
 
+
 Template.registerHelper('significant', (val) => {
     if (val) {
         var val = parseInt(val);
@@ -106,4 +104,35 @@ Template.registerHelper('significant', (val) => {
     }else{
       return 0;
     }
+
+Template.registerHelper('transactionTypes', (transaction) => {
+
+  if(!_validTransactionTypes.includes(transaction)){
+    throw new Meteor.Error('error', 'Invalid Transaction Type Used')
+  }else{
+
+    switch (transaction) {
+        case 'topCommentReward':
+            return 'Top Comment Reward'
+            break;
+        case 'hashReward':
+            return 'Hash Reward'
+            break;
+        case 'bountyReward':
+            return 'Bounty Reward'
+            break;
+        case 'problemReward':
+            return 'Problem Reward'
+            break;
+        case 'createCoinReward':
+            return 'Create Coin Reward'
+            break;
+        case 'cheating':
+            return 'Cheating Penalty'
+            break;
+        case 'anwserQuestion':
+            return 'Question Reward'
+            break;
+    }
+  }
 });
