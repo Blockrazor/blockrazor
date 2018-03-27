@@ -62,7 +62,14 @@
                     </div>
                     <div class="tab-pane" id="hashRigs">
                         {{#if subsCacheReady}} {{#each HashPower}}
-                        <img src="{{hashPowerUploadDirectoryPublic}}{{image}}" style="width:100px;height:100px"> {{else}} {{> empty}} {{/each}} {{else}} {{> loading}} {{/if}}
+                        <img src="{{hashPowerUploadDirectoryPublic}}{{HashPowerImageThumb image}}" style="width:100px;height:100px" class="hashRigImage">
+
+
+
+
+                         {{else}} {{> empty}} {{/each}} {{else}} {{> loading}} {{/if}}
+
+                         {{> modal}}
                     </div>
                     <div class="tab-pane" id="edit" style="background-color:#fff">
                         {{>editProfile}}

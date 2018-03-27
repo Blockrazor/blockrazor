@@ -18,6 +18,20 @@ Template.userProfile.onCreated(function() {
 	})
 })
 
+Template.userProfile.events({
+    'click .hashRigImage': function(event) {
+
+    	//open modal
+        $('.imageModal').modal('show');
+
+        //get large image filename
+	    let largeImage = event.target.src.replace('_thumbnail','');
+	    $(".imageModalSrc").attr("src",largeImage);
+
+    }
+
+});
+
 Template.userProfile.helpers({
 		isYourPage() {
 		    if (FlowRouter.getParam('slug') == Meteor.user().slug) {
@@ -60,23 +74,28 @@ Template.userProfile.helpers({
 		 
 	},
 	currencies: () => {
-		return Currencies.find({
-			owner: (Template.instance().user || {})._id
-		}).fetch()
-	},
-	comments: () => {
-		return Features.find({
-			comment: {
-	          $exists: true
-	        },
-			createdBy: (Template.instance().user || {})._id
-		}, {
-			sort: {
-				createdAt: -1
-			},
-			limit: 10 // show 10 lates comments
-		}).fetch()
-	},
+	        return Currencies.find({
+	            owner: (Template.instance().user || {})._id
+	        }).fetch()
+	    },
+	    HashPowerImageThumb: (value) => {
+
+	        var value = value.split('.')
+	        return `${value[0]}_thumbnail.${value[1]}`
+	    },
+	    comments: () => {
+	        return Features.find({
+	            comment: {
+	                $exists: true
+	            },
+	            createdBy: (Template.instance().user || {})._id
+	        }, {
+	            sort: {
+	                createdAt: -1
+	            },
+	            limit: 10 // show 10 lates comments
+	        }).fetch()
+	    },
 	commentMeta: function() {
 		// we have to find comment's parent in order to see its metadata (e.g. where it was posted)
 		let depth = this.depth
