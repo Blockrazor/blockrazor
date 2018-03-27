@@ -17,6 +17,8 @@ const quality = (currency) => {
   return ((currency.eloRanking || 0) - eloMinElo) / ((eloMaxElo - eloMinElo) || 1)
 }
 
+export { quality }
+
 Template.radarGraph.onCreated(function () {
   var self = this
   self.autorun(function(){

@@ -5,6 +5,8 @@ import scrollmagic from 'scrollmagic';
 import './returnedCurrencies.html'
 import './currency.js'
 
+import { quality } from '../../components/radarGraph'
+
 Template.returnedCurrencies.onCreated(function bodyOnCreated() {
   var self = this
   self.autorun(function(){
@@ -121,7 +123,15 @@ Template.returnedCurrencies.helpers({
                 cpt: 1,
                 price: 1
               }
-             });
+             }).fetch().sort((i1, i2) => {
+              if (i1.featured) { // take fetured currencies into account
+                return -1
+              } else if (i2.featured) {
+                return 1
+              }
+              
+              return quality(i2) - quality(i1)
+             })
 
     },
     filterCount() {
