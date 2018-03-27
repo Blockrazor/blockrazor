@@ -90,9 +90,15 @@ FlowRouter.route('/profile/:slug', {
   },
   action: function (params, queryParams) {
     BlazeLayout.render('mainLayout', {
-      main: 'userProfile',
-      //left: 'sideNav'
+      main: 'userProfile'
     })
+  }
+})
+
+FlowRouter.route('/profile', {
+  name: 'profile',
+  action: () => {
+     FlowRouter.go('/profile/' + Meteor.user().slug)
   }
 })
 
@@ -302,20 +308,6 @@ FlowRouter.route('/developers', {
   action: () => {
     BlazeLayout.render('mainLayout', {
       main: 'developers',
-      //left: 'sideNav'
-    })
-  }
-})
-
-FlowRouter.route('/profile', {
-  name: 'profile',
-  subscriptions: function () {
-   this.register('profileimages', SubsCache.subscribe('profileimages'));
-
- },
-  action: () => {
-    BlazeLayout.render('mainLayout', {
-      main: 'editProfile',
       //left: 'sideNav'
     })
   }
