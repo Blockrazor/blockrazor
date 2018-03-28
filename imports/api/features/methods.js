@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor'
-import { Currencies, Features } from '/imports/api/indexDB.js'
+import { Currencies, Features, UserData } from '/imports/api/indexDB.js'
+import { checkCaptcha } from '/imports/api/miscellaneous/methods'
 
 var hasUserVoted = (id, direction) => {
 	var feature = Features.findOne(id);
@@ -11,6 +12,7 @@ var hasUserVoted = (id, direction) => {
 	}
 }
 
+if (Meteor.isServer) {
 Meteor.methods({
   flag: function(id) {
     if(this.userId) {
@@ -40,7 +42,7 @@ Meteor.methods({
       }
     })
   },
-  newFeature: function(coinId, featureName) {
+  newFeature: function(coinId, featureName, captcha) {
     if(this.userId){
       if(typeof featureName != "string") { throw new Meteor.Error('Error', 'Error') }
       if(featureName.length > 140 || featureName.length < 6) {
@@ -68,22 +70,42 @@ Meteor.methods({
     }
 
     if (canAdd) {
-      Features.insert({
-        currencyId: coinId,
-        currencySlug: (Currencies.findOne({ _id: coinId }) || {}).slug,
-        featureName: featureName,
-        appeal: 2,
-        appealNumber: 2,
-        appealVoted: [this.userId],
-        flags: 0,
-        flagRatio: 0,
-        flaggedBy: [],
-        commenters: [],
-        createdAt: Date.now(),
-        author: Meteor.user().username,
-        createdBy: this.userId,
-        rating: 1
-      })
+      const Future = require('fibers/future')
+      const fut = new Future()
+                
+      checkCaptcha(captcha, fut, this.connection.clientAddress)
+
+      if (fut.wait()) {
+        Features.insert({
+          currencyId: coinId,
+          currencySlug: (Currencies.findOne({ _id: coinId }) || {}).slug,
+          featureName: featureName,
+          appeal: 2,
+          appealNumber: 2,
+          appealVoted: [this.userId],
+          flags: 0,
+          flagRatio: 0,
+          flaggedBy: [],
+          commenters: [],
+          createdAt: Date.now(),
+          author: Meteor.user().username,
+          createdBy: this.userId,
+          rating: 1
+        })
+
+        UserData.update({
+          _id: this.userId
+        }, {
+          $push: {
+            activity: {
+              time: new Date().getTime(),
+              type: 'feature'
+            }
+          }
+        })
+      } else {
+        throw new Meteor.Error('Error.', 'Invalid captcha.')
+      }
     } else {
       throw new Meteor.Error('Error.', 'You have to wait until you can post another feature.')
     }
@@ -91,7 +113,7 @@ Meteor.methods({
   } else {throw new Meteor.Error('Error', 'You must be signed in to add a new feature')}
 },
 
-newComment: function(parentId, comment, depth) {
+newComment: function(parentId, comment, depth, captcha) {
   if(this.userId){
     if(typeof comment != "string") { throw new Meteor.Error('Error', 'Error') }
     if(typeof depth != "number") { throw new Meteor.Error('Error', 'Error') }
@@ -101,6 +123,13 @@ newComment: function(parentId, comment, depth) {
     if(_.include(Features.findOne(parentId).commenters, this.userId)) {
       throw new Meteor.Error('Error', 'You are only allowed to comment once on any feature')
     }
+
+    const Future = require('fibers/future')
+      const fut = new Future()
+                
+      checkCaptcha(captcha, fut, this.connection.clientAddress)
+
+      if (fut.wait()) {
   Features.insert({
     parentId: parentId,
     comment: comment,
@@ -116,11 +145,26 @@ newComment: function(parentId, comment, depth) {
     createdBy: this.userId,
     depth: depth,
     rating: 1
-  });
+  })
+
+  UserData.update({
+        _id: this.userId
+      }, {
+        $push: {
+          activity: {
+            time: new Date().getTime(),
+            type: 'comment'
+          }
+        }
+      })
   Features.upsert(parentId, {
     $addToSet: {commenters: this.userId}
-  });
+  })
+  } else {
+        throw new Meteor.Error('Error.', 'Invalid captcha.')
+      }
 
 } else {throw new Meteor.Error('Error', 'You must be signed in to comment')}
 }
 });
+}

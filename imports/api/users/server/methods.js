@@ -65,6 +65,162 @@ Meteor.methods({
         }
       })
     },
+    userStrike: (userId, type, token) => {
+      if (token === 's3rv3r-only') {
+        let user = UserData.findOne({
+          _id: userId
+        })
+
+        if (user) {
+          // add a strike to user's date
+          UserData.update({
+            _id: user._id
+          }, {
+            $push: {
+              strikes: {
+                time: new Date().getTime(),
+                type: type
+              }
+            }
+          })
+
+          let lastWeek = new Date().getTime() - 24*60*60*1000*7 // one week
+          let strikesWeek = user.strikes ? user.strikes.reduce((i1, i2) => {
+            let val = i2.time > lastWeek ? 1 : 0
+
+            return i1 + val
+          }, 0) + 1 : 0
+
+          let lastMonth = new Date().getTime() - 24*60*60*1000*30 // one month (30 days average)
+          let strikesMonth = user.strikes ? user.strikes.reduce((i1, i2) => {
+            let val = i2.time > lastMonth ? 1 : 0
+
+            return i1 + val
+          }, 0) + 1 : 0
+
+          if (strikesWeek > 3 || strikesMonth > 6) {
+            Meteor.users.update({
+              _id: Meteor.userId()
+            }, {
+              $set: {
+                suspended: true
+              }
+            })
+          }
+        } else {
+          throw new Meteor.Error('Error.', 'Invalid user.')
+        }
+      } else {
+        throw new Meteor.Error('Error.', 'This method is server only.')
+      }
+    },
+    applyForPardon: (reason) => {
+      if (Meteor.userId()) {
+        UserData.update({
+          _id: Meteor.userId()
+        }, {
+          $set: {
+            pardon: {
+              reason: reason,
+              status: 'new'
+            }
+          }
+        })
+      } else {
+        throw new Meteor.Error('Error.', 'You need to be logged in.')
+      }
+    },
+    pardonVote: function(userId, type) {
+      if (!Meteor.userId()) {
+        throw new Meteor.Error('Error.', 'Please log in first')
+      }
+
+      let mod = UserData.findOne({
+        _id: this.userId
+      }, {
+        fields: {
+          moderator: true
+        }
+      })
+
+      if (!mod || !mod.moderator) {
+          throw new Meteor.Error('Error.', 'mod-only')
+      }
+        
+      let u = UserData.findOne({
+        _id: userId
+      })
+
+      if (!(u.pardon.votes || []).filter(i => i.userId === this.userId).length) { // user hasn't voted yet
+        UserData.update({
+          _id: u._id
+        }, {
+          $inc: {
+            'pardon.score': type === 'voteUp' ? 1 : -1, // increase or decrease the current score
+            [`pardon.${type === 'voteUp' ? 'upvotes' : 'downvotes'}`]: 1 // increase upvotes or downvotes
+          },
+          $push: {
+            'pardon.votes': {
+              userId: this.userId,
+              type: type,
+              loggedIP: this.connection.clientAddress,
+              time: new Date().getTime()
+            }
+          }
+        })
+      }
+           
+      let approveChange = UserData.find({
+        _id: u._id
+      }, {
+        fields: {
+          pardon: 1
+        } 
+      }).fetch()[0]
+
+      // pardon user if he/she receives more than 3 positive votes
+      if (approveChange.pardon.score >= 3) {
+        UserData.update({
+          _id: u._id
+        }, {
+          $set: {
+            pardon: {
+              status: 'granted'
+            }
+          }
+        })
+
+        Meteor.users.update({
+          _id: u._id
+        }, {
+          $set: {
+            strikes: [], // clear his sins
+            suspended: false
+          }
+        })
+
+        return 'ok'
+      }
+
+      // If the user has 3 or more negative votes, deny his/her pardon request
+      if (approveChange.pardon.score <= -3) {
+        if (u) {
+          UserData.update({
+            _id: u._id
+          }, {
+            $set: {
+              pardon: {
+                status: 'denied'
+              }
+            }
+          })
+        } else {
+          throw new Meteor.Error('Error.', 'Wrong id.')
+        }
+                
+        return 'not-ok'
+      }
+    },
     initializeUser: function() {
         if (_.size(UserData.findOne({_id: this.userId})) == 0) {
           let u = UserData.find({

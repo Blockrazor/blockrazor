@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor'
-import { Currencies, Summaries } from '/imports/api/indexDB.js'
+import { Currencies, Summaries, UserData } from '/imports/api/indexDB.js'
+import { checkCaptcha } from '/imports/api/miscellaneous/methods'
 
 Meteor.methods({
     summaryVote: function(id, direction) {
@@ -35,7 +36,7 @@ Meteor.methods({
             throw new Meteor.Error('Error', 'You must be signed in to rate something')
         }
     },
-    newSummary: function(coinId, summary) {
+    newSummary: function(coinId, summary, captcha) {
         if (this.userId) {
             if (typeof summary != 'string') {
                 throw new Meteor.Error('Error', 'Error')
@@ -66,22 +67,40 @@ Meteor.methods({
             }
 
             if (canAdd) {
-                Summaries.insert({
-                    currencyId: coinId,
-                    currencySlug: (Currencies.findOne({
-                        _id: coinId
-                    }) || {}).slug,
-                    summary: summary,
-                    appeal: 2,
-                    appealNumber: 2,
-                    appealVoted: [this.userId],
-                    createdAt: Date.now(),
-                    author: Meteor.users.findOne({
+                const Future = require('fibers/future')
+                const fut = new Future()
+
+                checkCaptcha(captcha, fut, this.connection.clientAddress)
+
+                if (fut.wait()) {
+                    Summaries.insert({
+                        currencyId: coinId,
+                        currencySlug: (Currencies.findOne({
+                            _id: coinId
+                        }) || {}).slug,
+                        summary: summary,
+                        appeal: 2,
+                        appealNumber: 2,
+                        appealVoted: [this.userId],
+                        createdAt: Date.now(),
+                        author: Meteor.users.findOne({
+                            _id: this.userId
+                        }).username,
+                        createdBy: this.userId,
+                        rating: 1
+                    })
+
+                    UserData.update({
                         _id: this.userId
-                    }).username,
-                    createdBy: this.userId,
-                    rating: 1
-                })
+                    }, {
+                        $push: {
+                            activity: {
+                                time: new Date().getTime(),
+                                type: 'summary'
+                            }
+                        }
+                    })
+                }
             } else {
                 throw new Meteor.Error('Error.', 'You have to wait until you can post another summary.')
             }

@@ -111,7 +111,9 @@ Meteor.methods({
           from: Meteor.user().username,
           type: "message"
         });
-        PendingCurrencies.remove({_id: id});
+        PendingCurrencies.remove({_id: id})
+
+        Meteor.call('userStrike', owner, 'bad-coin', 's3rv3r-only', (err, data) => {}) // user earns 1 strike here
       }
     })
   }},

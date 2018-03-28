@@ -211,6 +211,8 @@ Meteor.methods({
         }) // reset only ratings from this session, don't reset already processed ratings, as this would mess up previous ELO calculations
 
         removeUserCredit(reward, Meteor.userId(), 'cheating on codebase questions','cheating')
+
+        Meteor.call('userStrike', Meteor.userId(), 'cheating', 's3rv3r-only', (err, data) => {}) // user earns 1 strike here
     },
     answerCodebaseRating: function(ratingId, winner) {
         let rating = Ratings.findOne({

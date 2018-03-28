@@ -89,12 +89,19 @@ Template.features.events({
     if(data.length < 6 || data.length > 140) {
       sAlert.error("That entry is too short, or too long.");
     } else {
-      Meteor.call('newFeature', this._id, data, (err, data) => {
+      let res 
+      try {
+        res = grecaptcha && grecaptcha.getResponse()
+      } catch(e) {
+        res = 'pass'
+      }
+      const templ = Template.instance()
+      Meteor.call('newFeature', this._id, data, res, (err, data) => {
         if (!err) {
           $('#featureName').val(" ");
           $('#addNewFeature').collapse('hide');
           $('.featuresheading').text("Features");
-          Template.instance().addingnewfeature.set(false);
+          templ.addingnewfeature.set(false);
           sAlert.success("Thanks! That feature has been added!")
         } else {
           sAlert.error(err.reason)
