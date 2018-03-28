@@ -86,12 +86,19 @@ Template.redflags.events({
     if(data.length < 6 || data.length > 140) {
       sAlert.error("That entry is too short, or too long.");
     } else {
-      Meteor.call('newRedFlagMethod', this._id, data, (err, data) => {
+      let res 
+      try {
+        res = grecaptcha && grecaptcha.getResponse()
+      } catch(e) {
+        res = 'pass'
+      }
+      const templ = Template.instance()
+      Meteor.call('newRedFlagMethod', this._id, data, res, (err, data) => {
         if (!err) {
           $('#redflagContent').val(" ");
           $('#showAddNewRedflag').toggle();
           $('.redflagheading').text("Red Flag Currency");
-          Template.instance().addingnewredflag.set(false);
+          templ.addingnewredflag.set(false);
           sAlert.success("Thanks! Red flag added")
         } else {
           sAlert.error(err.reason)

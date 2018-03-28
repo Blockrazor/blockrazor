@@ -84,7 +84,13 @@ Template.feature.events({
     if(data.length < 6 || data.length > 140) {
       sAlert.error("That entry is too short, or too long.");
     } else {
-      Meteor.call('newComment', this._id, data, 1, function(error, result) {
+      let res 
+      try {
+        res = grecaptcha && grecaptcha.getResponse()
+      } catch(e) {
+        res = 'pass'
+      }
+      Meteor.call('newComment', this._id, data, 1, res, function(error, result) {
         if(!error) {
           sAlert.success("Thanks! Your comment has been posted!");
         } else {

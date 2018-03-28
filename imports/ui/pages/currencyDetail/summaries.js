@@ -111,7 +111,13 @@ Template.summaries.events({
         if(data.length < 10 || data.length > 500) {
             sAlert.error('That entry is too short, or too long.')
         } else {
-            Meteor.call('newSummary', this._id, data, (err, data) => {
+            let res 
+            try {
+                res = grecaptcha && grecaptcha.getResponse()
+            } catch(e) {
+                res = 'pass'
+            }
+            Meteor.call('newSummary', this._id, data, res, (err, data) => {
                 if (!err) {
                     $('#summary').val('')
                     $('#addNewSummary').collapse('hide');

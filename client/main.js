@@ -107,7 +107,30 @@ Template.registerHelper('significant', (val) => {
       return 0;
     }
 
-});
+})
+
+let cap = new ReactiveVar('')
+
+Template.registerHelper('captcha', () => {
+    Meteor.subscribe('myUserData')
+
+    Meteor.call('getCaptcha', (err, data) => {
+        cap.set(data)
+    })
+
+    let user = UserData.findOne({
+        _id: Meteor.userId()
+    })
+
+    user.activity = user.activity || []
+    user.activity = user.activity.sort((i1, i2) => i2.time - i1.time)
+
+    if ((user && user.activity.length > 1 && (user.activity[0].time - user.activity[1].time < 10000))) { // needs captcha if he's posting too fast (10 seconds between)
+        return `Please complete the captcha before posting<br/>${cap.get()}`
+    } else {
+        return ''
+    }
+})
 
 Template.registerHelper('transactionTypes', (transaction) => {
 

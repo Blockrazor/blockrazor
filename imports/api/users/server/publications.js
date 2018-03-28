@@ -39,6 +39,20 @@ import { UserData, ProfileImages } from '/imports/api/indexDB.js'
     })
   })
 
+  Meteor.publish('myUserData', () => UserData.find({
+    _id: Meteor.userId()
+  }, {
+    fields: {
+      moderator: 1,
+      developer: 1,
+      fullname: 1,
+      profilePicture: 1,
+      strikes: 1,
+      pardon: 1,
+      activity: 1
+    }
+  }))
+
   Meteor.publish('userdataId', id => UserData.find({
     _id: id
   }, {
@@ -46,7 +60,7 @@ import { UserData, ProfileImages } from '/imports/api/indexDB.js'
       moderator: 1,
       developer: 1,
       fullname: 1,
-      profilePicture: 1,
+      profilePicture: 1
     }
   }))
 
@@ -63,7 +77,7 @@ import { UserData, ProfileImages } from '/imports/api/indexDB.js'
           moderator: 1,
           developer: 1,
           fullname: 1,
-          profilePicture: 1,
+          profilePicture: 1
         }
       })
     } else {
@@ -84,10 +98,17 @@ import { UserData, ProfileImages } from '/imports/api/indexDB.js'
 				slug: 1,
 				profilePicture: 1,
         referral: 1,
-        inviteCode: 1
+        inviteCode: 1,
+        suspended: 1
 			}
 		})
 	})
+
+  Meteor.publish('pardonUserData', () => {
+    return UserData.find({
+      'pardon.status': 'new'
+    })
+  })
 
 	Meteor.publish('user', (slug) => {
 		return Meteor.users.find({
@@ -111,7 +132,6 @@ import { UserData, ProfileImages } from '/imports/api/indexDB.js'
 	})
  
   //is used to switch out accounts with constellation account module
-  //you might wrap this in Meteor.isDevelopment
   Meteor.publish('users', (slug) => {
     return Meteor.users.find({}, {
       fields: {

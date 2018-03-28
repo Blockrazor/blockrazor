@@ -44,6 +44,7 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   import '../../ui/pages/problems/problem'
   import '../../ui/pages/allHashaverage/allHashaverage'
   import '../../ui/pages/addHashpower/addHashpower.js'
+  import '../../ui/pages/suspended/suspended'
 
 
   //moderator pages
@@ -53,6 +54,8 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   import '../../ui/pages/moderator/hashpower/flaggedHashpower'
   import '../../ui/pages/moderator/appLogs/appLogs'
   import '../../ui/pages/moderator/problems/solvedProblems'
+  import '../../ui/pages/moderator/pardon/pardon'
+  import '../../ui/pages/moderator/flagged/flagged'
 
   // New Layout doesn't use side Template.dynamic side
   import '../../ui/layouts/mainLayout/mainLayout'
@@ -65,7 +68,17 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
 }
 
 //resets window position on navigation
-FlowRouter.triggers.enter([ () => { window.scrollTo(0, 0); } ]);
+FlowRouter.triggers.enter([ () => { window.scrollTo(0, 0); }, () => {
+  Tracker.autorun(() => { // redirection should be reactive, hence the Tracker is used
+    let user = Meteor.userId() && Meteor.users.findOne({
+      _id: Meteor.userId()
+    })
+
+    if (user && user.suspended) {
+      FlowRouter.go('/suspended') // redirect all suspended users here
+    }
+  })
+} ])
 
 //global subscriptions (on client side immidiately available)
 FlowRouter.subscriptions = function() {
@@ -129,6 +142,24 @@ FlowRouter.route('/currencyAuction', {
       main: 'currencyAuction',
       //left: 'sideNav'
     })
+  }
+})
+
+FlowRouter.route('/suspended', {
+  name: 'suspended',
+  subscriptions: function(params) {
+    this.register('myUserData', SubsCache.subscribe('myUserData'))
+  },
+  action: (params, queryParams) => {
+    let user = Meteor.userId() && Meteor.users.findOne({
+      _id: Meteor.userId()
+    })
+
+    if (user && user.suspended) {
+      BlazeLayout.render('suspended')
+    } else {
+      FlowRouter.go('/')
+    }
   }
 })
 
@@ -544,6 +575,33 @@ adminRoutes.route('/flagged-hashpower', {
     BlazeLayout.render('mainLayout', {
       main: 'flaggedHashpower',
       //left: 'sideNav'
+    })
+  }
+})
+
+adminRoutes.route('/pardon', {
+  name: 'pardon',
+  subscriptions: function () {
+    this.register('users', SubsCache.subscribe('users'))
+    this.register('pardonUserData', SubsCache.subscribe('pardonUserData'))
+  },
+  action: () => {
+    BlazeLayout.render('mainLayout', {
+      main: 'pardon'
+    })
+  }
+})
+
+adminRoutes.route('/flagged', {
+  name: 'flagged',
+  subscriptions: function () {
+    this.register('users', SubsCache.subscribe('users'))
+    this.register('features', SubsCache.subscribe('features'))
+    this.register('redflags', SubsCache.subscribe('redflags'))
+  },
+  action: () => {
+    BlazeLayout.render('mainLayout', {
+      main: 'flagged'
     })
   }
 })

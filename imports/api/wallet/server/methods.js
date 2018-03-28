@@ -87,7 +87,9 @@ Meteor.methods({
 		WalletImages.update(imageId, {
 			$addToSet: {flaglikers: Meteor.userId()},
 			$inc: {flags: 1}
-		});
+		})
+
+		Meteor.call('userStrike', Meteor.userId(), 'bad-wallet', 's3rv3r-only', (err, data) => {}) // user earns 1 strike here
 	},
 
 	approveWalletImage: function(imageId) {
@@ -142,6 +144,8 @@ Meteor.methods({
         }) // reset only ratings from this session, don't reset already processed ratings, as this would mess up previous ELO calculations
 
         removeUserCredit(reward, Meteor.userId(), 'cheating on wallet questions','cheating')
+
+        Meteor.call('userStrike', Meteor.userId(), 'cheating', 's3rv3r-only', (err, data) => {}) // user earns 1 strike here
     },
 
 	getLastWalletAnswer: () => {
@@ -344,6 +348,6 @@ Meteor.methods({
 		fs.unlinkSync(_walletUpoadDirectory + filename)
 
 		//remove all walletImages per query below
-		WalletImages.remove({ currencyId: currencyId, imageOf: imageOf, createdBy: this.userId});
+		WalletImages.remove({ currencyId: currencyId, imageOf: imageOf, createdBy: this.userId})
 	}
 });
