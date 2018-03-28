@@ -20,12 +20,11 @@
       </div>
       <div class="notifications pl-4">
               <a href="#" title="Share BlockRazor with Friends"  class="text-white" id="js-shareUrl"><i class="fa fa-share-alt text-white" style="font-size: 19px"></i></a>
-		<a href="{{bountyUrl activeBounties}}" title="Active BlockRazor Bounties">
-			<i class="fa fa-dot-circle-o text-white" style="font-size: 19px"></i>
-			{{#if hasBounties activeBounties }}
-				<span class="badge badge-danger">{{ activeBounties.length }}</span>
-			{{/if}}
-		</a>
+ {{#if hasBounties activeBounties }}
+<a href="{{bountyUrl activeBounties}}" title="Active BlockRazor Bounties">
+      <i class="fa fa-dot-circle-o text-white" style="font-size: 19px"></i> 
+        <span class="badge badge-danger">{{ activeBounties.length }}</span>
+    </a> {{/if}}
         <a href="/notifications" title="Your Notifications" ><i class="fa fa-bell text-white"></i>
           {{#if activityNotifications}}<span class="badge badge-success">{{activityNotifications}}</span>{{/if}}
         </a>
