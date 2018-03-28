@@ -3,14 +3,31 @@ import { ActivityLog, Wallet, UserData, Bounties } from '/imports/api/indexDB.js
 import './topNav.html'
 import './topNav.scss'
 import '../global/globalHelpers'
+import swal from 'sweetalert';
 
 Template.topNav.events({
   'click #js-logout': (event, templateInstance) => {
     Meteor.logout()
   },
-  'click #js-copyUrl': (event, templateInstance) => {
+  'click #js-shareUrl': (event, templateInstance) => {
     event.preventDefault()
-    $('#js-copyUrl').select()
+
+
+swal({
+    title: "Share with friends and earn 5% of KZR they earn every day.",
+   button: { className: 'btn btn-primary' },
+  content: {
+    element: "input",
+    attributes: {
+      id:'shareURL',
+      value: "https://blockrazor.org/#H8hpyxk5uoiuiZSbmdfX",
+      type: "text",
+    },
+  }
+})
+
+$('#shareURL').select()
+
   }
 });
 

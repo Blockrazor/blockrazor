@@ -10,7 +10,7 @@
     <div class="right-nav-item">
         {{#if currentUser}}
         <div class="dropdown show">
-          <a class="btn dropdown-toggle text-white" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="dropdown-toggle text-white" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="d-none d-sm-block">{{currentUser.username}}</span><span class="d-sm-none"><i class="fa fa-user text-white"></i></span>
           </a>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -19,12 +19,7 @@
           </div>
       </div>
       <div class="dropdown show">
-        <a href="#" title="Share" class="btn dropdown-toggle text-white" style="margin-left: -50px;
-    width: 10px;/*this needs fixing*/" data-toggle="dropdown" id="js-shareUrl"><i class="fa fa-share-alt text-white"></i></a>
-        <div class="dropdown-menu">
-          Share with friends and earn 5% of KZR they earn every day.
-            <input class="dropdown-item" type="text" style="width: 300px;" id="js-copyUrl" value="{{shareUrl}}" />
-        </div>
+        <a href="#" title="Share" class="btn text-white" id="js-shareUrl"><i class="fa fa-share-alt text-white"></i></a>
       </div>
       <div class="notifications">
 		<a href="{{bountyUrl activeBounties}}" title="bounty">
