@@ -5,6 +5,8 @@ import { ActivityLog, Bounties, REWARDCOEFFICIENT, UserData,
 import { rewardCurrencyCreator } from '/imports/api/utilities.js';
 import { log } from '/server/main'
 
+import { quality } from '/imports/api/utilities'
+
 Meteor.methods({
   getLastCurrency: () => {
     let pending = PendingCurrencies.find({}, {
@@ -427,6 +429,8 @@ Meteor.methods({
 
       },
       fetchCurrencies(){
-        return Currencies.find({}, {fields: {consensusSecurity: 0, hashAlgorithm: 0, gitAPI: 0}}).fetch()
+        return Currencies.find({}, {fields: {consensusSecurity: 0, hashAlgorithm: 0, gitAPI: 0}}).fetch().map(i => _.extend(i, {
+          quality: quality(i)
+        }))
     },
 });

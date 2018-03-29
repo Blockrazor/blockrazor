@@ -8,16 +8,7 @@ import Chart from 'chart.js';
 
 import './radarGraph.html'
 
-const quality = (currency) => {
-  let graphdata = GraphData.findOne({
-    _id: 'elodata'
-  }) || {}
-    
-  const {eloMinElo, eloMaxElo} = graphdata
-  return ((currency.eloRanking || 0) - eloMinElo) / ((eloMaxElo - eloMinElo) || 1)
-}
-
-export { quality }
+import { quality } from '/imports/api/utilities'
 
 Template.radarGraph.onCreated(function () {
   var self = this

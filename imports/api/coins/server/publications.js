@@ -5,6 +5,33 @@ Meteor.publish('approvedcurrencies', function currenciesPublication() {
   return Currencies.find();
 })
 
+import { quality } from '/imports/api/utilities'
+
+Meteor.publish('dataQualityCurrencies', function() {
+  let sub = Currencies.find({}).observeChanges({ // using observer changes, we can transform the data before it's published
+    added: (id, fields) => {
+      this.added('currencies', id, _.extend(fields, {
+        quality: quality(fields) // add quality field, so we can sort by it
+      }))
+    },
+    changed: (id, fields) => {
+      this.changed('currencies', id, _.extend(fields, {
+        quality: quality(fields)
+      }))
+    },
+    removed: id => {
+      this.removed('currencies', id)
+    }
+  })
+
+  this.ready()
+
+  this.onStop(() => {
+    sub.stop()
+  })
+})
+
+
 Meteor.publish('approvedcurrenciesUser', slug => {
   let user = Meteor.users.findOne({
     slug: slug
