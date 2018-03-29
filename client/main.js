@@ -122,11 +122,14 @@ Template.registerHelper('captcha', () => {
         _id: Meteor.userId()
     })
 
-    user.activity = user.activity || []
-    user.activity = user.activity.sort((i1, i2) => i2.time - i1.time)
+    if (user) {
+        user.activity = user.activity || []
+        user.activity = user.activity.sort((i1, i2) => i2.time - i1.time)
+    }
 
     if ((user && user.activity.length > 1 && (user.activity[0].time - user.activity[1].time < 10000))) { // needs captcha if he's posting too fast (10 seconds between)
-        return `Please complete the captcha before posting<br/>${cap.get()}`
+        Meteor.setTimeout(() => window.captcha = grecaptcha.render($('.g-recaptcha')[0]), 800) // after it renders, apparently it doesn't want to render without this
+        return `Please complete the captcha before posting<br/><form id="js-cap">${cap.get()}</form>`
     } else {
         return ''
     }

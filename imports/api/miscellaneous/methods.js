@@ -3,7 +3,7 @@ import { FormData, Features, Redflags, UserData } from '/imports/api/indexDB.js'
 
 const checkCaptcha = (captcha, fut, ip) => {
   if (typeof captcha !== 'undefined' && captcha !== 'pass') {
-    const Recaptcha = require('recaptcha-v2')
+    const Recaptcha = require('recaptcha-v2').Recaptcha
     let recaptcha = new Recaptcha('6LerhE8UAAAAAB69iG94LAW_VdqrkZKienW79EUx', '6LerhE8UAAAAAOHiYbyUK84SHS8O9CN_EOrwXWVV', {
       remoteip:  ip,
       response:  captcha,
