@@ -5,12 +5,10 @@ import scrollmagic from 'scrollmagic';
 import './returnedCurrencies.html'
 import './currency.js'
 
-import { quality } from '../../components/radarGraph'
-
 Template.returnedCurrencies.onCreated(function bodyOnCreated() {
   var self = this
   self.autorun(function(){
-    SubsCache.subscribe('approvedcurrencies');
+    SubsCache.subscribe('dataQualityCurrencies');
   })
   this.searchInputFilter = new ReactiveVar(undefined); 
   this.filterCount = new ReactiveVar(undefined);
@@ -101,7 +99,7 @@ Template.returnedCurrencies.helpers({
       var templ = Template.instance()
         let filter = templ.filter.get();
 
-            return templ.TransitoryCollection.get().find(filter, { sort: { featured: -1, createdAt: -1 }, limit: templ.limit.get(), 
+            return templ.TransitoryCollection.get().find(filter, { sort: { featured: -1, quality: -1, createdAt: -1 }, limit: templ.limit.get(), 
               fields: {  
                 eloRanking: 1,
                 slug: 1,  
@@ -123,16 +121,7 @@ Template.returnedCurrencies.helpers({
                 cpt: 1,
                 price: 1
               }
-             }).fetch().sort((i1, i2) => {
-              if (i1.featured) { // take fetured currencies into account
-                return -1
-              } else if (i2.featured) {
-                return 1
-              }
-              
-              return quality(i2) - quality(i1)
              })
-
     },
     filterCount() {
       var templ = Template.instance()

@@ -1,6 +1,6 @@
 //import { Mongo } from 'meteor/mongo';
 //export var Rewards = new Mongo.Collection('rewards');
-import { UserData, Currencies, Wallet } from '/imports/api/indexDB.js';
+import { UserData, Currencies, Wallet, GraphData } from '/imports/api/indexDB.js';
 
 
 var rewards = {
@@ -56,6 +56,17 @@ export var removeUserCredit = (amount, userId, reason, rewardType) => { // if we
     return true;
   }
 }
+
+const quality = (currency) => {
+  let graphdata = GraphData.findOne({
+    _id: 'elodata'
+  }) || {}
+    
+  const {eloMinElo, eloMaxElo} = graphdata
+  return ((currency.eloRanking || 0) - eloMinElo) / ((eloMaxElo - eloMinElo) || 1)
+}
+
+export { quality }
 
 export var rewardCurrencyCreator = function(launchTags, owner, currencyName) {
   console.log("start to credit")
