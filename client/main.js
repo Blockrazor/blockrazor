@@ -132,36 +132,40 @@ Template.registerHelper('captcha', () => {
     }
 })
 
-Template.registerHelper('transactionTypes', (transaction) => {
+transactionTypes = function(type) {
 
-  if(!_validTransactionTypes.includes(transaction)){
-    return ' - ';
-  }else{
+    if (!_validTransactionTypes.includes(type)) {
+        return ' - ';
+    } else {
 
-    switch (transaction) {
-        case 'topCommentReward':
-            return 'Top Comment Reward'
-            break;
-        case 'hashReward':
-            return 'Hash Reward'
-            break;
-        case 'bountyReward':
-            return 'Bounty Reward'
-            break;
-        case 'problemReward':
-            return 'Problem Reward'
-            break;
-        case 'createCoinReward':
-            return 'Create Coin Reward'
-            break;
-        case 'cheating':
-            return 'Cheating Penalty'
-            break;
-        case 'anwserQuestion':
-            return 'Question Reward'
-            break;
+        switch (type) {
+            case 'topCommentReward':
+                return 'Top Comment Reward'
+                break;
+            case 'hashReward':
+                return 'Hash Reward'
+                break;
+            case 'bountyReward':
+                return 'Bounty Reward'
+                break;
+            case 'problemReward':
+                return 'Problem Reward'
+                break;
+            case 'createCoinReward':
+                return 'Create Coin Reward'
+                break;
+            case 'cheating':
+                return 'Cheating Penalty'
+                break;
+            case 'anwserQuestion':
+                return 'Question Reward'
+                break;
+        }
     }
-  }
+}
+
+Template.registerHelper('transactionTypes', (transaction) => {
+        transactionTypes(transaction);
 })
 
 if (window.location.hash) {
