@@ -39,23 +39,26 @@
 	<div class="row">
 		{{#if subsCacheReady}}
 			{{#each currencies}}
-				<div class="col-sm-4 col-md-4 col-lg-4">
-					<button type="button" class="toggle btn btn-secondary currencyChoiceBtn" style="width:100%">{{currencyName}}
-					</button>
-					<div class="row" style="display:none;" id="links_{{_id}}">
-						<div class="col-sm-12">
-							<p>Please add a URL to a {{currencyName}} community you are a part of:
-							</p>
-							<div class="input-group mb-3">
-								<input type='text' class="form-control" id='js-com-url_{{_id}}' placeholder="URL here">
-								<div class="input-group-append">
-									<button class="js-save btn btn-primary">Save</button>
-								</div>
+<div class="col-sm-4 col-md-4 col-lg-4">
+    <button type="button" class="toggle btn btn-secondary currencyChoiceBtn" style="width:100%">{{currencyName}}
+    </button>
+    <div class="row" style="display:none;" id="links_{{_id}}">
 
-							</div>
-						</div>
-					</div>
-				</div>
+        <div class="col-sm-12">
+        	<small>Please add a URL and screenshot of the community you are part of and mention BlockRazor</small><br /><br />
+        	                <label id="uploadLabel_{{_id}}" class="btn btn-primary" for="{{_id}}">
+                    <input class="uploadInput" id="{{_id}}" type="file" style="display:none" onchange="$('#fileInfo').html(this.files[0].name)"> <span class="uploadText_{{_id}}">UPLOAD</span>
+                </label>
+                <span class='label label-info' id="fileInfo_{{_id}}"></span>
+                <input type='hidden' id='js-image_{{_id}}'>
+                <br />
+                <input type='text' class="form-control" id='js-com-url_{{_id}}' placeholder="URL here">
+
+                <button class="js-save btn btn-primary my-2" id="{{_id}}">Save</button>
+
+        </div>
+    </div>
+</div>
 			{{else}}
 				{{> empty}}
 			{{/each}}

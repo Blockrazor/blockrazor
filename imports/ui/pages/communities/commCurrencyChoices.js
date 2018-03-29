@@ -5,8 +5,8 @@ import Cookies from 'js-cookie'
 import './commCurrencyChoices.html';
 
 Template.commCurrencyChoices.onCreated(function() {
-  this.name = new ReactiveVar('')
-  this.symbol = new ReactiveVar('')
+    this.name = new ReactiveVar('')
+    this.symbol = new ReactiveVar('')
 })
 
 Template.commCurrencyChoices.helpers({
@@ -19,7 +19,7 @@ Template.commCurrencyChoices.helpers({
                 owner: Meteor.userId(),
                 context: 'community'
             }]
-        }).fetch().map(i => [i.currency0Id,i.currency1Id])))
+        }).fetch().map(i => [i.currency0Id, i.currency1Id])))
 
         return Currencies.find({
             _id: {
@@ -36,7 +36,7 @@ Template.commCurrencyChoices.helpers({
                 owner: Meteor.userId(),
                 context: 'community'
             }]
-        }).fetch().map(i => [i.currency0Id,i.currency1Id])))
+        }).fetch().map(i => [i.currency0Id, i.currency1Id])))
 
         return Currencies.find({
             _id: {
@@ -81,14 +81,14 @@ Template.commCurrencyChoices.events({
                 sAlert.error(err.reason)
             } else {
                 if (!Ratings.findOne({
-                    $or: [{
-                        answered: false,
-                        catagory: 'community'
-                    }, {
-                        answered: false,
-                        context: 'community'
-                    }]
-                })) {
+                        $or: [{
+                            answered: false,
+                            catagory: 'community'
+                        }, {
+                            answered: false,
+                            context: 'community'
+                        }]
+                    })) {
                     sAlert.error('Please add some communities to continue.')
                 }
             }
@@ -103,7 +103,8 @@ Template.commCurrencyChoices.events({
         FlowRouter.go('/')
     },
     'click .js-save': function(event, templateInstance) {
-        Meteor.call('saveCommunity', this._id, $(`#js-com-url_${this._id}`).val(), (err, data) => {
+
+        Meteor.call('saveCommunity', this._id, $(`#js-com-url_${this._id}`).val(),$('#js-image_'+event.target.id).val(), (err, data) => {
             if (!err) {
                 $(`#js-com-url_${this._id}`).attr('disabled', 'true')
                 $(event.currentTarget).attr('disabled', 'true')
@@ -114,5 +115,60 @@ Template.commCurrencyChoices.events({
                 sAlert.error(err.reason)
             }
         })
+    },
+    'change .uploadInput': (event, templateInstance) => {
+        const mime = require('mime-types')
+
+        let file = event.target.files[0]
+        let uploadError = false
+        let mimetype = mime.lookup(file)
+        let fileExtension = mime.extension(file.type)
+        let id = event.target.id;
+
+
+        if (file.size > _defaultFileSizeLimit) {
+            sAlert.error('Image is too big.')
+            uploadError = true
+        }
+
+        if (!_supportedFileTypes.includes(file.type)) {
+            sAlert.error('File must be an image.')
+            uploadError = true
+        }
+
+        if (file) {
+            $('#uploadLabel_'+id).removeClass('btn-success');
+            $('#uploadLabel_'+id).addClass('btn-primary');
+            $("button").attr("disabled", "disabled"); //disable all buttons
+            $(".uploadText_"+id).html("<i class='fa fa-circle-o-notch fa-spin'></i> Uploading"); //show upload progress
+
+
+            //Only upload if above validation are true
+            if (!uploadError) {
+                let reader = new FileReader()
+                reader.onload = fEvent => {
+                    let binary = reader.result
+                    let md5 = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(binary)).toString()
+                    $('#js-image_'+id).val(`${md5}.${fileExtension}`)
+
+                    Meteor.call('uploadCommunityPicture', file.name, reader.result, md5, (error, result) => {
+                        if (error) {
+                            sAlert.error(error.message);
+                            $('#uploadLabel_'+id).removeClass('btn-success');
+                            $('#uploadLabel_'+id).addClass('btn-primary');
+                            $('.uploadText_'+id).html("Upload");
+                        } else {
+                            
+                            $("button").attr("disabled", false); //enable all buttons
+                            $('#uploadLabel_'+id).addClass('btn-success');
+                            $('.uploadText_'+id).html("Change"); //update button text now upload is complete
+
+                        }
+                    })
+                }
+                reader.readAsBinaryString(file)
+            }
+        }
     }
+
 })
