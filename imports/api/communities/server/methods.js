@@ -4,6 +4,52 @@ import { log } from '/server/main'
 import { creditUserWith, removeUserCredit } from '/imports/api/utilities.js'
 
 Meteor.methods({
+    parseCommunityUrl: (url) => {
+        const Future = require('fibers/future')
+        const fut = new Future()
+
+        if (/reddit.com\/r/ig.test(url)) {
+            HTTP.call('GET', `${url.replace(/\/+$/, '')}/about.json`, (err, data) => {
+                if (!err) {
+                    let d = data.data.data
+
+                    fut.return({
+                        size: d.subscribers,
+                        time: d.created_utc * 1000 // convert to MS
+                    })
+                } else {
+                    fut.return({
+                        error: err
+                    })
+                }
+            })
+        } else if (/twitter.com/ig.test(url)) {
+            let username = url.replace(/((http|https):\/\/)?twitter.com\//, '').replace(/\/+$/, '').replace(/\?.*/, '')
+
+            HTTP.call('GET', `https://api.twitter.com/1.1/users/lookup.json?screen_name=${username}`, {
+                headers: {
+                    'Authorization': `Bearer AAAAAAAAAAAAAAAAAAAAALfc1AAAAAAAkVMdkPrqQm0284KyZTly7ZzulF8%3Dkp4DtlLwHFzzWm6s2mbOlP2oujvhbOyIMRazpLzKtHlyNe0yrY`
+                }
+            }, (err, data) => {
+                if (!err) {
+                    let d = data.data[0]
+
+                    fut.return({
+                        size: d.followers_count,
+                        time: new Date(d.created_at).getTime()
+                    })
+                } else {
+                    fut.return({
+                        error: err
+                    })
+                }
+            })
+        } else {
+            fut.return({})
+        }
+
+        return fut.wait()
+    },
     getCommunityReward: (userId, rId) => {
         let bounty = Bounties.findOne({
             userId: userId,

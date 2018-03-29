@@ -17,18 +17,29 @@ export const saveCommunity = new ValidatedMethod({
     run({ currencyId,url,image }) {
     	//Define the body of the ValidatedMethod, e.g. insert some data to a collection
         if (Meteor.userId()) {
-            Communities.insert({
-                'url': url,
-                'currencyId': currencyId,
-                'currencyName': Currencies.findOne({
-                    _id: currencyId
-                }).currencyName,
-                'createdAt': new Date().getTime(),
-                'createdBy': Meteor.userId(),
-                'image': image,
-                'approved': false
+            Meteor.call('parseCommunityUrl', url, (err, data) => {
+                if (!err) {
+                    if (!data || !data.error) {
+                        data = data || {}
+                        
+                        Communities.insert({
+                            'url': url,
+                            'currencyId': currencyId,
+                            'currencyName': Currencies.findOne({
+                                _id: currencyId
+                            }).currencyName,
+                            'createdAt': new Date().getTime(),
+                            'createdBy': Meteor.userId(),
+                            'image': image,
+                            'approved': false,
+                            size: data.size || 0,
+                            time: data.time || 0
+                        })
+                    } else {
+                        throw new Meteor.Error('Error.', 'Invalid community url.')
+                    }
+                }
             })
-
         } else {
             throw new Meteor.Error('Error.', 'You have to be logged in.')
         }
