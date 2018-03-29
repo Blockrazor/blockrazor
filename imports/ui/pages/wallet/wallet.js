@@ -25,6 +25,10 @@ Template.wallet.onCreated(function bodyOnCreated() {
 );
 });
 
+Template.wallet.onRendered(function() {
+    $(".form-inline").removeClass("form-inline")
+});
+
 Template.wallet.helpers({
   entry (){
 var filter = Template.instance().rewardType.get();
@@ -39,7 +43,43 @@ if(filter){
   },
   balance () {
     return UserData.findOne({}, {fields: {balance: 1}}).balance
+  },
+  walletTable: function () {
+      return {
+          noDataTmpl: 'noDataTmpl',
+          rowsPerPage: 100,
+          showFilter: false,
+          fields: [
+                 {
+                   key: 'message',
+                   label: 'Message',
+                 },
+                                  {
+                   key: 'amount',
+                   label: 'Amount',
+                 },
+                 {
+                   key: 'time',
+                   label: 'Date / Time',
+                   fn: function(value, object, key) { return moment(value).fromNow(); }
+                 },                 {
+                   key: 'from',
+                   label: 'From',
+                 },
+                                  {
+                   key: 'rewardType',
+                   label: 'Type',
+                   fn: function(value, object, key) { return transactionTypes(value); }
+
+                 },
+
+
+
+
+               ]
+                         };
   }
+
 });
 
 Template.wallet.events({
