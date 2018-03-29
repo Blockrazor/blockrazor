@@ -82,19 +82,6 @@ Template.communities.events({
 
         FlowRouter.go('/')
     },
-    'click .js-save': function(event, templateInstance) {
-        Meteor.call('saveCommunity', this._id, $(`#js-com-url_${this._id}`).val(), (err, data) => {
-            if (!err) {
-                $(`#js-com-url_${this._id}`).attr('disabled', 'true')
-                $(event.currentTarget).attr('disabled', 'true')
-                $(event.currentTarget).text('Saved.')
-
-                setTimeout(() => $(`#links_${this._id}`).hide(), 1000)
-            } else {
-                sAlert.error(err.reason)
-            }
-        })
-    },
     'click .toggle': function(event, templateInstance) {
         $(`#links_${this._id}`).toggle()
     }

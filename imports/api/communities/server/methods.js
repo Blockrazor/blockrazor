@@ -243,7 +243,7 @@ Meteor.methods({
             })
         }
     },
-    saveCommunity: (currencyId, communityUrl) => {
+    saveCommunity: (currencyId, communityUrl,filename) => {
         if (Meteor.userId()) {
             Communities.insert({
                 'url': communityUrl,
@@ -252,8 +252,54 @@ Meteor.methods({
                     _id:currencyId
                 }).currencyName,
                 'createdAt': new Date().getTime(),
-                'createdBy': Meteor.userId()
+                'createdBy': Meteor.userId(),
+                'image': filename,
+                'approved': false
             })
         }
-    }
+    },
+     uploadCommunityPicture: (fileName, binaryData, md5) => {
+        let md5validate = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(binaryData)).toString()
+        if (md5validate !== md5) {
+            throw new Meteor.Error('Error.', 'Failed to validate md5 hash.')
+            return false
+        }
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('Error.', 'You must be logged in to do this.');
+            return false
+        }
+
+        const fs = require('fs')
+
+        let mime = require('mime-types')
+        let mimetype = mime.lookup(fileName)
+        let validFile = _supportedFileTypes.includes(mimetype)
+        let fileExtension = mime.extension(mimetype)
+        let filename_thumbnail = `${_communityUploadDirectory}${md5}_thumbnail.${fileExtension}`
+        let filename = `${_communityUploadDirectory}${md5}.${fileExtension}`
+
+        let insert = false
+
+        if (!validFile) {
+            throw new Meteor.Error('Error.', 'File type not supported, png, gif and jpeg supported');
+            return false
+        }
+
+        fs.writeFileSync(filename, binaryData, {
+            encoding: 'binary'
+        }, Meteor.bindEnvironment((error) => {
+            if (error) {
+                log.error('Error in uploadProfilePicture', error)
+            }
+        }))
+
+          var size = { width: 200, height: 200 };
+  gm(filename)
+      .resize(size.width, size.height + ">")
+      .gravity('Center')
+      .write(filename_thumbnail, function(error) {
+          if (error) console.log('Error - ', error);
+      });
+
+    },
 })
