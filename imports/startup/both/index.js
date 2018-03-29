@@ -18,3 +18,4 @@ import '../../api/redflags/methods'
 import './routes.js'
 
 import { newProblem } from '/imports/api/problems/methods'
+import { saveCommunity } from '/imports/api/communities/methods'

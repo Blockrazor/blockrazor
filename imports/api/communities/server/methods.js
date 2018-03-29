@@ -242,22 +242,7 @@ Meteor.methods({
                 creditUserWith(data, Meteor.userId(), 'answering a community question','anwserQuestion')
             })
         }
-    },
-    saveCommunity: (currencyId, communityUrl,filename) => {
-        if (Meteor.userId()) {
-            Communities.insert({
-                'url': communityUrl,
-                'currencyId':currencyId,
-                'currencyName': Currencies.findOne({
-                    _id:currencyId
-                }).currencyName,
-                'createdAt': new Date().getTime(),
-                'createdBy': Meteor.userId(),
-                'image': filename,
-                'approved': false
-            })
-        }
-    },
+    }, 
      uploadCommunityPicture: (fileName, binaryData, md5) => {
         let md5validate = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(binaryData)).toString()
         if (md5validate !== md5) {
