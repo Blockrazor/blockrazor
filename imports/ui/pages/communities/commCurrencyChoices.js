@@ -1,5 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Currencies, Ratings, Bounties } from '/imports/api/indexDB.js';
+import { saveCommunity } from '/imports/api/communities/methods' //to access our validatedMethod is must be imported
+
 import Cookies from 'js-cookie'
 
 import './commCurrencyChoices.html';
@@ -104,14 +106,27 @@ Template.commCurrencyChoices.events({
     },
     'click .js-save': function(event, templateInstance) {
 
-        Meteor.call('saveCommunity', this._id, $(`#js-com-url_${this._id}`).val(),$('#js-image_'+event.target.id).val(), (err, data) => {
+        //Define all attributes you would like to send to the ValidatedMethod
+        var params = {
+            currencyId: this._id,
+            url: $(`#js-com-url_${this._id}`).val(), 
+            image: $('#js-image_'+event.target.id).val()
+        }
+        
+        //Very similar to Meteor.call, not much explanation needed.
+        saveCommunity.call(params, (err, data)=>{
             if (!err) {
+                //ValidatedMethod is a success, perform any callback actions here
                 $(`#js-com-url_${this._id}`).attr('disabled', 'true')
                 $(event.currentTarget).attr('disabled', 'true')
                 $(event.currentTarget).text('Saved.')
 
-                setTimeout(() => $(`#links_${this._id}`).hide(), 1000)
+                setTimeout(() => $(`#links_${this._id}`).fadeOut( "slow"), 1000)
+
             } else {
+               //ValidatedMethod errors will be returned here, display in console or return to user
+                console.log(err, "reason", err.reason)
+
                 sAlert.error(err.reason)
             }
         })
