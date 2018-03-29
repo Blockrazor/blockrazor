@@ -7,7 +7,7 @@
   {{> notLoggedIn}}
 
 
-<div class="input-group pull-right">
+<div class="input-group pull-right pb-3">
                                     <select class="form-control rewardTypeFilter custom-select" id="js-type" name="type">
                                     <option disabled selected>--Select transaction type--</option>
                                     <option value="topCommentReward">Top Comment</option>
@@ -23,8 +23,9 @@
   </div>
 </div>
 
+{{> reactiveTable collection=entry settings=walletTable class="table table-bordered table-hover"}}
 
-<table class="table table-hover">
+<!-- <table class="table table-hover">
   <thead>
     <tr>
       <th scope="col">Transaction</th>
@@ -38,7 +39,7 @@
 {{> walletItem}}
 {{/each}}
     </tbody>
-</table>
+</table> -->
   </div>
 </div>
 </template>
