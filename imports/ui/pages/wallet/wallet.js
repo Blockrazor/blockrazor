@@ -61,6 +61,7 @@ if(filter){
                  {
                    key: 'time',
                    label: 'Date / Time',
+                   sortByValue: true,
                    fn: function(value, object, key) { return moment(value).fromNow(); }
                  },                 {
                    key: 'from',
