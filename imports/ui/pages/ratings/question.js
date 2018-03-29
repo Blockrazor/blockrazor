@@ -2,6 +2,7 @@ import { Template } from 'meteor/templating';
 import { Currencies, Ratings } from '/imports/api/indexDB.js';
 
 import './question.html'
+import Cookies from 'js-cookie'
 
 Template.question.onCreated(function bodyOnCreated() {
   var self = this
