@@ -30,31 +30,34 @@
                     {{> loading}}
                 {{/if}}
                 </div>
-                <button class="btn btn-primary m-2"  data-toggle="collapse" href="#addNewComment" role="button" aria-expanded="false" aria-controls="addNewComment">
-                    <i class="fa fa-plus" aria-hidden="true"></i> Add comment
-                </button>
+				{{#if commentable}}
+	                <button class="btn btn-primary m-2"  data-toggle="collapse" href="#addNewComment" role="button" aria-expanded="false" aria-controls="addNewComment">
+	                    <i class="fa fa-plus" aria-hidden="true"></i> Add comment
+	                </button>
 
-                <div class="collapse multi-collapse" id="addNewComment">
-                    <div class="card card-body">
-                        <strong>Rules</strong>
-                        <ul>
-                            <li>Use clear language, keep it as short as possible</li>
-                            <li>Any claims must be factually correct</li>
-                        </ul>
-                        <textarea  id="comment" style="width:100%; height: 100px" placeholder="*Markdown* is supported" maxlength="500" minlength="10" class="form-control"></textarea>
-                        <br />
-                        <div style="display:flex;">
-                            <button class="btn btn-primary float-left submitNewComment">Submit</button>
-                            <h4>&nbsp;&nbsp;<i class="fa fa-question-circle help" aria-hidden="true"></i></h4>
-                            <div class="float-right" id="charNum" style="margin-left:50px;"></div>
-                        </div>
-                    </div>
-                </div>  
+	                <div class="collapse multi-collapse" id="addNewComment">
+	                    <div class="card card-body">
+	                        <strong>Rules</strong>
+	                        <ul>
+	                            <li>Use clear language, keep it as short as possible</li>
+	                            <li>Any claims must be factually correct</li>
+	                        </ul>
+	                        <textarea  id="comment" style="width:100%; height: 100px" placeholder="*Markdown* is supported" maxlength="500" minlength="10" class="form-control"></textarea>
+	                        <br />
+	                        <div style="display:flex;">
+	                            <button class="btn btn-primary float-left submitNewComment">Submit</button>
+	                            <h4>&nbsp;&nbsp;<i class="fa fa-question-circle help" aria-hidden="true"></i></h4>
+	                            <div class="float-right" id="charNum" style="margin-left:50px;"></div>
+	                        </div>
+	                    </div>
+	                </div>
+				{{else}}
+					<br>
+					<p class="text-muted">
+						*<i>Didn't solve your problem? You can create a new one <a href="/new-problem">here</a></i>
+					</p>
+				{{/if}}
             </div>
         </div>
     </div>
 </template>
-
-
-
-
