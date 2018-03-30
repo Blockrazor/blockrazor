@@ -1,5 +1,5 @@
 import { check } from 'meteor/check'
-import { ProfileImages, UserData, Wallet } from '/imports/api/indexDB.js'
+import { ProfileImages, UserData, Wallet, ProblemComments, Features, Redflags, Summaries } from '/imports/api/indexDB.js'
 import { creditUserWith } from '/imports/api/utilities.js'
 
 Meteor.methods({
@@ -220,6 +220,49 @@ Meteor.methods({
                 
         return 'not-ok'
       }
+    },
+    userInputRanking: () => {
+      Meteor.users.find({}).fetch().forEach(i => {
+        let features = Features.find({
+          createdBy: i._id
+        }).fetch()
+
+        let redflags = Redflags.find({
+          createdBy: i._id
+        }).fetch()
+
+        let problems = ProblemComments.find({
+          createdBy: i._id
+        }).fetch()
+
+        let summaries = Summaries.find({
+          createdBy: i._id
+        }).fetch()
+
+        let all = _.union(features, redflags, problems, summaries)
+
+        let total = 0
+        let up = 0
+
+        all.forEach(j => {
+          total += j.appealNumber // total number of votes on an item
+          up += (j.appealNumber + j.appeal) / 2 // total number of upvotes (10 . 6 = 8)
+        })
+
+        /*
+        if (up > 10) {
+          // we could add user badges here
+        }
+        */
+
+        UserData.update({
+          _id: i._id
+        }, {
+          $set: {
+            inputRanking: total ? (up / total) : 0 // avoid division by zero
+          }
+        })
+      })
     },
     initializeUser: function() {
         if (_.size(UserData.findOne({_id: this.userId})) == 0) {
