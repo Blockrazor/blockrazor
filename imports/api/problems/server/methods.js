@@ -162,49 +162,53 @@ Meteor.methods({
 			_id: problemId
 		})
 
-		if (problem) {
-			if (amount > 0) { // check if the user can finance the bounty
-				let user = UserData.findOne({
-					_id: Meteor.userId()
-				})
-
-				if (user.balance < amount) {
-					throw new Meteor.Error('Error.', 'Insufficient funds.')
-				}
-
-				UserData.upsert({
-					_id: Meteor.userId()
-				}, {
-					$inc: {
-						balance: -amount
-					}
-				})
-
-			    Wallet.insert({
-			    	time: new Date().getTime(),
-			    	owner: Meteor.userId(),
-			    	type: 'transaction',
-			      	from: 'Blockrazor',
-			      	message: `${amount} KZR has been reserved from your account for funding a problem.`,
-			      	amount: -amount,
-			     	read: false
-			    })
-
-			    Problems.update({
-			    	_id: problem._id
-			    }, {
-			    	$push: {
-			    		credit: {
-			    			userId: Meteor.userId(),
-			    			bounty: amount
-			    		}
-			    	}
-			    })
-			} else {
-				throw new Meteor.Error('Error.', 'Invalid amount.')
-			}
+		if (problem.cancelled || problem.solved || problem.closed) {
+			throw new Meteor.Error('Error.', 'This problem has been cancelled.')
 		} else {
-			throw new Meteor.Error('Error.', 'Invalid problem.')
+			if (problem) {
+				if (amount > 0) { // check if the user can finance the bounty
+					let user = UserData.findOne({
+						_id: Meteor.userId()
+					})
+
+					if (user.balance < amount) {
+						throw new Meteor.Error('Error.', 'Insufficient funds.')
+					}
+
+					UserData.upsert({
+						_id: Meteor.userId()
+					}, {
+						$inc: {
+							balance: -amount
+						}
+					})
+
+				    Wallet.insert({
+				    	time: new Date().getTime(),
+				    	owner: Meteor.userId(),
+				    	type: 'transaction',
+				      	from: 'Blockrazor',
+				      	message: `${amount} KZR has been reserved from your account for funding a problem.`,
+				      	amount: -amount,
+				     	read: false
+				    })
+
+				    Problems.update({
+				    	_id: problem._id
+				    }, {
+				    	$push: {
+				    		credit: {
+				    			userId: Meteor.userId(),
+				    			bounty: amount
+				    		}
+				    	}
+				    })
+				} else {
+					throw new Meteor.Error('Error.', 'Invalid amount.')
+				}
+			} else {
+				throw new Meteor.Error('Error.', 'Invalid problem.')
+			}
 		}
 	},
 	removeProblemCredit: (problemId) => {
@@ -319,7 +323,7 @@ Meteor.methods({
         if (!mod || !mod.moderator) {
           	throw new Meteor.Error('Error.', 'mod-only')
         }
-        
+
         let problem = Problems.findOne({
         	_id: problemId
         })
@@ -342,15 +346,15 @@ Meteor.methods({
 	        		}
 	        	})
 	        }
-	           
+
 	        let approveChange = Problems.find({
 	        	_id: problem._id
 	        }, {
 	        	fields: {
 	        		score: 1,
 	        		upvotes: 1,
-	        		downvotes: 1 
-	        	} 
+	        		downvotes: 1
+	        	}
 	        }).fetch()[0]
 
 	        if (approveChange.score >= 3) {
@@ -396,7 +400,7 @@ Meteor.methods({
 	            		taken: {}
 	            	}
 	            })
-	                
+
 	            return 'not-ok'
 	        }
     	} else {
@@ -535,7 +539,7 @@ Meteor.methods({
         if (Meteor.userId()) {
             let comment = ProblemComments.findOne({
                 _id: commentId
-            }) 
+            })
 
             if (comment) {
 	            if (_.include(comment.appealVoted, Meteor.userId())) {
@@ -563,7 +567,7 @@ Meteor.methods({
 	            })
         	} else {
         		throw new Meteor.Error('Error.', 'Invalid comment.')
-        	} 
+        	}
         } else {
             throw new Meteor.Error('Error', 'You must be signed in to rate something')
         }
@@ -610,7 +614,7 @@ Meteor.methods({
 			}
 		} else {
         	throw new Meteor.Error('Error.', 'Invalid problem.')
-        } 
+        }
     },
     isWorkingOnAProblem: (userId) => {
     	check(userId, String)

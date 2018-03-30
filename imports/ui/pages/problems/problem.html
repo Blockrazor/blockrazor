@@ -5,7 +5,7 @@
       <div class="card">
       <div class="card-body">
         <div class="name" style="width: 100%">
-          <span class="upper pull-left badge badge-primary" style="margin-right:20px;text-transform:uppercase;">{{problemNR.type}}</span> 
+          <span class="upper pull-left badge badge-primary" style="margin-right:20px;text-transform:uppercase;">{{problemNR.type}}</span>
           <h4 id="header" style="width:40%;cursor: pointer;">{{problemNR.header}}</h4>
           {{#with problem}}
           <span style="width:30%;cursor: pointer;">{{#unless question}} {{amount}} KZR{{/unless}}</span>
@@ -19,7 +19,7 @@
     <div class="col-sm-12">
       <div class="card bg-secondary mb-3">
         <div class="card" style="min-width:100px;overflow:hidden;">
-  
+
           <div class="card-body">
           {{#with problem}}
           <div>
@@ -40,29 +40,31 @@
                      <p style="white-space: pre-wrap" id="text">{{problemNR.text}}</p>
 
           </div>
-          
+
         </div>
       </div>
     </div>
   </div>
   {{#unless question}}
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="card bg-secondary mb-3 mb-3" style="min-width:100px;overflow:hidden;">
+  	{{#if takeable}}
+	  <div class="row">
+	    <div class="col-sm-12">
+	      <div class="card bg-secondary mb-3 mb-3" style="min-width:100px;overflow:hidden;">
 
-          <div class="card-body">
-            <div><lable for="js-credit">Add credit to bounty</lable>
-              <input class="form-control" placeholder="100" type="number" step="0.01" min="0" id="js-credit" style="width:70%"/><br /><small><b style="color: green">{{fixed balance}}</b> KZR</small></div>
-            <button class="btn btn-primary m-2" id="js-addCredit">
-                Add credit
-            </button>
-            <button class="btn btn-secondary m-2" id="js-removeCredit">
-                Remove all credit
-            </button>
-          </div>
-      </div>
-    </div>
-  </div>
+	          <div class="card-body">
+	            <div><lable for="js-credit">Add credit to bounty</lable>
+	              <input class="form-control" placeholder="100" type="number" step="0.01" min="0" id="js-credit" style="width:70%"/><br /><small><b style="color: green">{{fixed balance}}</b> KZR</small></div>
+	            <button class="btn btn-primary m-2" id="js-addCredit">
+	                Add credit
+	            </button>
+	            <button class="btn btn-secondary m-2" id="js-removeCredit">
+	                Remove all credit
+	            </button>
+	          </div>
+	      </div>
+	    </div>
+	  </div>
+	{{/if}}
   <div class="row">
     <div class="col-sm-12">
       <div class="card card-header d-flex align-items-center flex-row">
