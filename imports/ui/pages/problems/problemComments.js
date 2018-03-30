@@ -1,5 +1,7 @@
 import { Template } from 'meteor/templating'
 import { ProblemComments } from '/imports/api/indexDB'
+import { Problems } from '/imports/api/indexDB'
+import { FlowRouter } from 'meteor/staringatlights:flow-router'
 import Cookies from 'js-cookie'
 
 import './problemComments.html'
@@ -18,7 +20,14 @@ Template.problemComments.helpers({
             rating: -1,
             appeal: -1
         }
-    })
+    }),
+	commentable: () => {
+		let problem = Problems.findOne({
+			_id: FlowRouter.getParam('id')
+		})
+
+		return !problem.cancelled && !problem.solved && !problem.closed
+	}
 })
 
 
@@ -57,7 +66,7 @@ Template.problemComments.events({
         if (!Meteor.user()) {
             sAlert.error('You must be logged in to add a new comment!')
         }
-        
+
         const data = $('#comment').val()
 
         if(data.length < 10 || data.length > 500) {
@@ -67,7 +76,7 @@ Template.problemComments.events({
                 if (!err) {
                     $('#comment').val('')
                     $('#addNewComment').collapse('hide')
-                    
+
                     sAlert.success('Thanks! Your comment has been successfully added!')
                 } else {
                     sAlert.error(err.reason)
