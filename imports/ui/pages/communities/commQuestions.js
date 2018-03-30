@@ -1,6 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Currencies, Ratings, Bounties } from '/imports/api/indexDB.js';
 import Cookies from 'js-cookie'
+import swal from 'sweetalert';
 
 import './commQuestions.html'
 
@@ -77,30 +78,44 @@ Template.commQuestions.events({
 				} else {
 					// time to answer difference between previous question and current question is < _lazyAnsweringThreshold
 					// lazy answering detected so reset user's progress and assign 0 to timeToAnswer
-					sAlert.error('Lazy answering detected. You\'ll have to start all over again.')
 	                Meteor.call('deleteCommunityRatings', (err, data) => {})
 					templateInstance.timeToAnswer = 0
+					swal({
+						icon: "error",
+						text: _lazyAnsweringErrorText,
+						button: { className: 'btn btn-primary' }
+					});
 				}
 			}
 
             if (err && err.reason === 'xor') {
                 if (templateInstance.cnt++ === 0) {
-                    sAlert.error('Your answer is in contradiction with your previous answers. Please try again. If this persists, your progress will be purged and bounties will be nullified.')
+					swal({
+						icon: "warning",
+						text: 'Your answer is in contradiction with your previous answers. Please try again. If this persists, your progress will be purged and bounties will be nullified.',
+						button: { className: 'btn btn-primary' }
+					});
                 } else {
-                    sAlert.error('Lazy answering detected. You\'ll have to start all over again.')
                     Meteor.call('deleteCommunityRatings', (err, data) => {})
-
                     templateInstance.cnt = 0
+					swal({
+						icon: "error",
+						text: _lazyAnsweringErrorText,
+						button: { className: 'btn btn-primary' }
+					});
                 }
             }
 
             Cookies.set('workingBounty', false, { expires: 1 })
 
             if (templateInstance.ties > 10) { // ties can't be checked with XOR questions, as XOR only works on booleans. Nonetheless, if the user clicks on 'tie' 10 times in a row, it's safe to say that he/she is just lazy answering
-                sAlert.error('Lazy answering detected. You\'ll have to start all over again.')
                 Meteor.call('deleteCommunityRatings', (err, data) => {})
-
                 templateInstance.ties = 0
+				swal({
+					icon: "error",
+					text: _lazyAnsweringErrorText,
+					button: { className: 'btn btn-primary' }
+				});
             }
         })
     }
