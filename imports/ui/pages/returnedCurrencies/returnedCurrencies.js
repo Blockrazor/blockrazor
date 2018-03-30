@@ -138,6 +138,7 @@ Template.returnedCurrencies.helpers({
             return quality(i2) - quality(i1)
         })
 
+        // show top red flag on home route
 
         templateVars.forEach(templateVar => {
             let currency = Redflags.findOne({
