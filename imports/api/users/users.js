@@ -150,4 +150,10 @@ Meteor.startup(() => {
         schedule: (parser) => parser.cron('0 12 * * *'), // every day at 12pm
         job: () => Meteor.call('rewardReferral', (err, data) => {}) // drain rate is 0.01 KZR per minute
     })
+
+    SyncedCron.add({
+        name: 'Calculate user input ranking',
+        schedule: (parser) => parser.text('every 2 hours'),
+        job: () => Meteor.call('userInputRanking', (err, data) => {}) // drain rate is 0.01 KZR per minute
+    })
 })
