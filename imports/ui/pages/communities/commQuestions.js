@@ -70,12 +70,12 @@ Template.commQuestions.events({
 				// assign current time to timeToAnswer and proceed
 				templateInstance.timeToAnswer = moment()
 			} else {
-				if (moment().diff(templateInstance.timeToAnswer, 'seconds') >= 5) {
-					// time to answer difference between previous question and current question is > 5
+				if (moment().diff(templateInstance.timeToAnswer, 'seconds') >= _lazyAnsweringThreshold) {
+					// time to answer difference between previous question and current question is > _lazyAnsweringThreshold
 					// assign new time to timeToAnswer and proceed
 					templateInstance.timeToAnswer = moment()
 				} else {
-					// time to answer difference between previous question and current question is < 5
+					// time to answer difference between previous question and current question is < _lazyAnsweringThreshold
 					// lazy answering detected so reset user's progress and assign 0 to timeToAnswer
 					sAlert.error('Lazy answering detected. You\'ll have to start all over again.')
 	                Meteor.call('deleteCommunityRatings', (err, data) => {})
