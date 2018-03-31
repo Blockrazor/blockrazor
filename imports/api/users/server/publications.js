@@ -34,8 +34,8 @@ import { UserData, ProfileImages } from '/imports/api/indexDB.js'
         fullname: 1,
         profilePicture: 1,
         screenSize: 1,
+        strikes: 1,
         inputRanking: 1
-
       }
     })
   })
@@ -63,6 +63,7 @@ import { UserData, ProfileImages } from '/imports/api/indexDB.js'
       developer: 1,
       fullname: 1,
       profilePicture: 1,
+      strikes: 1,
       inputRanking: 1
     }
   }))
@@ -81,6 +82,7 @@ import { UserData, ProfileImages } from '/imports/api/indexDB.js'
           developer: 1,
           fullname: 1,
           profilePicture: 1,
+          strikes: 1,
           inputRanking: 1
         }
       })
@@ -130,7 +132,8 @@ import { UserData, ProfileImages } from '/imports/api/indexDB.js'
 				email: 1,
 				bio: 1,
 				slug: 1,
-				profilePicture: 1
+				profilePicture: 1,
+        suspended: 1
 			} // only show the absolutely required fields
 		})
 	})

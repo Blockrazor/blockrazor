@@ -21,7 +21,7 @@
                 <div class="tab-content py-4" style="background-color:#fff;padding:20px">
                     <div class="tab-pane active" id="profile">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <h6>Email</h6>
                                 <p>
                                     {{val user.email}}
@@ -34,6 +34,14 @@
                                 <p>
                                     {{val user.bio}}
                                 </p>
+                                {{#if badThings.length}}
+                                <h6>Strikes</h6>
+                                <p>
+                                    {{#each badThings}}
+                                        <span style="color: red">{{name}} {{date}}.</span><br />
+                                    {{/each}}
+                                </p>
+                                {{/if}}
                                 <h6>Input ranking</h6>
                                 <p>
                                     {{fixed userData.inputRanking}}

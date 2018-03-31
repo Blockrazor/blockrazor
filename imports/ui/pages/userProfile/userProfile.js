@@ -4,6 +4,19 @@ import { Currencies, UserData, Features, HashPower } from '/imports/api/indexDB.
 
 import './userProfile.html'
 
+const getName = (type) => {
+	const o = {
+		'cheating': 'Caught lazy answering rating questions',
+		'bad-coin': 'Submitted an invalid cryptocurrency',
+		'bad-wallet': 'Submitted an invalid wallet image',
+		'comment': 'Submitted a comment that has been flagged and deleted',
+		'redflags': 'Submitted a red flag that has been flagged and deleted',
+		'features': 'Submitted a feature that has been flagged and deleted'
+	}
+
+	return o[type]
+}
+
 Template.userProfile.onCreated(function() {
 	this.autorun(() => {
 		SubsCache.subscribe('user', FlowRouter.getParam('slug'))
@@ -114,5 +127,15 @@ Template.userProfile.helpers({
 		}) || {}).currencyName
 
 		return feature
+	},
+	badThings: () => {
+		let user = UserData.findOne({
+			_id: (Template.instance().user || {})._id
+		})
+
+		return user && user.strikes && user.strikes.map(i => ({
+			date: moment(i.time).fromNow(),
+			name: getName(i.type)
+		}))
 	}
 })

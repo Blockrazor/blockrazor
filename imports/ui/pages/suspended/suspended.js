@@ -6,12 +6,12 @@ import './suspended.html'
 
 const getName = (type) => {
 	const o = {
-		'cheating': 'You have been caught lazy answering rating questions.',
-		'bad-coin': 'You\'ve submitted an invalid cryptocurrency.',
-		'bad-wallet': 'Your wallet image was invalid.',
-		'comment': 'Your comment has been flagged and deleted.',
-		'redflags': 'Your redflag has been flagged and deleted.',
-		'features': 'Your feature has been flagged and deleted.'
+		'cheating': 'You have been caught lazy answering rating questions',
+		'bad-coin': 'You\'ve submitted an invalid cryptocurrency',
+		'bad-wallet': 'Your wallet image was invalid',
+		'comment': 'Your comment has been flagged and deleted',
+		'redflags': 'Your redflag has been flagged and deleted',
+		'features': 'Your feature has been flagged and deleted'
 	}
 
 	return o[type]
