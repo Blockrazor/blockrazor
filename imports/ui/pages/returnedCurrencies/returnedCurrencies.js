@@ -1,11 +1,9 @@
 import { Template } from 'meteor/templating';
-import { Currencies, LocalCurrencies, Redflags } from '/imports/api/indexDB.js';
+import { Currencies, LocalCurrencies } from '/imports/api/indexDB.js';
 
 import scrollmagic from 'scrollmagic';
 import './returnedCurrencies.html'
 import './currency.js'
-
-import { quality } from '../../components/radarGraph'
 
 Template.returnedCurrencies.onCreated(function bodyOnCreated() {
   var self = this
@@ -22,12 +20,10 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
   this.everythingLoaded = new ReactiveVar(false)
   //necessery as tracker doesn't appear to recognize that collection is different (try modifying LocalCurrencies records before swap)
   this.TransitoryCollection = new ReactiveVar(Currencies)
-  this.RedFlagsCollection = new ReactiveVar(Redflags)
 
   this.noFeatured = new ReactiveVar(false)
 
   this.autorun(() => {
-    SubsCache.subscribe('redflags')
     this.noFeatured.set(!Currencies.findOne({
       featured: true
     }))
@@ -99,69 +95,47 @@ Template.returnedCurrencies.onRendered( function () {
 
 Template.returnedCurrencies.helpers({
     noFeatured: () => Template.instance().noFeatured.get(),
-
     currencies() {
-        var templ = Template.instance()
+      var templ = Template.instance()
         let filter = templ.filter.get();
 
-        let templateVars = templ.TransitoryCollection.get().find(filter, { sort: { featured: -1, createdAt: -1 }, limit: templ.limit.get(),
-            fields: {
-                _id: 1,
+            return templ.TransitoryCollection.get().find(filter, { sort: { featured: -1, quality: -1, createdAt: -1 }, limit: templ.limit.get(), 
+              fields: {  
                 eloRanking: 1,
-                slug: 1,
-                currencySymbol: 1,
-                marketCap: 1,
-                maxCoins: 1,
-                hashpower: 1,
-                genesisTimestamp: 1,
-                circulating: 1,
-                currencyName: 1,
-                communityRanking: 1,
-                codebaseRanking: 1,
-                walletRanking: 1,
-                decentralizationRanking: 1,
-                gitCommits: 1,
+                slug: 1,  
+                currencySymbol: 1,  
+                marketCap: 1,  
+                maxCoins: 1,  
+                hashpower: 1,  
+                genesisTimestamp: 1,  
+                circulating: 1,  
+                currencyName: 1,  
+                communityRanking: 1,  
+                codebaseRanking: 1,  
+                walletRanking: 1,  
+                decentralizationRanking: 1,  
+                gitCommits: 1,  
                 featured: 1,
                 premine: 1,
                 cpc: 1,
                 cpt: 1,
                 price: 1
-            }
-        }).fetch().sort((i1, i2) => {
-            if (i1.featured) { // take fetured currencies into account
-                return -1
-            } else if (i2.featured) {
-                return 1
-            }
-
-            return quality(i2) - quality(i1)
-        })
-
-
-        templateVars.forEach(templateVar => {
-            let currency = Redflags.findOne({
-                    currencyId: templateVar._id
-                }) || {};
-
-            templateVar['top_red_flag'] = currency.name;
-        });
-
-        return templateVars;
-
+              }
+             })
     },
     filterCount() {
-        var templ = Template.instance()
-        if (templ.countReady.get() == true) {
+      var templ = Template.instance()
+      if (templ.countReady.get() == true) {
 
-            //filter
-            let filter = templ.filter.get()
+      //filter
+      let filter = templ.filter.get()
 
-            let filterQuestCount = templ.TransitoryCollection.get().find(filter).count()
+      let filterQuestCount = templ.TransitoryCollection.get().find(filter).count()
 
-            return filterQuestCount
-        } else {
-            return "..."
-        }
+      return filterQuestCount
+    } else {
+      return "..."
+    }
     }
 });
 
