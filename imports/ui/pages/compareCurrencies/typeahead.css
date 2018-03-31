@@ -5,7 +5,7 @@ span.twitter-typeahead {
 
 .typeahead.dropdown-menu,
 span.twitter-typeahead .tt-menu {
-     z-index: 0 !important;
+    z-index: 1051; !important;
     min-width: 40%;
 	background: white;
     /*as large as input*/
