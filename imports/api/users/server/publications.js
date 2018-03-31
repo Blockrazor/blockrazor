@@ -34,7 +34,8 @@ import { UserData, ProfileImages } from '/imports/api/indexDB.js'
         fullname: 1,
         profilePicture: 1,
         screenSize: 1,
-        strikes: 1
+        strikes: 1,
+        inputRanking: 1
       }
     })
   })
@@ -49,7 +50,8 @@ import { UserData, ProfileImages } from '/imports/api/indexDB.js'
       profilePicture: 1,
       strikes: 1,
       pardon: 1,
-      activity: 1
+      activity: 1,
+      inputRanking: 1
     }
   }))
 
@@ -61,7 +63,8 @@ import { UserData, ProfileImages } from '/imports/api/indexDB.js'
       developer: 1,
       fullname: 1,
       profilePicture: 1,
-      strikes: 1
+      strikes: 1,
+      inputRanking: 1
     }
   }))
 
@@ -79,7 +82,8 @@ import { UserData, ProfileImages } from '/imports/api/indexDB.js'
           developer: 1,
           fullname: 1,
           profilePicture: 1,
-          strikes: 1
+          strikes: 1,
+          inputRanking: 1
         }
       })
     } else {

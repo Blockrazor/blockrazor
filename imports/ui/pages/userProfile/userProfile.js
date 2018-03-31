@@ -109,6 +109,7 @@ Template.userProfile.helpers({
 	            limit: 10 // show 10 lates comments
 	        }).fetch()
 	    },
+	fixed: val => val.toFixed(2), // 2 decimals
 	commentMeta: function() {
 		// we have to find comment's parent in order to see its metadata (e.g. where it was posted)
 		let depth = this.depth
