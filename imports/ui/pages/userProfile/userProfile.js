@@ -24,10 +24,14 @@ Template.userProfile.onCreated(function() {
 		SubsCache.subscribe('approvedcurrencies')
 		SubsCache.subscribe('comments')
 		SubsCache.subscribe('hashpower')
+	})
 
-		this.user = Meteor.users.findOne({
+	this.user = new ReactiveVar()
+
+	this.autorun(() => {
+		this.user.set(Meteor.users.findOne({
 			slug: FlowRouter.getParam('slug')
-		})
+		}))
 	})
 })
 
@@ -56,13 +60,13 @@ Template.userProfile.helpers({
       return Number( balance.toPrecision(3) )
   	},
 	hashPowerUploadDirectoryPublic: () => _hashPowerUploadDirectoryPublic,
-	user: () => Template.instance().user,
+	user: () => Template.instance().user.get(),
 	val: val => val || '-',
 	roles: () => {
 		let roles = []
 
 		let userData = UserData.findOne({
-			_id: (Template.instance().user || {})._id
+			_id: (Template.instance().user.get() || {})._id
 		})
 
 		if (userData) {
@@ -79,7 +83,7 @@ Template.userProfile.helpers({
 	},
 	userData: () => {
 		return UserData.findOne({
-			_id: (Template.instance().user || {})._id
+			_id: (Template.instance().user.get() || {})._id
 		}) || {}
 	},
 		HashPower: () => {
@@ -88,7 +92,7 @@ Template.userProfile.helpers({
 	},
 	currencies: () => {
 	        return Currencies.find({
-	            owner: (Template.instance().user || {})._id
+	            owner: (Template.instance().user.get() || {})._id
 	        }).fetch()
 	    },
 	    HashPowerImageThumb: (value) => {
@@ -101,7 +105,7 @@ Template.userProfile.helpers({
 	            comment: {
 	                $exists: true
 	            },
-	            createdBy: (Template.instance().user || {})._id
+	            createdBy: (Template.instance().user.get() || {})._id
 	        }, {
 	            sort: {
 	                createdAt: -1
@@ -130,12 +134,15 @@ Template.userProfile.helpers({
 	},
 	badThings: () => {
 		let user = UserData.findOne({
-			_id: (Template.instance().user || {})._id
+			_id: (Template.instance().user.get() || {})._id
 		})
 
 		return user && user.strikes && user.strikes.map(i => ({
 			date: moment(i.time).fromNow(),
 			name: getName(i.type)
 		}))
+	}, 
+	userExists: ()=>{
+		return !Template.instance().user.get()
 	}
 })
