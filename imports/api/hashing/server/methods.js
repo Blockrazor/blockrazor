@@ -5,6 +5,8 @@ import { devValidationEnabled, HashAlgorithm, HashAverage, HashHardware, HashPow
 import { parseString } from 'xml2js'
 import { creditUserWith, removeUserCredit } from '/imports/api/utilities'
 
+import { sendMessage } from '/imports/api/activityLog/server/methods'
+
 
 const parseUnit = unit => {
 	let u = unit[0].toLowerCase()
@@ -327,7 +329,7 @@ Meteor.methods({
 		let mul = parseUnit(unit)
 
 		let cur = Currencies.findOne({
-			currencyName: currencyName
+			currencyName: new RegExp(currencyName, 'ig')
 		})
 
 		if (cur) {
@@ -341,6 +343,10 @@ Meteor.methods({
 							if (!err) {
 								fut.return(data)
 							} else {
+								if (cur.hashpowerBy) {
+									sendMessage(cur.hashpowerBy, `Error while parsing XML in your hash power API call (${apiUrl}). Please check it out.`, 'System')
+								}
+
 								throw new Meteor.Error('Error.', 'Error while parsing XML.')
 							}
 						})
@@ -348,6 +354,9 @@ Meteor.methods({
 						fut.return(JSON.parse(data.content))
 					}
 				} else {
+					if (cur.hashpowerBy) {
+						sendMessage(cur.hashpowerBy, `Error while fetching data in your hash power API call (${apiUrl}). Please check it out.`, 'System')
+					}
 					throw new Meteor.Error('Error.', 'Error when requesting API data.')
 				}
 			})
@@ -362,6 +371,10 @@ Meteor.methods({
 			if (reg.test(field)) {
 				value = get(data, field)
 			} else {
+				if (cur.hashpowerBy) {
+					sendMessage(cur.hashpowerBy, `Error while parsing field value in your hash power API call (${apiUrl}). Please check it out.`, 'System')
+				}
+
 				throw new Meteor.Error('Error.', 'Error while parsing field value.')
 			}
 
@@ -377,6 +390,29 @@ Meteor.methods({
 				let f = parseInt(value) * mul * (avg.average)
 
 				console.log(`hashpower: ${f}`)
+
+				// reward the user here, only the first time
+				let b = Bounties.findOne({
+		    		type: `currency-${cur.slug}`,
+		    		completed: true
+		    	})
+
+				if (b && b.hashpowerPR === cur.hashpowerPR) { // b will be defined only on the first run, and PR URLs have to match
+			    	Meteor.call('getHashPowerAPIReward', b.userId, cur.slug, (err, data) => {
+			    		console.log(data)
+			    		if (data) {
+			    			creditUserWith(data, b.userId, 'adding a new hash power API call.','hashReward')
+			    		}
+			    	})
+
+			    	Currencies.update({
+						_id: cur._id
+					}, {
+						$set: {
+							hashpowerBy: b.userId
+						}
+					})
+		    	}
 				
 				Currencies.update({
 					_id: cur._id
@@ -556,7 +592,8 @@ Meteor.methods({
 		    	}, {
 		    		$set: {
 		    			completed: true,
-		    			completedAt: new Date().getTime()
+		    			completedAt: new Date().getTime(),
+		    			hashpowerPR: prLink
 		    		}
 		    	})
 
@@ -578,32 +615,8 @@ Meteor.methods({
     	return fut.wait()
     },
     parseGitPull: (data) => {
-    	if (data && data.pull_request) { // check if it exists and if its merged
-    		if (data.pull_request.merged_at) {
-	    		let pr = data.pull_request.html_url
-
-	    		let currency = Currencies.findOne({
-	    			$or: [{
-	    				hashpowerPR: pr
-	    			}, {
-	    				hashpowerPR: pr.replace('https', 'http') // just to be safe
-	    			}]
-	    		})
-
-	    		if (currency) {
-		    		let b = Bounties.findOne({
-		    			type: `currency-${currency.slug}`,
-		    			completed: true
-		    		})
-
-		    		Meteor.call('getHashPowerAPIReward', b.userId, currency.slug, (err, data) => {
-		    			console.log(data)
-		    			if (data) {
-		    				creditUserWith(data, b.userId, 'adding a new hash power API call.','hashReward')
-		    			}
-		    		})
-	    		}
-    		} else if (data.pull_request.state === 'closed') { // it's not merged and it's closed, so it's not a solution
+    	if (data && data.pull_request) { // check if it exists
+    		if (data.pull_request.state === 'closed') { // it's not merged and it's closed, so it's not a solution, we can safely delete the bounty
     			let pr = data.pull_request.html_url
 
 	    		let currency = Currencies.findOne({
