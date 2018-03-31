@@ -1,16 +1,19 @@
 Meteor.startup(() => {
   //functions to call before logout such that userId is still availabe
-  var hookedLogout = []
-  Meteor.beforeLogout = (cb)=>{
+  let hookedLogout = []
+
+  Meteor.beforeLogout = cb => {
     hookedLogout.push(cb)
   }
   
+  const logout = Meteor.logout
+
   Meteor.logout = ()=>{
-    hookedLogout.forEach(x=>{
+    hookedLogout.forEach(x => {
       x()
     })
-    Meteor.logout()
+    
+    logout()
   }
-  console.log(Meteor.beforeLogout)
-  })
+})
   

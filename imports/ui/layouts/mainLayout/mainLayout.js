@@ -109,5 +109,5 @@ Template.mainLayout.onCreated(function () {
   }
 
 Meteor.beforeLogout(saveSidebarPreference)
-window.addEventListener('unload', saveSidebarPreference())
+window.addEventListener('unload', saveSidebarPreference)
 })
