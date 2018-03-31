@@ -59,8 +59,19 @@ Template.problem.helpers({
 		let problem = Problems.findOne({
 			_id: FlowRouter.getParam('id')
 		})
-
 		return !problem.cancelled && !problem.solved && !problem.closed
+	},
+	userContribution: function(){
+		var user = Meteor.userId()
+		return Problems.findOne({
+			_id: FlowRouter.getParam('id')
+		}).credit.reduce((a, x)=>{
+			if (x.userId == user){
+				return a + x.bounty
+			} else {
+				return a
+			}
+		}, 0)
 	},
 	problem: () => Problems.findOne({
 		_id: FlowRouter.getParam('id')

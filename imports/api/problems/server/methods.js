@@ -163,7 +163,7 @@ Meteor.methods({
 		})
 
 		if (problem.cancelled || problem.solved || problem.closed) {
-			throw new Meteor.Error('Error.', 'This problem has been cancelled.')
+			throw new Meteor.Error('Error.', 'This problem has been cancelled/solved/closed.')
 		} else {
 			if (problem) {
 				if (amount > 0) { // check if the user can finance the bounty
