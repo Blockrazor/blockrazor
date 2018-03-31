@@ -1,6 +1,3 @@
-import '/imports/api/users/client/users.js'
-import '../both/index.js'
-
 Meteor.startup(() => {
   //functions to call before logout such that userId is still availabe
   var hookedLogout = []

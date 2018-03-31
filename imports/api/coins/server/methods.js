@@ -329,9 +329,6 @@ Meteor.methods({
   //  }
 
 
-
-
-
   if (error.length != 0) {throw new Meteor.Error(error)} 
   //skips data==allowed in development, adjust in config startup
   if(!devValidationEnabled || error.length == 0 && _.size(data) == _.size(allowed)){
@@ -354,7 +351,7 @@ Meteor.methods({
   
           data.hashAlgorithm = fut.wait()
         }
-
+    
     console.log("----inserting------");
     var insert = _.extend(data, {
       createdAt: new Date().getTime(),

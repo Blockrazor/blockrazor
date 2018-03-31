@@ -25,12 +25,12 @@ Template.mainLayout.events({
     if (val == true) { 
       if (screen < pref) { 
         //adjust pref because user wants menu opened at screenSize smaller than current preference 
-        Meteor.call("sidebarPreference", screen) 
+        Session.set('openedSidebarPreference')
       } 
     } else { 
       if (screen > pref) { 
         //adjust pref because user wants menu closed at screenSize bigger than current preference 
-        Meteor.call("sidebarPreference", 1+screen) 
+        Session.set('openedSidebarPreference', 1+screen)
       } 
     } 
   }
@@ -72,13 +72,23 @@ Template.mainLayout.onCreated(function () {
 
 
   //sets width size by breakpoints, numbers used to make general comparisons (screensize < 3)
-  window.addEventListener("resize", _.debounce(setScreenSize, 10));
+  window.addEventListener("resize", _.debounce(setScreenSize, 5));
+
   //initialize screenSize session var
   setScreenSize()
   this.user = new ReactiveVar(UserData.findOne())
+
+  //init preferences
   this.autorun(() => {
-    this.user.set(UserData.findOne())
+    if (!Session.get("openedSidebarPreference") || Meteor.loggingIn()) {
+      console.log("running because logging in", Meteor.loggingIn())
+    var user = UserData.findOne()
+    Session.set("openedSidebarPreference", user && user.screenSize ? user.screenSize : 3)
+    Session.set("openedSidebar", Session.get("openedSidebarPreference") <= Session.get("screenSize"))
+    }
   })
+
+  //responsive controller
   this.autorun(() => {
     var user = this.user.get()
     var pref = user && user.screenSize? user.screenSize: 3
@@ -89,4 +99,15 @@ Template.mainLayout.onCreated(function () {
       Session.set("openedSidebar", false) 
     } 
   })
+
+//writes to DB preferences on change and window close/log out
+  function saveSidebarPreference(){
+    if (Meteor.userId() && (UserData.findOne().screenSize? UserData.findOne().screenSize: 3) != Session.get("openedSidebarPreference")){
+      Meteor.call("sidebarPreference", Session.get('openedSidebarPreference')) 
+      Session.set("openedSidebarPreference", null)
+    }
+  }
+
+Meteor.beforeLogout(saveSidebarPreference)
+window.addEventListener('unload', saveSidebarPreference())
 })
