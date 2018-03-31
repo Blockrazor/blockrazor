@@ -8,7 +8,7 @@ import './currency.js'
 Template.returnedCurrencies.onCreated(function bodyOnCreated() {
   var self = this
   self.autorun(function(){
-    SubsCache.subscribe('approvedcurrencies');
+    SubsCache.subscribe('dataQualityCurrencies');
   })
   this.searchInputFilter = new ReactiveVar(undefined); 
   this.filterCount = new ReactiveVar(undefined);
@@ -20,6 +20,14 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
   this.everythingLoaded = new ReactiveVar(false)
   //necessery as tracker doesn't appear to recognize that collection is different (try modifying LocalCurrencies records before swap)
   this.TransitoryCollection = new ReactiveVar(Currencies)
+
+  this.noFeatured = new ReactiveVar(false)
+
+  this.autorun(() => {
+    this.noFeatured.set(!Currencies.findOne({
+      featured: true
+    }))
+  })
 
 	//logic for receiving benefits of fast-render and yet using nonreactive data from method
   if (!LocalCurrencies.find().count()) {
@@ -86,12 +94,14 @@ Template.returnedCurrencies.onRendered( function () {
 });
 
 Template.returnedCurrencies.helpers({
+    noFeatured: () => Template.instance().noFeatured.get(),
     currencies() {
       var templ = Template.instance()
         let filter = templ.filter.get();
 
-            return templ.TransitoryCollection.get().find(filter, { sort: { featured: -1, createdAt: -1 }, limit: templ.limit.get(), 
+            return templ.TransitoryCollection.get().find(filter, { sort: { featured: -1, quality: -1, createdAt: -1 }, limit: templ.limit.get(), 
               fields: {  
+                eloRanking: 1,
                 slug: 1,  
                 currencySymbol: 1,  
                 marketCap: 1,  
@@ -105,10 +115,13 @@ Template.returnedCurrencies.helpers({
                 walletRanking: 1,  
                 decentralizationRanking: 1,  
                 gitCommits: 1,  
-                featured: 1
+                featured: 1,
+                premine: 1,
+                cpc: 1,
+                cpt: 1,
+                price: 1
               }
-             });
-
+             })
     },
     filterCount() {
       var templ = Template.instance()

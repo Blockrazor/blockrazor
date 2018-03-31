@@ -1,28 +1,45 @@
 <template name="currencyDetail">
-    {{> sAlert}}
-    {{#with thiscurrency}}
-      {{> currencyInfo}}
-    {{/with}}
-    <div class="card border-secondary mb-3 mb-3">
-      <div class="card-header" style="height:50px">
-        <h4 class="pull-left">Fundamental Metrics</h4>
-      </div>
-      <div class="card-body">
-        {{#with thiscurrency}}
-          {{> fundamentalMetrics}}
-        {{/with}}
-        
-        {{#with thiscurrency}}
-          {{> features}}
-        {{/with}}
-        
-        {{#with thiscurrency}}
-          {{> redflags}}
-        {{/with}}
-        
-        {{#with thiscurrency}}
-          {{> walletimages}}
-        {{/with}}
-      </div>
+  {{> sAlert}}
+  {{#if activeBounty}}
+    <div class="alert alert-danger" role="alert">
+    <h5 class="text-center">{{timeRemaining}}</h5>
+    <input type="text" placeholder="https://github.com/Blockrazor/blockrazor/pull/362" id="js-pr" style="padding: 10px; margin-top: 10px; margin-bottom: 10px;width: 100%"><br />
+    <button class="btn btn-danger" id="js-submitPR">Submit PR link</button>
+    {{#if canExtend}}<button class="btn btn-danger" id="js-extend">Extend time by 1 hour</button>{{/if}}
+    <button class="btn btn-danger" id="js-cancel">Cancel</button>
     </div>
+  {{/if}}
+  <div class="row">
+    <div class="col-sm-12">
+      {{#with thiscurrency}}
+        {{> currencyInfo}}
+      {{/with}}
+    </div>
+  </div>
+  <div class="row">
+    {{#with thiscurrency}}
+      {{> fundamentalMetrics}}
+    {{/with}}
+  </div>
+  {{{captcha}}}<!--it should probably go into a modal or something-->
+  <div class="row">
+    {{#with thiscurrency}}
+      {{> summaries}}
+    {{/with}}
+  </div>
+  <div class="row">
+    {{#with thiscurrency}}
+      {{> features}}
+    {{/with}}
+  </div>
+  <div class="row">
+    {{#with thiscurrency}}
+      {{> redflags}}
+    {{/with}}
+  </div>
+  <div class="row">
+    {{#with thiscurrency}}
+      {{> walletimages}}
+    {{/with}}
+  </div>
 </template>

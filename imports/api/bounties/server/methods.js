@@ -6,6 +6,8 @@ import { creditUserWith } from '../../utilities.js';
 
 import {REWARDCOEFFICIENT} from '../REWARDCOEFFICIENT' //needed on client
 
+import { sendMessage } from '/imports/api/activityLog/server/methods'
+
 Meteor.methods({
   rejectBounty: function(bountyId, reason) {
     if(UserData.findOne({_id: this.userId}).moderator) {
@@ -19,7 +21,7 @@ Meteor.methods({
           rejectedBy: Meteor.user().username
         }
       });
-      Meteor.call("sendMessage", original.completedBy, ("The " + original.bountyType + " bounty you submitted for " + original.currencyName + "has been denied by a moderator. Please see your Pending list to see more details."))
+      sendMessage(original.completedBy, ("The " + original.bountyType + " bounty you submitted for " + original.currencyName + "has been denied by a moderator. Please see your Pending list to see more details."))
     }
   },
   addNewBounty: (type, reward, time) => {
@@ -38,6 +40,7 @@ Meteor.methods({
         Bounties.insert({
           _id: Random.id(16),
           userId: Meteor.userId(),
+          currentUsername: Meteor.user().username,
           type: type,
           expiresAt: Date.now() + time,
           currentlyAvailable: false,
@@ -47,6 +50,29 @@ Meteor.methods({
         })
       } else {
         throw new Meteor.Error('You are already working on this one.')
+      }
+    }
+  },
+  extendBounty: (currency) => {
+    if (Meteor.userId()) {
+      let b = Bounties.find({
+        type: `currency-${currency}`
+      }, {
+        sort: {
+          expiresAt: -1
+        }
+      }).fetch()[0]
+
+      if (b && b.expiresAt > Date.now() && b.type.startsWith('currency-')) { // you can only extend if it's not already expired, and it's only for currency hash power api bounties
+        Bounties.update({
+          type: `currency-${currency}`
+        }, {
+          $inc: {
+            expiresAt: 3600000.0 // extend by one hour
+          }
+        })
+      } else {
+        throw new Meteor.Error('Invalid bounty.')
       }
     }
   },
@@ -109,8 +135,8 @@ Meteor.methods({
         }, function(error, result){
         })
       }
-      creditUserWith(original.bountyReward, original.completedBy, ("completing the " + original.currencyName + " " + original.bountyType + "."));
-      Meteor.call("sendMessage", original.completedBy, ("I have approved your bounty for " + original.currencyName), Meteor.user().username);
+      creditUserWith(original.bountyReward, original.completedBy, ("completing the " + original.currencyName + " " + original.bountyType + "."),'bountyReward');
+      sendMessage(original.completedBy, ("I have approved your bounty for " + original.currencyName), Meteor.user().username);
     }
   },
   completeAPIbounty: function(apiData){

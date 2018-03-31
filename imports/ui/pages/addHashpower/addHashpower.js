@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { FormData, HashHardware, HashAlgorithm, HashUnits, Bounties } from '/imports/api/indexDB.js'
+import { devValidationEnabled, FormData, HashHardware, HashAlgorithm, HashUnits, Bounties } from '/imports/api/indexDB.js'
 import { FlowRouter } from 'meteor/staringatlights:flow-router';
 import Cookies from 'js-cookie'
 
@@ -113,6 +113,7 @@ Template.addHashpower.events({
 		templateInstance.addUnit.set(!templateInstance.addUnit.get())
 	},
 	'click #js-add': (event, templateInstance) => {
+		////server-only validation, no optimistic UI #681 //is used by client, but is server only #682
 		event.preventDefault()
 			//check if file is selected
 			if(!$('#imageInput').val()){
@@ -121,7 +122,8 @@ Template.addHashpower.events({
 				$('#uploadLabel').removeClass('btn-danger');
 			}
 
-		if($("form").valid()){
+		//skips validation in dev environment
+		if(!devValidationEnabled || $("form").valid()){
 
 
 

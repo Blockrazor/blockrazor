@@ -1,4 +1,4 @@
-import { EloRankings, Ratings, RatingsTemplates, Currencies, GraphData } from '/imports/api/indexDB.js';
+import { EloRankings, Ratings, RatingsTemplates, Currencies, GraphData, Communities } from '/imports/api/indexDB.js';
 import { log } from '../main'
 
 SyncedCron.add({
@@ -25,11 +25,13 @@ Meteor.methods({
 
         let ratings = {}
         let commits = []
+        let power = []
 
         let pos = ['wallet', 'community', 'codebase', 'decentralization', 'elo']
 
         currencies.forEach(i => {
             commits.push(i.gitCommits || 0)
+            power.push(i.hashpower || 0)
 
             pos.forEach(j => {
                 let min = j === 'elo' ? 0 : 400
@@ -74,20 +76,44 @@ Meteor.methods({
                 'developmentMaxElo': max
             }
         })
+
+        min = 0
+        max = 0
+
+        if (!_.isEmpty(power)) {
+            min = _.min(power)
+            max = _.max(power)
+        }
+
+        GraphData.upsert({
+            _id: 'elodata'
+        }, {
+            $set: {
+                'hashpowerMinElo': min,
+                'hashpowerMaxElo': max
+            }
+        })
     },
     eloCount: () => {
         let currencies = Currencies.find({}).fetch()
+        let graphdata = GraphData.findOne({
+            _id: 'elodata'
+        })
 
         currencies.forEach(i => {
             let ratings = EloRankings.find({
                 currencyId: i._id
             }).count()
 
+            if (i.gitCommits || i.gitCommits === 0) { // if it has this field, the github url is valid and functional, as it can be fetched with the API (0 can still be a valid result)
+                ratings += (graphdata.eloMaxElo * 0.8) / 4 // increase the rating by 25% of the max rating if the github URL is ok
+            }
+
             Currencies.upsert({
                 _id: i._id
             }, {
                 $set: {
-                    [`eloRanking`]: ratings
+                    eloRanking: ratings
                 }
             })
         })
@@ -109,9 +135,30 @@ Meteor.methods({
 
             let ratingArray = []
             let final = 0
+            let mul = 1
+
+            if (type === 'community') {
+                let communities = Communities.find({
+                    currencyId: i._id
+                }).fetch()
+
+                let maxRatio = communities.reduce((i1, i2) => {
+                    let ratio = i2.time ? i2.size / (i2.time / (60*60*24*1000)) : 0 // time in days
+
+                    if (ratio > i1) {
+                        return ratio
+                    } 
+
+                    return i1
+                }, 0) // get the community with highest ratio
+
+                if (maxRatio > 1) { // probably needs adjustments
+                    mul = 1.2 // increase rankings by 20%
+                }
+            }
 
             ratings.forEach((j, ind) => {
-                ratingArray.push(j.ranking)
+                ratingArray.push(j.ranking * mul)
 
                 if (parseInt(ind) + 1 === ratings.length) {
                     let sum = _.reduce(ratingArray, (memo, num) => memo + num, 0)

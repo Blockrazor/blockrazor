@@ -1,12 +1,15 @@
 <template name="sideNav">
   <div class="side-nav-container">
     <div class="sidebar-header">
-      Welcome<br/>
       {{#if currentUser}}
-        {{currentUser.username}}
+          <ul class="list-unstyled components d-sm-none">
+      <li>
+        <a href="/wallet"><strong>Balance: {{balance}} ZRQ</strong></a>
+      </li>
+
+    </ul>
       {{else}}
-        Guest, <br/>
-        Please <a href="/login">Sign in</a> to access the rest of this site.
+    <a href="/login">Sign in</a> to access the rest of this site.
       {{/if}}
     </div>
     <ul class="list-unstyled components">
@@ -18,7 +21,15 @@
           <a href="/addcoin">Add New Coin or ICO</a>
         </li>
         <li>
-          <a href="/bounties">Bounties</a>
+          <a href="/bounties">
+			  Bounties
+			  {{#if hasBounties activeBounties }}
+				  <span class="badge badge-danger">{{ activeBounties.length }}</span>
+			  {{/if}}
+		  </a>
+        </li>
+        <li>
+          <a href="/problems">Problems</a>
         </li>
         {{#if currentUser }}
         <li>
@@ -35,7 +46,10 @@
             <a href="/transactions/1">All Blockrazor Transactions</a>
           </li>
           <li>
-            <a href="/applogs">Application logs</a>
+            <a href="/moderator/applogs">Application logs</a>
+          </li>
+          <li>
+            <a href="/moderator/solved-problems">Solved problems</a>
           </li>
         {{/if}}
         <li>

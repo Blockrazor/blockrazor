@@ -1,8 +1,269 @@
 import { check } from 'meteor/check'
-import { ProfileImages, UserData } from '/imports/api/indexDB.js'
-
+import { ProfileImages, UserData, Wallet, ProblemComments, Features, Redflags, Summaries } from '/imports/api/indexDB.js'
+import { creditUserWith } from '/imports/api/utilities.js'
 
 Meteor.methods({
+    generateInviteCode: () => { // for backwards compability
+      Meteor.users.find({
+        inviteCode: {
+          $exists: false
+        }
+      }).fetch().forEach(i => {
+        Meteor.users.update({
+          _id: i._id
+        }, {
+          $set: {
+            inviteCode: Random.id(20)
+          }
+        })
+      })
+    },
+    setReferral: (inviteCode) => {
+      let invitedBy = Meteor.users.findOne({
+        inviteCode: inviteCode
+      })
+
+      if (invitedBy && invitedBy._id !== Meteor.userId()) { // you can't invite yourself, duh
+        Meteor.users.update({
+          _id: Meteor.userId(),
+          invitedBy: {
+            $exists: false // can't update if user already has a referral
+          }
+        }, {
+          $set: {
+            referral: {
+              invitedBy: invitedBy._id
+            }
+          }
+        })
+      }
+    },
+    rewardReferral: () => {
+      Meteor.users.find({}).fetch().forEach(i => {
+        let invited = Meteor.users.find({
+          'referral.invitedBy': i._id
+        }).fetch()
+
+        if (invited.length) {
+          let last24h = new Date().getTime() - 86400000 // last 24 hours
+
+          let earnedToday = invited.reduce((i1, i2) => { // sum everything referrals have earned in the last 24hours
+            let val = Wallet.find({
+              rewardType: {
+                $ne: 'referral'
+              },
+              owner: i2._id,
+              time: {
+                $gt: last24h
+              }
+            }).fetch().reduce((j1, j2) => j1 + j2.amount, 0)
+
+            return i1 + val
+          }, 0)
+
+          creditUserWith(earnedToday * 0.05, i._id, 'inviting other users to Blockrazor.', 'referral') // reward with 5% of all
+        }
+      })
+    },
+    userStrike: (userId, type, token) => {
+      if (token === 's3rv3r-only') {
+        let user = UserData.findOne({
+          _id: userId
+        })
+
+        if (user) {
+          // add a strike to user's date
+          UserData.update({
+            _id: user._id
+          }, {
+            $push: {
+              strikes: {
+                time: new Date().getTime(),
+                type: type
+              }
+            }
+          })
+
+          let lastWeek = new Date().getTime() - 24*60*60*1000*7 // one week
+          let strikesWeek = user.strikes ? user.strikes.reduce((i1, i2) => {
+            let val = i2.time > lastWeek ? 1 : 0
+
+            return i1 + val
+          }, 0) + 1 : 0
+
+          let lastMonth = new Date().getTime() - 24*60*60*1000*30 // one month (30 days average)
+          let strikesMonth = user.strikes ? user.strikes.reduce((i1, i2) => {
+            let val = i2.time > lastMonth ? 1 : 0
+
+            return i1 + val
+          }, 0) + 1 : 0
+
+          if (strikesWeek > 3 || strikesMonth > 6) {
+            Meteor.users.update({
+              _id: Meteor.userId()
+            }, {
+              $set: {
+                suspended: true
+              }
+            })
+          }
+        } else {
+          throw new Meteor.Error('Error.', 'Invalid user.')
+        }
+      } else {
+        throw new Meteor.Error('Error.', 'This method is server only.')
+      }
+    },
+    applyForPardon: (reason) => {
+      if (Meteor.userId()) {
+        UserData.update({
+          _id: Meteor.userId()
+        }, {
+          $set: {
+            pardon: {
+              reason: reason,
+              status: 'new'
+            }
+          }
+        })
+      } else {
+        throw new Meteor.Error('Error.', 'You need to be logged in.')
+      }
+    },
+    pardonVote: function(userId, type) {
+      if (!Meteor.userId()) {
+        throw new Meteor.Error('Error.', 'Please log in first')
+      }
+
+      let mod = UserData.findOne({
+        _id: this.userId
+      }, {
+        fields: {
+          moderator: true
+        }
+      })
+
+      if (!mod || !mod.moderator) {
+          throw new Meteor.Error('Error.', 'mod-only')
+      }
+        
+      let u = UserData.findOne({
+        _id: userId
+      })
+
+      if (!(u.pardon.votes || []).filter(i => i.userId === this.userId).length) { // user hasn't voted yet
+        UserData.update({
+          _id: u._id
+        }, {
+          $inc: {
+            'pardon.score': type === 'voteUp' ? 1 : -1, // increase or decrease the current score
+            [`pardon.${type === 'voteUp' ? 'upvotes' : 'downvotes'}`]: 1 // increase upvotes or downvotes
+          },
+          $push: {
+            'pardon.votes': {
+              userId: this.userId,
+              type: type,
+              loggedIP: this.connection.clientAddress,
+              time: new Date().getTime()
+            }
+          }
+        })
+      }
+           
+      let approveChange = UserData.find({
+        _id: u._id
+      }, {
+        fields: {
+          pardon: 1
+        } 
+      }).fetch()[0]
+
+      // pardon user if he/she receives more than 3 positive votes
+      if (approveChange.pardon.score >= 3) {
+        UserData.update({
+          _id: u._id
+        }, {
+          $set: {
+            pardon: {
+              status: 'granted'
+            }
+          }
+        })
+
+        Meteor.users.update({
+          _id: u._id
+        }, {
+          $set: {
+            strikes: [], // clear his sins
+            suspended: false
+          }
+        })
+
+        return 'ok'
+      }
+
+      // If the user has 3 or more negative votes, deny his/her pardon request
+      if (approveChange.pardon.score <= -3) {
+        if (u) {
+          UserData.update({
+            _id: u._id
+          }, {
+            $set: {
+              pardon: {
+                status: 'denied'
+              }
+            }
+          })
+        } else {
+          throw new Meteor.Error('Error.', 'Wrong id.')
+        }
+                
+        return 'not-ok'
+      }
+    },
+    userInputRanking: () => {
+      Meteor.users.find({}).fetch().forEach(i => {
+        let features = Features.find({
+          createdBy: i._id
+        }).fetch()
+
+        let redflags = Redflags.find({
+          createdBy: i._id
+        }).fetch()
+
+        let problems = ProblemComments.find({
+          createdBy: i._id
+        }).fetch()
+
+        let summaries = Summaries.find({
+          createdBy: i._id
+        }).fetch()
+
+        let all = _.union(features, redflags, problems, summaries)
+
+        let total = 0
+        let up = 0
+
+        all.forEach(j => {
+          total += j.appealNumber // total number of votes on an item
+          up += (j.appealNumber + j.appeal) / 2 // total number of upvotes (10 . 6 = 8)
+        })
+
+        /*
+        if (up > 10) {
+          // we could add user badges here
+        }
+        */
+
+        UserData.update({
+          _id: i._id
+        }, {
+          $set: {
+            inputRanking: total ? (up / total) : 0 // avoid division by zero
+          }
+        })
+      })
+    },
     initializeUser: function() {
         if (_.size(UserData.findOne({_id: this.userId})) == 0) {
           let u = UserData.find({
@@ -68,14 +329,12 @@ Meteor.methods({
             check(data.email, String)
             check(data.bio, String)
             check(data.username, String)
-            check(data.profilePicture, String)
 
             Meteor.users.update({ _id: this.userId }, {
                     $set: {
                         email: data.email,
                         username: data.username,
-                        bio: data.bio,
-                        profilePicture: data.profilePicture
+                        bio: data.bio
                     }
                 },
                 function(error) {
@@ -111,20 +370,17 @@ Meteor.methods({
             return false
         }
 
-        try {
-            insert = ProfileImages.insert({
-                _id: md5,
-                createdAt: new Date().getTime(),
-                createdBy: Meteor.userId(),
-                extension: fileExtension
-            })
-        } catch(error) {
-            throw new Meteor.Error('Error.', 'That image has already been used on Blockrazor, please choose another profile image.');
-        }
-
-        if (insert !== md5) {
-            throw new Meteor.Error('Error.', 'Something is wrong, please contact help.')
-        }
+        Meteor.users.update({ _id: Meteor.userId() }, {
+                $set: {
+                    profilePicture: {
+                        small: `${md5}_thumbnail.${fileExtension}`,
+                        large: `${md5}.${fileExtension}`
+                    }
+                }
+            },
+            function(error) {
+                console.log('editProfile method failed', error)
+            });
 
         fs.writeFileSync(filename, binaryData, {
             encoding: 'binary'
@@ -138,7 +394,6 @@ Meteor.methods({
   gm(filename)
       .resize(size.width, size.height + ">")
       .gravity('Center')
-      .extent(size.width, size.height)
       .write(filename_thumbnail, function(error) {
           if (error) console.log('Error - ', error);
       });

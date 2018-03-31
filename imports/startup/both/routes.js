@@ -1,6 +1,6 @@
 import {FlowRouter} from 'meteor/staringatlights:flow-router';
 import {FastRender} from 'meteor/staringatlights:fast-render'
-// import {SubsCache} from 'meteor/ccorcos:subs-cache' 
+// import {SubsCache} from 'meteor/ccorcos:subs-cache'
 import {SubsManager} from 'meteor/meteorhacks:subs-manager'
 
 // SubsCache = new SubsManager({
@@ -39,31 +39,59 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   import '../../ui/pages/signin/signin'
   import '../../ui/pages/signup/signup'
   import '../../ui/pages/auctions/currencyAuction'
+  import '../../ui/pages/problems/problems'
+  import '../../ui/pages/problems/newProblem'
+  import '../../ui/pages/problems/problem'
+  import '../../ui/pages/allHashaverage/allHashaverage'
+  import '../../ui/pages/addHashpower/addHashpower.js'
+  import '../../ui/pages/suspended/suspended'
+
 
   //moderator pages
   import '../../ui/pages/moderator/moderatorDash/moderatorDash'
   import '../../ui/pages/moderator/questions/questions'
-  import '../../ui/pages/moderator/hashpower/allHashaverage'
   import '../../ui/pages/moderator/flaggedUsers/flaggedUsers'
   import '../../ui/pages/moderator/hashpower/flaggedHashpower'
-  import '../../ui/pages/addHashpower/addHashpower.js'
   import '../../ui/pages/moderator/appLogs/appLogs'
+  import '../../ui/pages/moderator/problems/solvedProblems'
+  import '../../ui/pages/moderator/pardon/pardon'
+  import '../../ui/pages/moderator/flagged/flagged'
 
   // New Layout doesn't use side Template.dynamic side
   import '../../ui/layouts/mainLayout/mainLayout'
 
   //Stylesheet
-  import '/imports/ui/stylesheets/lux.min.css';
+  //is in client folder
+  // import '/imports/ui/stylesheets/lux.min.css';
 } else {
   SubsCache = Meteor
 }
 
-FlowRouter.triggers.enter([ () => { window.scrollTo(0, 0); } ]);
+//resets window position on navigation
+FlowRouter.triggers.enter([ () => { window.scrollTo(0, 0); }, () => {
+  Tracker.autorun(() => { // redirection should be reactive, hence the Tracker is used
+    let user = Meteor.userId() && Meteor.users.findOne({
+      _id: Meteor.userId()
+    })
+
+    if (user && user.suspended) {
+      FlowRouter.go('/suspended') // redirect all suspended users here
+    }
+  })
+} ])
 
 //global subscriptions (on client side immidiately available)
 FlowRouter.subscriptions = function() {
   this.register('publicUserData', SubsCache.subscribe('publicUserData'));
-  this.register('graphdata', SubsCache.subscribe('graphdata'))
+  this.register('graphdata', SubsCache.subscribe('graphdata'));
+
+  // subscribe to bounties so user's can keep track of active bounties
+  this.register('bounties', SubsCache.subscribe('bounties'));
+
+  //subscribe to users so that people can switch out accounts with constellation's account module
+  if (Meteor.isDevelopment){
+    this.register('users', SubsCache.subscribe('users'))
+  }
 };
 
 FlowRouter.route('/profile/:slug', {
@@ -75,9 +103,15 @@ FlowRouter.route('/profile/:slug', {
   },
   action: function (params, queryParams) {
     BlazeLayout.render('mainLayout', {
-      main: 'userProfile',
-      //left: 'sideNav'
+      main: 'userProfile'
     })
+  }
+})
+
+FlowRouter.route('/profile', {
+  name: 'profile',
+  action: () => {
+     FlowRouter.go('/profile/' + Meteor.user().slug)
   }
 })
 
@@ -111,15 +145,57 @@ FlowRouter.route('/currencyAuction', {
   }
 })
 
-FlowRouter.route('/applogs', {
-  name: 'app-logs',
+FlowRouter.route('/suspended', {
+  name: 'suspended',
+  subscriptions: function(params) {
+    this.register('myUserData', SubsCache.subscribe('myUserData'))
+  },
+  action: (params, queryParams) => {
+    let user = Meteor.userId() && Meteor.users.findOne({
+      _id: Meteor.userId()
+    })
+
+    if (user && user.suspended) {
+      BlazeLayout.render('suspended')
+    } else {
+      FlowRouter.go('/')
+    }
+  }
+})
+
+FlowRouter.route('/problems', {
+  name: 'problems',
   subscriptions: function (params) {
-    this.register('applogs', SubsCache.subscribe('applogs', 1, 50))
+    this.register('problems', SubsCache.subscribe('problems'))
     this.register('users', SubsCache.subscribe('users'))
   },
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {
-      main: 'appLogs',
+      main: 'problems',
+      //left: 'sideNav'
+    })
+  }
+})
+
+FlowRouter.route('/problem/:id', {
+  name: 'problem',
+  subscriptions: function (params) {
+    this.register('problem', SubsCache.subscribe('problem', params.id))
+    this.register('users', SubsCache.subscribe('users'))
+  },
+  action: (params, queryParams) => {
+    BlazeLayout.render('mainLayout', {
+      main: 'problem',
+      //left: 'sideNav'
+    })
+  }
+})
+
+FlowRouter.route('/new-problem', {
+  name: 'new-problem',
+  action: (params, queryParams) => {
+    BlazeLayout.render('mainLayout', {
+      main: 'newProblem',
       //left: 'sideNav'
     })
   }
@@ -141,7 +217,7 @@ FlowRouter.route('/transactions/:page?', {
 FlowRouter.route('/', {
   name: 'BLOCKRAZOR',
   subscriptions: function () {
-    this.register('approvedcurrencies', SubsCache.subscribe('approvedcurrencies'));
+    this.register('dataQualityCurrencies', SubsCache.subscribe('dataQualityCurrencies'));
     this.register('graphdata', SubsCache.subscribe('graphdata'))
   },
   action() {
@@ -152,7 +228,7 @@ FlowRouter.route('/', {
   }
 })
 
-FlowRouter.route('/ratings', { 
+FlowRouter.route('/ratings', {
   name: 'ratings',
   subscriptions: function () {
     this.register('approvedcurrencies', SubsCache.subscribe('approvedcurrencies'));
@@ -168,7 +244,7 @@ FlowRouter.route('/ratings', {
   }
 })
 
-FlowRouter.route('/theme', { 
+FlowRouter.route('/theme', {
   name: 'theme',
   action() {
     BlazeLayout.render('mainLayout', {
@@ -190,22 +266,6 @@ FlowRouter.route('/add-hashpower', {
   action: () => {
     BlazeLayout.render('mainLayout', {
       main: 'addHashpower',
-      //left: 'sideNav'
-    })
-  }
-})
-
-FlowRouter.route('/flagged-hashpower', {
-  name: 'flagged-hashpower',
-  subscriptions: function () {
-    this.register('flaggedhashpower', SubsCache.subscribe('flaggedhashpower'));
-    this.register('hashhardware', SubsCache.subscribe('hashhardware'));
-    this.register('hashalgorithm', SubsCache.subscribe('hashalgorithm'));
-    this.register('hashunits', SubsCache.subscribe('hashunits'));
-  },
-  action: () => {
-    BlazeLayout.render('mainLayout', {
-      main: 'flaggedHashpower',
       //left: 'sideNav'
     })
   }
@@ -256,25 +316,6 @@ FlowRouter.route('/communities', {
   }
 })
 
-FlowRouter.route('/flagged-users', {
-  name: 'flaggedUsers',
-  subscriptions: function () {
-    this.register('userData', SubsCache.subscribe('userData'));
-    this.register('users', SubsCache.subscribe('users'));
-  },
-  action: function () {
-    if (Meteor.userId()) {
-      BlazeLayout.render('mainLayout', {
-        main: 'flaggedUsers',
-        //left: 'sideNav'
-      })
-    } else {
-      window.last = window.location.pathname
-      FlowRouter.go('/login')
-    }
-  }
-})
-
 FlowRouter.route('/codebase', {
   name: 'codebase',
   subscriptions: function () {
@@ -303,38 +344,13 @@ FlowRouter.route('/developers', {
   }
 })
 
-FlowRouter.route('/profile', {
-  name: 'profile',
-  subscriptions: function () {
-   this.register('profileimages', SubsCache.subscribe('profileimages'));
-
- },
-  action: () => {
-    BlazeLayout.render('mainLayout', {
-      main: 'editProfile',
-      //left: 'sideNav'
-    })
-  }
-})
-
-FlowRouter.route('/questions', {
-  name: 'questions',
-  subscriptions: function () {
-    this.register('ratings_templates', SubsCache.subscribe('ratings_templates'));
-  },
-  action() {
-    BlazeLayout.render('mainLayout', {
-      main: 'questions',
-      //left: 'sideNav'
-    });
-    //  if(Meteor.isServer) {    }
-  }
-});
-
 FlowRouter.route('/bounties', {
   name: 'bounties',
   subscriptions: function () {
-    this.register('bounties', SubsCache.subscribe('bounties'));
+    this.register('bounties', SubsCache.subscribe('bounties'))
+    this.register('users', SubsCache.subscribe('users'))
+    this.register('problems', SubsCache.subscribe('problems'))
+    this.register('approvedcurrencies', SubsCache.subscribe('approvedcurrencies'))
     this.register('bountytypes', SubsCache.subscribe('bountytypes'));
   },
   action() {
@@ -377,7 +393,7 @@ FlowRouter.route('/addcoin', {
       main: 'addCoin',
       //left: 'luxMenu'
     });
-    
+
       this.register('formdata', SubsCache.subscribe('formdata'));
 
     } else {
@@ -398,6 +414,8 @@ FlowRouter.route('/currency/:slug', {
     this.register('hashalgorithm', SubsCache.subscribe('hashalgorithm'));
     this.register('graphdata', SubsCache.subscribe('graphdata'))
     this.register('formdata', SubsCache.subscribe('formdata'))
+    this.register('summaries', SubsCache.subscribe('summaries'), param.slug)
+    this.register('bounties', SubsCache.subscribe('bounties'))
   },
   action: function (params, queryParams) {
     BlazeLayout.render('mainLayout', {
@@ -429,17 +447,6 @@ FlowRouter.route('/changedcurrencies', {
       main: 'changedCurrencies',
       //left: 'luxMenu'
     });
-  }
-});
-
-FlowRouter.route('/moderator', {
-  subscriptions: function () {
-    this.register('pendingcurrencies', SubsCache.subscribe('pendingcurrencies'));
-    this.register('bounties', SubsCache.subscribe('bounties'));
-    this.register('walletimages', SubsCache.subscribe('walletimages'));
-  },
-  action: function (params, queryParams) {
-    BlazeLayout.render('mainLayout', {main: 'moderatorDash'});
   }
 });
 
@@ -504,3 +511,127 @@ FlowRouter.notFound = {
     BlazeLayout.render('error', {main: 'App_notFound'});
   }
 };
+
+
+//moderator routes
+var adminRoutes = FlowRouter.group({
+  prefix: '/moderator',
+  name: 'moderator',
+});
+
+adminRoutes.route('/', {
+  subscriptions: function () {
+    this.register('pendingcurrencies', SubsCache.subscribe('pendingcurrencies'));
+    this.register('bounties', SubsCache.subscribe('bounties'));
+    this.register('walletimages', SubsCache.subscribe('walletimages'));
+  },
+  action: function (params, queryParams) {
+    BlazeLayout.render('mainLayout', {main: 'moderatorDash'});
+  }
+});
+
+adminRoutes.route('/questions', {
+  name: 'questions',
+  subscriptions: function () {
+    this.register('ratings_templates', SubsCache.subscribe('ratings_templates'));
+  },
+  action() {
+    BlazeLayout.render('mainLayout', {
+      main: 'questions',
+      //left: 'sideNav'
+    });
+    //  if(Meteor.isServer) {    }
+  }
+});
+
+adminRoutes.route('/flagged-users', {
+  name: 'flaggedUsers',
+  subscriptions: function () {
+    this.register('userData', SubsCache.subscribe('userData'));
+    this.register('users', SubsCache.subscribe('users'));
+  },
+  action: function () {
+    if (Meteor.userId()) {
+      BlazeLayout.render('mainLayout', {
+        main: 'flaggedUsers',
+        //left: 'sideNav'
+      })
+    } else {
+      window.last = window.location.pathname
+      FlowRouter.go('/login')
+    }
+  }
+})
+
+adminRoutes.route('/flagged-hashpower', {
+  name: 'flagged-hashpower',
+  subscriptions: function () {
+    this.register('flaggedhashpower', SubsCache.subscribe('flaggedhashpower'));
+    this.register('hashhardware', SubsCache.subscribe('hashhardware'));
+    this.register('hashalgorithm', SubsCache.subscribe('hashalgorithm'));
+    this.register('hashunits', SubsCache.subscribe('hashunits'));
+  },
+  action: () => {
+    BlazeLayout.render('mainLayout', {
+      main: 'flaggedHashpower',
+      //left: 'sideNav'
+    })
+  }
+})
+
+adminRoutes.route('/pardon', {
+  name: 'pardon',
+  subscriptions: function () {
+    this.register('users', SubsCache.subscribe('users'))
+    this.register('pardonUserData', SubsCache.subscribe('pardonUserData'))
+  },
+  action: () => {
+    BlazeLayout.render('mainLayout', {
+      main: 'pardon'
+    })
+  }
+})
+
+adminRoutes.route('/flagged', {
+  name: 'flagged',
+  subscriptions: function () {
+    this.register('users', SubsCache.subscribe('users'))
+    this.register('features', SubsCache.subscribe('features'))
+    this.register('redflags', SubsCache.subscribe('redflags'))
+  },
+  action: () => {
+    BlazeLayout.render('mainLayout', {
+      main: 'flagged'
+    })
+  }
+})
+
+adminRoutes.route('/applogs', {
+  name: 'app-logs',
+  subscriptions: function (params) {
+    this.register('applogs', SubsCache.subscribe('applogs', 1, 50))
+    this.register('users', SubsCache.subscribe('users'))
+  },
+  action: (params, queryParams) => {
+    BlazeLayout.render('mainLayout', {
+      main: 'appLogs',
+      //left: 'sideNav'
+    })
+  }
+})
+
+adminRoutes.route('/solved-problems', {
+  name: 'solved-problems',
+  subscriptions: function (params) {
+    this.register('solvedProblems', SubsCache.subscribe('solvedProblems'))
+    this.register('users', SubsCache.subscribe('users'))
+  },
+  action: (params, queryParams) => {
+    BlazeLayout.render('mainLayout', {
+      main: 'solvedProblems',
+      //left: 'sideNav'
+    })
+  }
+})
+
+// server side routes

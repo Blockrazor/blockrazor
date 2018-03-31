@@ -1,10 +1,11 @@
 import { Template } from 'meteor/templating';
-import { FormData, Bounties, RatingsTemplates, HashAlgorithm } from '/imports/api/indexDB.js'; //database
+import { devValidationEnabled, FormData, Bounties, RatingsTemplates, HashAlgorithm } from '/imports/api/indexDB.js'; //database
 
 import swal from 'sweetalert';
 import Cookies from 'js-cookie';
 
 import './addCoin.html'
+import './addCoin.scss'
 
 function initPopOvers(){
   //gotta set a small delay as dom isn't ready straight away
@@ -13,9 +14,43 @@ function initPopOvers(){
     }.bind(this), 500);
 }
 
+function initDatePicker(id, format, template, klass) {
+	Meteor.setTimeout(function() {
+		$('#' + id).combodate({
+			format: format,
+			template: template,
+			customClass: klass + ' form-control',
+			maxYear: 2020,
+			minYear: 2008,
+			firstItem: 'name'
+		});
+	}.bind(this), 200)
+}
+
+// convert a string of integers into an array of integers
+function stringListToInt(stringList, delimiter) {
+	return stringList.split(delimiter).map(Number);
+}
+
+// convert ICODate into an Array Date
+// purpose of this is to have it easily supported by Date.UTC
+function formatICODate(dateString) {
+	var dateArr = dateString.split(" ");
+	var date = stringListToInt(dateArr[0], "-");
+	var time = stringListToInt(dateArr[1], ":");;
+	date[1] = date[1] - 1;
+	return date.concat(time);
+
+}
+
 Template.addCoin.onRendered(function() {
     //init popovers
     $('[data-toggle="popover"]').popover({ trigger: 'focus' })
+
+	// init genesis and ico date pickers
+	initDatePicker('genesisDate', 'YYYY-MM-DD', 'YYYY MM D', 'genesis-date');
+	initDatePicker('icoDate', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
+  initDatePicker('icoDateEnd', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
 });
 
 //Functions to help with client side validation and data manipulation
@@ -34,7 +69,7 @@ var makeTagArrayFrom = function(string) {
 
 Template.addCoin.onCreated(function() {
   this.coinExists = new ReactiveVar(true)
-  this.POWSelect = new ReactiveVar(false)
+  this.powselect = new ReactiveVar(false)
   this.btcfork = new ReactiveVar(false)
   this.isICO = new ReactiveVar(false)
   this.currencyName = new ReactiveVar(false)
@@ -52,6 +87,7 @@ Template.addCoin.onCreated(function() {
   this.confirmations = new ReactiveVar(false)
   this.previousNames = new ReactiveVar(false)
   this.exchanges = new ReactiveVar(false)
+  this.showAlgoField = new ReactiveVar(false)
 
   this.currencyNameMessage = new ReactiveVar(null)
   this.consensusType = new ReactiveVar('')
@@ -70,6 +106,11 @@ Template.addCoin.onCreated(function() {
 
 //Events
 Template.addCoin.events({
+  'click #js-nothere': (event, templateInstance) => {
+    event.preventDefault()
+
+    templateInstance.showAlgoField.set(!templateInstance.showAlgoField.get())
+  },
   'blur #currencyName': function(e, templateInstance){
     templateInstance.currencyName.set(false);
     Meteor.call('isCurrencyNameUnique', e.currentTarget.value);
@@ -82,36 +123,41 @@ Template.addCoin.events({
 //Select form elements to display to user based on their selection
   'change .isICO': function(dataFromForm) {
     Template.instance().isICO.set(dataFromForm.target.checked);
-    //init popovers again, can't init on hidden dom elements 
+    //init popovers again, can't init on hidden dom elements
      initPopOvers();
-
+	 initDatePicker('genesisDate', 'YYYY-MM-DD', 'YYYY MM D', 'genesis-date');
+	 initDatePicker('icoDate', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
+  initDatePicker('icoDateEnd', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
   },
   'change .btcfork': function(dataFromForm) {
     Template.instance().btcfork.set(dataFromForm.target.checked);
 
-    //init popovers again, can't init on hidden dom elements 
+    //init popovers again, can't init on hidden dom elements
      initPopOvers();
+	 initDatePicker('genesisDate', 'YYYY-MM-DD', 'YYYY MM D', 'genesis-date');
+	 initDatePicker('icoDate', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
+  initDatePicker('icoDateEnd', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
 
 
   },
   'change .exists': function(dataFromForm) {
     Template.instance().coinExists.set(dataFromForm.target.checked);
-        //init popovers again, can't init on hidden dom elements 
+        //init popovers again, can't init on hidden dom elements
      initPopOvers();
+
+	 // init genesis and ico date pickers again
+	 initDatePicker('genesisDate', 'YYYY-MM-DD', 'YYYY MM D', 'genesis-date');
+	 initDatePicker('icoDate', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
+  initDatePicker('icoDateEnd', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
 
 
   },
   'change #consensusType': function(consensusType) {
     Template.instance().consensusType.set(consensusType.target.value);
-         //init popovers again, can't init on hidden dom elements 
-     initPopOvers();
+         //init popovers again, can't init on hidden dom elements
+     initPopOvers()
 
-
-    if (consensusType.target.value == "Proof of Work" || consensusType.target.value == "Hybrid") {
-      Template.instance().POWSelect.set(true);
-    } else {
-      Template.instance().POWSelect.set(false);
-    }
+     Template.instance().powselect.set(consensusType.target.value !== '--Select One--')
   },
   'change #currencyLogoInput': function(event){
 
@@ -143,7 +189,8 @@ if(file){
  }
 
 //Only upload if above validation are true
-if(!uploadError){
+//Disabled validation in development environment for easy testing (adjust in both startup index)
+if(devValidationEnabled && !uploadError){
 
   $("#fileUploadValue").html("<i class='fa fa-circle-o-notch fa-spin'></i> Uploading");
 
@@ -163,7 +210,7 @@ if(!uploadError){
          button: { className: 'btn btn-primary' }
      });
        }else{
-    
+
     $("#currencyLogoFilename").val(md5+'.'+fileExtension);
 
        $("#fileUploadValue").html("Change");
@@ -259,8 +306,16 @@ if(!uploadError){
   if(d.icocurrency){if (d.icocurrency.value != "----") {addToInsert(d.icocurrency.value, "icocurrency")}};
   if(d.ICOcoinsProduced) {if(d.ICOcoinsProduced.value) {addToInsert(parseInt(d.ICOcoinsProduced.value), "ICOcoinsProduced")}};
   if(d.ICOcoinsIntended) {if(d.ICOcoinsIntended.value) {addToInsert(parseInt(d.ICOcoinsIntended.value), "ICOcoinsIntended")}};
-  if(d.ICOyear) {if (d.ICOyear.value) {addToInsert(Date.parse(new Date(Date.UTC(d.ICOyear.value, d.ICOmonth.value - 1, d.ICOday.value, d.ICOhour.value, d.ICOminute.value, d.ICOsecond.value))), "ICOnextRound")}};
-  if(d.genesisYear) {addToInsert(Date.parse(d.genesisYear.value + "-" + d.genesisMonth.value + "-" + d.genesisDay.value), "genesisTimestamp")};
+  if(d.genesisYear) {addToInsert(Date.parse(d.genesisYear.value), "genesisTimestamp")};
+  if(d.ICOyear) {
+	  if (d.ICOyear.value) {
+		  var icoDate = formatICODate(d.ICOyear.value);
+      var icoDateEnd = formatICODate(d.icoDateEnd.value);
+		  addToInsert(Date.parse(new Date(Date.UTC(icoDate[0], icoDate[1], icoDate[2], icoDate[3], icoDate[4], icoDate[5]))), "ICOnextRound")
+      addToInsert(Date.parse(new Date(Date.UTC(icoDateEnd[0], icoDateEnd[1], icoDateEnd[2], icoDateEnd[3], icoDateEnd[4], icoDateEnd[5]))), "icoDateEnd")
+
+	  }
+  };
   //if(!insert.genesisTimestamp) {insert.genesisTimestamp = 0};
 
     data.preventDefault(); //this goes after the 'insert' array is built, strange things happen when it's used too early; #1
@@ -379,7 +434,7 @@ switch (val) {
             break;
         }
 
-} 
+}
 
   },
   questions: () => RatingsTemplates.find({}).fetch(),
@@ -406,7 +461,7 @@ switch (val) {
         expiresAt: -1
       }
     }).fetch()[0]
-  
+
     return `You have ${Math.round((bounty.expiresAt - Template.instance().now.get())/1000/60)} minutes to complete the bounty for ${Number(bounty.currentReward).toFixed(2)} KZR.`;
   },
   security () {
@@ -414,9 +469,21 @@ switch (val) {
   },
   subsecurity () {
     if (Template.instance().consensusType.get() === 'Proof of Work') {
-      return HashAlgorithm.find({}).fetch()
+      return HashAlgorithm.find({
+        $or: [{
+          type: 'pow' 
+        }, {
+          type: {
+            $exists: false // previous data doesn't have this field, so we have to check
+          }
+        }]
+      }).fetch()
+    } else if (Template.instance().consensusType.get() === 'Proof of Stake') {
+      return HashAlgorithm.find({
+        type: 'pos'
+      }).fetch()
     } else if (Template.instance().consensusType.get() === 'Hybrid') {
-      return HashAlgorithm.find({}).fetch().map(i => {
+      return HashAlgorithm.find({}).fetch().map(i => { // list all here
         i.name = `Staking and ${i.name}`
 
         return i
@@ -440,6 +507,7 @@ switch (val) {
         return "This was a fork of the Bitcoin blockchain"
     } else {
         return "This is a planned fork of the Bitcoin blockchain"
-    }}
+    }},
+    showAlgoField: () => Template.instance().showAlgoField.get()
 
   });

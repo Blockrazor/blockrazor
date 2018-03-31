@@ -2,13 +2,9 @@
 <div class="row">
     <div class="col-3 mx-auto">
         <div class="nauk-info-connections text-center">
-              <img src="https://user-images.githubusercontent.com/8143945/37496855-eec0cd58-28ef-11e8-9de3-b0df665daa67.png" style="width:200px"><br />
+              <img src="https://user-images.githubusercontent.com/8143945/37496855-eec0cd58-28ef-11e8-9de3-b0df665daa67.png" style="width:200px" data-toggle="modal" data-target=".underDev" class="pointer"><br />
 
 <br />
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".underDev">Learn more</button><br />
-              <a href="https://github.com/Blockrazor/blockrazor/"><i class="fa fa-github" aria-hidden="true" style="font-size:32px;padding:10px"></i></a> <a href="https://twitter.com/blockrazor"><i class="fa fa-twitter" aria-hidden="true" style="font-size:32px;padding:10px"></i></a>
-
-
         </div>
     </div>
 </div>
@@ -38,6 +34,17 @@
     </div> 
   </div>
   <div class="currency-container">
+    {{#if noFeatured}}
+    <a href="/currencyAuction">
+    <div class="currency-card" style="height: 70px;text-decoration: none;">
+        <div class="header" style="width: 400px">
+            <div><i style="padding-right: 10px; padding-left: 10px;" class="fa fa-gavel"></i> Put your ICO or coin here<br>
+                <div style="height: 0px;font-size: 10px">(top bid)</div>
+            </div>
+        </div>
+    </div>
+    </a>
+    {{/if}}
     {{#if subsCacheReady}}
       {{#each currencies}}
         {{> currency}}

@@ -4,11 +4,7 @@ import { Features } from '/imports/api/indexDB.js'
 import './commentRender.html'
 
 Template.commentRender.helpers({
-  alreadyVotedOnComment: function(id) {
-      if (_.include(Features.findOne({parentId: id}).appealVoted, Meteor.userId())) {
-          return true;
-      }
-  },
+  
 })
 
 Template.commentRender.events({

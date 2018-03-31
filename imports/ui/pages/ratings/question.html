@@ -1,0 +1,38 @@
+<template name="question">
+  <div class="page-header" id="banner">
+      <div class="row">
+          <div class="col-lg-12">
+              <p class="lead">{{questionText}}?</p>
+              <hr>
+          </div>
+      </div>
+  </div>
+  <div class="row text-center">
+      <div class="card-deck text-center" style="margin: 0 auto; padding-top:2em">
+          <div class="card pointer greyHover choice" id="{{currency0Name}}">
+              <div class="card-body">
+                  <h5 class="card-title">{{currency0.currencyName}}</h5>
+                  <img class="card-img-top mx-auto d-block" style="width: 8rem;padding:10px" src="{{getLogo currency0.currencyLogoFilename}}" alt="Card image cap">
+              </div>
+          </div>
+          <div class="card pointer greyHover text-white bg-dark choice" id="tie">
+              <div class="card-body">
+                  <h5 class="card-title"><br />Both are about the same</h5>
+                  <img src="/images/equal-symbol.png">
+              </div>
+          </div>
+          <div class="card pointer greyHover choice" id="{{currency1Name}}">
+              <div class="card-body">
+                  <h5 class="card-title">{{currency1.currencyName}}</h5>
+                  <img class="card-img-top mx-auto d-block" style="width: 8rem;padding:10px" src="{{getLogo currency1.currencyLogoFilename}}" alt="Card image cap">
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="row">
+      <div class="col-lg-12">
+          <br/>
+          <h5> You have <strong>{{outstandingRatings}}</strong> questions in your queue.</h5>
+      </div>
+  </div>
+</template>

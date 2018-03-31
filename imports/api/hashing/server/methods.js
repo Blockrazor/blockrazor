@@ -1,9 +1,10 @@
 import { Meteor } from 'meteor/meteor'
 
-import { HashAlgorithm, HashAverage, HashHardware, HashPower, HashPowerImages, HashUnits, UserData, Currencies, Bounties, REWARDCOEFFICIENT } from '/imports/api/indexDB.js'
+import { devValidationEnabled, HashAlgorithm, HashAverage, HashHardware, HashPower, HashPowerImages, HashUnits, UserData, Currencies, Bounties, REWARDCOEFFICIENT } from '/imports/api/indexDB.js'
 
 import { parseString } from 'xml2js'
 import { creditUserWith, removeUserCredit } from '/imports/api/utilities'
+
 
 const parseUnit = unit => {
 	let u = unit[0].toLowerCase()
@@ -24,6 +25,7 @@ const parseUnit = unit => {
 
 Meteor.methods({
 	addHashpower: (category, device, algo, hashrate, unit, power, image) => {
+		////is used by client, but is server only #682 //server-only validation, no optimistic UI #681
 		const Future = require('fibers/future')
 		const fut = {
 			hw: new Future(), 
@@ -32,7 +34,8 @@ Meteor.methods({
 		}
 
 		if (Meteor.userId()) {
-			if (category && device && algo && hashrate && unit && power && image) {
+			//ignored validation in development
+			if (!devValidationEnabled || category && device && algo && hashrate && unit && power && image) {
 				// if the hardware already exists, just continue, but if it doesn't, create it
 				if (!HashHardware.findOne({
 					_id: device
@@ -89,7 +92,7 @@ Meteor.methods({
 					powerConsumption: power,
 					image: image,
 					createdBy: Meteor.userId(),
-					createdByUsername: Meteor.users.findOne({_id: Meteor.userId}).username,
+					createdByUsername: Meteor.user().username,
 					createdAt: new Date().getTime()
 				})
 
@@ -98,7 +101,7 @@ Meteor.methods({
 				Meteor.call('getHashPowerReward', Meteor.userId(), n, (err, data) => {
 					console.log(data)
 					if (!err) {
-						creditUserWith(data, Meteor.userId(), 'adding new hash power data') // credit the user for adding new hash power data, the same way we credit users when adding new currencies
+						creditUserWith(data, Meteor.userId(), 'adding new hash power data','hashReward') // credit the user for adding new hash power data, the same way we credit users when adding new currencies
 
 						HashPower.update({
 							_id: n
@@ -129,11 +132,12 @@ Meteor.methods({
 			throw new Meteor.Error('Error.', 'You have to log in first.')
 		}
 	},
-	addAlgo: (name) => {
+	addAlgo: (name, type) => {
 		if (Meteor.userId()) {
 			if (name) {
 				return HashAlgorithm.insert({
-					name: name
+					name: name,
+					type: type || 'pow'
 				})
 			} else {
 				throw new Meteor.Error('Error.', 'Please fill all fields.')
@@ -254,7 +258,7 @@ Meteor.methods({
 					_id: hp._id
 				})
 
-				removeUserCredit(hp.reward || 0, hp.createdBy, 'removing added hash power data.') // remove the reward
+				removeUserCredit(hp.reward || 0, hp.createdBy, 'removing added hash power data.','hashDataDeleted') // remove the reward
 			} else {
 				throw new Meteor.Error('Error.', 'Wrong id.')
 			}
@@ -274,7 +278,7 @@ Meteor.methods({
 						_id: id
 					})
 
-					removeUserCredit(hp.reward || 0, hp.createdBy, 'removing added hash power data.') // remove the reward
+					removeUserCredit(hp.reward || 0, hp.createdBy, 'removing added hash power data.','hashDataDeleted') // remove the reward
 				} else {
 					throw new Meteor.Error('Error.', 'Error ocurred while deleting.')
 				}
@@ -449,7 +453,6 @@ Meteor.methods({
             gm(filename)
                 .resize(size.width, size.height + ">")
                 .gravity('Center')
-                .extent(size.width, size.height)
                 .write(filename_thumbnail, function(error) {
                     if (error) console.log('Error - ', error);
             });
@@ -470,10 +473,15 @@ Meteor.methods({
 	    }
 	},
 	// last added hash power data, used to determine bounty reward
-	getLastHashPower: () => HashPower.find({}, {
+	getLastHashPower: () => HashPower.find({
+		//will crash if no records found
+		//source of bug in hash bounties, as it will sort hashpower without createdAt field first
+		// createdAt: {$exists: true}
+	}, {
     	sort: {
         	createdAt: -1
-      	}
+				},
+				limit: 1
     }).fetch()[0],
     getHashPowerReward: (userId, hpId) => {
     	let bounty = Bounties.findOne({
@@ -505,5 +513,127 @@ Meteor.methods({
         	console.log('no bounty')
         	return ((Date.now() - lastHashPower.createdAt) / REWARDCOEFFICIENT) * 0.9
       	}
+    },
+    getHashPowerAPIReward: (userId, currency) => {
+    	let bounty = Bounties.findOne({
+        	userId: userId,
+        	type: `currency-${currency}`
+      	})
+
+      	let cur = Currencies.findOne({
+        	slug: currency
+      	}) || {}
+
+      	if (bounty) {
+        	Meteor.call('deleteNewBounty', bounty._id, 's3rver-only', (err, data) => {}) // delete the bounty, we're done with it
+
+        	if (bounty.expiresAt < bounty.completedAt) {
+          		console.log('already expired')
+          		return 0 // no reward
+        	} else {
+          		console.log('actual bounty')
+          		return Number(bounty.currentReward)
+        	}
+      	} else {
+        	console.log('no bounty')
+        	return 0 // no reward
+      	}
+    },
+    completeHashPowerBounty: (currency, prLink) => {
+    	const Future = require('fibers/future')
+    	const fut = new Future()
+    	// check PR link
+    	let pr = prLink.replace(/((http|https):\/\/)?github.com\//, '').replace(/\/+$/, '').replace('pull', 'pulls')
+
+		HTTP.get(`https://api.github.com/repos/${pr}`, {
+      		headers: {
+        		"User-Agent": "gazhayes-blockrazor"
+      		}
+    	}, (err, data) => {
+    		if (!err) {
+		    	Bounties.update({
+		    		type: `currency-${currency}`,
+		    	}, {
+		    		$set: {
+		    			completed: true,
+		    			completedAt: new Date().getTime()
+		    		}
+		    	})
+
+		    	Currencies.update({
+		    		slug: currency
+		    	}, {
+		    		$set: {
+		    			hashpowerApi: true,
+		    			hashpowerPR: prLink
+		    		}
+		    	})
+
+		    	fut.return(true)
+    		} else {
+    			fut.return(false)
+    		}
+    	})
+
+    	return fut.wait()
+    },
+    parseGitPull: (data) => {
+    	if (data && data.pull_request) { // check if it exists and if its merged
+    		if (data.pull_request.merged_at) {
+	    		let pr = data.pull_request.html_url
+
+	    		let currency = Currencies.findOne({
+	    			$or: [{
+	    				hashpowerPR: pr
+	    			}, {
+	    				hashpowerPR: pr.replace('https', 'http') // just to be safe
+	    			}]
+	    		})
+
+	    		if (currency) {
+		    		let b = Bounties.findOne({
+		    			type: `currency-${currency.slug}`,
+		    			completed: true
+		    		})
+
+		    		Meteor.call('getHashPowerAPIReward', b.userId, currency.slug, (err, data) => {
+		    			console.log(data)
+		    			if (data) {
+		    				creditUserWith(data, b.userId, 'adding a new hash power API call.','hashReward')
+		    			}
+		    		})
+	    		}
+    		} else if (data.pull_request.state === 'closed') { // it's not merged and it's closed, so it's not a solution
+    			let pr = data.pull_request.html_url
+
+	    		let currency = Currencies.findOne({
+	    			$or: [{
+	    				hashpowerPR: pr
+	    			}, {
+	    				hashpowerPR: pr.replace('https', 'http') // just to be safe
+	    			}]
+	    		})
+
+	    		if (currency) { // remove it from solutions so the bounty can be active again
+	    			let b = Bounties.findOne({
+		    			type: `currency-${currency.slug}`,
+		    			completed: true
+		    		})
+
+		    		if (b) {
+		    			Meteor.call('deleteNewBounty', b._id, 's3rver-only', (err, data) => {}) // delete the bounty, we're done with it
+		    		}
+
+	    			Currencies.update({
+	    				_id: currency._id
+	    			}, {
+	    				$set: {
+	    					hashpowerPR: '',
+	    					hashpowerApi: false
+	    				}
+	    			})
+	    		}
+    		}
+    	}
     }
 })

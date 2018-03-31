@@ -45,6 +45,13 @@ import { ActivityLog } from '/imports/api/activityLog/activityLog.js'
 import { Bids } from '/imports/api/auctions/bids'
 import { Auctions } from '/imports/api/auctions/auctions'
 
+import { Summaries } from '/imports/api/summaries/summaries'
+
+import { Problems } from '/imports/api/problems/problems'
+import { ProblemImages } from '/imports/api/problems/problemImages'
+import { ProblemComments } from '/imports/api/problems/problemComments'
+
+import { devValidationEnabled } from '/imports/startup/both/devValidationEnabled'
 
 export {
   Bounties,
@@ -90,5 +97,13 @@ export {
   ActivityLog,
 
   Bids,
-  Auctions
+  Auctions,
+
+  Summaries,
+
+  Problems,
+  ProblemImages,
+  ProblemComments,
+
+  devValidationEnabled
 }

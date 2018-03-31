@@ -165,6 +165,14 @@ Meteor.methods({
 							}
 						})
 					} // set the the featured flag for the top currency for easy display
+				} else { // if there are no bids, remove the featured status from the last feature currency to prevent it from staying on top
+					Currencies.update({
+						featured: true
+					}, {
+						$set: {
+							featured: false
+						}
+					})
 				}
 			}
 		} else {

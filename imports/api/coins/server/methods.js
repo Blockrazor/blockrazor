@@ -1,16 +1,30 @@
 import { Meteor } from 'meteor/meteor'
 import { ActivityLog, Bounties, REWARDCOEFFICIENT, UserData,
   Currencies, PendingCurrencies, RejectedCurrencies, ChangedCurrencies,
-  HashAlgorithm } from '/imports/api/indexDB.js'
+  HashAlgorithm, devValidationEnabled } from '/imports/api/indexDB.js'
 import { rewardCurrencyCreator } from '/imports/api/utilities.js';
 import { log } from '/server/main'
 
+import { quality } from '/imports/api/utilities'
+
 Meteor.methods({
-  getLastCurrency: () => Currencies.find({}, {
-    sort: {
-      approvedTime: -1
+  getLastCurrency: () => {
+    let pending = PendingCurrencies.find({}, {
+      sort: {
+        createdAt: -1
+      }
+    }).fetch()[0]
+
+    if (!pending) { // in case there's no pending currencies, use the last added currency
+      pending = Currencies.find({}, {
+        sort: {
+          createdAt: -1
+        }
+      }).fetch()[0]
     }
-  }).fetch()[0],
+
+    return pending
+  },
   getCurrentReward: (userId, currencyName) => {
     let bounty = Bounties.findOne({
       userId: userId,
@@ -21,11 +35,19 @@ Meteor.methods({
 
     console.log(bounty)
 
-    let lastCurrency = Currencies.find({}, {
+    let lastCurrency = PendingCurrencies.find({}, {
       sort: {
-        approvedTime: -1
+        createdAt: -1
       }
     }).fetch()[0]
+
+    if (!lastCurrency) { // in case there's no pending currencies, use the last added currency
+      lastCurrency = Currencies.find({}, {
+        sort: {
+          createdAt: -1
+        }
+      }).fetch()[0]
+    }
 
     let currency = Currencies.findOne({
       currencyName: currencyName
@@ -36,14 +58,14 @@ Meteor.methods({
 
       if (bounty.expiresAt < currency.createdAt) {
         console.log('already expired')
-        return ((Date.now() - lastCurrency.approvedTime) / REWARDCOEFFICIENT) * 1.8
+        return ((Date.now() - lastCurrency.createdAt) / REWARDCOEFFICIENT) * 1.8
       } else {
         console.log('actual bounty')
         return Number(bounty.currentReward)
       }
     } else {
       console.log('no bounty')
-      return ((Date.now() - lastCurrency.approvedTime) / REWARDCOEFFICIENT) * 1.8
+      return ((Date.now() - lastCurrency.createdAt) / REWARDCOEFFICIENT) * 1.8
     }
   },
   approveCurrency: function(currencyId) {
@@ -91,7 +113,9 @@ Meteor.methods({
           from: Meteor.user().username,
           type: "message"
         });
-        PendingCurrencies.remove({_id: id});
+        PendingCurrencies.remove({_id: id})
+
+        Meteor.call('userStrike', owner, 'bad-coin', 's3rv3r-only', (err, data) => {}) // user earns 1 strike here
       }
     })
   }},
@@ -136,6 +160,9 @@ Meteor.methods({
   }
   },
   addCoin(data) {
+    const Future = require('fibers/future')
+    const fut = new Future()
+    ////server-only validation, no optimistic UI #681 //is used by client, but is server only #682
   //Check that user is logged in
   if (!Meteor.userId()) {throw new Meteor.Error("Please log in first")};
   Meteor.call('isCurrencyNameUnique', data.currencyName);
@@ -146,6 +173,7 @@ Meteor.methods({
 
     //Function to validate data (checkSanity)
     var checkSanity = function (value, name, type, minAllowed, maxAllowed, nullAllowed) {
+      if (!devValidationEnabled) return true
       if (type == "object") {
         if (typeof value == type && _.size(value) >= minAllowed && _.size(value) <= maxAllowed) {
           allowed.push(name);
@@ -195,10 +223,11 @@ Meteor.methods({
     checkSanity(data.currencyLogoFilename, "currencyLogoFilename", "string", 1, 300);
 
     //Check the self-populating dropdowns
-    if (data.consensusSecurity != "--Select One--") {
+    if (!devValidationEnabled || data.consensusSecurity != "--Select One--") {
       checkSanity(data.consensusSecurity, "consensusSecurity", "string", 6, 20);
       } else {error.push("consensusSecurity")};
-    if (data.hashAlgorithm) { if (data.hashAlgorithm == "--Select One--") {
+
+    if (data.hashAlgorithm) { if (devValidationEnabled && data.hashAlgorithm == "--Select One--") {
       error.push("hashAlgorithm")} else {
       checkSanity(data.hashAlgorithm, "hashAlgorithm", "string", 3, 40, true);
     }};
@@ -241,6 +270,7 @@ Meteor.methods({
     if (ico && proposal) {
       checkSanity(data.ICOcoinsIntended, "ICOcoinsIntended", "number", 1, 15);
       checkSanity(data.ICOnextRound, "ICOnextRound", "number", 13, 16);
+      checkSanity(data.icoDateEnd, "icoDateEnd", "number", 13, 16);
       if (data.premine < data.ICOcoinsProduced + data.ICOcoinsIntended) {
         error.push("premine");
         allowed = allowed.filter(function(i) {return i != "premine"})
@@ -303,7 +333,25 @@ Meteor.methods({
 
 
   if (error.length != 0) {throw new Meteor.Error(error)}
-  if(error.length == 0 && _.size(data) == _.size(allowed)){
+  //skips data==allowed in development, adjust in config startup
+  if(!devValidationEnabled || error.length == 0 && _.size(data) == _.size(allowed)){
+        // add the algorithm if it doesn't exist
+        if (!HashAlgorithm.findOne({
+          _id: data.hashAlgorithm
+        })) {
+          Meteor.call('addAlgo', data.hashAlgorithm, data.consensusSecurity.toLowerCase().split(' ').reduce((i1, i2) => i1 + i2[0], ''), (err, data) => { // 'Proof of Work' -> 'pow'
+            if (!err) {
+              fut.return(data)
+            } else {
+              throw new Meteor.Error('Error.', err.reason)
+            }
+          })
+        } else {
+          fut.return(data.hashAlgorithm)
+        }
+
+        data.hashAlgorithm = fut.wait()
+
     console.log("----inserting------");
     var insert = _.extend(data, {
       createdAt: new Date().getTime(),
@@ -374,7 +422,6 @@ Meteor.methods({
             gm(filename)
                 .resize(size.width, size.height + ">")
                 .gravity('Center')
-                .extent(size.width, size.height)
                 .write(filename_thumbnail, function(error) {
                     if (error) console.log('Error - ', error);
                 });
@@ -382,6 +429,8 @@ Meteor.methods({
 
       },
       fetchCurrencies(){
-        return Currencies.find({}, {fields: {consensusSecurity: 0, hashAlgorithm: 0, gitAPI: 0}}).fetch()
+        return Currencies.find({}, {fields: {consensusSecurity: 0, hashAlgorithm: 0, gitAPI: 0}}).fetch().map(i => _.extend(i, {
+          quality: quality(i)
+        }))
     },
 });

@@ -78,7 +78,8 @@ Accounts.validateLoginAttempt(function(result){
       if  ( user.services && user.services.facebook && user.services.facebook.name ) {
           user.username = user.services.facebook.name;
           user.email = user.services.facebook.email;
-  
+
+          user.profilePicture = `https://graph.facebook.com/${user.services.facebook.id}/picture?type=small`
           user.profilePicture = `https://graph.facebook.com/${user.services.facebook.id}/picture?type=large` // default url for facebook images
       }
   
@@ -87,8 +88,11 @@ Accounts.validateLoginAttempt(function(result){
           user.username = user.services.github.username;
           user.email = user.services.github.email
   
-          user.profilePicture = `https://avatars.githubusercontent.com/u/${user.services.github.id}?s=400` // default url for github images
+          user.profilePicture.small = `https://avatars.githubusercontent.com/u/${user.services.github.id}?s=400` // default url for github images
+          user.profilePicture.large = `https://avatars.githubusercontent.com/u/${user.services.github.id}?s=400` // default url for github images
       }
+
+      user.inviteCode = Random.id(20)
   
       if (!user.email) {
         user.email = user.emails[0].address
@@ -137,3 +141,19 @@ Accounts.validateLoginAttempt(function(result){
   
       return ( user );
   })
+
+Meteor.startup(() => {
+    Meteor.call('generateInviteCode', (err, data) => {})
+
+    SyncedCron.add({
+        name: 'Reward referral programme',
+        schedule: (parser) => parser.cron('0 12 * * *'), // every day at 12pm
+        job: () => Meteor.call('rewardReferral', (err, data) => {}) // drain rate is 0.01 KZR per minute
+    })
+
+    SyncedCron.add({
+        name: 'Calculate user input ranking',
+        schedule: (parser) => parser.text('every 2 hours'),
+        job: () => Meteor.call('userInputRanking', (err, data) => {}) // drain rate is 0.01 KZR per minute
+    })
+})

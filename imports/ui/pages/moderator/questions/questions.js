@@ -10,7 +10,16 @@ Template.questions.events({
 
     $('.js-xors').each((ind, i) => xors.push($(i).val())).filter(i => !!i)
 
-    Meteor.call('addRatingQuestion', event.target.question.value, $('#js-cat').val(), $('#js-negative').is(':checked'), $('#context').val() || '', xors, (err, data) => {});
+    Meteor.call(
+		'addRatingQuestion',
+		event.target.question.value,
+		$('#js-cat').val(),
+		$('#js-negative').is(':checked'),
+		$('#context').val() || '',
+		xors,
+		(err, data) => {
+			console.log('err >>>>>', err);
+		});
     $('#question').val('')
     templateInstance.xor.set(false)
     templateInstance.xors.set([1])

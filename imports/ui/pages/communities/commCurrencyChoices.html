@@ -1,0 +1,76 @@
+<template name="commCurrencyChoices">
+	<b>You have already added communities for the following cryptocurrencies:</b>
+
+	<div class="row" style="margin-top: 15px;">
+		{{#if subsCacheReady}}
+			{{#each alreadyAdded}}
+				<div class="col-sm-4 col-md-4 col-lg-4">
+					<a href="/currency/{{slug}}" class="btn btn-secondary" style="width:100%">{{currencyName}}</a>
+				</div>
+			{{else}}
+				<div class="col-sm-4 col-md-4 col-lg-4">
+					{{> empty}}
+				</div>
+			{{/each}}
+		{{else}}
+			{{> loading}}
+		{{/if}}
+	</div>
+	<br />
+
+	<b>
+		Please select any currencies that you actually use (and you're part of its community) and you haven't added previously.
+	</b>
+	<br />
+
+	If you don't see your currency, you might want to <a href="/addcoin">add it</a>. <br /><br />
+	<hr>
+
+	<b>Filter available cryptocurrencies:</b>
+	<form id="js-form" class="jumbotron" style="padding:30px;">
+		<b class="lead">Filter by</b>
+		<div class="input-group">
+			<input type="text" id="js-name" class="form-control" placeholder="Enter the name of the cryptocurrency" />
+			<span class="input-group-addon"> OR </span>
+			<input type="text" id="js-symbol" class="form-control" placeholder="Enter the symbol of the cryptocurrency" />
+		</div>
+	</form>
+
+	<div class="row">
+		{{#if subsCacheReady}}
+			{{#each currencies}}
+<div class="col-sm-4 col-md-4 col-lg-4">
+    <button type="button" class="toggle btn btn-secondary currencyChoiceBtn" style="width:100%">{{currencyName}}
+    </button>
+    <div class="row" style="display:none;" id="links_{{_id}}">
+
+        <div class="col-sm-12">
+        	<small>Please add a URL and screenshot of the community you are part of and mention BlockRazor</small><br /><br />
+        	                <label id="uploadLabel_{{_id}}" class="btn btn-primary" for="{{_id}}">
+                    <input class="uploadInput" id="{{_id}}" type="file" style="display:none" onchange="$('#fileInfo').html(this.files[0].name)"> <span class="uploadText_{{_id}}">UPLOAD</span>
+                </label>
+                <span class='label label-info' id="fileInfo_{{_id}}"></span>
+                <input type='hidden' id='js-image_{{_id}}'>
+                <br />
+                <input type='text' class="form-control" id='js-com-url_{{_id}}' placeholder="URL here">
+
+                <button class="js-save btn btn-primary my-2" id="{{_id}}">Save</button>
+
+        </div>
+    </div>
+</div>
+			{{else}}
+				{{> empty}}
+			{{/each}}
+		{{else}}
+			{{> loading}}
+		{{/if}}
+	</div>
+
+	<div class="row">
+		<div class="col-sm-4 col-md-4 col-lg-4">
+			<br>
+			<button id="populateRatings" class="btn btn-primary">Next</button>
+		</div>
+	</div>
+</template>

@@ -25,7 +25,6 @@
       </div>
     </div>
   </div>
-
   <div class="modal fade" id="wymiModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -56,67 +55,73 @@
       </div>
     </div>
   </div>
-
-<div class="modal fade" id="featureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add a new feature</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        It looks like {{currencyName}} has only recently been added to Blockrazor and
-        its features have not yet been added. This is a great opportunity for you to
-        add one of {{currencyName}}'s features and earn some Krazor!
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Thanks, don't show this again</button>
-      </div>
-    </div>
-  </div>
-</div>
-{{featureModal}}
-
-<div class="currencyDetailBox" >
-
-  <div style="display:flex;width:100%;padding-bottom:10px">
-          <div style="width:20%; float:left;">
-      <button class="btn btn-primary showFlagged" style="margin-top:6px;">
-        Hide
-      </button>
-    </div>  
-    <div style="width:60%">
-      <h5 class="text-center currencyDetailHeading featuresheading">Features</h5>
-      <div id="addNewFeature" style="display:none;margin-bottom:10px;">
-        <b>Rules:</b><br />
-        <ul>
-          <li>Use clear language, keep it as short as possible</li>
-          <li>No jokes (people new to crypto will just be confused)</li>
-          <li>Any claims must be factually correct</li>
-        </ul>
-        <textarea class="" id="featureName" style="width:100%" maxlength="140" minlength="6"></textarea><br />
-        <div style="display:flex;"><button class="btn btn-primary float-left submitNewFeature">Submit</button>
-          <h4>&nbsp;&nbsp;<i class="fa fa-question-circle help" aria-hidden="true"></i></h4>
-          <div class="float-right" id="charNum" style="margin-left:50px;"></div>
+  <div class="modal fade" id="featureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add a new feature</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          It looks like {{currencyName}} has only recently been added to Blockrazor and
+          its features have not yet been added. This is a great opportunity for you to
+          add one of {{currencyName}}'s features and earn some Krazor!
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Thanks, don't show this again</button>
         </div>
       </div>
     </div>
-
-
-                  <div style="width:20%;float:right;">
-      <button class="btn btn-primary pull-right showAddNewFeature" style="margin-top:6px;">
-        <i class="fa fa-plus" aria-hidden="true"></i> Add feature
-      </button>
-            </div>
-
   </div>
+  {{featureModal}}
+  <div class="col-sm-12 currency-features">
+    <div class="card card-header" >Features</div>
+    <div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button class="btn btn-primary m-2"  data-toggle="collapse" href="#addNewFeature" role="button" aria-expanded="false" aria-controls="addNewFeature">
+            <i class="fa fa-plus" aria-hidden="true"></i> Add feature
+          </button>
+          <div class="collapse multi-collapse" id="addNewFeature">
+            <div class="card card-body">
+              <b>Rules:</b><br />
+              <ul>
+                <li>Use clear language, keep it as short as possible</li>
+                <li>No jokes (people new to crypto will just be confused)</li>
+                <li>Any claims must be factually correct</li>
+              </ul>
+              <textarea class="" id="featureName" style="width:100%" maxlength="140" minlength="6"></textarea><br />
+              <div style="display:flex;"><button class="btn btn-primary float-left submitNewFeature">Submit</button>
+                <h4>&nbsp;&nbsp;<i class="fa fa-question-circle help" aria-hidden="true"></i></h4>
+                <div class="float-right" id="charNum" style="margin-left:50px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    <div class="row commentThread">
-    {{#unless reactiveVar 'showflagged'}}
-      {{#if subsCacheReady}}
-        {{#each features}}
+        {{#unless reactiveVar 'showflagged'}}
+		<div class="row commentThread" style="padding-top: 5px;">
+          {{#if subsCacheReady}}
+            {{#each features}}
+              <div class="col-md-4">{{> feature}}</div>
+            {{else}}
+              {{> empty}}
+            {{/each}}
+          {{else}}
+            {{> loading}}
+          {{/if}}
+
+		</div>
+		<button class="btn btn-outline-info m-3" id="loadMoreFeatures">Load More</button>
+        {{/unless}}
+
+        <!-- TODO : Confirm and Delete -->
+        <!-- {{#if reactiveVar 'showflagged'}}
+        {{#if subsCacheReady}}
+        {{#each flaggedfeatures}}
           <div class="col-lg-6">{{> feature}}</div>
         {{else}}
           {{> empty}}
@@ -124,23 +129,8 @@
       {{else}}
         {{> loading}}
       {{/if}}
-    {{/unless}}
-    
-    {{#if reactiveVar 'showflagged'}}
-    {{#if subsCacheReady}}
-    {{#each flaggedfeatures}}
-      <div class="col-lg-6">{{> feature}}</div>
-    {{else}}
-      {{> empty}}
-    {{/each}}
-  {{else}}
-    {{> loading}}
-  {{/if}}
-    {{/if}}
+      {{/if}} -->
+
+    </div>
   </div>
-</div>
 </template>
-
-
-
-

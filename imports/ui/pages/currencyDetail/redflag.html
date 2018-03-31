@@ -4,19 +4,13 @@
       <div class="card-body">
           <span class="text-muted">{{name}}</span>
           <small class="text-muted"> - Posted by {{#hovercard template="userHover" direction="vertical" trigger="hover"}}
-          <a href="#">{{author}}</a>
+          <a href="/profile/{{slugify author}}">{{author}}</a>
         {{/hovercard}}</small>
           <br />
           <br />
           <div class="pull-left">
-            {{#unless alreadyVoted _id}}
-        <i class="fa fa-thumbs-down" aria-hidden="true"></i>
-        <i class="fa fa-thumbs-up fa-flip-horizontal" aria-hidden="true"></i>
-          {{else}}
-        <i class="fa fa-check padRight" aria-hidden="true"></i><small>Voted</small>
-          {{/unless}}
-
-
+			  <i class="fa fa-thumbs-up {{#if hasUserVoted 'Redflags' _id 'up'}} text-info {{/if}}" aria-hidden="true"></i>
+  			<i class="fa fa-thumbs-down fa-flip-horizontal {{#if hasUserVoted 'Redflags' _id 'down'}} text-info {{/if}}" aria-hidden="true"></i>
           </div>
           <div class="pull-right"><i class="fa fa-flag flag" aria-hidden="true"></i><i id="comment_{{_id}}" class="fa fa-comments-o comments" aria-hidden="true" style="margin-left:10px;"><small>{{numComments}}</small></i></div>
       </div>
@@ -39,7 +33,7 @@
               <div class="modal-body">
                   <p><b><i>"{{featureName}}"</i></b></p>
                   Written by: {{#hovercard template="userHover" direction="vertical" trigger="hover"}}
-          <a href="#">{{author}}</a>
+          <a href="/profile/{{slugify author}}">{{author}}</a>
         {{/hovercard}}
               </div>
               <div class="modal-footer">

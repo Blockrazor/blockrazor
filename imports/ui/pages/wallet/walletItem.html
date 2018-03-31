@@ -1,12 +1,9 @@
 
 <template name="walletItem">
-  <div class="card">
-  <div class="card-block">
-    <p class="card-text">{{message}}</p>
-  </div>
-  <div class="card-footer text-muted">
-    Recieved {{time}} from {{from}}
-  </div>
-</div>
-
+    <tr>
+      <th scope="row">{{message}}</th>
+      <td><small>{{time}}</small></td>
+      <td>{{from}}</td>
+      <td>{{transactionTypes rewardType}}</td>
+    </tr>
 </template>

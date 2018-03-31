@@ -1,11 +1,32 @@
 
 <template name="wallet">
+<div class="card">
+  <div class="card-body">
+    <h4 class="card-title">My Wallet </h4>
+    <h6 class="badge badge-success" style="padding:10px">Total Balance: {{balance}} ZRQ</h6>
   {{> notLoggedIn}}
-  <div class="alert alert-info" role="alert">
-  <a href="/">HOME</a>  <div style="margin-top:20px;"><h5 style="display:inline-block;vertical-align:baseline;">My Wallet</h5> <div class="float-right"> <h6>Total Balance: {{balance}} ZRQ</h6></div></div>
+
+
+<div class="input-group pull-right pb-3">
+                                    <select class="form-control rewardTypeFilter custom-select" id="js-type" name="type">
+                                    <option disabled selected>--Select transaction type--</option>
+                                    <option value="topCommentReward">Top Comment</option>
+                                    <option value="hashReward">Hash Data</option>
+                                    <option value="bountyReward">Bounty Reward</option>
+                                    <option value="problemReward">Problem Reward</option>
+                                    <option value="createCoinReward">Created a Coin</option>
+                                    <option value="cheating">Cheating</option>
+                                    <option value="anwserQuestion">Answered Question</option>
+                                </select>
+                                  <div class="input-group-append">
+    <button class="btn btn-primary clearFilter" type="button"><i class="fa fa-close"></i></button>
+  </div>
 </div>
-{{#each entry}}
-{{> walletItem}}
-{{/each}}
+
+{{> reactiveTable collection=entry settings=walletTable class="table table-bordered table-hover"}}
+
+
+  </div>
+</div>
 </template>
 

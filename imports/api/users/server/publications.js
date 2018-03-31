@@ -34,10 +34,26 @@ import { UserData, ProfileImages } from '/imports/api/indexDB.js'
         fullname: 1,
         profilePicture: 1,
         screenSize: 1,
-
+        strikes: 1,
+        inputRanking: 1
       }
     })
   })
+
+  Meteor.publish('myUserData', () => UserData.find({
+    _id: Meteor.userId()
+  }, {
+    fields: {
+      moderator: 1,
+      developer: 1,
+      fullname: 1,
+      profilePicture: 1,
+      strikes: 1,
+      pardon: 1,
+      activity: 1,
+      inputRanking: 1
+    }
+  }))
 
   Meteor.publish('userdataId', id => UserData.find({
     _id: id
@@ -47,6 +63,8 @@ import { UserData, ProfileImages } from '/imports/api/indexDB.js'
       developer: 1,
       fullname: 1,
       profilePicture: 1,
+      strikes: 1,
+      inputRanking: 1
     }
   }))
 
@@ -64,6 +82,8 @@ import { UserData, ProfileImages } from '/imports/api/indexDB.js'
           developer: 1,
           fullname: 1,
           profilePicture: 1,
+          strikes: 1,
+          inputRanking: 1
         }
       })
     } else {
@@ -82,10 +102,19 @@ import { UserData, ProfileImages } from '/imports/api/indexDB.js'
 				email: 1,
 				bio: 1,
 				slug: 1,
-				profilePicture: 1
+				profilePicture: 1,
+        referral: 1,
+        inviteCode: 1,
+        suspended: 1
 			}
 		})
 	})
+
+  Meteor.publish('pardonUserData', () => {
+    return UserData.find({
+      'pardon.status': 'new'
+    })
+  })
 
 	Meteor.publish('user', (slug) => {
 		return Meteor.users.find({
@@ -93,7 +122,9 @@ import { UserData, ProfileImages } from '/imports/api/indexDB.js'
 				slug: slug
 			}, {
 				_id: slug
-			}]
+			}, {
+        username: slug
+      }]
 		}, {
 			fields: {
 				username: 1,
@@ -101,11 +132,13 @@ import { UserData, ProfileImages } from '/imports/api/indexDB.js'
 				email: 1,
 				bio: 1,
 				slug: 1,
-				profilePicture: 1
+				profilePicture: 1,
+        suspended: 1
 			} // only show the absolutely required fields
 		})
 	})
-
+ 
+  //is used to switch out accounts with constellation account module
   Meteor.publish('users', (slug) => {
     return Meteor.users.find({}, {
       fields: {

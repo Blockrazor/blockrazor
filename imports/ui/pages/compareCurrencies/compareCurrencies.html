@@ -6,6 +6,10 @@
                     <canvas class="mx-auto" id="radar"></canvas>
                 </div>
                 <br /><br />
+                <div style="width:100%">
+                    <canvas class="mx-auto" id="bar"></canvas>
+                </div>
+                <br />
                 <div id="js-comparing">
                     <table class="table">
                         <thead>
@@ -24,6 +28,18 @@
                                 <td>Price</td>
                                 {{#each comparedCurrencies}}
                                 <td style="color: {{color}};">{{price}}$</td>
+                                {{/each}}
+                            </tr>
+                            <tr>
+                                <td>Comparison Price (Circulation)</td>
+                                {{#each comparedCurrencies}}
+                                <td style="color: {{color}};">{{cpc}}$</td>
+                                {{/each}}
+                            </tr>
+                            <tr>
+                                <td>Comparison Price (Total)</td>
+                                {{#each comparedCurrencies}}
+                                <td style="color: {{color}};">{{cpt}}$</td>
                                 {{/each}}
                             </tr>
                             <tr>
@@ -63,7 +79,7 @@
                             <tr>
                                 <td>Hash power</td>
                                 {{#each comparedCurrencies}}
-                                <td style="color: {{color}};">{{hashpower}} W / h/s</td>
+                                <td style="color: {{color}};">{{hashpower}} W</td>
                                 {{/each}}
                             </tr>
                             <tr>

@@ -4,6 +4,52 @@ import { log } from '/server/main'
 import { creditUserWith, removeUserCredit } from '/imports/api/utilities.js'
 
 Meteor.methods({
+    parseCommunityUrl: (url) => {
+        const Future = require('fibers/future')
+        const fut = new Future()
+
+        if (/reddit.com\/r/ig.test(url)) {
+            HTTP.call('GET', `${url.replace(/\/+$/, '')}/about.json`, (err, data) => {
+                if (!err) {
+                    let d = data.data.data
+
+                    fut.return({
+                        size: d.subscribers,
+                        time: d.created_utc * 1000 // convert to MS
+                    })
+                } else {
+                    fut.return({
+                        error: err
+                    })
+                }
+            })
+        } else if (/twitter.com/ig.test(url)) {
+            let username = url.replace(/((http|https):\/\/)?twitter.com\//, '').replace(/\/+$/, '').replace(/\?.*/, '')
+
+            HTTP.call('GET', `https://api.twitter.com/1.1/users/lookup.json?screen_name=${username}`, {
+                headers: {
+                    'Authorization': `Bearer AAAAAAAAAAAAAAAAAAAAALfc1AAAAAAAkVMdkPrqQm0284KyZTly7ZzulF8%3Dkp4DtlLwHFzzWm6s2mbOlP2oujvhbOyIMRazpLzKtHlyNe0yrY`
+                }
+            }, (err, data) => {
+                if (!err) {
+                    let d = data.data[0]
+
+                    fut.return({
+                        size: d.followers_count,
+                        time: new Date(d.created_at).getTime()
+                    })
+                } else {
+                    fut.return({
+                        error: err
+                    })
+                }
+            })
+        } else {
+            fut.return({})
+        }
+
+        return fut.wait()
+    },
     getCommunityReward: (userId, rId) => {
         let bounty = Bounties.findOne({
             userId: userId,
@@ -166,7 +212,9 @@ Meteor.methods({
             multi: true
         }) // reset only ratings from this session, don't reset already processed ratings, as this would mess up previous ELO calculations
 
-        removeUserCredit(reward, Meteor.userId(), 'cheating on community questions')
+        removeUserCredit(reward, Meteor.userId(), 'cheating on community questions','cheating')
+
+        Meteor.call('userStrike', Meteor.userId(), 'cheating', 's3rv3r-only', (err, data) => {}) // user earns 1 strike here
     },
     answerCommunityRating: function(ratingId, winner) {
         let rating = Ratings.findOne({
@@ -237,21 +285,52 @@ Meteor.methods({
                     }
                 })
 
-                creditUserWith(data, Meteor.userId(), 'answering a community question')
+                creditUserWith(data, Meteor.userId(), 'answering a community question','anwserQuestion')
             })
         }
+    }, 
+     uploadCommunityPicture: (fileName, binaryData, md5) => {
+        let md5validate = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(binaryData)).toString()
+        if (md5validate !== md5) {
+            throw new Meteor.Error('Error.', 'Failed to validate md5 hash.')
+            return false
+        }
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('Error.', 'You must be logged in to do this.');
+            return false
+        }
+
+        const fs = require('fs')
+
+        let mime = require('mime-types')
+        let mimetype = mime.lookup(fileName)
+        let validFile = _supportedFileTypes.includes(mimetype)
+        let fileExtension = mime.extension(mimetype)
+        let filename_thumbnail = `${_communityUploadDirectory}${md5}_thumbnail.${fileExtension}`
+        let filename = `${_communityUploadDirectory}${md5}.${fileExtension}`
+
+        let insert = false
+
+        if (!validFile) {
+            throw new Meteor.Error('Error.', 'File type not supported, png, gif and jpeg supported');
+            return false
+        }
+
+        fs.writeFileSync(filename, binaryData, {
+            encoding: 'binary'
+        }, Meteor.bindEnvironment((error) => {
+            if (error) {
+                log.error('Error in uploadProfilePicture', error)
+            }
+        }))
+
+          var size = { width: 200, height: 200 };
+  gm(filename)
+      .resize(size.width, size.height + ">")
+      .gravity('Center')
+      .write(filename_thumbnail, function(error) {
+          if (error) console.log('Error - ', error);
+      });
+
     },
-    saveCommunity: (currencyId, communityUrl) => {
-        if (Meteor.userId()) {
-            Communities.insert({
-                'url': communityUrl,
-                'currencyId':currencyId,
-                'currencyName': Currencies.findOne({
-                    _id:currencyId
-                }).currencyName,
-                'createdAt': new Date().getTime(),
-                'createdBy': Meteor.userId()
-            })
-        }
-    }
 })

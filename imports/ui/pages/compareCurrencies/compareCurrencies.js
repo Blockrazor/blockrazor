@@ -12,7 +12,7 @@ import {
 import Cookies from 'js-cookie'
 import typeahead from 'corejs-typeahead' //maintained typeahead
 
-import '/imports/ui/stylesheets/typeahead.css'
+import './typeahead.css'
 
 import {
 	FlowRouter
@@ -85,12 +85,16 @@ Template.compareCurrencies.onCreated(function () {
 			}
 		}
 
-		function curryEvent (template) {
+		function curryEvent (template, first) {
 			return function addSelection(event, value) {
 				var templateInstance = template
 				cmpArr = templateInstance.compared.get()
 	
 				// don't add a new currency if it's already on the graph
+				if (~cmpArr.indexOf(value.currencySymbol) && !first) {
+					return 
+				}
+
 				cmpArr.push(value.currencySymbol)
 				templateInstance.compared.set(cmpArr)
 	
@@ -129,8 +133,19 @@ Template.compareCurrencies.onCreated(function () {
 					communityMaxElo,
 					communityMinElo,
 					walletMinElo,
-					walletMaxElo
+					walletMaxElo,
+					hashpowerMinElo,
+					hashpowerMaxElo
 				} = graphdata
+
+				currency.circulating = currency.circulating || 0 // this is fetched from an API and may not be available
+
+				let distribution = ((currency.maxCoins - (Number(currency.circulating) + Number(currency.premine))) / currency.maxCoins) * 10
+				if (isNaN(distribution) || distribution < 0) {
+					distribution = 0
+				} else if (distribution > 10) {
+				    distribution = 10
+				} // some data points may be invalid
 	
 				var wallet = ((currency.walletRanking - walletMinElo) / ((walletMaxElo - walletMinElo) || 1)) * 10;
 				var community = (((currency.communityRanking || communityMinElo) - communityMinElo) / ((communityMaxElo - communityMinElo) || 1)) * 10;
@@ -145,12 +160,14 @@ Template.compareCurrencies.onCreated(function () {
 				let maxDev = graphdata.developmentMaxElo
 	
 				let development = (((currency.gitCommits || minDev) - minDev) / ((maxDev - minDev) || 1)) * 10
+
+				let hashpower = (((currency.hashpower || hashpowerMinElo) - hashpowerMinElo) / ((hashpowerMaxElo - hashpowerMinElo) || 1)) * 10
 	
-				let nums = [development, codebase, community, 2, 7, wallet, 1, 3, decentralization]
+				let nums = [development, codebase, community, distribution, decentralization]
 	
 				// push the new data to the chart
 				templateInstance.radarchart.data.datasets.push({
-					label: value._id,
+					label: value.currencySymbol,
 					fill: true,
 					backgroundColor: `rgba(${(rgb >> 16) & 255}, ${(rgb >> 8) & 255}, ${rgb & 255}, 0.2)`, // a way to convert color from hex to rgb
 					borderColor: color,
@@ -159,9 +176,18 @@ Template.compareCurrencies.onCreated(function () {
 					pointBackgroundColor: color,
 					data: nums
 				})
+
+				templateInstance.barchart.data.datasets.push({
+					label: value.currencySymbol,
+					backgroundColor: `rgba(${(rgb >> 16) & 255}, ${(rgb >> 8) & 255}, ${rgb & 255}, 0.2)`,
+					borderColor: color,
+					borderWidth: 1,
+					data: [hashpower, 7, wallet, 3]
+				})
 	
 				// update the chart to reflect new data
 				templateInstance.radarchart.update()
+				templateInstance.barchart.update()
 			}
 		}
 
@@ -226,7 +252,7 @@ Template.compareCurrencies.onRendered(function () {
 	this.radarchart = new Chart(radar, {
 		type: 'radar',
 		data: {
-			labels: ['Ongoing Development', 'Code Quality', 'Community', 'Hash Power', 'Settlement Speed', 'Ease of Use', 'Coin Distribution', 'Transactions', 'Decentralization'],
+			labels: ['Ongoing Development', 'Code Quality', 'Community', 'Coin Distribution', 'Decentralization'],
 			datasets: [{
 				label: '2',
 				fill: false,
@@ -236,7 +262,7 @@ Template.compareCurrencies.onRendered(function () {
 				borderWidth: 4,
 				pointRadius: 0,
 				pointBackgroundColor: '#fff',
-				data: [10, 10, 10, 10, 10, 10, 10, 10, 10]
+				data: [10, 10, 10, 10, 10]
 			}, {
 				label: '3',
 				fill: false,
@@ -245,7 +271,7 @@ Template.compareCurrencies.onRendered(function () {
 				borderWidth: 1,
 				pointBorderColor: '#fff',
 				pointBackgroundColor: '#fff',
-				data: [0, 0, 0, 0, 0, 0, 0, 0, 0]
+				data: [0, 0, 0, 0, 0]
 			}]
 		},
 		options: {
@@ -277,6 +303,28 @@ Template.compareCurrencies.onRendered(function () {
 		}
 	})
 
+	let ctx = document.getElementById('bar').getContext('2d')
+	ctx.canvas.width = 800
+	ctx.canvas.height = 600
+	this.barchart = new Chart(ctx, {
+		type: 'horizontalBar',
+		data: {
+			labels: ['Hash Power', 'Settlement Speed', 'Ease of Use', 'Transactions'],
+			datasets: []
+		},
+		options: {
+			elements: {
+				rectangle: {
+					borderWidth: 2,
+				}
+			},
+			responsive: true,
+			legend: {
+				position: 'right'
+			}
+		}
+	})
+
 	this.autorun((comp) => {
 		if (this.methodReady.get()) {
 			this.init()
@@ -286,7 +334,7 @@ Template.compareCurrencies.onRendered(function () {
 	this.init()
 
 	Template.instance().compared.get().forEach(i => {
-		Template.instance().curryEvent(Template.instance())(null, Template.instance().TransitoryCollection.findOne({
+		Template.instance().curryEvent(Template.instance(), true)(null, Template.instance().TransitoryCollection.findOne({
 			currencySymbol: i
 		}) || {})
 	})
@@ -304,8 +352,11 @@ Template.compareCurrencies.events({
 		$('.typeahead').typeahead(templateInstance.option1, templateInstance.option2)
 
 		// remove data from the chart and update it accordingly
-		templateInstance.radarchart.data.datasets = templateInstance.radarchart.data.datasets.filter(i => i.label !== this._id)
+		templateInstance.radarchart.data.datasets = templateInstance.radarchart.data.datasets.filter(i => i.label !== this.currencySymbol)
 		templateInstance.radarchart.update()
+
+		templateInstance.barchart.data.datasets = templateInstance.barchart.data.datasets.filter(i => i.label !== this.currencySymbol)
+		templateInstance.barchart.update()
 
 		let path = `/compareCurrencies/${_.uniq(templateInstance.compared.get()).toString().replace(/,/g, '-')}`
 		history.replaceState({
@@ -330,7 +381,10 @@ Template.compareCurrencies.helpers({
 				maxCoins: 1,
 				hashpower: 1,
 				slug: 1,
-				price: 1
+				price: 1,
+				cpt: 1,
+				cpc: 1,
+				premine: 1
 			}
 		}).fetch()
 

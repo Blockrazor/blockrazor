@@ -1,5 +1,6 @@
 import { Template } from 'meteor/templating'
-import { HashAlgorithm, FormData, Currencies } from '/imports/api/indexDB.js'
+import { HashAlgorithm, FormData, Currencies, Bounties } from '/imports/api/indexDB.js'
+import Cookies from 'js-cookie'
 
 import './currencyDetail.html'
 import './features.js'
@@ -12,6 +13,8 @@ import './fundamentalMetrics.js'
 import './walletimages.js'
 import './currency.scss'
 import './currency-info.scss'
+import './summary'
+import './summaries'
 
 Template.currencyDetail.onCreated(function bodyOnCreated() {
   var self = this
@@ -20,13 +23,86 @@ Template.currencyDetail.onCreated(function bodyOnCreated() {
     SubsCache.subscribe('approvedcurrency', FlowRouter.getParam('slug'))
     SubsCache.subscribe('hashalgorithm')
     SubsCache.subscribe('formdata')
+    SubsCache.subscribe('bounties')
   })
+
+  this.now = new ReactiveVar(Date.now())
+    Meteor.setInterval(() => {
+        this.now.set(Date.now())
+    }, 1000)
 });
 
 
-Template.currencyDetail.events({});
+Template.currencyDetail.events({
+  'click #js-cancel': (event, templateInstance) => {
+    event.preventDefault()
+
+    Meteor.call('deleteNewBountyClient', `currency-${FlowRouter.getParam('slug')}`, (err, data) => {})
+    Cookies.set('workingBounty', false, { expires: 1 })
+  },
+  'click #js-submitPR': (event, templateInstance) => {
+    event.preventDefault()
+
+    if ($('#js-pr').val()) {
+      Meteor.call('completeHashPowerBounty', FlowRouter.getParam('slug'), $('#js-pr').val(), (err, data) => {
+        if (!data) {
+          sAlert.error('Invalid PR URL.')
+        } else {
+          sAlert.success('Successfully completed.')
+          Cookies.set('workingBounty', false, { expires: 1 })
+        }
+      })
+    } else {
+      sAlert.error('Please enter the PR URL.')
+    }
+  },
+  'click #js-extend': (event, templateInstance) => {
+    event.preventDefault()
+
+    Meteor.call('extendBounty', FlowRouter.getParam('slug'), (err, data) => {})
+  }
+});
 
 Template.currencyDetail.helpers({
+  activeBounty: () => {
+    let bounty = Bounties.find({
+      userId: Meteor.userId(),
+      type: `currency-${FlowRouter.getParam('slug')}`,
+      completed: false
+    }, {
+      sort: {
+        expiresAt: -1
+      }
+    }).fetch()[0]
+
+    return bounty && bounty.expiresAt > Date.now()
+  },
+  timeRemaining: () => {
+    let bounty = Bounties.find({
+      userId: Meteor.userId(),
+      type: `currency-${FlowRouter.getParam('slug')}`,
+      completed: false
+    }, {
+      sort: {
+        expiresAt: -1
+      }
+    }).fetch()[0]
+
+    return `You have ${Math.round((bounty.expiresAt - Template.instance().now.get())/1000/60)} minutes to complete the bounty for ${Number(bounty.currentReward).toFixed(2)} KZR.`;
+  },
+  canExtend: () => {
+    let bounty = Bounties.find({
+      userId: Meteor.userId(),
+      type: `currency-${FlowRouter.getParam('slug')}`,
+      completed: false
+    }, {
+      sort: {
+        expiresAt: -1
+      }
+    }).fetch()[0]
+
+    return Math.round((bounty.expiresAt - Template.instance().now.get())/1000/60) < 10 // les than 10 minutes remaining
+  },
   thiscurrency () {
     return Currencies.findOne({slug: FlowRouter.getParam("slug")});
   },

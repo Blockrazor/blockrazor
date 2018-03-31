@@ -1,69 +1,170 @@
-
 <template name="currencyInfo">
   <div class="currency-info">
-    <div class="currency-title">
-      <img class="currency-logo" src="{{doesCoinImageExist currencyLogoFilename}}" alt="{{currencyName}}">
-      <div class="name">{{currencyName}} {{#with thiscurrency}}({{currencySymbol}}) {{/with}}</div>
-    </div>
-    <div class="basic-details">
-      <input type="hidden" id="_id" value="{{_id}}">
-      <input type="hidden" id="name" value="{{currencyName}}">
-      <div class="single-detail">
-        <div class="title">Currency Name</div>
-        <div class="value" id="currencyName">{{isNull currencyName 'currencyName'}}</div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card card-header d-flex align-items-center flex-row">
+          <img class="currency-logo changeCoinImage pointer" src="{{doesCoinImageExist currencyLogoFilename}}" alt="{{currencyName}}">
+          <input type="hidden" value="{{currencyLogoFilenam}}" id="currencyLogoFilename_existing">
+          <div class="name">{{currencyName}} {{#with thiscurrency}}({{currencySymbol}}) {{/with}}</div>
+        </div>
       </div>
-      <div class="single-detail">
-        <div class="title">Currency Symbol</div>
-        <div class="value" id="currencySymbol">{{isNull currencySymbol 'currencySymbol'}}</div>
+      <div class="col-sm-12">
+        <div class="basic-details">
+
+  <div class="card border-secondary mb-3 mb-3" style="min-width:100px;overflow:hidden;">
+      <div class="card-body" style="display:{{bodydisplay}};">
+          <input type="hidden" id="_id" value="{{_id}}">
+          <input type="hidden" id="name" value="{{currencyName}}">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Currency Name</div>
+                <div class="value" id="currencyName">{{isNull currencyName 'currencyName'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Currency Symbol</div>
+                <div class="value" id="currencySymbol">{{isNull currencySymbol 'currencySymbol'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Genesis Timestamp</div>
+                <div class="value" id="genesisTimestamp">{{isDateNull genesisTimestamp 'genesisTimestamp'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Premine</div>
+                <div class="value" id="premine">{{isNull premine 'premine'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Circulating</div>
+                <div class="value" id="circulating">{{isNull circulating 'circulating'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Max Coins</div>
+                <div class="value" id="maxCoins">{{isNull maxCoins 'maxCoins'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Consensus Security</div>
+                <div class="value" id="consensusSecurity">{{isNull consensusSecurity 'consensusSecurity'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Hash Algorithm</div>
+                <div class="value" id="hashAlgorithm">{{isNull hashAlgorithm 'hashAlgorithm'}}</div>
+                <a style="display: {{showText}}" href="#" id="js-add">You algorithm is not on the list? Add it.</a>
+                <div style="display: {{newAlgo}}"><input type="text" id="js-newAlgo" placeholder="Algorithm name..." />
+                <button class="btn btn-primary btn-sm" id="js-addAlgo"><i class="fa fa-check"></i></button><button type="button" class="btn btn-default btn-sm" id="js-cancel"><i class="fa fa-close"></i></button></div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Wallet Ranking</div>
+                <div class="value" id="walletRanking">{{isNull walletRanking 'walletRanking'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Git Update</div>
+                <div class="value" id="gitUpdate">{{isNullReadOnly gitUpdate}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Price</div>
+                <div class="value" id="price">{{isNull price 'price'}}$</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Comparison Price (Circulation)</div>
+                <div class="value" id="cpc">{{isNull cpc 'cpc'}}$</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Comparison Price (Total)</div>
+                <div class="value" id="cpt">{{isNull cpt 'cpt'}}$</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Market Cap</div>
+                <div class="value" id="marketCap">{{isNull marketCap 'marketCap'}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Previous Names</div>
+                <div class="value" id="previousNames">{{previousNames}}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Git Repo</div>
+                <div class="value" id="gitRepo">{{isNull gitRepo 'gitRepo'}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="single-detail">
-        <div class="title">Genesis Timestamp</div>
-        <div class="value" id="genesisTimestamp">{{isDateNull genesisTimestamp 'genesisTimestamp'}}</div>
+    </div>    
+  </div>
+
+</div>
+</div>
+
+  <!-- Modals -->
+
+
+  <div class="modal" id="coinChangeImage" style="width:50%">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Coin Image Change</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-      <div class="single-detail">
-        <div class="title">Premine</div>
-        <div class="value" id="premine">{{isNull premine 'premine'}}</div>
+      <div class="modal-body">
+        <p>
+          <div class="logo-upload">
+    <h5>Select new logo</h5>
+    <label class="btn btn-primary" for="currencyLogoInput" id="currencyLogoInputLabel">
+        <input id="currencyLogoInput" type="file" style="display:none" onchange="$('#fileInfo2').html(this.files[0].name)"> <span id="fileUploadValue">UPLOAD</span>
+    </label>
+    <span class='label label-info' id="fileInfo2"></span>
+    <input type='hidden' id='currencyLogoFilename'>
+</div>
+<br /><br />
+        <input id="imageCurrencyNotes" type="text" placeholder="Why is this change needed for this image?" style="width:100%" class="form-control">
+
+          <input id="coinModal_field" type="hidden">
+          <input id="coinModal_old" type="hidden">
+          <input id="coinModal_new" type="hidden">
+
+        </p>
+
       </div>
-      <div class="single-detail">
-        <div class="title">Circulating</div>
-        <div class="value" id="circulating">{{isNull circulating 'circulating'}}</div>
-      </div>
-      <div class="single-detail">
-        <div class="title">Max Coins</div>
-        <div class="value" id="maxCoins">{{isNull maxCoins 'maxCoins'}}</div>
-      </div>
-      <div class="single-detail">
-        <div class="title">Consensus Security</div>
-        <div class="value" id="consensusSecurity">{{isNull consensusSecurity 'consensusSecurity'}}</div>
-      </div>
-      <div class="single-detail">
-        <div class="title">Hash Algorithm</div>
-        <div class="value" id="hashAlgorithm">{{isNull hashAlgorithm 'hashAlgorithm'}}</div>
-      </div>
-      <div class="single-detail">
-        <div class="title">Wallet Ranking</div>
-        <div class="value" id="walletRanking">{{isNull walletRanking 'walletRanking'}}</div>
-      </div>
-      <div class="single-detail">
-        <div class="title">Git Update</div>
-        <div class="value" id="gitUpdate">{{isNullReadOnly gitUpdate}}</div>
-      </div>
-      <div class="single-detail">
-        <div class="title">Market Cap</div>
-        <div class="value" id="marketCap">{{isNull marketCap 'marketCap'}}</div>
-      </div>
-      <div class="single-detail">
-        <div class="title">Previous Names</div>
-        <div class="value" id="previousNames">{{previousNames}}</div>
-      </div>
-      <div class="single-detail">
-        <div class="title">Git Repo</div>
-        <div class="value" id="gitRepo">{{isNull gitRepo 'gitRepo'}}</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="proposeCoinChange">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Modals -->
+
   <div class="modal" id="coinChangeModal">
     <div class="modal-dialog" role="document">
     <div class="modal-content">

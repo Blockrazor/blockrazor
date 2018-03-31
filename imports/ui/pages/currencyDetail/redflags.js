@@ -31,7 +31,7 @@ Template.redflags.helpers({
     return this.featureTag; //find metricTag data from collection
   },
   redflags: function() {
-    return Redflags.find({currencyId: Template.instance().currencyId, flagRatio: {$lt: 0.6}}, {sort: {rating: -1, appealNumber: -1}});
+    return Redflags.find({currencyId: Template.instance().currencyId, flagRatio: {$lt: 0.6}}, {sort: {rating: -1, appealNumber: -1,createdAt:-1}});
   },
   redflagsFlagged: function() {
     return Redflags.find({currencyId: Template.instance().currencyId, flagRatio: {$gt: 0.6}});
@@ -86,12 +86,24 @@ Template.redflags.events({
     if(data.length < 6 || data.length > 140) {
       sAlert.error("That entry is too short, or too long.");
     } else {
-      Meteor.call('newRedFlagMethod', this._id, data);
-      $('#redflagContent').val(" ");
-      $('#showAddNewRedflag').toggle();
-      $('.redflagheading').text("Red Flag Currency");
-      Template.instance().addingnewredflag.set(false);
-      sAlert.success("Thanks! Red flag added");
+      let res 
+      try {
+        res = grecaptcha && grecaptcha.getResponse()
+      } catch(e) {
+        res = 'pass'
+      }
+      const templ = Template.instance()
+      Meteor.call('newRedFlagMethod', this._id, data, res, (err, data) => {
+        if (!err) {
+          $('#redflagContent').val(" ");
+          $('#showAddNewRedflag').toggle();
+          $('.redflagheading').text("Red Flag Currency");
+          templ.addingnewredflag.set(false);
+          sAlert.success("Thanks! Red flag added")
+        } else {
+          sAlert.error(err.reason)
+        }
+      })
     }
   },
   'click .showAddNewRedflag': function() {

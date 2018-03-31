@@ -5,7 +5,7 @@ import './redflagComment.html'
 
 Template.redflagComment.helpers({
   alreadyVotedOnComment: function(id) {
-      if (_.include(Redflags.findOne({parentId: id}).appealVoted, Meteor.userId())) {
+      if (_.include(Redflags.findOne({_id: id}).appealVoted, Meteor.userId())) {
           return true;
       }
   },

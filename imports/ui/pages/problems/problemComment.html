@@ -1,0 +1,30 @@
+<template name="problemComment">
+    <div class="card padBottom hoverCard">
+        <div class="card-body">
+            <span class="text-muted">{{{comment}}}</span>
+  
+            <br />
+            <div class="pull-left">
+            {{#unless alreadyVoted}}
+                <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+                <i class="fa fa-thumbs-up fa-flip-horizontal" aria-hidden="true"></i>
+            {{else}}
+                <i class="fa fa-check padRight" aria-hidden="true"></i><small>Voted</small>
+            {{/unless}}
+            {{#if accepted}}
+                <i class="fa fa-check padRight" aria-hidden="true"></i><small>Accepted</small>
+            {{else}}
+                {{#if canAccept}}
+                    <a href="#" class="js-accept"><i class="fa fa-check padRight" aria-hidden="true"></i><small>Accept answer</small></a>
+                {{/if}}
+            {{/if}}
+            </div>
+            <div class="pull-right">
+                <small class="text-muted">{{#hovercard template="userHover" direction="vertical" trigger="hover"}}
+                    <a href="/profile/{{slugify author}}">{{author}}</a>
+                {{/hovercard}}</small>
+            </div>
+            <small class="text-muted padLeft">{{relativeTime date}}</small>
+        </div>
+    </div>
+</template>

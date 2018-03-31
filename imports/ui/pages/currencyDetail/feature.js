@@ -18,40 +18,37 @@ Template.feature.onRendered(function(){
 })
 
 Template.feature.helpers({
-  alreadyVoted: function(id){
-    if(_.include(Features.findOne(id).appealVoted, Meteor.userId())){
-      return true;
-    }
-  },
-  numComments: function() {
-    return _.size(Features.find({parentId: this._id}).fetch());
-  },
-  starsid: function() {
-    return "star-" + this._id
-  },
-  bountyamount: function () {
-    return "<FIXME>"; //FIXME
-  },
-  parentId: function() {
-    return this.parentId;
-  },
-  comments: function() { //return database showing comments with parent: this._id
-    return Features.find({parentId: this._id, flagRatio: {$lt: 0.6}}, {sort: {rating: -1, appealNumber: -1}});
-  }
+	numComments: function() {
+		return _.size(Features.find({parentId: this._id}).fetch());
+	},
+	starsid: function() {
+		return "star-" + this._id
+	},
+	bountyamount: function () {
+		return "<FIXME>"; //FIXME
+	},
+	parentId: function() {
+		return this.parentId;
+	},
+	comments: function() { //return database showing comments with parent: this._id
+		return Features.find({parentId: this._id, flagRatio: {$lt: 0.6}}, {sort: {rating: -1, appealNumber: -1}});
+	}
 });
 
 Template.feature.events({
   'click .fa-thumbs-down': function(event) {
-    Meteor.call('vote', this._id, "down", function(error,result) {
+    Meteor.call('vote', 'Features', this._id, "down", function(error,result) {
       if(!error) {
-        $(event.currentTarget).parent().html('<i class="fa fa-check" aria-hidden="true"></i>');
+        $(event.currentTarget).addClass('text-info');
+		$(event.currentTarget).parent().find('.fa-thumbs-up').removeClass('text-info');
       } else {sAlert.error(error.reason)};
     });
   },
   'click .fa-thumbs-up': function(event) {
-    Meteor.call('vote', this._id, "up", function(error,result) {
+    Meteor.call('vote', 'Features', this._id, "up", function(error,result) {
       if(!error) {
-        $(event.currentTarget).parent().html('<i class="fa fa-check" aria-hidden="true"></i>');
+        $(event.currentTarget).addClass('text-info');
+		$(event.currentTarget).parent().find('.fa-thumbs-down').removeClass('text-info');
       } else {sAlert.error(error.reason)};
     });
   },
@@ -87,7 +84,13 @@ Template.feature.events({
     if(data.length < 6 || data.length > 140) {
       sAlert.error("That entry is too short, or too long.");
     } else {
-      Meteor.call('newComment', this._id, data, 1, function(error, result) {
+      let res 
+      try {
+        res = grecaptcha && grecaptcha.getResponse()
+      } catch(e) {
+        res = 'pass'
+      }
+      Meteor.call('newComment', this._id, data, 1, res, function(error, result) {
         if(!error) {
           sAlert.success("Thanks! Your comment has been posted!");
         } else {

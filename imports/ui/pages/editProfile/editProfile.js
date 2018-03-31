@@ -10,20 +10,18 @@ Template.editProfile.events({
         var email = e.target.email.value;
         var username = e.target.username.value;
         var bio = e.target.bio.value
-        let profilePicture = $('#js-profilePic').attr('src')
 
         var data = {
             email: email,
             bio: bio,
             username: username,
-            profilePicture: profilePicture
         }
 
         Meteor.call('editProfile', data, (err, data) => {
             if (err) {
                 console.log('error editing profile', err)
             } else {
-                FlowRouter.go('/');
+                FlowRouter.go('/profile');
             }
         })
     },
@@ -50,24 +48,39 @@ Template.editProfile.events({
             uploadError = true
         }
 
+        if(file){
+        $('#uploadLabel').removeClass('btn-success');
+        $('#uploadLabel').addClass('btn-primary');
+        $("button").attr("disabled", "disabled"); //disable all buttons
+        $(".uploadText").html("<i class='fa fa-circle-o-notch fa-spin'></i> Uploading"); //show upload progress
+
+
         //Only upload if above validation are true
         if (!uploadError) {
             let reader = new FileReader()
             reader.onload = fEvent => {
                 let binary = reader.result
                 let md5 = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(binary)).toString()
-
+                
                 Meteor.call('uploadProfilePicture', file.name, reader.result, md5, (error, result) => {
-                    if (error) {
-                        sAlert.error(error.message)
-                    } else {
-                        sAlert.success('Upload success')
-                        $('#js-profilePic').attr('src', `${_profilePictureUploadDirectoryPublic}${md5}_thumbnail.${fileExtension}`)
+                                        if (error) {
+                        sAlert.error(error.message);
+                        $('#uploadLabel').removeClass('btn-success');
+                        $('#uploadLabel').addClass('btn-primary');
+                        $(".uploadText").html("Upload");
+                    } else {                        
+                        $('#js-image').val(`${md5}.${fileExtension}`)
+                    $("button").attr("disabled", false); //enable all buttons
+                    $('#uploadLabel').addClass('btn-success');
+                    $(".uploadText").html("Change"); //update button text now upload is complete
+                    $('#profilePicture').attr('src', `${_profilePictureUploadDirectoryPublic}${md5}_thumbnail.${fileExtension}`)
+
                     }
                 })
            }
            reader.readAsBinaryString(file)
         }
+    }
     }
 });
 

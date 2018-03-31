@@ -38,20 +38,22 @@ Template.redflag.helpers({
 
 
 Template.redflag.events({
-  'click .fa-thumbs-down': function(event) {
-    Meteor.call('redFlagVote', this._id, "down", function(error,result) {
-      if(!error) {
-        $(event.currentTarget).parent().html('<i class="fa fa-check" aria-hidden="true"></i>');
-      } else {sAlert.error(error.reason)};
-    });
-  },
-  'click .fa-thumbs-up': function(event) {
-    Meteor.call('redFlagVote', this._id, "up", function(error,result) {
-      if(!error) {
-        $(event.currentTarget).parent().html('<i class="fa fa-check" aria-hidden="true"></i>');
-      } else {sAlert.error(error.reason)};
-    });
-  },
+	'click .fa-thumbs-down': function(event) {
+      Meteor.call('vote', 'Redflags', this._id, "down", function(error,result) {
+        if(!error) {
+          $(event.currentTarget).addClass('text-info');
+  		$(event.currentTarget).parent().find('.fa-thumbs-up').removeClass('text-info');
+        } else {sAlert.error(error.reason)};
+      });
+    },
+    'click .fa-thumbs-up': function(event) {
+      Meteor.call('vote', 'Redflags', this._id, "up", function(error,result) {
+        if(!error) {
+          $(event.currentTarget).addClass('text-info');
+  		$(event.currentTarget).parent().find('.fa-thumbs-down').removeClass('text-info');
+        } else {sAlert.error(error.reason)};
+      });
+    },
   'mouseover .fa-thumbs-down': function() {
     $('.fa-thumbs-down').css('cursor', 'pointer');
   },
@@ -84,7 +86,13 @@ Template.redflag.events({
     if(data.length < 6 || data.length > 140) {
       sAlert.error("That entry is too short, or too long.");
     } else {
-      Meteor.call('redFlagNewComment', this._id, data, 1, function(error, result) {
+      let res 
+      try {
+        res = grecaptcha && grecaptcha.getResponse()
+      } catch(e) {
+        res = 'pass'
+      }
+      Meteor.call('redFlagNewComment', this._id, data, 1, res, function(error, result) {
         if(!error) {
           sAlert.success("Thanks! Your comment has been posted!");
         } else {

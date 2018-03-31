@@ -15,8 +15,11 @@
         </div>
         <div class="form-group">
             <label for="image">Change profile picture</label><br />
-            <a href="#" id="image"><img src="{{ProfileImages._id}}_thumbnail.{{ProfileImages.extension}}" id='js-profilePic' style="padding: 10px;width: 100px"></a>
-            <input type='file' class="form-control" id='imageInput'>
+                <label id="uploadLabel" class="btn btn-primary" for="imageInput">
+        <input id="imageInput" name="imageInput" type="file" style="display:none;" onchange="$('#fileInfo').html(this.files[0].name)" class="required" accept="image/*"> <span class="uploadText">UPLOAD</span>
+    </label>
+    <span class='label label-info fileInfo' id="fileInfo"></span>
+    <input type='hidden' id='js-image'><br />
         </div>
         <button type="submit" class="btn btn-primary">Save</button>
     </form>

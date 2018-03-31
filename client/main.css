@@ -35,7 +35,10 @@ select {
 }
 
 .pointer:hover {
-    cursor: pointer;
+    cursor: pointer !important;
+}
+.not-allowed { 
+cursor: not-allowed;
 }
 
 .greyHover:hover {
@@ -86,4 +89,12 @@ body .modal-dialog {
 
 .error {
     color:red;
+}
+
+.modal-lg {
+    max-width: 90% !important;
+}
+
+.upper{
+   text-transform:uppercase !important
 }
