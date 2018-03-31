@@ -329,29 +329,29 @@ Meteor.methods({
   //  }
 
 
-
-
-
-  if (error.length != 0) {throw new Meteor.Error(error)}
+  if (error.length != 0) {throw new Meteor.Error(error)} 
   //skips data==allowed in development, adjust in config startup
   if(!devValidationEnabled || error.length == 0 && _.size(data) == _.size(allowed)){
-        // add the algorithm if it doesn't exist
-        if (!HashAlgorithm.findOne({
-          _id: data.hashAlgorithm
-        })) {
-          Meteor.call('addAlgo', data.hashAlgorithm, data.consensusSecurity.toLowerCase().split(' ').reduce((i1, i2) => i1 + i2[0], ''), (err, data) => { // 'Proof of Work' -> 'pow'
-            if (!err) {
-              fut.return(data)
-            } else {
-              throw new Meteor.Error('Error.', err.reason)
-            }
-          })
-        } else {
-          fut.return(data.hashAlgorithm)
+        //so long as validation is enabled in dev environment
+        if (devValidationEnabled){
+          //add the algorithm if it doesn't exist, 
+          if (!HashAlgorithm.findOne({
+            _id: data.hashAlgorithm
+          })) {
+            Meteor.call('addAlgo', data.hashAlgorithm, data.consensusSecurity.toLowerCase().split(' ').reduce((i1, i2) => i1 + i2[0], ''), (err, data) => { // 'Proof of Work' -> 'pow'
+              if (!err) {
+                fut.return(data)
+              } else {
+                throw new Meteor.Error('Error.', err.reason)
+              }
+            })
+          } else {
+            fut.return(data.hashAlgorithm)
+          }
+  
+          data.hashAlgorithm = fut.wait()
         }
-
-        data.hashAlgorithm = fut.wait()
-
+    
     console.log("----inserting------");
     var insert = _.extend(data, {
       createdAt: new Date().getTime(),

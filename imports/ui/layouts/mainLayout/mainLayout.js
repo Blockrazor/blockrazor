@@ -100,7 +100,6 @@ Template.mainLayout.onCreated(function () {
     } 
   })
 
-
 //writes to DB preferences on change and window close/log out
   function saveSidebarPreference(){
     if (Meteor.userId() && (UserData.findOne().screenSize? UserData.findOne().screenSize: 3) != Session.get("openedSidebarPreference")){
@@ -111,5 +110,4 @@ Template.mainLayout.onCreated(function () {
 
 Meteor.beforeLogout(saveSidebarPreference)
 window.addEventListener('unload', saveSidebarPreference())
-
 })
