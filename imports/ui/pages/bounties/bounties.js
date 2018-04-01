@@ -218,7 +218,7 @@ Template.bounties.helpers({
 		var templ = Template.instance()
 		//returns transformed group of collections
 		filter = _.extend(templ.filter.get(), {
-			_id: { $in: templ.currentIds.get()}, currentUserId: { $ne: Meteor.userId()}
+          _id: { $in: templ.currentIds.get() }, currentUserId: { $ne: Meteor.userId() ? Meteor.userId() : "" }
 		})
 		return templ.LocalBounties.find(filter, {sort: {sort: 1}})
 	},
