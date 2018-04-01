@@ -21,6 +21,8 @@ import {
 import './compareCurrencies.css'
 import './compareCurrencies.html'
 
+import { radarEvent, intersection } from '/imports/api/utilities'
+
 
 Template.compareCurrencies.onCreated(function () {
 	this.autorun(() => {
@@ -303,6 +305,8 @@ Template.compareCurrencies.onRendered(function () {
 		}
 	})
 
+	document.getElementById('radar').addEventListener('click', (event) => radarEvent(this.radarchart, event, console.log))
+
 	let ctx = document.getElementById('bar').getContext('2d')
 	ctx.canvas.width = 800
 	ctx.canvas.height = 600
@@ -323,6 +327,33 @@ Template.compareCurrencies.onRendered(function () {
 				position: 'right'
 			}
 		}
+	})
+	document.getElementById('bar').addEventListener('click', (event) => {
+		event.preventDefault()
+	    event.stopPropagation()
+
+	    let scale = this.barchart.scales['y-axis-0']
+
+	    let clickables = ['hash-power', 'settlement-speed', 'ease-of-use', 'transactions']
+
+	    let elem = clickables.map((i, ind) => ({
+	      id: i,
+	      width: scale.width,
+	      height: 60,
+	      left: 0,
+	      top: (ind * (scale.height / (scale.maxIndex + 1))) + ((scale.height / ((scale.maxIndex + 1) * 2)) - 30)
+	    })) // common elements
+
+	    let point = {
+	      x: event.clientX - event.currentTarget.getBoundingClientRect().left,
+	      y: event.clientY - event.currentTarget.getBoundingClientRect().top
+	    }
+
+	    elem.forEach(elem => {
+	      if (intersection(point, elem)) {
+	        console.log(elem.id, event.currentTarget.id)
+	      }
+	    })
 	})
 
 	this.autorun((comp) => {
