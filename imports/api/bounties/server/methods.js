@@ -37,6 +37,12 @@ Meteor.methods({
       }).fetch()[0]
 
       if (!(b && b.expiresAt > Date.now())) {
+        if (b) { // remove the expired one
+          Bounties.remove({
+            _id: b._id
+          })
+        }
+
         Bounties.insert({
           _id: Random.id(16),
           userId: Meteor.userId(),

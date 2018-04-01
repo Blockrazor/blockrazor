@@ -6,20 +6,19 @@ import {
 	Currencies,
 	GraphData,
 	Redflags,
-	LocalCurrencies,
 } from '/imports/api/indexDB.js'
 
 import Cookies from 'js-cookie'
-import typeahead from 'corejs-typeahead' //maintained typeahead
-
-import './typeahead.css'
 
 import {
 	FlowRouter
 } from 'meteor/staringatlights:flow-router'
 
+import '/imports/ui/components/typeahead'
 import './compareCurrencies.css'
 import './compareCurrencies.html'
+
+import { radarEvent, intersection } from '/imports/api/utilities'
 
 
 Template.compareCurrencies.onCreated(function () {
@@ -29,12 +28,107 @@ Template.compareCurrencies.onCreated(function () {
 		SubsCache.subscribe('features')
 		SubsCache.subscribe('redflags')
 	})
+	
+	//used to init from route params and in typeAhead events
+	this.curryEvent = function(event, value, templateInstance){
+		cmpArr = templateInstance.compared.get()
+
+		// don't add a new currency if it's already on the graph
+		if (~cmpArr.indexOf(value.currencySymbol)) {
+			return 
+		}
+
+		cmpArr.push(value.currencySymbol)
+		templateInstance.compared.set(cmpArr)
+
+		let path = `/compareCurrencies/${_.uniq(templateInstance.compared.get()).toString().replace(/,/g, '-')}`
+		history.replaceState({
+			path: path
+		}, 'compareCurrencies', path) // replace the url field in the browser without reloading the page
+
+
+		// a way to randomly generate a color
+		let color = '#' + (Math.random() * 0xFFFFFF << 0).toString(16)
+		let rgb = parseInt(color.substring(1), 16)
+
+		templateInstance.colors.set(value.currencySymbol, color)
+
+		let currency = Currencies.findOneLocal({
+			_id: value._id
+		}) || {}
+
+		let graphdata = GraphData.findOne({
+			_id: 'elodata'
+		}) || {}
+
+
+		const {
+			codebaseMaxElo,
+			codebaseMinElo,
+			communityMaxElo,
+			communityMinElo,
+			walletMinElo,
+			walletMaxElo,
+			hashpowerMinElo,
+			hashpowerMaxElo
+		} = graphdata
+
+		currency.circulating = currency.circulating || 0 // this is fetched from an API and may not be available
+
+		let distribution = ((currency.maxCoins - (Number(currency.circulating) + Number(currency.premine))) / currency.maxCoins) * 10
+		if (isNaN(distribution) || distribution < 0) {
+			distribution = 0
+		} else if (distribution > 10) {
+				distribution = 10
+		} // some data points may be invalid
+
+		var wallet = ((currency.walletRanking - walletMinElo) / ((walletMaxElo - walletMinElo) || 1)) * 10;
+		var community = (((currency.communityRanking || communityMinElo) - communityMinElo) / ((communityMaxElo - communityMinElo) || 1)) * 10;
+		let codebase = (((currency.codebaseRanking || codebaseMinElo) - codebaseMinElo) / ((codebaseMaxElo - codebaseMinElo) || 1)) * 10
+
+		let maxD = graphdata.decentralizationMaxElo
+		let minD = graphdata.decentralizationMinElo
+
+		let decentralization = (((currency.decentralizationRanking || minD) - minD) / ((maxD - minD) || 1)) * 10
+
+		let minDev = graphdata.developmentMinElo
+		let maxDev = graphdata.developmentMaxElo
+
+		let development = (((currency.gitCommits || minDev) - minDev) / ((maxDev - minDev) || 1)) * 10
+
+		let hashpower = (((currency.hashpower || hashpowerMinElo) - hashpowerMinElo) / ((hashpowerMaxElo - hashpowerMinElo) || 1)) * 10
+
+		let nums = [development, codebase, community, distribution, decentralization]
+
+		// push the new data to the chart
+		templateInstance.radarchart.data.datasets.push({
+			label: value.currencySymbol,
+			fill: true,
+			backgroundColor: `rgba(${(rgb >> 16) & 255}, ${(rgb >> 8) & 255}, ${rgb & 255}, 0.2)`, // a way to convert color from hex to rgb
+			borderColor: color,
+			pointBorderColor: '#fff',
+			pointStyle: 'dot',
+			pointBackgroundColor: color,
+			data: nums
+		})
+
+		templateInstance.barchart.data.datasets.push({
+			label: value.currencySymbol,
+			backgroundColor: `rgba(${(rgb >> 16) & 255}, ${(rgb >> 8) & 255}, ${rgb & 255}, 0.2)`,
+			borderColor: color,
+			borderWidth: 1,
+			data: [hashpower, 7, wallet, 3]
+		})
+
+		// update the chart to reflect new data
+		templateInstance.radarchart.update()
+		templateInstance.barchart.update()
+	}
 
 	let currencies = FlowRouter.getParam('currencies') && FlowRouter.getParam('currencies').split('-') || []
 
 	this.compared = new ReactiveVar(currencies)
 	this.colors = new ReactiveDict()
-	this.methodReady = new ReactiveVar(false)
 
 	currencies.forEach(i => {
 		let color = '#' + (Math.random() * 0xFFFFFF << 0).toString(16)
@@ -43,204 +137,35 @@ Template.compareCurrencies.onCreated(function () {
 		this.colors.set(i, color)
 	})
 
-
-
-	this.init = function () {
-		
-		var option1 = {
-			hint: true,
-			highlight: true,
-			minLength: 0,
-		}
-		var option2 = {
-			name: 'states',
-			display: (x) => x.currencyName,
-			limit: 15,
-			source: currySearch(Template.instance())
-		}
-	
-		//binding for updating autocomplete source on deletion of items
-		this.option1 = option1
-		this.option2 = option2
-
-		function currySearch(template) {
-			return function typeAheadSearch(entry, CB) {
-				CB(
-					template.TransitoryCollection.find({
-						$or: [{
-							currencyName: new RegExp(entry, 'ig')
-						}, {
-							currencySymbol: new RegExp(entry, 'ig')
-						}],
-						currencySymbol: {
-							$nin: template.compared.get()
-						}
-					}, {
-						limit: 15,
-						sort: {
-							currencyName: 1
-						}
-					}).fetch()
-				)
-			}
-		}
-
-		function curryEvent (template, first) {
-			return function addSelection(event, value) {
-				var templateInstance = template
-				cmpArr = templateInstance.compared.get()
-	
-				// don't add a new currency if it's already on the graph
-				if (~cmpArr.indexOf(value.currencySymbol) && !first) {
-					return 
-				}
-
-				cmpArr.push(value.currencySymbol)
-				templateInstance.compared.set(cmpArr)
-	
-				let path = `/compareCurrencies/${_.uniq(templateInstance.compared.get()).toString().replace(/,/g, '-')}`
-				history.replaceState({
-					path: path
-				}, 'compareCurrencies', path) // replace the url field in the browser without reloading the page
-	
-				//this whole dance is necessery because the datasource doesn't update if not reinitialized
-				//and because it can't be focued if opened, and it can't be opened if already focused on select event
-				$('.typeahead').typeahead('destroy')
-				$('.typeahead').blur()
-				$('.typeahead').typeahead(option1, option2)
-				$('.typeahead').typeahead('val', '');
-				$('.typeahead').focus()
-				// $('.typeahead').typeahead('open');
-	
-				// a way to randomly generate a color
-				let color = '#' + (Math.random() * 0xFFFFFF << 0).toString(16)
-				let rgb = parseInt(color.substring(1), 16)
-	
-				templateInstance.colors.set(value.currencySymbol, color)
-	
-				let currency = templateInstance.TransitoryCollection.findOne({
-					_id: value._id
-				}) || {}
-	
-				let graphdata = GraphData.findOne({
-					_id: 'elodata'
-				}) || {}
-	
-	
-				const {
-					codebaseMaxElo,
-					codebaseMinElo,
-					communityMaxElo,
-					communityMinElo,
-					walletMinElo,
-					walletMaxElo,
-					hashpowerMinElo,
-					hashpowerMaxElo
-				} = graphdata
-
-				currency.circulating = currency.circulating || 0 // this is fetched from an API and may not be available
-
-				let distribution = ((currency.maxCoins - (Number(currency.circulating) + Number(currency.premine))) / currency.maxCoins) * 10
-				if (isNaN(distribution) || distribution < 0) {
-					distribution = 0
-				} else if (distribution > 10) {
-				    distribution = 10
-				} // some data points may be invalid
-	
-				var wallet = ((currency.walletRanking - walletMinElo) / ((walletMaxElo - walletMinElo) || 1)) * 10;
-				var community = (((currency.communityRanking || communityMinElo) - communityMinElo) / ((communityMaxElo - communityMinElo) || 1)) * 10;
-				let codebase = (((currency.codebaseRanking || codebaseMinElo) - codebaseMinElo) / ((codebaseMaxElo - codebaseMinElo) || 1)) * 10
-	
-				let maxD = graphdata.decentralizationMaxElo
-				let minD = graphdata.decentralizationMinElo
-	
-				let decentralization = (((currency.decentralizationRanking || minD) - minD) / ((maxD - minD) || 1)) * 10
-	
-				let minDev = graphdata.developmentMinElo
-				let maxDev = graphdata.developmentMaxElo
-	
-				let development = (((currency.gitCommits || minDev) - minDev) / ((maxDev - minDev) || 1)) * 10
-
-				let hashpower = (((currency.hashpower || hashpowerMinElo) - hashpowerMinElo) / ((hashpowerMaxElo - hashpowerMinElo) || 1)) * 10
-	
-				let nums = [development, codebase, community, distribution, decentralization]
-	
-				// push the new data to the chart
-				templateInstance.radarchart.data.datasets.push({
-					label: value.currencySymbol,
-					fill: true,
-					backgroundColor: `rgba(${(rgb >> 16) & 255}, ${(rgb >> 8) & 255}, ${rgb & 255}, 0.2)`, // a way to convert color from hex to rgb
-					borderColor: color,
-					pointBorderColor: '#fff',
-					pointStyle: 'dot',
-					pointBackgroundColor: color,
-					data: nums
-				})
-
-				templateInstance.barchart.data.datasets.push({
-					label: value.currencySymbol,
-					backgroundColor: `rgba(${(rgb >> 16) & 255}, ${(rgb >> 8) & 255}, ${rgb & 255}, 0.2)`,
-					borderColor: color,
-					borderWidth: 1,
-					data: [hashpower, 7, wallet, 3]
-				})
-	
-				// update the chart to reflect new data
-				templateInstance.radarchart.update()
-				templateInstance.barchart.update()
-			}
-		}
-
-		this.curryEvent = curryEvent
-
-		//adds first found entry in autocomplete on enter keypress
-		$('.typeahead').typeahead(option1, option2).on('keyup', {
-			templ: Template.instance()
-		}, function (event) {
-			if (event.keyCode == 13) {
-				var a = event.data.templ.TransitoryCollection.findOne({
-					$or: [{
-						currencyName: new RegExp(event.target.value, 'ig')
-					}, {
-						currencySymbol: new RegExp(event.target.value, 'ig')
-					}],
-					currencySymbol: {
-						$nin: event.data.templ.compared.get()
-					}
+	this.typeAheadProps = {
+		limit: 15,
+		query: function(templ, entry){
+			return {
+				$or: [{
+					currencyName: new RegExp(entry, 'ig')
 				}, {
-					sort: {
-						currencyName: 1
-					}
-				})
-				if (a) {
-					$('.typeahead').typeahead('val', '');
-					$('.typeahead').focus()
-					curryEvent(event.data.templ)(null, a)
+					currencySymbol: new RegExp(entry, 'ig')
+				}],
+				currencySymbol: {
+					$nin: templ.compared.get()
 				}
 			}
-		});
-
-		$('.typeahead').focus()
-
-		$('.typeahead').bind('typeahead:select', curryEvent(Template.instance()))
-
-		$('.typeahead').bind('typeahead:autocomplete', curryEvent(Template.instance()))
-	}
-	//logic for receiving benefits of fast-render and yet using nonreactive data from method
-	if (!LocalCurrencies.find().count()) {
-		this.TransitoryCollection = Currencies
-		// this.transitioning = new ReactiveVar(true)
-		Meteor.call('fetchCurrencies', (err, res) => {
-			res.forEach(x => {
-				LocalCurrencies.insert(x)
-			})
-			this.TransitoryCollection = LocalCurrencies
-			$('.typeahead').typeahead('destroy')
-			this.methodReady.set(true)
-		})
-	} else {
-		this.TransitoryCollection = LocalCurrencies
-		// this.transitioning = new ReactiveVar(false)
+		},
+		projection: function(templ, entry){
+			return {
+				limit: 15,
+				sort: {
+					currencyName: 1
+				}
+			}
+		},
+		add: this.curryEvent,
+    col: Currencies, //collection to use
+    template: Template.instance(), //parent template instance
+    focus: true,
+    autoFocus: true,
+    quickEnter: true,
+    displayField: "currencyName", //field that appears in typeahead select menu
 	}
 })
 
@@ -303,6 +228,8 @@ Template.compareCurrencies.onRendered(function () {
 		}
 	})
 
+	document.getElementById('radar').addEventListener('click', (event) => radarEvent(this.radarchart, event, console.log))
+
 	let ctx = document.getElementById('bar').getContext('2d')
 	ctx.canvas.width = 800
 	ctx.canvas.height = 600
@@ -324,19 +251,38 @@ Template.compareCurrencies.onRendered(function () {
 			}
 		}
 	})
+	document.getElementById('bar').addEventListener('click', (event) => {
+		event.preventDefault()
+	    event.stopPropagation()
 
-	this.autorun((comp) => {
-		if (this.methodReady.get()) {
-			this.init()
-			comp.stop()
-		}
+	    let scale = this.barchart.scales['y-axis-0']
+
+	    let clickables = ['hash-power', 'settlement-speed', 'ease-of-use', 'transactions']
+
+	    let elem = clickables.map((i, ind) => ({
+	      id: i,
+	      width: scale.width,
+	      height: 60,
+	      left: 0,
+	      top: (ind * (scale.height / (scale.maxIndex + 1))) + ((scale.height / ((scale.maxIndex + 1) * 2)) - 30)
+	    })) // common elements
+
+	    let point = {
+	      x: event.clientX - event.currentTarget.getBoundingClientRect().left,
+	      y: event.clientY - event.currentTarget.getBoundingClientRect().top
+	    }
+
+	    elem.forEach(elem => {
+	      if (intersection(point, elem)) {
+	        console.log(elem.id, event.currentTarget.id)
+	      }
+	    })
 	})
-	this.init()
 
 	Template.instance().compared.get().forEach(i => {
-		Template.instance().curryEvent(Template.instance(), true)(null, Template.instance().TransitoryCollection.findOne({
+		Template.instance().curryEvent(null, Currencies.findOneLocal({
 			currencySymbol: i
-		}) || {})
+		}) || {}, Template.instance())
 	})
 })
 
@@ -346,10 +292,6 @@ Template.compareCurrencies.events({
 
 		cmpArr = cmpArr.filter(i => i !== this.currencySymbol)
 		templateInstance.compared.set(cmpArr)
-
-		//this whole dance is necessery because the datasource doesn't update if not reinitialized
-		$('.typeahead').typeahead('destroy')
-		$('.typeahead').typeahead(templateInstance.option1, templateInstance.option2)
 
 		// remove data from the chart and update it accordingly
 		templateInstance.radarchart.data.datasets = templateInstance.radarchart.data.datasets.filter(i => i.label !== this.currencySymbol)
@@ -392,6 +334,9 @@ Template.compareCurrencies.helpers({
 		cur.forEach(i => i.color = Template.instance().colors.get(i.currencySymbol))
 
 		return cur
+	},
+	typeAheadProps: () => {
+		return Template.instance().typeAheadProps
 	},
 	colspan: () => Template.instance().compared.get().length + 2,
 	top3: () => [1, 2, 3],

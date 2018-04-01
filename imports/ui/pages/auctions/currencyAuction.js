@@ -40,7 +40,6 @@ this.init = function () {
 			hint: true,
 			highlight: true,
 			minLength: 0,
-			displayKey: '_id',
 		}
 		var option2 = {
 			name: 'states',
