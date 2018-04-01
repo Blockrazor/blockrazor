@@ -9,6 +9,7 @@ import '../../components/sideNav/sideNav'
 Template.mainLayout.events({
   'click #navbar-toggler': function (event) {
     event.preventDefault();
+    console.log("toggled")
     Session.set("openedSidebar", !Session.get('openedSidebar')) 
     var screen = Session.get("screenSize") 
     //if is mobile then sidebar will just close constantly with no option to keep it open outside actual usage 
@@ -21,11 +22,11 @@ Template.mainLayout.events({
     if (!user) { 
       return 
     } 
-    var pref = user && user.screenSize? user.screenSize: 3
+    var pref = Session.get("openedSidebarPreference")
     if (val == true) { 
       if (screen < pref) { 
         //adjust pref because user wants menu opened at screenSize smaller than current preference 
-        Session.set('openedSidebarPreference')
+        Session.set('openedSidebarPreference', screen)
       } 
     } else { 
       if (screen > pref) { 
@@ -76,13 +77,16 @@ Template.mainLayout.onCreated(function () {
 
   //initialize screenSize session var
   setScreenSize()
-  this.user = new ReactiveVar(UserData.findOne())
+  this.user = new ReactiveVar(UserData.findOne({_id: Meteor.userId()}))
 
   //init preferences
   this.autorun(() => {
-    if (!Session.get("openedSidebarPreference") || Meteor.loggingIn()) {
-      console.log("running because logging in", Meteor.loggingIn())
-    var user = UserData.findOne()
+    let pref = Session.get("openedSidebarPreference")
+    var a = Meteor.loggingIn()
+    console.log("engaging init", a)
+    if (pref == undefined || Meteor.loggingIn()) {
+      console.log("running init", Meteor.loggingIn(), "or", pref, pref == undefined || pref == null)
+    var user = UserData.findOne({_id: Meteor.userId()})
     Session.set("openedSidebarPreference", user && user.screenSize ? user.screenSize : 3)
     Session.set("openedSidebar", Session.get("openedSidebarPreference") <= Session.get("screenSize"))
     }
@@ -91,7 +95,7 @@ Template.mainLayout.onCreated(function () {
   //responsive controller
   this.autorun(() => {
     var user = this.user.get()
-    var pref = user && user.screenSize? user.screenSize: 3
+    var pref = Session.get("openedSidebarPreference")
     var screen = Session.get("screenSize")
     if (screen >= pref){ 
       Session.set("openedSidebar", true) 
@@ -102,9 +106,11 @@ Template.mainLayout.onCreated(function () {
 
 //writes to DB preferences on change and window close/log out
   function saveSidebarPreference(){
-    if (Meteor.userId() && (UserData.findOne().screenSize? UserData.findOne().screenSize: 3) != Session.get("openedSidebarPreference")){
+    console.log("engaging saveSidebarPreference")
+    if (Meteor.userId() && (UserData.findOne({_id: Meteor.userId()}).screenSize? UserData.findOne({_id: Meteor.userId()}).screenSize: 3) != Session.get("openedSidebarPreference")){
+      console.log("running saveSidebarPreference")
       Meteor.call("sidebarPreference", Session.get('openedSidebarPreference')) 
-      Session.set("openedSidebarPreference", null)
+      Session.set("openedSidebarPreference", undefined)
     }
   }
 
