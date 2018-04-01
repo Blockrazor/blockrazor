@@ -80,29 +80,29 @@ Template.mainLayout.onCreated(function () {
   this.user = new ReactiveVar(UserData.findOne({_id: Meteor.userId()}))
 
   //init preferences
-  this.autorun(() => {
-    let pref = Session.get("openedSidebarPreference")
-    var a = Meteor.loggingIn()
-    console.log("engaging init", a)
-    if (pref == undefined || Meteor.loggingIn()) {
-      console.log("running init", Meteor.loggingIn(), "or", pref, pref == undefined || pref == null)
-    var user = UserData.findOne({_id: Meteor.userId()})
-    Session.set("openedSidebarPreference", user && user.screenSize ? user.screenSize : 3)
-    Session.set("openedSidebar", Session.get("openedSidebarPreference") <= Session.get("screenSize"))
-    }
-  })
+  // this.autorun(() => {
+  //   let pref = Session.get("openedSidebarPreference")
+  //   var a = Meteor.loggingIn()
+  //   console.log("engaging init", a)
+  //   if (pref == undefined || Meteor.loggingIn()) {
+  //     console.log("running init", Meteor.loggingIn(), "or", pref, pref == undefined || pref == null)
+  //   var user = UserData.findOne({_id: Meteor.userId()})
+  //   Session.set("openedSidebarPreference", user && user.screenSize ? user.screenSize : 3)
+  //   Session.set("openedSidebar", Session.get("openedSidebarPreference") <= Session.get("screenSize"))
+  //   }
+  // })
 
-  //responsive controller
-  this.autorun(() => {
-    var user = this.user.get()
-    var pref = Session.get("openedSidebarPreference")
-    var screen = Session.get("screenSize")
-    if (screen >= pref){ 
-      Session.set("openedSidebar", true) 
-    } else { 
-      Session.set("openedSidebar", false) 
-    } 
-  })
+  // //responsive controller
+  // this.autorun(() => {
+  //   var user = this.user.get()
+  //   var pref = Session.get("openedSidebarPreference")
+  //   var screen = Session.get("screenSize")
+  //   if (screen >= pref){ 
+  //     Session.set("openedSidebar", true) 
+  //   } else { 
+  //     Session.set("openedSidebar", false) 
+  //   } 
+  // })
 
 //writes to DB preferences on change and window close/log out
   function saveSidebarPreference(){
