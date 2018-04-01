@@ -589,6 +589,7 @@ Meteor.methods({
     		if (!err) {
 		    	Bounties.update({
 		    		type: `currency-${currency}`,
+		    		userId: Meteor.userId()
 		    	}, {
 		    		$set: {
 		    			completed: true,

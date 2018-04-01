@@ -97,6 +97,10 @@ Template.bounties.onCreated(function(){
     }).fetch().map(i => {
       let b = Bounties.findOne({
         type: `currency-${i.slug}`
+      }, {
+        sort: {
+            expiresAt: -1
+        }
       })
       return {
         _id: `currency-${i.slug}`,
@@ -109,12 +113,12 @@ Template.bounties.onCreated(function(){
         currencyName: i.currencyName,
         pendingApproval : false,
         currentlyAvailable: !(b && b.expiresAt > Date.now()),
-        currentUsername: b && (Meteor.users.findOne({
+        currentUsername: (b && b.expiresAt > Date.now()) && (Meteor.users.findOne({
           _id: b.userId
-        }) || {}).username,
-		currentUserId: b && (Meteor.users.findOne({
+        }) || {}).username || '',
+		currentUserId: (b && b.expiresAt > Date.now()) && (Meteor.users.findOne({
           _id: b.userId
-	  	}) || {})._id,
+	  	}) || {})._id || '',
         url: `/currency/${i.slug}`,
         creationTime: i.createdAt,
         time: 7200000.0,
