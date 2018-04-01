@@ -66,6 +66,59 @@ const quality = (currency) => {
   return ((currency.eloRanking || 0) - eloMinElo) / ((eloMaxElo - eloMinElo) || 1)
 }
 
+const intersection = (point, bound) => point.y > bound.top && point.y < bound.top + bound.height && point.x > bound.left && point.x < bound.left + bound.width
+
+const radarEvent = (chart, event, func) => {
+  event.preventDefault()
+    event.stopPropagation()
+
+    let scale = chart.scale
+
+    let clickables = ['ongoing-development', 'code-quality', 'community', 'coin-distribution', 'decentralization']
+
+    let elem = clickables.map((i, ind) => ({
+      id: i,
+      width: scale._pointLabelSizes[ind].w + 20,
+      height: scale._pointLabelSizes[ind].h + 20
+    })) // common elements
+
+    let fh = (scale.height - (elem[0].height * 2))
+
+    elem[0]['top'] = 0
+    elem[0]['left'] = scale.xCenter - (elem[0].width / 2) - 10
+
+    elem[1]['top'] = scale.yCenter - (scale.height / 5)
+    elem[1]['left'] = scale.width - (((scale.width - fh) / 2))
+
+    elem[2]['top'] = fh + elem[2].height - 12
+    elem[2]['left'] = scale.xCenter + (fh * 0.33) - 10
+    
+    elem[3]['top'] = elem[2]['top']
+    elem[3]['left'] = scale.xCenter - (fh * 0.33) - elem[3].width - 10
+    
+    elem[4]['top'] = elem[1]['top']
+    elem[4]['left'] = (scale.width - fh) / 2 - elem[4].width - 10
+  
+    elem.push({
+      id: 'chart',
+      width: fh - 40,
+      height: fh - 40,
+      top: elem[0].height + 20,
+      left: (scale.width - fh) / 2 + 20
+    })
+
+    let point = {
+      x: event.clientX - event.currentTarget.getBoundingClientRect().left,
+      y: event.clientY - event.currentTarget.getBoundingClientRect().top
+    }
+
+    elem.forEach(elem => {
+      if (intersection(point, elem)) {
+        func(elem.id, event.currentTarget.id)
+      }
+    })
+  }
+export { radarEvent, intersection }
 export { quality }
 
 export var rewardCurrencyCreator = function(launchTags, owner, currencyName) {
@@ -106,3 +159,4 @@ Meteor.methods({
   // },
 
 });
+

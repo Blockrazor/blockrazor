@@ -9,6 +9,7 @@ import Chart from 'chart.js';
 import './radarGraph.html'
 
 import { quality } from '/imports/api/utilities'
+import { radarEvent } from '/imports/api/utilities'
 
 Template.radarGraph.onCreated(function () {
   var self = this
@@ -120,9 +121,16 @@ Template.radarGraph.onRendered(function () {
       ]
     },
     options: options
-  });
+  })
 
-});
+  document.getElementById(this.id).addEventListener('click', (event) => radarEvent(this.radarchart, event, (type, id) => {
+    console.log(type, id)
+
+    if (type === 'chart') {
+      FlowRouter.go(`/currency/${currency.slug}`)
+    }
+  }))
+})
 
 Template.radarGraph.helpers({
   dataQuality: () => {
