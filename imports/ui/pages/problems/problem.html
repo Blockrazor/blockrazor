@@ -6,14 +6,14 @@
             <div class="card text-white bg-dark text-center">
                 <div class="card-body">
                     <h4 class="card-title text-white">Bounty Value</h4>
-                    <h2 class="text-white">{{#with problem}}{{amount}} <small>KZ</small>{{/with}}</h2>
+                    <h2 class="text-white">{{#with problem}}{{amount}} <small>KZR</small>{{/with}}</h2>
                 </div>
             </div>
         </div>
         <div class="col-sm-4">
             <div class="card text-center">
                 <div class="card-body">
-                    <h4 class="card-title">Bounty Status</h4>
+                    <h4 class="card-title">Problem Status</h4>
                     <p class="card-text"> {{#with problem}} {{#if closed}}
                         <h2><span class="badge badge-danger">CLOSED</span></h2> {{else if cancelled}}
                         <h2><span class="badge badge-danger">CANCELLED</span></h2> {{else if solved}}
@@ -27,7 +27,7 @@
         <div class="col-sm-4">
             <div class="card text-center">
                 <div class="card-body">
-                    <h4 class="card-title"> Bouny Type</h4>
+                    <h4 class="card-title"> Problem Type</h4>
                     <h2 style="text-transform: uppercase">{{problemNR.type}}</h2>
                 </div>
             </div>
