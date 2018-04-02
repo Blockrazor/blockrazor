@@ -1,7 +1,15 @@
 import { Mongo } from 'meteor/mongo';
 import { LocalizableCollection } from "../utilities"
 
-export const Currencies = new LocalizableCollection('currencies', "fetchCurrencies");
+let Currencies = {}
+
+if (!Meteor.isTest) {
+	Currencies = new LocalizableCollection('currencies', "fetchCurrencies");
+} else {
+	Currencies = new Mongo.Collection('currencies')
+}
+
+export { Currencies }
 
 Currencies.friendlySlugs({
   slugFrom: 'currencyName',
