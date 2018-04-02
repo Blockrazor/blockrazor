@@ -383,6 +383,7 @@ FlowRouter.route('/addcoin', {
     this.register('currencyBounty', SubsCache.subscribe('currencyBounty'));
     this.register('addCoinQuestions', SubsCache.subscribe('addCoinQuestions'));
     this.register('hashalgorithm', SubsCache.subscribe('hashalgorithm'));
+    this.register('exchanges', SubsCache.subscribe('exchanges'))
     // this.register('formdata', SubsCache.subscribe('formdata')); //userId isn't
     // availabe on server
   },
@@ -416,6 +417,7 @@ FlowRouter.route('/currency/:slug', {
     this.register('formdata', SubsCache.subscribe('formdata'))
     this.register('summaries', SubsCache.subscribe('summaries'), param.slug)
     this.register('bounties', SubsCache.subscribe('bounties'))
+    this.register('exchanges', SubsCache.subscribe('exchanges'))
   },
   action: function (params, queryParams) {
     BlazeLayout.render('mainLayout', {

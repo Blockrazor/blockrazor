@@ -1,14 +1,33 @@
-import { Template } from 'meteor/templating'
-import { HashAlgorithm, FormData, Currencies } from '/imports/api/indexDB.js'
+import {
+  Template
+} from 'meteor/templating'
+import {
+  HashAlgorithm,
+  FormData,
+  Currencies,
+  Exchanges,
+} from '/imports/api/indexDB.js'
 
 import './currencyInfo.html'
+import '/imports/ui/components/typeahead'
 
-Template.currencyInfo.onCreated(function() {
+Template.currencyInfo.onCreated(function () {
+  this.autorun(()=>{
+    SubsCache.subscribe('exchanges')
+  })
+  console.log(Exchanges.find().fetch())
+  window.Exchanges = Exchanges
   this.newAlgo = new ReactiveVar(false)
   this.showText = new ReactiveVar(false)
+  this.autorun(()=>{
+    this.currency = Template.currentData() //for typeahead
+    this.currency.exchangesNames = this.currency.exchanges.map(x=>{
+      return x.Name
+    })
+  })
 })
 
-Template.currencyInfo.onRendered(function() {
+Template.currencyInfo.onRendered(function () {
   $('[data-toggle="tooltip"]').tooltip()
   const self = this
 
@@ -18,7 +37,7 @@ Template.currencyInfo.onRendered(function() {
   // editable fields
   let editables = ['currencyName', 'currencySymbol', 'gitRepo', 'previousNames']
 
-  const validate = function(val) { // the actual proposing part
+  const validate = function (val) { // the actual proposing part
     if ($(this).attr('id') === 'genesisTimestamp') {
       val = new Date(val).getTime()
     }
@@ -56,14 +75,20 @@ Template.currencyInfo.onRendered(function() {
     validate: validate
   }))
 
-  $('#premine').editable({type: 'number', validate: validate});
-  $('#maxCoins').editable({type: 'number', validate: validate});
+  $('#premine').editable({
+    type: 'number',
+    validate: validate
+  });
+  $('#maxCoins').editable({
+    type: 'number',
+    validate: validate
+  });
 
   $('#genesisTimestamp').editable({
     validate: validate,
     type: 'combodate',
     format: 'DD/MM/YYYY',
-    template: 'DD / MM / YYYY',    
+    template: 'DD / MM / YYYY',
     combodate: {
       minYear: 2009,
       maxYear: new Date().getUTCFullYear(),
@@ -89,7 +114,7 @@ Template.currencyInfo.onRendered(function() {
       if ($('#consensusSecurity').text() === 'Proof of Work') {
         return HashAlgorithm.find({
           $or: [{
-            type: 'pow' 
+            type: 'pow'
           }, {
             type: {
               $exists: false // previous data doesn't have this field, so we have to check
@@ -152,147 +177,153 @@ Template.currencyInfo.events({
     templateInstance.newAlgo.set(false)
     templateInstance.showText.set(true)
   },
-  'change #currencyLogoInput': function(event){
+  'change #currencyLogoInput': function (event) {
 
-  var mime = require('mime-types')
-  var instance = this;
-  var file = event.target.files[0];
-  var uploadError = false;
-  var mimetype = mime.lookup(file);
-  var fileExtension = mime.extension(file.type);
+    var mime = require('mime-types')
+    var instance = this;
+    var file = event.target.files[0];
+    var uploadError = false;
+    var mimetype = mime.lookup(file);
+    var fileExtension = mime.extension(file.type);
 
-if(file){
-  //check if filesize of image exceeds the global limit
-  if (file.size > _coinFileSizeLimit) {
-                swal({
-                    icon: "error",
-                    text: "Image must be under 2mb",
-                    button: { className: 'btn btn-primary' }
-                });
-      uploadError = true;
-  }
+    if (file) {
+      //check if filesize of image exceeds the global limit
+      if (file.size > _coinFileSizeLimit) {
+        swal({
+          icon: "error",
+          text: "Image must be under 2mb",
+          button: {
+            className: 'btn btn-primary'
+          }
+        });
+        uploadError = true;
+      }
 
- if (!_supportedFileTypes.includes(file.type)) {
-     swal({
-         icon: "error",
-         text: "File must be an image",
-         button: { className: 'btn btn-primary' }
-     });
-     uploadError = true;
- }
+      if (!_supportedFileTypes.includes(file.type)) {
+        swal({
+          icon: "error",
+          text: "File must be an image",
+          button: {
+            className: 'btn btn-primary'
+          }
+        });
+        uploadError = true;
+      }
 
-//Only upload if above validation are true
-if(!uploadError){
+      //Only upload if above validation are true
+      if (!uploadError) {
 
-  $("#fileUploadValue").html("<i class='fa fa-circle-o-notch fa-spin'></i> Uploading");
+        $("#fileUploadValue").html("<i class='fa fa-circle-o-notch fa-spin'></i> Uploading");
 
 
-   var reader = new FileReader();
-   reader.onload = function(fileLoadEvent){
-     //var binary = event.target.result;
-     var binary = reader.result;
-     var md5 = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(binary)).toString();
+        var reader = new FileReader();
+        reader.onload = function (fileLoadEvent) {
+          //var binary = event.target.result;
+          var binary = reader.result;
+          var md5 = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(binary)).toString();
 
-     Meteor.call('changeCoinImage', file.name, event.target.id, instance._id, reader.result,md5, function(error, result){
-       if(error){
-        console.log(error)
-         swal({
-         icon: "error",
-         text: error.message,
-         button: { className: 'btn btn-primary' }
-     });
-       }else{
-    
-    $("#currencyLogoFilename").val(md5+'.'+fileExtension);
+          Meteor.call('changeCoinImage', file.name, event.target.id, instance._id, reader.result, md5, function (error, result) {
+            if (error) {
+              console.log(error)
+              swal({
+                icon: "error",
+                text: error.message,
+                button: {
+                  className: 'btn btn-primary'
+                }
+              });
+            } else {
 
-       $("#fileUploadValue").html("Change");
-       $("#currencyLogoInputLabel").removeClass('btn-primary');
-       $("#currencyLogoInputLabel").addClass('btn-success');
+              $("#currencyLogoFilename").val(md5 + '.' + fileExtension);
 
-       }
+              $("#fileUploadValue").html("Change");
+              $("#currencyLogoInputLabel").removeClass('btn-primary');
+              $("#currencyLogoInputLabel").addClass('btn-success');
 
-     });
-   }
-   reader.readAsBinaryString(file);
- }
- }
-},
+            }
 
-'click .changeCoinImage': function(event) {
+          });
+        }
+        reader.readAsBinaryString(file);
+      }
+    }
+  },
+
+  'click .changeCoinImage': function (event) {
     $('#coinChangeImage').modal('show');
 
 
     $('#coinModal_field').val($(this).attr('id'));
-},
-
-'click #proposeCoinChange': function(event){
-
-
-$('#coinChangeImage').modal('hide');
-
-
-
-
-      Meteor.call('editCoin', [{
-        coin_id: $('#_id').val(),
-        coinName: $('#name').val(),
-        field: 'currencyLogoFilename',
-        old: $('#currencyLogoFilename_existing').val(),
-        new: $('#currencyLogoFilename').val(),
-        changedDate: new Date().getTime(),
-        createdBy: Meteor.userId(),
-        score: 0,
-        status: 'pending review',
-        notes: $('#currencyNotes').val()
-      }], (error, result) => {
-          if (error) {
-            console.log(error.reason)
-            sAlert.error(error.reason)
-          } else {
-            console.log('coinChangeModal ran successfully')
-            sAlert.success('Change proposed.')
-          }
-      })
-
-
-},
-
-
-  'click #proposeChange': function(event){
-//close modal
-$('#coinChangeModal').modal('hide');
-
-//call method to edit coin
-
-      Meteor.call('editCoin', [{
-        coin_id: $('#_id').val(),
-        coinName: $('#name').val(),
-        field: $('#modal_field').val(),
-        old: $('#modal_old').val(),
-        new: $('#modal_new').val(),
-        changedDate: new Date().getTime(),
-        createdBy: Meteor.userId(),
-        score: 0,
-        status: 'pending review',
-        notes: $('#currencyNotes').val()
-      }], (error, result) => {
-          if (error) {
-            if(error.reason){
-              sAlert.error(error.reason)
-            }else{
-              sAlert.error(error);
-            }
-            
-          } else {
-            console.log('yay')
-            sAlert.success('Change proposed.')
-          }
-      })
   },
-  'click .contribute': function(event) {
-      event.preventDefault();
-      let slug = FlowRouter.getParam("slug");
-      FlowRouter.go('/currencyEdit/' + slug + '/' + event.currentTarget.id);
+
+  'click #proposeCoinChange': function (event) {
+
+
+    $('#coinChangeImage').modal('hide');
+
+
+
+
+    Meteor.call('editCoin', [{
+      coin_id: $('#_id').val(),
+      coinName: $('#name').val(),
+      field: 'currencyLogoFilename',
+      old: $('#currencyLogoFilename_existing').val(),
+      new: $('#currencyLogoFilename').val(),
+      changedDate: new Date().getTime(),
+      createdBy: Meteor.userId(),
+      score: 0,
+      status: 'pending review',
+      notes: $('#currencyNotes').val()
+    }], (error, result) => {
+      if (error) {
+        console.log(error.reason)
+        sAlert.error(error.reason)
+      } else {
+        console.log('coinChangeModal ran successfully')
+        sAlert.success('Change proposed.')
+      }
+    })
+
+
+  },
+
+
+  'click #proposeChange': function (event) {
+    //close modal
+    $('#coinChangeModal').modal('hide');
+
+    //call method to edit coin
+
+    Meteor.call('editCoin', [{
+      coin_id: $('#_id').val(),
+      coinName: $('#name').val(),
+      field: $('#modal_field').val(),
+      old: $('#modal_old').val(),
+      new: $('#modal_new').val(),
+      changedDate: new Date().getTime(),
+      createdBy: Meteor.userId(),
+      score: 0,
+      status: 'pending review',
+      notes: $('#currencyNotes').val()
+    }], (error, result) => {
+      if (error) {
+        if (error.reason) {
+          sAlert.error(error.reason)
+        } else {
+          sAlert.error(error);
+        }
+
+      } else {
+        console.log('yay')
+        sAlert.success('Change proposed.')
+      }
+    })
+  },
+  'click .contribute': function (event) {
+    event.preventDefault();
+    let slug = FlowRouter.getParam("slug");
+    FlowRouter.go('/currencyEdit/' + slug + '/' + event.currentTarget.id);
   }
 });
 
@@ -302,59 +333,53 @@ Template.currencyInfo.helpers({
   previousNames: () => {
     return (Template.instance().data.previousNames || []).map(i => i.tag) || 'N\\A'
   },
-  truncate (val) {
-     if (val.length > 20){
-    return val.substring(0,20)+'...';
- }
- else{
-    return val;
- }
-},
-   isDateNull(val, field) {
+  truncate(val) {
+    if (val.length > 20) {
+      return val.substring(0, 20) + '...';
+    } else {
+      return val;
+    }
+  },
+  isDateNull(val, field) {
 
-  if (typeof val == "number") {
-              return moment(val).format(_globalDateFormat);
-      } else {
-          if (field) {
-              return 'N\\A'
-          }
+    if (typeof val == "number") {
+      return moment(val).format(_globalDateFormat);
+    } else {
+      if (field) {
+        return 'N\\A'
       }
-
+    }
   },
   isNull(val, field) {
-      if (val || val === 0) {
-          if (typeof val == "string") {
-              return val;
-          } else if (typeof val == "object") {
-              return val.length == 1 ? val[0]: val.join(", ");
-          } else if (typeof val == "number") {
-              return val;
-          }
-      } else {
-          if (field) {
-              return Spacebars.SafeString('<span id=' + field + ' class="label label-danger contribute pointer"><i class="fa fa-plus"></i> Contribute</span>');
-          }
+    if (val || val === 0) {
+      if (typeof val == "string") {
+        return val;
+      } else if (typeof val == "object") {
+        return val.length == 1 ? val[0] : val.join(", ");
+      } else if (typeof val == "number") {
+        return val;
       }
-
-  },
-      isNullReadOnly(val,field) {
-
-      if (val || val === 0) {
-          if (typeof val == "string") {
-              return val;
-          } else if (typeof val == "object") {
-
-              return val[0].join(", ");
-          } else if (typeof val == "number") {
-              return val;
-          }
-      } else {
-
-        return '-'
+    } else {
+      if (field) {
+        return Spacebars.SafeString('<span id=' + field + ' class="label label-danger contribute pointer"><i class="fa fa-plus"></i> Contribute</span>');
       }
-
+    }
   },
-  hashAlgorithm: function() {
+  isNullReadOnly(val, field) {
+    if (val || val === 0) {
+      if (typeof val == "string") {
+        return val;
+      } else if (typeof val == "object") {
+
+        return val[0].join(", ");
+      } else if (typeof val == "number") {
+        return val;
+      }
+    } else {
+      return '-'
+    }
+  },
+  hashAlgorithm: function () {
     let prefix = ''
     if (this.consensusSecurity === 'Hybrid') {
       prefix = 'Staking and '
@@ -365,5 +390,44 @@ Template.currencyInfo.helpers({
     })
 
     return algo ? `${prefix}${algo.name}` : this.hashAlgorithm
+  },
+  typeaheadProps: function () {
+    return {
+      limit: 15,
+      query: function (templ, entry) {
+        return {
+          name: {
+            $nin: templ.currency.exchangesNames,
+            $regex: new RegExp(entry, 'ig')
+          }
+        }
+      },
+      projection: function (templ, entry) {
+        return {
+          limit: 15,
+          sort: {
+            name: 1
+          }
+        }
+      },
+      add: function(event, data, templ){
+        Meteor.call("appendExchange", data._id, templ.currency._id)
+      },
+      noneFound: function(templ, eleId){
+        function add (e){
+          console.log("adding")
+          Meteor.call("addExchange", $("#"+eleId).typeahead('val'))
+        }
+        console.log("render")
+        return `<span onclick=${add}>create this exchange</span>`
+      },
+      col: Exchanges, //collection to use
+      template: Template.instance(), //parent template instance
+      focus: true,
+      autoFocus: true,
+      quickEnter: true,
+      displayField: "name", //field that appears in typeahead select menu
+      placeholder: "Add Exchange"
+    }
   }
 });

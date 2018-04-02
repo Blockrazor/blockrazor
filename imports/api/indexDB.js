@@ -50,6 +50,8 @@ import { Problems } from '/imports/api/problems/problems'
 import { ProblemImages } from '/imports/api/problems/problemImages'
 import { ProblemComments } from '/imports/api/problems/problemComments'
 
+import { Exchanges } from '/imports/api/exchanges/exchanges'
+
 import { devValidationEnabled } from '/imports/startup/both/devValidationEnabled'
 
 export {
@@ -104,5 +106,7 @@ export {
   ProblemImages,
   ProblemComments,
 
+  Exchanges,
+  
   devValidationEnabled
 }
