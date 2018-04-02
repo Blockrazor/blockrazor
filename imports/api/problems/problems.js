@@ -1,4 +1,12 @@
 import { Mongo } from 'meteor/mongo'
 import { LocalizableCollection } from '../utilities'
 
-export const Problems = new LocalizableCollection('problems')
+let Problems = {}
+
+if (!Meteor.isTest) {
+	Problems = new LocalizableCollection('problems')
+} else {
+	Problems = new Mongo.Collection('problems')
+}
+
+export { Problems }
