@@ -6,10 +6,19 @@ import './mainLayout.scss'
 import '../../components/topNav/topNav'
 import '../../components/sideNav/sideNav'
 
+
+//writes to DB preferences on change and window close/log out
+//doesn't run on unload as it should as websocket closes before method reaches server, is an issue in meteor
+function saveSidebarPreference(){
+  if (Meteor.userId() && (UserData.findOne({_id: Meteor.userId()}).screenSize? UserData.findOne({_id: Meteor.userId()}).screenSize: 3) != Session.get("openedSidebarPreference")){
+    Meteor.call("sidebarPreference", Session.get('openedSidebarPreference'))
+    Session.set("openedSidebarPreference", undefined) //don't remove this, explanation in init autorun
+  }
+}
+
 Template.mainLayout.events({
   'click #navbar-toggler': function (event) {
     event.preventDefault();
-    console.log("toggled")
     Session.set("openedSidebar", !Session.get('openedSidebar')) 
     var screen = Session.get("screenSize") 
     //if is mobile then sidebar will just close constantly with no option to keep it open outside actual usage 
@@ -27,11 +36,13 @@ Template.mainLayout.events({
       if (screen < pref) { 
         //adjust pref because user wants menu opened at screenSize smaller than current preference 
         Session.set('openedSidebarPreference', screen)
+        saveSidebarPreference()
       } 
     } else { 
       if (screen > pref) { 
         //adjust pref because user wants menu closed at screenSize bigger than current preference 
         Session.set('openedSidebarPreference', 1+screen)
+        saveSidebarPreference()
       } 
     } 
   }
@@ -80,39 +91,34 @@ Template.mainLayout.onCreated(function () {
   this.user = new ReactiveVar(UserData.findOne({_id: Meteor.userId()}))
 
   //init preferences
-  // this.autorun(() => {
-  //   let pref = Session.get("openedSidebarPreference")
-  //   var a = Meteor.loggingIn()
-  //   console.log("engaging init", a)
-  //   if (pref == undefined || Meteor.loggingIn()) {
-  //     console.log("running init", Meteor.loggingIn(), "or", pref, pref == undefined || pref == null)
-  //   var user = UserData.findOne({_id: Meteor.userId()})
-  //   Session.set("openedSidebarPreference", user && user.screenSize ? user.screenSize : 3)
-  //   Session.set("openedSidebar", Session.get("openedSidebarPreference") <= Session.get("screenSize"))
-  //   }
-  // })
-
-  // //responsive controller
-  // this.autorun(() => {
-  //   var user = this.user.get()
-  //   var pref = Session.get("openedSidebarPreference")
-  //   var screen = Session.get("screenSize")
-  //   if (screen >= pref){ 
-  //     Session.set("openedSidebar", true) 
-  //   } else { 
-  //     Session.set("openedSidebar", false) 
-  //   } 
-  // })
-
-//writes to DB preferences on change and window close/log out
-  function saveSidebarPreference(){
-    console.log("engaging saveSidebarPreference")
-    if (Meteor.userId() && (UserData.findOne({_id: Meteor.userId()}).screenSize? UserData.findOne({_id: Meteor.userId()}).screenSize: 3) != Session.get("openedSidebarPreference")){
-      console.log("running saveSidebarPreference")
-      Meteor.call("sidebarPreference", Session.get('openedSidebarPreference')) 
-      Session.set("openedSidebarPreference", undefined)
+  //using meteor.logginIn() is impossible since it's permanently false
+  //thus make sure pref is undefined after log out/on init and user is queried before if statement
+  this.autorun(() => {
+    let pref = Session.get("openedSidebarPreference")
+    var user = UserData.findOne({_id: Meteor.userId()})
+    if (pref == undefined) {
+    Session.set("openedSidebarPreference", user && user.screenSize ? user.screenSize : 3)
+    Session.set("openedSidebar", Session.get("openedSidebarPreference") <= Session.get("screenSize"))
     }
-  }
+  })
+
+  //responsive controller
+  this.autorun(() => {
+    var user = this.user.get()
+    var pref = Session.get("openedSidebarPreference")
+    var screen = Session.get("screenSize")
+    if (screen >= pref){ 
+      Session.set("openedSidebar", true) 
+    } else { 
+      Session.set("openedSidebar", false) 
+    } 
+  })
+
+// trying to block unload with freezeScreen didn't help
+//   function freezeScreen(ms){
+//     var s=(new Date).getTime();
+//     while(((new Date).getTime())-s<ms){}
+// };
 
 Meteor.beforeLogout(saveSidebarPreference)
 window.addEventListener('unload', saveSidebarPreference)
