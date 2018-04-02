@@ -1,22 +1,10 @@
 import { Template } from 'meteor/templating'
-import { Currencies, Auctions, Bids, UserData, LocalCurrencies } from '/imports/api/indexDB.js'
+import { Currencies, Auctions, Bids, UserData } from '/imports/api/indexDB.js'
 import { FlowRouter } from 'meteor/staringatlights:flow-router'
 
 import './currencyAuction.template.html'
 
-import typeahead from 'corejs-typeahead'
-
-Template.currencyAuction.onRendered(function () {
-
-		this.autorun((comp) => {
-		if (this.methodReady.get()) {
-			this.init()
-			comp.stop()
-		}
-	})
-	this.init()
-
-});
+import '/imports/ui/components/typeahead'
 
 Template.currencyAuction.onCreated(function() {
 	this.autorun(() => {
@@ -26,108 +14,16 @@ Template.currencyAuction.onCreated(function() {
 		SubsCache.subscribe('publicUserData')
 	})
 
-	this.search = new ReactiveVar('')
-	this.methodReady = new ReactiveVar(false)
+	this.selectedId = new ReactiveVar()
 	this.now = new ReactiveVar(Date.now())
 	this.current = new Date()
 	this.current.setSeconds(0)
 	this.current = this.current.getTime() // count from the last full minute, as that's when the auction was last drained
 
 	Meteor.setInterval(() => this.now.set(Date.now()), 250) // update the timer every 250ms for smooth drainage
-
-this.init = function () {
-		var option1 = {
-			hint: true,
-			highlight: true,
-			minLength: 0,
-		}
-		var option2 = {
-			name: 'states',
-			display: (x) => x.currencyName,
-			limit: 15,
-			source: currySearch(Template.instance())
-		}
-	
-		//binding for updating autocomplete source on deletion of items
-		this.option1 = option1
-		this.option2 = option2
-
-		function currySearch(template) {
-			return function typeAheadSearch(entry, CB) {
-				CB(
-					template.TransitoryCollection.find({
-						$or: [{
-							currencyName: new RegExp(entry, 'ig')
-						}, {
-							currencySymbol: new RegExp(entry, 'ig')
-						}],
-					}, {
-						limit: 15,
-						sort: {
-							currencyName: 1
-						}
-					}).fetch()
-				)
-			}
-		}
-
-	//adds first found entry in autocomplete on enter keypress
-		$('.typeahead').typeahead(option1, option2).on('keyup', {
-			templ: Template.instance()
-		}, function (event) {
-			if (event.keyCode == 13) {
-				var a = event.data.templ.TransitoryCollection.findOne({
-					$or: [{
-						currencyName: new RegExp(event.target.value, 'ig')
-					}, {
-						currencySymbol: new RegExp(event.target.value, 'ig')
-					}],
-					currencySymbol: {
-						$nin: event.data.templ.compared.get()
-					}
-				}, {
-					sort: {
-						currencyName: 1
-					}
-				})
-			}
-
-		}).on('typeahead:selected', function(event, data){    
-		console.log(data)        
-        $('#js-currency').val(data._id);        
-    });
-
-	}
-
-		//logic for receiving benefits of fast-render and yet using nonreactive data from method
-	if (!LocalCurrencies.find().count()) {
-		this.TransitoryCollection = Currencies
-		// this.transitioning = new ReactiveVar(true)
-		Meteor.call('fetchCurrencies', (err, res) => {
-			res.forEach(x => {
-				LocalCurrencies.insert(x)
-			})
-			this.TransitoryCollection = LocalCurrencies
-			$('.typeahead').typeahead('destroy')
-			this.methodReady.set(true)
-		})
-	} else {
-		this.TransitoryCollection = LocalCurrencies
-		// this.transitioning = new ReactiveVar(false)
-	}
-
 })
 
 Template.currencyAuction.helpers({
-	allCurrencies: () => Currencies.find({
-		$or: [{
-			currencyName: new RegExp(Template.instance().search.get(), 'gi')
-		}, {
-			currencySymbol: new RegExp(Template.instance().search.get(), 'gi')
-		}, {
-			'previousNames.tag': new RegExp(Template.instance().search.get(), 'gi')
-		}]
-	}),
 	currencies: () => {
 		let bids = Bids.find({
 			auctionId: 'top-currency',
@@ -173,13 +69,13 @@ Template.currencyAuction.helpers({
 		_id: Meteor.userId()
 	}) || {}).balance,
 	currency: function() {
-		return (Currencies.findOne({
+		return (Currencies.findOneLocal({
 			_id: (this.options || {}).currency
 		}) || {}).currencyName || ''
 	},
 	fixed: (val) => val.toFixed(6),
 	amountBid: function() {
-		let featured = Currencies.findOne({
+		let featured = Currencies.findOneLocal({
 			_id: this.options.currency
 		}).featured
 
@@ -196,7 +92,7 @@ Template.currencyAuction.helpers({
 		return this.amount.toFixed(6)
 	},
 	amountCurrency: function() {
-		let featured = Currencies.findOne({
+		let featured = Currencies.findOneLocal({
 			_id: this.options.currency
 		}).featured
 
@@ -205,6 +101,36 @@ Template.currencyAuction.helpers({
 		}
 
 		return this.amount.toFixed(6) // otherwise just return the amount
+	},
+	typeaheadProps: function() {
+		return {
+			limit: 15,
+			query: function(templ, entry){
+				return {
+					$or: [{
+						currencyName: new RegExp(entry, 'ig')
+					}, {
+						currencySymbol: new RegExp(entry, 'ig')
+					}],
+				}
+			},
+			projection: function(templ, entry){
+				return {
+					limit: 15,
+					sort: {
+						currencyName: 1
+					}
+				}
+			},
+			add: function(event, doc, templ){templ.selectedId.set(doc._id)},
+			col: Currencies, //collection to use
+			template: Template.instance(), //parent template instance
+			focus: false,
+			autoFocus: false,
+			quickEnter: true,
+			displayField: "currencyName", //field that appears in typeahead select menu
+			placeholder: "Search cryptocurrencies"
+		}
 	}
 })
 
@@ -223,10 +149,10 @@ Template.currencyAuction.events({
 	'submit #js-form': (event, templateInstance) => {
 		event.preventDefault()
 
-		if (parseFloat($('#js-amount').val()) > 0 && $('#js-currency').val()) {
+		if (parseFloat($('#js-amount').val()) > 0 && templateInstance.selectedId.get()) {
 			Meteor.call('placeBid', 'top-currency', parseFloat($('#js-amount').val()), {
 				type: 'currency',
-				currency: $('#js-currency').val()
+				currency: templateInstance.selectedId.get()
 			}, (err, data) => {
 				if (err) {
 					sAlert.error(err.reason)
@@ -238,9 +164,4 @@ Template.currencyAuction.events({
 			sAlert.error('Some fields are missing.')
 		}
 	},
-	'keyup #js-cur': (event, templateInstance) => {
-		event.preventDefault()
-
-		templateInstance.search.set($(event.currentTarget).val())
-	}
 })

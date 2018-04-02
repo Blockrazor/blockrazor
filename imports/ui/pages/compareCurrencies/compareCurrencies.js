@@ -165,7 +165,8 @@ Template.compareCurrencies.onCreated(function () {
     focus: true,
     autoFocus: true,
     quickEnter: true,
-    displayField: "currencyName", //field that appears in typeahead select menu
+		displayField: "currencyName", //field that appears in typeahead select menu
+		placeholder: "Select Currency"
 	}
 })
 

@@ -31,6 +31,7 @@ import {
           compareCurrencies.js, currencyAuction.js
 
   @@props //shows default values for booleans
+    id: string, defaults to random number, id for typeahead field, upon typeahead initialization ".typeahead" isn't safe to use,
     transcient: true, //if typeahead should begin querying locally from LocalizableCollection 
     col: obj, //collection to use
     template: Template.instance(), //parent template instance
@@ -41,7 +42,8 @@ import {
     autoFocus: false, //typeahead will maintain focus after selection
     quickEnter: true, //On "enter" keypress typeahead will add the first value in list
     add: function(event, doc, templ){...}, //templ is parent template instance, doc is document added
-    displayField: name, //field that appears in typeahead select menu
+    displayField: name, //document field that appears in typeahead select menu
+    placeholder: name, //placeholder for typeahead
 }
 */
 
@@ -49,6 +51,7 @@ Template.typeahead.onCreated(function () {
   console.log(this.data, "props")
   
   //init default values if not specified
+  this.data.id = this.data.id == undefined? Random.id()+"": this.data.id+""
   this.data.transcient = this.data.transcient == undefined? true: this.data.transcient
   this.data.focus = this.data.focus === undefined? false: this.data.focus
   this.data.autoFocus = this.data.autoFocus === undefined? false: this.data.autoFocus
@@ -56,6 +59,7 @@ Template.typeahead.onCreated(function () {
 
   var props = this.data
   var templ = props.template
+  this.ele = "#"+this.data.id
 
   //query to run
   if (this.data.transcient) {
@@ -103,11 +107,11 @@ Template.typeahead.onCreated(function () {
 		}
     // this.curryEvent = curryEvent
     
-    $('.typeahead').typeahead(option1, option2)
+    $(this.ele).typeahead(option1, option2)
 
     //adds first found entry in autocomplete on enter keypress
     if (props.quickEnter){
-      $('.typeahead').on('keyup', {
+      $(this.ele).on('keyup', {
         templ: props.template,
         typeahead: Template.instance()
       }, function (event) {
@@ -120,11 +124,13 @@ Template.typeahead.onCreated(function () {
       });
     }
 
-		$('.typeahead').focus()
+    if (this.data.focus){
+      $(this.ele).focus()
+    }
 
-		$('.typeahead').bind('typeahead:select', curryEvent(templ, this))
+		$(this.ele).bind('typeahead:select', curryEvent(templ, this))
 
-		$('.typeahead').bind('typeahead:autocomplete', curryEvent(templ, this))
+		$(this.ele).bind('typeahead:autocomplete', curryEvent(templ, this))
   }
 })
 
@@ -132,7 +138,7 @@ Template.typeahead.onRendered(function () {
   //reinitialize typeahead once static data is ready, and typeahead rendered
 	this.autorun((comp) => {
 		if (this.data.col.readyLocal()) {
-      $('.typeahead').typeahead('destroy')
+      $(this.ele).typeahead('destroy')
 			this.init()
 			comp.stop()
 		}
@@ -145,17 +151,17 @@ Template.typeahead.onRendered(function () {
     // and the below
     // used to keep typeahead data source reactive, running currySearch callback- CB- within autorun will not update selection menu
     this.search("")
-    if (document.activeElement === document.getElementById('some')){
-      $('.typeahead').typeahead('destroy')
-      $('.typeahead').blur()
-      $('.typeahead').typeahead(this.option1, this.option2)
-      $('.typeahead').typeahead('val', '');
+    if (document.activeElement === document.getElementById(this.data.id)){
+      $(this.ele).typeahead('destroy')
+      $(this.ele).blur()
+      $(this.ele).typeahead(this.option1, this.option2)
+      $(this.ele).typeahead('val', '');
       if (this.data.autoFocus, this.data){
-        $('.typeahead').focus()
+        $(this.ele).focus()
       }
     } else {
-      $('.typeahead').typeahead('destroy')
-      $('.typeahead').typeahead(this.option1, this.option2)
+      $(this.ele).typeahead('destroy')
+      $(this.ele).typeahead(this.option1, this.option2)
     }
   })
 })
@@ -163,4 +169,13 @@ Template.typeahead.onRendered(function () {
 Template.typeahead.onDestroyed(function () {
 	$(".typeahead").typeahead("destroy")
 	$(".typeahead").off("keyup")
+})
+
+Template.typeahead.helpers({
+  id: ()=>{
+    return Template.instance().data.id
+  },
+  placeholder: ()=>{
+    return Template.instance().data.placeholder
+  }
 })
