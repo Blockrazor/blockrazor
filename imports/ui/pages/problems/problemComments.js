@@ -4,6 +4,7 @@ import { Problems } from '/imports/api/indexDB'
 import { FlowRouter } from 'meteor/staringatlights:flow-router'
 import Cookies from 'js-cookie'
 
+
 import './problemComments.html'
 import './problemComment'
 
@@ -13,6 +14,13 @@ Template.problemComments.onCreated(function() {
     })
 })
 
+
+Template.problemComments.onRendered(function() {
+
+
+});
+
+
 Template.problemComments.helpers({
     problemComments: () => ProblemComments.find({}, {
         sort: {
@@ -21,13 +29,13 @@ Template.problemComments.helpers({
             appeal: -1
         }
     }),
-	commentable: () => {
-		let problem = Problems.findOne({
-			_id: FlowRouter.getParam('id')
-		})
+    commentable: () => {
+        let problem = Problems.findOne({
+            _id: FlowRouter.getParam('id')
+        })
 
-		return !problem.cancelled && !problem.solved && !problem.closed
-	}
+        return !problem.cancelled && !problem.solved && !problem.closed
+    }
 })
 
 
@@ -49,6 +57,17 @@ Template.problemComments.events({
             Cookies.set('addCommentModal', 'true')
         }
     },
+    'focus #comment': (event, templateInstance) => {
+        $('.hiddenRules').slideToggle();
+    },
+    'focusout #comment': (event, templateInstance) => {
+        $('.hiddenRules').slideToggle()
+    },
+
+
+
+
+
     'keyup #comment': (event, templateInstance) => {
         const max = 500
 
@@ -69,13 +88,22 @@ Template.problemComments.events({
 
         const data = $('#comment').val()
 
-        if(data.length < 10 || data.length > 500) {
+        if (data.length < 10 || data.length > 500) {
             sAlert.error('That entry is too short, or too long.')
         } else {
             Meteor.call('addProblemComment', this._id, '', data, 1, (err, data) => {
                 if (!err) {
                     $('#comment').val('')
-                    $('#addNewComment').collapse('hide')
+
+                    //scroll to bottom of page so we know its posted
+                    $("html, body").animate({ scrollTop: $(document).height() }, 500);
+
+                    //change the card to black so we know what comment was just posted
+                    Meteor.setTimeout(function() {
+                        $('#' + data).addClass('bg-dark');
+                        $('#' + data).addClass('text-white');
+                    }.bind(this), 200)
+
 
                     sAlert.success('Thanks! Your comment has been successfully added!')
                 } else {

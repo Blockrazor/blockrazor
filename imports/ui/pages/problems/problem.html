@@ -1,133 +1,111 @@
 <template name="problem">
-  {{> sAlert}}
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="card">
-      <div class="card-body">
-        <div class="name" style="width: 100%">
-          <span class="upper pull-left badge badge-primary" style="margin-right:20px;text-transform:uppercase;">{{problemNR.type}}</span>
-          <h4 id="header" style="width:40%;cursor: pointer;">{{problemNR.header}}</h4>
-          {{#with problem}}
-          <span style="width:30%;cursor: pointer;">{{#unless question}} {{amount}} KZR{{/unless}}</span>
-          {{#if canCancel}}<a href="#" class="pull-right btn btn-danger" id="js-cancel">Cancel</a>{{/if}}
-          {{/with}}
+    {{> sAlert}} {{#with problem}} {{#if canCancel}}<a href="#" class="pull-right btn btn-danger" id="js-cancel">Cancel</a>{{/if}} {{/with}}
+    <h2>Problem</h2>
+    <div class="row mb-3">
+        <div class="col-sm-4">
+            <div class="card text-white bg-dark text-center">
+                <div class="card-body">
+                    <h4 class="card-title text-white">Bounty Value</h4>
+                    <h2 class="text-white">{{#with problem}}{{amount}} <small>KZ</small>{{/with}}</h2>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <br />
-    </div>
-    <div class="col-sm-12">
-      <div class="card bg-secondary mb-3">
-        <div class="card" style="min-width:100px;overflow:hidden;">
-
-          <div class="card-body">
-          {{#with problem}}
-          <div>
-            {{#if closed}}
-            <span class="pull-left" style="color: red;">CLOSED</span>
-            {{else if cancelled}}
-            <span class="pull-left" style="color: red;">CANCELLED</span>
-            {{else if solved}}
-            <span class="pull-left badge badge-warning">SOLVED</span>
-            {{else if locked}}
-            <span class="pull-left badge badge-warning">IN PROGRESS</span>
-            {{else if open}}
-            <span class="pull-left badge badge-success">OPEN</span>
-            {{/if}}
-          </div>
-          {{/with}}
-          <br />
-                     <p style="white-space: pre-wrap" id="text">{{problemNR.text}}</p>
-
-          </div>
-
+        <div class="col-sm-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h4 class="card-title">Bounty Status</h4>
+                    <p class="card-text"> {{#with problem}} {{#if closed}}
+                        <h2><span class="badge badge-danger">CLOSED</span></h2> {{else if cancelled}}
+                        <h2><span class="badge badge-danger">CANCELLED</span></h2> {{else if solved}}
+                        <h2><span class="badge badge-warning">SOLVED</span></h2> {{else if locked}}
+                        <h2><span class="badge badge-warning">IN PROGRESS</span></h2> {{else if open}}
+                        <h2><span class="badge badge-success">OPEN</span></h2> {{/if}} {{/with}}
+                    </p>
+                </div>
+            </div>
         </div>
-      </div>
+        <div class="col-sm-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h4 class="card-title"> Bouny Type</h4>
+                    <h2 style="text-transform: uppercase">{{problemNR.type}}</h2>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-  {{#unless question}}
-  	{{#if takeable}}
-	  <div class="row">
-	    <div class="col-sm-12">
-	      <div class="card bg-secondary mb-3 mb-3" style="min-width:100px;overflow:hidden;">
-
-	          <div class="card-body">
-	            <div><lable for="js-credit">Add credit to bounty</lable>
-	              <input class="form-control" placeholder="100" type="number" step="0.01" min="0" id="js-credit" style="width:70%"/><br /><small>Your Contributed:<b style="color: blue">{{userContribution}}</b> KZR</small><small> Available: <b style="color: green">{{fixed balance}}</b> KZR</small></div>
-	            <button class="btn btn-primary m-2" id="js-addCredit">
-	                Add credit
-	            </button>
-	            <button class="btn btn-secondary m-2" id="js-removeCredit">
-	                Remove all credit
-	            </button>
-	          </div>
-	      </div>
-	    </div>
-	  </div>
-	{{/if}}
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="card card-header d-flex align-items-center flex-row">
-
-        <div class="name"><h4>{{#if problem.solved}}Solved by {{user}}{{else if isTaken}}Currently taken by {{user}}{{else}}Not taken by anyone{{/if}}</h4></div>
-      </div>
-    </div>
-    <div class="col-sm-12">
-      <div class="basic-details">
-        <div class="card bg-secondary mb-3" style="min-width:100px;overflow:hidden;">
-          <div class="card-body">
-          {{#if isTaken}}
-          {{#with problem}}
-          <div>GitHub fork: <a href="{{taken.additional.fork}}">{{taken.additional.fork}}</a></div>
-          <div>Issue: <a href="{{taken.additional.issue}}">{{taken.additional.issue}}</a></div>
-          {{#unless solved}}
-          <div>Time left: {{timeLeft}}</div>
-
-          {{#if isTakenByMe}}
-          <button class="btn btn-primary m-2" id="js-giveup">
-              Give up
-          </button>
-          <button class="btn btn-primary m-2" id="js-solve">
-              Mark as solved
-          </button>
-          {{/if}}
-          {{/unless}}
-          {{/with}}
-          {{else}}
-          {{#if canTake}}
-          {{#if takeable}}
-          <div><label for="js-fork">GitHub Fork</label> <input class="form-control" placeholder="https://github.com/test/blockrazor" type="text" id="js-fork" /></div>
-          <div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="name" style="width: 100%">
+                        <h4 id="header" style="width:40%;cursor: pointer;">{{problemNR.header}}</h4>
+                        <br />
+                        <p id="text">{{{problemNR.text}}}</p>
+                    </div>
+                </div>
+            </div>
             <br />
-          <label for="js-issue">Issue</label> <input placeholder="https://github.com/test/blockrazor/issues/580" class="form-control" type="text" id="js-issue" /></div>
-          <button class="btn btn-primary m-2" id="js-take">
-              Take it
-          </button>
-          {{else}}
-          You can't take a cancelled issue.
-          {{/if}}
-          {{else}}
-          You are already working on another issue.
-          {{/if}}
-          {{/if}}
-          </div>
         </div>
-      </div>
     </div>
-  </div>
-  {{/unless}}
-  {{#if problem.images}}
-  <div class="row">
-    <div class="col-sm-12">
-    {{#with problem}}
-      {{> problemImages}}
-    {{/with}}
+    {{#unless question}} {{#if takeable}}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card bg-secondary mb-3 mb-3" style="min-width:100px;overflow:hidden;">
+                <div class="card-body">
+                    <h4 class="card-title">Add credit to bounty</h4>
+                    <input class="form-control replyInput" placeholder="100" type="number" step="0.01" min="0" id="js-credit" style="width:30%" />
+                    <div class="btn-group mt-2" role="group" aria-label="Basic example">
+                        <button class="btn btn-primary" id="js-addCredit">
+                            Add credit
+                        </button>
+                        <button class="btn btn-secondary" id="js-removeCredit">
+                            Remove all credit
+                        </button>
+                    </div>
+                    <br /><small>Your Contributed:<b style="color: blue">{{userContribution}}</b> KZR</small><small> Available: <b style="color: green">{{fixed balance}}</b> KZR</small>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-  {{/if}}
-  <div class="row">
-    {{#with problem}}
-      {{> problemComments}}
-    {{/with}}
-  </div>
+    {{/if}}
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">{{#if problem.solved}}Solved by {{user}}{{else if isTaken}}Currently taken by {{user}}{{else}}Not taken by anyone{{/if}}</h4> {{#if isTaken}} {{#with problem}}
+            <div>GitHub fork: </div>
+            <div>Issue: <a href="{{taken.additional.issue}}">{{taken.additional.issue}}</a></div>
+            {{#unless solved}}
+            <div>Time left: {{timeLeft}}</div>
+            {{#if isTakenByMe}}
+            <button class="btn btn-primary m-2" id="js-giveup">
+                Give up
+            </button>
+            <button class="btn btn-primary m-2" id="js-solve">
+                Mark as solved
+            </button>
+            {{/if}} {{/unless}} {{/with}} {{else}} {{#if canTake}} {{#if takeable}}
+            <div>
+                <label for="js-fork">GitHub Fork</label>
+                <input class="form-control" placeholder="https://github.com/test/blockrazor" type="text" id="js-fork" />
+            </div>
+            <div>
+                <br />
+                <label for="js-issue">Issue</label>
+                <input placeholder="https://github.com/test/blockrazor/issues/580" class="form-control" type="text" id="js-issue" />
+            </div>
+            <button class="btn btn-primary m-2" id="js-take">
+                Take it
+            </button>
+            {{else}} You can't take a cancelled issue. {{/if}} {{else}} You are already working on another issue. {{/if}} {{/if}}
+        </div>
+    </div>
+    {{/unless}} {{#if problem.images}}
+    <div class="row">
+        <div class="col-sm-12">
+            {{#with problem}} {{> problemImages}} {{/with}}
+        </div>
+    </div>
+    {{/if}}
+    <div class="row commentBoxes">
+        {{#with problem}} {{> problemComments}} {{/with}}
+    </div>
 </template>

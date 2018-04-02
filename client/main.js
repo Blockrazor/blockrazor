@@ -88,6 +88,20 @@ Template.registerHelper('hasUserVoted', (collection, collectionId, direction) =>
 	return _.include(appealVoted, Meteor.userId());
 });
 
+Template.registerHelper('profilePictureByID', (id) => {
+
+if(id){
+let profilePicture = Meteor.users.findOne({
+        _id: id
+    },{fields:{profilePicture:1}})
+console.log(profilePicture)
+
+return _profilePictureUploadDirectoryPublic + profilePicture.profilePicture.small;
+}else{
+    return '/images/noprofile.png'
+}
+
+});
 
 Template.registerHelper('profilePicture', (pic) => {
 
@@ -97,6 +111,7 @@ Template.registerHelper('profilePicture', (pic) => {
         return '/images/noprofile.png'
     }
 });
+
 
 
 Template.registerHelper('significant', (val) => {

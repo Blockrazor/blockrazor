@@ -513,7 +513,7 @@ Meteor.methods({
 
 		if (problem) {
 			if (Meteor.userId()) {
-				ProblemComments.insert({
+				return ProblemComments.insert({
 					problemId: problem._id,
 					parentId: parentId,
 					depth: depth,

@@ -1,6 +1,12 @@
 <template name="problemComment">
-    <div class="card padBottom hoverCard">
+    {{#hovercard template="userHover" direction="vertical" trigger="hover"}}
+       <img src="{{profilePictureByID createdBy}}" title="profile picture" style="width:80px" class="pull-left
+     pr-3">
+                {{/hovercard}}
+
+    <div class="card mb-3 commentBox" id="{{_id}}">
         <div class="card-body">
+
             <span class="text-muted">{{{comment}}}</span>
   
             <br />
@@ -9,13 +15,13 @@
                 <i class="fa fa-thumbs-down" aria-hidden="true"></i>
                 <i class="fa fa-thumbs-up fa-flip-horizontal" aria-hidden="true"></i>
             {{else}}
-                <i class="fa fa-check padRight" aria-hidden="true"></i><small>Voted</small>
+                <i class="fa fa-check mr-1" aria-hidden="true"></i><small>Voted</small>
             {{/unless}}
             {{#if accepted}}
-                <i class="fa fa-check padRight" aria-hidden="true"></i><small>Accepted</small>
+                <i class="fa fa-check mr-1" aria-hidden="true"></i><small>Accepted</small>
             {{else}}
                 {{#if canAccept}}
-                    <a href="#" class="js-accept"><i class="fa fa-check padRight" aria-hidden="true"></i><small>Accept answer</small></a>
+                    <a href="#" class="js-accept"><i class="fa fa-check mr-1" aria-hidden="true"></i><small>Accept answer</small></a>
                 {{/if}}
             {{/if}}
             </div>
@@ -23,8 +29,10 @@
                 <small class="text-muted">{{#hovercard template="userHover" direction="vertical" trigger="hover"}}
                     <a href="/profile/{{slugify author}}">{{author}}</a>
                 {{/hovercard}}</small>
+                <button class="ml-2 btn btn-primary btn-sm reply" id="reply_{{_id}}">Reply</button>
             </div>
-            <small class="text-muted padLeft">{{relativeTime date}}</small>
+            <small class="text-muted ml-1">{{relativeTime date}}</small>
         </div>
     </div>
+
 </template>
