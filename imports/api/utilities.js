@@ -152,6 +152,7 @@ export const callWithPromise = function() { // we have to transform meteor.call 
   })
 }
 
+
 /*
 tries to receive benefits of fast-render and yet using nonreactive data from method once ready using local collection
 @@params 
@@ -220,3 +221,4 @@ export class LocalizableCollection extends Mongo.Collection {
     }
   }
 }
+
