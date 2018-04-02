@@ -16,6 +16,8 @@ import '/imports/api/activityLog/server/publications'
 import '/imports/api/auctions/server/publications'
 import '/imports/api/summaries/server/publications'
 import '/imports/api/problems/server/publications'
+import '/imports/api/exchanges/server/publications'
+
 
 //server methods
 import '/imports/api/coins/server/methods'

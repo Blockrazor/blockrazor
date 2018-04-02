@@ -1,7 +1,13 @@
 import { Mongo } from 'meteor/mongo';
 import { FormData } from '/imports/api/indexDB.js'
-import { Bounties, Auctions } from '/imports/api/indexDB.js'
+import { Bounties, Auctions, Exchanges } from '/imports/api/indexDB.js'
 
+Exchanges.remove({})
+if (!Exchanges.find().count()){
+	for (var a = 0; a < 100; a++){
+		Exchanges.insert({name: Random.id(), currencies: []})
+    }
+}
 
 // In order to easily populate the database with required Bounties, we upsert them on startup. This code can be removed later on...
 Meteor.startup(() => {

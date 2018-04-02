@@ -220,6 +220,20 @@ export class LocalizableCollection extends Mongo.Collection {
       return this.ready
     }
   }
+  //careful about updating this as it will be used within server
+  //permits optimistic UI using local methods
+  update(selector={}, update){
+    if (this.ready) {
+      this.local.update(selector, update)
+    }
+    return super.update(selector, update)
+  }
+  insert(update){
+    if (this.ready) {
+      this.local.insert(update)
+    }
+    return super.insert(update)
+  }
 }
 
 

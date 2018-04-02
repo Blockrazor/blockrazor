@@ -1,4 +1,12 @@
 <template name="currencyInfo">
+    {{#each exchanges}}
+    {{tag}}
+    {{name}}
+    {{else}}
+    empty
+  {{/each}}
+  add exchange
+  {{> typeahead typeaheadProps}}
   <div class="currency-info">
     <div class="row">
       <div class="col-sm-12">
@@ -113,6 +121,21 @@
               <div class="card card-body">
                 <div class="title">Git Repo</div>
                 <div class="value" id="gitRepo">{{isNull gitRepo 'gitRepo'}}</div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="card card-body">
+                <div class="title">Exchanges</div>
+                <div class="value" id="exchanges">
+                  <!-- {{#each exchanges}}
+                    {{tag}}
+                    {{else}}
+                    empty
+                  {{/each}}
+                  add exchange
+                  {{> typeahead typeaheadProps}} -->
+                </div>
               </div>
             </div>
           </div>

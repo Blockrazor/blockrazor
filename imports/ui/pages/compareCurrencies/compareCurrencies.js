@@ -137,37 +137,6 @@ Template.compareCurrencies.onCreated(function () {
 		this.colors.set(i, color)
 	})
 
-	this.typeAheadProps = {
-		limit: 15,
-		query: function(templ, entry){
-			return {
-				$or: [{
-					currencyName: new RegExp(entry, 'ig')
-				}, {
-					currencySymbol: new RegExp(entry, 'ig')
-				}],
-				currencySymbol: {
-					$nin: templ.compared.get()
-				}
-			}
-		},
-		projection: function(templ, entry){
-			return {
-				limit: 15,
-				sort: {
-					currencyName: 1
-				}
-			}
-		},
-		add: this.curryEvent,
-    col: Currencies, //collection to use
-    template: Template.instance(), //parent template instance
-    focus: true,
-    autoFocus: true,
-    quickEnter: true,
-		displayField: "currencyName", //field that appears in typeahead select menu
-		placeholder: "Select Currency"
-	}
 })
 
 Template.compareCurrencies.onRendered(function () {
@@ -337,7 +306,37 @@ Template.compareCurrencies.helpers({
 		return cur
 	},
 	typeAheadProps: () => {
-		return Template.instance().typeAheadProps
+		return 	{
+			limit: 15,
+			query: function(templ, entry){
+				return {
+					$or: [{
+						currencyName: new RegExp(entry, 'ig')
+					}, {
+						currencySymbol: new RegExp(entry, 'ig')
+					}],
+					currencySymbol: {
+						$nin: templ.compared.get()
+					}
+				}
+			},
+			projection: function(templ, entry){
+				return {
+					limit: 15,
+					sort: {
+						currencyName: 1
+					}
+				}
+			},
+			add: Template.instance().curryEvent,
+			col: Currencies, //collection to use
+			template: Template.instance(), //parent template instance
+			focus: true,
+			autoFocus: true,
+			quickEnter: true,
+			displayField: "currencyName", //field that appears in typeahead select menu
+			placeholder: "Select Currency"
+		}
 	},
 	colspan: () => Template.instance().compared.get().length + 2,
 	top3: () => [1, 2, 3],
