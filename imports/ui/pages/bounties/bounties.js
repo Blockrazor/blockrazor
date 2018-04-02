@@ -115,10 +115,10 @@ Template.bounties.onCreated(function(){
         currentlyAvailable: !(b && b.expiresAt > Date.now()),
         currentUsername: (b && b.expiresAt > Date.now()) && (Meteor.users.findOne({
           _id: b.userId
-        }) || {}).username || '',
-		currentUserId: (b && b.expiresAt > Date.now()) && (Meteor.users.findOne({
+        }).username || ''),
+        currentUserId: (b && b.expiresAt > Date.now()) && (Meteor.users.findOne({
           _id: b.userId
-	  	}) || {})._id || '',
+        })._id || ''),
         url: `/currency/${i.slug}`,
         creationTime: i.createdAt,
         time: 7200000.0,
