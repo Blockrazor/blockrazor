@@ -32,6 +32,9 @@ Template.problemComment.helpers({
 })
 
 Template.problemComment.events({
+        'click .reply': () => {
+        $('#comment').focus();
+    },
     'click .fa-thumbs-down, click .fa-thumbs-up': (event, templateInstance) => {
         Meteor.call('problemCommentVote', Template.instance().data._id, $(event.currentTarget).hasClass('fa-thumbs-down') ? -1 : 1, (err, data) => {
             if (err) {
