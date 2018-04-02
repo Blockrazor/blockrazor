@@ -1,4 +1,4 @@
-//import { Mongo } from 'meteor/mongo';
+import { Mongo } from 'meteor/mongo';
 //export var Rewards = new Mongo.Collection('rewards');
 import { UserData, Currencies, Wallet, GraphData } from '/imports/api/indexDB.js';
 
@@ -152,11 +152,73 @@ export const callWithPromise = function() { // we have to transform meteor.call 
   })
 }
 
-Meteor.methods({
 
-  // getBalance: function() {
-  //   return UserData.findOne({_id: Meteor.user()._id}).balance;
-  // },
-
-});
+/*
+tries to receive benefits of fast-render and yet using nonreactive data from method once ready using local collection
+@@params 
+  Name: name of collection in DB, 
+  methodName: method to fill in local collection with
+@@methods with suffix of Local: ready, find, findOne, count, populate.
+*/
+export class LocalizableCollection extends Mongo.Collection {
+  constructor(name, methodName){
+    super(name)
+    this.local = new Mongo.Collection(null)
+    this.current = new ReactiveVar(this)
+    this.ready = !!this.local.find().count()
+    //used to switch out straightforward collection for local one reactively
+    this.readyDep = new Tracker.Dependency
+    this.methodName = methodName
+    this.populating = false //prevents from several method calls to populate data between async
+  }
+  readyLocal(){
+    if (!this.ready) {
+      this.populateLocal()
+    }
+    this.readyDep.depend()
+    return this.ready
+  }
+  findLocal(query={}, proj={}){
+    if (!this.ready) {
+      this.populateLocal()
+      this.readyDep.depend()
+      return super.find(query, proj)
+    } else {
+      return this.local.find(query, proj)
+    }
+  }
+  findOneLocal(query={}, proj={}){
+    if (!this.ready) {
+      this.populateLocal()
+      this.readyDep.depend()
+      return super.findOne(query, proj)
+    } else {
+      return this.local.findOne(query, proj)
+    }
+  }
+  countLocal(query={}, proj={}){
+    if (!this.ready) {
+      this.populateLocal()
+      this.readyDep.depend()
+      return super.find(query, proj).count()
+    } else {
+      return this.local.find(query, proj).count()
+    }
+  }
+  populateLocal(){
+    if (!this.populating){
+      this.populating = true
+      Meteor.call(this.methodName, (err, res) => {
+        res.forEach(x => {
+          this.local.insert(x)
+        })
+        this.ready = true
+        this.readyDep.changed()
+      })
+      return this.ready
+    } else {
+      return this.ready
+    }
+  }
+}
 

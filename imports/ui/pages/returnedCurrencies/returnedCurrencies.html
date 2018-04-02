@@ -27,7 +27,7 @@
     <input id="searchInput" name="searchInput" type="search" placeholder="Search BlockRazor now"> 
     <div class="found-result">
       {{#if reactiveVar 'countReady'}}
-        Found {{filterCount}} results
+        Found {{reactiveVar 'count'}} results
       {{else}}
         Loading count of results
       {{/if}}

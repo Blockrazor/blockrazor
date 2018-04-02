@@ -1,6 +1,8 @@
 import { Template } from 'meteor/templating';
 import { Bounties } from '/imports/api/indexDB.js';
 
+
+//global helpers are in /client/main.js, but truly belong in /imports/startup
 var getBountyUrl = (bountyType) => {
 	var url = '';
 

@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { Currencies, LocalCurrencies } from '/imports/api/indexDB.js';
+import { Currencies } from '/imports/api/indexDB.js';
 
 import scrollmagic from 'scrollmagic';
 import './returnedCurrencies.html'
@@ -11,16 +11,12 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
     SubsCache.subscribe('dataQualityCurrencies');
   })
   this.searchInputFilter = new ReactiveVar(undefined); 
-  this.filterCount = new ReactiveVar(undefined);
   this.increment = 15
   this.limit = new ReactiveVar(this.increment)
-  this.countReady = new ReactiveVar(false)
   this.filter = new ReactiveVar({})
-  this.count = new ReactiveVar(undefined)
-  this.everythingLoaded = new ReactiveVar(false)
-  //necessery as tracker doesn't appear to recognize that collection is different (try modifying LocalCurrencies records before swap)
-  this.TransitoryCollection = new ReactiveVar(Currencies)
-
+  this.countReady = new ReactiveVar(false) //used to tell wether to show count, count occurs once local collection is populated
+  this.everythingLoaded = new ReactiveVar(false) //used to tell when user has reached end of the list in infinite scroll
+  this.count = new ReactiveVar(100)
   this.noFeatured = new ReactiveVar(false)
 
   this.autorun(() => {
@@ -28,20 +24,6 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
       featured: true
     }))
   })
-
-	//logic for receiving benefits of fast-render and yet using nonreactive data from method
-  if (!LocalCurrencies.find().count()) {
-		Meteor.call('fetchCurrencies', (err, res) => {
-			res.forEach(x => {
-				LocalCurrencies.insert(x)
-      })
-      this.countReady.set(true)
-			this.TransitoryCollection.set(LocalCurrencies)
-		})
-	} else {
-    this.countReady.set(true)
-		this.TransitoryCollection.set(LocalCurrencies)
-  }
   
   //resets limit and calculates filter parameters for query
   this.autorun(()=>{
@@ -62,17 +44,17 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
   //calculates count, and if all records are loaded
   this.autorun(()=>{
     var templ = Template.instance()
-    if (templ.countReady.get() == true) {
+    let count = templ.count
       let filter = templ.filter.get()
-      templ.count.set(templ.TransitoryCollection.get().find(filter).count())
-      if (typeof templ.count.get() != 'string' && templ.count.get() <= templ.limit.get()){
+      count.set(Currencies.countLocal(filter))
+      if (count.get() <= templ.limit.get()){
         templ.everythingLoaded.set(true)
       } else {
         templ.everythingLoaded.set(false)
       }
-    } else {
-       templ.count.set('...')
-    }
+  })
+  this.autorun(()=>{
+    this.countReady.set(Currencies.readyLocal())
   })
 
 });
@@ -98,8 +80,7 @@ Template.returnedCurrencies.helpers({
     currencies() {
       var templ = Template.instance()
         let filter = templ.filter.get();
-
-            return templ.TransitoryCollection.get().find(filter, { sort: { featured: -1, quality: -1, createdAt: -1 }, limit: templ.limit.get(), 
+            return Currencies.findLocal(filter, { sort: { featured: -1, quality: -1, createdAt: -1 }, limit: templ.limit.get(), 
               fields: {  
                 eloRanking: 1,
                 slug: 1,  
@@ -123,20 +104,6 @@ Template.returnedCurrencies.helpers({
               }
              })
     },
-    filterCount() {
-      var templ = Template.instance()
-      if (templ.countReady.get() == true) {
-
-      //filter
-      let filter = templ.filter.get()
-
-      let filterQuestCount = templ.TransitoryCollection.get().find(filter).count()
-
-      return filterQuestCount
-    } else {
-      return "..."
-    }
-    }
 });
 
 Template.returnedCurrencies.events({
