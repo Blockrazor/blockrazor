@@ -15,7 +15,7 @@
                         <thead>
                             <tr>
                                 <th>
-                        <input class="typeahead form-control" type="text" placeholder="Select Currency" style="width:15em">
+                                    {{>typeahead typeAheadProps}}
                                 </th>
                                 {{#each comparedCurrencies}}
                                 <th scope="col"><h3 style="color: {{color}};display: inline;"><a href="/currency/{{slug}}"><i class="fa fa-external-link"></i></a>{{currencyName}}<sup><a href="#" class="js-delete">X</a></sup></h3></th>
