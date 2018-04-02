@@ -52,6 +52,14 @@ Template.problem.onRendered(function() {
 })
 
 Template.problem.helpers({
+	newType: function() {
+	    if (this.type == 'bug' || this.type == 'feature') {
+	        return 'PROBLEM';
+	    } else {
+	        return 'QUESTION';
+	    }
+
+	},
 	question: () => Problems.findOne({
 		_id: FlowRouter.getParam('id')
 	}).type === 'question',
