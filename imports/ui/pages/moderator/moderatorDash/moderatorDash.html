@@ -24,6 +24,8 @@
   {{/each}}
   {{#each pendingAPIBounties}}{{> moderatorPendingAPIBounty}}{{/each}}
   {{#each pendingWalletImages}}{{> approveWalletImage}}{{/each}}
+  {{#each pendingCommunityImages}}{{> approveCommunityImage}}{{/each}}
+
   {{/unless}}
   {{#if reactiveVar 'reject'}}
   <form>

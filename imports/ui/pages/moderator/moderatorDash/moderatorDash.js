@@ -1,11 +1,12 @@
 import { Template } from 'meteor/templating';
 import { PendingCurrencies } from '/imports/api/indexDB.js';
-import { WalletImages } from '/imports/api/indexDB.js';
+import { WalletImages, Communities } from '/imports/api/indexDB.js';
 import { Bounties } from '/imports/api/indexDB.js';
 import './moderatorDash.html'
 
 import '/imports/ui/components/notLoggedIn.html'
 import './approveWalletImage.js'
+import './approveCommunityImage.js'
 import './moderatorPendingAPIBounty.js'
 import './moderatorPendingCurrency.js'
 
@@ -15,6 +16,7 @@ Template.moderatorDash.onCreated(function bodyOnCreated() {
     SubsCache.subscribe('pendingcurrencies');
     SubsCache.subscribe('bounties');
     SubsCache.subscribe('walletimages');
+     SubsCache.subscribe('communities');
   })
 
   this.reject = new ReactiveVar(false)
@@ -43,6 +45,9 @@ Template.moderatorDash.events({
 });
 
 Template.moderatorDash.helpers({
+  pendingCommunityImages() {
+    return Communities.find({approved: false});
+  },
   pendingWalletImages() {
     return WalletImages.find({approved: false});
   },
