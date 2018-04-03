@@ -13,6 +13,7 @@ Template.wallet.onCreated(function bodyOnCreated() {
   var self = this
   self.autorun(function() {
     SubsCache.subscribe('wallet');
+    SubsCache.subscribe('users');
   })
 
   //mark notifications read
@@ -30,6 +31,15 @@ Template.wallet.onRendered(function() {
 });
 
 Template.wallet.helpers({
+  otherBalance: (cur) => {
+    let user = UserData.findOne({
+      _id: Meteor.userId()
+    })
+
+    if (user) {
+      return user.others[cur] || 0
+    }
+  },
   entry (){
 var filter = Template.instance().rewardType.get();
 
@@ -66,6 +76,7 @@ if(filter){
                  },                 {
                    key: 'from',
                    label: 'From',
+                   fn: function(value, object, key) { return (Meteor.users.findOne(value) || {}).username || value; }
                  },
                                   {
                    key: 'rewardType',
@@ -93,5 +104,16 @@ Template.wallet.events({
         $(".rewardTypeFilter option").filter(function() {
             return $(this).text() == "--Select transaction type--";
         }).prop('selected', true);
+    },
+    'click #js-add': (event, templateInstance) => {
+      event.preventDefault()
+
+      Meteor.call('addOthers', $('#js-cur').val(), parseFloat($('#js-amount').val()), (err, data) => {
+        if (err) {
+          sAlert.error(err.reason)
+        } else {
+          sAlert.success('Successfully deposited.')
+        }
+      })
     }
 });

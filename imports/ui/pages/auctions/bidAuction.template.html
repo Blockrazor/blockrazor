@@ -1,0 +1,71 @@
+<template name="bidAuction">
+    {{#with auction}}
+    <div class="form-group my-5">
+        <div class="heading-wrapper text-center mt-2">
+            <h3 class="mb-4">{{name}}</h3>
+            <h4>{{options.amount}} {{options.baseCurrency}}</h4>
+        </div>
+    
+        <form id="js-form">
+            <div class="heading-wrapper text-center mt-2">
+                <h4 class="mb-4">Place a bid</h4>
+            </div>
+            <div class="justify-content-center mx-auto">
+                <div>
+                    <div>
+                        <div class="card bg-white required mx-auto" style="width:80% !important">
+                            <div class="card-body"> 
+                                <h5>Highest bid: {{highest}} {{options.acceptedCurrency}}</h5>  
+                                {{#if closed}}<h5>Winner: {{winner}}</h5>{{/if}}
+                                <hr>  
+                                <h5>{{#if options.reserveMet}}<span style="color: green">Reserve is met</span>{{else}}<span style="color: red;">Reserve is not met</span>{{/if}}</h5>
+                                {{#if closed}}<hr><h5><span style="color: red">CLOSED</span></h5>{{else}}
+                                <hr>
+                                <h5>Closing in {{remTime}}</h5>
+                                <hr>                            
+                                <h5 class="card-title">Amount</h5>         
+                                <div class="input-group">
+                                    <input type="number" step="0.01" min="0" id="js-amount" name="amount" placeholder="0"  class="form-control">
+                                    <span style="padding: 20px;"><b style="color: green">{{fixed balance}}</b> {{options.acceptedCurrency}}</span>
+                                </div>
+                                <hr>      
+                                <div class="submit-form">
+                                    <button type="submit" class="btn btn-primary" id="submit">Place a bid</button>
+                                </div>   
+                                {{/if}}             
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <br />
+
+        <div class="heading-wrapper text-center mt-2">
+            <h4 class="mb-4">Last 10 bids</h4>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Username</th>
+                    <th scope="col">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#if subsCacheReady}}
+                    {{#each bids}}
+                        <tr>
+                            <td>{{user}}</td>
+                            <td>{{amount}} {{auction.options.acceptedCurrency}}</td>
+                        </tr>
+                    {{else}}
+                        {{> empty}}
+                    {{/each}}
+                {{else}}
+                    {{> loading}}
+                {{/if}}
+            </tbody>
+        </table>
+    </div>
+    {{/with}}
+</template>

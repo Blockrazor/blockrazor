@@ -14,7 +14,7 @@ function initPopOvers(){
     }.bind(this), 500);
 }
 
-function initDatePicker(id, format, template, klass) {
+const initDatePicker = function(id, format, template, klass) {
 	Meteor.setTimeout(function() {
 		$('#' + id).combodate({
 			format: format,
@@ -34,7 +34,7 @@ function stringListToInt(stringList, delimiter) {
 
 // convert ICODate into an Array Date
 // purpose of this is to have it easily supported by Date.UTC
-function formatICODate(dateString) {
+const formatICODate = function(dateString) {
 	var dateArr = dateString.split(" ");
 	var date = stringListToInt(dateArr[0], "-");
 	var time = stringListToInt(dateArr[1], ":");;
@@ -42,6 +42,8 @@ function formatICODate(dateString) {
 	return date.concat(time);
 
 }
+
+export { initDatePicker, formatICODate }
 
 Template.addCoin.onRendered(function() {
     //init popovers

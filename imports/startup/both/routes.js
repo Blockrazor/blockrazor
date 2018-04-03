@@ -39,6 +39,9 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   import '../../ui/pages/signin/signin'
   import '../../ui/pages/signup/signup'
   import '../../ui/pages/auctions/currencyAuction'
+  import '../../ui/pages/auctions/allAuctions'
+  import '../../ui/pages/auctions/bidAuction'
+  import '../../ui/pages/auctions/newAuction'
   import '../../ui/pages/problems/problems'
   import '../../ui/pages/problems/newProblem'
   import '../../ui/pages/problems/problem'
@@ -140,6 +143,49 @@ FlowRouter.route('/currencyAuction', {
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {
       main: 'currencyAuction',
+      //left: 'sideNav'
+    })
+  }
+})
+
+FlowRouter.route('/auctions', {
+  name: 'all-auction',
+  subscriptions: function (params) {
+    this.register('auctions', SubsCache.subscribe('auctions'))
+    this.register('publicUserData', SubsCache.subscribe('publicUserData'))
+  },
+  action: (params, queryParams) => {
+    BlazeLayout.render('mainLayout', {
+      main: 'allAuctions',
+      //left: 'sideNav'
+    })
+  }
+})
+
+FlowRouter.route('/auction/:id', {
+  name: 'bid-auction',
+  subscriptions: function (params) {
+    this.register('users', SubsCache.subscribe('users'))
+    this.register('auction', SubsCache.subscribe('auction', params.id))
+    this.register('bids', SubsCache.subscribe('bids', params.id))
+    this.register('publicUserData', SubsCache.subscribe('publicUserData'))
+  },
+  action: (params, queryParams) => {
+    BlazeLayout.render('mainLayout', {
+      main: 'bidAuction',
+      //left: 'sideNav'
+    })
+  }
+})
+
+FlowRouter.route('/new-auction', {
+  name: 'new-auction',
+  subscriptions: function (params) {
+    this.register('publicUserData', SubsCache.subscribe('publicUserData'))
+  },
+  action: (params, queryParams) => {
+    BlazeLayout.render('mainLayout', {
+      main: 'newAuction',
       //left: 'sideNav'
     })
   }
@@ -464,6 +510,7 @@ FlowRouter.route('/notifications', {
 FlowRouter.route('/wallet', {
   subscriptions: function () {
     this.register('wallet', SubsCache.subscribe('wallet'));
+    this.register('users', SubsCache.subscribe('users'));
     this.register("publicUserData", SubsCache.subscribe("publicUserData"))
   },
   action: function (params, queryParams) {

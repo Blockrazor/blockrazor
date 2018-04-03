@@ -35,7 +35,8 @@ import { UserData, ProfileImages } from '/imports/api/indexDB.js'
         profilePicture: 1,
         screenSize: 1,
         strikes: 1,
-        inputRanking: 1
+        inputRanking: 1,
+        others: 1
       }
     })
   })
@@ -51,7 +52,8 @@ import { UserData, ProfileImages } from '/imports/api/indexDB.js'
       strikes: 1,
       pardon: 1,
       activity: 1,
-      inputRanking: 1
+      inputRanking: 1,
+      others: 1
     }
   }))
 

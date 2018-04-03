@@ -4,7 +4,19 @@
   <div class="card-body">
     <h4 class="card-title">My Wallet </h4>
     <h6 class="badge badge-success" style="padding:10px">Total Balance: {{balance}} ZRQ</h6>
+    <h6 class="badge badge-success" style="padding:10px">Total Balance: {{otherBalance "USD"}} USD</h6>
+    <h6 class="badge badge-success" style="padding:10px">Total Balance: {{otherBalance "ETH"}} ETH</h6>
+    <h6 class="badge badge-success" style="padding:10px">Total Balance: {{otherBalance "XMR"}} XMR</h6>
   {{> notLoggedIn}}
+  <div class="input-group">
+                                    <input type="number" step="0.01" min="0" id="js-amount" name="amount" placeholder="0"  class="form-control">
+                                    <select id="js-cur">
+                                        <option value="USD">USD</option>
+                                        <option value="ETH">ETH</option>
+                                        <option value="XMR">XMR</option>
+                                    </select>
+                                    <button id="js-add" class="btn btn-primary">Deposit</button>
+                                </div><br />
 
 
 <div class="input-group pull-right pb-3">
@@ -17,6 +29,8 @@
                                     <option value="createCoinReward">Created a Coin</option>
                                     <option value="cheating">Cheating</option>
                                     <option value="anwserQuestion">Answered Question</option>
+                                    <option value="auctions">Auctions</option>
+                                    <option value="deposit">Deposits</option>
                                 </select>
                                   <div class="input-group-append">
     <button class="btn btn-primary clearFilter" type="button"><i class="fa fa-close"></i></button>

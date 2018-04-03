@@ -178,6 +178,12 @@ transactionTypes = function(type) {
             case 'anwserQuestion':
                 return 'Question Reward'
                 break;
+            case 'auctions':
+                return 'Auctions'
+                break;
+            case 'deposit':
+                return 'Deposits'
+                break;
         }
     }
 }
