@@ -121,8 +121,16 @@ Template.registerHelper('significant', (val) => {
     }else{
       return 0;
     }
-
 })
+
+Template.registerHelper('returnZeroIfNull', (val) => {
+    if (val) {
+        return val;
+    }else{
+      return 0;
+    }
+})
+
 
 let cap = new ReactiveVar('')
 
