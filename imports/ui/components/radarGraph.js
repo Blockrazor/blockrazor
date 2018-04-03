@@ -130,6 +130,18 @@ Template.radarGraph.onRendered(function () {
       FlowRouter.go(`/currency/${currency.slug}`)
     }
   }))
+
+  document.getElementById(this.id).addEventListener('mousemove', (event) => radarEvent(this.radarchart, event, (type, id, inside) => {
+    if (inside) {
+      if (document.getElementById(this.id).style.cursor !== 'pointer') {
+        document.getElementById(this.id).style.cursor = 'pointer'
+      }
+    } else {
+      if (document.getElementById(this.id).style.cursor !== 'auto') {
+        document.getElementById(this.id).style.cursor = 'auto'
+      }
+    }
+  }, 'hover'))
 })
 
 Template.radarGraph.helpers({
