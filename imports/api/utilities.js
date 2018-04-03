@@ -23,16 +23,21 @@ var getRewardFor = function(itemType, creationTime) {
   }
 };
 
+var formatAmount = (amount) => {
+	var final = amount > 0.00001 ? amount : amount.toExponential(3);
+	return Number(final).toFixed(11).replace(/\.?0+$/,"");
+}
+
 export var creditUserWith = function(amount, userId, reason,rewardType) {
   if(Meteor.isServer) {
     UserData.upsert({_id: userId}, {$inc: {balance: amount}});
-    Wallet.insert({
+    walletSchema.insert({
       time: new Date().getTime(),
       owner: userId,
       type: "transaction",
       from: "Blockrazor",
-      message: `Congratulations! You've been awarded ${amount > 0.00001 ? amount : amount.toExponential(3)} KZR for ${reason}`,
-      amount: amount,
+      message: `Congratulations! You've been awarded ${formartAmount(amount)} KZR for ${reason}`,
+      amount: formatAmount(amount),
       read: false,
       rewardType: rewardType
     });
@@ -48,8 +53,8 @@ export var removeUserCredit = (amount, userId, reason, rewardType) => { // if we
       owner: userId,
       type: "transaction",
       from: "Blockrazor",
-      message: `${amount} KZR has been deduced from your account for ${reason}`,
-      amount: -amount,
+      message: `${formatAmount(amount)} KZR has been deducted from your account for ${reason}`,
+      amount: formatAmount(-amount),
       read: false,
       rewardType: rewardType
     });
@@ -61,7 +66,7 @@ const quality = (currency) => {
   let graphdata = GraphData.findOne({
     _id: 'elodata'
   }) || {}
-    
+
   const {eloMinElo, eloMaxElo} = graphdata
   return ((currency.eloRanking || 0) - eloMinElo) / ((eloMaxElo - eloMinElo) || 1)
 }
@@ -92,13 +97,13 @@ const radarEvent = (chart, event, func) => {
 
     elem[2]['top'] = fh + elem[2].height - 12
     elem[2]['left'] = scale.xCenter + (fh * 0.33) - 10
-    
+
     elem[3]['top'] = elem[2]['top']
     elem[3]['left'] = scale.xCenter - (fh * 0.33) - elem[3].width - 10
-    
+
     elem[4]['top'] = elem[1]['top']
     elem[4]['left'] = (scale.width - fh) / 2 - elem[4].width - 10
-  
+
     elem.push({
       id: 'chart',
       width: fh - 40,
@@ -134,7 +139,7 @@ export var rewardCurrencyCreator = function(launchTags, owner, currencyName) {
 
     creditUserWith(rewardAmount, owner, reason);
   }) // parseFloat(getRewardFor(rewardType, false));
-  
+
   return true;
 
 };
@@ -155,8 +160,8 @@ export const callWithPromise = function() { // we have to transform meteor.call 
 
 /*
 tries to receive benefits of fast-render and yet using nonreactive data from method once ready using local collection
-@@params 
-  Name: name of collection in DB, 
+@@params
+  Name: name of collection in DB,
   methodName: method to fill in local collection with
 @@methods with suffix of Local: ready, find, findOne, count, populate.
 */
@@ -235,5 +240,3 @@ export class LocalizableCollection extends Mongo.Collection {
     return super.insert(update)
   }
 }
-
-
