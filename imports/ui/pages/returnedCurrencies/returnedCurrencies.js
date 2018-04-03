@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { Currencies } from '/imports/api/indexDB.js';
+import { Currencies, UsersStats } from '/imports/api/indexDB.js';
 
 import scrollmagic from 'scrollmagic';
 import './returnedCurrencies.html'
@@ -9,6 +9,7 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
   var self = this
   self.autorun(function(){
     SubsCache.subscribe('dataQualityCurrencies');
+    SubsCache.subscribe('usersStats')
   })
   this.searchInputFilter = new ReactiveVar(undefined); 
   this.increment = 15
@@ -104,6 +105,13 @@ Template.returnedCurrencies.helpers({
               }
              })
     },
+    onlineUsers(){
+      window.UsersStats = UsersStats
+      return UsersStats.findOne("connected").connected
+    },
+    createdUsers(){
+      return UsersStats.findOne("created").created
+    }
 });
 
 Template.returnedCurrencies.events({

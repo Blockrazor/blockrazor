@@ -2,7 +2,6 @@ import { Mongo } from 'meteor/mongo';
 import { FormData } from '/imports/api/indexDB.js'
 import { Bounties, Auctions, Exchanges } from '/imports/api/indexDB.js'
 
-Exchanges.remove({})
 if (!Exchanges.find().count()){
 	for (var a = 0; a < 100; a++){
 		Exchanges.insert({name: Random.id(), currencies: []})

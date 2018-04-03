@@ -51,7 +51,7 @@ import {
     add: function(event, doc, templ){...}, //templ is parent template instance, doc is document added
     displayField: name, //document field that appears in typeahead select menu
     placeholder: name, //placeholder for typeahead
-    noneFound: function(templ, entry){...; return `ele`} //renders returned template literal if no results found
+    noneFound: function(templ, ele){...; return `ele`} //id of typeahead ele for reading value; renders returned template literal if no results found
 }
 */
 

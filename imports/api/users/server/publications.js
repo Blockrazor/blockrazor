@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import { UserData, ProfileImages } from '/imports/api/indexDB.js'
+import { UserData, ProfileImages, UsersStats } from '/imports/api/indexDB.js'
 
   Meteor.publish('profileimages', () => ProfileImages.find({}))
 
@@ -152,4 +152,8 @@ import { UserData, ProfileImages } from '/imports/api/indexDB.js'
         profilePicture: 1
       } // only show the absolutely required fields
     })
+  })
+
+  Meteor.publish("usersStats", ()=>{
+    return UsersStats.find({}, {fields: {connected: 1, created: 1}})
   })
