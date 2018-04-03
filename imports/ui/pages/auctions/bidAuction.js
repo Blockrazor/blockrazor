@@ -55,7 +55,7 @@ Template.bidAuction.helpers({
 		}) || {}).username || 'No winner'
 	},
 	remTime: function() {
-		return moment(this.options.timeout).toNow()
+		return moment(this.options.timeout).fromNow()
 	}
 })
 
