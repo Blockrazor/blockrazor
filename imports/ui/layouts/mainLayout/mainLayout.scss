@@ -16,3 +16,7 @@
 .top-nav .s-alert-box{
   z-index: 2147483647 !important;
 }
+
+.modal {
+  z-index: 2147483648 !important; /** every modal's z-index should be grater than the nav bar **/
+}
