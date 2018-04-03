@@ -1,4 +1,4 @@
 <template name="radarGraph">
-    <canvas class={{class}} id={{thisId}}></canvas>
+    <canvas style="cursor: auto" class={{class}} id={{thisId}}></canvas>
     <div class="data-quality-rank">Data quality rank: {{dataQuality}} {{#if needsQuality}}<span style="float: right;"><a href="/bounties">Contribute data</a></span>{{/if}}</div>
 </template>

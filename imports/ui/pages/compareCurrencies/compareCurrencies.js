@@ -199,6 +199,17 @@ Template.compareCurrencies.onRendered(function () {
 	})
 
 	document.getElementById('radar').addEventListener('click', (event) => radarEvent(this.radarchart, event, console.log))
+	document.getElementById('radar').addEventListener('mousemove', (event) => radarEvent(this.radarchart, event, (type, id, inside) => {
+    if (inside) {
+      if (document.getElementById('radar').style.cursor !== 'pointer') {
+        document.getElementById('radar').style.cursor = 'pointer'
+      }
+    } else {
+      if (document.getElementById('radar').style.cursor !== 'auto') {
+        document.getElementById('radar').style.cursor = 'auto'
+      }
+    }
+  }, 'hover'))
 
 	let ctx = document.getElementById('bar').getContext('2d')
 	ctx.canvas.width = 800
@@ -221,9 +232,13 @@ Template.compareCurrencies.onRendered(function () {
 			}
 		}
 	})
-	document.getElementById('bar').addEventListener('click', (event) => {
+
+	let inElem = []
+	const barEvent = (event, func, type) => {
 		event.preventDefault()
 	    event.stopPropagation()
+
+	    type = type || 'click'
 
 	    let scale = this.barchart.scales['y-axis-0']
 
@@ -243,11 +258,32 @@ Template.compareCurrencies.onRendered(function () {
 	    }
 
 	    elem.forEach(elem => {
-	      if (intersection(point, elem)) {
-	        console.log(elem.id, event.currentTarget.id)
-	      }
+	    	if (intersection(point, elem)) {
+		      	inElem[elem.id] = true
+
+		      	func(elem.id, event.currentTarget.id, true)
+		    } else {
+		      	if (type === 'hover' && inElem[elem.id]) {
+		        	func(elem.id, event.currentTarget.id, false)
+		      	}
+
+		      	inElem[elem.id] = false
+		    }
 	    })
-	})
+	}
+
+	document.getElementById('bar').addEventListener('click', (event) => barEvent(event, console.log))
+	document.getElementById('bar').addEventListener('mousemove', (event) => barEvent(event, (type, id, inside) => {
+	    if (inside) {
+	      if (document.getElementById('bar').style.cursor !== 'pointer') {
+	        document.getElementById('bar').style.cursor = 'pointer'
+	      }
+	    } else {
+	      if (document.getElementById('bar').style.cursor !== 'auto') {
+	        document.getElementById('bar').style.cursor = 'auto'
+	      }
+	    }
+	  }, 'hover'))
 
 	Template.instance().compared.get().forEach(i => {
 		Template.instance().curryEvent(null, Currencies.findOneLocal({
