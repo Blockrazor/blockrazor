@@ -13,6 +13,7 @@ import { AppLogs } from './miscellaneous/appLogs'
 
 import { UserData } from './users/userData.js'
 import { ProfileImages } from './users/profileImages'
+import { UsersStats } from './users/usersStats'
 
 import { Bounties } from './bounties/bounties.js'
 import { BountyTypes } from './bounties/bountyTypes.js'
@@ -77,6 +78,7 @@ export {
   HashPowerImages,
 
   UserData,
+  UsersStats,
   ProfileImages,
 
   Ratings,

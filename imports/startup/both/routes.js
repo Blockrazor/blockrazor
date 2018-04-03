@@ -217,6 +217,7 @@ FlowRouter.route('/transactions/:page?', {
 FlowRouter.route('/', {
   name: 'BLOCKRAZOR',
   subscriptions: function () {
+    this.register('usersStats', SubsCache.subscribe('usersStats'))
     this.register('dataQualityCurrencies', SubsCache.subscribe('dataQualityCurrencies'));
     this.register('graphdata', SubsCache.subscribe('graphdata'))
   },
