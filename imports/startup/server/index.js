@@ -46,4 +46,5 @@ import '/imports/api/problems/server/startup'
 
 // collection configs
 import '/imports/api/users/users.js'
+import '/imports/api/users/usersStats.js'
 import '/imports/api/coins/currencies.js'

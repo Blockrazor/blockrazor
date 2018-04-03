@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { UserData} from '/imports/api/indexDB.js';
 import { log } from '/server/main'
+import { updateUsersStats } from './usersStats'
 
 //is in fact server only file
 
@@ -73,6 +74,8 @@ Accounts.validateLoginAttempt(function(result){
     }
   });
   
+  var onCreateUserCallBacks = [updateUsersStats]
+
   Accounts.onCreateUser(( options, user ) => {  
       // grab the fb username, email and profile picture for the Meteor.users() object
       if  ( user.services && user.services.facebook && user.services.facebook.name ) {
@@ -139,6 +142,8 @@ Accounts.validateLoginAttempt(function(result){
           }
       );
   
+      onCreateUserCallBacks.forEach(x=>x(options, user))
+
       return ( user );
   })
 
