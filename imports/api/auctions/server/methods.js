@@ -184,15 +184,6 @@ Meteor.methods({
 							throw new Meteor.Error('Error.', 'You can\'t bid on your own auction.')
 						}
 
-						let last = Bids.findOne({
-							userId: Meteor.userId(),
-							auctionId: auction._id
-						})
-
-						if (last) {
-							Meteor.call('cancelBid', last._id, (err, data) => {})
-						}
-
 						if (amount < auction.options.highest) {
 							throw new Meteor.Error('Error.', 'Bid amount is not high enough.')
 						} else {
@@ -203,6 +194,15 @@ Meteor.methods({
 									'options.highest': amount
 								}
 							})
+						}
+
+						let last = Bids.findOne({
+							userId: Meteor.userId(),
+							auctionId: auction._id
+						})
+
+						if (last) {
+							Meteor.call('cancelBid', last._id, (err, data) => {})
 						}
 
 						if (amount > auction.options.reserve) {
