@@ -45,3 +45,31 @@ export const saveCommunity = new ValidatedMethod({
         }
     }
 });
+
+
+Meteor.methods({
+
+    flagCommunityImage: function(imageId) {
+        if(!this.userId){throw new Meteor.Error('error', 'please log in')};
+
+        Communities.update(imageId, {
+            $addToSet: {flaglikers: Meteor.userId()},
+            $inc: {flags: 1}
+        })
+
+        Meteor.call('userStrike', Meteor.userId(), 'bad-wallet', 's3rv3r-only', (err, data) => {}) // user earns 1 strike here
+    },
+
+    approveCommunityImage: function(imageId) {
+        if(!this.userId){throw new Meteor.Error('error', 'please log in')};
+        if(Communities.findOne({_id: imageId}).createdBy == this.userId) {
+            throw new Meteor.Error('error', "You can't approve your own item.")
+        };
+
+        Communities.update(imageId, {
+            $set: {approved: true, approvedBy: this.userId},
+            $inc: {likes: 1}
+        });
+    }
+
+});

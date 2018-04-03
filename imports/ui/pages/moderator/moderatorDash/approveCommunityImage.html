@@ -1,0 +1,12 @@
+<template name="approveCommunityImage">
+  <div class="row" style="display:{{display}};border:solid;">
+  <div class="col-6 pull-left" style="display:block;margin-top:5px;margin-bottom:10px;float:left;min-width:400px;">
+    <img src="{{_communityUploadDirectoryPublic}}{{image}}" width="100px" height="auto"><br />
+  </div>
+  <div class="col-6 pull-right" style="display:block;">
+    This should be an image of a <b>{{currencyName}}</b> community. It should show the <b>{{imageOf}}</b> page/screen.<br />
+    <button class="btn btn-success" id="approve">APPROVE <i class="fa fa-check" aria-hidden="true"></i></button>
+    <button class="btn btn-danger" id="reject">REJECT <i class="fa fa-times" aria-hidden="true"></i></button>
+  </div>
+</div>
+</template>
