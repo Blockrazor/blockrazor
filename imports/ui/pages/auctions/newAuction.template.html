@@ -41,9 +41,13 @@
                                 </div>
                                 <div><i>Value 0 means no reserve.</i></div>
                                 <hr>
-                                <h5 class="card-title">End date</h5>
+                                <h5 class="card-title">Ends On</h5>
                                 <div class="input-group">
-                                    <input type="text" id="js-end" name="end-date">
+                                    <select id="js-end" class="form-control">
+                                        {{#each endsOn}}
+                                        <option value="{{this.hours}}">{{this.label}}</option>
+                                        {{/each}}
+                                    </select> 
                                 </div>
                                 <br />
                                 <div class="submit-form">
