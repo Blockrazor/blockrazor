@@ -3,6 +3,28 @@ import { ProfileImages, UserData, Wallet, ProblemComments, Features, Redflags, S
 import { creditUserWith } from '/imports/api/utilities.js'
 
 Meteor.methods({
+  // stubbed method for deposits, has no checks
+    addOthers: (currency, amount) => {
+      UserData.update({
+        _id: Meteor.userId()
+      }, {
+        $inc: {
+          [`others.${currency}`]: amount
+        }
+      })
+
+      Wallet.insert({
+              time: new Date().getTime(),
+              owner: Meteor.userId(),
+              type: 'transaction',
+                from: 'Blockrazor',
+                message: `${amount} ${currency} has been deposited to your account.`,
+                amount: amount,
+              read: false,
+              currency: currency,
+              rewardType: 'deposit'
+            })
+    },
     generateInviteCode: () => { // for backwards compability
       Meteor.users.find({
         inviteCode: {
@@ -288,6 +310,11 @@ Meteor.methods({
             moderator: 0,
             developer: false,
             balance: 0,
+            others: {
+              'USD': 0,
+              'ETH': 0,
+              'XMR': 0
+            },
             approvedCurrencies: 0,
             createdTime: new Date().getTime(),
             sessionData: [{

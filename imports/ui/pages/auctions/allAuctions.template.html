@@ -1,0 +1,52 @@
+<template name="allAuctions">
+    <div class="form-group my-5">
+        <div class="heading-wrapper text-center mt-2">
+            <h3 class="mb-4">All running auctions for trading coins</h3>
+        </div>
+        <div id="problemsFilterContainer" class="container">
+        <div class="row form-items">
+          <div class="col-12 form-group" style="padding: 0">
+            <select class="form-control" id="js-filter">
+              <option value="-">All auctions</option>
+              <option value="OPEN">OPEN</option>
+              <option value="CLOSED">CLOSED</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Base currency</th>
+                    <th scope="col">Accepted currency</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Timeout</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Cancel?</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#if subsCacheReady}}
+                    {{#each auctions}}
+                        <tr>
+                            <td><a href="/auction/{{_id}}">{{name}}</a></td>
+                            <td>{{options.baseCurrency}}</td>
+                            <td>{{options.acceptedCurrency}}</td>
+                            <td>{{fixed options.amount}} {{options.baseCurrency}}</td>
+                            <td>{{time}}</td>
+                            <td style="color: {{statusColor}}">{{status}}</td>
+                            <td>{{#if author}}<a href="#" class="js-cancel">Cancel</a>{{/if}}</td>
+                        </tr>
+                    {{else}}
+                        {{> empty}}
+                    {{/each}}
+                {{else}}
+                    {{> loading}}
+                {{/if}}
+            </tbody>
+        </table>
+        <button class="btn" id="js-new">New auction</button>
+    </div>
+</template>
