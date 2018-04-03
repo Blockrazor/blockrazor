@@ -11,11 +11,8 @@ Template.newAuction.onCreated(function() {
 		SubsCache.subscribe('publicUserData')
 	})
 
-	this.baseCurrency = new ReactiveVar('KZR')
-})
-
-Template.newAuction.onRendered(function() {
-	initDatePicker('js-end', 'YYYY-MM-DD HH:mm', 'YYYY MM DD HH mm', 'end-date')
+  this.baseCurrency = new ReactiveVar('KZR')
+  this.auctionPeriods = [{'hours':1,'label':'1 hour'}, {'hours':3,'label':'3 hours'}, {'hours':6,'label':'6 hours'}, {'hours':24,'label':'1 day'}, {'hours':72,'label':'3 days'}, {'hours':120,'label':'5 days'}, {'hours':240,'label':'10 days'} ]
 })
 
 Template.newAuction.helpers({
@@ -27,7 +24,10 @@ Template.newAuction.helpers({
 		return (Template.instance().baseCurrency.get() === 'KZR' ? user.balance : (user.others || {})[Template.instance().baseCurrency.get()] || 0)
 	},
 	accepted: () => Template.instance().baseCurrency.get() === 'KZR' ? ['USD', 'ETH', 'XMR'] : ['KZR'],
-	fixed: (val) => val.toFixed(6)
+  fixed: (val) => val.toFixed(6),
+  endsOn: () => {
+    return Template.instance().auctionPeriods
+  }
 })
 
 Template.newAuction.events({
@@ -44,7 +44,7 @@ Template.newAuction.events({
 				amount: parseFloat($('#js-amount').val()),
 				baseCurrency: $('#js-bcur').val(),
 				acceptedCurrency: $('#js-acur').val(),
-				timeout: new Date($('#js-end').val()).getTime(),
+				timeout: new Date().getTime() + $('#js-end').val() * 60 * 60 * 1000,  // add selected period to current timestamp
 				reserve: parseFloat($('#js-reserve').val()),
 				reserveMet: parseFloat($('#js-reserve').val()) === 0
 			}, (err, data) => {
