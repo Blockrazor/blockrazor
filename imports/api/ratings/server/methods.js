@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { Ratings, RatingsTemplates, UserData, WalletImages } from '/imports/api/indexDB.js'
 import { log } from '/server/main.js'
+import { creditUserWith, removeUserCredit } from '/imports/api/utilities.js'
 
 Meteor.methods({
 	answerRating: function(ratingId, winner) {
