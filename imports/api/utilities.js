@@ -31,12 +31,12 @@ var formatAmount = (amount) => {
 export var creditUserWith = function(amount, userId, reason,rewardType) {
   if(Meteor.isServer) {
     UserData.upsert({_id: userId}, {$inc: {balance: amount}});
-    walletSchema.insert({
+    Wallet.insert({
       time: new Date().getTime(),
       owner: userId,
       type: "transaction",
       from: "Blockrazor",
-      message: `Congratulations! You've been awarded ${formartAmount(amount)} KZR for ${reason}`,
+      message: `Congratulations! You've been awarded ${formatAmount(amount)} KZR for ${reason}`,
       amount: formatAmount(amount),
       read: false,
       rewardType: rewardType
@@ -84,7 +84,7 @@ const radarEvent = (chart, event, func, type) => {
   let scale = chart.scale
 
   let clickables = ['ongoing-development', 'code-quality', 'community', 'coin-distribution', 'decentralization']
- 
+
   let elem = clickables.map((i, ind) => ({
     id: i,
     width: scale._pointLabelSizes[ind].w + 20,
