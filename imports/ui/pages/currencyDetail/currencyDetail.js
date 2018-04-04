@@ -13,6 +13,7 @@ import './fundamentalMetrics.js'
 import './walletimages.js'
 import './currency.scss'
 import './currency-info.scss'
+import './currencyDetail.scss'
 import './summary'
 import './summaries'
 
