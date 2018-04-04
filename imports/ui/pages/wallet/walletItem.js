@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
 
 import './walletItem.html'
-import './wallet-item.scss'
+import './wallet.scss'
 
 Template.walletItem.helpers({
   time() {
