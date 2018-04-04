@@ -22,7 +22,6 @@
       {{> fundamentalMetrics}}
     {{/with}}
   </div>
-  {{{captcha}}}<!--it should probably go into a modal or something-->
   <div class="row">
     {{#with thiscurrency}}
       {{> summaries}}
@@ -42,5 +41,19 @@
     {{#with thiscurrency}}
       {{> walletimages}}
     {{/with}}
+  </div>
+
+  <!-- unclosable modal window for displaying recaptcha, if unusual activity detected -->
+  <div class="modal" id="recaptchaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">We have detected an unusual activity with your account. </h5>
+        </div>
+        <div class="modal-body">
+          {{{captcha}}}
+        </div>
+      </div>
+    </div>
   </div>
 </template>
