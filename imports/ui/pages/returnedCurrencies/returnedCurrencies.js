@@ -1,9 +1,11 @@
 import { Template } from 'meteor/templating';
-import { Currencies, UsersStats } from '/imports/api/indexDB.js';
+import { Currencies, UsersStats, Redflags } from '/imports/api/indexDB.js';
 
 import scrollmagic from 'scrollmagic';
 import './returnedCurrencies.html'
 import './currency.js'
+
+import { quality } from '/imports/api/utilities'
 
 Template.returnedCurrencies.onCreated(function bodyOnCreated() {
   var self = this
@@ -21,6 +23,7 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
   this.noFeatured = new ReactiveVar(false)
 
   this.autorun(() => {
+    SubsCache.subscribe('redflags')
     this.noFeatured.set(!Currencies.findOne({
       featured: true
     }))
@@ -81,8 +84,9 @@ Template.returnedCurrencies.helpers({
     currencies() {
       var templ = Template.instance()
         let filter = templ.filter.get();
-            return Currencies.findLocal(filter, { sort: { featured: -1, quality: -1, createdAt: -1 }, limit: templ.limit.get(), 
-              fields: {  
+            let templateVars = Currencies.findLocal(filter, { sort: { featured: -1, quality: -1, createdAt: -1 }, limit: templ.limit.get(),
+              fields: {
+                _id: 1,
                 eloRanking: 1,
                 slug: 1,  
                 currencySymbol: 1,  
@@ -103,7 +107,18 @@ Template.returnedCurrencies.helpers({
                 cpt: 1,
                 price: 1
               }
-             })
+             }).fetch()
+
+            //get top red flag value
+            templateVars.forEach(templateVar => {
+                let currency = Redflags.findOne({
+                        currencyId: templateVar._id
+                    }) || {};
+
+                templateVar['top_red_flag'] = currency.name;
+            });
+
+            return templateVars;
     },
     onlineUsers(){
       window.UsersStats = UsersStats
