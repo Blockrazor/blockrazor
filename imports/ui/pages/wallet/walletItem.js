@@ -5,6 +5,6 @@ import './wallet-item.scss'
 
 Template.walletItem.helpers({
   time() {
-        return moment(this.time).fromNow();
-      }
+    return new Date(this.time).toLocaleString([], {day:'numeric',month:'short',year:'numeric',hour: '2-digit', minute:'2-digit'});
+  }
 });
