@@ -72,8 +72,9 @@ if(filter){
                    key: 'time',
                    label: 'Date / Time',
                    sortByValue: true,
-                   fn: function(value, object, key) { return moment(value).fromNow(); }
-                 },                 {
+                   fn: function(value, object, key) { return new Date(value).toLocaleString([], {day:'numeric',month:'short',year:'numeric',hour: '2-digit', minute:'2-digit'}) }
+                 },
+                 {
                    key: 'from',
                    label: 'From',
                    fn: function(value, object, key) { return (Meteor.users.findOne(value) || {}).username || value; }
@@ -84,12 +85,8 @@ if(filter){
                    fn: function(value, object, key) { return transactionTypes(value); }
 
                  },
-
-
-
-
                ]
-                         };
+            };
   }
 
 });
