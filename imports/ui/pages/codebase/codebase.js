@@ -89,7 +89,11 @@ Template.codebase.events({
     'click #populateRatings': (event, templateInstance) => {
         Meteor.call('populateCodebaseRatings', (err, result) => {
             if (err) {
-                sAlert.error(err.reason)
+				swal({
+					icon: "error",
+					text: err.reason,
+					button: { text: 'continue', className: 'btn btn-primary' }
+				});
             } else {
                 if (!Ratings.findOne({
                     $or: [{
@@ -100,8 +104,19 @@ Template.codebase.events({
                         context: 'codebase'
                     }]
                 })) {
-                    sAlert.error('Please add some codebases to continue.')
-                }
+					swal({
+						icon: "error",
+						text: 'Please add some codebases to continue.',
+						button: { text: 'continue', className: 'btn btn-primary' }
+					});
+                } else {
+					swal({
+	                    icon: "warning",
+						title: "We detect lazy answering!",
+	                    text: _lazyAnsweringWarningText,
+	                    button: { text: 'continue', className: 'btn btn-primary' }
+	                });
+	            }
             }
         })
     },

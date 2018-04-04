@@ -105,6 +105,13 @@ Template.currencyChoices.events({
                     text: "Please upload one more wallet image to continue.",
                     button: { className: 'btn btn-primary' }
                 });
+            } else {
+				swal({
+                    icon: "warning",
+					title: "We detect lazy answering!",
+                    text: _lazyAnsweringWarningText,
+                    button: { text: 'continue', className: 'btn btn-primary' }
+                });
             }
 
         }

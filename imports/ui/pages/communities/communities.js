@@ -58,19 +58,34 @@ Template.communities.events({
     'click #populateRatings': (event, templateInstance) => {
         Meteor.call('populateCommunityRatings', (err, result) => {
             if (err) {
-                sAlert.error(err.reason)
+				swal({
+                    icon: "error",
+                    text: err.reason,
+                    button: { className: 'btn btn-primary' }
+                });
             } else {
-                if (!Ratings.findOne({
-                    $or: [{
-                        answered: false,
-                        catagory: 'community'
-                    }, {
-                        answered: false,
-                        context: 'community'
-                    }]
-                })) {
-                    sAlert.error('Please add some communities to continue.')
-                }
+				swal({
+					icon: "warning",
+					title: "We detect lazy answering!",
+					text: _lazyAnsweringWarningText,
+					button: { text: 'continue', className: 'btn btn-primary' }
+				}).then((value) => {
+					if (!Ratings.findOne({
+	                    $or: [{
+	                        answered: false,
+	                        catagory: 'community'
+	                    }, {
+	                        answered: false,
+	                        context: 'community'
+	                    }]
+	                })) {
+						swal({
+		                    icon: "error",
+		                    text: 'Please add some communities to continue.',
+		                    button: { className: 'btn btn-primary' }
+		                });
+	                }
+				});
             }
         })
     },
