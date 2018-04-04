@@ -21,26 +21,28 @@ Meteor.methods({
 				_id: rating.questionId
 			})
 
-			if (question.xors) {
-				question.xors.forEach(i => {
-					let q = RatingsTemplates.findOne({ _id: i })
-					let r = Ratings.findOne({
-						questionId: i,
-						currency0Id: rating.currency0Id,
-						currency1Id: rating.currency1Id
-					}) || {} // get the rating on same currency pair
+			if (question !== undefined) {
+				if (question.xors) {
+					question.xors.forEach(i => {
+						let q = RatingsTemplates.findOne({ _id: i })
+						let r = Ratings.findOne({
+							questionId: i,
+							currency0Id: rating.currency0Id,
+							currency1Id: rating.currency1Id
+						}) || {} // get the rating on same currency pair
 
-					let bo = true
-					if ((!q.negative && question.negative) || (q.negative && !question.negative)) { // XOR
-						bo = false
-					}
-
-					if (r.answered) {
-						if (winner !== 'tie' && r.winner !== 'tie' && ((bo && (winner !== r.loser || loser !== r.winner)) || (!bo && (winner !== r.winner || loser !== r.loser)))) {
-							throw new Meteor.Error('Error.', 'xor')
+						let bo = true
+						if ((!q.negative && question.negative) || (q.negative && !question.negative)) { // XOR
+							bo = false
 						}
-					}
-				})
+
+						if (r.answered) {
+							if (winner !== 'tie' && r.winner !== 'tie' && ((bo && (winner !== r.loser || loser !== r.winner)) || (!bo && (winner !== r.winner || loser !== r.loser)))) {
+								throw new Meteor.Error('Error.', 'xor')
+							}
+						}
+					})
+				}
 			}
 
 			Ratings.upsert({_id:ratingId}, {
