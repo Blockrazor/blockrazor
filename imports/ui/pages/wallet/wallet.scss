@@ -1,0 +1,41 @@
+.wallet-item {
+	&.card {
+		width: 100%;
+	}
+}
+
+.wallet-table-wrapper{
+  position: relative;
+  display: flex;
+  flex-direction: column-reverse;
+  width: 100%;
+  margin-top: 1em;
+  .reactive-table-navigation {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    > div{
+      clear: both;
+    }
+    .page-number {
+      margin-left: 15px;
+    }
+    label{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+    input{
+      width: 50px;
+      padding: 10px;
+      margin: 0 5px;
+    }
+  }
+}
+
+.wallet-filter {
+  position: relative;
+  transform: translateY(100%);
+  max-width: 320px;
+  z-index: 99;
+}
