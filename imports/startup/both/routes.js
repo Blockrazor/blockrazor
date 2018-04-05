@@ -36,6 +36,7 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   import '../../ui/pages/userPendingCurrencies/userPendingCurrencies'
   import '../../ui/pages/activityLog/activityLog'
   import '../../ui/pages/wallet/wallet'
+  import '../../ui/pages/wallet/walletTransactions'
   import '../../ui/pages/signin/signin'
   import '../../ui/pages/signup/signup'
   import '../../ui/pages/auctions/currencyAuction'
@@ -516,6 +517,17 @@ FlowRouter.route('/wallet', {
   },
   action: function (params, queryParams) {
     BlazeLayout.render('mainLayout', {main: 'wallet'});
+  }
+});
+
+FlowRouter.route('/wallet/:currency', {
+  subscriptions: function () {
+    this.register('wallet', SubsCache.subscribe('wallet'));
+    this.register('users', SubsCache.subscribe('users'));
+    this.register("publicUserData", SubsCache.subscribe("publicUserData"))
+  },
+  action: function (params, queryParams) {
+    BlazeLayout.render('mainLayout', {main: 'walletTransactions'});
   }
 });
 

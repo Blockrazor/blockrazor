@@ -1,0 +1,28 @@
+<template name="walletTransactions">
+  <div class="wallet-outer">
+    <h4><a href="/wallet">My Wallet</a> &nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp; Transactions With {{currencyType}} </h4><br/>
+    {{> notLoggedIn}}
+  </div>
+  <div class="wallet-body">
+    <div class="input-group pull-left pb-3">
+      <select class="form-control rewardTypeFilter custom-select" id="js-type" name="type">
+        <option disabled selected>--Select transaction type--</option>
+        <option value="topCommentReward">Top Comment</option>
+        <option value="hashReward">Hash Data</option>
+        <option value="bountyReward">Bounty Reward</option>
+        <option value="problemReward">Problem Reward</option>
+        <option value="createCoinReward">Created a Coin</option>
+        <option value="cheating">Cheating</option>
+        <option value="anwserQuestion">Answered Question</option>
+        <option value="auctions">Auctions</option>
+        <option value="deposit">Deposits</option>
+      </select>
+      <div class="input-group-append">
+        <button class="btn btn-primary clearFilter" type="button"><i class="fa fa-close"></i></button>
+      </div>
+    </div>
+    <div class="wallet-table-wrapper">
+      {{> reactiveTable collection=entry settings=walletTable class="table table-bordered table-hover"}}
+    </div>
+  </div>
+</template>
