@@ -5,11 +5,6 @@
 }
 
 .wallet-table-wrapper{
-  position: relative;
-  display: flex;
-  flex-direction: column-reverse;
-  width: 100%;
-  margin-top: 1em;
   .reactive-table-navigation {
     position: relative;
     display: flex;
@@ -33,9 +28,93 @@
   }
 }
 
-.wallet-filter {
-  position: relative;
-  transform: translateY(100%);
-  max-width: 320px;
-  z-index: 99;
+.currency-card {
+  padding: 15px;
+  background: transparent;
+
+  .card-content {
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+    transition: 0.3s;
+    border-radius: 5px;
+    padding: 2px 16px;
+    text-align: center;
+    background: white;
+    cursor: pointer;
+
+    .card-main {
+      .card-logo {
+        height: 100px;
+        width: 30%;
+        margin-right: auto;
+        margin-left: auto;
+        margin-bottom: 25px;
+      }
+  
+      h4 b {
+        color: #999999;
+        text-shadow: 2px 2px 4px #cccccc;      
+      }
+  
+      .balance {
+        margin: 20px 0 20px 0;
+        background: #f1f1f1;
+      }    
+    }
+
+  }
+
+  .card-zrq {
+    .card-logo {
+      background: url('/images/ZRQ_logo.jpg') center center;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+  }
+
+  .card-usd {
+    .card-logo {
+      background: url('/images/USD_logo.jpg') center center;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+  }
+
+  .card-eth {
+    .card-logo {
+      background: url('/images/ETH_logo.jpg') center center;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+  }
+
+  .card-xmr {
+    .card-logo {
+      background: url('/images/XMR_logo.jpg') center center;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+  }
+
+  .card-content:hover {
+    box-shadow: 0 10px 25px 0 rgba(46, 61, 73, 0.2);
+
+    .see-transactions-label {
+      color: #333333;
+    }
+  }
+
+}
+
+.wallet-outer {
+  padding: 15px 15px 0 15px;  
+
+  a:hover {
+    text-decoration: none;
+  }
+}
+
+.wallet-body {
+  margin: 0 15px 0 15px;
+  padding: 15px;
+  background: white;
 }

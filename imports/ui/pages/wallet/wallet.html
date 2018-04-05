@@ -1,43 +1,62 @@
 
 <template name="wallet">
-  <div class="wallet-page card">
-    <div class="card-body">
-      <h4 class="card-title">My Wallet </h4>
-      <h6 class="badge badge-success" style="padding:10px">Total Balance: {{balance}} ZRQ</h6>
-      <h6 class="badge badge-success" style="padding:10px">Total Balance: {{otherBalance "USD"}} USD</h6>
-      <h6 class="badge badge-success" style="padding:10px">Total Balance: {{otherBalance "ETH"}} ETH</h6>
-      <h6 class="badge badge-success" style="padding:10px">Total Balance: {{otherBalance "XMR"}} XMR</h6>
-      {{> notLoggedIn}}
-      <div class="input-group col-sm-6">
-        <input type="number" step="0.01" min="0" id="js-amount" name="amount" placeholder="0"  class="form-control">
-        <select id="js-cur">
-            <option value="USD">USD</option>
-            <option value="ETH">ETH</option>
-            <option value="XMR">XMR</option>
-        </select>
-        <button id="js-add" class="btn btn-primary">Deposit</button>
-      </div>
-      <div class="wallet-filter">
-        <div class="input-group">
-          <select class="form-control rewardTypeFilter custom-select" id="js-type" name="type">
-            <option disabled selected>--Select transaction type--</option>
-            <option value="topCommentReward">Reward : Top Comment</option>
-            <option value="hashReward">Reward : Hash Data</option>
-            <option value="bountyReward">Reward : Bounty</option>
-            <option value="problemReward">Reward : Problem</option>
-            <option value="createCoinReward">Reward : Created a Coin</option>
-            <option value="cheating">Reward : Cheating</option>
-            <option value="anwserQuestion">Reward : Answer</option>
-            <option value="auctions">Auctions</option>
-            <option value="deposit">Deposits</option>
-          </select>
-          <div class="input-group-append">
-            <button class="btn btn-primary clearFilter" type="button"><i class="fa fa-close"></i></button>
+
+  <div class="wallet-outer">
+    <h4>My Wallet</h4><br/>
+    {{> notLoggedIn}}
+  </div>
+  <div class="wallet-outer">
+    <div class="input-group">
+      <input type="number" step="0.01" min="0" id="js-amount" name="amount" placeholder="0"  class="form-control">
+      <select id="js-cur">
+        <option value="USD">USD</option>
+        <option value="ETH">ETH</option>
+        <option value="XMR">XMR</option>
+      </select>
+      <button id="js-add" class="btn btn-primary">Deposit</button>
+    </div>
+  </div>
+  <div class="wallet-outer">
+    <div class="row">
+      <div class="currency-card col-sm-12 col-md-6 col-lg-3">
+        <div class="card-content card-zrq" data-value="zrq">
+          <div class="card-main">
+            <div class="card-logo"></div>
+            <h4><b>ZRQ</b></h4>
+            <p class="see-transactions-label">click to see transactions</p>
+            <p class="balance">Total Balance: <br/><b>{{balance}}</b></p> 
           </div>
         </div>
       </div>
-      <div class="wallet-table-wrapper">
-        {{> reactiveTable collection=entry settings=walletTable class="table table-bordered table-hover"}}  
+      <div class="currency-card col-sm-12 col-md-6 col-lg-3">
+        <div class="card-content card-usd" data-value="usd">
+          <div class="card-main">
+            <div class="card-logo"></div>
+            <h4><b>US Dollar</b></h4>
+            <p class="see-transactions-label">click to see transactions</p>
+            <p class="balance">Total Balance: <br/><b>{{otherBalance "USD"}}</b></p> 
+          </div>
+        </div>
+      </div>
+      <div class="currency-card col-sm-12 col-md-6 col-lg-3">
+        <div class="card-content card-eth" data-value="eth">
+          <div class="card-main">
+            <div class="card-logo"></div>
+            <h4><b>Ethereum</b></h4>
+            <p class="see-transactions-label">click to see transactions</p>
+            <p class="balance">Total Balance: <br/><b>{{otherBalance "ETH"}}</b></p>   
+          </div>
+        </div>
+      </div>
+      <div class="currency-card col-sm-12 col-md-6 col-lg-3">
+        <div class="card-content card-xmr" data-value="xmr">
+          <div class="card-main">
+            <div class="card-logo"></div>
+            <h4><b>Monero</b></h4>
+            <p class="see-transactions-label">click to see transactions</p>
+            <p class="balance">Total Balance: <br/><b>{{otherBalance "XMR"}}</b></p> 
+          </div>
+        </div>
       </div>
     </div>
   </div>
