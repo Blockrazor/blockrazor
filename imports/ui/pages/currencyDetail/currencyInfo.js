@@ -15,15 +15,17 @@ Template.currencyInfo.onCreated(function () {
   this.autorun(()=>{
     SubsCache.subscribe('exchanges')
   })
-  console.log(Exchanges.find().fetch())
   window.Exchanges = Exchanges
   this.newAlgo = new ReactiveVar(false)
   this.showText = new ReactiveVar(false)
   this.autorun(()=>{
-    this.currency = Template.currentData() //for typeahead
+    this.currency = Template.currentData()
+    //for typeahead
+    if(Template.currentData().exchangesNames){
     this.currency.exchangesNames = this.currency.exchanges.map(x=>{
       return x.Name
     })
+  }
   })
 })
 
@@ -395,12 +397,14 @@ Template.currencyInfo.helpers({
     return {
       limit: 15,
       query: function (templ, entry) {
+ if(templ.currency.exchangesNames){
         return {
           name: {
             $nin: templ.currency.exchangesNames,
             $regex: new RegExp(entry, 'ig')
           }
         }
+      }
       },
       projection: function (templ, entry) {
         return {
