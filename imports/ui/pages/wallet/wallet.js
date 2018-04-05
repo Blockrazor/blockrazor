@@ -31,7 +31,7 @@ Template.wallet.helpers({
     })
 
     if (user) {
-      return user.others[cur] || 0
+      return user.others && user.others[cur] ? user.others[cur] : 0
     }
   },
   balance () {
