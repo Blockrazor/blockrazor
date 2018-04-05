@@ -59,7 +59,7 @@ export const newProblem = new ValidatedMethod({
 				    	owner: Meteor.userId(),
 				    	type: 'transaction',
 				      	from: 'Blockrazor',
-				      	message: `${bounty} KZR has been reserved from your account for funding a problem.`,
+				      	message: `KZR has been reserved from your account for funding a problem.`,
 				      	amount: -bounty,
 				     	read: false
 				    })

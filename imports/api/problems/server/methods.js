@@ -139,7 +139,7 @@ Meteor.methods({
 					    	owner: i.userId,
 					    	type: 'transaction',
 					      	from: 'Blockrazor',
-					      	message: `${i.bounty} KZR has been returned to your account because the problem has been cancelled.`,
+					      	message: `KZR has been returned to your account because the problem has been cancelled.`,
 					      	amount: i.bounty,
 					     	read: false
 					    })
@@ -188,7 +188,7 @@ Meteor.methods({
 				    	owner: Meteor.userId(),
 				    	type: 'transaction',
 				      	from: 'Blockrazor',
-				      	message: `${amount} KZR has been reserved from your account for funding a problem.`,
+				      	message: `KZR has been reserved from your account for funding a problem.`,
 				      	amount: -amount,
 				     	read: false
 				    })
@@ -237,7 +237,7 @@ Meteor.methods({
 					    	owner: Meteor.userId(),
 					    	type: 'transaction',
 					      	from: 'Blockrazor',
-					      	message: `${i.bounty} KZR has been returned to your account because you cancelled the reward.`,
+					      	message: `KZR has been returned to your account because you cancelled the reward.`,
 					      	amount: i.bounty,
 					     	read: false
 					    })
@@ -382,7 +382,7 @@ Meteor.methods({
 			    	owner: Meteor.userId(),
 			    	type: 'transaction',
 			      	from: 'Blockrazor',
-			      	message: `You have been rewarded with ${amount} KZR for solving a problem.`,
+			      	message: `You have been rewarded with KZR for solving a problem.`,
 			      	amount: amount,
 			     	read: false
 			    })
