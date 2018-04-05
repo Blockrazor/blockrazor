@@ -225,7 +225,7 @@ Meteor.methods({
 						currency: options.currency
 					})
 
-					transfer(user._id, 'Blockrazor', `${amount} ${options.currency} has been reserved from your account for bidding on an auction.`, -amount, options.currency)
+					transfer(user._id, 'Blockrazor', `${options.currency} has been reserved from your account for bidding on an auction.`, -amount, options.currency)
 				} else {
 					throw new Meteor.Error('Error.', `Currency ${options.currency} is not valid.`)
 				}

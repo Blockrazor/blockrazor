@@ -36,7 +36,7 @@ export var creditUserWith = function(amount, userId, reason,rewardType) {
       owner: userId,
       type: "transaction",
       from: "Blockrazor",
-      message: `Congratulations! You've been awarded ${formatAmount(amount)} KZR for ${reason}`,
+      message: `Congratulations! You've been awarded some KZR for ${reason}`,
       amount: formatAmount(amount),
       read: false,
       rewardType: rewardType

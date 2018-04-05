@@ -18,7 +18,7 @@ Meteor.methods({
               owner: Meteor.userId(),
               type: 'transaction',
                 from: 'Blockrazor',
-                message: `${amount} ${currency} has been deposited to your account.`,
+                message: `${currency} has been deposited to your account.`,
                 amount: amount,
               read: false,
               currency: currency,
