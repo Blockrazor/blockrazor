@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 
-import { devValidationEnabled, HashAlgorithm, HashAverage, HashHardware, HashPower, HashPowerImages, HashUnits, UserData, Currencies, Bounties, REWARDCOEFFICIENT } from '/imports/api/indexDB.js'
+import { developmentValidationEnabledFalse, HashAlgorithm, HashAverage, HashHardware, HashPower, HashPowerImages, HashUnits, UserData, Currencies, Bounties, REWARDCOEFFICIENT } from '/imports/api/indexDB.js'
 
 import { parseString } from 'xml2js'
 import { creditUserWith, removeUserCredit } from '/imports/api/utilities'
@@ -37,7 +37,7 @@ Meteor.methods({
 
 		if (Meteor.userId()) {
 			//ignored validation in development
-			if (!devValidationEnabled || category && device && algo && hashrate && unit && power && image) {
+			if (!developmentValidationEnabledFalse || category && device && algo && hashrate && unit && power && image) {
 				// if the hardware already exists, just continue, but if it doesn't, create it
 				if (!HashHardware.findOne({
 					_id: device

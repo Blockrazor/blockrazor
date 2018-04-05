@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { devValidationEnabled, FormData, HashHardware, HashAlgorithm, HashUnits, Bounties } from '/imports/api/indexDB.js'
+import { developmentValidationEnabledFalse, FormData, HashHardware, HashAlgorithm, HashUnits, Bounties } from '/imports/api/indexDB.js'
 import { FlowRouter } from 'meteor/staringatlights:flow-router';
 import Cookies from 'js-cookie'
 
@@ -123,7 +123,7 @@ Template.addHashpower.events({
 			}
 
 		//skips validation in dev environment
-		if(!devValidationEnabled || $("form").valid()){
+		if(!developmentValidationEnabledFalse || $("form").valid()){
 
 
 

@@ -54,6 +54,10 @@ Meteor.methods({
         let bounty = Bounties.findOne({
             userId: userId,
             type: 'new-community'
+        }, {
+            sort: {
+                expiresAt: -1
+            }
         })
 
         let lastCommunityAnswer = Ratings.find({
@@ -79,7 +83,19 @@ Meteor.methods({
             }, {
                 answered: false,
                 context: 'community'
-            }]
+            }],
+            owner: userId
+        }).count()
+
+        let rCount = Ratings.find({
+            $or: [{
+                processed: false,
+                catagory: 'community'
+            }, {
+                processed: false,
+                context: 'community'
+            }],
+            owner: userId
         }).count()
 
         if (bounty) {
@@ -89,14 +105,14 @@ Meteor.methods({
 
             if (bounty.expiresAt < r.answeredAt) {
                 console.log('already expired')
-                return ((Date.now() - lastCommunityAnswer.answeredAt) / REWARDCOEFFICIENT) * 0.3
+                return (((Date.now() - lastCommunityAnswer.answeredAt) / REWARDCOEFFICIENT) * 0.3) / (rCount || 1)
             } else {
                 console.log('actual bounty')
-                return Number(bounty.currentReward)
+                return Number(bounty.currentReward) / (rCount || 1)
             }
         } else {
             console.log('no bounty')
-            return ((Date.now() - lastCommunityAnswer.answeredAt) / REWARDCOEFFICIENT) * 0.3
+            return (((Date.now() - lastCommunityAnswer.answeredAt) / REWARDCOEFFICIENT) * 0.3) / (rCount || 1)
         }
     },
     populateCommunityRatings: function() {
