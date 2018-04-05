@@ -21,11 +21,12 @@
 <template name="walletImage">
   <img src="{{walletimagesdir}}{{_id}}_thumbnail.{{extension}}" class="walletImageOpen" data-toggle="modal" data-target="img_{{_id}}" id="{{_id}}" role="document"> 
 
-  <div class="modal fade modal-lg" id="img_{{_id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="max-width: 80% !important;`">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content modal-lg">
+  <div class="modal fade modal-lg" id="img_{{_id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+    style="max-width: 80% !important; margin-left: auto; margin-right: auto">
+  <div class="modal-dialog modal-lg" style="display: table">
+    <div class="modal-content modal-lg" style="display: table-cell">
       <div class="modal-body modal-lg">
-        <img src="{{walletimagesdir}}{{_id}}.{{extension}}" style="width:600px" class="align-middle"> 
+        <img src="{{walletimagesdir}}{{_id}}.{{extension}}" style="width:600px; max-width: 100%;" class="align-middle"> 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
