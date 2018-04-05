@@ -56,7 +56,6 @@ import {
 */
 
 Template.typeahead.onCreated(function () {
-  console.log(this.data, "props")
   
   //init default values if not specified
   this.data.id = this.data.id == undefined? Random.id()+"": this.data.id+""
