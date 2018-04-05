@@ -1,11 +1,12 @@
-import { Mongo } from 'meteor/mongo'
 import { UserPresence } from 'meteor/socialize:user-presence';
+import { Mongo } from 'meteor/mongo';
+import { developmentValidationEnabledFalse } from '../indexDB'
+import SimpleSchema from 'simpl-schema';
 
 export const UsersStats = new Mongo.Collection('usersStats')
 
 if (Meteor.isServer){
 Meteor.startup(function(){
-  UsersStats.remove({})
   var stats = UsersStats.find().fetch()
   if (stats.length != 2){
     if (stats.find(x=>x._id == "connected") == undefined){
@@ -32,7 +33,6 @@ UserPresence.onUserOnline(function(userId, connection){
 });
 
 UserPresence.onUserOffline(function (userId) {
-  console.log(userId, "offline")
   UsersStats.update("connected", {$pull: {userIds: userId}})
 });
 
@@ -41,3 +41,20 @@ export const updateUsersStats = (options, user) => {
   UsersStats.update("created", {$inc: {created: 1}})
 };
 }
+
+var { Integer, RegEx } = SimpleSchema
+var { Id } = RegEx
+
+UsersStats.schema = new SimpleSchema({
+  _id: { type: String }, 
+  connected: { type: Integer, required: false }, 
+  userIds: { type: Array, required: false }, 
+  "userIds.$": { type: Id },
+  created: { type: Integer, required: false }, 
+}, { requiredByDefault: developmentValidationEnabledFalse });
+
+UsersStats.deny({
+  insert() { return true; }, 
+  update() { return true; }, 
+  remove() { return true; }, 
+});

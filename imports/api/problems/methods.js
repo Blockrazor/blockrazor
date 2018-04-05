@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import { UserData, Wallet, Problems, ProblemImages, ProblemComments, devValidationEnabled } from '/imports/api/indexDB'
+import { UserData, Wallet, Problems, ProblemImages, ProblemComments, developmentValidationEnabledFalse } from '/imports/api/indexDB'
 import SimpleSchema from 'simpl-schema';
 
 export const newProblem = new ValidatedMethod({
@@ -12,7 +12,7 @@ export const newProblem = new ValidatedMethod({
 		images: {type: Array, required: false},
 		"images.$": String,
     bounty: {required: false, type: Number, /*autoValue: function(){console.log(this);if (Number.isNaN(this.value)){return 0} else {return this.value}}*/}, //can't call clean() within method call
-  }, {requiredByDefault: devValidationEnabled}).validator(),
+  }, {requiredByDefault: developmentValidationEnabledFalse}).validator(),
   run({ type, header, text, images, bounty }) {
 			if (Meteor.userId()) {
 				if (bounty > 0) { // check if the user can finance the bounty
