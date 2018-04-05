@@ -21,6 +21,10 @@ Meteor.methods({
         let bounty = Bounties.findOne({
             userId: userId,
             type: 'new-wallet'
+        }, {
+            sort: {
+                expiresAt: -1
+            }
         })
 
         let lastWalletAnswer = Ratings.find({
@@ -46,7 +50,19 @@ Meteor.methods({
             }, {
                 answered: false,
                 context: 'wallet'
-            }]
+            }],
+            owner: userId
+        }).count()
+
+        let rCount = Ratings.find({
+            $or: [{
+                processed: false,
+                catagory: 'wallet'
+            }, {
+                processed: false,
+                context: 'wallet'
+            }],
+            owner: userId
         }).count()
 
         if (bounty) {
@@ -56,14 +72,14 @@ Meteor.methods({
 
             if (bounty.expiresAt < r.answeredAt) {
                 console.log('already expired')
-                return ((Date.now() - lastWalletAnswer.answeredAt) / REWARDCOEFFICIENT) * 0.3
+                return (((Date.now() - lastWalletAnswer.answeredAt) / REWARDCOEFFICIENT) * 0.3) / (rCount || 1)
             } else {
                 console.log('actual bounty')
-                return Number(bounty.currentReward)
+                return Number(bounty.currentReward) / (rCount || 1)
             }
         } else {
             console.log('no bounty')
-            return ((Date.now() - lastWalletAnswer.answeredAt) / REWARDCOEFFICIENT) * 0.3
+            return (((Date.now() - lastWalletAnswer.answeredAt) / REWARDCOEFFICIENT) * 0.3) / (rCount || 1)
         }
     },
 
