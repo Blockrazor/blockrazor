@@ -1,4 +1,4 @@
-import { EloRankings, Ratings, RatingsTemplates, Currencies, GraphData, Communities } from '/imports/api/indexDB.js';
+import { EloRankings, Ratings, RatingsTemplates, Currencies, GraphData, Communities, Bounties } from '/imports/api/indexDB.js';
 import { log } from '../main'
 
 SyncedCron.add({
@@ -211,6 +211,30 @@ Meteor.methods({
     }
 
     var ratings = Ratings.find({processed: false, answered: true }).fetch()
+
+    ratings = ratings.filter(i => { // filter out ratings that are not ready for processing
+        let bounty = Bounties.findOne({ // check if question is answered in a running bounty, and don't process it if it is
+            $or: [{
+                type: `new-${i.catagory}`,
+            }, {
+                type: `new-${i.context}`
+            }],
+            userId: i.owner,
+            expiresAt: {
+                $gt: new Date().getTime()
+            }
+        }, {
+            sort: {
+                expiresAt: -1
+            }
+        })
+
+        if (bounty) {
+            return i.answeredAt > bounty.createdAt && i.answeredAt < bounty.expiresAt // question was answered in this time period 
+        }
+
+        return true
+    })
 
     for (item in ratings) {
       //console.log(ratings[item]._id);

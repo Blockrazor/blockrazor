@@ -128,7 +128,7 @@ Template.communities.helpers({
             }
         }).fetch()[0]
 
-        return `You have ${Math.round((bounty.expiresAt - Template.instance().now.get())/1000/60)} minutes to complete the bounty for ${Number(bounty.currentReward).toFixed(2)} (* number of questions) KZR.`;
+        return `You have ${Math.round((bounty.expiresAt - Template.instance().now.get())/1000/60)} minutes to complete the bounty for ${Number(bounty.currentReward).toFixed(2)} KZR.`;
     },
     alreadyAdded: () => {
         let alreadyAdded = _.uniq(_.flatten(Ratings.find({
