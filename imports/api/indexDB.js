@@ -22,6 +22,8 @@ import { REWARDCOEFFICIENT } from './bounties/REWARDCOEFFICIENT.js'
 import { WalletImages } from './wallet/walletImages.js'
 import { Wallet } from './wallet/wallet.js'
 
+import { Communities } from './communities/communities.js'
+
 import { Developers } from './developers/developers.js'
 import { Codebase } from './developers/codebase.js'
 
@@ -30,8 +32,6 @@ import { RatingsTemplates } from './ratings/ratingsTemplates'
 import { EloRankings } from './ratings/eloRankings'
 
 import { Features } from './features/features.js'
-
-import { Communities } from './communities/communities.js'
 
 import { Currencies } from '/imports/api/coins/currencies.js'
 import { PendingCurrencies } from '/imports/api/coins/pendingCurrencies.js'
@@ -53,9 +53,11 @@ import { ProblemComments } from '/imports/api/problems/problemComments'
 
 import { Exchanges } from '/imports/api/exchanges/exchanges'
 
-import { devValidationEnabled } from '/imports/startup/both/devValidationEnabled'
+import { developmentValidationEnabledFalse } from '/imports/startup/both/developmentValidationEnabledFalse'
 
 export {
+  Exchanges,
+
   Bounties,
   BountyTypes,
   REWARDCOEFFICIENT,
@@ -107,8 +109,6 @@ export {
   Problems,
   ProblemImages,
   ProblemComments,
-
-  Exchanges,
   
-  devValidationEnabled
+  developmentValidationEnabledFalse
 }

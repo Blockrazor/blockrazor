@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { WalletImages, devValidationEnabled } from '/imports/api/indexDB.js';
+import { WalletImages, developmentValidationEnabledFalse } from '/imports/api/indexDB.js';
 
 import './upload.html'
 
@@ -66,7 +66,7 @@ Template.upload.events({
                   }
 
                   //Only upload if above validation are true
-                  if (!uploadError || !devValidationEnabled) {
+                  if (!uploadError || !developmentValidationEnabledFalse) {
                       var reader = new FileReader();
                       reader.onload = function(fileLoadEvent) {
 

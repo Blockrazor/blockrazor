@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import { UserData, Currencies, Communities, devValidationEnabled } from '/imports/api/indexDB'
+import { UserData, Currencies, Communities, developmentValidationEnabledFalse } from '/imports/api/indexDB'
 import SimpleSchema from 'simpl-schema'; //you must import SimpleSchema 
 
 
@@ -13,7 +13,7 @@ export const saveCommunity = new ValidatedMethod({
             url: {type: String, regEx:SimpleSchema.RegEx.Url, optional: false},
             image: {label:'Your Image',type: String, optional: false, regEx: /\.(gif|jpg|jpeg|tiff|png)$/
 },
-        }, { requiredByDefault: devValidationEnabled }).validator(),
+        }, { requiredByDefault: developmentValidationEnabledFalse }).validator(),
     run({ currencyId,url,image }) {
     	//Define the body of the ValidatedMethod, e.g. insert some data to a collection
         if (Meteor.userId()) {
