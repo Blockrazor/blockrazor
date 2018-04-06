@@ -39,15 +39,6 @@ Template.redflags.helpers({
 });
 
 Template.redflags.events({
-  'click .showRedFlagged': function() {
-    if(Template.instance().showredflagged.get() == false) {
-      Template.instance().showredflagged.set(true);
-      $('.showRedFlagged').text("Show");
-    } else {
-      Template.instance().showredflagged.set(false)
-      $('.showRedFlagged').html("Hide");
-    }
-},
   'click .help': function() {
     $('#addFeatureModal').modal('show');
   },
