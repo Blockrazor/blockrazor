@@ -93,7 +93,7 @@ Meteor.methods({
           _id: userId
         })
 
-        if (user) {
+        if (user && !user.moderator) {
           // add a strike to user's date
           UserData.update({
             _id: user._id
