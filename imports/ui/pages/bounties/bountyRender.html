@@ -30,8 +30,9 @@
         </div>
         <div class="col-sm-4">
           <h5 class="float-right my-4 my-sm-0">
-            <span class="mr-2">{{reward}}</span>KZR
-            <span class="mr-2">{{previousReward}} {{currentUsername}}</span>KZR
+            <span class="mr-2 float-right">{{reward}} &nbsp;KZR</span>
+            <br/>
+            {{#if previousReward}}<span class="mr-2 float-right" style="font-size:12px;color:#999">Last Reward: {{previousReward}} KZR</span>{{/if}}
           </h5>
         </div>
       </div>
