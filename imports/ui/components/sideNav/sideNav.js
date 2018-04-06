@@ -26,8 +26,8 @@ Template.sideNav.onCreated(function() {
 });
 
 Template.sideNav.events({
-  'click .side-nav-container li a': function (event){
-    if (Session.get("screenSize") == 0){
+  'click .nav-side-menu li a': function (event){
+    if (Session.get("screenSize") == 0 && !event.target.parentElement.hasAttribute('data-toggle')){  // if not having submenu items
       Session.set("openedSidebar")
     }
   },
