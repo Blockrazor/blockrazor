@@ -4,6 +4,7 @@ import Cookies from 'js-cookie'
 import swal from 'sweetalert';
 
 import './commQuestions.html'
+import './communities.scss'
 
 Template.commQuestions.onCreated(function bodyOnCreated() {
     this.autorun(() => {
@@ -55,6 +56,10 @@ Template.commQuestions.helpers({
 
 
 Template.commQuestions.events({
+    'error img': function(e) {
+        // fires when a particular image doesn't exist in given path
+        $(e.target).attr('src','/images/noimage.png'); 
+    },
     'mouseover .choice': (event, templateInstance) => {
         $('.choice').css('cursor', 'pointer')
     },
