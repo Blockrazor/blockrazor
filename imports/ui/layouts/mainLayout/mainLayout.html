@@ -1,17 +1,15 @@
 <template name="mainLayout">
     <div class="app-body">
       <div class="top-nav">
-        {{> topNav}} 
+        {{> topNav}}
         {{> sAlert}}
       </div>
       <nav id="sidebar" class="{{openSidebar}}">
         {{> sideNav}}
       </nav>
-      <div id="content" class="app-content">
-        <div class="container">
-          {{> Template.dynamic template=main}} 
+      <div id="content" class="app-content container">
+          {{> Template.dynamic template=main}}
           {{> Template.dynamic template=bottom}}
-        </div>
       </div>
     </div>
 </template>

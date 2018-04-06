@@ -1,18 +1,20 @@
 <template name="fundamentalMetrics">
-  <div class="col-md-6">
-    <div class="card">
-      <div class="card-header">Fundamental Metrics</div>
-      <div class="card-body d-flex flex-column align-items-center justify-content-center">
-        {{> radarGraph width=600 height=300 options=options class="mx-auto"}}
-      </div>
-    </div>
+  <div class="col-sm">
+	<div class="currency-container" style="padding-bottom: 10px">
+		<div class="currency-card card" style="margin: 0 !important">
+	      <div class="header">Fundamental Metrics</div>
+		  {{> radarGraph width=600 height=300 options=options class="mx-auto"}}
+	    </div>
+	</div>
   </div>
-  <div class="col-md-6">
-    <div class="card">
-      <div class="card-header">Coin Distribution</div>
-      <div class="card-body d-flex align-items-center justify-content-center">
-        <canvas id="distribution"></canvas>
-      </div>
+  <div class="col-sm">
+    <div class="currency-container" style="padding-bottom: 10px">
+		<div class="currency-card card" style="width: 100%; margin: 0 !important">
+			<div class="header">Coin Distribution</div>
+			<br>
+			<canvas id="distribution"></canvas>
+			<br>
+		</div>
     </div>
   </div>
   <a class="btn btn-outline-info m-3" href="/compareCurrencies/{{currencySymbol}}">Compare with other currencies</a>

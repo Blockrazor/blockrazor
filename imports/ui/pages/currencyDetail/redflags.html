@@ -1,126 +1,124 @@
 <template name="redflags">
-    <div class="modal fade" id="addRedFlagModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Flag Currency</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    RED FLAFYou're red flagging {{currencyName}}. You will be credited with a bounty of {{bountyamount}} ZZR in 7 days as long as it:
-                    <ul>
-                        <li>Maintains 3 or more stars</li>
-                        <li>Is not sent to the Sin Bin by a moderator</li>
-                    </ul>
-                    Here's an example red flag from Monero:
-                    <br />
-                    <i>Privacy - all transactions made with Monero are private and untraceable.</i>
-                    <br>
-                    You'll also receive more KZR if your red flag reaches the top.
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Thanks, don't show this again</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="wymiModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Commenting</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>You'll be asked how much <i>wymi</i> you want to give your comment. </p>
-                    <p>You must have enough avalable balance in your wallet to fund the amount you choose.</p>
-                    <p>If your comment becomes the <i>top comment</i> in the thread, you get <i>triple</i> your wymi back! If not, your wymi is <i>returned to you in full</i>. Comments sent to the Sin Bin for violating the rules shall forfeit their wymi.</p>
-                    <p>The wymi is currently optional but a minimum amount may be implimented in future depending on how much spam etc there is.</p>
-                    <h5>Rules</h5> If you think you're doing the right thing, you probably are.
-                    <ul>
-                        <li>No spamming</li>
-                        <li>No personal attacks or abuse</li>
-                        <li>Warning people about scams etc is perfectly fine, but <i>malicious</i> FUD is not.</li>
-                    </ul>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="featureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Flag Currency</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    It looks like {{currencyName}} has only recently been added to Blockrazor and its red flags have not yet been added. This is a great opportunity for you to add one of {{currencyName}}'s features and earn some Krazor!
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Thanks, don't show this again</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    {{featureModal}}
-    <div class="currencyDetailBox">
-        <div style="display:flex;width:100%;">
-            <div style="width:20%; float:left;">
-                <button class="btn btn-primary pull-left showRedFlagged" style="margin-top:6px;">
-                    Hide
-                </button>
-            </div>
-            <div style="width:80%">
-                <h5 class="text-center currencyDetailHeading featuresheading">Red Flags</h5>
-                <div id="showAddNewRedflag" style="display:none;margin-bottom:10px;">
-                    <b>Rules:</b>
-                    <br />
-                    <ul>
-                        <li>Use clear language, keep it as short as possible</li>
-                        <li>No jokes (people new to crypto will just be confused)</li>
-                        <li>Any claims must be factually correct</li>
-                    </ul>
-                    <textarea class="" id="redflagContent" style="width:100%" maxlength="140" minlength="6"></textarea>
-                    <br />
-                    <div style="display:flex;">
-                        <button class="btn btn-primary float-left submitRedFlag">Submit</button>
-                        <h4>&nbsp;&nbsp;<i class="fa fa-question-circle help" aria-hidden="true"></i></h4>
-                        <div class="float-right" id="charNum" style="margin-left:50px;"></div>
-                    </div>
-                </div>
-            </div>
-            <div style="width:20%;float:right;">
-                <button class="btn btn-primary pull-right showAddNewRedflag" style="margin-top:6px;">
-                    <i class="fa fa-plus" aria-hidden="true"></i> Red Flag Currency
-                </button>
-            </div>
-        </div>
-        <div class="row commentThread">
-            {{#unless reactiveVar 'showredflagged'}} {{#each redflags}}
-            <div class="col-lg-6">{{> redflag}}</div>{{/each}} {{/unless}} {{#if reactiveVar 'showredflagged'}} {{#each flaggedfeatures}}
-            <div class="col-lg-6">{{> feature}}</div>{{/each}} {{/if}}
-        </div>
-    </div>
+	<div class="col-sm-12">
+		<div class="modal fade" id="addRedFlagModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	        <div class="modal-dialog" role="document">
+	            <div class="modal-content">
+	                <div class="modal-header">
+	                    <h5 class="modal-title" id="exampleModalLabel">Flag Currency</h5>
+	                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                        <span aria-hidden="true">&times;</span>
+	                    </button>
+	                </div>
+	                <div class="modal-body">
+	                    RED FLAFYou're red flagging {{currencyName}}. You will be credited with a bounty of {{bountyamount}} ZZR in 7 days as long as it:
+	                    <ul>
+	                        <li>Maintains 3 or more stars</li>
+	                        <li>Is not sent to the Sin Bin by a moderator</li>
+	                    </ul>
+	                    Here's an example red flag from Monero:
+	                    <br />
+	                    <i>Privacy - all transactions made with Monero are private and untraceable.</i>
+	                    <br>
+	                    You'll also receive more KZR if your red flag reaches the top.
+	                </div>
+	                <div class="modal-footer">
+	                    <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Thanks, don't show this again</button>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	    <div class="modal fade" id="wymiModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	        <div class="modal-dialog" role="document">
+	            <div class="modal-content">
+	                <div class="modal-header">
+	                    <h5 class="modal-title" id="exampleModalLabel">Commenting</h5>
+	                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                        <span aria-hidden="true">&times;</span>
+	                    </button>
+	                </div>
+	                <div class="modal-body">
+	                    <p>You'll be asked how much <i>wymi</i> you want to give your comment. </p>
+	                    <p>You must have enough avalable balance in your wallet to fund the amount you choose.</p>
+	                    <p>If your comment becomes the <i>top comment</i> in the thread, you get <i>triple</i> your wymi back! If not, your wymi is <i>returned to you in full</i>. Comments sent to the Sin Bin for violating the rules shall forfeit their wymi.</p>
+	                    <p>The wymi is currently optional but a minimum amount may be implimented in future depending on how much spam etc there is.</p>
+	                    <h5>Rules</h5> If you think you're doing the right thing, you probably are.
+	                    <ul>
+	                        <li>No spamming</li>
+	                        <li>No personal attacks or abuse</li>
+	                        <li>Warning people about scams etc is perfectly fine, but <i>malicious</i> FUD is not.</li>
+	                    </ul>
+	                </div>
+	                <div class="modal-footer">
+	                    <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Close</button>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	    <div class="modal fade" id="featureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	        <div class="modal-dialog" role="document">
+	            <div class="modal-content">
+	                <div class="modal-header">
+	                    <h5 class="modal-title" id="exampleModalLabel">Flag Currency</h5>
+	                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                        <span aria-hidden="true">&times;</span>
+	                    </button>
+	                </div>
+	                <div class="modal-body">
+	                    It looks like {{currencyName}} has only recently been added to Blockrazor and its red flags have not yet been added. This is a great opportunity for you to add one of {{currencyName}}'s features and earn some Krazor!
+	                </div>
+	                <div class="modal-footer">
+	                    <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Thanks, don't show this again</button>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	    {{featureModal}}
+		<div class="card card-header">
+			Red Flags
+		</div>
+		<button class="btn btn-primary m-2 showRedFlagged" style="margin-top:6px;">
+			Hide
+		</button>
+		<button class="btn btn-primary m-2 showAddNewRedflag" style="margin-top:6px;">
+			<i class="fa fa-plus" aria-hidden="true"></i> Red Flag Currency
+		</button>
 
-    {{#if reactiveVar 'showredflagged'}}
-    {{#if subsCacheReady}}
-    {{#each flaggedfeatures}}
-      <div class="col-lg-6">{{> feature}}</div>
-    {{else}}
-      {{> empty}}
-    {{/each}}
-  {{else}}
-    {{> loading}}
-  {{/if}}
-    {{/if}}
+	    <div class="currencyDetailBox">
+			<div id="showAddNewRedflag" style="display:none;margin-bottom:10px;">
+				<div class="card card-body">
+					<b>Rules:</b>
+					<br />
+					<ul>
+						<li>Use clear language, keep it as short as possible</li>
+						<li>No jokes (people new to crypto will just be confused)</li>
+						<li>Any claims must be factually correct</li>
+					</ul>
+					<textarea class="form-control" id="redflagContent" style="width:100%" maxlength="140" minlength="6"></textarea>
+					<br />
+					<div style="display:flex;">
+						<button class="btn btn-primary float-left submitRedFlag">Submit</button>
+						<h4>&nbsp;&nbsp;<i class="fa fa-question-circle help" aria-hidden="true"></i></h4>
+						<div class="float-right" id="charNum" style="margin-left:50px;"></div>
+					</div>
+				</div>
+			</div>
+	        <div class="row commentThread">
+	            {{#unless reactiveVar 'showredflagged'}} {{#each redflags}}
+	            <div class="col-lg-6">{{> redflag}}</div>{{/each}} {{/unless}} {{#if reactiveVar 'showredflagged'}} {{#each flaggedfeatures}}
+	            <div class="col-lg-6">{{> feature}}</div>{{/each}} {{/if}}
+	        </div>
+	    </div>
 
+	    {{#if reactiveVar 'showredflagged'}}
+	    {{#if subsCacheReady}}
+	    {{#each flaggedfeatures}}
+	      <div class="col-lg-6">{{> feature}}</div>
+	    {{else}}
+	      {{> empty}}
+	    {{/each}}
+	  {{else}}
+	    {{> loading}}
+	  {{/if}}
+	    {{/if}}
+	</div>
 </template>
