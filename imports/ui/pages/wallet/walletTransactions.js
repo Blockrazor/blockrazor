@@ -49,16 +49,18 @@ Template.walletTransactions.helpers({
       fields: [
         {
           key: 'message',
-          label: 'Message',
+          label: 'Message'
         },
                         {
           key: 'amount',
-          label: 'Amount',
+          label: 'Amount'
         },
         {
           key: 'time',
           label: 'Date / Time',
-          sortByValue: true,
+          sortByValue:true,
+          sortOrder: 0,
+          sortDirection: -1,
           fn: function(value, object, key) { return new Date(value).toLocaleString([], {day:'numeric',month:'short',year:'numeric',hour: '2-digit', minute:'2-digit'}) }
         },
         {
