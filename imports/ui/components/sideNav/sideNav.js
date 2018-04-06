@@ -2,6 +2,7 @@ import { ActivityLog, Wallet, UserData } from '/imports/api/indexDB.js';
 
 import './sideNav.html'
 import './sideNav.scss'
+import './sideNav.css'
 import '../global/globalHelpers'
 
 Template.sideNav.helpers({

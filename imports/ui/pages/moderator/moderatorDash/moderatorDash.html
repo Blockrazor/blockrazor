@@ -1,18 +1,6 @@
 <template name="moderatorDash">
-    {{> notLoggedIn}}
   {{#unless reactiveVar 'reject'}}
-  Moderation Queue
-  <br />
-  <a href="moderator/flagged-users">See flagged users</a><br />
-  <a href="moderator/questions">See questions</a><br />
-  <a href="moderator/flagged-hashpower">See flagged hashpower</a><br />
-  <a href="moderator/applogs">See applogs</a><br />
-  <a href="moderator/solved-problems">See solved problems</a><br />
-  <a href="moderator/pardon">Pardon suspended users</a><br />
-  <a href="moderator/flagged">Flagged comments/red flags/features</a><br />
 
-
-  <br />
   Shortcuts for ELO<br />
   <button id="elo" class="btn btn-danger">TABULATE ELO</button><br />
   <button id="communities" class="btn btn-danger avg-elo">AVG ELO COMMUNITIES</button>
