@@ -98,3 +98,10 @@ body .modal-dialog {
 .upper{
    text-transform:uppercase !important
 }
+
+.currencyFilter{
+    top:58px !important;
+    padding:10px !important;
+    background-color:#1a1a1a !important;
+    color:#fff !important;
+}

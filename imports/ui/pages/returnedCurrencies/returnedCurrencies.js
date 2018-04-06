@@ -1,7 +1,8 @@
 import { Template } from 'meteor/templating';
-import { Currencies, UsersStats, Redflags } from '/imports/api/indexDB.js';
+import { Currencies, UsersStats, Redflags, FormData } from '/imports/api/indexDB.js';
 
 import scrollmagic from 'scrollmagic';
+import slider from 'bootstrap-slider';
 import './returnedCurrencies.html'
 import './currency.js'
 
@@ -21,6 +22,11 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
   this.everythingLoaded = new ReactiveVar(false) //used to tell when user has reached end of the list in infinite scroll
   this.count = new ReactiveVar(100)
   this.noFeatured = new ReactiveVar(false)
+  this.securityTypes = new ReactiveVar(["Proof of Work", "Proof of Stake", "Hybrid"])
+  this.fromFilter = new ReactiveVar("")
+  this.toFilter = new ReactiveVar("")
+
+
 
   this.autorun(() => {
     SubsCache.subscribe('redflags')
@@ -30,25 +36,42 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
   })
   
   //resets limit and calculates filter parameters for query
-  this.autorun(()=>{
-    var templ = Template.instance()
-    let searchInputFilter = templ.searchInputFilter.get();
-    templ.limit.set(templ.increment)
-    this.filter.set({
-        $or: [{
-            currencyName: { $regex: new RegExp(searchInputFilter, "i") }
-        }, {
-            currencySymbol: { $regex: new RegExp(searchInputFilter, "i") }
-        }, {
-            'previousNames.tag': new RegExp(searchInputFilter, 'gi')
-        }]
-    })
+  this.autorun(() => {
+      var templ = Template.instance()
+      let searchInputFilter = templ.searchInputFilter.get();
+      let securityTypes = templ.securityTypes.get();
+      let fromFilter = templ.fromFilter.get()
+      let toFilter = templ.toFilter.get();
+
+
+      templ.limit.set(templ.increment)
+
+      let query = {
+          consensusSecurity: { $in: securityTypes },
+          $or: [{
+              currencyName: { $regex: new RegExp(searchInputFilter, "i") }
+          }, {
+              currencySymbol: { $regex: new RegExp(searchInputFilter, "i") }
+          }, {
+              'previousNames.tag': new RegExp(searchInputFilter, 'gi')
+          }]
+      }
+
+      if (fromFilter != "") {
+          query["genesisTimestamp"] = { $gt: new Date(fromFilter).getTime() }
+      }
+
+      if (toFilter != "") {
+          query["genesisTimestamp"] = { $lt: new Date(toFilter).getTime() }
+      }
+      this.filter.set(query)
   })
 
   //calculates count, and if all records are loaded
   this.autorun(()=>{
     var templ = Template.instance()
     let count = templ.count
+
       let filter = templ.filter.get()
       count.set(Currencies.countLocal(filter))
       if (count.get() <= templ.limit.get()){
@@ -75,7 +98,6 @@ Template.returnedCurrencies.onRendered( function () {
              scene.update()
           })
           
-//  console.log(Currencies.findOne())
 //Meteor.call('updateMarketCap');
 });
 
@@ -86,6 +108,7 @@ Template.returnedCurrencies.helpers({
         let filter = templ.filter.get();
             let templateVars = Currencies.findLocal(filter, { sort: { featured: -1, quality: -1, createdAt: -1 }, limit: templ.limit.get(),
               fields: {
+                consensusSecurity: 1,
                 _id: 1,
                 eloRanking: 1,
                 slug: 1,  
@@ -106,6 +129,7 @@ Template.returnedCurrencies.helpers({
                 cpc: 1,
                 cpt: 1,
                 price: 1
+                
               }
              }).fetch()
 
@@ -126,24 +150,49 @@ Template.returnedCurrencies.helpers({
     },
     createdUsers(){
       return UsersStats.findOne("created").created
-    }
+    },
+      security () {
+    return FormData.find({});
+  },
 });
 
 Template.returnedCurrencies.events({
-  'keyup #searchInput': function(event) {
-    event.preventDefault();
-    let query = $('#searchInput').val();
-    
-    //clear filter if no value in search bar
-    if(query.length<1){
-      Template.instance().searchInputFilter.set(undefined);
-    }
-    
-    if(query){
-     Template.instance().searchInputFilter.set(query); //done
-    }
+    'change #fromDate': function(event) {
 
-  }, 
+      let fromDate = $(event.currentTarget).val();
+      Template.instance().fromFilter.set(fromDate);
+
+    },
+    'change #toDate': function(event) {
+
+        let toDate = $(event.currentTarget).val();
+        Template.instance().toFilter.set(toDate);
+    },
+    'click input[type=checkbox]': function(ev, tpl) {
+        var setSecurityTypes = tpl.$('input:checked').map(function() {
+            return $(this).val();
+        });
+
+        var test = $.makeArray(setSecurityTypes);
+        Template.instance().securityTypes.set(test);
+    },
+    'click .currencyFilter': function(event) {
+        $('.currencyFilterModal').modal('show');
+    },
+    'keyup #searchInput': function(event) {
+        event.preventDefault();
+        let query = $('#searchInput').val();
+
+        //clear filter if no value in search bar
+        if (query.length < 1) {
+            Template.instance().searchInputFilter.set(undefined);
+        }
+
+        if (query) {
+            Template.instance().searchInputFilter.set(query); //done
+        }
+
+    },
 })
 
 Template.returnedCurrencies.onDestroyed( function () {	
