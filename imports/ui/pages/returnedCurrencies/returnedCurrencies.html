@@ -23,6 +23,54 @@
   </div>
 </div>
 
+<!--- Currency Filter -->
+<div class="modal currencyFilterModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+            <div class="modal-header">
+        <h5 class="modal-title">Filter your results</h5>
+      </div>
+      <div class="modal-body">
+        <h5 class="card-title">Genisis Date</h5>
+          <div class="row">
+    <div class="col">
+      <lable for="fromDate" class="control-label">From Date</lable>
+      <input type="date" class="form-control" placeholder="From" id="fromDate">
+    </div>
+    <div class="col">
+      <br />
+      <lable for="toDate" class="control-label">To Date</lable>
+      <input type="date" class="form-control" placeholder="To" id="toDate">
+    </div>
+  </div>
+  
+       <h5 class="card-title mt-2">Security</h5>
+
+  <div class="form-check">
+    <input type="checkbox" class="form-check-input" id="pow" value="Proof of Work" checked>
+    <label class="form-check-label" for="pow">Proof of Work</label>
+<br />
+        <input type="checkbox" class="form-check-input" id="pos" value="Proof of Stake" checked>
+    <label class="form-check-label" for="pos" id="pos">Proof of Stake</label>
+    <br />
+            <input type="checkbox" class="form-check-input" id="hybrid" value="Hybrid" checked>
+    <label class="form-check-label" for="pos" id="hybrid" >Hybrid</label>
+  </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Apply Filter</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="sticky-top pointer currencyFilter mb-5" style="top:58px; padding:10px; background-color:#1a1a1a !important;color:#fff">
+<i class="fa fa-filter" aria-hidden="true"></i> Filter Results
+
+<!--- /END Currency Filter -->
+
+</div>
   <div class="search-bar"> 
     <input id="searchInput" name="searchInput" type="search" placeholder="Search BlockRazor now"> 
     <div class="found-result">

@@ -33,8 +33,6 @@ Meteor.methods({
       id: currencyName
     })
 
-    console.log(bounty)
-
     let lastCurrency = PendingCurrencies.find({}, {
       sort: {
         createdAt: -1
@@ -429,7 +427,7 @@ Meteor.methods({
 
       },
       fetchCurrencies(){
-        return Currencies.find({}, {fields: {consensusSecurity: 0, hashAlgorithm: 0, gitAPI: 0}}).fetch().map(i => _.extend(i, {
+        return Currencies.find({}, {fields: {hashAlgorithm: 0, gitAPI: 0}}).fetch().map(i => _.extend(i, {
           quality: quality(i)
         }))
     },
