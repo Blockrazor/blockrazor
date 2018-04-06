@@ -43,7 +43,7 @@
       <input type="date" class="form-control" placeholder="To" id="toDate">
     </div>
   </div>
-  
+
        <h5 class="card-title mt-2">Security</h5>
 
   <div class="form-check">
@@ -65,14 +65,14 @@
     </div>
   </div>
 </div>
-<div class="sticky-top pointer currencyFilter mb-5" style="top:58px; padding:10px; background-color:#1a1a1a !important;color:#fff">
+<div class="sticky-top pointer currencyFilter mb-5" style="top:58px; padding:10px; background-color:#1a1a1a !important;color:#fff; z-index: 2;">
 <i class="fa fa-filter" aria-hidden="true"></i> Filter Results
 
 <!--- /END Currency Filter -->
 
 </div>
-  <div class="search-bar"> 
-    <input id="searchInput" name="searchInput" type="search" placeholder="Search BlockRazor now"> 
+  <div class="search-bar">
+    <input id="searchInput" name="searchInput" type="search" placeholder="Search BlockRazor now">
     <div class="found-result">
       {{#if reactiveVar 'countReady'}}
         Found {{reactiveVar 'count'}} results;
@@ -80,7 +80,7 @@
         Loading count of results;
       {{/if}}
        Users online: {{onlineUsers}}/{{createdUsers}}
-    </div> 
+    </div>
   </div>
   <div class="currency-container">
     {{#if noFeatured}}
