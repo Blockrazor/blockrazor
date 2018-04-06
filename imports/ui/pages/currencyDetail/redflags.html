@@ -76,14 +76,11 @@
 		<div class="card card-header">
 			Red Flags
 		</div>
-		<button class="btn btn-primary m-2 showRedFlagged" style="margin-top:6px;">
-			Hide
-		</button>
 		<button class="btn btn-primary m-2 showAddNewRedflag" style="margin-top:6px;">
-			<i class="fa fa-plus" aria-hidden="true"></i> Red Flag Currency
+			<i class="fa fa-plus" aria-hidden="true"></i> Add Red Flag
 		</button>
 
-	    <div class="currencyDetailBox">
+	  <div class="currencyDetailBox">
 			<div id="showAddNewRedflag" style="display:none;margin-bottom:10px;">
 				<div class="card card-body">
 					<b>Rules:</b>
@@ -104,8 +101,9 @@
 			</div>
 	        <div class="row commentThread">
 	            {{#unless reactiveVar 'showredflagged'}} {{#each redflags}}
-	            <div class="col-lg-6">{{> redflag}}</div>{{/each}} {{/unless}} {{#if reactiveVar 'showredflagged'}} {{#each flaggedfeatures}}
-	            <div class="col-lg-6">{{> feature}}</div>{{/each}} {{/if}}
+              <div class="col-lg-6">{{> redflag}}</div>{{/each}} 
+              <button class="btn btn-outline-info m-3" id="loadMoreRedFlags">Load More</button>  
+            {{/unless}}
 	        </div>
 	    </div>
 
