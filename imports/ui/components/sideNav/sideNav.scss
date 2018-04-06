@@ -1,6 +1,7 @@
 #sidebar {
   position: fixed;
   top: 60px;
+      overflow-y: scroll;
   min-width: 250px;
   max-width: 250px;
   min-height: 100vh;
@@ -14,6 +15,9 @@
       margin-left: 250px;
     }
   }
+  .sub-menu{
+  color:#fff
+  }
   .sidebar-header {
 
     font-size: 15px;
@@ -23,12 +27,8 @@
   ul{
     li a{
       display: block;
-      padding: 15px;
+      padding: 0 0 0 15px;
       color: #1a1a1a;
-      &:hover, &.active{
-        text-decoration: none;
-        background: #ddd;
-      }
     }
   }
   @media (max-width: 768px) {
