@@ -4,6 +4,7 @@ import { Currencies } from '../../../api/indexDB.js'
 import { GraphData } from '../../../api/indexDB.js'
 import Chart from 'chart.js';
 
+import './currency-info.scss'
 import "../../components/radarGraph.js"
 import './fundamentalMetrics.html'
 
@@ -27,10 +28,10 @@ Template.fundamentalMetrics.events({
 Template.fundamentalMetrics.helpers({
   options: function (){
     return {
-      responsive: false,
+      responsive:  false,
       defaultFontColor: 'red',
       tooltips: {enabled: false},
-      maintainAspectRatio: false,
+      maintainAspectRatio: true,
       title: {display: false},
       legend: {
         display: false,
