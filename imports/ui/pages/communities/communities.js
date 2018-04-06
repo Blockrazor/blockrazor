@@ -130,42 +130,6 @@ Template.communities.helpers({
 
         return `You have ${Math.round((bounty.expiresAt - Template.instance().now.get())/1000/60)} minutes to complete the bounty for ${Number(bounty.currentReward).toFixed(2)} KZR.`;
     },
-    alreadyAdded: () => {
-        let alreadyAdded = _.uniq(_.flatten(Ratings.find({
-            $or: [{
-                owner: Meteor.userId(),
-                catagory: 'community'
-            }, {
-                owner: Meteor.userId(),
-                context: 'community'
-            }]
-        }).fetch().map(i => [i.currency0Id,i.currency1Id])))
-
-        return Currencies.find({
-            _id: {
-                $in: alreadyAdded
-            }
-        })
-    },
-    currencies: () => {
-        let alreadyAdded = _.uniq(_.flatten(Ratings.find({
-            $or: [{
-                owner: Meteor.userId(),
-                catagory: 'community'
-            }, {
-                owner: Meteor.userId(),
-                context: 'community'
-            }]
-        }).fetch().map(i => [i.currency0Id,i.currency1Id])))
-
-        return Currencies.find({
-            _id: {
-                $nin: alreadyAdded
-            },
-            currencyName: new RegExp(Template.instance().name.get(), 'ig'),
-            currencySymbol: new RegExp(Template.instance().symbol.get(), 'ig')
-        })
-    },
     questions: () => {
         return Ratings.findOne({
             $or: [{

@@ -2,22 +2,31 @@ import { Template } from 'meteor/templating';
 import './approveCommunityImage.html'
 
 Template.approveCommunityImage.events({
-  'click #reject': function(event){
-    Meteor.call('flagWalletImage', this._id);
-    console.log(this._id);
+  'click #reject': function(event) {
+    Meteor.call('flagCommunityImage', this._id, (err, data) => {
+      if (!err) {
+        sAlert.success('Rejected.')
+      } else {
+        sAlert.error(err.reason)
+      }
+    })
   },
-  'click #approve': function(event){
-    Meteor.call('approveCommunityImage', this._id);
+  'click #approve': function(event) {
+    Meteor.call('approveCommunityImage', this._id, (err, data) => {
+      if (!err) {
+        sAlert.success('Approved.')
+      } else {
+        sAlert.error(err.reason)
+      }
+    })
   }
-});
+})
 
 Template.approveCommunityImage.helpers({
   _communityUploadDirectoryPublic(){
     return _communityUploadDirectoryPublic
   },
-  display() {
-    if(_.include(this.flaglikers, Meteor.userId())) {
-      return "none";
-    } else {return "flex"}
+  display: function() {
+    return !this.approved ? 'flex' : 'none' 
   }
 })

@@ -305,7 +305,7 @@ Meteor.methods({
             })
         }
     }, 
-     uploadCommunityPicture: (fileName, binaryData, md5) => {
+    uploadCommunityPicture: (fileName, binaryData, md5) => {
         let md5validate = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(binaryData)).toString()
         if (md5validate !== md5) {
             throw new Meteor.Error('Error.', 'Failed to validate md5 hash.')
@@ -349,4 +349,71 @@ Meteor.methods({
       });
 
     },
+    flagCommunityImage: function(imageId) {
+        if (!this.userId) {
+            throw new Meteor.Error('error', 'please log in')
+        }
+
+        let community = Communities.findOne({
+            _id: imageId
+        })
+
+        if (community) {
+            let ratings = Ratings.find({
+                $and: [{
+                    $or: [{
+                        currency0Id: community.currencyId
+                    }, {
+                        currency1Id: community.currencyId
+                    }]
+                }, {
+                    $or: [{
+                        catagory: 'community'
+                    }, {
+                        context: 'community'
+                    }]
+                }, {
+                    owner: community.createdBy,
+                    processed: false
+                }]
+            }).fetch() // get all unprocessed ratings associated with this community
+
+            let reward = ratings.reduce((i1, i2) => i1 + (i2.reward || 0), 0)
+
+            removeUserCredit(reward, Meteor.userId(), 'posting an invalid community screenshot','cheating') // remove all credit user has gained from this
+
+            Ratings.remove({
+                _id: {
+                    $in: ratings.map(i => i._id)
+                }
+            }) // remove only unprocessed ratings associated with this community, as processed ones are already part of the ELO calculation and can't be removed
+
+            Meteor.call('userStrike', Meteor.userId(), 'bad-community', 's3rv3r-only', (err, data) => {}) // user earns 1 strike here
+
+            Communities.remove({
+                _id: imageId
+            }) // finally,remove the offending community so the user can add a new one in it's place
+        }
+    },
+    approveCommunityImage: function(imageId) {
+        if (!this.userId) {
+            throw new Meteor.Error('error', 'please log in')
+        }
+
+        if (Communities.findOne({_id: imageId}).createdBy === this.userId) {
+            throw new Meteor.Error('Error', 'You can\'t approve your own item.')
+        }
+
+        Communities.update({
+            _id: imageId
+        }, {
+            $set: {
+                approved: true,
+                approvedBy: this.userId
+            },
+            $inc: {
+                likes: 1
+            }
+        })
+    }
 })
