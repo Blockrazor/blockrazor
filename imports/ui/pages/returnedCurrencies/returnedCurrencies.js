@@ -2,7 +2,6 @@ import { Template } from 'meteor/templating';
 import { Currencies, UsersStats, Redflags, FormData } from '/imports/api/indexDB.js';
 
 import scrollmagic from 'scrollmagic';
-import slider from 'bootstrap-slider';
 import './returnedCurrencies.html'
 import './currency.js'
 
