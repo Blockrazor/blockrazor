@@ -141,7 +141,7 @@ Template.bounties.onCreated(function(){
     union.map((x, i)=>{
       // return this.LocalBounties.insert(x)
       //note the field projection
-      var lastCompletedBounty = Bounties.findOne({type: x._id, completed: true, currentReward: {$exists: true}}, {sort: {completedAt: -1}, fields: {currentReward: 1, completedAt: 1, currentUsername: 1}})
+      var lastCompletedBounty = Bounties.findOne({type: x._id, completed: true, currentReward: {$exists: true}}, {sort: {completedAt: -1, expiresAt: -1}, fields: {currentReward: 1, completedAt: 1, currentUsername: 1}})
       //preserves previous sort operation
       x.sort = i
       var copy = this.LocalBounties.findOne(x._id)
