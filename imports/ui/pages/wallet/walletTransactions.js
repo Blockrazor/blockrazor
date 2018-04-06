@@ -25,7 +25,7 @@ Template.walletTransactions.helpers({
 
     if (currencyType) {
       switch(currencyType.toUpperCase()) {
-        case 'ZRQ' :
+        case 'KZR' :
           query = filter ? {type: "transaction", rewardType:filter,  $or: [ {message:/KZR/i}, {message:/ZRQ/i}, {message:/ZZR/i} ]} : {type: "transaction",  $or: [ {message:/KZR/i}, {message:/ZRQ/i} ]}
           break
         case 'USD' :
@@ -49,7 +49,11 @@ Template.walletTransactions.helpers({
       fields: [
         {
           key: 'message',
-          label: 'Message'
+          label: 'Message',
+          fn: function(value, object, key) { 
+            // convert old 'ZZR' and 'ZRQ' labels to 'KZR' and return
+            return value.replace("ZZR", "KZR").replace("ZRQ", "KZR"); 
+          }
         },
                         {
           key: 'amount',
