@@ -98,26 +98,74 @@ Meteor.methods({
 	},
 
 	flagWalletImage: function(imageId) {
-		if(!this.userId){throw new Meteor.Error('error', 'please log in')};
+		if (!this.userId) {
+			throw new Meteor.Error('error', 'please log in')
+		}
 
-		WalletImages.update(imageId, {
-			$addToSet: {flaglikers: Meteor.userId()},
-			$inc: {flags: 1}
-		})
+		let wallet = WalletImages.findOne({
+            _id: imageId
+        })
 
-		Meteor.call('userStrike', Meteor.userId(), 'bad-wallet', 's3rv3r-only', (err, data) => {}) // user earns 1 strike here
+        if (wallet) {
+            let ratings = Ratings.find({
+                $and: [{
+                    $or: [{
+                        currency0Id: wallet.currencyId
+                    }, {
+                        currency1Id: wallet.currencyId
+                    }]
+                }, {
+                    $or: [{
+                        catagory: 'wallet'
+                    }, {
+                        context: 'wallet'
+                    }]
+                }, {
+                    owner: wallet.createdBy,
+                    processed: false
+                }]
+            }).fetch() // get all unprocessed ratings associated with this wallet image
+
+            let reward = ratings.reduce((i1, i2) => i1 + (i2.reward || 0), 0)
+
+            removeUserCredit(reward, Meteor.userId(), 'posting an invalid wallet screenshot','cheating') // remove all credit user has gained from this
+
+            Ratings.remove({
+                _id: {
+                    $in: ratings.map(i => i._id)
+                }
+            }) // remove only unprocessed ratings associated with this wallet image, as processed ones are already part of the ELO calculation and can't be removed
+
+            Meteor.call('userStrike', Meteor.userId(), 'bad-wallet', 's3rv3r-only', (err, data) => {}) // user earns 1 strike here
+
+            WalletImages.remove({
+                _id: imageId
+            }) // finally,remove the offending community so the user can add a new one in it's place
+        }
 	},
 
 	approveWalletImage: function(imageId) {
-		if(!this.userId){throw new Meteor.Error('error', 'please log in')};
-		if(WalletImages.findOne({_id: imageId}).createdBy == this.userId) {
-			throw new Meteor.Error('error', "You can't approve your own item.")
-		};
+		if (!this.userId) {
+			throw new Meteor.Error('error', 'please log in')
+		}
+		
+		if (WalletImages.findOne({
+			_id: imageId
+		}).createdBy === this.userId) {
+			throw new Meteor.Error('Error', 'You can\'t approve your own item.')
+		}
 
-		WalletImages.update(imageId, {
-			$set: {approved: true, approvedBy: this.userId},
-			$inc: {likes: 1}
-		});
+		WalletImages.update({
+			_id: imageId
+		}, {
+			$set: {
+				approved: true,
+				approvedBy: this.userId
+			},
+			$inc: {
+				likes: 1
+			}
+		})
 	},
 
 	deleteWalletRatings: () => {

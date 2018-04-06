@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import { UserData, Currencies, Communities, developmentValidationEnabledFalse } from '/imports/api/indexDB'
+import { UserData, Currencies, Communities, developmentValidationEnabledFalse, Ratings } from '/imports/api/indexDB'
 import SimpleSchema from 'simpl-schema'; //you must import SimpleSchema 
 
 
@@ -44,32 +44,4 @@ export const saveCommunity = new ValidatedMethod({
             throw new Meteor.Error('Error.', 'You have to be logged in.')
         }
     }
-});
-
-
-Meteor.methods({
-
-    flagCommunityImage: function(imageId) {
-        if(!this.userId){throw new Meteor.Error('error', 'please log in')};
-
-        Communities.update(imageId, {
-            $addToSet: {flaglikers: Meteor.userId()},
-            $inc: {flags: 1}
-        })
-
-        Meteor.call('userStrike', Meteor.userId(), 'bad-wallet', 's3rv3r-only', (err, data) => {}) // user earns 1 strike here
-    },
-
-    approveCommunityImage: function(imageId) {
-        if(!this.userId){throw new Meteor.Error('error', 'please log in')};
-        if(Communities.findOne({_id: imageId}).createdBy == this.userId) {
-            throw new Meteor.Error('error', "You can't approve your own item.")
-        };
-
-        Communities.update(imageId, {
-            $set: {approved: true, approvedBy: this.userId},
-            $inc: {likes: 1}
-        });
-    }
-
-});
+})

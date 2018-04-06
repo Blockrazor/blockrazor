@@ -1,4 +1,4 @@
-import { EloRankings, Ratings, RatingsTemplates, Currencies, GraphData, Communities, Bounties } from '/imports/api/indexDB.js';
+import { EloRankings, Ratings, RatingsTemplates, Currencies, GraphData, Communities, Bounties, WalletImages } from '/imports/api/indexDB.js';
 import { log } from '../main'
 
 SyncedCron.add({
@@ -231,6 +231,30 @@ Meteor.methods({
 
         if (bounty) {
             return i.answeredAt > bounty.createdAt && i.answeredAt < bounty.expiresAt // question was answered in this time period 
+        }
+
+        if (i.catagory === 'community' || i.context === 'community') {
+            let community = Communities.find({
+                $or: [{
+                    currencyId: i.currency0Id
+                }, {
+                    currencyId: i.currency1Id
+                }]
+            }).fetch()
+
+            return !community.length || community.every(i => !!i.approved) // don't process communities that haven't been approved already
+        }
+
+        if (i.catagory === 'wallet' || i.context === 'wallet') {
+            let wallet = WalletImages.find({
+                $or: [{
+                    currencyId: i.currency0Id
+                }, {
+                    currencyId: i.currency1Id
+                }]
+            }).fetch()
+
+            return !wallet.length || wallet.every(i => !!i.approved) // don't process wallets that haven't approved
         }
 
         return true
