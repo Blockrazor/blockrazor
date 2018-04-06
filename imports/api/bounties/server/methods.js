@@ -90,6 +90,7 @@ Meteor.methods({
     }, {
       $set: {
         completed: true,
+        completedAt: Date.now(),
         id: id
       }
     })
