@@ -1,4 +1,5 @@
 import { Template } from 'meteor/templating';
+import {FlowRouter} from 'meteor/staringatlights:flow-router';
 import { Wallet, UserData } from '/imports/api/indexDB.js';
 
 import '/imports/ui/components/notLoggedIn.html'
@@ -6,15 +7,23 @@ import './walletTransactions.html'
 import './wallet.scss'
 
 Template.walletTransactions.onCreated(function bodyOnCreated() {
-  
+	var currency = FlowRouter.getParam('currency');
+
     this.rewardType = new ReactiveVar()
     this.currencyType = FlowRouter.current().params.currency
-  
+
     var self = this
     self.autorun(function() {
       SubsCache.subscribe('wallet');
       SubsCache.subscribe('users');
     })
+
+	// mark notifications for selected currency as read
+	Meteor.call('markAsRead', currency, (error, result) => {
+		if (error) {
+			console.error(error)
+		}
+	});
 });
 
 Template.walletTransactions.helpers({
@@ -50,9 +59,9 @@ Template.walletTransactions.helpers({
         {
           key: 'message',
           label: 'Message',
-          fn: function(value, object, key) { 
+          fn: function(value, object, key) {
             // convert old 'ZZR' and 'ZRQ' labels to 'KZR' and return
-            return value.replace("ZZR", "KZR").replace("ZRQ", "KZR"); 
+            return value.replace("ZZR", "KZR").replace("ZRQ", "KZR");
           }
         },
                         {
