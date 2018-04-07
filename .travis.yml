@@ -2,6 +2,9 @@ sudo: required
  
 language: node_js
 
+addons:
+  chrome: stable
+
 node_js: 
   - '8'
  
@@ -11,6 +14,9 @@ before_install:
   - export LC_ALL=C
   - curl https://install.meteor.com | /bin/sh
   - export PATH="$HOME/.meteor:$PATH"
+  - npm install selenium-standalone@latest -g
+  - selenium-standalone install
+  - selenium-standalone start &
  
 cache:
   directories:
@@ -19,6 +25,10 @@ cache:
  
 before_script:
   - meteor npm install
+  - meteor npm install --unsafe wdio-mocha-framework webdriverio assert
+  - meteor --production &
+  - sleep 300 # wait for Meteor to start, it takes some time, 5 minutes should be sufficient
  
 script:
-  - meteor test --driver-package=meteortesting:mocha --once 
+  - ./node_modules/.bin/wdio wdio.conf.js
+  - meteor test --driver-package=meteortesting:mocha --once --port 5000
