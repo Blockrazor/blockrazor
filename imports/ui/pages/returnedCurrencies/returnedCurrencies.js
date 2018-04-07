@@ -2,7 +2,11 @@ import { Template } from 'meteor/templating';
 import { Currencies, UsersStats, Redflags, FormData } from '/imports/api/indexDB.js';
 
 import scrollmagic from 'scrollmagic';
+import Slider from 'bootstrap-slider';
+import 'bootstrap-slider/dist/css/bootstrap-slider.min.css';
+
 import './returnedCurrencies.html'
+import './returnedCurrencies.scss'
 import './currency.js'
 
 import { quality } from '/imports/api/utilities'
@@ -98,6 +102,22 @@ Template.returnedCurrencies.onRendered( function () {
           })
           
 //Meteor.call('updateMarketCap');
+  
+  // date slider
+  var sliderDateStart = 1233619200000;
+  var sliderDateEnd = Date.now();
+  var formatter = (index) => {
+    if (index.length = 2)
+      return new Date(index[0]).toLocaleString([], {day:'numeric',month:'short',year:'numeric'})+' - '+new Date(index[1]).toLocaleString([], {day:'numeric',month:'short',year:'numeric'})
+  }
+  this.dateSlider = new Slider('.date-slider', {
+    min: sliderDateStart,
+    max: sliderDateEnd,
+    step: 86400,              // step : 1 day
+    value: [sliderDateStart,sliderDateEnd],
+    formatter
+  });
+
 });
 
 Template.returnedCurrencies.helpers({
@@ -156,24 +176,18 @@ Template.returnedCurrencies.helpers({
 });
 
 Template.returnedCurrencies.events({
-    'change #fromDate': function(event) {
+    'click .apply-filter-button': function(event, template) {
+      // apply date range
+      var rangeValues = template.dateSlider.getValue();
+      template.fromFilter.set(rangeValues[0]);
+      template.toFilter.set(rangeValues[1]);
 
-      let fromDate = $(event.currentTarget).val();
-      Template.instance().fromFilter.set(fromDate);
-
-    },
-    'change #toDate': function(event) {
-
-        let toDate = $(event.currentTarget).val();
-        Template.instance().toFilter.set(toDate);
-    },
-    'click input[type=checkbox]': function(ev, tpl) {
-        var setSecurityTypes = tpl.$('input:checked').map(function() {
-            return $(this).val();
-        });
-
-        var test = $.makeArray(setSecurityTypes);
-        Template.instance().securityTypes.set(test);
+      // apply security constraints
+      var setSecurityTypes = template.$('input:checked').map(function() {
+        return $(this).val();
+      });
+      var test = $.makeArray(setSecurityTypes);
+      template.securityTypes.set(test);
     },
     'click .currencyFilter': function(event) {
         $('.currencyFilterModal').modal('show');
