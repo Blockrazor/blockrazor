@@ -63,7 +63,7 @@ Template.typeahead.onCreated(function () {
   this.data.focus = this.data.focus === undefined? false: this.data.focus
   this.data.autoFocus = this.data.autoFocus === undefined? false: this.data.autoFocus
   this.data.quickEnter = this.data.quickEnter === undefined? true: this.data.quickEnter
-  this.data.noneFound = this.data.noneFound === undefined? false: this.data.noneFound
+  this.data.noneFound = this.data.noneFound === undefined? function(templ, eleId){ return 'no result found' } : this.data.noneFound
 
   var props = this.data
   var templ = props.template
@@ -92,7 +92,6 @@ Template.typeahead.onCreated(function () {
       children.map(el => frag.appendChild(el))
       return frag
     }
-    console.log(createElement(this.data.noneFound()))
 
 		var option1 = {
 			hint: true,
