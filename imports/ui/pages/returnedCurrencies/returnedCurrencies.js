@@ -60,12 +60,8 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
           }]
       }
 
-      if (fromFilter != "") {
-          query["genesisTimestamp"] = { $gt: new Date(fromFilter).getTime() }
-      }
-
-      if (toFilter != "") {
-          query["genesisTimestamp"] = { $lt: new Date(toFilter).getTime() }
+      if (fromFilter != "" && toFilter != "") {
+          query["genesisTimestamp"] = { $gt: fromFilter, $lt: toFilter }
       }
       this.filter.set(query)
   })
