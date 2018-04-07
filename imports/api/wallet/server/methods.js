@@ -148,7 +148,7 @@ Meteor.methods({
 		if (!this.userId) {
 			throw new Meteor.Error('error', 'please log in')
 		}
-		
+
 		if (WalletImages.findOne({
 			_id: imageId
 		}).createdBy === this.userId) {
@@ -226,11 +226,12 @@ Meteor.methods({
         }).fetch()[0]
     },
 
-    markAsRead: function() {
+    markAsRead: function(currency) {
 		if (!Meteor.userId()) { throw new Meteor.Error('error', 'please log in') };
 
 		Wallet.update({
 			owner: Meteor.userId(),
+			currency: currency.toUpperCase()
 	  	}, {
 			$set: {
 				read: true

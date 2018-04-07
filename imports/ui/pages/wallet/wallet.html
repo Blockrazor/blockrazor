@@ -22,9 +22,14 @@
         <div class="card-content card-kzr" data-value="kzr">
           <div class="card-main">
             <div class="card-logo"></div>
-            <h4><b>Krazor</b></h4>
+            <h4>
+				<b>Krazor</b>
+				{{#if currencyNotifications currency}}
+					<span class="badge badge-success">{{currencyNotifications currency}}</span>
+				{{/if}}
+			</h4>
             <p class="see-transactions-label">click to see transactions</p>
-            <p class="balance">Total Balance: <br/><b>{{balance}}</b></p> 
+            <p class="balance">Total Balance: <br/><b>{{balance}}</b></p>
           </div>
         </div>
       </div>
@@ -32,9 +37,14 @@
         <div class="card-content card-usd" data-value="usd">
           <div class="card-main">
             <div class="card-logo"></div>
-            <h4><b>US Dollar</b></h4>
+            <h4>
+				<b>US Dollar </b>
+				{{#if currencyNotifications "USD"}}
+					<span class="badge badge-success">{{currencyNotifications "USD"}}</span>
+				{{/if}}
+			</h4>
             <p class="see-transactions-label">click to see transactions</p>
-            <p class="balance">Total Balance: <br/><b>{{otherBalance "USD"}}</b></p> 
+            <p class="balance">Total Balance: <br/><b>{{otherBalance "USD"}}</b></p>
           </div>
         </div>
       </div>
@@ -42,9 +52,14 @@
         <div class="card-content card-eth" data-value="eth">
           <div class="card-main">
             <div class="card-logo"></div>
-            <h4><b>Ethereum</b></h4>
+            <h4>
+				<b>Ethereum</b>
+				{{#if currencyNotifications "ETH"}}
+					<span class="badge badge-success">{{currencyNotifications "ETH"}}</span>
+				{{/if}}
+			</h4>
             <p class="see-transactions-label">click to see transactions</p>
-            <p class="balance">Total Balance: <br/><b>{{otherBalance "ETH"}}</b></p>   
+            <p class="balance">Total Balance: <br/><b>{{otherBalance "ETH"}}</b></p>
           </div>
         </div>
       </div>
@@ -52,13 +67,17 @@
         <div class="card-content card-xmr" data-value="xmr">
           <div class="card-main">
             <div class="card-logo"></div>
-            <h4><b>Monero</b></h4>
+            <h4>
+				<b>Monero</b>
+				{{#if currencyNotifications "XMR"}}
+					<span class="badge badge-success">{{currencyNotifications "XMR"}}</span>
+				{{/if}}
+			</h4>
             <p class="see-transactions-label">click to see transactions</p>
-            <p class="balance">Total Balance: <br/><b>{{otherBalance "XMR"}}</b></p> 
+            <p class="balance">Total Balance: <br/><b>{{otherBalance "XMR"}}</b></p>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-
