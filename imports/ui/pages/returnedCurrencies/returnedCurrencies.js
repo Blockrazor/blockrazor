@@ -61,7 +61,7 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
       }
 
       if (fromFilter != "" && toFilter != "") {
-          query["genesisTimestamp"] = { $gt: fromFilter, $lt: toFilter }
+        query["genesisTimestamp"] = { $gte: fromFilter, $lte: toFilter }
       }
       this.filter.set(query)
   })
