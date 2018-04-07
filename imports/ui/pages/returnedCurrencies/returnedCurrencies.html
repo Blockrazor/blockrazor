@@ -2,9 +2,8 @@
 <div class="row">
     <div class="col-3 mx-auto">
         <div class="nauk-info-connections text-center">
-              <img src="https://user-images.githubusercontent.com/8143945/37496855-eec0cd58-28ef-11e8-9de3-b0df665daa67.png" style="width:200px" data-toggle="modal" data-target=".underDev" class="pointer"><br />
-
-<br />
+            <img src="https://user-images.githubusercontent.com/8143945/37496855-eec0cd58-28ef-11e8-9de3-b0df665daa67.png" style="width:200px" data-toggle="modal" data-target=".underDev" class="pointer">
+            <br/><br/>
         </div>
     </div>
 </div>
@@ -14,7 +13,7 @@
     <div class="modal-content">
       <div class="modal-body">
         <p>"Blockrazor is under active development. The site goes down often. Things break at least once a day. Bounty rewards and wallets are reset often. <br /><br />Follow @Blockrazor on Twitter to be notified when we go 'live' and you can earn real Krazor. Check out the code on Github."</p>
-     <a href="https://github.com/Blockrazor/blockrazor/"><i class="fa fa-github" aria-hidden="true" style="font-size:32px;padding:10px"></i></a> <a href="https://twitter.com/blockrazor"><i class="fa fa-twitter" aria-hidden="true" style="font-size:32px;padding:10px"></i></a>
+        <a href="https://github.com/Blockrazor/blockrazor/"><i class="fa fa-github" aria-hidden="true" style="font-size:32px;padding:10px"></i></a> <a href="https://twitter.com/blockrazor"><i class="fa fa-twitter" aria-hidden="true" style="font-size:32px;padding:10px"></i></a>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -27,40 +26,28 @@
 <div class="modal currencyFilterModal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-            <div class="modal-header">
+      <div class="modal-header">
         <h5 class="modal-title">Filter your results</h5>
       </div>
       <div class="modal-body">
-        <h5 class="card-title">Genisis Date</h5>
-          <div class="row">
-    <div class="col">
-      <lable for="fromDate" class="control-label">From Date</lable>
-      <input type="date" class="form-control" placeholder="From" id="fromDate">
-    </div>
-    <div class="col">
-      <br />
-      <lable for="toDate" class="control-label">To Date</lable>
-      <input type="date" class="form-control" placeholder="To" id="toDate">
-    </div>
-  </div>
-
-       <h5 class="card-title mt-2">Security</h5>
-
-  <div class="form-check">
-    <input type="checkbox" class="form-check-input" id="pow" value="Proof of Work" checked>
-    <label class="form-check-label" for="pow">Proof of Work</label>
-<br />
-        <input type="checkbox" class="form-check-input" id="pos" value="Proof of Stake" checked>
-    <label class="form-check-label" for="pos" id="pos">Proof of Stake</label>
-    <br />
-            <input type="checkbox" class="form-check-input" id="hybrid" value="Hybrid" checked>
-    <label class="form-check-label" for="pos" id="hybrid" >Hybrid</label>
-  </div>
-
-
+        <h5 class="card-title">Genisis Date Range</h5>
+        <div class="row date-slider-container">
+          <input type="text" class="date-slider span2"/>
+        </div>
+        <h5 class="card-title mt-2">Security</h5>
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="pow" value="Proof of Work" checked>
+          <label class="form-check-label" for="pow">Proof of Work</label>
+          <br/>
+          <input type="checkbox" class="form-check-input" id="pos" value="Proof of Stake" checked>
+          <label class="form-check-label" for="pos" id="pos">Proof of Stake</label>
+          <br/>
+          <input type="checkbox" class="form-check-input" id="hybrid" value="Hybrid" checked>
+          <label class="form-check-label" for="pos" id="hybrid" >Hybrid</label>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Apply Filter</button>
+        <button type="button" class="btn btn-secondary apply-filter-button" data-dismiss="modal">Apply Filter</button>
       </div>
     </div>
   </div>

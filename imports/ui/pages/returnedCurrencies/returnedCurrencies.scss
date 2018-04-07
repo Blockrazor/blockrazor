@@ -1,0 +1,29 @@
+
+.slider.slider-horizontal:hover, .slider.slider-vertical:hover {
+  .tooltip.tooltip-main { 
+    opacity: 1 !important; 
+  } 
+}
+
+.slider.slider-horizontal{
+  width:100%;
+}
+
+.currencyFilterModal{
+
+  .date-slider-container{
+    padding: 5px 20px 15px 20px;
+    .date-slider {
+      display: inline-block;
+    }
+  }
+
+  .apply-filter-button {
+    background-color: #eeeeee;
+  }
+
+  .apply-filter-button:hover {
+    background-color: #dddddd;
+  }
+
+}
