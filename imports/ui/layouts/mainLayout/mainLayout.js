@@ -1,10 +1,22 @@
 import { Template } from 'meteor/templating';
-import { UserData } from '/imports/api/indexDB.js';
+import { UserData, developmentValidationEnabledFalse } from '/imports/api/indexDB.js';
 import './mainLayout.html'
 import './mainLayout.scss'
 
+import swal from 'sweetalert';
+import Cookies from 'js-cookie';
+
 import '../../components/topNav/topNav'
 import '../../components/sideNav/sideNav'
+
+// swal({
+//   icon: "error",
+//    title: "Please fix the following fields",
+//   text: error.error.map(i => i.split(/(?=[A-Z])/).join(' ').toLowerCase()).join(', '),
+//   button: { className: 'btn btn-primary' }
+// });
+
+// Cookies.set('don't, false, { expires: 1 })
 
 
 //writes to DB preferences on change and window close/log out
@@ -45,14 +57,26 @@ Template.mainLayout.events({
         saveSidebarPreference()
       } 
     } 
-  }
-});
+  },
+  "click #hideDevelopmentNotification": (eve, templ)=>{
+    return Cookies.set('underDevelopmentShown', true, 5)
+  },
+})
 
 Template.mainLayout.helpers({
   openSidebar() {
     return Session.get('openedSidebar') ? "active" : "";
-  }
+  },
 });
+
+Template.mainLayout.onRendered(function(){
+  //used to toggle under development toggle
+      if (!developmentValidationEnabledFalse) {
+        return 
+      } else if (!Cookies.get('underDevelopmentShown')){
+        $('.underDev').modal('show');
+      }
+})
 
 Template.mainLayout.onCreated(function () {
   //is used to close sidebar on click outside sidebar
