@@ -173,6 +173,7 @@ export const callWithPromise = function() { // we have to transform meteor.call 
 
 /*
 tries to receive benefits of fast-render and yet using nonreactive data from method once ready using local collection
+to optimize for instances where query is changed on with every keypress
 @@params
   Name: name of collection in DB,
   methodName: method to fill in local collection with
