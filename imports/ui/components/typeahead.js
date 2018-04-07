@@ -92,7 +92,6 @@ Template.typeahead.onCreated(function () {
       children.map(el => frag.appendChild(el))
       return frag
     }
-    console.log(createElement(this.data.noneFound()))
 
 		var option1 = {
 			hint: true,
@@ -105,7 +104,7 @@ Template.typeahead.onCreated(function () {
 			limit: props.limit,
       source: currySearch(templ, this),
       templates: {
-        empty: this.data.noneFound(templ, this.data.id),
+        empty: 'no result found'
       }
 		}
 	
