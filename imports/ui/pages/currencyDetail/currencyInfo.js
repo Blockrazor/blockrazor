@@ -417,10 +417,10 @@ Template.currencyInfo.helpers({
       add: function(event, data, templ){
         Meteor.call("appendExchange", data._id, templ.currency._id)
       },
-      noneFound: function(templ, eleId){
+      noneFound: function(templ, valF){
         function add (e){
           console.log("adding")
-          Meteor.call("addExchange", $("#"+eleId).typeahead('val'))
+          Meteor.call("addExchange", valF())
         }
         console.log("render")
         return `<span onclick=${add}>create this exchange</span>`
