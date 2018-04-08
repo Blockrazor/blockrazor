@@ -16,3 +16,8 @@
 .top-nav .s-alert-box{
   z-index: 5000 !important;
 }
+.app-content.active{
+  margin-right: 0;
+  margin-left: 250px;
+  max-width: 100%;
+}
