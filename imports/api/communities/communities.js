@@ -12,6 +12,7 @@ Communities.schema = new SimpleSchema({
   url: { type: Domain },
   currencyId: { type: Id },
   currencyName: { type: String },
+  image: { type: String },
   createdAt: { type: Number },
   createdBy: { type: Id },
 }, { requiredByDefault: developmentValidationEnabledFalse });
