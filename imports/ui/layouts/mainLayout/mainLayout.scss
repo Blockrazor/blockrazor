@@ -11,6 +11,8 @@
   transition: all 0.2s ease;
   min-height: 100vh;
   max-height: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .top-nav .s-alert-box{
@@ -20,4 +22,8 @@
   margin-right: 0;
   margin-left: 250px;
   max-width: 100%;
+}
+
+#sidebar {
+  overflow: hidden;
 }

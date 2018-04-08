@@ -1,18 +1,18 @@
 #sidebar {
   position: fixed;
   top: 60px;
-      overflow-y: scroll;
-  min-width: 250px;
-  max-width: 250px;
+  overflow-y: hidden;
+  min-width: 225px;
+  max-width: 225px;
   min-height: 100vh;
-  margin-left: -250px;
+  margin-left: -225px;
   background: #ddd;
   transition: all 0.2s ease;
   z-index: 9;
   &.active {
     margin-left: 0;
     + .app-content{
-      margin-left: 375px;
+      margin-left: 225px;
     }
   }
   .sub-menu{
@@ -34,9 +34,11 @@
   @media (max-width: 768px) {
     &.active {
       margin-left: 0;
+      box-shadow: 0 10px 25px 0 rgba(46, 61, 73, 0.5);
       + .app-content{
         position: relative;
-        margin-left: 0;
+        margin-left: auto;
+        margin-right: auto;
         &:after{
           position: absolute;
           content: '';
@@ -44,10 +46,130 @@
           left: 0;
           height: 100%;
           width: 100%;
-          background: rgba(0, 0, 0, 0.6);
 
         }
       }
     }
   }
 }
+
+
+/** following styles added after sidebar submenu concept implemented **/
+.nav-side-menu-container {
+  overflow-y: scroll;
+  max-height: calc(100vh - 60px);
+  position: absolute;
+  left: 0;
+  right: -25px;
+
+  #sidebar-close-arrow:before {
+    font-family: FontAwesome;
+    content: "\f00d";
+    display: inline-block;
+    padding-left: 10px;
+    padding-right: 25px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    color: #999;
+    vertical-align: middle;
+    float: right;
+  }
+
+  .sign-in-button {
+    margin-bottom: 15px;
+  }
+}
+
+.nav-side-menu {
+  font-family: verdana;
+  font-size: 12px;
+  font-weight: 200;
+  background-color: #ddd;
+  width: 225px;
+  height: 100%;
+  color: #e1ffff;
+  position: relative;
+  width: 100%;
+  margin-bottom: 10px;
+
+  .brand {
+    background-color: #23282e;
+    line-height: 50px;
+    display: block;
+    text-align: center;
+    font-size: 14px;
+  }
+  .toggle-btn {
+    display: none;
+  }
+
+  .sub-item{
+    margin-left:15px !important;
+    padding-left:15px !important;
+    color:#fff !important;
+  }
+
+  li {
+    padding-left: 0px;
+    a {
+      text-decoration: none;
+      color: #e1ffff;
+      i {
+        padding-left: 10px;
+        width: 20px;
+        padding-right: 20px;
+        color:#fff;
+      }
+    }
+  }
+
+  .menu-list .menu-content {
+    display: block;
+  }
+
+  ul, li {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    line-height: 35px;
+    cursor: pointer;
+    
+    .sub-menu {
+      li {
+        background-color: #343a40;
+        border: none;
+        line-height: 28px;
+        margin-left: 0px;
+      }
+      li:before {
+        margin-left:20px;
+        display: inline-block;
+        padding-left: 10px;
+        padding-right: 10px;
+        vertical-align: middle;
+      }
+      a {
+        padding-left:50px;
+      }
+      li.active, li.active a {
+        color: #000;
+      }
+    }
+  }
+  ul.active,
+  li.active {
+    border-left: 3px solid #d19b3d;
+    background-color: #4f5b69;
+  }
+  ul :not(collapsed) .arrow:before,
+  li :not(collapsed) .arrow:before {
+    font-family: FontAwesome;
+    content: "\f078";
+    display: inline-block;
+    padding-left: 10px;
+    padding-right: 45px;
+    vertical-align: middle;
+    float: right;
+  }
+}
+ 
