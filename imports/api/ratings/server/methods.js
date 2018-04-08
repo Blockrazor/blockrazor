@@ -33,8 +33,10 @@ Meteor.methods({
 						}) || {} // get the rating on same currency pair
 
 						let bo = true
-						if ((!q.negative && question.negative) || (q.negative && !question.negative)) { // XOR
-							bo = false
+						if (q !== undefined) {
+							if ((!q.negative && question.negative) || (q.negative && !question.negative)) { // XOR
+								bo = false
+							}
 						}
 
 						if (r.answered) {
