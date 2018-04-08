@@ -4,7 +4,8 @@
   "version": "0.0.1",
   "scripts": {
     "start": "meteor run",
-    "debug": "meteor run --inspect"
+    "debug": "meteor run --inspect",
+    "lint": "./node_modules/.bin/eslint . --fix"
   },
   "dependencies": {
     "babel-runtime": "^6.26.0",
@@ -30,5 +31,13 @@
     "sweetalert": "^2.1.0",
     "underscore": "^1.8.3",
     "xml2js": "^0.4.19"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.10.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.0.1"
   }
 }
