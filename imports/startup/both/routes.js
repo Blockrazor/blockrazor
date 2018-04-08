@@ -49,6 +49,7 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   import '../../ui/pages/allHashaverage/allHashaverage'
   import '../../ui/pages/addHashpower/addHashpower.js'
   import '../../ui/pages/suspended/suspended'
+  import '../../ui/pages/faq/faq.html'
 
 
   //moderator pages
@@ -108,6 +109,15 @@ FlowRouter.route('/profile/:slug', {
   action: function (params, queryParams) {
     BlazeLayout.render('mainLayout', {
       main: 'userProfile'
+    })
+  }
+})
+FlowRouter.route('/faq', {
+  name: 'faq',
+    action: (params, queryParams) => {
+    BlazeLayout.render('mainLayout', {
+      main: 'faq',
+      //left: 'sideNav'
     })
   }
 })
