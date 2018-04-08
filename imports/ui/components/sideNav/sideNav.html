@@ -17,30 +17,29 @@
                 <li>
                     <a href="/compareCurrencies">Compare currencies</a>
                 </li>
-                {{#if isModerator}}
-
                 <li><a href="/addcoin">Add New Coin or ICO</a></li>
-                <li> <a href="/bounties">Bounties
-        {{#if hasBounties activeBounties }}
-          <span class="badge badge-danger">{{ activeBounties.length }}</span>
-        {{/if}}
-      </a></li>
+                <li><a href="/bounties">Bounties
+                  {{#if hasBounties activeBounties }}
+                    <span class="badge badge-danger">{{ activeBounties.length }}</span>
+                  {{/if}}
+                </a></li>
                 <li><a href="/problems">Problems</a></li>
                 <li><a href="/auctions">Trading</a></li>
                 {{#if currentUser}}
                 <li><a href="/mypending">My Pending Items</a></li>
-                <li> <a href="/notifications">Notifications
-            {{#if activityNotifications}}<span class="badge badge-success">{{activityNotifications}}</span>{{/if}}
-          </a></li>
-                <li> <a href="/wallet">My Wallet
-            {{#if walletNotifications}}<span class="badge badge-success">{{walletNotifications}}</span>{{/if}}
-          </a></li>
+                <li><a href="/notifications">Notifications
+                  {{#if activityNotifications}}<span class="badge badge-success">{{activityNotifications}}</span>{{/if}}
+                </a></li>
+                <li><a href="/wallet">My Wallet
+                  {{#if walletNotifications}}<span class="badge badge-success">{{walletNotifications}}</span>{{/if}}
+                </a></li>
                 {{/if}}
-                                <li data-toggle="collapse" data-target="#service" class="collapsed">
+                {{#if isModerator}}
+                <li data-toggle="collapse" data-target="#service" class="collapsed">
                     <a href="#">Moderator Dashboard <span class="arrow"></span></a>
                 </li>
                 <ul class="sub-menu collapse" id="service">
-                     <li><a class="sub-item" href="/moderator/">Approvals</a></li>
+                    <li><a class="sub-item" href="/moderator/">Approvals</a></li>
                     <li><a class="sub-item" href="/moderator/flagged-users">Flagged Users</a></li>
                     <li><a class="sub-item" href="/moderator/flagged-hashpower">Flagged Hashpower</a></li>
                     <li><a class="sub-item" href="/moderator/questions">Manage Rating Questions</a></li>

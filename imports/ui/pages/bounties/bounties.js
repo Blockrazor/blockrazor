@@ -3,7 +3,12 @@ import { Bounties, REWARDCOEFFICIENT, Problems, Currencies } from '/imports/api/
 import Cookies from 'js-cookie';
 
 export function calculateReward (now) { //used in bountyRender too
-  return (this.credit ? this.credit.reduce((i1, i2) => i1 + i2.bounty, 0) : (((now - this.creationTime) / REWARDCOEFFICIENT) * (this.multiplier || 1))).toFixed(6)
+    let add = 0
+    if (this._id === 'new-currency') {
+        add = 1
+    }
+
+    return (this.credit ? this.credit.reduce((i1, i2) => i1 + i2.bounty, 0) : (((now - this.creationTime) / REWARDCOEFFICIENT) * (this.multiplier || 1) + add)).toFixed(6)
 }
 
 import './bounties.html'

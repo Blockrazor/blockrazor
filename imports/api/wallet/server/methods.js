@@ -229,21 +229,28 @@ Meteor.methods({
     markAsRead: function(currency) {
 		if (!Meteor.userId()) { throw new Meteor.Error('error', 'please log in') };
 
-		Wallet.update({
-			owner: Meteor.userId(),
-			currency: currency.toUpperCase()
-	  	}, {
-			$set: {
-				read: true
+		var filterOptions = {};
+
+		if (currency === 'kzr') {
+			filterOptions = {
+				owner: Meteor.userId,
+				currency: { $exists: false }
 			}
-		}, {
-			multi: true
-		}, function(error) {
-			if (error) {
-				log.error('Error in markNotificationsAsRead', error)
-				throw new Meteor.Error(500, error.message);
+		} else {
+			filterOptions = {
+				owner: Meteor.userId,
+				currency: currency.toUpperCase()
 			}
-		});
+		}
+
+		Wallet.update(filterOptions, {$set: { read: true }}, { multi: true },
+			function(error) {
+				if (error) {
+					log.error('Error in markNotificationsAsRead', error)
+					throw new Meteor.Error(500, error.message);
+				}
+			}
+		);
 	},
 
 	transactionCount: () => {
