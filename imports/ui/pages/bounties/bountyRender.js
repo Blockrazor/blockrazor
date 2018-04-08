@@ -31,20 +31,11 @@ const canContinue = (id) => {
 }
 
 Template.bountyRender.helpers({
-  bountyReset: (id) => {
-	  return Bounties.findOne({
-		  type: id,
-		  completed: true,
-		  currentReward: {$exists: true}
-	  }, {
-		  sort: {completedAt: -1, expiresAt: -1}
-	  });
+  bountyReset: function() {
+	  return this.previousReward && this.previousCompletedAt > (new Date().getTime() - 7200000) // show the sign for 2 hours
   },
-  bountyResetText: (bounty) => {
-	  var text = bounty.currentUsername +
-	  " has claimed this bounty for " + bounty.currentReward + 
-	  " KZR and the bounty reward has been reset.";
-	  return text;
+  bountyResetText: function() {
+    return `${this.currentUsername} has claimed this bounty for ${this.previousReward} KZR and the bounty reward has been reset.`
   },
   types: function () {
     return this.types || BountyTypes.findOne();

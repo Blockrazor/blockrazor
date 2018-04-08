@@ -82,7 +82,40 @@ Meteor.methods({
       }
     }
   },
+  saveLastData: (bountyId, date) => {
+    let b = Bounties.findOne({
+      _id: bountyId
+    })
+
+    if (b && ~['new-currency', 'new-hashpower', 'new-codebase', 'new-community', 'new-wallet'].indexOf(b.type)) {
+      let user = Meteor.users.findOne({
+        _id: b.userId
+      }) || {}
+
+      Bounties.update({
+        _id: b.type
+      }, {
+        $set: {
+          previousReward: b.currentReward,
+          previousCompletedAt: date,
+          currentUsername: user.username || ''
+        }
+      })
+    }
+  },
   completeNewBounty: (type, id) => {
+    let b = Bounties.findOne({
+      type: type,
+      userId: Meteor.userId(),
+      completed: false
+    }, {
+      sort: {
+        expiresAt: -1
+      }
+    })
+
+    let date = Date.now()
+
     Bounties.update({
       type: type,
       userId: Meteor.userId(),
@@ -90,10 +123,12 @@ Meteor.methods({
     }, {
       $set: {
         completed: true,
-        completedAt: Date.now(),
+        completedAt: date,
         id: id
       }
     })
+
+    Meteor.call('saveLastData', b._id, date, (err, data) => {})
   },
   deleteNewBounty: (id, token) => {
     if (token === 's3rver-only')

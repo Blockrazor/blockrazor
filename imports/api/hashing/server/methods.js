@@ -543,6 +543,7 @@ Meteor.methods({
           		return ((Date.now() - lastHashPower.createdAt) / REWARDCOEFFICIENT) * 0.9
         	} else {
           		console.log('actual bounty')
+          		Meteor.call('saveLastData', bounty._id, new Date().getTime(), (err, data) => {})
           		return Number(bounty.currentReward)
         	}
       	} else {

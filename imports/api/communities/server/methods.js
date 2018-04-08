@@ -108,6 +108,7 @@ Meteor.methods({
                 return (((Date.now() - lastCommunityAnswer.answeredAt) / REWARDCOEFFICIENT) * 0.3) / (rCount || 1)
             } else {
                 console.log('actual bounty')
+                Meteor.call('saveLastData', bounty._id, new Date().getTime(), (err, data) => {})
                 return Number(bounty.currentReward) / (rCount || 1)
             }
         } else {
