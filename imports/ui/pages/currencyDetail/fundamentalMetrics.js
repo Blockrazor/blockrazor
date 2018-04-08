@@ -31,7 +31,7 @@ Template.fundamentalMetrics.helpers({
       responsive:  false,
       defaultFontColor: 'red',
       tooltips: {enabled: false},
-      maintainAspectRatio: true,
+      maintainAspectRatio: false,
       title: {display: false},
       legend: {
         display: false,
@@ -42,7 +42,6 @@ Template.fundamentalMetrics.helpers({
         }
       },
       scale: {
-        pointLabels: {fontSize: 14},
       // Hides the scale
       display: true
     }
