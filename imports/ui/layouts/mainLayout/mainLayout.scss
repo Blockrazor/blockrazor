@@ -11,8 +11,14 @@
   transition: all 0.2s ease;
   min-height: 100vh;
   max-height: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .top-nav .s-alert-box{
   z-index: 5000 !important;
+}
+
+#sidebar {
+  overflow: hidden;
 }
