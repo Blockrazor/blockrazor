@@ -2,23 +2,46 @@ import { Template } from 'meteor/templating';
 import './approveWalletImage.html'
 
 Template.approveWalletImage.events({
-  'click #reject': function(event) {
-    Meteor.call('flagWalletImage', this._id, (err, data) => {
-      if (!err) {
-        sAlert.success('Rejected.')
-      } else {
-        sAlert.error(err.reason)
-      }
-    })
+'click .image': function(event) {
+
+        //open modal
+        $('.imageModal').modal('show');
+
+        //get large image filename
+        let largeImage = event.target.src.replace('_thumbnail', '');
+        $(".imageModalSrc").attr("src", largeImage);
+
+    },
+  'click #reject': function(event){
+    Meteor.call('', this._id);
+
+       swal({
+  title: "Are you sure?",
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+})
+.then((willDelete) => {
+  if (willDelete) {
+    Meteor.call('flagWalletImage', this._id);
+
+  }
+});
   },
-  'click #approve': function(event) {
-    Meteor.call('approveWalletImage', this._id, (err, data) => {
-      if (!err) {
-        sAlert.success('Approved.')
-      } else {
-        sAlert.error(err.reason)
-      }
-    })
+  'click #approve': function(event){
+    swal({
+  title: "Are you sure?",
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+})
+.then((willDelete) => {
+  if (willDelete) {
+    Meteor.call('approveWalletImage', this._id);
+
+  }
+});
+
   }
 })
 
