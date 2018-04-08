@@ -1,7 +1,9 @@
 <template name="sideNav">
+  <div class="nav-side-menu-container">  
     <div class="nav-side-menu">
         <div class="menu-list">
             <div class="sidebar-header">
+                <span id="sidebar-close-arrow" data-toggle="tooltip" title="close sidebar"></span>
                 {{#if currentUser}}
                 <ul class="list-unstyled components d-sm-none">
                     <li>
@@ -9,7 +11,7 @@
                     </li>
                 </ul>
                 {{else}}
-                <a href="/login" class="btn btn-success" style="width:100%">Sign In</a> {{/if}}
+                <a href="/login" class="btn btn-success sign-in-button">Sign In</a> {{/if}}
             </div>
             <ul id="menu-content" class="menu-content collapse out">
                 <li>
@@ -52,4 +54,5 @@
             </ul>
         </div>
     </div>
+  </div>
 </template>

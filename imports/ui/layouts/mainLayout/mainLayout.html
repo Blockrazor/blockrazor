@@ -7,42 +7,37 @@
       <nav id="sidebar" class="{{openSidebar}}">
         {{> sideNav}}
       </nav>
-      <div class="modal underDev" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-body">
-              <div class="nauk-info-connections text-center">
-                <img src="https://user-images.githubusercontent.com/8143945/37496855-eec0cd58-28ef-11e8-9de3-b0df665daa67.png" style="width:200px"
-                  class="pointer">
-                <br/>
-              </div>
-              <p>"Blockrazor is under active development. The site goes down often. Things break at least once a day. Bounty rewards
-                and wallets are reset often.
-                <br />
-                <br />Follow @Blockrazor on Twitter or subscribe by mail to be notified when we go 'live' and you can earn real Krazor. Check out the code
-                on Github."</p>
-                <form id="subscribeForAlphaLaunch" >
-                  <label for="mail">Email:</label>
-                  <input class="js-mailSub" type="text" name="mail">
-                  <input type="submit" value="Subscribe and hide">
-                </form>
-              <a href="https://github.com/Blockrazor/blockrazor/">
-                <i class="fa fa-github" aria-hidden="true" style="font-size:32px;padding:10px"></i>
-              </a>
-              <a href="https://twitter.com/blockrazor">
-                <i class="fa fa-twitter" aria-hidden="true" style="font-size:32px;padding:10px"></i>
-              </a>
-            </div>
-            <div class="modal-footer">
-              <button type="button" id="hideDevelopmentNotification" class="btn btn-secondary" data-dismiss="modal">Hide for 5 days</button>
-            </div>
-          </div>
-        </div>
-      </div>
       <div id="content" class="app-content container">
         {{{captcha}}}
           {{> Template.dynamic template=main}}
           {{> Template.dynamic template=bottom}}
+      </div>
+    </div>
+    <div class="modal underDev {{show}}" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="nauk-info-connections text-center">
+              <img src="https://user-images.githubusercontent.com/8143945/37496855-eec0cd58-28ef-11e8-9de3-b0df665daa67.png" style="width:200px"
+                class="pointer">
+              <br/>
+            </div>
+            <p>"Blockrazor is under active development. The site goes down often. Things break at least once a day. Bounty rewards
+              and wallets are reset often.
+              <br />
+              <br />Follow @Blockrazor on Twitter to be notified when we go 'live' and you can earn real Krazor. Check out the code
+              on Github."</p>
+            <a href="https://github.com/Blockrazor/blockrazor/">
+              <i class="fa fa-github" aria-hidden="true" style="font-size:32px;padding:10px"></i>
+            </a>
+            <a href="https://twitter.com/blockrazor">
+              <i class="fa fa-twitter" aria-hidden="true" style="font-size:32px;padding:10px"></i>
+            </a>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="hideDevelopmentNotification" class="btn btn-secondary" data-dismiss="modal">Hide for 5 days</button>
+          </div>
+        </div>
       </div>
     </div>
 </template>

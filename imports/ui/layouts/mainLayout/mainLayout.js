@@ -19,7 +19,7 @@ function saveSidebarPreference(){
 }
 
 Template.mainLayout.events({
-  'click #navbar-toggler': function (event) {
+  'click #navbar-toggler, click #sidebar-close-arrow': function (event) {
     event.preventDefault();
     Session.set("openedSidebar", !Session.get('openedSidebar')) 
     var screen = Session.get("screenSize") 
