@@ -13,15 +13,6 @@ Template.wallet.onCreated(function bodyOnCreated() {
     SubsCache.subscribe('wallet');
     SubsCache.subscribe('users');
   })
-
-  //mark notifications read
-  Meteor.call('markAsRead',
-    (error, result) => {
-        if (error) {
-            console.error(error)
-        }
-    }
-  );
 });
 
 Template.wallet.helpers({
@@ -37,6 +28,14 @@ Template.wallet.helpers({
   balance () {
     return UserData.findOne({}, {fields: {balance: 1}}).balance
   },
+  currencyNotifications: (currency) => {
+	  return Wallet.find({
+		  owner: Meteor.userId(),
+		  type: "transaction",
+		  currency: currency,
+		  read: false
+	  }).count();
+  }
 });
 
 Template.wallet.events({

@@ -9,16 +9,6 @@ import Cookies from 'js-cookie';
 import '../../components/topNav/topNav'
 import '../../components/sideNav/sideNav'
 
-// swal({
-//   icon: "error",
-//    title: "Please fix the following fields",
-//   text: error.error.map(i => i.split(/(?=[A-Z])/).join(' ').toLowerCase()).join(', '),
-//   button: { className: 'btn btn-primary' }
-// });
-
-// Cookies.set('don't, false, { expires: 1 })
-
-
 //writes to DB preferences on change and window close/log out
 //doesn't run on unload as it should as websocket closes before method reaches server, is an issue in meteor
 function saveSidebarPreference(){
@@ -61,6 +51,18 @@ Template.mainLayout.events({
   "click #hideDevelopmentNotification": (eve, templ)=>{
     return Cookies.set('underDevelopmentShown', true, 5)
   },
+  'submit #subscribeForAlphaLaunch': (eve)=>{
+    eve.preventDefault()
+    Meteor.call("subscribeForAlphaLaunch", $(".js-mailSub").val(), (err,res)=>{
+      if (res){
+        Cookies.set('underDevelopmentShown', true, 5)
+        $('.underDev').modal('hide');
+        sAlert.success("Email added to the list of subsribers")
+      } else {
+        sAlert.error(err)
+      }
+    })
+  }
 })
 
 Template.mainLayout.helpers({

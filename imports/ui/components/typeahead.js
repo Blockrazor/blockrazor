@@ -51,7 +51,7 @@ import {
     add: function(event, doc, templ){...}, //templ is parent template instance, doc is document added
     displayField: name, //document field that appears in typeahead select menu
     placeholder: name, //placeholder for typeahead
-    noneFound: function(templ, ele){...; return `ele`} //id of typeahead ele for reading value; renders returned template literal if no results found
+    noneFound: function(templ, valueFunction){...; return `ele`} //params: id of typeahead and function that returns current value; renders returned template literal if no results found
 }
 */
 
@@ -63,7 +63,7 @@ Template.typeahead.onCreated(function () {
   this.data.focus = this.data.focus === undefined? false: this.data.focus
   this.data.autoFocus = this.data.autoFocus === undefined? false: this.data.autoFocus
   this.data.quickEnter = this.data.quickEnter === undefined? true: this.data.quickEnter
-  this.data.noneFound = this.data.noneFound === undefined? false: this.data.noneFound
+  this.data.noneFound = this.data.noneFound === undefined? function(templ, eleId){ return 'no result found' } : this.data.noneFound
 
   var props = this.data
   var templ = props.template
@@ -83,16 +83,9 @@ Template.typeahead.onCreated(function () {
     var templ = props.template
     var {localCol, col} = props
 
-    function createElement(markup) {
-      const temp = document.createElement('div')
-      temp.innerHTML = markup
-      const frag = document.createDocumentFragment()
-      // Use childNodes to allow creating element nodes or text nodes:
-      const children = Array.prototype.slice.apply(temp.childNodes)
-      children.map(el => frag.appendChild(el))
-      return frag
+    function returnCurrentValue (eleString){
+      return ()=>{return $(eleString).typeahead('val')}
     }
-    console.log(createElement(this.data.noneFound()))
 
 		var option1 = {
 			hint: true,
@@ -105,9 +98,9 @@ Template.typeahead.onCreated(function () {
 			limit: props.limit,
       source: currySearch(templ, this),
       templates: {
-        empty: this.data.noneFound(templ, this.data.id),
+        empty: this.data.noneFound(templ, returnCurrentValue(this.ele)),
       }
-		}
+    }
 	
 		//binding for usage in onRednered hook
 		this.option1 = option1
@@ -159,7 +152,7 @@ Template.typeahead.onRendered(function () {
 	this.autorun((comp) => {
 		if (this.data.transcient && this.data.col.readyLocal()) {
       $(this.ele).typeahead('destroy')
-			this.init()
+      this.init()
 			comp.stop()
 		}
   })

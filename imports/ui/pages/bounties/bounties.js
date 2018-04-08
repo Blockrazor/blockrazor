@@ -149,7 +149,7 @@ Template.bounties.onCreated(function(){
         x.previousReward = lastCompletedBounty.currentReward
         //detects if bounty has been reset
         if (x.previousCompletedAt = lastCompletedBounty.completedAt){
-          sAlert.warning('Bounty reset')
+          // sAlert.warning('Bounty reset')
           x.previousCompletedAt = lastCompletedBounty.completedAt
         }
         this.LocalBounties.update(x._id, x)

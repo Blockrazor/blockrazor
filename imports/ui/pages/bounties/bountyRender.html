@@ -1,5 +1,10 @@
 <template name="bountyRender">
   <div class="card my-3">
+	{{#if bountyReset _id}}
+		<div class="alert alert-warning text-center">
+	  		{{ bountyResetText (bountyReset _id) }}
+	  	</div>
+	{{/if}}
     <div class="card-body">
       <div class="row">
         <div class="col-sm-8">

@@ -7,7 +7,7 @@
       <nav id="sidebar" class="{{openSidebar}}">
         {{> sideNav}}
       </nav>
-      <div class="modal underDev {{show}}" tabindex="-1" role="dialog">
+      <div class="modal underDev" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-body">
@@ -19,8 +19,13 @@
               <p>"Blockrazor is under active development. The site goes down often. Things break at least once a day. Bounty rewards
                 and wallets are reset often.
                 <br />
-                <br />Follow @Blockrazor on Twitter to be notified when we go 'live' and you can earn real Krazor. Check out the code
+                <br />Follow @Blockrazor on Twitter or subscribe by mail to be notified when we go 'live' and you can earn real Krazor. Check out the code
                 on Github."</p>
+                <form id="subscribeForAlphaLaunch" >
+                  <label for="mail">Email:</label>
+                  <input class="js-mailSub" type="text" name="mail">
+                  <input type="submit" value="Subscribe and hide">
+                </form>
               <a href="https://github.com/Blockrazor/blockrazor/">
                 <i class="fa fa-github" aria-hidden="true" style="font-size:32px;padding:10px"></i>
               </a>
@@ -35,6 +40,7 @@
         </div>
       </div>
       <div id="content" class="app-content container">
+        {{{captcha}}}
           {{> Template.dynamic template=main}}
           {{> Template.dynamic template=bottom}}
       </div>

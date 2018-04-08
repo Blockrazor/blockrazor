@@ -1,12 +1,8 @@
 <template name="moderatorDash">
+      <h2>Approvals</h2>
+
   {{#unless reactiveVar 'reject'}}
 
-  Shortcuts for ELO<br />
-  <button id="elo" class="btn btn-danger">TABULATE ELO</button><br />
-  <button id="communities" class="btn btn-danger avg-elo">AVG ELO COMMUNITIES</button>
-  <button id="wallet" class="btn btn-danger avg-elo">AVG ELO WALLET</button>
-  <button id="codebase" class="btn btn-danger avg-elo">AVG ELO CODEBASE</button>
-  <button id="decentralization" class="btn btn-danger avg-elo">AVG ELO DECENTRALIZATION</button><br /><br />
   {{#each pendingCurrencies}}
        {{> moderatorPendingCurrency}}
   {{/each}}
@@ -22,4 +18,6 @@
     <button type="submit" class="btn btn-primary" id="submit">Send</button>
   </form>
   {{/if}}
+
+  {{>modal}}
 </template>

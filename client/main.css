@@ -34,7 +34,7 @@ select {
     font-family: monospace;
 }
 
-.pointer:hover {
+.pointer {
     cursor: pointer !important;
 }
 .not-allowed { 

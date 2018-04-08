@@ -31,6 +31,21 @@ const canContinue = (id) => {
 }
 
 Template.bountyRender.helpers({
+  bountyReset: (id) => {
+	  return Bounties.findOne({
+		  type: id,
+		  completed: true,
+		  currentReward: {$exists: true}
+	  }, {
+		  sort: {completedAt: -1, expiresAt: -1}
+	  });
+  },
+  bountyResetText: (bounty) => {
+	  var text = bounty.currentUsername +
+	  " has claimed this bounty for " + bounty.currentReward + 
+	  " KZR and the bounty reward has been reset.";
+	  return text;
+  },
   types: function () {
     return this.types || BountyTypes.findOne();
   },

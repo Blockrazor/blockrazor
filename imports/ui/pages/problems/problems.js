@@ -58,7 +58,7 @@ Template.problems.helpers({
 			}
 		}
 
-		return Problems.find(query, {
+		return Problems.findLocal(query, {
 			sort: {
 				date: -1
 			}
