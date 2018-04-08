@@ -51,9 +51,9 @@ meteor npm install --save core-js
 ```
 
 #### Insert the database if running locally (never for production)
-While meteor is running, in a new shell from within the Blockrazor directory run:
+While meteor is running, in a new shell from *outside* of the Blockrazor directory run:
 ```
-mongorestore -h 127.0.0.1 --port 3001 -d meteor dump/meteor
+wget https://blockrazor.org/static/dump.tar.gz && tar -xvf dump.tar.gz && mongorestore -h 127.0.0.1 --port 3001 -d meteor dump/meteor
 ```   
 (You will need [Mongo](https://docs.mongodb.com/manual/installation/) to be installed on your system).
 
