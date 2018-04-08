@@ -4,7 +4,7 @@
     max-width: 80px;
     height: auto;
   }
-  
+
   .name {
     font-size: 20px;
     padding-left: 20px;
@@ -56,4 +56,8 @@
 
 .currency-features {
   margin: 50px 0;
+}
+
+.no-margin {
+	margin: 0 !important;
 }
