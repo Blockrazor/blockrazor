@@ -141,26 +141,15 @@ Template.bounties.onCreated(function(){
     union.map((x, i)=>{
       // return this.LocalBounties.insert(x)
       //note the field projection
-      var lastCompletedBounty = Bounties.findOne({type: x._id, completed: true, currentReward: {$exists: true}}, {sort: {completedAt: -1, expiresAt: -1}, fields: {currentReward: 1, completedAt: 1, currentUsername: 1}})
+      // var lastCompletedBounty = Bounties.findOne({type: x._id, completed: true, currentReward: {$exists: true}}, {sort: {completedAt: -1, expiresAt: -1}, fields: {currentReward: 1, completedAt: 1, currentUsername: 1}})
+      // last bounty get deleted when the user is rewarded, so it's not a working solution
+
       //preserves previous sort operation
       x.sort = i
       var copy = this.LocalBounties.findOne(x._id)
-      if (lastCompletedBounty && copy){
-        x.previousReward = lastCompletedBounty.currentReward
-        //detects if bounty has been reset
-        if (x.previousCompletedAt = lastCompletedBounty.completedAt){
-          // sAlert.warning('Bounty reset')
-          x.previousCompletedAt = lastCompletedBounty.completedAt
-        }
-        this.LocalBounties.update(x._id, x)
-      } else if (copy) {
+      if (copy) {
         this.LocalBounties.update(x._id, x)
       } else {
-        if (lastCompletedBounty) {
-          x.currentUsername = lastCompletedBounty.currentUsername
-          x.previousReward = lastCompletedBounty.currentReward
-          x.previousCompletedAt = lastCompletedBounty.completedAt
-        }
         this.LocalBounties.insert(x)
       }
     })
