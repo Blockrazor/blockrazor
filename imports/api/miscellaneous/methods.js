@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import { FormData, Features, Redflags, UserData } from '/imports/api/indexDB.js'
+import { AlphaLaunchSubscribers } from './alphaLaunchSubscribers'
 
 const checkCaptcha = (captcha, fut, ip) => {
   if (typeof captcha !== 'undefined' && captcha !== 'pass') {
@@ -138,6 +139,9 @@ if (Meteor.isServer) {
       let recaptcha = new Recaptcha('6LerhE8UAAAAAB69iG94LAW_VdqrkZKienW79EUx', '6LerhE8UAAAAAOHiYbyUK84SHS8O9CN_EOrwXWVV')
 
       return recaptcha.toHTML()
+    },
+    subscribeForAlphaLaunch: (mail) => {
+      return AlphaLaunchSubscribers.upsert({}, {$addToSet: {subscribers: mail}})
     }
   })
 }
