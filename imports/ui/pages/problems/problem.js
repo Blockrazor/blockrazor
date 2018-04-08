@@ -24,7 +24,7 @@ Template.problem.onRendered(function() {
 	$.fn.editable.defaults.mode = 'inline' // display them inline
   	$.fn.editableform.buttons = `<button type="submit" class="btn btn-primary btn-sm editable-submit"><i class="fa fa-check"></i></button><button type="button" class="btn btn-default btn-sm editable-cancel"><i class="fa fa-close"></i></button>` // custom buttons with fa icons
 
-	let editables = ['header', 'text'] 
+	let editables = ['header', 'text']
 
 	const validate = function(val) { // the actual proposing part
 	    if ($(this).text() !== val) {
@@ -41,7 +41,7 @@ Template.problem.onRendered(function() {
 
 	    return 'Please change the value if you want to propose a change.'
 	}
-	
+
 	this.autorun(() => {
 		var problem = Problems.findOne({_id: FlowRouter.getParam('id')})
 		editables.forEach(i => $(`#${i}`).editable({
@@ -198,7 +198,7 @@ Template.problem.events({
 			if (!err) {
 				sAlert.success('The problem is yours. You have 5 days to solve it.')
 			} else {
-				sAlert.error(err.reasom)
+				sAlert.error(err.reason)
 			}
 		})
 	}
