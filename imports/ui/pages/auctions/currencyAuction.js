@@ -122,7 +122,7 @@ Template.currencyAuction.helpers({
 					}
 				}
 			},
-			add: function(event, doc, templ){templ.selectedId.set(doc._id)},
+			add: function(event, doc, templ){templ.selectedId.set(doc.currencySymbol)},
 			col: Currencies, //collection to use
 			template: Template.instance(), //parent template instance
 			focus: false,
@@ -147,12 +147,18 @@ Template.currencyAuction.events({
 		})
 	},
 	'submit #js-form': (event, templateInstance) => {
-		event.preventDefault()
+    event.preventDefault()
+    
+    let currencySymbol = templateInstance.selectedId.get()
+
+    // if currency symbol value is 'ZKR', replace that with 'KZR'
+    // this replacement line no longer necessary after updating the currncy symbol of Krazor in the database 
+    currencySymbol = currencySymbol === 'ZKR' ? 'KZR' : currencySymbol  // TODO: remove this replacement line after updating the database
 
 		if (parseFloat($('#js-amount').val()) > 0 && templateInstance.selectedId.get()) {
 			Meteor.call('placeBid', 'top-currency', parseFloat($('#js-amount').val()), {
 				type: 'currency',
-				currency: templateInstance.selectedId.get()
+				currency: currencySymbol
 			}, (err, data) => {
 				if (err) {
 					sAlert.error(err.reason)

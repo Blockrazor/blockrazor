@@ -37,7 +37,7 @@
         <div class="heading-wrapper text-center mt-2">
             <h4 class="mb-4">Top 3 currencies</h4>
         </div>
-        <table class="table">
+        <table class="table justify-content-center mx-auto" style="width:80% !important">
             <thead>
                 <tr>
                     <th scope="col">Currency</th>
@@ -48,8 +48,8 @@
                 {{#if subsCacheReady}}
                     {{#each currencies}}
                         <tr>
-                            <td>{{currency}}</td>
-                            <td>{{amountCurrency}}</td>
+                            <td>{{options.currency}}</td>
+                            <td>{{amount}}</td>
                         </tr>
                     {{else}}
                         {{> empty}}
@@ -64,7 +64,7 @@
         <div class="heading-wrapper text-center mt-2">
             <h4 class="mb-4">My bids</h4>
         </div>
-        <table class="table">
+        <table class="table justify-content-center mx-auto" style="width:80% !important">
             <thead>
                 <tr>
                     <th scope="col">Currency</th>
@@ -76,8 +76,8 @@
                 {{#if subsCacheReady}}
                     {{#each myBids}}
                         <tr>
-                            <td>{{currency}}</td>
-                            <td>{{amountBid}}</td>
+                            <td>{{options.currency}}</td>
+                            <td>{{amount}}</td>
                             <td><a href="#" class="js-cancel">Cancel</a></td>
                         </tr>
                     {{else}}
@@ -93,7 +93,7 @@
         <div class="heading-wrapper text-center mt-2">
             <h4 class="mb-4">Last 10 bids</h4>
         </div>
-        <table class="table">
+        <table class="table justify-content-center mx-auto" style="width:80% !important">
             <thead>
                 <tr>
                     <th scope="col">Currency</th>
@@ -104,8 +104,8 @@
                 {{#if subsCacheReady}}
                     {{#each bids}}
                         <tr>
-                            <td>{{currency}}</td>
-                            <td>{{amountBid}}</td>
+                            <td>{{options.currency}}</td>
+                            <td>{{amount}}</td>
                         </tr>
                     {{else}}
                         {{> empty}}
