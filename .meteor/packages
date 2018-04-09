@@ -50,8 +50,7 @@ staringatlights:flow-router
 fourseven:scss
 gwendall:hovercard
 babrahams:constellation
-ccorcos:subs-cache 
-meteorhacks:subs-manager
+blockrazor:subscache-c4
 practicalmeteor:mocha
 natestrauser:x-editable-bootstrap
 mrt:combodate

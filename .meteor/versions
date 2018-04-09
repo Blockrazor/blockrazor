@@ -22,11 +22,11 @@ binary-heap@1.0.10
 blaze@2.3.2
 blaze-html-templates@1.1.2
 blaze-tools@1.0.10
+blockrazor:subscache-c4@2.0.2
 boilerplate-generator@1.3.1
 caching-compiler@1.1.9
 caching-html-compiler@1.1.2
 callback-hook@1.0.10
-ccorcos:subs-cache@0.9.4
 cfs:graphicsmagick@0.0.18
 check@1.2.5
 chuangbo:cookie@1.1.0
@@ -88,7 +88,6 @@ meteor@1.8.2
 meteor-base@1.2.0
 meteorhacks:meteorx@1.4.1
 meteorhacks:picker@1.0.3
-meteorhacks:subs-manager@1.6.4
 meteortoys:toykit@4.0.1
 minifier-css@1.2.16
 minifier-js@2.2.2

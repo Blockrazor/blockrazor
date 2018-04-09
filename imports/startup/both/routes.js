@@ -1,19 +1,17 @@
 import {FlowRouter} from 'meteor/staringatlights:flow-router';
 import {FastRender} from 'meteor/staringatlights:fast-render'
 // import {SubsCache} from 'meteor/ccorcos:subs-cache'
-import {SubsManager} from 'meteor/meteorhacks:subs-manager'
+import {SubsCache as Sub} from 'meteor/blockrazor:subscache-c4'
 
-// SubsCache = new SubsManager({
-//   cacheLimit: 30,
-//   // expireIn will stop subscription after timer ends regardless if it's actually still being rendered or not
-//   expireIn: 5555555555555555555555555555555555,
-// }); // is 5 minutes, and 10 subs by default for subs-cache not manager packages
+SubsCache = new Sub(5, 10); // is 5 minutes, and 10 subs by default for subs-cache not manager packages
 
-SubsCache = Meteor
-SubsCache.ready = function() {return true}
+console.log(1, SubsCache)
+
+// SubsCache = Meteor
+// SubsCache.ready = function() {return true}
 if (Meteor.isClient) { // only import them if this code is being executed on client side
     //ubiquitous components
-    import '../../ui/components/loading'
+    import '../../ui/components/loading.js'
     import '../../ui/components/empty.html'
 
     //pages
@@ -66,8 +64,6 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   import '../../ui/layouts/mainLayout/mainLayout'
 
   //Stylesheet
-  //is in client folder
-  // import '/imports/ui/stylesheets/lux.min.css';
 } else {
   SubsCache = Meteor
 }
