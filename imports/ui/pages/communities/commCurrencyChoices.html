@@ -41,10 +41,10 @@
 			{{#each currencies}}
 <div class="col-sm-4 col-md-4 col-lg-4">
     <button type="button" class="toggle btn btn-secondary currencyChoiceBtn" style="width:100%">{{currencyName}}
-    </button>
-    <div class="row" style="display:none;" id="links_{{_id}}">
+     {{#if uploaded _id}}<span class="badge badge-success ml-3"><i class="fa fa-check" aria-hidden="true"></i></span>{{/if}}</button>
+    <div class="row communityAddPanel" style="display:none;" id="links_{{_id}}">
 
-        <div class="col-sm-12">
+        <div class="col-sm-12 text-center">
         	<small>Please add a URL and screenshot of the community you are part of and mention BlockRazor</small><br /><br />
         	                <label id="uploadLabel_{{_id}}" class="btn btn-primary" for="{{_id}}">
                     <input class="uploadInput" id="{{_id}}" type="file" style="display:none" onchange="$('#fileInfo').html(this.files[0].name)"> <span class="uploadText_{{_id}}">UPLOAD</span>
