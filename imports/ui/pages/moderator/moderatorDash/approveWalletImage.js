@@ -13,20 +13,30 @@ Template.approveWalletImage.events({
 
     },
   'click #reject': function(event){
-    Meteor.call('', this._id);
+          swal("Why are you rejecting this?", {
+              content: "input",
+              button: { className: 'btn btn-primary' },
+              showCancelButton: true,
+              attributes: {
+                  type: "text",
+                  required: true,
+              }
+          })
+          .then((rejectionReason) => {
 
-       swal({
-  title: "Are you sure?",
-  icon: "warning",
-  buttons: true,
-  dangerMode: true,
-})
-.then((willDelete) => {
-  if (willDelete) {
-    Meteor.call('flagWalletImage', this._id);
+              if (rejectionReason) {
+                  Meteor.call('flagWalletImage', this._id, rejectionReason, (err, data) => {
+                      if (!err) {
+                          sAlert.success('Rejected.')
+                      } else {
+                          sAlert.error(err.reason)
+                      }
+                  })
+              }else{
+                sAlert.error('No rejection reason supplied, image not rejected')
+              }
+          });
 
-  }
-});
   },
   'click #approve': function(event){
     swal({

@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { Wallet, WalletImages, Currencies, Ratings, Bounties, REWARDCOEFFICIENT } from '/imports/api/indexDB.js'
 import { log } from '/server/main.js'
 import { creditUserWith, removeUserCredit } from '/imports/api/utilities.js'
+import { sendMessage } from '/imports/api/activityLog/server/methods'
 
 Meteor.methods({
 	initializeWallet: function() {
@@ -98,7 +99,7 @@ Meteor.methods({
 		})
 	},
 
-	flagWalletImage: function(imageId) {
+	flagWalletImage: function(imageId,rejectReason) {
 		if (!this.userId) {
 			throw new Meteor.Error('error', 'please log in')
 		}
@@ -108,6 +109,9 @@ Meteor.methods({
         })
 
         if (wallet) {
+
+        	sendMessage(wallet.createdBy, ("The wallet image you submitted for " + wallet.currencyName + " has been rejected by a moderator. The moderators reasons is: " + rejectReason))
+
             let ratings = Ratings.find({
                 $and: [{
                     $or: [{
