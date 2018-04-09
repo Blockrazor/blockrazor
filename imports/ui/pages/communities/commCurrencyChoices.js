@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { Currencies, Ratings, Bounties } from '/imports/api/indexDB.js';
+import { Currencies, Ratings, Bounties, Communities } from '/imports/api/indexDB.js';
 import { saveCommunity } from '/imports/api/communities/methods' //to access our validatedMethod is must be imported
 
 import Cookies from 'js-cookie'
@@ -10,8 +10,13 @@ Template.commCurrencyChoices.onCreated(function() {
     this.name = new ReactiveVar('')
     this.symbol = new ReactiveVar('')
 })
-
 Template.commCurrencyChoices.helpers({
+    //check if the user has uploaded any images for the community.
+      uploaded(id) {
+      var imageUploadCount = Communities.find({ currencyId: id, createdBy: Meteor.userId() }).count();
+      return imageUploadCount;
+
+  },
     alreadyAdded: () => {
         let alreadyAdded = _.uniq(_.flatten(Ratings.find({
             $or: [{

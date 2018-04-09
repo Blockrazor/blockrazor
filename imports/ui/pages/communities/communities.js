@@ -11,6 +11,7 @@ Template.communities.onCreated(function() {
         SubsCache.subscribe('approvedcurrencies')
         SubsCache.subscribe('ratings')
         SubsCache.subscribe('communityBounty')
+        SubsCache.subscribe('communities')
     })
 
     this.name = new ReactiveVar('')
@@ -98,7 +99,12 @@ Template.communities.events({
         FlowRouter.go('/')
     },
     'click .toggle': function(event, templateInstance) {
-        $(`#links_${this._id}`).toggle()
+
+        //hide previous community panel before opening the new one
+        $('.communityAddPanel').hide();
+        
+
+        $(`#links_${this._id}`).toggle();
     }
 })
 
