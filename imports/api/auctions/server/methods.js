@@ -165,9 +165,9 @@ Meteor.methods({
 		if (Meteor.userId()) {
 			let user = UserData.findOne({
 				_id: Meteor.userId()
-      })
-      let acceptedCurrency = options.currency || 'KZR'  // for any auction
-      let bidPaymentCurrency = options.type === 'currency' ? 'KZR' : options.currency  // if currency auction, payment currency is always 'KZR'. other auctions, payment currency is given currency
+	      	})
+	      	let acceptedCurrency = options.currency || 'KZR'  // for any auction
+	      	let bidPaymentCurrency = options.type === 'currency' ? 'KZR' : options.currency  // if currency auction, payment currency is always 'KZR'. other auctions, payment currency is given currency
 
 			if ((bidPaymentCurrency === 'KZR' ? user.balance : (user.others || {})[bidPaymentCurrency]) > amount && amount > 0) {
 				let auction = Auctions.findOne({
