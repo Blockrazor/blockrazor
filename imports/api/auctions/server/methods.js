@@ -165,16 +165,17 @@ Meteor.methods({
 		if (Meteor.userId()) {
 			let user = UserData.findOne({
 				_id: Meteor.userId()
-			})
+      })
+      let acceptedCurrency = options.currency || 'KZR'  // for any auction
+      let bidPaymentCurrency = options.type === 'currency' ? 'KZR' : options.currency  // if currency auction, payment currency is always 'KZR'. other auctions, payment currency is given currency
 
-			options.currency = options.currency || 'KZR'
-
-			if ((options.currency === 'KZR' ? user.balance : (user.others || {})[options.currency]) > amount && amount > 0) {
+			if ((bidPaymentCurrency === 'KZR' ? user.balance : (user.others || {})[bidPaymentCurrency]) > amount && amount > 0) {
 				let auction = Auctions.findOne({
 					_id: auctionId
 				})
 
-				if (auction && auction.options && (auction.options.acceptedCurrency || 'KZR') === options.currency) {
+        // for currency auction all currencies accepted (only the payment needs to perform via KZR)
+				if (auction && (auction._id === 'top-currency') ||  ((auction.options && auction.options.acceptedCurrency || 'KZR') === acceptedCurrency)) {
 					if (auction._id !== 'top-currency') { // top currency aggregates all bids, others need a highest bid
 						if (auction.closed) {
 							throw new Meteor.Error('Error.', 'You can\'t bid on a closed currency.')
@@ -222,10 +223,10 @@ Meteor.methods({
 						options: options,
 						amount: amount,
 						date: new Date().getTime(),
-						currency: options.currency
+						currency: bidPaymentCurrency
 					})
 
-					transfer(user._id, 'Blockrazor', `${options.currency} has been reserved from your account for bidding on an auction.`, -amount, options.currency)
+					transfer(user._id, 'Blockrazor', `${bidPaymentCurrency} has been reserved from your account for bidding on an auction.`, -amount, bidPaymentCurrency)
 				} else {
 					throw new Meteor.Error('Error.', `Currency ${options.currency} is not valid.`)
 				}
