@@ -3,6 +3,9 @@ import { Currencies, Communities, Ratings, RatingsTemplates, Bounties, REWARDCOE
 import { log } from '/server/main'
 import { creditUserWith, removeUserCredit } from '/imports/api/utilities.js'
 
+import { sendMessage } from '/imports/api/activityLog/server/methods'
+
+
 Meteor.methods({
     parseCommunityUrl: (url) => {
         const Future = require('fibers/future')
@@ -350,7 +353,7 @@ Meteor.methods({
       });
 
     },
-    flagCommunityImage: function(imageId) {
+    flagCommunityImage: function(imageId,rejectReason) {
         if (!this.userId) {
             throw new Meteor.Error('error', 'please log in')
         }
@@ -360,6 +363,9 @@ Meteor.methods({
         })
 
         if (community) {
+            //send a notification to the user letting them know their image has been rejected
+            sendMessage(community.createdBy, ("The community image you submitted for " + community.currencyName + " has been rejected by a moderator. The moderators reasons is: " + rejectReason))
+
             let ratings = Ratings.find({
                 $and: [{
                     $or: [{
@@ -394,6 +400,9 @@ Meteor.methods({
             Communities.remove({
                 _id: imageId
             }) // finally,remove the offending community so the user can add a new one in it's place
+
+            
+
         }
     },
     approveCommunityImage: function(imageId) {
