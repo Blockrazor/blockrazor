@@ -174,6 +174,25 @@ Template.bounties.onRendered(function(){
 })
 
 Template.bounties.events({
+  'click #js-shareUrl': (event, templateInstance) => {
+      event.preventDefault()
+      
+      swal({
+          title: "Share with friends and earn 5% of KZR they earn every day.",
+          button: { className: 'btn btn-primary' },
+          content: {
+              element: "input",
+              attributes: {
+                  id: 'shareURL',
+                  value: "https://blockrazor.org/#H8hpyxk5uoiuiZSbmdfX",
+                  type: "text",
+              },
+          }
+      })
+
+      $('#shareURL').select()
+
+  },
     'change #js-filter': (event, templateInstance) => {
         let ev = $(event.currentTarget).val()
         let filter = {}
