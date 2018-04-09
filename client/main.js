@@ -131,15 +131,8 @@ Template.registerHelper('returnZeroIfNull', (val) => {
     }
 })
 
-
-let cap = new ReactiveVar('')
-
 Template.registerHelper('captcha', () => {
     Meteor.subscribe('myUserData')
-
-    Meteor.call('getCaptcha', (err, data) => {
-        cap.set(data)
-    })
 
     let user = UserData.findOne({
         _id: Meteor.userId()
@@ -151,11 +144,15 @@ Template.registerHelper('captcha', () => {
     }
 
     if ((user && user.activity.length > 1 && (user.activity[0].time - user.activity[1].time < 10000))) { // needs captcha if he's posting too fast (10 seconds between)
-        Meteor.setTimeout(() => {
-          $('#recaptchaModal').modal('show');
-          window.captcha = grecaptcha.render($('.g-recaptcha')[0],{callback: getRecaptchaResponse})
-        }, 800)
-        return `Please complete the captcha before continue<br/><form id="js-cap">${cap.get()}</form>`
+        $.getScript('https://www.google.com/recaptcha/api.js').done(() => {
+            Meteor.setTimeout(() => {
+                $('#recaptchaModal').modal('show');
+                try {
+                    window.captcha = grecaptcha.render($('.g-recaptcha')[0],{callback: getRecaptchaResponse})
+                } catch (e) {}
+            }, 800)
+        }).fail(() => console.log('Captcha loading failed.'))
+        return `Please complete the captcha before continue<br/><form id="js-cap"><div class="g-recaptcha" data-callback="getRecaptchaResponse" data-sitekey="6LerhE8UAAAAAB69iG94LAW_VdqrkZKienW79EUx"></div></form>`
     } else {
         return ''
     }
