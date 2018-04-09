@@ -4,6 +4,8 @@ import './moderatorPendingCurrency.html'
 import swal from 'sweetalert'
 
 Template.moderatorPendingCurrency.onCreated(function() {
+
+  this.currencyReview = new ReactiveVar(null)
   // a way to get parent's template instance
   let view = this.view
 
@@ -22,6 +24,20 @@ Template.moderatorPendingCurrency.onRendered(function (){
   });
 
 Template.moderatorPendingCurrency.events({
+      'click #review': function(data,templateInstance) {
+        data.preventDefault();
+
+        $('.reviewCurrencyModal').modal('show');
+
+        Meteor.call('reviewCurrency', this._id, (err, data) => {
+
+            if (err) {
+               console.error(err)
+            }else{
+              templateInstance.currencyReview.set(data)
+            }
+        })
+    },
     'click #approve': function(data) {
         data.preventDefault();
 
@@ -33,11 +49,15 @@ Template.moderatorPendingCurrency.events({
                     text: "You can't approve your own currency",
                     button: { className: 'btn btn-primary' }
                 });
+            }else{
+              $('.reviewCurrencyModal').modal('hide');
             }
         })
     },
     'click #reject': function(data, templateInstance) {
         data.preventDefault();
+
+        $('.reviewCurrencyModal').modal('hide');
         Meteor.call('setRejected', this._id, true);
         templateInstance.parent.currentlyRejecting.set(this._id)
         templateInstance.parent.reject.set(true)
@@ -84,6 +104,9 @@ Template.moderatorPendingCurrency.helpers({
     } else {
       return "Add the " + this.currencyName + " launch date!"
     }
+  },
+  currencyReview: function(){
+    return Template.instance().currencyReview.get()
   }
 });
 
