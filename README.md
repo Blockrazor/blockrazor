@@ -82,6 +82,8 @@ Take a look at past [pull requests](https://github.com/Blockrazor/blockrazor/pul
 
 Want to see server logs? Go [here](https://blockrazor.org/static/log.txt).
 
+The project style guide is [here](/STYLES.md).
+
 
 <details>
   <summary>Step-by-step guide to sending a pull request</summary>
