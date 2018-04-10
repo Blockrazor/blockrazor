@@ -48,8 +48,8 @@
                 {{#if subsCacheReady}}
                     {{#each currencies}}
                         <tr>
-                            <td>{{options.currency}}</td>
-                            <td>{{amount}}</td>
+                            <td>{{currency}}</td>
+                            <td>{{amountCurrency}}</td>
                         </tr>
                     {{else}}
                         {{> empty}}
@@ -76,8 +76,8 @@
                 {{#if subsCacheReady}}
                     {{#each myBids}}
                         <tr>
-                            <td>{{options.currency}}</td>
-                            <td>{{amount}}</td>
+                            <td>{{currency}}</td>
+                            <td>{{amountBid}}</td>
                             <td><a href="#" class="js-cancel">Cancel</a></td>
                         </tr>
                     {{else}}
@@ -104,8 +104,8 @@
                 {{#if subsCacheReady}}
                     {{#each bids}}
                         <tr>
-                            <td>{{options.currency}}</td>
-                            <td>{{amount}}</td>
+                            <td>{{currency}}</td>
+                            <td>{{amountBid}}</td>
                         </tr>
                     {{else}}
                         {{> empty}}
