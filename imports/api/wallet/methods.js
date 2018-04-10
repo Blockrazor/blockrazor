@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { Wallet, WalletImages, Currencies, Ratings, Bounties, REWARDCOEFFICIENT } from '/imports/api/indexDB.js'
 import { log } from '/server/main.js'
 import { creditUserWith, removeUserCredit } from '/imports/api/utilities.js'
-import { sendMessage } from '/imports/api/activityLog/server/methods'
+import { sendMessage } from '/imports/api/activityLog/methods'
 
 Meteor.methods({
 	initializeWallet: function() {

@@ -25,8 +25,6 @@ const checkCaptcha = (captcha, fut, ip) => {
 
 export { checkCaptcha }
 
-if (Meteor.isServer) {
-
   Meteor.methods({
     insertFormData(data) {
       FormData.insert(data, function (error, result) {
@@ -137,4 +135,3 @@ if (Meteor.isServer) {
       return AlphaLaunchSubscribers.upsert({}, {$addToSet: {subscribers: mail}})
     }
   })
-}

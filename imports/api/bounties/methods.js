@@ -1,12 +1,8 @@
 import { Meteor } from 'meteor/meteor'
-
-import { UserData, Bounties } from '/imports/api/indexDB.js';
+import { UserData, Bounties, REWARDCOEFFICIENT } from '/imports/api/indexDB.js';
 import { APICalls } from '/server/serverdb/APICalls.js';
-import { creditUserWith } from '../../utilities.js';
-
-import {REWARDCOEFFICIENT} from '../REWARDCOEFFICIENT' //needed on client
-
-import { sendMessage } from '/imports/api/activityLog/server/methods'
+import { creditUserWith } from '/imports/api/utilities.js';
+import { sendMessage } from '/imports/api/activityLog/methods'
 
 Meteor.methods({
   rejectBounty: function(bountyId, reason) {
