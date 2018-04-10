@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor'
 import { callWithPromise } from '/imports/api/utilities' // import helpful utils
 import { HashPower, HashAverage, HashAlgorithm, HashUnits, HashHardware } from '/imports/api/indexDB.js' // import HashPower database
 
-import '/imports/api/hashing/server/methods' // import the required methods
+import '/imports/api/hashing/methods' // import the required methods
 
 Meteor.userId = () => 'test-user' // override the meteor userId, so we can test methods that require a user
 Meteor.users.findOne = () => ({

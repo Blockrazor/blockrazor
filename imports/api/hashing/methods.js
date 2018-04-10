@@ -5,7 +5,7 @@ import { developmentValidationEnabledFalse, HashAlgorithm, HashAverage, HashHard
 import { parseString } from 'xml2js'
 import { creditUserWith, removeUserCredit } from '/imports/api/utilities'
 
-import { sendMessage } from '/imports/api/activityLog/server/methods'
+import { sendMessage } from '/imports/api/activityLog/methods'
 
 
 const parseUnit = unit => {
