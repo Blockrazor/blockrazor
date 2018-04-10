@@ -5,8 +5,6 @@ import {SubsCache as Sub} from 'meteor/blockrazor:subscache-c4'
 
 SubsCache = new Sub(5, 10); // is 5 minutes, and 10 subs by default for subs-cache not manager packages
 
-console.log(1, SubsCache)
-
 // SubsCache = Meteor
 // SubsCache.ready = function() {return true}
 if (Meteor.isClient) { // only import them if this code is being executed on client side

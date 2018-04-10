@@ -9,12 +9,27 @@ SimpleSchema.defineValidationErrorTransform(error => {
   return ddpError;
 });
 
-import '../../api/coins/methods.js'
-import '../../api/users/methods'
-import '../../api/miscellaneous/methods'
-import '../../api/features/methods'
-import '../../api/redflags/methods'
+//methods
+import '/imports/api/users/methods'
+import '/imports/api/coins/methods.js'
+import '/imports/api/miscellaneous/methods'
+import '/imports/api/features/methods'
+import '/imports/api/redflags/methods'
 import '/imports/api/exchanges/methods'
+import '/imports/api/coins/methods'
+import '/imports/api/wallet/methods'
+import '/imports/api/activityLog/methods'
+import '/imports/api/developers/methods'
+import '/imports/api/users/methods'
+import '/imports/api/communities/methods'
+import '/imports/api/hashing/methods'
+import '/imports/api/auctions/methods'
+import '/imports/api/rewards/methods'
+import '/imports/api/summaries/methods'
+import '/imports/api/problems/methods'
+import '/imports/api/common/votes'
+import '/imports/api/bounties/methods.js'
+import '/imports/api/ratings/methods'
 
 import './routes.js'
 

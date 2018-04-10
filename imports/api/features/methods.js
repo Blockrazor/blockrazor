@@ -12,7 +12,6 @@ var hasUserVoted = (id, direction) => {
 	}
 }
 
-if (Meteor.isServer) {
 Meteor.methods({
   flag: function(id) {
     if(this.userId) {
@@ -167,4 +166,3 @@ newComment: function(parentId, comment, depth, captcha) {
 } else {throw new Meteor.Error('Error', 'You must be signed in to comment')}
 }
 });
-}
