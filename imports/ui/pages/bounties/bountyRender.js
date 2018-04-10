@@ -4,7 +4,7 @@ import { FlowRouter } from 'meteor/staringatlights:flow-router';;
 import Cookies from 'js-cookie';
 
 import './bountyRender.html'
-import { calculateReward } from './bounties'
+import { LocalBounties } from './bounties'
 import '/imports/ui/components/global/globalHelpers'
 
 Template.bountyRender.onCreated(function(){
@@ -90,7 +90,8 @@ Template.bountyRender.helpers({
     }
   },
   reward: function () {
-    return calculateReward.call(this, Session.get('now'))
+    var b = LocalBounties.findOne(this._id, {fields: {reward: 1}}).reward
+    return b.toFixed(6)
   }
 });
 
