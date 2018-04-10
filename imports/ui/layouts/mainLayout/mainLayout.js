@@ -12,10 +12,21 @@ import '../../components/sideNav/sideNav'
 //writes to DB preferences on change and window close/log out
 //doesn't run on unload as it should as websocket closes before method reaches server, is an issue in meteor
 function saveSidebarPreference(){
-  if (Meteor.userId() && (UserData.findOne({_id: Meteor.userId()}).screenSize? UserData.findOne({_id: Meteor.userId()}).screenSize: 3) != Session.get("openedSidebarPreference")){
-    Meteor.call("sidebarPreference", Session.get('openedSidebarPreference'))
+  if (Meteor.userId() && (UserData.findOne(Meteor.userId()).screenSize? UserData.findOne(Meteor.userId()).screenSize: 3) != Session.get("openedSidebarPreference")){
+    Meteor.call("sidebarPreference", Session.get('openedSidebarPreference'), Meteor.userId())
     Session.set("openedSidebarPreference", undefined) //don't remove this, explanation in init autorun
   }
+}
+
+//send preference data to server before closing window for it to decide weather to save it
+Meteor.startup(function(){
+  $(window).bind('beforeunload', function(){
+    closingWindow()
+  });
+});
+
+function closingWindow(){
+  Meteor.call("sidebarPreference", Session.get("openedSidebarPreference"), UserData.findOne(Meteor.userId()).screenSize)
 }
 
 Template.mainLayout.events({
@@ -38,13 +49,11 @@ Template.mainLayout.events({
       if (screen < pref) { 
         //adjust pref because user wants menu opened at screenSize smaller than current preference 
         Session.set('openedSidebarPreference', screen)
-        saveSidebarPreference()
       } 
     } else { 
       if (screen > pref) { 
         //adjust pref because user wants menu closed at screenSize bigger than current preference 
         Session.set('openedSidebarPreference', 1+screen)
-        saveSidebarPreference()
       } 
     } 
   },
@@ -140,12 +149,5 @@ Template.mainLayout.onCreated(function () {
     } 
   })
 
-// trying to block unload with freezeScreen didn't help
-//   function freezeScreen(ms){
-//     var s=(new Date).getTime();
-//     while(((new Date).getTime())-s<ms){}
-// };
-
 Meteor.beforeLogout(saveSidebarPreference)
-window.addEventListener('unload', saveSidebarPreference)
 })
