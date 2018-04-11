@@ -3,9 +3,7 @@ import {FastRender} from 'meteor/staringatlights:fast-render'
 // import {SubsCache} from 'meteor/ccorcos:subs-cache'
 import {SubsCache as Sub} from 'meteor/blockrazor:subscache-c4'
 
-SubsCache = new Sub(5, 10); // is 5 minutes, and 10 subs by default for subs-cache not manager packages
-
-console.log(1, SubsCache)
+SubsCache = new Sub(5, 30); // is 5 minutes, and 10 subs by default for subs-cache not manager packages
 
 // SubsCache = Meteor
 // SubsCache.ready = function() {return true}
@@ -469,7 +467,7 @@ FlowRouter.route('/currency/:slug', {
     this.register('hashalgorithm', SubsCache.subscribe('hashalgorithm'));
     this.register('graphdata', SubsCache.subscribe('graphdata'))
     this.register('formdata', SubsCache.subscribe('formdata'))
-    this.register('summaries', SubsCache.subscribe('summaries'), param.slug)
+    this.register('summaries', SubsCache.subscribe('summaries', param.slug))
     this.register('bounties', SubsCache.subscribe('bounties'))
     this.register('exchanges', SubsCache.subscribe('exchanges'))
   },

@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor'
 import { Redflags, UserData } from '/imports/api/indexDB.js'
 import { checkCaptcha } from '/imports/api/miscellaneous/methods'
 
-if (Meteor.isServer) {
 Meteor.methods({
   redFlagVote: function(id, direction) {
     if(this.userId) {
@@ -160,4 +159,3 @@ redFlagNewComment: function(parentId, comment, depth, captcha) {
 } else {throw new Meteor.Error('Error', 'You must be signed in to comment')}
 }
 });
-}

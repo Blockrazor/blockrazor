@@ -28,14 +28,14 @@ Template.compareCurrencies.onCreated(function () {
 		SubsCache.subscribe('features')
 		SubsCache.subscribe('redflags')
 	})
-	
+
 	//used to init from route params and in typeAhead events
 	this.curryEvent = function(event, value, templateInstance){
 		cmpArr = templateInstance.compared.get()
 
 		// don't add a new currency if it's already on the graph
 		if (~cmpArr.indexOf(value.currencySymbol)) {
-			return 
+			return
 		}
 
 		cmpArr.push(value.currencySymbol)
@@ -170,12 +170,12 @@ Template.compareCurrencies.onRendered(function () {
 			}]
 		},
 		options: {
-			responsive: false,
+			responsive: true,
 			defaultFontColor: 'red',
 			tooltips: {
 				enabled: false
 			},
-			maintainAspectRatio: false,
+			maintainAspectRatio: true,
 			title: {
 				display: false
 			},
@@ -188,10 +188,6 @@ Template.compareCurrencies.onRendered(function () {
 				}
 			},
 			scale: {
-				pointLabels: {
-					fontSize: 14
-				},
-
 				// Hides the scale
 				display: true
 			}
