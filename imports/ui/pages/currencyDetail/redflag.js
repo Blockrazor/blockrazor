@@ -121,11 +121,12 @@ Template.redflag.events({
   },
   'focus .replyText': function() {
     $(".replyFooter-" + this._id).show();
-
   },
   'click .comments': function() {
     if(Cookies.get("submitted" + this._id) != "true") {
     $(".newcomment-" + this._id).show();
+    $("#replyBox-" + this._id).hide();
+    $("#replyText-" + this._id).focus();
   };
   if(Template.instance().showingComments.get(this._id) != "true") {
     $(".commentParent-" + this._id).show();
