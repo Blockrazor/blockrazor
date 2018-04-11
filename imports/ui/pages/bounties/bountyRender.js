@@ -91,7 +91,7 @@ Template.bountyRender.helpers({
   },
   reward: function () {
     var b = LocalBounties.findOne(this._id, {fields: {reward: 1}}).reward
-    return b.toFixed(6)
+    return (b || 0).toFixed(6)
   }
 });
 

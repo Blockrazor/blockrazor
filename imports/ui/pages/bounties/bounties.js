@@ -23,9 +23,9 @@ import './activeBounty.js'
 
 Template.bounties.onCreated(function(){
   this.autorun(() => {
-    SubsCache.subscribe('bounties')
-    SubsCache.subscribe('problems')
-    SubsCache.subscribe('approvedcurrencies')
+    SubsCache.subscribe('visibleBounties')
+    SubsCache.subscribe('bountyProblems', 0, 0)
+    SubsCache.subscribe('bountyCurrencies', 0, 0)
     SubsCache.subscribe('users')
   })
 
@@ -95,7 +95,8 @@ Template.bounties.onCreated(function(){
       pendingApproval : false,
       url : `/problem/${i._id}`,
       isProblem: true,
-      workingText: i.locked ? 'Someone is working on it.' : ''
+      workingText: i.locked ? 'Someone is working on it.' : '',
+      reward: i.reward
     }))
 
     let currencies = Currencies.find({
@@ -130,7 +131,8 @@ Template.bounties.onCreated(function(){
         url: `/currency/${i.slug}`,
         creationTime: i.createdAt,
         time: 7200000.0,
-        multiplier: 0.9
+        multiplier: 0.9,
+        reward: i.reward
       }
     })
 

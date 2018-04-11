@@ -7,7 +7,11 @@ Meteor.publish('bounties', function(id) {
   } else {
     return Bounties.find({_id: id, currentUsername: Meteor.user().username});
   }
-});
+})
+
+Meteor.publish('visibleBounties', () => Bounties.find({
+  pendingApproval: false
+}))
 Meteor.publish('bountytypes', function(type) {
   if(!type) {
     return BountyTypes.find();
