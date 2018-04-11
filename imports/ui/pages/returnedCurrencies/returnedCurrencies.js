@@ -160,7 +160,6 @@ Template.returnedCurrencies.helpers({
             return templateVars;
     },
     onlineUsers(){
-      window.UsersStats = UsersStats
       return UsersStats.findOne("connected").connected
     },
     createdUsers(){
