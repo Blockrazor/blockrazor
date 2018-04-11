@@ -15,7 +15,6 @@ Template.currencyInfo.onCreated(function () {
   this.autorun(()=>{
     SubsCache.subscribe('exchanges')
   })
-  window.Exchanges = Exchanges
   this.newAlgo = new ReactiveVar(false)
   this.showText = new ReactiveVar(false)
   this.autorun(()=>{
