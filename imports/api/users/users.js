@@ -1,13 +1,18 @@
 import { Meteor } from 'meteor/meteor';
 import { UserData} from '/imports/api/indexDB.js';
 import { updateUsersStats } from './usersStats'
-if (Meteor.isServer){
-	import { log } from '/server/main.js'
-} else {
-	const log = {error(){}, info(){}}
-}
+
+//this needs looking into
+import { log } from '/server/main.js'
+// if (Meteor.isServer){
+// 	import { log } from '/server/main.js'
+// } else {
+// 	const log = {error(){}, info(){}}
+// }
+
 //is in fact server only file
 
+ 
 Meteor.users.friendlySlugs({
   slugFrom: 'username',
   slugField: 'slug',
