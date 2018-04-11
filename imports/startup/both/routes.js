@@ -399,11 +399,11 @@ FlowRouter.route('/developers', {
 FlowRouter.route('/bounties', {
   name: 'bounties',
   subscriptions: function () {
-    this.register('bounties', SubsCache.subscribe('bounties'))
+    this.register('visibleBounties', SubsCache.subscribe('visibleBounties'))
     this.register('users', SubsCache.subscribe('users'))
-    this.register('problems', SubsCache.subscribe('problems'))
-    this.register('approvedcurrencies', SubsCache.subscribe('approvedcurrencies'))
-    this.register('bountytypes', SubsCache.subscribe('bountytypes'));
+    this.register('bountyProblems', SubsCache.subscribe('bountyProblems', 0, 0))
+    this.register('bountyCurrencies', SubsCache.subscribe('bountyCurrencies', 0, 0)) // set the limit to 0 for now, first param is limit, second is skip
+    this.register('bountytypes', SubsCache.subscribe('bountytypes'))
   },
   action() {
     BlazeLayout.render('mainLayout', {
