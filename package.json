@@ -5,7 +5,8 @@
   "scripts": {
     "start": "meteor run",
     "debug": "meteor run --inspect",
-    "lint": "./node_modules/.bin/eslint . --fix"
+    "lint": "./node_modules/.bin/eslint . --fix",
+    "test": "jest --testMatch \"**/?(*.)(jest-test).js?(x)\" --passWithNoTests --watch"
   },
   "dependencies": {
     "babel-runtime": "^6.26.0",
@@ -33,6 +34,11 @@
     "xml2js": "^0.4.19"
   },
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-jest": "^22.4.3",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "blaze-renderer": "^0.9.0",
     "eslint": "^4.19.1",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-import": "^2.10.0",

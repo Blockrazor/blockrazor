@@ -5,7 +5,7 @@ import { sendMessage } from '/imports/api/activityLog/methods'
 if (Meteor.isServer){
 	import { log } from '/server/main.js'
 } else {
-	const log = {error(){}}
+	let log = {error(){}}
 }
 
 Meteor.methods({

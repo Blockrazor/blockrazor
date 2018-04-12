@@ -4,7 +4,7 @@ import { creditUserWith, removeUserCredit } from '/imports/api/utilities.js'
 if (Meteor.isServer){
 	import { log } from '/server/main.js'
 } else {
-	const log = {error(){}}
+	let log = {error(){}}
 }
 
 Meteor.methods({

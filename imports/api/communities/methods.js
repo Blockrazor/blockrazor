@@ -6,7 +6,7 @@ import { sendMessage } from '/imports/api/activityLog/methods'
 if (Meteor.isServer){
 	import { log } from '/server/main.js'
 } else {
-	const log = {error(){}}
+	let log = {error(){}}
 }
 
 //Define a ValidatedMethod which can be called from both the client and server 

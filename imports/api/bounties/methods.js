@@ -5,7 +5,7 @@ import { sendMessage } from '/imports/api/activityLog/methods'
 if (Meteor.isServer){
   import { APICalls } from '/server/serverdb/APICalls.js';
 } else {
-  const APICalls = {insert(){}}
+  let APICalls = {insert(){}}
 }
 
 Meteor.methods({
