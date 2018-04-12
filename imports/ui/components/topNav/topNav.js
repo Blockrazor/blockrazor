@@ -8,10 +8,6 @@ import swal from 'sweetalert';
 Template.topNav.events({
   'click #js-logout': (event, templateInstance) => {
     Meteor.logout()
-  },
-   'click .navbar-toggler': (event, templateInstance) => {
-    $(".bars").toggle();
-    $(".arrow").toggle();
   }
 });
 
