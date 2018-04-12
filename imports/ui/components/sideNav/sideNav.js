@@ -3,6 +3,7 @@ import { ActivityLog, Wallet, UserData } from '/imports/api/indexDB.js';
 import './sideNav.html'
 import './sideNav.scss'
 import '../global/globalHelpers'
+import Hammer from 'hammerjs'
 
 Template.sideNav.helpers({
     activityNotifications() {
@@ -31,3 +32,23 @@ Template.sideNav.events({
     }
   },
 });
+
+
+Template.sideNav.onRendered(function () {
+
+let swipe = new Hammer(document);
+let sideMenuContainer = $('#sidebar');
+
+swipe.on('swiperight swipeleft', function(e) {
+  e.preventDefault()
+  if (e.type == 'swiperight') {
+
+$( "#navbar-toggler" ).click();
+  } else {
+
+$( "#navbar-toggler" ).click();
+  }
+
+});
+
+})

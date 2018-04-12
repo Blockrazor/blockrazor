@@ -30,7 +30,7 @@ function closingWindow(){
 }
 
 Template.mainLayout.events({
-  'click #navbar-toggler, click #sidebar-close-arrow': function (event) {
+  'click #navbar-toggler': function (event) {
     event.preventDefault();
     Session.set("openedSidebar", !Session.get('openedSidebar')) 
     var screen = Session.get("screenSize") 
@@ -94,26 +94,50 @@ Template.mainLayout.onCreated(function () {
   var handlerForSidebar = function (event) {
     if (!$(event.target).closest('#topnav').length && !$(event.target).closest('#sidebar').length) {
       Session.set("openedSidebar", false)
+      if(Session.get("openedSidebar")){
+      $('.bars').show();
+      $('.arrow').hide();
+      }else{
+      $('.bars').hide();
+      $('.arrow').hide();
+      }
     }
   }
+
+//we need to show the correct icon depending if sidebar is open or closed
+function sideMenuIcon(status){
+  if(status==='open'){
+      $('.bars').hide();
+      $('.arrow').show();
+  }else{
+      $('.bars').show();
+      $('.arrow').hide();
+  }
+}
 
   function setScreenSize() {
     var width = $(window).width()
     if (width < 577) {
       Session.set("screenSize", 0)
       $(document).bind("click", handlerForSidebar);
+      sideMenuIcon('closed');   
+
     } else if (width < 769) {
       Session.set("screenSize", 1)
       $(document).unbind("click", handlerForSidebar);
+      sideMenuIcon('open');  
     } else if (width < 992) {
       $(document).unbind("click", handlerForSidebar);
       Session.set("screenSize", 2)
+      sideMenuIcon('open'); 
     } else if (width < 1201) {
       $(document).unbind("click", handlerForSidebar);
       Session.set("screenSize", 3)
+      sideMenuIcon('open'); 
     } else {
       $(document).unbind("click", handlerForSidebar);
       Session.set("screenSize", 4)
+      sideMenuIcon('open'); 
     }
   }
 
