@@ -76,7 +76,9 @@ Template.registerHelper('relativeTime', function(date) {
 });
 
 Template.registerHelper('nlToBr', function(value) {
-    return value.replace(/(?:\r\n|\r|\n)/g, '<br />');
+    if (value) {
+        return value.replace(/(?:\r\n|\r|\n)/g, '<br />');
+    }
 });
 
 Template.registerHelper('hasUserVoted', (collection, collectionId, direction) => {

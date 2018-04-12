@@ -225,8 +225,10 @@ export class LocalizableCollection extends Mongo.Collection {
     }
   }
   populateLocal(){
+
     if (!this.populating){
       this.populating = true
+      if(this.methodName){
       Meteor.call(this.methodName, (err, res) => {
         res.forEach(x => {
           this.local.insert(x)
@@ -234,6 +236,7 @@ export class LocalizableCollection extends Mongo.Collection {
         this.ready = true
         this.readyDep.changed()
       })
+    }
       return this.ready
     } else {
       return this.ready
