@@ -3,8 +3,6 @@
 <div class="alert alert-info" role="alert">
   <a href="/">HOME</a> | <a href="/addcoin">ADD ANOTHER CURRENCY</a> <h5>If you have any items waiting for moderator approval they will be shown below</h5>
 </div>
-<h5>
-    {{reactiveVar 'pending'}}</h5>
 <h6>Approval pending currencies</h6>
 {{#if subsCacheReady}}
     {{#each pendingcurrencies}}
@@ -30,7 +28,6 @@
 <div class="alert alert-danger" role="alert">
     <h5>If you have any rejected items they will be shown below</h5>
 </div>
-    <h5>{{reactiveVar 'rejectedcoins'}}</h5>
     <h6>Rejected currencies</h6>
 
     {{#if subsCacheReady}}
