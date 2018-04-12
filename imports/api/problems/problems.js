@@ -23,6 +23,7 @@ Problems.schema = new SimpleSchema({
 	text: { type: String },
 	images: {type: Array, required: false},
 	"images.$": { type: String },
+	bounty: {type: Number, required: false},
 	createdBy: { type: Id },
 	date: { type: Integer },
 	credit: { type: Array },
