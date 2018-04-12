@@ -32,7 +32,11 @@ Template.transactions.onCreated(function() {
 	})
 
 	Meteor.call('totalAmount', (err, data) => { // get the total nubmer of transactions for pagination
-		this.total.set(data)
+	    if (err) {
+	        console.log(err)
+	    } else {
+	        this.total.set(data)
+	    }
 	})
 })
 
@@ -49,7 +53,8 @@ Template.transactions.helpers({
 		}) || {}).username || ''
 	},
 	amount: function() {
-		return this.amount > 0.00001 ? this.amount : this.amount.toExponential(3)
+		let amount = parseInt(amount);
+		return amount > 0.00001 ? amount : amount.toExponential(3)
 	},
 	color: function() {
 		return this.amount > 0 ? 'green' : 'red'
