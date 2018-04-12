@@ -278,7 +278,7 @@ Meteor.methods({
 			sum += (((i.from === 'System' || i.from === 'Blockrazor') && !isNaN(i.amount)) ? i.amount : 0)
 		})
 
-		return sum.toFixed(2)
+		return  parseFloat(sum).toFixed(2)
 	},
 
 	transactions: (page,rewardType) => {
