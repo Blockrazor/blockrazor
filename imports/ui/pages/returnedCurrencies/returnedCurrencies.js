@@ -160,7 +160,8 @@ Template.returnedCurrencies.helpers({
             return templateVars;
     },
     onlineUsers(){
-      return UsersStats.findOne("connected").connected
+      let connectionUsers = UsersStats.findOne("connected").connected;
+      return connectionUsers ? connectionUsers : 0;
     },
     createdUsers(){
       return UsersStats.findOne("created").created
