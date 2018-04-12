@@ -62,19 +62,6 @@
   left: 0;
   right: -25px;
 
-  #sidebar-close-arrow:before {
-    font-family: FontAwesome;
-    content: "\f00d";
-    display: inline-block;
-    padding-left: 10px;
-    padding-right: 25px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    color: #999;
-    vertical-align: middle;
-    float: right;
-  }
-
   .sign-in-button {
     margin-bottom: 15px;
   }
