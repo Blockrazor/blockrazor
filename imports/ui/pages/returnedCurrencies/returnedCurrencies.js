@@ -16,6 +16,7 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
   self.autorun(function(){
     SubsCache.subscribe('dataQualityCurrencies');
     SubsCache.subscribe('usersStats')
+    SubsCache.subscribe('redflags')
   })
   this.searchInputFilter = new ReactiveVar(undefined); 
   this.increment = 15
@@ -32,7 +33,6 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
 
 
   this.autorun(() => {
-    SubsCache.subscribe('redflags')
     this.noFeatured.set(!Currencies.findOne({
       featured: true
     }))

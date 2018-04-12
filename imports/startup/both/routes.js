@@ -271,6 +271,7 @@ FlowRouter.route('/', {
     this.register('usersStats', SubsCache.subscribe('usersStats'))
     this.register('dataQualityCurrencies', SubsCache.subscribe('dataQualityCurrencies'));
     this.register('graphdata', SubsCache.subscribe('graphdata'))
+    this.register('redflags', SubsCache.subscribe('redflags'))
   },
   action() {
     BlazeLayout.render('mainLayout', {
