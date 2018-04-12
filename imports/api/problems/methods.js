@@ -3,17 +3,12 @@ import { UserData, Wallet, Problems, ProblemImages, ProblemComments, development
 import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check'
 
+
 export const newProblem = new ValidatedMethod({
   name: 'newProblem',
-  validate: //null,
-  new SimpleSchema({
-    type: {type: String, allowedValues: ['bug', 'feature', 'question']},
-    header: {type: String, max: 80, /*label: "summary above 80 characters"*/}, //label makes it into the error, but it's concatenated with default error message
-    text: String,
-		images: {type: Array, required: false},
-		"images.$": String,
-    bounty: {required: false, type: Number, /*autoValue: function(){console.log(this);if (Number.isNaN(this.value)){return 0} else {return this.value}}*/}, //can't call clean() within method call
-  }, {requiredByDefault: developmentValidationEnabledFalse}).validator(),
+	validate: //null,
+  new SimpleSchema(Problems.schema.pick("type","header","text","images","images.$","bounty","createdBy")
+	, {requiredByDefault: developmentValidationEnabledFalse }).validator(),
   run({ type, header, text, images, bounty }) {
 			if (Meteor.userId()) {
 				if (bounty > 0) { // check if the user can finance the bounty
