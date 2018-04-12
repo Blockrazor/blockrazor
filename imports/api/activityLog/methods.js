@@ -3,7 +3,7 @@ import { ActivityLog } from '/imports/api/indexDB.js'
 if (Meteor.isServer){
 	import { log } from '/server/main.js'
 } else {
-	const log = {error(){}}
+	let log = {error(){}}
 }
 export const sendMessage = function(userId, message, from) {
     ActivityLog.insert({
