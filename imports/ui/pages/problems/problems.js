@@ -4,6 +4,8 @@ import { FlowRouter } from 'meteor/staringatlights:flow-router'
 
 import './problems.html'
 
+window.Problems = Problems
+
 Template.problems.onCreated(function() {
 	this.autorun(() => {
 		SubsCache.subscribe('problems')

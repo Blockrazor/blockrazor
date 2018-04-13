@@ -1,6 +1,7 @@
 import { Accounts } from 'meteor/accounts-base';
 import '/imports/startup/client';
-import { UserData, Features, Summaries, Redflags } from '/imports/api/indexDB.js';
+import { UserData, Features, Summaries, Redflags, Currencies } from '/imports/api/indexDB.js';
+window.Currencies = Currencies
 
 const collections = { Features, Summaries, Redflags }
 
