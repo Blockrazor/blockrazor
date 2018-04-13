@@ -3,6 +3,7 @@ import { Currencies, Ratings } from '/imports/api/indexDB.js';
 import swal from 'sweetalert';
 
 import './question.html'
+import './ratings.scss'
 import Cookies from 'js-cookie'
 
 Template.question.onCreated(function bodyOnCreated() {
@@ -50,6 +51,10 @@ Template.question.helpers({
 });
 
 Template.question.events({
+  'error img': function(e) {
+      // fires when a particular image doesn't exist in given path
+      $(e.target).attr('src','/images/noimage.png'); 
+  },
   'mouseover .choice': function(){
     $('.choice').css('cursor', 'pointer');
   },
