@@ -48,6 +48,24 @@
   .navbar-brand{
     margin: 0;
   }
+  .left-nav-item{
+    min-width: 60px;
+    padding-right: 40px;
+    position: relative;
+    display: flex;
+    .separator {
+      content: '';
+      display: inline-block;
+      background: #666;
+      margin: 0px 10px 0 0;
+      height: 19px;
+      width: 1px;
+      vertical-align: top;
+    }
+    a {
+      text-decoration: none !important;
+    }
+  }
   .right-nav-item{
     padding-right: 40px;
     .notifications{
