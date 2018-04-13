@@ -6,7 +6,7 @@ import { LocalizableCollection } from '../utilities'
 let Problems = {}
 
 if (!Meteor.isTest) {
-	Problems = new LocalizableCollection('problems')
+	Problems = new LocalizableCollection('problems', "fetchProblems")
 } else {
 	Problems = new Mongo.Collection('problems')
 }

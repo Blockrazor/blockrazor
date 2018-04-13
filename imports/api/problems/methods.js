@@ -700,3 +700,10 @@ Meteor.methods({
     	})
     }
 })
+
+
+Meteor.methods({
+	fetchProblems(){
+		return Problems.find().fetch()
+	}
+})
