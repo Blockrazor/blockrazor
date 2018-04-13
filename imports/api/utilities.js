@@ -150,7 +150,7 @@ export var rewardCurrencyCreator = function(launchTags, owner, currencyName) {
     let reason = "submitting " + currencyName.toString();
     console.log(reason);
 
-    creditUserWith(rewardAmount, owner, reason);
+    creditUserWith(rewardAmount, owner, reason, 'newCurrency');
   }) // parseFloat(getRewardFor(rewardType, false));
 
   return true;

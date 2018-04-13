@@ -30,6 +30,7 @@ import '/imports/api/problems/methods'
 import '/imports/api/common/votes'
 import '/imports/api/bounties/methods.js'
 import '/imports/api/ratings/methods'
+import '/imports/api/distribution/methods'
 
 import './routes.js'
 

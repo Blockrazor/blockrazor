@@ -1,0 +1,61 @@
+<template name="distribution">
+    <h2>Krazor distribution projections</h2>
+    <h3>Earnings</h3>
+    {{#with earnings}}
+    <div class="row mb-3">
+        <div class="col-sm-4">
+            <div class="card text-white bg-dark text-center">
+                <div class="card-body">
+                    <h4 class="card-title text-white">1 month</h4>
+                    <h2 class="text-white">{{oneMonth}} <small>KZR</small></h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card text-white bg-dark text-center">
+                <div class="card-body">
+                    <h4 class="card-title text-white">6 months</h4>
+                    <h2 class="text-white">{{sixMonths}} <small>KZR</small></h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card text-white bg-dark text-center">
+                <div class="card-body">
+                    <h4 class="card-title text-white">1 year</h4>
+                    <h2 class="text-white">{{oneYear}} <small>KZR</small></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/with}}
+    <h3>Spendings</h3>
+    {{#with spendings}}
+    <div class="row mb-3">
+        <div class="col-sm-4">
+            <div class="card text-white bg-dark text-center">
+                <div class="card-body">
+                    <h4 class="card-title text-white">1 month</h4>
+                    <h2 class="text-white">{{oneMonth}} <small>KZR</small></h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card text-white bg-dark text-center">
+                <div class="card-body">
+                    <h4 class="card-title text-white">6 months</h4>
+                    <h2 class="text-white">{{sixMonths}} <small>KZR</small></h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card text-white bg-dark text-center">
+                <div class="card-body">
+                    <h4 class="card-title text-white">1 year</h4>
+                    <h2 class="text-white">{{oneYear}} <small>KZR</small></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/with}}
+</template>

@@ -45,6 +45,7 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   import '../../ui/pages/allHashaverage/allHashaverage'
   import '../../ui/pages/addHashpower/addHashpower.js'
   import '../../ui/pages/suspended/suspended'
+  import '../../ui/pages/distribution/distribution'
   import '../../ui/pages/faq/faq.html'
 
 
@@ -278,6 +279,16 @@ FlowRouter.route('/', {
       main: 'returnedCurrencies',
       //left: 'menu'
     });
+  }
+})
+
+FlowRouter.route('/distribution', {
+  name: 'distribution',
+  action() {
+    BlazeLayout.render('mainLayout', {
+      main: 'distribution',
+      //left: 'menu'
+    })
   }
 })
 
