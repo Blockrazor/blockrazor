@@ -1,0 +1,31 @@
+.ratings-answer-choices {
+
+  margin: 0 auto; 
+  padding-top:2em;
+
+  .choice {
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1); 
+
+    .choice-image {
+      width: 8rem;
+      padding:10px;
+    }
+
+    .equal-sign {
+      width: 5rem;
+      padding:10px;
+    }
+  }
+
+  .equal-choice {
+    background: -moz-linear-gradient(bottom left, #fdfbfb, #f9f7f8, #f4f4f5, #f0f0f2, #ebedee);
+    background: -webkit-linear-gradient(bottom left, #fdfbfb, #f9f7f8, #f4f4f5, #f0f0f2, #ebedee);
+    background: -o-linear-gradient(bottom left, #fdfbfb, #f9f7f8, #f4f4f5, #f0f0f2, #ebedee);
+    background: -ms-linear-gradient(bottom left, #fdfbfb, #f9f7f8, #f4f4f5, #f0f0f2, #ebedee);
+    background: linear-gradient(to right top, #fdfbfb, #f9f7f8, #f4f4f5, #f0f0f2, #ebedee);
+  }
+  
+  .choice:hover {
+    box-shadow: 0 10px 25px 0 rgba(46, 61, 73, 0.2);    
+  }
+}

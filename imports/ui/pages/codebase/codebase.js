@@ -4,6 +4,7 @@ import Cookies from 'js-cookie'
 import swal from 'sweetalert';
 
 import './codebase.html'
+import './codebase.scss'
 import './codCurrencyChoices'
 
 Template.codebase.onCreated(function() {
@@ -48,6 +49,10 @@ Template.codebase.onRendered(function() {
 })
 
 Template.codebase.events({
+    'error img': function(e) {
+        // fires when a particular image doesn't exist in given path
+        $(e.target).attr('src','/images/noimage.png'); 
+    },
     'click #js-add': (event, templateInstance) => {
         let proofs = templateInstance.proofs.get()
         proofs.push(proofs.length + 1)

@@ -14,26 +14,26 @@
 
     <div id="outstandingRatings" class="text-center">You still have to answer {{outstandingRatings}} questions.
     {{#with questions}}
-        <h3 style="margin-top:50px;">{{questionText}}?</h3>
+        <h3 class="codebase-question">{{questionText}}?</h3>
 
 			<div class="row text-center">
-		        <div class="card-deck text-center" style="margin: 0 auto; padding-top:2em">
+		        <div class="card-deck text-center codebase-answer-choices">
 		            <div class="card pointer greyHover choice" id="{{currency0Id}}">
 		                <div class="card-body">
 		                    <h5 class="card-title">{{currency0.currencyName}}</h5>
-		                    <img class="card-img-top mx-auto d-block" style="width: 8rem;padding:10px" src="{{getLogo currency0.currencyLogoFilename}}" alt="Card image cap">
+		                    <img class="card-img-top mx-auto d-block choice-image" src="{{getLogo currency0.currencyLogoFilename}}" alt="Card image cap">
 		                </div>
 		            </div>
-		            <div class="card pointer greyHover text-white bg-dark choice" id="tie">
+		            <div class="card pointer greyHover choice equal-choice" id="tie">
 		                <div class="card-body">
-		                    <h5 class="card-title"><br />Both are about the same</h5>
-		                    <img src="/images/equal-symbol.png">
+		                    <h5 class="card-title">Both {{currency0.currencyName}} and {{currency1.currencyName}} equally</h5>
+		                    <img class="card-img-top mx-auto d-block equal-sign" src="/images/equal_sign.png">
 		                </div>
 		            </div>
 		            <div class="card pointer greyHover choice" id="{{currency1Id}}">
 		                <div class="card-body">
 		                    <h5 class="card-title">{{currency1.currencyName}}</h5>
-		                    <img class="card-img-top mx-auto d-block" style="width: 8rem;padding:10px" src="{{getLogo currency1.currencyLogoFilename}}" alt="Card image cap">
+		                    <img class="card-img-top mx-auto d-block choice-image" src="{{getLogo currency1.currencyLogoFilename}}" alt="Card image cap">
 		                </div>
 		            </div>
 		        </div>
