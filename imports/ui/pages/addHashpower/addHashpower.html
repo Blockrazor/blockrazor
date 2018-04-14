@@ -1,90 +1,123 @@
 <template name="addHashpower">
-<!-- 	 -->
-		<div class="card">
-  <div class="card-body">
-    <h4 class="card-title">Add Hash Power Data</h4>
+	<div class="form-group my-5">
+		<form class="js-add-haspower">
+			<div class="heading-wrapper text-center mt-2">
+                <h4 class="mb-4">Add Hash Power Data</h4>
+            </div>
+			<div class="justify-content-center mx-auto">
+				<div class="card bg-white required mx-auto" style="width:80% !important">
+					<div class="card-body">
+						<h5 class="card-title">Hardware Category</h5>
+						<div class="input-group">
+							<select id="js-hw-cat" class="form-control" style="width:40%">
+								<option value="ASIC">ASIC</option>
+								<option value="GPU">GPU</option>
+								<option value="CPU">CPU</option>
+							</select>
+						</div>
+						<hr>
+						{{#if hwDevices.length}}
+							<h5 class="card-title">Hardware Device</h5>
+							<div class="input-group">
+								<select id="js-hw-dev" class="form-control" style="width:40%">
+									{{#each hwDevices}}
+									<option value="{{_id}}">{{name}}</option>
+									{{/each}}
+								</select>
+							</div>
+							<small>Your device is not on the list? <a href="#" id="js-add-hw">Add it.</a></small>
+							<hr>
+							<div style="display: {{addHw}}">
+								<h5 class="card-title">Device Name</h5>
+								<div class="input-group">
+									<input type="text" id="js-hw-new" class="form-control" />
+								</div>
+								<hr>
+							</div>
+						{{else}}
+							<h5 class="card-title">Hardware Device</h5>
+							<div class="input-group">
+								<input type="text" id="js-hw-new" class="form-control" />
+							</div>
+							<hr>
+						{{/if}}
 
-<!--     <div class="form-group row">
-      <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="staticEmail" value="email@example.com">
-      </div>
-    </div> -->
-    {{#if activeBounty}}
-	<div class="alert alert-danger" role="alert">
-	<h5 class="text-center">{{timeRemaining}}</h5></div>
-	{{/if}}
-	<label for="js-add-haspower">Hardware Category</label>
-	<form id="js-add-haspower">
-		 <select id="js-hw-cat" class="form-control" style="width:40%">
-			<option value="ASIC">ASIC</option>
-			<option value="GPU">GPU</option>
-			<option value="CPU">CPU</option>
-		</select><br />
-		{{#if hwDevices.length}}
-		<label for="js-hw-dev">Hardware Device</label> <select id="js-hw-dev" class="form-control" style="width:40%">
-			{{#each hwDevices}}
-			<option value="{{_id}}">{{name}}</option>
-			{{/each}}
-		</select>
-		<small>Your device is not on the list? <a href="#" id="js-add-hw">Add it.</a></small><br />
-		<div style="display: {{addHw}}">
-			<label for="js-hw-new">Device Name</label> <input type="text" id="js-hw-new" class="form-control" style="width:40%"/>
-		</div>
-		{{else}}
-			<label id="js-hw-new">Hardware Device</label> <input type="text" id="js-hw-new" class="form-control" style="width:40%"/><br />
-		{{/if}}
-		<br />
-		{{#if hwAlgo.length}}
-		<label for="js-algo">Algorithm</label> <select id="js-algo" class="form-control" style="width:40%">
-			{{#each hwAlgo}}
-			<option value="{{_id}}">{{name}}</option>
-			{{/each}}
-		</select>
-		<small>Your algorithm is not on the list? <a href="#" id="js-add-algo">Add it</a>.</small><br /><br />
-		<div style="display: {{addAlgo}}">
-			<label for="js-algo-new">Algorithm Name</label><input type="text" id="js-algo-new" class="form-control" style="width:40%"/>
-		</div>
-		{{else}}
-			<label for="js-algo-new">Algorithm</label> <input type="text" id="js-algo-new" class="form-control" style="width:40%"/><br />
-		{{/if}}
+						{{#if hwAlgo.length}}
+							<h5 class="card-title">Algorithm</h5>
+							<div class="input-group">
+								<select id="js-algo" class="form-control" style="width:40%">
+									{{#each hwAlgo}}
+									<option value="{{_id}}">{{name}}</option>
+									{{/each}}
+								</select>
+							</div>
+							<small>Your algorithm is not on the list? <a href="#" id="js-add-algo">Add it</a>.</small>
+							<hr>
+							<div style="display: {{addAlgo}}">
+								<h5 class="card-title">Algorithm Name</h5>
+								<div class="input-group">
+									<input type="text" id="js-algo-new" class="form-control" style="width:40%"/>
+								</div>
+								<hr>
+							</div>
+						{{else}}
+							<h5 class="form-control">Algorithm</h5>
+							<div class="input-group">
+								<input type="text" id="js-algo-new" class="form-control" style="width:40%"/>
+							</div>
+							<hr>
+						{{/if}}
 
-		{{#if units.length}}
-<label for="js-hr">Hash Rate *</label>
-				<div class="input-group" style="width:40%">
-					
-		<input type="number" min="0" id="js-hr" class="form-control" required/>
-		<select id="js-unit" class="form-control" style="width:10px">
-			{{#each units}}
-			<option value="{{_id}}">{{name}}</option>
-			{{/each}}
-		</select>
+						{{#if units.length}}
+							<h5 class="card-title">Hash Rate *</h5>
+							<div class="input-group">
+								<input type="number" min="0" id="js-hr" class="form-control" required/>
+								<select id="js-unit" class="form-control" style="width:10px">
+									{{#each units}}
+										<option value="{{_id}}">{{name}}</option>
+									{{/each}}
+								</select>
+							</div>
+							<small>Unit not on the list? <a href="#" id="js-add-unit">Add it</a>.</small>
+							<hr>
+							<div style="display: {{addUnit}}">
+								<h5 class="card-title">Unit Name</h5>
+								<div class="input-group">
+									<input type="text" style="width: 40%" id="js-unit-new" class="form-control"/>
+								</div>
+								<hr>
+							</div>
+						{{else}}
+							<h5 class="card-title">Unit Name</h5>
+							<div class="input-group">
+								<input type="text" id="js-unit-new" style="width: 40%" class="form-control"/>
+							</div>
+							<hr>
+						{{/if}}
+
+						<h5 class="card-title">Power Consumption</h5>
+						<div class="input-group">
+							<input type="number" min="0" id="js-pc" name="js-pc" class="form-control" style="width:40%" placeholder="Metric in Watts" required/>
+						</div>
+						<hr>
+
+						<label id="uploadLabel" class="btn btn-primary" for="imageInput">
+							<input id="imageInput" name="imageInput" type="file" style="display:none;" onchange="$('#fileInfo').html(this.files[0].name)" class="required" accept="image/*">
+							<span class="uploadText">UPLOAD</span>
+						</label>
+						<br>
+						<small>Mining rig image (as a proof) *</small>
+						<br>
+						<span class='label label-info fileInfo' id="fileInfo"></span>
+						<input type='hidden' id='js-image'><br />
+						<br>
+						<div class="submit-form">
+							<button type="submit" id="js-add" class="btn btn-primary">Add!</button>
+							<button id="js-cancel" class="btn btn-secondary">Cancel</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
 	</div>
-		<small>Unit not on the list? <a href="#" id="js-add-unit">Add it</a>.</small><br />
-		<div style="display: {{addUnit}}">
-			<label for="js-unit-new">Unit Name</label> <input type="text" style="width: 40%" id="js-unit-new" class="form-control"/><br />
-		</div>
-		{{else}}
-			<input type="text" id="js-unit-new" style="width: 40%" class="form-control"/><br />
-		{{/if}}
-		<br />
-		<label for="js-pc">Power Consumption</label> <input type="number" min="0" id="js-pc" name="js-pc" class="form-control" style="width:40%" placeholder="Metric in Watts" required/><br />
-		
-
-
-    <label id="uploadLabel" class="btn btn-primary" for="imageInput">
-        <input id="imageInput" name="imageInput" type="file" style="display:none;" onchange="$('#fileInfo').html(this.files[0].name)" class="required" accept="image/*"> <span class="uploadText">UPLOAD</span>
-    </label>
-    <br />
-    <small>Mining rig image (as a proof) *</small><br />
-
-    <span class='label label-info fileInfo' id="fileInfo"></span>
-
-		<input type='hidden' id='js-image'><br />
-
-		<button type="submit" id="js-add" class="btn btn-primary">Add!</button> <button id="js-cancel" class="btn btn-secondary">Cancel</button>
-
-	</form>
-  </div>
-</div>
 </template>
