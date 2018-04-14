@@ -57,7 +57,8 @@ export const newProblem = new ValidatedMethod({
 				      	from: 'Blockrazor',
 				      	message: `KZR has been reserved from your account for funding a problem.`,
 				      	amount: -bounty,
-				     	read: false
+				     	read: false,
+				     	rewardType: 'problem'
 				    })
 				}
 			} else {
@@ -202,7 +203,8 @@ Meteor.methods({
 					      	from: 'Blockrazor',
 					      	message: `KZR has been returned to your account because the problem has been cancelled.`,
 					      	amount: i.bounty,
-					     	read: false
+					     	read: false,
+					     	rewardType: 'problem'
 					    })
 					})
 				} else {
@@ -251,7 +253,8 @@ Meteor.methods({
 				      	from: 'Blockrazor',
 				      	message: `KZR has been reserved from your account for funding a problem.`,
 				      	amount: -amount,
-				     	read: false
+				     	read: false,
+				     	rewardType: 'problem'
 				    })
 
 				    Problems.update({
@@ -300,7 +303,8 @@ Meteor.methods({
 					      	from: 'Blockrazor',
 					      	message: `KZR has been returned to your account because you cancelled the reward.`,
 					      	amount: i.bounty,
-					     	read: false
+					     	read: false,
+					     	rewardType: 'problem'
 					    })
 
 					    Problems.update({
@@ -445,7 +449,8 @@ Meteor.methods({
 			      	from: 'Blockrazor',
 			      	message: `You have been rewarded with KZR for solving a problem.`,
 			      	amount: amount,
-			     	read: false
+			     	read: false,
+			     	rewardType: 'problem'
 			    })
 
 	            return 'ok'
