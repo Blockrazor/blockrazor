@@ -18,10 +18,6 @@
                                 </select>
                                 {{#if reactiveVar 'typeSelected'}}
                                 <hr>
-                                <h5 class="card-title">Problem Summary</h5>
-                                <input type="text" id="js-header" name="header" placeholder="{{reactiveVar 'problemSummaryPrompt'}}" class="form-control">{{reactiveVar 'summaryCharsCount'}}
-                                <br />
-                                <hr>
                                 <h5 class="card-title">Problem description</h5>
                                 <textarea id="js-text" name="text" placeholder="{{reactiveVar 'problemDescriptionPrompt'}}"
                                     class="form-control"></textarea>
@@ -32,6 +28,10 @@
                                     class="form-control"></textarea>
                                 <br />
                                 {{/if}}
+                                <h5 class="card-title">Summary of the Problem</h5>
+                                <input type="text" id="js-header" name="header" placeholder="{{reactiveVar 'problemSummaryPrompt'}}" class="form-control">{{reactiveVar 'summaryCharsCount'}}
+                                <br />
+                                <hr>
                                 <h5>Images</h5>
                                 <div id="js-images"></div>
                                 <label class="btn btn-primary" for="imageInput" id="imageInputLavel">
