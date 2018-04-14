@@ -218,8 +218,8 @@ FlowRouter.route('/suspended', {
 FlowRouter.route('/problems', {
   name: 'problems',
   subscriptions: function (params) {
-    this.register('problems', SubsCache.subscribe('problems'))
     this.register('users', SubsCache.subscribe('users'))
+    this.register('problems', SubsCache.subscribe('problems'))
   },
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {
