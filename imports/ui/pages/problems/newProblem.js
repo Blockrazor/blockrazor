@@ -37,7 +37,7 @@ Template.newProblem.onCreated(function() {
 				this.problemVariableTitle.set("Potential Solution")
 			} else {
 				//type = bug
-				description.set("Describe the problem you are facing that your feature request will solve")
+				description.set("Describe the problem you are facing that will be solved by fixing this bug.")
 				summary.set("Summarize problem to solve for in less than 60 characters.")
 				variable.set("Explain step-by-step how others can reproduce this bug to see the same problem. You can attache pictures below.")
 				this.problemVariableTitle.set("Steps to Reproduce the Bug")
