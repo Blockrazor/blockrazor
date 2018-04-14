@@ -298,7 +298,9 @@ export class LocalizableCollection extends Mongo.Collection {
             return super.findOne(selector, projection)
           } else {
             var res = super.findOne(selector, projection)
+            if (res) {
               this.local.update(res._id, res)
+            }
               return res
           }
         } else {
