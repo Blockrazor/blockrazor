@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { UserData, Wallet, Currencies, Bids, Auctions } from '/imports/api/indexDB'
 import { check } from 'meteor/check'
-
+import { segmentEvent } from '/imports/api/analytics.js';
 const transfer = (to, from, message, amount, currency) => {
 	UserData.upsert({
 		_id: to
@@ -47,6 +47,16 @@ Meteor.methods({
 				    createdBy: Meteor.userId(),
 				    createdAt: new Date().getTime()
 				})
+
+					//you must define an event and can define multiple properties if required
+					let payload = {
+					    event: 'Created an Auction',
+					    properties: {
+					        auction: name
+					    }
+					}
+					//invoke segment function with the defined payload above
+					segmentEvent(payload);
 
 				// reserve the amount
 				transfer(Meteor.userId(), 'Blockrazor', `${options.amount} ${options.baseCurrency} has been reserved from your account.`, -options.amount, options.baseCurrency)
