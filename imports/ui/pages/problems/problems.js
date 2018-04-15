@@ -25,6 +25,9 @@ Template.problems.events({
 		$('#addProblemButton').removeClass('disabled not-allowed');
 		templateInstance.filter.set($(event.currentTarget).val())
 	},
+	'submit #problemsFilter': (event, templateInstance) => {
+		event.preventDefault()
+	},
 	'change #js-level': (event, templateInstance) => {
 		event.preventDefault()
 
