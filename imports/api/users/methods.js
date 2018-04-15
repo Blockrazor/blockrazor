@@ -18,6 +18,15 @@ Meteor.methods({
       }
     })
   },
+  bountyPreference: function(valueArray) {
+    UserData.update({
+      _id: this.userId
+    }, {
+      $set: {
+        bountyPreference: valueArray
+      }
+    })
+  },
   addOthers: (currency, amount) => {
     UserData.update({
       _id: Meteor.userId()
