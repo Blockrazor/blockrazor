@@ -1,53 +1,67 @@
 <template name="topNav">
-  <nav class="navbar navbar-toggleable-md navbar-dark bg-primary text-white" id="topnav">
-
-    <div>
-      <button class="navbar-toggler navbar-toggler-right" type="button" id="navbar-toggler">
-        <i class="fa fa-bars bars text-white" aria-hidden="true"></i>
-      </button>
-      <a class="navbar-brand text-white d-none d-sm-block mt-4" href="/">BLOCKRAZOR</a>
-      <a class="navbar-brand text-white d-sm-none" href="/"><img src="/images/logo.small.svg" style="width:30px"></a>
-      <div class="pl-4 left-nav-item">
-        <a href="/bounties" title="BlockRazor Bounties" >
-          <i class="fa fa-plus-square text-white d-md-none" style="font-size: 18px"></i>
-          <span class="separator text-white d-none d-md-block"></span>
-          <span class="text-white d-none d-md-block">Bounties</span>
-        </a>
-      </div>
-    </div>
-    <div class="right-nav-item">
-      {{#if currentUser}}
-      <div class="dropdown show">
-        <a class="dropdown-toggle text-white" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span class="d-none d-sm-block">{{currentUser.username}}</span><span class="d-sm-none"><i class="fa fa-user text-white"></i></span>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-          <a class="dropdown-item" href="/profile/{{slug}}">My profile</a>
-          <a class="dropdown-item" href="#" id="js-logout">Logout</a>
-        </div>
-      </div>
-      <div class="notifications pl-4">
-        <a href="/faq" title="BlockRazor FAQ">
-          <i class="fa fa-question text-white" style="font-size: 19px"></i> 
-        </a>
-        {{#if hasBounties activeBounties }}
-        <a href="{{bountyUrl activeBounties}}" title="Active BlockRazor Bounties">
+    <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top" id="topnav">
+        <button class="navbar-toggler navbar-toggler-right" type="button" id="navbar-toggler" style="display:block">
+            <i class="fa fa-bars bars text-white" aria-hidden="true"></i>
+        </button>
+        <a class="navbar-brand d-none d-sm-block" href="/">BLOCKRAZOR</a>
+        <div class="collapse navbar-collapse" id="navbarColor03">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <i class="nav-link fa fa-plus-square text-white d-md-none"></i>
+                    <a class="nav-link text-white d-none d-md-block" href="/bounties"><span class="separator"></span> Bounties</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0 right-nav-item">
+                <div class="menu-right mr-sm-2 notifications">
+                    <ul class="navbar-nav mr-auto">
+                        {{#if currentUser}}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true"><strong class="text-white d-none d-sm-block">{{currentUser.username}}<i class="ml-2 fa fa-caret-down  
+"></i></strong><strong class="d-sm-none"><i class="fa fa-user text-white"></i></strong></a>
+                            <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 37px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                <a class="dropdown-item" href="/profile/{{slug}}">My profile</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" id="js-logout">Logout</a>
+                            </div>
+                        </li>
+                        <li class="nav-item active">
+                            <a href="/faq" title="BlockRazor FAQ" class="text-white nav-link"><i class="fa fa-question text-white" style="font-size: 19px"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            {{#if hasBounties activeBounties }}
+                            <a href="{{bountyUrl activeBounties}}" title="Active BlockRazor Bounties" class="nav-link">
           <i class="fa fa-dot-circle-o text-white" style="font-size: 19px"></i> 
           <span class="badge badge-danger">{{ activeBounties.length }}</span>
-        </a> 
-        {{/if}}
-        <a href="/notifications" title="Your Notifications" ><i class="fa fa-bell text-white"></i>
+        </a> {{/if}}
+                        </li>
+                        <li class="nav-item">
+                            {{#if hasBounties activeBounties }}
+                            <a href="{{bountyUrl activeBounties}}" title="Active BlockRazor Bounties">
+          <i class="fa fa-dot-circle-o text-white" style="font-size: 19px"></i> 
+          <span class="badge badge-danger">{{ activeBounties.length }}</span>
+        </a> {{/if}}
+                        </li>
+                        <li class="nav-item">
+                            <a href="/notifications" class="nav-link" title="Your Notifications"><i class="fa fa-bell text-white"></i>
           {{#if activityNotifications}}<span class="badge badge-success">{{activityNotifications}}</span>{{/if}}
         </a>
-        <a href="/wallet" title="Open your Wallet" ><i class="fa fa-university text-white"></i>
-          {{#if walletNotifications}}<span class="badge badge-success">{{walletNotifications}}</span>{{/if}}
+                        </li>
+                        <li class="nav-item">
+                            <a href="/wallet" id="navNotification" title="Open your Wallet" class="nav-link"><i class="fa fa-university text-white"></i>
+          {{#if walletNotifications}}<span class="bubble badge badge-success">{{walletNotifications}}</span>{{/if}}
         </a>
-        <small class="text-muted d-none d-sm-block"><a href="wallet" class="text-white">{{balance}} KZR</a></small>
-      </div>
-      {{else}}
-        <a href="/login" class="text-white">Sign in</a>
-      {{/if}}
-    </div>
-
-  </nav>
+                        </li>
+                        <li class="nav-item">
+                            <a href="wallet" class="nav-link text-white text-muted ml-2 d-none d-sm-block">{{balance}} KZR</a>
+                        </li>
+                        {{else}}
+                        <li class="nav-item">
+                            <a href="/login" class="nav-link text-white">Sign in</a>
+                        </li>
+                        {{/if}}
+                    </ul>
+                </div>
+            </form>
+        </div>
+    </nav>
 </template>
