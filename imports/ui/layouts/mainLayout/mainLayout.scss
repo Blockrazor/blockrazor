@@ -20,7 +20,8 @@
 }
 
 #sidebar {
-  overflow: hidden;
+top:86px !important;
+  overflow: scroll;
 }
 .app-content.active{
   margin-right: 0;
