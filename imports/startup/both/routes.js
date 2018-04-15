@@ -178,6 +178,7 @@ FlowRouter.route('/auction/:id', {
     this.register('auction', FastRenderer.subscribe('auction', params.id))
     this.register('bids', FastRenderer.subscribe('bids', params.id))
     this.register('publicUserData', FastRenderer.subscribe('publicUserData'))
+    this.register('approvedcurrencies', FastRenderer.subscribe('approvedcurrencies'))
   },
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {

@@ -3,7 +3,7 @@
     <div class="form-group my-5">
         <div class="heading-wrapper text-center mt-2">
             <h3 class="mb-4">{{name}}</h3>
-            <h4>{{options.amount}} {{options.baseCurrency}}</h4>
+            <h4>{{options.amount}} {{options.baseCurrency}} {{#if needsUSD options.baseCurrency}}{{#if USDprice options.baseCurrency options.amount}}({{USDprice options.baseCurrency options.amount}} USD){{/if}}{{/if}}</h4>
         </div>
     
         <form id="js-form">
@@ -15,8 +15,10 @@
                     <div>
                         <div class="card bg-white required mx-auto" style="width:80% !important">
                             <div class="card-body"> 
-                                <h5>Highest bid: {{highest}} {{options.acceptedCurrency}}</h5>  
+                                <h5>Highest bid: {{highest}} {{options.acceptedCurrency}} {{#if needsUSD options.acceptedCurrency}}{{#if USDprice options.acceptedCurrency highest}}({{USDprice options.acceptedCurrency highest}} USD){{/if}}{{/if}}</h5>  
                                 {{#if closed}}<h5>Winner: {{winner}}</h5>{{/if}}
+                                <hr>
+                                <h5>Price per KZR: {{pricePerKZR}} {{currency}} {{#if needsUSD options.acceptedCurrency}}{{#if USDprice options.acceptedCurrency pricePerKZR}}({{USDprice options.acceptedCurrency pricePerKZR}} USD){{/if}}{{/if}}</h5>  
                                 <hr>  
                                 <h5>{{#if options.reserveMet}}<span style="color: green">Reserve is met</span>{{else}}<span style="color: red;">Reserve is not met</span>{{/if}}</h5>
                                 {{#if closed}}<hr><h5><span style="color: red">CLOSED</span></h5>{{else}}
