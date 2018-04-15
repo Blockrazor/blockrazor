@@ -1,8 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { UserData} from '/imports/api/indexDB.js';
-import { updateUsersStats } from './usersStats'
 import Analytics from 'analytics-node'
-var analytics = new Analytics('auAfRv1y0adOiVyz1TZB9nl18LI9UT98');
+var analytics = new Analytics('auAfRv1y0adOiVyz1TZB9nl18LI9UT98')
+
+import { updateUsersStats } from './usersStats'
 
 
 //this needs looking into
