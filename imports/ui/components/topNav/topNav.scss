@@ -1,18 +1,7 @@
 #topnav{
   z-index: 1000 !important;
-  position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
-  height: 60px;
-  background: #fff;
   z-index: 9;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: nowrap;
-  padding: 0;
   &:after{
     bottom: -5px;
     box-shadow: inset 0px 4px 8px -3px rgba(17, 17, 17, .06);
@@ -26,17 +15,19 @@
     width: 100%;
     z-index: 2050;
   }
-  > div{
-    display: flex;
-    align-items: center;
-    height: 100%;
-  }
+      .separator {
+      content: '';
+      display: inline-block;
+      background: #666;
+      margin: 0px 10px 0 0; 
+      width: 1px;
+      vertical-align: top;
+    }
+
   button, a{
     display: flex;
     align-items: center;
-    height: 100%;
     outline: none;
-    color: #1a1a1a;
     border: none;
     box-shadow: none;
     &:active, &:focus{
@@ -57,8 +48,7 @@
       content: '';
       display: inline-block;
       background: #666;
-      margin: 0px 10px 0 0;
-      height: 19px;
+      margin: 0px 10px 0 0; 
       width: 1px;
       vertical-align: top;
     }
@@ -66,9 +56,17 @@
       text-decoration: none !important;
     }
   }
+
+  .bubble{
+
+          position: absolute;
+          top: 5px;
+          right: 5px;
+
+  }
   .right-nav-item{
     padding-right: 40px;
-    .notifications{
+
       position: relative;
       height: 100%;
       display: flex;
@@ -88,10 +86,9 @@
         span{
           position: absolute;
           top: 5px;
-          right: 5px;
+          right: -5px;
         }
       }
-    }
   }
   @media (max-width: 768px) {
     .github-corner{
