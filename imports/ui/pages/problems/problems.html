@@ -25,9 +25,8 @@
         </div>
     </form>
 </div>
-
-	{{#each problems}}
-    
+    {{#if subsCacheReady}}
+	   {{#each problems}}
 		<div class="card padBottom hoverCard">
             <a href="/problem/{{_id}}">
 			<div class="card-header"><span class="badge badge-primary">{{newType type}}</span>
@@ -49,7 +48,12 @@
 			</div>
 		</div>
         <br />
-	{{/each}}
+        {{else}}
+            {{> empty}}
+        {{/each}}
+    {{else}}
+        {{> loading}}
+    {{/if}}
 
 <br />
   <p>Your problem is not on the list? Try <a href="#" class="focusSearch pointer">searching</a> for the problem, then adding it.
