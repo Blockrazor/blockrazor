@@ -88,8 +88,16 @@ Meteor.methods({
               approvedBy: this.userId,
               approvedTime: new Date().getTime()
             });
-            Currencies.insert(insert, function(error, result) {
-              if (!error) {
+
+            if(Currencies.findOne({_id: currencyId})) {
+              // already approved
+              // remove from approval queue
+              PendingCurrencies.remove(currencyId);
+              throw new Meteor.Error("Currency already approved. Removed from approval queue.")
+            }else {
+              var insertedId = Currencies.insert(insert)
+              
+              if (insertedId) {
                 ActivityLog.insert({
                   owner: original.owner,
                   content: "I have approved " + original.currencyName + " and it's now listed!",
@@ -100,9 +108,8 @@ Meteor.methods({
                 if(rewardCurrencyCreator(original.launchTags, original.owner, original.currencyName)) {//(creditUserWith(rewardFor(getRewardTypeOf(original.launchTags, "currency"), false)), original.owner) {
                   PendingCurrencies.remove(currencyId);
                 }
-    
               }
-            });
+            }
         }
     
       },

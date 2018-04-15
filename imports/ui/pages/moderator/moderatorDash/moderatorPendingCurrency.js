@@ -46,12 +46,14 @@ Template.moderatorPendingCurrency.events({
             if (err) {
                 swal({
                     icon: "error",
-                    text: "You can't approve your own currency",
+                    text: err.error,
                     button: { className: 'btn btn-primary' }
                 });
-            }else{
-              $('.reviewCurrencyModal-'+this._id).modal('hide');
             }
+            
+            $('.reviewCurrencyModal-'+this._id).modal('hide');
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
         })
     },
     'click #reject': function(data, templateInstance) {

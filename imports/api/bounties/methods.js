@@ -114,21 +114,24 @@ Meteor.methods({
       }
     })
 
-    let date = Date.now()
-
-    Bounties.update({
-      type: type,
-      userId: Meteor.userId(),
-      completed: false
-    }, {
-      $set: {
-        completed: true,
-        completedAt: date,
-        id: id
-      }
-    })
-
-    Meteor.call('saveLastData', b._id, date, (err, data) => {})
+    // if bounty found
+    if (b) {
+      let date = Date.now()
+      
+      Bounties.update({
+        type: type,
+        userId: Meteor.userId(),
+        completed: false
+      }, {
+        $set: {
+          completed: true,
+          completedAt: date,
+          id: id
+        }
+      })
+  
+      Meteor.call('saveLastData', b._id, date, (err, data) => {})
+    }
   },
   deleteNewBounty: (id, token) => {
     if (token === 's3rver-only')
