@@ -1,9 +1,10 @@
 <template name="mainLayout">
+  {{> topNav}}
     <div class="app-body">
-      <div class="top-nav">
-        {{> topNav}}
+
+        
         {{> sAlert}}
-      </div>
+
       <nav id="sidebar" class="{{openSidebar}}">
         {{> sideNav}}
       </nav>

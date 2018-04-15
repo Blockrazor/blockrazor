@@ -105,3 +105,22 @@ body .modal-dialog {
     background-color:#1a1a1a !important;
     color:#fff !important;
 }
+.container {
+  margin: 100px auto;
+  text-align: center;
+}
+
+.arrow-down {
+  width: 0; 
+  height: 0; 
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  
+  border-top: 20px solid #f00;
+}
+
+.bubble{
+              position: absolute !important;
+          top: 5px !important;
+          right: 5px !important;
+}
