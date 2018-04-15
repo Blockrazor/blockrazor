@@ -1,0 +1,44 @@
+.form-check {
+  width: 100%;
+  display: inline-block;
+  padding: 15px 20px 0px 20px;
+  //border: 0;
+  //background: white;
+  
+  .filter-label, .share-label {
+    display:inline-block; 
+    width:100%;
+    margin-bottom: 10px;
+  }
+  .form-check-item {
+    display: inline-block;
+    
+    .custom-checkbox {
+      .form-check-input {
+        margin-left: 0px;
+      }
+      .form-check-label {
+        margin-left: 10px;
+      }
+    }
+  }
+  .filter-bounties-label {
+    font-weight: bolder;
+    padding-top: 3px;
+    margin: 0;
+    @media only screen and (min-device-width: 768px){
+      margin-bottom: 10px;
+    }
+  }
+}
+
+#js-shareUrl {
+  padding: 3px 10px 3px 10px;
+  margin-top: -35px !important;
+  margin-bottom: 15px;
+  height: 27px;
+
+  .share-label {
+    vertical-align: top;
+  }
+}

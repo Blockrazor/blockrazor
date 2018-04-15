@@ -34,6 +34,7 @@ import { UserData, ProfileImages, UsersStats } from '/imports/api/indexDB.js'
         fullname: 1,
         profilePicture: 1,
         screenSize: 1,
+        bountyPreference: 1,
         strikes: 1,
         inputRanking: 1,
         others: 1
