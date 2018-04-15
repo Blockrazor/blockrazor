@@ -7,8 +7,14 @@ Meteor.publish('approvedcurrencies', function currenciesPublication() {
 
 import { quality } from '/imports/api/utilities'
 
-Meteor.publish('dataQualityCurrencies', function() {
-  let sub = Currencies.find({}).observeChanges({ // using observer changes, we can transform the data before it's published
+Meteor.publish('dataQualityCurrencies', function(limit) {
+  let query
+  if (limit){
+    query = Currencies.find({}, {limit: limit})
+  } else {
+    query = Currencies.find({})
+  }
+  let sub = query.observeChanges({ // using observer changes, we can transform the data before it's published
     added: (id, fields) => {
       this.added('currencies', id, _.extend(fields, {
         quality: quality(fields) // add quality field, so we can sort by it
