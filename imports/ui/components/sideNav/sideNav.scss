@@ -1,6 +1,6 @@
 #sidebar {
   position: fixed;
-  top: 60px;
+  top: 60px !important;
   overflow-y: hidden;
   min-width: 225px;
   max-width: 225px;
@@ -68,7 +68,6 @@
 }
 
 .nav-side-menu {
-  font-family: verdana;
   font-size: 12px;
   font-weight: 200;
   background-color: #ddd;
