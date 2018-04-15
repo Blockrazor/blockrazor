@@ -1,13 +1,14 @@
 import {FlowRouter} from 'meteor/staringatlights:flow-router';
 import {FastRender} from 'meteor/staringatlights:fast-render'
-// import {SubsCache} from 'meteor/ccorcos:subs-cache'
 import {SubsCache as Sub} from 'meteor/blockrazor:subscache-c4'
 
-SubsCache = new Sub(5, 30); // is 5 minutes, and 10 subs by default for subs-cache not manager packages
 
-// SubsCache = Meteor
-// SubsCache.ready = function() {return true}
+// FastRenderer = Meteor
+// FastRenderer.ready = function() {return true}
 if (Meteor.isClient) { // only import them if this code is being executed on client side
+  SubsCache = new Sub(5, 30); // is 5 minutes, and 10 subs by default for subs-cache
+  FastRenderer = {subscribe(){}} // stub out subscription calls since duplicate subscriptions with different params will not be considered one by SubsCache, and will break fast-render is there's disconnected between parameters used
+  
     //ubiquitous components
     import '../../ui/components/loading.js'
     import '../../ui/components/empty.html'
@@ -64,7 +65,7 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
 
   //Stylesheet
 } else {
-  SubsCache = Meteor
+  FastRenderer = Meteor
 }
 
 //resets window position on navigation
@@ -82,24 +83,26 @@ FlowRouter.triggers.enter([ () => { window.scrollTo(0, 0); }, () => {
 
 //global subscriptions (on client side immidiately available)
 FlowRouter.subscriptions = function() {
-  this.register('publicUserData', SubsCache.subscribe('publicUserData'));
-  this.register('graphdata', SubsCache.subscribe('graphdata'));
+  //convert global subscriptions back to SubsCache since they're unlikely to duplicated at some template with different params breaking fast-render
+  let FastRender = SubsCache
+  this.register('publicUserData', FastRenderer.subscribe('publicUserData'));
+  this.register('graphdata', FastRenderer.subscribe('graphdata'));
 
   // subscribe to bounties so user's can keep track of active bounties
-  this.register('bounties', SubsCache.subscribe('bounties'));
+  this.register('bounties', FastRenderer.subscribe('bounties'));
 
   //subscribe to users so that people can switch out accounts with constellation's account module
   if (Meteor.isDevelopment){
-    this.register('users', SubsCache.subscribe('users'))
+    this.register('users', FastRenderer.subscribe('users'))
   }
 };
 
 FlowRouter.route('/profile/:slug', {
   subscriptions: function (params) {
-    this.register('approvedcurrencies', SubsCache.subscribe('approvedcurrencies'))
-    this.register('userdataSlug', SubsCache.subscribe('userdataSlug', params.slug))
-    this.register('user', SubsCache.subscribe('user', params.slug))
-    this.register('comments', SubsCache.subscribe('comments'))
+    this.register('approvedcurrencies', FastRenderer.subscribe('approvedcurrencies'))
+    this.register('userdataSlug', FastRenderer.subscribe('userdataSlug', params.slug))
+    this.register('user', FastRenderer.subscribe('user', params.slug))
+    this.register('comments', FastRenderer.subscribe('comments'))
   },
   action: function (params, queryParams) {
     BlazeLayout.render('mainLayout', {
@@ -127,9 +130,9 @@ FlowRouter.route('/profile', {
 FlowRouter.route('/compareCurrencies/:currencies?', {
   name: 'compare-currencies',
   subscriptions: function (params) {
-    this.register('approvedcurrencies', SubsCache.subscribe('approvedcurrencies'))
-    this.register('features', SubsCache.subscribe('features'))
-    this.register('redflags', SubsCache.subscribe('redflags'))
+    this.register('approvedcurrencies', FastRenderer.subscribe('approvedcurrencies'))
+    this.register('features', FastRenderer.subscribe('features'))
+    this.register('redflags', FastRenderer.subscribe('redflags'))
   },
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {
@@ -142,9 +145,9 @@ FlowRouter.route('/compareCurrencies/:currencies?', {
 FlowRouter.route('/currencyAuction', {
   name: 'currency-auction',
   subscriptions: function (params) {
-    this.register('approvedcurrencies', SubsCache.subscribe('approvedcurrencies'))
-    this.register('auction', SubsCache.subscribe('auction', 'top-currency'))
-    this.register('bids', SubsCache.subscribe('bids', 'top-currency'))
+    this.register('approvedcurrencies', FastRenderer.subscribe('approvedcurrencies'))
+    this.register('auction', FastRenderer.subscribe('auction', 'top-currency'))
+    this.register('bids', FastRenderer.subscribe('bids', 'top-currency'))
   },
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {
@@ -157,8 +160,8 @@ FlowRouter.route('/currencyAuction', {
 FlowRouter.route('/auctions', {
   name: 'all-auction',
   subscriptions: function (params) {
-    this.register('auctions', SubsCache.subscribe('auctions'))
-    this.register('publicUserData', SubsCache.subscribe('publicUserData'))
+    this.register('auctions', FastRenderer.subscribe('auctions'))
+    this.register('publicUserData', FastRenderer.subscribe('publicUserData'))
   },
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {
@@ -171,10 +174,10 @@ FlowRouter.route('/auctions', {
 FlowRouter.route('/auction/:id', {
   name: 'bid-auction',
   subscriptions: function (params) {
-    this.register('users', SubsCache.subscribe('users'))
-    this.register('auction', SubsCache.subscribe('auction', params.id))
-    this.register('bids', SubsCache.subscribe('bids', params.id))
-    this.register('publicUserData', SubsCache.subscribe('publicUserData'))
+    this.register('users', FastRenderer.subscribe('users'))
+    this.register('auction', FastRenderer.subscribe('auction', params.id))
+    this.register('bids', FastRenderer.subscribe('bids', params.id))
+    this.register('publicUserData', FastRenderer.subscribe('publicUserData'))
   },
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {
@@ -187,7 +190,7 @@ FlowRouter.route('/auction/:id', {
 FlowRouter.route('/new-auction', {
   name: 'new-auction',
   subscriptions: function (params) {
-    this.register('publicUserData', SubsCache.subscribe('publicUserData'))
+    this.register('publicUserData', FastRenderer.subscribe('publicUserData'))
   },
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {
@@ -200,7 +203,7 @@ FlowRouter.route('/new-auction', {
 FlowRouter.route('/suspended', {
   name: 'suspended',
   subscriptions: function(params) {
-    this.register('myUserData', SubsCache.subscribe('myUserData'))
+    this.register('myUserData', FastRenderer.subscribe('myUserData'))
   },
   action: (params, queryParams) => {
     let user = Meteor.userId() && Meteor.users.findOne({
@@ -218,8 +221,8 @@ FlowRouter.route('/suspended', {
 FlowRouter.route('/problems', {
   name: 'problems',
   subscriptions: function (params) {
-    this.register('users', SubsCache.subscribe('users'))
-    this.register('problems', SubsCache.subscribe('problems'))
+    this.register('users', FastRenderer.subscribe('users'))
+    this.register('problems', FastRenderer.subscribe('problems'))
   },
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {
@@ -232,8 +235,8 @@ FlowRouter.route('/problems', {
 FlowRouter.route('/problem/:id', {
   name: 'problem',
   subscriptions: function (params) {
-    this.register('problem', SubsCache.subscribe('problem', params.id))
-    this.register('users', SubsCache.subscribe('users'))
+    this.register('problem', FastRenderer.subscribe('problem', params.id))
+    this.register('users', FastRenderer.subscribe('users'))
   },
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {
@@ -256,7 +259,7 @@ FlowRouter.route('/new-problem', {
 FlowRouter.route('/transactions/:page?', {
   name: 'transactions',
   subscriptions: function (params) {
-    this.register('users', SubsCache.subscribe('users'))
+    this.register('users', FastRenderer.subscribe('users'))
   },
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {
@@ -269,10 +272,10 @@ FlowRouter.route('/transactions/:page?', {
 FlowRouter.route('/', {
   name: 'BLOCKRAZOR',
   subscriptions: function () {
-    this.register('usersStats', SubsCache.subscribe('usersStats'))
-    this.register('dataQualityCurrencies', SubsCache.subscribe('dataQualityCurrencies'));
-    this.register('graphdata', SubsCache.subscribe('graphdata'))
-    this.register('redflags', SubsCache.subscribe('redflags'))
+    this.register('usersStats', FastRenderer.subscribe('usersStats'))
+    this.register('dataQualityCurrencies', FastRenderer.subscribe('dataQualityCurrencies', 15));
+    this.register('graphdata', FastRenderer.subscribe('graphdata'))
+    this.register('redflags', FastRenderer.subscribe('redflags'))
   },
   action() {
     BlazeLayout.render('mainLayout', {
@@ -295,10 +298,10 @@ FlowRouter.route('/distribution', {
 FlowRouter.route('/ratings', {
   name: 'ratings',
   subscriptions: function () {
-    this.register('approvedcurrencies', SubsCache.subscribe('approvedcurrencies'));
-    this.register('ratings', SubsCache.subscribe('ratings'));
-    this.register('walletBounty', SubsCache.subscribe('walletBounty'));
-    this.register('walletimages', SubsCache.subscribe('walletimages'));
+    this.register('approvedcurrencies', FastRenderer.subscribe('approvedcurrencies'));
+    this.register('ratings', FastRenderer.subscribe('ratings'));
+    this.register('walletBounty', FastRenderer.subscribe('walletBounty'));
+    this.register('walletimages', FastRenderer.subscribe('walletimages'));
   },
   action() {
     BlazeLayout.render('mainLayout', {
@@ -321,11 +324,11 @@ FlowRouter.route('/theme', {
 FlowRouter.route('/add-hashpower', {
   name: 'add-haspower',
   subscriptions: function () {
-    this.register('formdata', SubsCache.subscribe('formdata'));
-    this.register('hashhardware', SubsCache.subscribe('hashhardware'));
-    this.register('hashalgorithm', SubsCache.subscribe('hashalgorithm'));
-    this.register('hashunits', SubsCache.subscribe('hashunits'));
-    this.register('hashpowerBounty', SubsCache.subscribe('hashpowerBounty'));
+    this.register('formdata', FastRenderer.subscribe('formdata'));
+    this.register('hashhardware', FastRenderer.subscribe('hashhardware'));
+    this.register('hashalgorithm', FastRenderer.subscribe('hashalgorithm'));
+    this.register('hashunits', FastRenderer.subscribe('hashunits'));
+    this.register('hashpowerBounty', FastRenderer.subscribe('hashpowerBounty'));
   },
   action: () => {
     BlazeLayout.render('mainLayout', {
@@ -338,8 +341,8 @@ FlowRouter.route('/add-hashpower', {
 FlowRouter.route('/avg-hashpower', {
   name: 'avg-haspower',
   subscriptions: function () {
-    this.register('hashaverage', SubsCache.subscribe('hashaverage'));
-    this.register('hashalgorithm', SubsCache.subscribe('hashalgorithm'));
+    this.register('hashaverage', FastRenderer.subscribe('hashaverage'));
+    this.register('hashalgorithm', FastRenderer.subscribe('hashalgorithm'));
   },
   action: () => {
     BlazeLayout.render('mainLayout', {
@@ -352,10 +355,10 @@ FlowRouter.route('/avg-hashpower', {
 FlowRouter.route('/hashpower', {
   name: 'haspower',
   subscriptions: function () {
-    this.register('hashpower', SubsCache.subscribe('hashpower'));
-    this.register('hashhardware', SubsCache.subscribe('hashhardware'));
-    this.register('hashalgorithm', SubsCache.subscribe('hashalgorithm'));
-    this.register('hashunits', SubsCache.subscribe('hashunits'));
+    this.register('hashpower', FastRenderer.subscribe('hashpower'));
+    this.register('hashhardware', FastRenderer.subscribe('hashhardware'));
+    this.register('hashalgorithm', FastRenderer.subscribe('hashalgorithm'));
+    this.register('hashunits', FastRenderer.subscribe('hashunits'));
   },
   action: () => {
     BlazeLayout.render('mainLayout', {
@@ -368,9 +371,9 @@ FlowRouter.route('/hashpower', {
 FlowRouter.route('/communities', {
   name: 'communities',
   subscriptions: function () {
-    this.register('approvedcurrencies', SubsCache.subscribe('approvedcurrencies'));
-    this.register('ratings', SubsCache.subscribe('ratings'));
-    this.register('communityBounty', SubsCache.subscribe('communityBounty'));
+    this.register('approvedcurrencies', FastRenderer.subscribe('approvedcurrencies'));
+    this.register('ratings', FastRenderer.subscribe('ratings'));
+    this.register('communityBounty', FastRenderer.subscribe('communityBounty'));
   },
   action: () => {
     BlazeLayout.render('mainLayout', {
@@ -383,9 +386,9 @@ FlowRouter.route('/communities', {
 FlowRouter.route('/codebase', {
   name: 'codebase',
   subscriptions: function () {
-    this.register('approvedcurrencies', SubsCache.subscribe('approvedcurrencies'));
-    this.register('ratings', SubsCache.subscribe('ratings'));
-    this.register('codebaseBounty', SubsCache.subscribe('codebaseBounty'));
+    this.register('approvedcurrencies', FastRenderer.subscribe('approvedcurrencies'));
+    this.register('ratings', FastRenderer.subscribe('ratings'));
+    this.register('codebaseBounty', FastRenderer.subscribe('codebaseBounty'));
   },
   action: () => {
     BlazeLayout.render('mainLayout', {
@@ -398,7 +401,7 @@ FlowRouter.route('/codebase', {
 FlowRouter.route('/developers', {
   name: 'developers',
   subscriptions: function () {
-    this.register('developers', SubsCache.subscribe('developers'));
+    this.register('developers', FastRenderer.subscribe('developers'));
   },
   action: () => {
     BlazeLayout.render('mainLayout', {
@@ -411,11 +414,11 @@ FlowRouter.route('/developers', {
 FlowRouter.route('/bounties', {
   name: 'bounties',
   subscriptions: function () {
-    this.register('visibleBounties', SubsCache.subscribe('visibleBounties'))
-    this.register('users', SubsCache.subscribe('users'))
-    this.register('bountyProblems', SubsCache.subscribe('bountyProblems', 0, 0))
-    this.register('bountyCurrencies', SubsCache.subscribe('bountyCurrencies', 0, 0)) // set the limit to 0 for now, first param is limit, second is skip
-    this.register('bountytypes', SubsCache.subscribe('bountytypes'))
+    this.register('visibleBounties', FastRenderer.subscribe('visibleBounties'))
+    this.register('users', FastRenderer.subscribe('users'))
+    this.register('bountyProblems', FastRenderer.subscribe('bountyProblems', 0, 0))
+    this.register('bountyCurrencies', FastRenderer.subscribe('bountyCurrencies', 0, 0)) // set the limit to 0 for now, first param is limit, second is skip
+    this.register('bountytypes', FastRenderer.subscribe('bountytypes'))
   },
   action() {
     BlazeLayout.render('mainLayout', {
@@ -429,7 +432,7 @@ FlowRouter.route('/bounties', {
 FlowRouter.route('/bounties/:_id', {
   name: 'CurrencyDetail',
   subscriptions: function (params) {
-    this.register('bounties', SubsCache.subscribe('bounties', params._id));
+    this.register('bounties', FastRenderer.subscribe('bounties', params._id));
   },
   action: function (params, queryParams) {
     console.log("rendering activeBounty");
@@ -444,11 +447,11 @@ FlowRouter.route('/bounties/:_id', {
 FlowRouter.route('/addcoin', {
   name: 'addcoin',
   subscriptions: function () {
-    this.register('currencyBounty', SubsCache.subscribe('currencyBounty'));
-    this.register('addCoinQuestions', SubsCache.subscribe('addCoinQuestions'));
-    this.register('hashalgorithm', SubsCache.subscribe('hashalgorithm'));
-    this.register('exchanges', SubsCache.subscribe('exchanges'))
-    // this.register('formdata', SubsCache.subscribe('formdata')); //userId isn't
+    this.register('currencyBounty', FastRenderer.subscribe('currencyBounty'));
+    this.register('addCoinQuestions', FastRenderer.subscribe('addCoinQuestions'));
+    this.register('hashalgorithm', FastRenderer.subscribe('hashalgorithm'));
+    this.register('exchanges', FastRenderer.subscribe('exchanges'))
+    // this.register('formdata', FastRenderer.subscribe('formdata')); //userId isn't
     // availabe on server
   },
   action: function () {
@@ -459,7 +462,7 @@ FlowRouter.route('/addcoin', {
       //left: 'luxMenu'
     });
 
-      this.register('formdata', SubsCache.subscribe('formdata'));
+      this.register('formdata', FastRenderer.subscribe('formdata'));
 
     } else {
       // but if the user is not logged in, you have to redirect him to the login page
@@ -475,13 +478,13 @@ FlowRouter.route('/addcoin', {
 FlowRouter.route('/currency/:slug', {
   name: 'CurrencyDetail',
   subscriptions: function (param) {
-    this.register('approvedcurrency', SubsCache.subscribe('approvedcurrency', param.slug));
-    this.register('hashalgorithm', SubsCache.subscribe('hashalgorithm'));
-    this.register('graphdata', SubsCache.subscribe('graphdata'))
-    this.register('formdata', SubsCache.subscribe('formdata'))
-    this.register('summaries', SubsCache.subscribe('summaries', param.slug))
-    this.register('bounties', SubsCache.subscribe('bounties'))
-    this.register('exchanges', SubsCache.subscribe('exchanges'))
+    this.register('approvedcurrency', FastRenderer.subscribe('approvedcurrency', param.slug));
+    this.register('hashalgorithm', FastRenderer.subscribe('hashalgorithm'));
+    this.register('graphdata', FastRenderer.subscribe('graphdata'))
+    this.register('formdata', FastRenderer.subscribe('formdata'))
+    this.register('summaries', FastRenderer.subscribe('summaries', param.slug))
+    this.register('bounties', FastRenderer.subscribe('bounties'))
+    this.register('exchanges', FastRenderer.subscribe('exchanges'))
   },
   action: function (params, queryParams) {
     BlazeLayout.render('mainLayout', {
@@ -494,9 +497,9 @@ FlowRouter.route('/currency/:slug', {
 
 FlowRouter.route('/mypending', {
   subscriptions: function () {
-    this.register('bounties', SubsCache.subscribe('bounties'));
-    this.register('pendingcurrencies', SubsCache.subscribe('pendingcurrencies'));
-    this.register('rejectedcurrencies', SubsCache.subscribe('rejectedcurrencies'));
+    this.register('bounties', FastRenderer.subscribe('bounties'));
+    this.register('pendingcurrencies', FastRenderer.subscribe('pendingcurrencies'));
+    this.register('rejectedcurrencies', FastRenderer.subscribe('rejectedcurrencies'));
   },
   action: function (params, queryParams) {
     BlazeLayout.render('mainLayout', {main: 'userPendingCurrencies'});
@@ -505,8 +508,8 @@ FlowRouter.route('/mypending', {
 
 FlowRouter.route('/changedcurrencies', {
   subscriptions: function () {
-    this.register('changedCurrencies', SubsCache.subscribe('changedCurrencies'))
-    this.register('hashalgorithm', SubsCache.subscribe('hashalgorithm'))
+    this.register('changedCurrencies', FastRenderer.subscribe('changedCurrencies'))
+    this.register('hashalgorithm', FastRenderer.subscribe('hashalgorithm'))
   },
   action: function (params, queryParams) {
     BlazeLayout.render('mainLayout', {
@@ -518,7 +521,7 @@ FlowRouter.route('/changedcurrencies', {
 
 FlowRouter.route('/notifications', {
   subscriptions: function () {
-    this.register('activitylog', SubsCache.subscribe('activitylog'));
+    this.register('activitylog', FastRenderer.subscribe('activitylog'));
   },
   action: function (params, queryParams) {
     BlazeLayout.render('mainLayout', {main: 'activityLog'});
@@ -527,9 +530,9 @@ FlowRouter.route('/notifications', {
 
 FlowRouter.route('/wallet', {
   subscriptions: function () {
-    this.register('wallet', SubsCache.subscribe('wallet'));
-    this.register('users', SubsCache.subscribe('users'));
-    this.register("publicUserData", SubsCache.subscribe("publicUserData"))
+    this.register('wallet', FastRenderer.subscribe('wallet'));
+    this.register('users', FastRenderer.subscribe('users'));
+    this.register("publicUserData", FastRenderer.subscribe("publicUserData"))
   },
   action: function (params, queryParams) {
     BlazeLayout.render('mainLayout', {main: 'wallet'});
@@ -538,9 +541,9 @@ FlowRouter.route('/wallet', {
 
 FlowRouter.route('/wallet/:currency', {
   subscriptions: function () {
-    this.register('wallet', SubsCache.subscribe('wallet'));
-    this.register('users', SubsCache.subscribe('users'));
-    this.register("publicUserData", SubsCache.subscribe("publicUserData"))
+    this.register('wallet', FastRenderer.subscribe('wallet'));
+    this.register('users', FastRenderer.subscribe('users'));
+    this.register("publicUserData", FastRenderer.subscribe("publicUserData"))
   },
   action: function (params, queryParams) {
     BlazeLayout.render('mainLayout', {main: 'walletTransactions'});
@@ -550,7 +553,7 @@ FlowRouter.route('/wallet/:currency', {
 FlowRouter.route('/m', {
   name: 'mobile',
   subscriptions: function () {
-    this.register('approvedcurrencies', SubsCache.subscribe('approvedcurrencies'));
+    this.register('approvedcurrencies', FastRenderer.subscribe('approvedcurrencies'));
   },
   action() {
     BlazeLayout.render('mobile', {
@@ -599,9 +602,9 @@ var adminRoutes = FlowRouter.group({
 
 adminRoutes.route('/', {
   subscriptions: function () {
-    this.register('pendingcurrencies', SubsCache.subscribe('pendingcurrencies'));
-    this.register('bounties', SubsCache.subscribe('bounties'));
-    this.register('walletimages', SubsCache.subscribe('walletimages'));
+    this.register('pendingcurrencies', FastRenderer.subscribe('pendingcurrencies'));
+    this.register('bounties', FastRenderer.subscribe('bounties'));
+    this.register('walletimages', FastRenderer.subscribe('walletimages'));
   },
   action: function (params, queryParams) {
     BlazeLayout.render('mainLayout', {main: 'moderatorDash'});
@@ -611,7 +614,7 @@ adminRoutes.route('/', {
 adminRoutes.route('/questions', {
   name: 'questions',
   subscriptions: function () {
-    this.register('ratings_templates', SubsCache.subscribe('ratings_templates'));
+    this.register('ratings_templates', FastRenderer.subscribe('ratings_templates'));
   },
   action() {
     BlazeLayout.render('mainLayout', {
@@ -625,8 +628,8 @@ adminRoutes.route('/questions', {
 adminRoutes.route('/flagged-users', {
   name: 'flaggedUsers',
   subscriptions: function () {
-    this.register('userData', SubsCache.subscribe('userData'));
-    this.register('users', SubsCache.subscribe('users'));
+    this.register('userData', FastRenderer.subscribe('userData'));
+    this.register('users', FastRenderer.subscribe('users'));
   },
   action: function () {
     if (Meteor.userId()) {
@@ -644,10 +647,10 @@ adminRoutes.route('/flagged-users', {
 adminRoutes.route('/flagged-hashpower', {
   name: 'flagged-hashpower',
   subscriptions: function () {
-    this.register('flaggedhashpower', SubsCache.subscribe('flaggedhashpower'));
-    this.register('hashhardware', SubsCache.subscribe('hashhardware'));
-    this.register('hashalgorithm', SubsCache.subscribe('hashalgorithm'));
-    this.register('hashunits', SubsCache.subscribe('hashunits'));
+    this.register('flaggedhashpower', FastRenderer.subscribe('flaggedhashpower'));
+    this.register('hashhardware', FastRenderer.subscribe('hashhardware'));
+    this.register('hashalgorithm', FastRenderer.subscribe('hashalgorithm'));
+    this.register('hashunits', FastRenderer.subscribe('hashunits'));
   },
   action: () => {
     BlazeLayout.render('mainLayout', {
@@ -660,8 +663,8 @@ adminRoutes.route('/flagged-hashpower', {
 adminRoutes.route('/pardon', {
   name: 'pardon',
   subscriptions: function () {
-    this.register('users', SubsCache.subscribe('users'))
-    this.register('pardonUserData', SubsCache.subscribe('pardonUserData'))
+    this.register('users', FastRenderer.subscribe('users'))
+    this.register('pardonUserData', FastRenderer.subscribe('pardonUserData'))
   },
   action: () => {
     BlazeLayout.render('mainLayout', {
@@ -673,9 +676,9 @@ adminRoutes.route('/pardon', {
 adminRoutes.route('/flagged', {
   name: 'flagged',
   subscriptions: function () {
-    this.register('users', SubsCache.subscribe('users'))
-    this.register('features', SubsCache.subscribe('features'))
-    this.register('redflags', SubsCache.subscribe('redflags'))
+    this.register('users', FastRenderer.subscribe('users'))
+    this.register('features', FastRenderer.subscribe('features'))
+    this.register('redflags', FastRenderer.subscribe('redflags'))
   },
   action: () => {
     BlazeLayout.render('mainLayout', {
@@ -687,8 +690,8 @@ adminRoutes.route('/flagged', {
 adminRoutes.route('/applogs', {
   name: 'app-logs',
   subscriptions: function (params) {
-    this.register('applogs', SubsCache.subscribe('applogs', 1, 50))
-    this.register('users', SubsCache.subscribe('users'))
+    this.register('applogs', FastRenderer.subscribe('applogs', 1, 50))
+    this.register('users', FastRenderer.subscribe('users'))
   },
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {
@@ -701,8 +704,8 @@ adminRoutes.route('/applogs', {
 adminRoutes.route('/solved-problems', {
   name: 'solved-problems',
   subscriptions: function (params) {
-    this.register('solvedProblems', SubsCache.subscribe('solvedProblems'))
-    this.register('users', SubsCache.subscribe('users'))
+    this.register('solvedProblems', FastRenderer.subscribe('solvedProblems'))
+    this.register('users', FastRenderer.subscribe('users'))
   },
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {

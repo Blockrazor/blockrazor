@@ -6,7 +6,7 @@ import SimpleSchema from 'simpl-schema';
 let Currencies = {}
 
 if (!Meteor.isTest) {
-	Currencies = new LocalizableCollection('currencies', 'fetchCurrencies');
+	Currencies = new LocalizableCollection('currencies', 'fetchCurrencies')
 } else {
 	Currencies = new Mongo.Collection('currencies')
 }
