@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating'
-import { Auctions, Bids, UserData } from '/imports/api/indexDB.js'
+import { Auctions, Bids, UserData, Currencies } from '/imports/api/indexDB.js'
 import { FlowRouter } from 'meteor/staringatlights:flow-router'
 
 import './bidAuction.template.html'
@@ -10,12 +10,37 @@ Template.bidAuction.onCreated(function() {
 		SubsCache.subscribe('auction', FlowRouter.getParam('id'))
 		SubsCache.subscribe('bids', FlowRouter.getParam('id'))
 		SubsCache.subscribe('publicUserData')
+		SubsCache.subscribe('approvedcurrencies')
 	})
 })
 
 Template.bidAuction.helpers({
 	highest: function() {
 		return this.options.highest || 0
+	},
+	needsUSD: function(curr) {
+		return ~['ETH', 'XMR'].indexOf(curr)
+	},
+	USDprice: function(curr, amount) {
+		let currency = Currencies.findOne({
+			currencySymbol: curr
+		})
+
+		if (currency && currency.price) {
+			return (amount * currency.price).toFixed(2)
+		}
+
+		return 0
+	},
+	pricePerKZR: function() {
+		if (this.options.baseCurrency === 'KZR') {
+			return ((this.options.highest || 0) / this.options.amount).toFixed(5)
+		} else {
+			return (this.options.highest || 0) !== 0 ? (this.options.amount / (this.options.highest || 0)).toFixed(5) : '0.00000'
+		}
+	},
+	currency: function() {
+		return this.options.baseCurrency === 'KZR' ? this.options.acceptedCurrency : this.options.baseCurrency
 	},
 	auction: () => Auctions.findOne({
 		_id: FlowRouter.getParam('id')
