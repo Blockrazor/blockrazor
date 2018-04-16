@@ -30,7 +30,11 @@
     align-items: center;
     outline: none;
     border: none;
+    color:#fff !important;
     box-shadow: none;
+   &:hover {
+        color:#999999 !important;
+    }
     &:active, &:focus{
       outline: none;
       border: none;
