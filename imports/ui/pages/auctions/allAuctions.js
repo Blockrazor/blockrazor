@@ -41,9 +41,6 @@ Template.allAuctions.helpers({
     time: function() {
         return moment(this.options.timeout).format(`${_globalDateFormat} HH:mm`)
     },
-    author: function() {
-        return this.createdBy === Meteor.userId() && !this.closed
-    },
     status: function() {
         return this.closed ? 'CLOSED' : 'OPEN'
     },
@@ -53,17 +50,6 @@ Template.allAuctions.helpers({
 })
 
 Template.allAuctions.events({
-    'click .js-cancel': function(event, templateInstance) {
-        event.preventDefault()
-
-        Meteor.call('cancelAuction', this._id, (err, data) => {
-            if (!err) {
-                sAlert.success('Successfully cancelled.')
-            } else {
-                sAlert.error(err.reason)
-            }
-        })
-    },
     'click #js-new': (event, templateInstance) => {
         event.preventDefault()
 
