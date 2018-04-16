@@ -16,14 +16,14 @@
     width: 100%;
     z-index: 2050;
   }
-      .separator {
-      content: '';
-      display: inline-block;
-      background: #666;
-      margin: 0px 10px 0 0; 
-      width: 1px;
-      vertical-align: top;
-    }
+  .separator {
+    content: '';
+    display: inline-block;
+    background: #666;
+    margin: 0px 10px 0 0; 
+    width: 1px;
+    vertical-align: top;
+  }
 
   button, a{
     display: flex;
@@ -62,12 +62,10 @@
     }
   }
 
-  .bubble{
-
-          position: absolute;
-          top: 5px;
-          right: 5px;
-
+  .badge{
+    position: relative;
+    display: inline-block;
+    margin-top: -6px;
   }
   .right-nav-item{
     padding-right: 40px;
