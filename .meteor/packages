@@ -42,7 +42,6 @@ todda00:friendly-slugs
 cfs:graphicsmagick
 check
 random
-alexwine:bootstrap-4
 momentjs:moment
 fortawesome:fontawesome
 blaze-html-templates
@@ -52,7 +51,7 @@ gwendall:hovercard
 babrahams:constellation
 blockrazor:subscache-c4
 practicalmeteor:mocha
-natestrauser:x-editable-bootstrap
+#natestrauser:x-editable-bootstrap
 mrt:combodate
 meteorhacks:picker
 mdg:validated-method
