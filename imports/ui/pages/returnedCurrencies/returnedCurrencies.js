@@ -27,6 +27,7 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
     SubsCache.subscribe('redflags')
     SubsCache.subscribe('usersStats')
   })
+  this.signedUp = new ReactiveVar(0)
   this.searchInputFilter = new ReactiveVar(undefined);
   this.increment = 15
   this.limit = new ReactiveVar(this.increment)
@@ -56,7 +57,9 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
   this.fromFilter = new ReactiveVar("")
   this.toFilter = new ReactiveVar("")
 
-
+  Meteor.call('signedUpLastMonth', (err, data) => {
+    this.signedUp.set(data || 0)
+  })
 
   this.autorun(() => {
     this.noFeatured.set(!Currencies.findOne({
@@ -228,6 +231,7 @@ Template.returnedCurrencies.helpers({
   createdUsers() {
     return UsersStats.findOne("created").created
   },
+  signedUp: () => Template.instance().signedUp.get(),
   security() {
     return FormData.find({});
   },

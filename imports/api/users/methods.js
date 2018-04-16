@@ -4,6 +4,9 @@ import { check } from 'meteor/check'
 import { creditUserWith } from '/imports/api/utilities.js'
 
 Meteor.methods({
+  signedUpLastMonth: () => {
+  	return Meteor.users.find({}).fetch().filter(i => new Date(i.createdAt) > (new Date().getTime() - 1000*60*60*24*30) /* 30 days */).length
+  },
   sidebarPreference: function(value, valueOnRecord) {
     //ignore request if valueOnRecord provided from beforeUnload hook that will not care if operations that decide if method should be called actually finish
     if (valueOnRecord && valueOnRecord == value){
