@@ -270,7 +270,15 @@ Meteor.methods({
 	},
 
 	totalAmount: () => {
-		let transactions = Wallet.find({}).fetch()
+		let transactions = Wallet.find({
+			$or: [{
+		        currency: 'KZR'
+		    }, {
+		      	currency: {
+		       		$exists: false
+		       	}
+		    }]
+		}).fetch()
 		let sum = 0
 
 		transactions.forEach(i => {
@@ -307,7 +315,8 @@ Meteor.methods({
 				owner: 1,
 				from: 1,
 				amount: 1,
-				rewardType:1
+				rewardType: 1,
+				currency: 1
 			},
 			skip: (page - 1) * 10,
 			limit: 10 // show 10 transactions per page
