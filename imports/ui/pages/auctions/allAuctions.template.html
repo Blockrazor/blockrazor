@@ -24,7 +24,6 @@
                     <th scope="col">Amount</th>
                     <th scope="col">Timeout</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Cancel?</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,7 +36,6 @@
                             <td>{{fixed options.amount}} {{options.baseCurrency}}</td>
                             <td>{{time}}</td>
                             <td style="color: {{statusColor}}">{{status}}</td>
-                            <td>{{#if author}}<a href="#" class="js-cancel">Cancel</a>{{/if}}</td>
                         </tr>
                     {{else}}
                         {{> empty}}

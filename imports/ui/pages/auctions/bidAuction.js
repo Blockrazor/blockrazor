@@ -15,6 +15,9 @@ Template.bidAuction.onCreated(function() {
 })
 
 Template.bidAuction.helpers({
+  author: function() {
+    return this.createdBy === Meteor.userId() && !this.closed
+  },
 	highest: function() {
 		return this.options.highest || 0
 	},
@@ -105,5 +108,17 @@ Template.bidAuction.events({
 		} else {
 			sAlert.error('Some fields are missing.')
 		}
-	},
+  },
+  'click .js-cancel': function(event, templateInstance) {
+    event.preventDefault()
+
+    Meteor.call('cancelAuction', this._id, (err, data) => {
+        if (!err) {
+            sAlert.success('Successfully cancelled.')
+            FlowRouter.go('/auctions')
+        } else {
+            sAlert.error(err.reason)
+        }
+    })
+},
 })
