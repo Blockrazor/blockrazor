@@ -21,7 +21,7 @@
       <div class="currency-card col-sm-12 col-md-6 col-lg-3">
         <div class="card-content card-kzr" data-value="kzr">
           <div class="card-main">
-            <div class="card-logo"></div>
+            <img src="{{currencyLogo 'krazor'}}" style="width:100px">
             <h4>
 				<b>Krazor</b>
 				{{#if currencyNotifications currency}}
@@ -36,7 +36,7 @@
       <div class="currency-card col-sm-12 col-md-6 col-lg-3">
         <div class="card-content card-usd" data-value="usd">
           <div class="card-main">
-            <div class="card-logo"></div>
+            <img src="{{currencyLogo 'krazor'}}" style="width:100px">
             <h4>
 				<b>US Dollar </b>
 				{{#if currencyNotifications "USD"}}
@@ -51,11 +51,11 @@
       <div class="currency-card col-sm-12 col-md-6 col-lg-3">
         <div class="card-content card-eth" data-value="eth">
           <div class="card-main">
-            <div class="card-logo"></div>
+            <img src="{{currencyLogo 'eth'}}" style="width:100px">
             <h4>
 				<b>Ethereum</b>
 				{{#if currencyNotifications "ETH"}}
-					<span class="badge badge-success">{{currencyNotifications "ETH"}}</span>
+					<span class="badge badge-success">{{currencyNotifications "ethereum-classic"}}</span>
 				{{/if}}
 			</h4>
             <p class="see-transactions-label">click to see transactions</p>
@@ -66,7 +66,7 @@
       <div class="currency-card col-sm-12 col-md-6 col-lg-3">
         <div class="card-content card-xmr" data-value="xmr">
           <div class="card-main">
-            <div class="card-logo"></div>
+            <img src="{{currencyLogo 'monero'}}" style="width:100px">
             <h4>
 				<b>Monero</b>
 				{{#if currencyNotifications "XMR"}}
