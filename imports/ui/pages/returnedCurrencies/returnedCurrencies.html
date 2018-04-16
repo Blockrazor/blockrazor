@@ -8,30 +8,46 @@
         <h5 class="modal-title">Filter your results</h5>
       </div>
       <div class="modal-body">
-        <h5 class="card-title">Genisis Date Range</h5>
+        <h5 class="card-title">Project Status</h5>
+        <p class="card-title mt-2">Genesis Timestamp :</p>
         <div class="row date-slider-container">
           <input type="text" class="date-slider span2"/>
         </div>
+        <br/>
+        <span class="projects-status-option">
+          <input type="checkbox" class="form-check-input" id="launched-projects-checkbox" value="Launched" checked>
+          <label class="form-check-label" for="launched-projects-checkbox">Launched and Stable Projects</label>
+        </span>
+        <br/>
+        <span class="projects-status-option">
+          <input type="checkbox" class="form-check-input" id="future-projects-checkbox" value="Future" checked>
+          <label class="form-check-label" for="future-projects-checkbox">Planned Projects and ICOs</label>
+        </span>
+        <br/><br/>
         <h5 class="card-title mt-2">Security</h5>
         <div class="form-check security-constraints">
-          <input type="checkbox" class="form-check-input" id="pow" value="Proof of Work" checked>
-          <label class="form-check-label" for="pow">Proof of Work</label>
-          <br/>
-          <input type="checkbox" class="form-check-input" id="pos" value="Proof of Stake" checked>
-          <label class="form-check-label" for="pos" id="pos">Proof of Stake</label>
-          <br/>
-          <input type="checkbox" class="form-check-input" id="hybrid" value="Hybrid" checked>
-          <label class="form-check-label" for="pos" id="hybrid" >Hybrid</label>
-          <br/>
-          <input type="checkbox" class="form-check-input" id="unknown" value="--Select One--" checked>
-          <label class="form-check-label" for="unknown" id="unknown" >Unknown</label>
+          <div class="row">
+            <span class="col-sm-6">
+              <input type="checkbox" class="form-check-input" id="pow" value="Proof of Work" checked>
+              <label class="form-check-label" for="pow">Proof of Work</label>
+            </span>
+            <span class="col-sm-6">
+              <input type="checkbox" class="form-check-input" id="pos" value="Proof of Stake" checked>
+              <label class="form-check-label" for="pos" id="pos">Proof of Stake</label>
+            </span>
+          </div>
+          <div class="row">
+            <span class="col-sm-6">
+              <input type="checkbox" class="form-check-input" id="hybrid" value="Hybrid" checked>
+              <label class="form-check-label" for="hybrid" id="hybrid" >Hybrid</label>
+            </span>
+            <span class="col-sm-6">
+              <input type="checkbox" class="form-check-input" id="unknown" value="--Select One--" checked>
+              <label class="form-check-label" for="unknown" id="unknown" >Unknown</label>
+            </span>
+          </div>
         </div>
         <br/>
-        <hr>
-        <span class="future-projects-option">
-          <input type="checkbox" class="form-check-input" id="future-projects-checkbox" value="Future" checked>
-          <label class="form-check-label" for="future-projects-checkbox">show projects that haven't launched yet</label>
-        </span>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary apply-filter-button" data-dismiss="modal">Apply Filter</button>

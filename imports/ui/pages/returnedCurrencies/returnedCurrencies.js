@@ -54,6 +54,7 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
   this.noFeatured = new ReactiveVar(false)
   this.securityTypes = new ReactiveVar(["Proof of Work", "Proof of Stake", "Hybrid", "--Select One--"])
   this.showUnlaunchedProjects = new ReactiveVar(true)
+  this.showLaunchedProjects = new ReactiveVar(true)
   this.fromFilter = new ReactiveVar("")
   this.toFilter = new ReactiveVar("")
 
@@ -69,6 +70,7 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
     let searchInputFilter = templ.searchInputFilter.get();
     let securityTypes = templ.securityTypes.get();
     let showUnlaunchedProjects = templ.showUnlaunchedProjects.get();
+    let showLaunchedProjects = templ.showLaunchedProjects.get();
     let fromFilter = templ.fromFilter.get()
     let toFilter = templ.toFilter.get();
 
@@ -96,32 +98,83 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
       ]
     }
 
-    if (fromFilter != "" && toFilter != "") {
-      if (showUnlaunchedProjects){
+    // only show unlaunched projects
+    if (showUnlaunchedProjects && !showLaunchedProjects){
+      query['$and'].push({
+        $or : [{
+          genesisTimestamp: {       // if genesis timestamp is a future date
+            $gte: Date.now(),
+          }
+        },{
+          genesisTimestamp: NaN     // if genesis timestamp not known
+        },{
+          ico: true                 // otherwise an ico status present (not released yet)
+        }]
+      })
+    }
+    // only show launched projects
+    else if (!showUnlaunchedProjects && showLaunchedProjects) {
+      if (fromFilter != "" && toFilter != "") {
         query['$and'].push({
-          $or : [{
-            genesisTimestamp : {      // if genesis timestamp is in selected range
+          $and : [{
+            ico: false                 // otherwise an ico status present (not released yet)
+          },{
+            genesisTimestamp : {
               $gte: fromFilter,
               $lte: toFilter
             }
+          }]
+          
+        }) 
+      }else {
+        query['$and'].push({
+          genesisTimestamp : {
+            $gte: 1233619200000,
+            $lte: Date.now()
+          }
+        })
+      }
+    }
+    // show both launched and unlaunched projects
+    else if (showLaunchedProjects && showUnlaunchedProjects){
+      if (fromFilter != "" && toFilter != "") {
+        query['$and'].push({
+          $or : [{
+            $and : [{
+              ico: false
+            },{
+              genesisTimestamp : {
+                $gte: fromFilter,
+                $lte: toFilter
+              }
+            }]
           },{
-            genesisTimestamp: {       // if genesis timestamp is a future date
+            genesisTimestamp: {
               $gte: Date.now(),
             }
           },{
-            genesisTimestamp: NaN     // if genesis timestamp not known
+            genesisTimestamp: NaN
           },{
-            ico: true                 // otherwise an ico status present (not released yet)
+            ico: true
           }]
         })
       }else {
         query['$and'].push({
-          genesisTimestamp : {
-            $gte: fromFilter,
-            $lte: toFilter
-          }
+          $or : [{
+            genesisTimestamp: {
+              $gte: 1233619200000,        // anything larger than minimum
+            }
+          },{
+            genesisTimestamp: NaN
+          },{
+            ico: true
+          }]
         })
       }
+    }
+    // dont show any launched or unlaunched project
+    else if (!showLaunchedProjects && !showUnlaunchedProjects){
+      query = []
     }
     this.filter.set(query)
   })
@@ -132,7 +185,11 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
     let count = templ.count
 
     let filter = templ.filter.get()
-    count.set(Currencies.countLocal(filter))
+    if (_.size(filter) > 0) {    // filter length zero means, user asked neither launched nor un-launched currencies
+      count.set(Currencies.countLocal(filter))
+    }else {
+      count.set(0)
+    }
     if (this.countReady.get() && count.get() <= templ.limit.get()) {
       templ.everythingLoaded.set(true)
     } else {
@@ -202,38 +259,42 @@ Template.returnedCurrencies.helpers({
   currencies() {
     var templ = Template.instance()
     let filter = templ.filter.get();
-    let templateVars = Currencies.findLocal(filter, {
-      sort: {
-        featured: -1,
-        quality: -1,
-        createdAt: -1
-      },
-      limit: templ.limit.get(),
-      fields: {
-        consensusSecurity: 1,
-        _id: 1,
-        eloRanking: 1,
-        slug: 1,
-        currencySymbol: 1,
-        marketCap: 1,
-        maxCoins: 1,
-        hashpower: 1,
-        genesisTimestamp: 1,
-        circulating: 1,
-        currencyName: 1,
-        communityRanking: 1,
-        codebaseRanking: 1,
-        walletRanking: 1,
-        decentralizationRanking: 1,
-        gitCommits: 1,
-        featured: 1,
-        premine: 1,
-        cpc: 1,
-        cpt: 1,
-        price: 1
+    let templateVars = []
 
-      }
-    }).fetch()
+    if(_.size(filter) > 0) {    // filter length zero means, user asked neither launched nor un-launched currencies
+      templateVars = Currencies.findLocal(filter, {
+        sort: {
+          featured: -1,
+          quality: -1,
+          createdAt: -1
+        },
+        limit: templ.limit.get(),
+        fields: {
+          consensusSecurity: 1,
+          _id: 1,
+          eloRanking: 1,
+          slug: 1,
+          currencySymbol: 1,
+          marketCap: 1,
+          maxCoins: 1,
+          hashpower: 1,
+          genesisTimestamp: 1,
+          circulating: 1,
+          currencyName: 1,
+          communityRanking: 1,
+          codebaseRanking: 1,
+          walletRanking: 1,
+          decentralizationRanking: 1,
+          gitCommits: 1,
+          featured: 1,
+          premine: 1,
+          cpc: 1,
+          cpt: 1,
+          price: 1
+  
+        }
+      }).fetch()
+    }
 
     //get top red flag value
     templateVars.forEach(templateVar => {
@@ -268,8 +329,9 @@ Template.returnedCurrencies.events({
     template.fromFilter.set(rangeValues[0]);
     template.toFilter.set(rangeValues[1]);
 
-    // apply option for unlaunched projects
+    // apply option for projects status
     template.showUnlaunchedProjects.set(template.$('#future-projects-checkbox').is(':checked'))
+    template.showLaunchedProjects.set(template.$('#launched-projects-checkbox').is(':checked'))
 
     // apply security constraints
     var setSecurityTypes = template.$('.security-constraints input:checked').map(function () {
@@ -277,6 +339,14 @@ Template.returnedCurrencies.events({
     });
     var test = $.makeArray(setSecurityTypes);
     template.securityTypes.set(test);
+  },
+  'change #launched-projects-checkbox': function (event, template) {
+    // enable slider only if launched projects checked
+    if(event.target.checked){
+      template.dateSlider.enable();
+    }else{
+      template.dateSlider.disable();
+    }
   },
   'click .currencyFilter': function (event) {
     $('.currencyFilterModal').modal('show');
