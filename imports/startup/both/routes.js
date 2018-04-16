@@ -158,10 +158,11 @@ FlowRouter.route('/currencyAuction', {
 })
 
 FlowRouter.route('/auctions', {
-  name: 'all-auction',
+  name: 'all-auctions',
   subscriptions: function (params) {
     this.register('auctions', FastRenderer.subscribe('auctions'))
     this.register('publicUserData', FastRenderer.subscribe('publicUserData'))
+    this.register('approvedcurrencies', FastRenderer.subscribe('approvedcurrencies'))
   },
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {
