@@ -41,6 +41,9 @@ Template.transactions.onCreated(function() {
 })
 
 Template.transactions.helpers({
+	currency: function() {
+		return this.currency || 'KZR'
+	},
 	transactions: () => Template.instance().transactions.get(),
 	from: function() {
 		return (this.from === 'System' || this.from === 'Blockrazor') ? 'Master wallet' : (Meteor.users.findOne({
@@ -53,8 +56,8 @@ Template.transactions.helpers({
 		}) || {}).username || ''
 	},
 	amount: function() {
-		let amount = parseInt(amount);
-		return amount > 0.00001 ? amount : amount.toExponential(3)
+		let amount = parseInt(this.amount);
+		return amount > 0.00001 ? amount : amount.toExponential(6)
 	},
 	color: function() {
 		return this.amount > 0 ? 'green' : 'red'

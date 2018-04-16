@@ -31,7 +31,7 @@
                     <tr>
                         <td>{{from}}</td>
                         <td>{{to}}</td>
-                        <td><span style="color: {{color}}">{{amount}}</span> KZR</td>
+                        <td><span style="color: {{color}}">{{amount}}</span> {{currency}}</td>
                         <td>{{transactionTypes rewardType}}</td>
                     </tr>
                 {{else}}
@@ -49,5 +49,5 @@
     {{/each}}
     <a class="btn" href="/transactions/{{nextPage}}">&gt;&gt;</a>
     <a class="btn" href="/transactions/{{lastPage}}">&gt;|</a></span><br />
-    <h4>Total coins moved from the main wallet: {{total}}</h4>
+    <h4>Total KZR moved from the main wallet: {{total}}</h4>
 </template>
