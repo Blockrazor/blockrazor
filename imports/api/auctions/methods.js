@@ -143,21 +143,25 @@ Meteor.methods({
 				if (auction.closed) {
 					throw new Meteor.Error('Error.', 'You can\'t cancel a closed auction')
 				}
-				
-				Auctions.remove({
-					_id: auctionId
-				})
 
 				let bids = Bids.find({
 					auctionId: auctionId
 				}).fetch()
 
-				bids.forEach(i => {
-					Meteor.call('cancelBid', i._id, (err, data) => {}) // remove all other bids
-				})
+				if (bids && bids.length > 0) {
+					throw new Meteor.Error('Error.', 'You can\'t cancel an auction with active bids.')
+				} else {				
+					Auctions.remove({
+						_id: auctionId
+					})
 
-				// release the amount
-				transfer(Meteor.userId(), 'Blockrazor', `${auction.options.amount} ${auction.options.baseCurrency} has been returned your account.`, auction.options.amount, auction.options.baseCurrency)
+					bids.forEach(i => {
+						Meteor.call('cancelBid', i._id, (err, data) => {}) // remove all other bids
+					})
+
+					// release the amount
+					transfer(Meteor.userId(), 'Blockrazor', `${auction.options.amount} ${auction.options.baseCurrency} has been returned your account.`, auction.options.amount, auction.options.baseCurrency)
+				}
 			} else {
 				throw new Meteor.Error('Error.', 'Auction is not yours.')
 			}
