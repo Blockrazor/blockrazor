@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import {FlowRouter} from 'meteor/staringatlights:flow-router';
-import { Wallet, UserData } from '/imports/api/indexDB.js';
+import { Wallet, UserData, Currencies } from '/imports/api/indexDB.js';
 
 import '/imports/ui/components/notLoggedIn.html'
 import './wallet.html'
@@ -12,6 +12,8 @@ Template.wallet.onCreated(function bodyOnCreated() {
   self.autorun(function() {
     SubsCache.subscribe('wallet');
     SubsCache.subscribe('users');
+ SubsCache.subscribe('approvedcurrencies');
+
   })
 });
 
@@ -35,8 +37,17 @@ Template.wallet.helpers({
 		  currency: currency,
 		  read: false
 	  }).count();
+  },
+  currencyLogo: (currency) => {
+  //Not all currencies have a logo so check if the currencyLogoFilename exists otherwise return a placeholder
+  let currencyLogoFilename = Currencies.findOne({
+      currencyLogoFilename: {$exists:true},
+      slug: currency
+  });
+
+  return currencyLogoFilename ? _coinUpoadDirectoryPublic + currencyLogoFilename.currencyLogoFilename : '/images/noimage.png'
   }
-});
+  });
 
 Template.wallet.events({
   'click #js-add': (event, templateInstance) => {
