@@ -58,7 +58,7 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
   this.toFilter = new ReactiveVar("")
 
   this.autorun(() => {
-    this.noFeatured.set(!Currencies.findOne({
+    this.noFeatured.set(!Currencies.findOneLocal({
       featured: true
     }))
   })
