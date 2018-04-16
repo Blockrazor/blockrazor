@@ -57,7 +57,11 @@ Template.registerHelper('isDeveloper', () => {
    })
 
    Template.registerHelper('subsCacheReady', () => {
-       return SubsCache.ready()
+    var ready = true 
+        for (var x in SubsCache.cache){ 
+            ready = SubsCache.cache[x].ready() && ready 
+        } 
+    return ready 
    })
 
 
