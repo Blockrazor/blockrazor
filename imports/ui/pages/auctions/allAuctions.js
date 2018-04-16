@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating'
-import { Auctions, UserData } from '/imports/api/indexDB.js'
+import { Auctions, UserData, Currencies } from '/imports/api/indexDB.js'
 import { FlowRouter } from 'meteor/staringatlights:flow-router'
 
 import './allAuctions.template.html'
@@ -8,12 +8,40 @@ Template.allAuctions.onCreated(function() {
     this.autorun(() => {
         SubsCache.subscribe('auctions')
         SubsCache.subscribe('publicUserData')
+        SubsCache.subscribe('approvedcurrencies')
     })
 
     this.filter = new ReactiveVar('-')
 })
 
 Template.allAuctions.helpers({
+    highest: function() {
+        return this.options.highest || 0
+    },
+    needsUSD: function(curr) {
+        return ~['ETH', 'XMR'].indexOf(curr)
+    },
+    USDprice: function(curr, amount) {
+        let currency = Currencies.findOne({
+            currencySymbol: curr
+        })
+
+        if (currency && currency.price) {
+            return (amount * currency.price).toFixed(2)
+        }
+
+        return 0
+    },
+    pricePerKZR: function() {
+        if (this.options.baseCurrency === 'KZR') {
+            return ((this.options.highest || 0) / this.options.amount).toFixed(5)
+        } else {
+            return (this.options.highest || 0) !== 0 ? (this.options.amount / (this.options.highest || 0)).toFixed(5) : '0.00000'
+        }
+    },
+    currency: function() {
+        return this.options.baseCurrency === 'KZR' ? this.options.acceptedCurrency : this.options.baseCurrency
+    },
     auctions: () => {
         let ext = {}
         if (Template.instance().filter.get() === 'CLOSED') {
