@@ -197,7 +197,7 @@ Meteor.methods({
 							throw new Meteor.Error('Error.', 'You can\'t bid on your own auction.')
 						}
 
-						if (amount < auction.options.highest) {
+						if (amount <= auction.options.highest) {
 							throw new Meteor.Error('Error.', 'Bid amount is not high enough.')
 						} else {
 							Auctions.update({
