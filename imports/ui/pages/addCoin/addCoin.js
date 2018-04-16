@@ -98,6 +98,7 @@ Template.addCoin.onCreated(function() {
     SubsCache.subscribe('currencyBounty')
     SubsCache.subscribe('addCoinQuestions')
     SubsCache.subscribe('hashalgorithm')
+    SubsCache.subscribe('formdata')
   })
 
   this.now = new ReactiveVar(Date.now())
