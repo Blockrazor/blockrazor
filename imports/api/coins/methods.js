@@ -120,6 +120,13 @@ Meteor.methods({
             throw new Meteor.Error("Please log in first")
         };
 
+        let clientAddress = "0.0.0.0";
+        let httpHeaders = ""
+        if ( Meteor.isServer ){
+          clientAddress = this.connection.clientAddress
+          httpHeaders = this.connection.httpHeaders
+        }
+
         let isModerator = UserData.findOne({
             _id: this.userId
         }, {
@@ -191,8 +198,8 @@ Meteor.methods({
                         voteType: voteType,
                         userId: this.userId,
                         status: 'active',
-                        loggedIP: this.connection.clientAddress,
-                        headerData: this.connection.httpHeaders, // this could be a problem in the future, it's quite a big object
+                        loggedIP: clientAddress,
+                        headerData: httpHeaders, // this could be a problem in the future, it's quite a big object
                         time: new Date().getTime()
                     }
                 }
@@ -210,8 +217,8 @@ Meteor.methods({
                         voteType: voteType,
                         userId: this.userId,
                         status: 'active',
-                        loggedIP: this.connection.clientAddress,
-                        headerData: this.connection.httpHeaders, // this could be a problem in the future, it's quite a big object
+                        loggedIP: clientAddress,
+                        headerData: httpHeaders, // this could be a problem in the future, it's quite a big object
                         time: new Date().getTime()
                     }
                 }
