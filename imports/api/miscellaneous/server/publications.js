@@ -6,7 +6,7 @@ Meteor.publish('graphdata', function graphdataPublication() {
   });
 
 Meteor.publish('formdata', function formdataPublication() {
-  return FormData.find();
+  return FormData.find({});
   })
 
 Meteor.publish('applogs', (page, perPage) => AppLogs.find({}, {

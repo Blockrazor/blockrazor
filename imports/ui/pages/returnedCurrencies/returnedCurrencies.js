@@ -47,7 +47,8 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
   this.everythingLoaded = new ReactiveVar(false) //used to tell when user has reached end of the list in infinite scroll
   this.count = new ReactiveVar(false)
   this.noFeatured = new ReactiveVar(false)
-  this.securityTypes = new ReactiveVar(["Proof of Work", "Proof of Stake", "Hybrid"])
+  this.securityTypes = new ReactiveVar(["Proof of Work", "Proof of Stake", "Hybrid", "--Select One--"])
+  this.showUnlaunchedProjects = new ReactiveVar(true)
   this.fromFilter = new ReactiveVar("")
   this.toFilter = new ReactiveVar("")
 
@@ -64,6 +65,7 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
     var templ = Template.instance()
     let searchInputFilter = templ.searchInputFilter.get();
     let securityTypes = templ.securityTypes.get();
+    let showUnlaunchedProjects = templ.showUnlaunchedProjects.get();
     let fromFilter = templ.fromFilter.get()
     let toFilter = templ.toFilter.get();
 
@@ -74,23 +76,48 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
       consensusSecurity: {
         $in: securityTypes
       },
-      $or: [{
-        currencyName: {
-          $regex: new RegExp(searchInputFilter, "i")
+      $and : [
+        {
+          $or: [{
+            currencyName: {
+              $regex: new RegExp(searchInputFilter, "i")
+            }
+          }, {
+            currencySymbol: {
+              $regex: new RegExp(searchInputFilter, "i")
+            }
+          }, {
+            'previousNames.tag': new RegExp(searchInputFilter, 'gi')
+          }]
         }
-      }, {
-        currencySymbol: {
-          $regex: new RegExp(searchInputFilter, "i")
-        }
-      }, {
-        'previousNames.tag': new RegExp(searchInputFilter, 'gi')
-      }]
+      ]
     }
 
     if (fromFilter != "" && toFilter != "") {
-      query["genesisTimestamp"] = {
-        $gte: fromFilter,
-        $lte: toFilter
+      if (showUnlaunchedProjects){
+        query['$and'].push({
+          $or : [{
+            genesisTimestamp : {      // if genesis timestamp is in selected range
+              $gte: fromFilter,
+              $lte: toFilter
+            }
+          },{
+            genesisTimestamp: {       // if genesis timestamp is a future date
+              $gte: Date.now(),
+            }
+          },{
+            genesisTimestamp: NaN     // if genesis timestamp not known
+          },{
+            ico: true                 // otherwise an ico status present (not released yet)
+          }]
+        })
+      }else {
+        query['$and'].push({
+          genesisTimestamp : {
+            $gte: fromFilter,
+            $lte: toFilter
+          }
+        })
       }
     }
     this.filter.set(query)
@@ -235,8 +262,11 @@ Template.returnedCurrencies.events({
     template.fromFilter.set(rangeValues[0]);
     template.toFilter.set(rangeValues[1]);
 
+    // apply option for unlaunched projects
+    template.showUnlaunchedProjects.set(template.$('#future-projects-checkbox').is(':checked'))
+
     // apply security constraints
-    var setSecurityTypes = template.$('input:checked').map(function () {
+    var setSecurityTypes = template.$('.security-constraints input:checked').map(function () {
       return $(this).val();
     });
     var test = $.makeArray(setSecurityTypes);
