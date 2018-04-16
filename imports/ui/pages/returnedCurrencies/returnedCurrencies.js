@@ -30,15 +30,20 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
   this.searchInputFilter = new ReactiveVar(undefined);
   this.increment = 15
   this.limit = new ReactiveVar(this.increment)
-  self.autorun(() => {
-    //destroys previous cache since it gets duplicated instead and avoiding flicker
+  self.autorun((comp) => {
+    //stop incrementing sub on local ready; destroys previous cache since it gets duplicated instead and avoiding flicker
+    if (Currencies.readyLocal()){
+      comp.stop()
+    }
     if (this.currenciesSub) {
       var old = this.currenciesSub
     }
     this.currenciesSub = SubsCache.subscribe('dataQualityCurrencies', this.limit.get());
-    if (old){
-      old.stopNow()
-    }
+    this.autorun(()=>{
+      if (old && this.currenciesSub.ready()){
+        old.stopNow()
+      }
+    })
   })
   this.searchInputFilter = new ReactiveVar(undefined);
   this.filter = new ReactiveVar({})
