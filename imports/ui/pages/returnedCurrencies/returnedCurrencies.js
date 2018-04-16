@@ -63,7 +63,7 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
   })
 
   this.autorun(() => {
-    this.noFeatured.set(!Currencies.findOne({
+    this.noFeatured.set(!Currencies.findOneLocal({
       featured: true
     }))
   })
