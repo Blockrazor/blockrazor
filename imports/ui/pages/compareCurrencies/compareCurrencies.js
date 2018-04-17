@@ -15,7 +15,7 @@ import {
 } from 'meteor/staringatlights:flow-router'
 
 import '/imports/ui/components/typeahead'
-import './compareCurrencies.css'
+import './compareCurrencies.scss'
 import './compareCurrencies.html'
 
 import { radarEvent, intersection } from '/imports/api/utilities'
