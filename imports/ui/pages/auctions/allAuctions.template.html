@@ -24,10 +24,9 @@
       </div>
                         <div class="card text-center w-100 mt-2">
                 <div class="card-body">
-        <table class="table">
+        <table class="table table-hover">
             <thead>
                 <tr>
-                    <th scope="col">Name</th>
                     <th scope="col">Base currency</th>
                     <th scope="col">Accepted currency</th>
                     <th scope="col">Amount</th>
@@ -41,8 +40,7 @@
             <tbody>
                 {{#if subsCacheReady}}
                     {{#each auctions}}
-                        <tr>
-                            <td><a href="/auction/{{_id}}">{{name}}</a></td>
+                        <tr class="openAuction" id="{{_id}}" style="cursor: pointer;">
                             <td>{{options.baseCurrency}}</td>
                             <td>{{options.acceptedCurrency}}</td>
                             <td>{{fixed options.amount}} {{options.baseCurrency}}</td>
