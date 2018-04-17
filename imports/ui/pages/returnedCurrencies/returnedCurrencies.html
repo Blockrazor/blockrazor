@@ -13,37 +13,53 @@
         <div class="row date-slider-container">
           <input type="text" class="date-slider span2"/>
         </div>
-        <br/>
-        <span class="projects-status-option">
-          <input type="checkbox" class="form-check-input" id="launched-projects-checkbox" value="Launched" checked>
-          <label class="form-check-label" for="launched-projects-checkbox">Launched and Stable Projects</label>
-        </span>
-        <br/>
-        <span class="projects-status-option">
-          <input type="checkbox" class="form-check-input" id="future-projects-checkbox" value="Future" checked>
-          <label class="form-check-label" for="future-projects-checkbox">Planned Projects and ICOs</label>
-        </span>
+        <div class="form-check">
+          <div class="row">
+            <span class="col-sm-12 projects-status-option">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input form-check-input" id="launched-projects-checkbox" value="Launched" checked>
+                <label class="custom-control-label" for="launched-projects-checkbox">Launched and Stable Projects</label>
+              </div>
+            </span>
+          </div>
+          <div class="row">
+            <span class="col-sm-12 projects-status-option">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input form-check-input" id="future-projects-checkbox" value="Future" checked>
+                <label class="custom-control-label" for="future-projects-checkbox">Planned Projects and ICOs</label>
+              </div>
+            </span>
+          </div>
+        </div>
         <br/><br/>
         <h5 class="card-title mt-2">Security</h5>
         <div class="form-check security-constraints">
           <div class="row">
             <span class="col-sm-6">
-              <input type="checkbox" class="form-check-input" id="pow" value="Proof of Work" checked>
-              <label class="form-check-label" for="pow">Proof of Work</label>
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input form-check-input" id="pow" value="Proof of Work" checked>
+                <label class="custom-control-label" for="pow">Proof of Work</label>
+              </div>
             </span>
             <span class="col-sm-6">
-              <input type="checkbox" class="form-check-input" id="pos" value="Proof of Stake" checked>
-              <label class="form-check-label" for="pos" id="pos">Proof of Stake</label>
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input form-check-input" id="pos" value="Proof of Stake" checked>
+                <label class="custom-control-label" for="pos" id="pos">Proof of Stake</label>
+              </div>
             </span>
           </div>
           <div class="row">
             <span class="col-sm-6">
-              <input type="checkbox" class="form-check-input" id="hybrid" value="Hybrid" checked>
-              <label class="form-check-label" for="hybrid" id="hybrid" >Hybrid</label>
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input form-check-input" id="hybrid" value="Hybrid" checked>
+                <label class="custom-control-label" for="hybrid" id="hybrid" >Hybrid</label>
+              </div>
             </span>
             <span class="col-sm-6">
-              <input type="checkbox" class="form-check-input" id="unknown" value="--Select One--" checked>
-              <label class="form-check-label" for="unknown" id="unknown" >Unknown</label>
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input form-check-input" id="unknown" value="--Select One--" checked>
+                <label class="custom-control-label" for="unknown" id="unknown" >Unknown</label>
+              </div>
             </span>
           </div>
         </div>
