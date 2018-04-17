@@ -6,21 +6,20 @@
         </div>
         <div id="problemsFilterContainer" class="container">
         <div class="row form-items">
-                        <div class="card text-center w-100">
-                <div class="card-body">
-                                <div class="form-check-inline">
-                    <input class="form-check-input open" type="checkbox" value="null" id="all">
-                    <label class="form-check-label mr-3" for="all">
-                        Show Open Auctions
-                    </label>
-                                 <input class="form-check-input closed" type="checkbox" value="true" id="completed">
-                    <label class="form-check-label" for="completed">
-                       Show Completed Auctions
-                    </label>
-                </div>
-                    
-                </div>
+<div class="card text-center w-100">
+    <div class="card-body">
+        <div class="form-group form-check-inline">
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input open" id="open" checked="">
+                <label class="custom-control-label mr-3" for="open">Show Open Auctions</label>
             </div>
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input closed" id="closed">
+                <label class="custom-control-label" for="closed">Show Completed Auctions</label>
+            </div>
+        </div>
+    </div>
+</div>
         </div>
       </div>
                         <div class="card text-center w-100 mt-2">
