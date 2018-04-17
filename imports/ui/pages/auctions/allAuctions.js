@@ -55,7 +55,8 @@ Template.allAuctions.helpers({
             }
         } else if (Template.instance().open.get()) {
             var query = {
-                closed: null
+                closed: {$in: [null,false]} //we should be able to remove null on this later on when data is clean
+  
             }
         } else if (Template.instance().closed.get()) {
             var query = {
