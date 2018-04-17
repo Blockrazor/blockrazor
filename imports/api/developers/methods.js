@@ -2,11 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { check } from 'meteor/check'
 import { Bounties, REWARDCOEFFICIENT, UserData, Developers, Codebase, Currencies, Ratings, RatingsTemplates } from '/imports/api/indexDB.js'
 import { creditUserWith, removeUserCredit } from '/imports/api/utilities.js'
-if (Meteor.isServer){
-	import { log } from '/server/main.js'
-} else {
-	const log = {error(){}}
-}
+import { log } from '/imports/api/utilities'
 
 //previously codebaserank.js in server
 

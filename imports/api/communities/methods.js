@@ -1,13 +1,8 @@
 import { Meteor } from 'meteor/meteor'
 import { UserData, Currencies, Communities, developmentValidationEnabledFalse, Ratings, RatingsTemplates, Bounties, REWARDCOEFFICIENT  } from '/imports/api/indexDB'
 import SimpleSchema from 'simpl-schema'; //you must import SimpleSchema 
-import { creditUserWith, removeUserCredit } from '/imports/api/utilities.js'
+import { creditUserWith, removeUserCredit, log } from '/imports/api/utilities.js'
 import { sendMessage } from '/imports/api/activityLog/methods'
-if (Meteor.isServer){
-	import { log } from '/server/main.js'
-} else {
-	let log = {error(){}}
-}
 
 //Define a ValidatedMethod which can be called from both the client and server 
 export const saveCommunity = new ValidatedMethod({

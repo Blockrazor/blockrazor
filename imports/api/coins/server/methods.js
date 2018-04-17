@@ -8,11 +8,7 @@ HashAlgorithm, developmentValidationEnabledFalse
 } from '/imports/api/indexDB.js';
 import { rewardCurrencyCreator } from '/imports/api/utilities.js';
 import { quality } from '/imports/api/utilities'
-if (Meteor.isServer){
-	import { log } from '/server/main.js'
-} else {
-	const log = {error(){}}
-}
+import { log } from '/imports/api/utilities'
 Meteor.methods({
     'uploadCoinImage': function (fileName, imageOf, currencyId, binaryData,md5) {
       var error = function(error) {throw new Meteor.Error('error', error);}
