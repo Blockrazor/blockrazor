@@ -22,6 +22,7 @@
                 <th scope="col">From</th>
                 <th scope="col">To</th>
                 <th scope="col">Amount</th>
+				<th scope="col">Date/ Time</th>
                 <th scope="col">Type</th>
             </tr>
         </thead>
@@ -32,6 +33,7 @@
                         <td>{{from}}</td>
                         <td>{{to}}</td>
                         <td><span style="color: {{color}}">{{amount}}</span> {{currency}}</td>
+						<td>{{timestampToDatetime time}}</td>
                         <td>{{transactionTypes rewardType}}</td>
                     </tr>
                 {{else}}
