@@ -29,6 +29,46 @@ Template.compareCurrencies.onCreated(function () {
 		SubsCache.subscribe('redflags')
 	})
 
+	this.randomizeColors = () => {
+		Object.keys(this.colors.all()).forEach(i => {
+			let color = '#' + (Math.random() * 0xFFFFFF << 0).toString(16)
+			this.colors.set(i, color)
+		})
+
+		this.radarchart.data.datasets = this.radarchart.data.datasets.map(i => {
+			let color = this.colors.get(i.label)
+			if (color) {
+				let rgb = parseInt(color.substring(1), 16)
+
+				return _.extend(i, {
+					borderColor: color,
+					pointBackgroundColor: color,
+					backgroundColor: `rgba(${(rgb >> 16) & 255}, ${(rgb >> 8) & 255}, ${rgb & 255}, 0.2)`
+				})
+			}
+
+			return i
+		})
+
+		this.barchart.data.datasets = this.barchart.data.datasets.map(i => {
+			let color = this.colors.get(i.label)
+
+			if (color) {
+				let rgb = parseInt(color.substring(1), 16)
+
+				return _.extend(i, {
+					borderColor: color,
+					backgroundColor: `rgba(${(rgb >> 16) & 255}, ${(rgb >> 8) & 255}, ${rgb & 255}, 0.2)`
+				})
+			} 
+
+			return i
+		})
+
+		this.barchart.update()
+		this.radarchart.update()
+	}
+
 	//used to init from route params and in typeAhead events
 	this.curryEvent = function(event, value, templateInstance){
 		cmpArr = templateInstance.compared.get()
@@ -320,6 +360,11 @@ Template.compareCurrencies.events({
 			path: path
 		}, 'compareCurrencies', path) // replace the url field in the browser without reloading the page
 	},
+	'click #js-randomize': (event, templateInstance) => {
+		event.preventDefault()
+
+		templateInstance.randomizeColors()
+	}
 })
 
 Template.compareCurrencies.helpers({
