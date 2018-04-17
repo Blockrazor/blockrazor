@@ -211,6 +211,16 @@ Template.registerHelper('transactionTypes', (transaction) => {
         transactionTypes(transaction);
 })
 
+Template.registerHelper('timestampToDatetime', (timestamp) => {
+		return new Date(timestamp).toLocaleString([], {
+			day: 'numeric',
+			month: 'short',
+			year: 'numeric',
+			hour: '2-digit',
+			minute:'2-digit'
+		});
+})
+
 if (window.location.hash) {
     if (!Meteor.userId()) { // if user is not logged in, save the token for later usage, e.g. when the user registers
         if (localStorage) {
