@@ -11,7 +11,8 @@ Template.allAuctions.onCreated(function() {
         SubsCache.subscribe('approvedcurrencies')
     })
 
-    this.filter = new ReactiveVar('-')
+    this.open = new ReactiveVar(null)
+    this.closed = new ReactiveVar()
 })
 
 Template.allAuctions.helpers({
@@ -43,23 +44,37 @@ Template.allAuctions.helpers({
         return this.options.baseCurrency === 'KZR' ? this.options.acceptedCurrency : this.options.baseCurrency
     },
     auctions: () => {
-        let ext = {}
-        if (Template.instance().filter.get() === 'CLOSED') {
-            ext = {
-                closed: true
-            }
-        } else if (Template.instance().filter.get() === 'OPEN') {
-            ext = {
-                closed: {
-                    $ne: true
-                }
-            }
+
+var query = {}
+console.log('Template.instance().closed.get()',Template.instance().closed.get())
+console.log('Template.instance().open.get()',Template.instance().open.get())
+
+        if(Template.instance().open.get() && Template.instance().closed.get()){
+            console.log('c')
+            var query = {
+
+             $or : [ {closed: true}, {closed: {$exists: false}} ] 
         }
+        }else if(Template.instance().open.get()){
+            console.log('a')
+            var query = {
+            closed: null
+        }
+        }else if(Template.instance().closed.get()){
+            console.log('b')
+            var query = {
+            closed: true
+        }
+        }
+
+
+        console.log(query)
+
         return Auctions.find(_.extend({
             _id: {
                 $ne: 'top-currency'
             }
-        }, ext), {
+        }, query), {
             sort: {
                 'options.timeout': -1
             }
@@ -86,9 +101,26 @@ Template.allAuctions.events({
 
         FlowRouter.go('/new-auction')
     },
-    'change #js-filter': (event, templateInstance) => {
+    'change .open': (event, templateInstance) => {
+        event.preventDefault()
+        if ($('.open').is(":checked")) {
+            var openValue = true
+        } else {
+            var openValue = false
+        }
+        templateInstance.open.set(openValue)
+    },
+    'change .closed': (event, templateInstance) => {
         event.preventDefault()
 
-        templateInstance.filter.set($(event.currentTarget).val())
+        if ($('.closed').is(":checked")) {
+            var closedValue = true
+        } else {
+            var closedValue = false
+        }
+
+        console.log(closedValue)
+
+        templateInstance.closed.set(closedValue)
     }
 })
