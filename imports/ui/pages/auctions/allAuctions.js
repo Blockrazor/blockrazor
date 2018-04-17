@@ -11,7 +11,7 @@ Template.allAuctions.onCreated(function() {
         SubsCache.subscribe('approvedcurrencies')
     })
 
-    this.open = new ReactiveVar(null)
+    this.open = new ReactiveVar(true)
     this.closed = new ReactiveVar()
 })
 
@@ -50,18 +50,15 @@ console.log('Template.instance().closed.get()',Template.instance().closed.get())
 console.log('Template.instance().open.get()',Template.instance().open.get())
 
         if(Template.instance().open.get() && Template.instance().closed.get()){
-            console.log('c')
             var query = {
 
              $or : [ {closed: true}, {closed: {$exists: false}} ] 
         }
         }else if(Template.instance().open.get()){
-            console.log('a')
             var query = {
             closed: null
         }
         }else if(Template.instance().closed.get()){
-            console.log('b')
             var query = {
             closed: true
         }
