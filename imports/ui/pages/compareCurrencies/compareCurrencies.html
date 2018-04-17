@@ -1,124 +1,128 @@
 <template name="compareCurrencies">
-	<h3 class="mt-3">Compare currencies</h3>
-    <div class="card border-secondary mb-3 mb-3" style="min-width:300px;overflow:hidden;">
-        <div class="card-body">
-            <div class="currencyDetailBox">
-				<div class="row">
-					<div class="col-sm-8 offset-sm-2">
-						<div style="width:100%">
-		                    <canvas id="radar" width="600" height="250"></canvas>
-		                </div>
-					</div>
-				</div>
-                <br /><br />
-                <div style="width:100%">
-                    <canvas class="mx-auto" id="bar"></canvas>
-                </div>
-                <br />
-                <button class="btn pull-right" id="js-randomize">Randomize colors</button>
-                <br />
-                <div id="js-comparing" class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>
-                                    {{>typeahead typeAheadProps}}
-                                </th>
-                                {{#each comparedCurrencies}}
-                                <th scope="col">
-									<h5 style="color: {{color}}; ">
-										<a href="/currency/{{slug}}">
-											<i class="fa fa-external-link"></i>
-										</a>
-										{{currencyName}}<sup><a href="#" class="js-delete">X</a></sup>
-									</h5>
-								</th>
-                                {{/each}}
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Price</td>
-                                {{#each comparedCurrencies}}
-                                <td style="color: {{color}};">{{price}}$</td>
-                                {{/each}}
-                            </tr>
-                            <tr>
-                                <td>Comparison Price (Circulation)</td>
-                                {{#each comparedCurrencies}}
-                                <td style="color: {{color}};">{{cpc}}$</td>
-                                {{/each}}
-                            </tr>
-                            <tr>
-                                <td>Comparison Price (Total)</td>
-                                {{#each comparedCurrencies}}
-                                <td style="color: {{color}};">{{cpt}}$</td>
-                                {{/each}}
-                            </tr>
-                            <tr>
-                                <td style="text-align: center" colspan="{{colspan}}">Features</td>
-                            </tr>
-                            {{#each top3}}
-                            <tr>
-                                <td>Top feature {{this}}</td>
-                                {{#each comparedCurrencies}}
-                                <td style="color: {{color}};">{{topFeature ..}}</td>
-                                {{/each}}
-                            </tr>
-                            {{/each}}
-                            <tr>
-                                <td style="text-align: center" colspan="{{colspan}}">Red flags</td>
-                            </tr>
-                            {{#each top3}}
-                            <tr>
-                                <td>Top red flag {{this}}</td>
-                                {{#each comparedCurrencies}}
-                                <td style="color: {{color}};">{{topFlag ..}}</td>
-                                {{/each}}
-                            </tr>
-                            {{/each}}
-                            <tr>
-                                <td style="text-align: center" colspan="{{colspan}}">Founder</td>
-                            </tr>
-                            <tr>
-                                <td>Status</td>
-                                {{#each comparedCurrencies}}
-                                <td style="color: {{color}};">{{founder}}</td>
-                                {{/each}}
-                            </tr>
-                            <tr>
-                                <td style="text-align: center" colspan="{{colspan}}">Other data</td>
-                            </tr>
-                            <tr>
-                                <td>Hash power</td>
-                                {{#each comparedCurrencies}}
-                                <td style="color: {{color}};">{{hashpower}} W</td>
-                                {{/each}}
-                            </tr>
-                            <tr>
-                                <td>Market cap</td>
-                                {{#each comparedCurrencies}}
-                                <td style="color: {{color}};">{{marketCap}}$</td>
-                                {{/each}}
-                            </tr>
-                            <tr>
-                                <td>Circulating coins</td>
-                                {{#each comparedCurrencies}}
-                                <td style="color: {{color}};">{{circulating}}</td>
-                                {{/each}}
-                            </tr>
-                            <tr>
-                                <td>Final value</td>
-                                {{#each comparedCurrencies}}
-                                <td style="color: {{color}};">{{finalValue}}$</td>
-                                {{/each}}
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <br /><br />
-            </div>
+	<h3 class="main-heading mt-3">Compare currencies</h3>
+  <div class="border-secondary my-3 currency-detail-container">
+    <div class="row">
+      <div class="col-lg-6 col-md-12">
+        <div class="radar-graph">
+          <canvas id="radar" width="600" height="250"></canvas>
         </div>
+      </div>
+      <div class="col-lg-6 col-md-12">
+        <div class="bar-chart">
+          <canvas class="mx-auto" id="bar"></canvas>
+        </div>
+      </div>
     </div>
+    <div class="row">    
+      <div class="col-md-12">
+        <button class="btn pull-right" id="js-randomize">Randomize colors</button>
+        <br/><br/>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="currencyDetailBox">
+          <div id="js-comparing" class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>
+                    {{>typeahead typeAheadProps}}
+                  </th>
+                    {{#each comparedCurrencies}}
+                  <th scope="col">
+                    <h5 style="color: {{color}}; ">
+                      <a href="/currency/{{slug}}">
+                        <i class="fa fa-external-link"></i>
+                      </a>
+                      {{currencyName}}<sup><a href="#" class="js-delete">X</a></sup>
+                    </h5>
+                  </th>
+                    {{/each}}
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Price</td>
+                  {{#each comparedCurrencies}}
+                  <td style="color: {{color}};">{{price}}$</td>
+                  {{/each}}
+                </tr>
+                <tr>
+                  <td>Comparison Price (Circulation)</td>
+                  {{#each comparedCurrencies}}
+                  <td style="color: {{color}};">{{cpc}}$</td>
+                  {{/each}}
+                </tr>
+                <tr>
+                  <td>Comparison Price (Total)</td>
+                  {{#each comparedCurrencies}}
+                  <td style="color: {{color}};">{{cpt}}$</td>
+                  {{/each}}
+                </tr>
+                <tr>
+                  <td style="text-align: center" colspan="{{colspan}}">Features</td>
+                </tr>
+                {{#each top3}}
+                <tr>
+                  <td>Top feature {{this}}</td>
+                  {{#each comparedCurrencies}}
+                  <td style="color: {{color}};">{{topFeature ..}}</td>
+                  {{/each}}
+                </tr>
+                {{/each}}
+                <tr>
+                  <td style="text-align: center" colspan="{{colspan}}">Red flags</td>
+                </tr>
+                {{#each top3}}
+                <tr>
+                  <td>Top red flag {{this}}</td>
+                  {{#each comparedCurrencies}}
+                  <td style="color: {{color}};">{{topFlag ..}}</td>
+                  {{/each}}
+                </tr>
+                {{/each}}
+                <tr>
+                  <td style="text-align: center" colspan="{{colspan}}">Founder</td>
+                </tr>
+                <tr>
+                  <td>Status</td>
+                  {{#each comparedCurrencies}}
+                  <td style="color: {{color}};">{{founder}}</td>
+                  {{/each}}
+                </tr>
+                <tr>
+                  <td style="text-align: center" colspan="{{colspan}}">Other data</td>
+                </tr>
+                <tr>
+                  <td>Hash power</td>
+                  {{#each comparedCurrencies}}
+                  <td style="color: {{color}};">{{hashpower}} W</td>
+                  {{/each}}
+                </tr>
+                <tr>
+                  <td>Market cap</td>
+                  {{#each comparedCurrencies}}
+                  <td style="color: {{color}};">{{marketCap}}$</td>
+                  {{/each}}
+                </tr>
+                <tr>
+                  <td>Circulating coins</td>
+                  {{#each comparedCurrencies}}
+                  <td style="color: {{color}};">{{circulating}}</td>
+                  {{/each}}
+                </tr>
+                <tr>
+                  <td>Final value</td>
+                  {{#each comparedCurrencies}}
+                  <td style="color: {{color}};">{{finalValue}}$</td>
+                  {{/each}}
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>

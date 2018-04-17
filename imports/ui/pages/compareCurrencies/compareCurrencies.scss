@@ -1,0 +1,31 @@
+.currency-detail-container {
+  overflow:hidden;
+  padding: 15px;
+  
+  .radar-graph, .bar-chart, .currencyDetailBox {
+    background: #ffffff;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+    margin: 0px auto 30px auto;
+    padding: 15px;
+    max-width: calc(100% - 1px);
+    position: relative;
+
+  }
+
+  #js-randomize {
+    margin-bottom: 15px;
+  }
+
+  #js-comparing {
+    display: block;
+    position: relative;
+    
+    @media only screen and (min-width : 768px) {
+      max-width: calc(100vw - 330px);
+    }
+  }
+}
+
+.main-heading {
+  margin-left: 15px;
+}
