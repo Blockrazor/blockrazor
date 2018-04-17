@@ -6,13 +6,7 @@ var analytics = new Analytics('auAfRv1y0adOiVyz1TZB9nl18LI9UT98')
 import { updateUsersStats } from './usersStats'
 
 
-//this needs looking into
-import { log } from '/server/main.js'
-// if (Meteor.isServer){
-// 	import { log } from '/server/main.js'
-// } else {
-// 	const log = {error(){}, info(){}}
-// }
+import { log } from '/imports/api/utilities'
 
 //is in fact server only file
 

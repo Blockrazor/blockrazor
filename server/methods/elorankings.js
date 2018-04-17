@@ -1,5 +1,5 @@
 import { EloRankings, Ratings, RatingsTemplates, Currencies, GraphData, Communities, Bounties, WalletImages } from '/imports/api/indexDB.js';
-import { log } from '../main'
+import { log } from '/imports/api/utilities'
 
 SyncedCron.add({
     name: 'Update graph ELO data',

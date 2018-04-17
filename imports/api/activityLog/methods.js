@@ -1,10 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { ActivityLog } from '/imports/api/indexDB.js'
-if (Meteor.isServer){
-	import { log } from '/server/main.js'
-} else {
-	let log = {error(){}}
-}
+import { log } from '/imports/api/utilities'
+
 export const sendMessage = function(userId, message, from) {
     ActivityLog.insert({
       time: new Date().getTime(),

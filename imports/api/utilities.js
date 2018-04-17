@@ -1,7 +1,24 @@
 import { Mongo } from 'meteor/mongo';
 //export var Rewards = new Mongo.Collection('rewards');
-import { UserData, Currencies, Wallet, GraphData } from '/imports/api/indexDB.js';
+import { UserData, Currencies, Wallet, GraphData, AppLogs } from '/imports/api/indexDB.js'
+import { Logger } from 'meteor/ostrio:logger'; 
+import { LoggerMongo } from 'meteor/ostrio:loggermongo'
+// to prevent code duplication and redundancy, we simply export the logger so other files can use it easily
+let log = {}
 
+if (Meteor.isServer) {
+  log = new Logger();
+  (new LoggerMongo(log, {
+    collection: AppLogs
+  })).enable()
+} else {
+  log = {
+    error: console.err,
+    info: console.log
+  }
+}
+
+export { log }
 
 var rewards = {
   planned: 1,
