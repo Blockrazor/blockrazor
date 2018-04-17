@@ -57,11 +57,11 @@ Template.registerHelper('isDeveloper', () => {
    })
 
    Template.registerHelper('subsCacheReady', () => {
-    var ready = true 
-        for (var x in SubsCache.cache){ 
-            ready = SubsCache.cache[x].ready() && ready 
-        } 
-    return ready 
+    var ready = true
+        for (var x in SubsCache.cache){
+            ready = SubsCache.cache[x].ready() && ready
+        }
+    return ready
    })
 
 
@@ -208,7 +208,7 @@ transactionTypes = function(type) {
 }
 
 Template.registerHelper('transactionTypes', (transaction) => {
-        transactionTypes(transaction);
+        return transactionTypes(transaction);
 })
 
 if (window.location.hash) {
