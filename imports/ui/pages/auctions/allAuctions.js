@@ -67,13 +67,16 @@ Template.allAuctions.helpers({
     },
     fixed: (val) => val.toFixed(6),
     time: function() {
-        return moment(this.options.timeout).format(`${_globalDateFormat} HH:mm`)
+        return moment(this.options.timeout).fromNow()
     },
     status: function() {
         return this.closed ? 'CLOSED' : 'OPEN'
     },
     statusColor: function() {
         return this.closed ? 'red' : 'green'
+    },
+    verb: function() {
+        return this.closed ? 'Ended' : 'Ends'
     }
 })
 

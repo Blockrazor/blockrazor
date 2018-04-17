@@ -36,7 +36,7 @@
                             <td>{{options.baseCurrency}}</td>
                             <td>{{options.acceptedCurrency}}</td>
                             <td>{{fixed options.amount}} {{options.baseCurrency}}</td>
-                            <td>{{time}}</td>
+                            <td>{{verb}} {{time}}</td>
                             <td style="color: {{statusColor}}">{{status}}</td>
                             <td>{{highest}} {{options.acceptedCurrency}} {{#if needsUSD options.acceptedCurrency}}{{#if USDprice options.acceptedCurrency highest}}({{USDprice options.acceptedCurrency highest}} USD){{/if}}{{/if}}</td>
                             <td>{{pricePerKZR}} {{currency}} {{#if needsUSD options.acceptedCurrency}}{{#if USDprice options.acceptedCurrency pricePerKZR}}({{USDprice options.acceptedCurrency pricePerKZR}} USD){{/if}}{{/if}}</td>
