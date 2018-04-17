@@ -46,7 +46,8 @@ Meteor.methods({
 				    description: description,
 				    options: options,
 				    createdBy: Meteor.userId(),
-				    createdAt: new Date().getTime()
+				    createdAt: new Date().getTime(),
+				    closed:false
 				})
 
 						//you must define an event and can define multiple properties if required
