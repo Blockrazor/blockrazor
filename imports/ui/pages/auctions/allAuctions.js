@@ -45,27 +45,23 @@ Template.allAuctions.helpers({
     },
     auctions: () => {
 
-var query = {}
-console.log('Template.instance().closed.get()',Template.instance().closed.get())
-console.log('Template.instance().open.get()',Template.instance().open.get())
+        var query = {}
 
-        if(Template.instance().open.get() && Template.instance().closed.get()){
+
+        if (Template.instance().open.get() && Template.instance().closed.get()) {
             var query = {
 
-             $or : [ {closed: true}, {closed: {$exists: false}} ] 
-        }
-        }else if(Template.instance().open.get()){
+                $or: [{ closed: true }, { closed: { $exists: false } }]
+            }
+        } else if (Template.instance().open.get()) {
             var query = {
-            closed: null
-        }
-        }else if(Template.instance().closed.get()){
+                closed: null
+            }
+        } else if (Template.instance().closed.get()) {
             var query = {
-            closed: true
+                closed: true
+            }
         }
-        }
-
-
-        console.log(query)
 
         return Auctions.find(_.extend({
             _id: {
@@ -93,6 +89,11 @@ console.log('Template.instance().open.get()',Template.instance().open.get())
 })
 
 Template.allAuctions.events({
+    'click table tbody tr': (event, templateInstance) => {
+        event.preventDefault()
+
+        FlowRouter.go('/auction/'+event.currentTarget.id)
+    },
     'click #js-new': (event, templateInstance) => {
         event.preventDefault()
 
@@ -115,8 +116,6 @@ Template.allAuctions.events({
         } else {
             var closedValue = false
         }
-
-        console.log(closedValue)
 
         templateInstance.closed.set(closedValue)
     }
