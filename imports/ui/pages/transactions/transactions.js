@@ -56,8 +56,8 @@ Template.transactions.helpers({
 		}) || {}).username || ''
 	},
 	amount: function() {
-		let amount = parseInt(this.amount);
-		return amount > 0.00001 ? amount : amount.toExponential(6)
+		let amount = this.amount;
+		return amount;
 	},
 	color: function() {
 		return this.amount > 0 ? 'green' : 'red'
