@@ -11,7 +11,8 @@ const getName = (type) => {
 		'bad-wallet': 'Your wallet image was invalid',
 		'comment': 'Your comment has been flagged and deleted',
 		'redflags': 'Your redflag has been flagged and deleted',
-		'features': 'Your feature has been flagged and deleted'
+		'features': 'Your feature has been flagged and deleted',
+		'duplicate': 'You\'ve created multiple accounts which is not allowed.'
 	}
 
 	return o[type]
@@ -45,7 +46,7 @@ Template.suspended.helpers({
 			_id: Meteor.userId()
 		})
 
-		return user && user.strikes && user.strikes.map(i => ({
+		return user && user.strikes && user.strikes.sort((i1, i2) => i2.time - i1.time).map(i => ({
 			date: moment(i.time).fromNow(),
 			name: getName(i.type)
 		}))

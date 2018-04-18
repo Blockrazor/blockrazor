@@ -41,6 +41,7 @@ import { ChangedCurrencies } from '/imports/api/coins/changedCurrencies.js'
 import { Redflags } from '/imports/api/redflags/redflags.js'
 
 import { ActivityLog } from '/imports/api/activityLog/activityLog.js'
+import { ActivityIPs } from '/imports/api/activityLog/activityIPs'
 
 import { Bids } from '/imports/api/auctions/bids'
 import { Auctions } from '/imports/api/auctions/auctions'
@@ -100,6 +101,7 @@ export {
   Redflags,
 
   ActivityLog,
+  ActivityIPs,
 
   Bids,
   Auctions,

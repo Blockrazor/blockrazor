@@ -113,13 +113,14 @@ Meteor.methods({
       }
     })
   },
-  userStrike: (userId, type, token) => {
+  userStrike: (userId, type, token, times) => {
+    times = times || 1
     if (token === 's3rv3r-only') {
       let user = UserData.findOne({
         _id: userId
       })
 
-      if (user && !user.moderator) {
+      if (user) {
         // add a strike to user's date
         UserData.update({
           _id: user._id
@@ -137,18 +138,18 @@ Meteor.methods({
           let val = i2.time > lastWeek ? 1 : 0
 
           return i1 + val
-        }, 0) + 1 : 0
+        }, 0) + times : times
 
         let lastMonth = new Date().getTime() - 24*60*60*1000*30 // one month (30 days average)
         let strikesMonth = user.strikes ? user.strikes.reduce((i1, i2) => {
           let val = i2.time > lastMonth ? 1 : 0
 
           return i1 + val
-        }, 0) + 1 : 0
+        }, 0) + times : times
 
         if (strikesWeek > 3 || strikesMonth > 6) {
           Meteor.users.update({
-            _id: Meteor.userId()
+            _id: userId
           }, {
             $set: {
               suspended: true

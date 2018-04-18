@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating'
-import { UserData } from '/imports/api/indexDB.js'
+import { UserData, ActivityIPs } from '/imports/api/indexDB.js'
 import { FlowRouter } from 'meteor/staringatlights:flow-router';
 
 import './flaggedUsers.html'
@@ -8,6 +8,7 @@ Template.flaggedUsers.onCreated(function() {
 	this.autorun(() => {
 		SubsCache.subscribe('userData')
 		SubsCache.subscribe('users')
+		SubsCache.subscribe('activityIPs')
 	})
 })
 
@@ -30,12 +31,20 @@ const activeFlags = function() {
 		}
 	})
 
-	return flags.toString()
+	return flags
 }
 
 Template.flaggedUsers.helpers({
-	users: () => {
-		return Meteor.users.find({}).fetch().map(i => {
+	ipAddresses: function() {
+		let users = Meteor.users.find({
+			$or: [{
+				suspended: false
+			}, {
+				suspended: {
+					$exists: false
+				}
+			}] // don't include banned users
+		}).fetch().map(i => {
 			return {
 				user: i,
 				info: (UserData.findOne({
@@ -43,16 +52,33 @@ Template.flaggedUsers.helpers({
 				}) || {})
 			}
 		}).filter(i => {
-			return activeFlags.call(i) !== ''
+			return _.intersection(activeFlags.call(i), ['duplicate.createdIP', 'duplicate.accessIP']).length > 0 // find all users with flags
 		})
-	},
-	lastAccess: function() {
-		return new Date(((this.info.sessionData || []).pop() || {}).time || 0).toString()
-	},
-	ipAddress: function() {
-		return ((this.info.sessionData || []).pop() || {}).loggedIP
-	},
-	activeFlags: function() {
-		return activeFlags.call(this)
+
+		let ips = _.uniq(_.flatten(users.map(i => ((i.info.sessionData || []).map(j => j.loggedIP))))) // return all flagged ip addresses
+		let ignored = ActivityIPs.find({
+			ignored: true,
+			time: {
+				$gt: new Date() - 1000*60*60*24*30
+			}
+		}).fetch().map(i => i.ip)
+
+		ips = ips.filter(i => !~ignored.indexOf(i)) // filter out ignored ips
+
+		return ips.map(i => {
+			let us = users.filter(j => j.info.sessionData && j.info.sessionData.some(k => k.loggedIP === i))
+
+			console.log(us)
+
+			if (us.length > 1) {
+				return {
+					ip: i,
+					lastAccess: moment(us.map(i => i.info.sessionData[i.info.sessionData.length - 1].time).sort((i1, i2) => i2 - i1)[0]).fromNow(),
+					users: us.length
+				}
+			} else {
+				return false
+			}
+		}).filter(i => !!i)
 	}
 })

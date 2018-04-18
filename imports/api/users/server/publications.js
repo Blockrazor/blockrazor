@@ -150,7 +150,8 @@ import { UserData, ProfileImages, UsersStats } from '/imports/api/indexDB.js'
         email: 1,
         bio: 1,
         slug: 1,
-        profilePicture: 1
+        profilePicture: 1,
+        suspended: 1
       } // only show the absolutely required fields
     })
   })
