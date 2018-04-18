@@ -54,6 +54,7 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   import '../../ui/pages/moderator/moderatorDash/moderatorDash'
   import '../../ui/pages/moderator/questions/questions'
   import '../../ui/pages/moderator/flaggedUsers/flaggedUsers'
+  import '../../ui/pages/moderator/flaggedUsers/flaggedIP'
   import '../../ui/pages/moderator/hashpower/flaggedHashpower'
   import '../../ui/pages/moderator/appLogs/appLogs'
   import '../../ui/pages/moderator/problems/solvedProblems'
@@ -631,12 +632,37 @@ adminRoutes.route('/flagged-users', {
   name: 'flaggedUsers',
   subscriptions: function () {
     this.register('userData', FastRenderer.subscribe('userData'));
-    this.register('users', FastRenderer.subscribe('users'));
+    this.register('users', FastRenderer.subscribe('users'))
+    this.register('activityIPs', FastRenderer.subscribe('activityIPs'))
   },
   action: function () {
     if (Meteor.userId()) {
       BlazeLayout.render('mainLayout', {
         main: 'flaggedUsers',
+        //left: 'sideNav'
+      })
+    } else {
+      window.last = window.location.pathname
+      FlowRouter.go('/login')
+    }
+  }
+})
+
+adminRoutes.route('/flagged-ip/:ip', {
+  name: 'flaggedIP',
+  subscriptions: function (params) {
+    this.register('userData', FastRenderer.subscribe('userData'))
+    this.register('users', FastRenderer.subscribe('users'))
+    this.register('activityIP', FastRenderer.subscribe('activityIP', params.ip))
+    this.register('features', FastRenderer.subscribe('features'))
+    this.register('redflags', FastRenderer.subscribe('redflags'))
+    this.register('approvedcurrencies', FastRenderer.subscribe('approvedcurrencies'))
+    this.register('walletsMod', FastRenderer.subscribe('walletsMod'))
+  },
+  action: function () {
+    if (Meteor.userId()) {
+      BlazeLayout.render('mainLayout', {
+        main: 'flaggedIP',
         //left: 'sideNav'
       })
     } else {

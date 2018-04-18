@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import { ActivityLog } from '/imports/api/indexDB.js'
+import { ActivityLog, ActivityIPs } from '/imports/api/indexDB.js'
 
 Meteor.publish('activitylog', function pending() {
   if(this.userId) {
@@ -8,3 +8,8 @@ Meteor.publish('activitylog', function pending() {
     return null;
   }
 })
+
+Meteor.publish('activityIPs', () => ActivityIPs.find({}))
+Meteor.publish('activityIP', (ip) => ActivityIPs.find({
+	ip: ip
+}))
