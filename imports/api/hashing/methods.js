@@ -329,7 +329,7 @@ Meteor.methods({
 		let mul = parseUnit(unit)
 
 		let cur = Currencies.findOne({
-			currencyName: new RegExp(currencyName, 'ig')
+			currencyName: new RegExp(`${currencyName.trim()}$`, 'ig')
 		})
 
 		if (cur) {
