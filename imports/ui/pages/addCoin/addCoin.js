@@ -53,6 +53,26 @@ Template.addCoin.onRendered(function() {
 	initDatePicker('genesisDate', 'YYYY-MM-DD', 'YYYY MM D', 'genesis-date');
 	initDatePicker('icoDate', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
   initDatePicker('icoDateEnd', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
+
+  //autopopulates fields for validation testing
+  if (Meteor.isDevelopment && developmentValidationEnabledFalse){
+    $("#currencyName")[0].value = "sdfsdf"
+    $("#currencySymbol")[0].value = "sdf"
+     $("#premine")[0].value = 4444
+     $("#maxCoins")[0].value = 44444
+     Meteor.setTimeout(()=>{
+      $(".month").val("1").change()
+      $(".year").val("2017").change()
+      $(".day").val("1").change()
+     }, 500)
+     Meteor.setTimeout(()=>{
+      $("#consensusType").val("Hybrid").change()
+      $("#exampleFormControlSelect1")[0].value = "7be44dviDMiuoShan"
+    }, 600)
+    Meteor.setTimeout(()=>{
+      $("#exampleFormControlSelect1")[0].value = "7be44dviDMiuoShan"
+    }, 1000)
+  }
 });
 
 //Functions to help with client side validation and data manipulation
@@ -116,7 +136,7 @@ Template.addCoin.events({
   },
   'blur #currencyName': function(e, templateInstance){
     templateInstance.currencyName.set(false);
-    Meteor.call('isCurrencyNameUnique', e.currentTarget.value);
+
     Meteor.call('isCurrencyNameUnique', e.currentTarget.value, function(error, result){
       if(error) {templateInstance.currencyNameMessage.set(error.error)} else {templateInstance.currencyNameMessage.set(null)};
 
@@ -235,22 +255,38 @@ if(developmentValidationEnabledFalse && !uploadError){
     Cookies.set('workingBounty', false, { expires: 1 })
     FlowRouter.go('/');
   },
-  'submit form': function(data){
+  'submit form': function (data) {
     data.preventDefault(); //is technically not suppose to be here as per comment #1, note return false in existence check
-  var insert = {}; //clear insert dataset
+    var insert = {}; //clear insert dataset
 
-  if (Template.instance().currencyNameMessage.get() != null){ //pending/existing check
-    sAlert.error(Template.instance().currencyNameMessage.get())
-    return false
-  }
-  var d = data.target;
-  launchTags = new Array();
-    if (d.ICO.checked) {launchTags.push({"tag": "ICO"})};
-    if (d.BTCFork.checked) {launchTags.push({"tag": "Bitcoin Fork"})};
-    if (!d.BTCFork.checked) {launchTags.push({"tag": "Altcoin"})};
-    if(!d.exists.checked) {launchTags.push({"tag": "proposal"})}
+    if (Template.instance().currencyNameMessage.get() != null) { //pending/existing check
+      sAlert.error(Template.instance().currencyNameMessage.get())
+      return false
+    }
+    var d = data.target;
+    var launchTags = [];
+    if (d.ICO.checked) {
+      launchTags.push({
+        "tag": "ICO"
+      })
+    };
+    if (d.BTCFork.checked) {
+      launchTags.push({
+        "tag": "Bitcoin Fork"
+      })
+    };
+    if (!d.BTCFork.checked) {
+      launchTags.push({
+        "tag": "Altcoin"
+      })
+    };
+    if (!d.exists.checked) {
+      launchTags.push({
+        "tag": "proposal"
+      })
+    }
 
-      let questions = []
+    let questions = []
 
     RatingsTemplates.find({}).fetch().forEach(i => {
       questions.push({
@@ -264,87 +300,113 @@ if(developmentValidationEnabledFalse && !uploadError){
     for (let i = 0; i < questions.length; i++) {
       if (!questions[i].value) {
         sAlert.error('Please answer all additional questions.')
-
         return
       }
     }
 
-  var insert = {
-    currencyName: d.currencyName.value,
-    currencySymbol: d.currencySymbol.value.toUpperCase(),
-    premine: d.premine.value ? parseInt(d.premine.value) : 0,
-    maxCoins: d.maxCoins.value ? parseInt(d.maxCoins.value) : 0,
-    consensusSecurity: d.consensusSecurity.value,
-    gitRepo: d.gitRepo.value,
-    officialSite: d.officialSite.value,
-    reddit: d.reddit.value ? d.reddit.value : false,
-    blockExplorer: d.blockExplorer.value ? d.blockExplorer.value : false,
-    approvalNotes: d.notes.value,
-    currencyLogoFilename: d.currencyLogoFilename.value,
-  }
-
-  if (questions.length) {
-    insert['questions'] = questions
-  }
-
-  var addToInsert = function(value, key) {
-    if (typeof key !== "undefined") {
-      insert[key] = value; //slip the data into the 'insert' array
-    } else if (eval(value) && typeof key === "undefined") { //check that 'value' actually has data and that there is no 'key'
-      insert[value] = eval(value); //use the String from 'value' as the key, and evaluate the variable of the same name to get the data.
+    var insert = {
+      currencyName: d.currencyName.value,
+      currencySymbol: d.currencySymbol.value,
+      premine: d.premine.value,
+      maxCoins: d.maxCoins.value,
+      consensusSecurity: d.consensusSecurity.value,
+      gitRepo: d.gitRepo.value,
+      officialSite: d.officialSite.value,
+      reddit: d.reddit.value,
+      blockExplorer: d.blockExplorer.value,
+      approvalNotes: d.notes.value,
+      currencyLogoFilename: d.currencyLogoFilename.value,
     }
-  }
+  
+    if (questions.length) {
+      insert['questions'] = questions
+    }
 
-// Start inserting data that may or may not exist
-  if(d.confirmations) {addToInsert(d.confirmations.value ? parseInt(d.confirmations.value) : 0, "confirmations")};
-  if(d.previousNames) {addToInsert(makeTagArrayFrom(d.previousNames.value), "previousNames")};
-  if(d.exchanges) {addToInsert(makeTagArrayFrom(d.exchanges.value), "exchanges")};
-  addToInsert("launchTags");
-  if(d.replayProtection) {addToInsert(d.replayProtection.value, "replayProtection")};
-  if(d.blockTime) {addToInsert(d.blockTime.value ? parseInt(d.blockTime.value) : 0, "blockTime")};
-  if(d.forkHeight) {addToInsert(parseInt(d.forkHeight.value), "forkHeight")};
-  if(d.forkParent) {if (d.forkParent.value != "-Select Fork Parent-") {addToInsert(d.forkParent.value, "forkParent")}};
-  if(d.hashAlgorithm) {addToInsert(d.hashAlgorithm.value, "hashAlgorithm")};
-  if(d.ICOfundsRaised) {if (d.ICOfundsRaised.value) {addToInsert(parseInt(d.ICOfundsRaised.value), "ICOfundsRaised")}};
-  if(d.icocurrency){if (d.icocurrency.value != "----") {addToInsert(d.icocurrency.value, "icocurrency")}};
-  if(d.ICOcoinsProduced) {if(d.ICOcoinsProduced.value) {addToInsert(parseInt(d.ICOcoinsProduced.value), "ICOcoinsProduced")}};
-  if(d.ICOcoinsIntended) {if(d.ICOcoinsIntended.value) {addToInsert(parseInt(d.ICOcoinsIntended.value), "ICOcoinsIntended")}};
-  if(d.genesisYear) {addToInsert(Date.parse(d.genesisYear.value), "genesisTimestamp")};
-  if(d.ICOyear) {
-	  if (d.ICOyear.value) {
-		  var icoDate = formatICODate(d.ICOyear.value);
-      var icoDateEnd = formatICODate(d.icoDateEnd.value);
-		  addToInsert(Date.parse(new Date(Date.UTC(icoDate[0], icoDate[1], icoDate[2], icoDate[3], icoDate[4], icoDate[5]))), "ICOnextRound")
-      addToInsert(Date.parse(new Date(Date.UTC(icoDateEnd[0], icoDateEnd[1], icoDateEnd[2], icoDateEnd[3], icoDateEnd[4], icoDateEnd[5]))), "icoDateEnd")
-
-	  }
-  };
-  //if(!insert.genesisTimestamp) {insert.genesisTimestamp = 0};
-
+    var makeTagArrayFrom = function(string, key) {
+      if (!string) {return new Array()};
+      array = $.map(string.split(","), $.trim).filter(function(v){return v!==''});
+      var namedArray = new Array();
+      for (i in array) {
+        var string = array[i].toString().replace(/[^\w\s]/gi, '');
+        if(string) {
+          namedArray.push({[key]: string});
+        }
+      }
+      return namedArray;
+    }
+  
+    var addToInsert = function(value, key) {
+      if (typeof key !== "undefined") {
+        insert[key] = value; //slip the data into the 'insert' array
+      } else if (eval(value) && typeof key === "undefined") { //check that 'value' actually has data and that there is no 'key'
+        insert[value] = eval(value); //use the String from 'value' as the key, and evaluate the variable of the same name to get the data.
+      }
+    }
+  
+  // Start inserting data that may or may not exist
+    if(d.confirmations) {addToInsert(d.confirmations.value, "confirmations")};
+    if(d.previousNames) {addToInsert(makeTagArrayFrom(d.previousNames.value, "tag"), "previousNames")};
+    if(d.exchanges) {addToInsert(makeTagArrayFrom(d.exchanges.value, "name"), "exchanges")};
+    addToInsert("launchTags");
+    if(d.replayProtection) {addToInsert(d.replayProtection.value, "replayProtection")};
+    if(d.blockTime) {addToInsert(d.blockTime.value, "blockTime")};
+    if(d.forkHeight) {addToInsert(d.forkHeight.value, "forkHeight")};
+    if(d.forkParent) {addToInsert(d.forkParent.value, "forkParent")};
+    if(d.hashAlgorithm) {addToInsert(d.hashAlgorithm.value, "hashAlgorithm")};
+    if(d.ICOfundsRaised) {addToInsert(d.ICOfundsRaised.value, "ICOfundsRaised")};
+    if(d.icocurrency){addToInsert(d.icocurrency.value, "icocurrency")};
+    if(d.ICOcoinsProduced) {addToInsert(parseInt(d.ICOcoinsProduced.value), "ICOcoinsProduced")};
+    if(d.ICOcoinsIntended) {addToInsert(parseInt(d.ICOcoinsIntended.value), "ICOcoinsIntended")};
+    if(d.genesisYear) {addToInsert(Date.parse(d.genesisYear.value), "genesisTimestamp")};
+    if(d.ICOyear) {
+      if (d.ICOyear.value) {
+        var icoDate = formatICODate(d.ICOyear.value);
+        var icoDateEnd = formatICODate(d.icoDateEnd.value);
+        addToInsert(Date.parse(new Date(Date.UTC(icoDate[0], icoDate[1], icoDate[2], icoDate[3], icoDate[4], icoDate[5]))), "ICOnextRound")
+        addToInsert(Date.parse(new Date(Date.UTC(icoDateEnd[0], icoDateEnd[1], icoDateEnd[2], icoDateEnd[3], icoDateEnd[4], icoDateEnd[5]))), "icoDateEnd")
+  
+      }
+    };
+    //if(!insert.genesisTimestamp) {insert.genesisTimestamp = 0};
     data.preventDefault(); //this goes after the 'insert' array is built, strange things happen when it's used too early; #1
     console.log(insert);
-//Send everything to the server for fuckery prevention and database insertion
-    Meteor.call('addCoin', insert, function(error, result){
+
+    addCoin.call(insert, (error, result)=>{
       //remove error classes before validating
+      console.log("return")
       $('input').removeClass('is-invalid');
-
-      if(error) {
+      if (error) {
         // turn error into user friendly string
-             swal({
-                 icon: "error",
-                  title: "Please fix the following fields",
-                 text: error.error.map(i => i.split(/(?=[A-Z])/).join(' ').toLowerCase()).join(', '),
-                 button: { className: 'btn btn-primary' }
-             });
-
-       // sAlert.error(`You need to fix the following fields to continue: ${error.error.map(i => i.split(/(?=[A-Z])/).join(' ').toLowerCase()).join(', ')}.`)
+        // throw new Error(error)
+        console.log("error", error)
+        // swal({
+        //   icon: "error",
+        //   title: "Please fix the following fields",
+        //   text: error.error 
+        //   ,
+        //   //.error.map(i => i.split(/(?=[A-Z])/).join(' ').toLowerCase()).join(', '),
+        //   button: {
+        //     className: 'btn btn-primary'
+        //   }
+        // });
+        // sAlert.error(`You need to fix the following fields to continue: ${error.error.map(i => i.split(/(?=[A-Z])/).join(' ').toLowerCase()).join(', ')}.`)
       } else {
         Meteor.call('completeNewBounty', 'new-currency', $('#currencyName').val(), (err, data) => {})
-        Cookies.set('workingBounty', false, { expires: 1 })
+        Cookies.set('workingBounty', false, {
+          expires: 1
+        })
         FlowRouter.go('/mypending');
       }
-    });
+    })
+    
+    function addToInsert (value, key) {
+      if (typeof key !== "undefined") {
+        insert[key] = value; //slip the data into the 'insert' array
+      } else if (eval(value) && typeof key === "undefined") { //check that 'value' actually has data and that there is no 'key'
+        insert[value] = eval(value); //use the String from 'value' as the key, and evaluate the variable of the same name to get the data.
       }
+    }
+  }
 });
 
 
