@@ -24,8 +24,7 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
   var self = this
   self.autorun(function () {
     SubsCache.subscribe('usersStats')
-    SubsCache.subscribe('redflags')
-    SubsCache.subscribe('usersStats')
+    SubsCache.subscribe('redflagsHome')
   })
   this.searchInputFilter = new ReactiveVar(undefined);
   this.increment = 15
@@ -300,6 +299,10 @@ Template.returnedCurrencies.helpers({
     templateVars.forEach(templateVar => {
       let currency = Redflags.findOne({
         currencyId: templateVar._id
+      }, {
+        sort: {
+          rating: -1
+        }
       }) || {};
 
       templateVar['top_red_flag'] = currency.name;

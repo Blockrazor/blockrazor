@@ -10,9 +10,20 @@ import { quality } from '/imports/api/utilities'
 Meteor.publish('dataQualityCurrencies', function(limit) {
   let query
   if (limit){
-    query = Currencies.find({}, {limit: limit})
+    query = Currencies.find({}, {
+      sort: {
+        featured: -1,
+        createdAt: -1
+      },
+      limit: limit
+    })
   } else {
-    query = Currencies.find({})
+    query = Currencies.find({}, {
+      sort: {
+        featured: -1,
+        createdAt: -1
+      }
+    })
   }
   let sub = query.observeChanges({ // using observer changes, we can transform the data before it's published
     added: (id, fields) => {
