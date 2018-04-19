@@ -56,6 +56,9 @@ import { Exchanges } from '/imports/api/exchanges/exchanges'
 
 import { developmentValidationEnabledFalse } from '/imports/startup/both/developmentValidationEnabledFalse'
 
+//We can delete launchEmail after launch of BlockRazor
+import { launchEmails } from '/imports/api/launchEmails/launchEmails.js'
+
 export {
   Exchanges,
 
@@ -112,5 +115,7 @@ export {
   ProblemImages,
   ProblemComments,
   
-  developmentValidationEnabledFalse
+  developmentValidationEnabledFalse,
+
+  launchEmails
 }
