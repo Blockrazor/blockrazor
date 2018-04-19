@@ -5,6 +5,7 @@ import './mainLayout.scss'
 
 import swal from 'sweetalert';
 import Cookies from 'js-cookie';
+import validate from 'jquery-validation'
 
 import '../../components/topNav/topNav'
 import '../../components/sideNav/sideNav'
@@ -57,8 +58,28 @@ Template.mainLayout.events({
       } 
     } 
   },
-  "click #hideDevelopmentNotification": (eve, templ)=>{
-    return Cookies.set('underDevelopmentShown', true, 5)
+  "click #hideDevelopmentNotification": (eve, templ) => {
+      return Cookies.set('underDevelopmentShown', true, 5)
+  },
+  "click .registerEmail": (eve, templ) => {
+
+      if ($("#registerEmailForm").valid()) {
+          Meteor.call('registerForLaunch', $('#email').val(), (err, data) => {
+
+              if (err) {
+                  sAlert.error('Error', err)
+              } else {
+
+                  swal({
+                      icon: "success",
+                      text: 'Thanks for registering! We will drop you an email when we officially launch Block Razor',
+                      button: { className: 'btn btn-primary' }
+                  });
+              }
+          })
+      }
+
+
   },
   'submit #subscribeForAlphaLaunch': (eve)=>{
     eve.preventDefault()
@@ -75,9 +96,10 @@ Template.mainLayout.events({
 })
 
 Template.mainLayout.helpers({
-  openSidebar() {
-    return Session.get('openedSidebar') ? "active" : "";
-  },
+  registerEmail(){
+    console.log(Cookies.get('underDevelopmentShown'))
+    return  Cookies.get('underDevelopmentShown');
+  }
 });
 
 Template.mainLayout.onRendered(function(){
@@ -87,6 +109,8 @@ Template.mainLayout.onRendered(function(){
       } else if (!Cookies.get('underDevelopmentShown')){
         $('.underDev').modal('show');
       }
+
+          $( "form" ).validate(); 
 })
 
 Template.mainLayout.onCreated(function () {
