@@ -8,7 +8,155 @@ import {
 } from '/imports/api/indexDB.js';
 import { rewardCurrencyCreator } from '/imports/api/utilities.js';
 import { quality } from '/imports/api/utilities'
+import SimpleSchema from 'simpl-schema';
 
+
+//can't extend custom/autoValue fields therefore some of the form related parsers/validators may reside on original schema
+const addCoinFormSchema =  new SimpleSchema(Currencies.schema.pick(
+    'currencyName', 'currencySymbol', 'premine', 'maxCoins', 'consensusSecurity', 'gitRepo', 
+'officialSite', 'reddit', 'blockExplorer', 'currencyLogoFilename', 'confirmations', 'previousNames', 'exchanges', 
+'launchTags', 'blockTime', 'forkHeight', 'forkParent', 'hashAlgorithm', 'ICOfundsRaised', 'genesisTimestamp', 'proposal', 'altcoin', 
+'ico', 'ICOcoinsProduced', 'ICOcoinsIntended',  'ICOnextRound', 'icoDateEnd', 'btcfork', 'approvalNotes'
+)
+.extend({
+    proposal: { 
+        autoValue() {
+            return Currencies.schemaFuncs.launchTagsAuto.call(this)
+        }
+    },
+    altcoin: { 
+        autoValue() {
+            return Currencies.schemaFuncs.launchTagsAuto.call(this)
+        }
+    },
+    ico: { 
+        autoValue() {
+            return Currencies.schemaFuncs.launchTagsAuto.call(this)
+        }
+    },
+    btcfork: { 
+        autoValue() {
+            return Currencies.schemaFuncs.launchTagsAuto.call(this)
+        }
+    },
+    consensusSecurity: {
+        custom() {
+            return Currencies.schemaFuncs.checkForDropdown.call(this, "--Select One--")
+        },
+    },
+    hashAlgorithm: {
+        custom(){
+            return Currencies.schemaFuncs.checkForDropdown.call(this, "--Select One--")
+        },
+    },
+    genesisTimestamp: {
+        autoValue() {
+            if (!this.field("genesisYear").isSet) return;
+            return Date.parse(this.field("genesisYear").value)
+        },
+    },
+
+})
+,{requiredByDefault: developmentValidationEnabledFalse,
+})
+addCoinFormSchema.messageBox.messages({
+    en: {
+        "Premine lower then produced": "Premine lower then produced.",
+        "Premine lower then produced and intended": "Premine lower then produced and intended."
+    }
+})
+
+export const addCoin = new ValidatedMethod({
+    name: 'addCoin',
+    validate: addCoinFormSchema.validator({clean: true}),
+    run({currencyName, currencySymbol, premine, maxCoins, consensusSecurity, gitRepo, 
+        officialSite, reddit, blockExplorer, currencyLogoFilename, confirmations, previousNames, exchanges, 
+        launchTags, blcokTime, forkHeight, forkParent, hashAlgorithm, ICOfundsRaised, genesisTimestamp, proposal, altcoin, 
+        ico, ICOcoinsProduced, ICOcoinsIntended,  ICOnextRound, icoDateEnd, btcfork, approvalNotes}) {
+            //data should be used since some of items may be undefined
+            var data = {currencyName, currencySymbol, premine, maxCoins, consensusSecurity, gitRepo, 
+                officialSite, reddit, blockExplorer, currencyLogoFilename, confirmations, previousNames, exchanges, 
+                launchTags, blcokTime, forkHeight, forkParent, hashAlgorithm, ICOfundsRaised, genesisTimestamp, proposal, altcoin, 
+                ico, ICOcoinsProduced, ICOcoinsIntended,  ICOnextRound, icoDateEnd, btcfork, approvalNotes}
+            if (Meteor.isServer){
+        var Future = require('fibers/future')
+        var fut = new Future()
+            }
+        //Check that user is logged in
+        if (!Meteor.userId()) {
+            throw new Meteor.Error("Please log in first")
+        };
+        Meteor.call('isCurrencyNameUnique', data.currencyName);
+
+
+        // //both compulsory and optional
+        // checkSanity(data.reddit, "reddit", "string", 12, 300, true);
+        // checkSanity(data.blockExplorer, "blockExplorer", "string", 6, 300, true);
+        // checkSanity(data.approvalNotes, "approvalNotes", "string", 0, 1000, true);
+
+
+        if (data.questions && data.questions.length) {
+
+            console.log(data.questions)
+
+            let rankings = {}
+            data.questions.forEach(i => {
+                let val = i.negative ? -2 : 2 // if the questions is in negative context
+                val = i.value === 'true' ? val : -val // if the answer is true, keep the sign, else negate the value
+                rankings[i.category] = rankings[i.category] ? (rankings[i.category] + val) : (400 + val) // 400 is the base value
+            })
+
+            console.log(rankings)
+
+            Object.keys(rankings).forEach(i => {
+                data[`${i}Ranking`] = rankings[i]
+            })
+        }
+
+            //so long as validation is enabled in dev environment
+            if (developmentValidationEnabledFalse) {
+                //add the algorithm if it doesn't exist, 
+                // if (Meteor.isServer){
+                if (!HashAlgorithm.findOne({
+                        _id: data.hashAlgorithm
+                    })) {
+                    Meteor.call('addAlgo', data.hashAlgorithm, data.consensusSecurity.toLowerCase().split(' ').reduce((i1, i2) => i1 + i2[0], ''), (err, data) => { // 'Proof of Work' -> 'pow'
+                        if (!err) {
+                             if (Meteor.isServer) fut.return(data)
+                        } else {
+                            throw new Meteor.Error('Error.', err.reason)
+                        }
+                    })
+                } else {
+                    if (Meteor.isServer) fut.return(data.hashAlgorithm)
+                }
+
+                if (Meteor.isServer) data.hashAlgorithm = fut.wait()
+            }
+
+            console.log("----inserting------");
+            var insert = _.extend(data, {
+                createdAt: new Date().getTime(),
+                owner: Meteor.userId(),
+                proposal: proposal,
+                altcon: altcoin,
+                ico: ico,
+                btcfork: btcfork,
+                bountiesCreated: false
+            })
+            PendingCurrencies.insert(insert, function (error, result) {
+                if (!result) {
+                    console.log(error, error.reason);
+                    //return error;
+                    throw new Meteor.Error('Invalid', error);
+                } else {
+                    //console.log(error);
+                    console.log(result)
+                    return "OK";
+                }
+            });
+    }
+});
 
 Meteor.methods({
     getLastCurrency: () => {
