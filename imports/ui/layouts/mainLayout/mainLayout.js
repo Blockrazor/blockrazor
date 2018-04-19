@@ -96,6 +96,9 @@ Template.mainLayout.events({
 })
 
 Template.mainLayout.helpers({
+  openSidebar() {
+    return Session.get('openedSidebar') ? "active" : "";
+  },
   registerEmail(){
     console.log(Cookies.get('underDevelopmentShown'))
     return  Cookies.get('underDevelopmentShown');
