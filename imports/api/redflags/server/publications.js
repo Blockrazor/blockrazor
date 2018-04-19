@@ -19,4 +19,19 @@ Meteor.publish('redflagcomments', function(id) {
     console.log("Redflags ID: " + id);
     return Redflags.find({parentId: id});
   }
-});
+})
+
+Meteor.publish('redflagsHome', () => {
+  return Redflags.find({}, {
+    sort: {
+      currencyId: -1,
+      rating: -1
+    }
+  }, {
+    fields: {
+      name: 1,
+      currencyId: 1,
+      rating: 1
+    }
+  })
+})

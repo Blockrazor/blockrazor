@@ -278,7 +278,7 @@ FlowRouter.route('/', {
     this.register('usersStats', FastRenderer.subscribe('usersStats'))
     this.register('dataQualityCurrencies', FastRenderer.subscribe('dataQualityCurrencies', 15));
     this.register('graphdata', FastRenderer.subscribe('graphdata'))
-    this.register('redflags', FastRenderer.subscribe('redflags'))
+    this.register('redflagsHome', FastRenderer.subscribe('redflagsHome'))
   },
   action() {
     BlazeLayout.render('mainLayout', {
