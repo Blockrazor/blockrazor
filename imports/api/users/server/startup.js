@@ -53,6 +53,12 @@ Meteor.startup(() => {
             created: data || 0
           }
         })
-      }) // reward is 0.1 KZR per hour
+      })
+  })
+
+  SyncedCron.add({
+      name: 'Fetch moderator candidates',
+      schedule: (parser) => parser.cron('0 1 * * *'), // every 24 hours at 1am
+      job: () => Meteor.call('possibleModerators', (err, data) => {})
   })
 })

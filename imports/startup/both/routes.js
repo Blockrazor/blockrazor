@@ -55,6 +55,7 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   import '../../ui/pages/moderator/questions/questions'
   import '../../ui/pages/moderator/flaggedUsers/flaggedUsers'
   import '../../ui/pages/moderator/flaggedUsers/flaggedIP'
+  import '../../ui/pages/moderator/candidates/candidates.js'
   import '../../ui/pages/moderator/hashpower/flaggedHashpower'
   import '../../ui/pages/moderator/appLogs/appLogs'
   import '../../ui/pages/moderator/problems/solvedProblems'
@@ -639,6 +640,25 @@ adminRoutes.route('/flagged-users', {
     if (Meteor.userId()) {
       BlazeLayout.render('mainLayout', {
         main: 'flaggedUsers',
+        //left: 'sideNav'
+      })
+    } else {
+      window.last = window.location.pathname
+      FlowRouter.go('/login')
+    }
+  }
+})
+
+adminRoutes.route('/candidates', {
+  name: 'candidates',
+  subscriptions: function () {
+    this.register('userData', FastRenderer.subscribe('userData'))
+    this.register('users', FastRenderer.subscribe('users'))
+  },
+  action: function () {
+    if (Meteor.userId()) {
+      BlazeLayout.render('mainLayout', {
+        main: 'candidates',
         //left: 'sideNav'
       })
     } else {
