@@ -66,6 +66,7 @@ addCoinFormSchema.messageBox.messages({
     }
 })
 
+
 export const addCoin = new ValidatedMethod({
     name: 'addCoin',
     validate: addCoinFormSchema.validator({clean: true}),

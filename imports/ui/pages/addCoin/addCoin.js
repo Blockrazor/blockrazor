@@ -1,5 +1,8 @@
 import { Template } from 'meteor/templating';
 import { developmentValidationEnabledFalse, FormData, Bounties, RatingsTemplates, HashAlgorithm } from '/imports/api/indexDB.js'; //database
+import { 
+  addCoin
+} from '/imports/api/coins/methods' 
 
 import swal from 'sweetalert';
 import Cookies from 'js-cookie';
@@ -371,9 +374,9 @@ if(developmentValidationEnabledFalse && !uploadError){
     data.preventDefault(); //this goes after the 'insert' array is built, strange things happen when it's used too early; #1
     console.log(insert);
 
+
     addCoin.call(insert, (error, result)=>{
       //remove error classes before validating
-      console.log("return")
       $('input').removeClass('is-invalid');
       if (error) {
         // turn error into user friendly string
