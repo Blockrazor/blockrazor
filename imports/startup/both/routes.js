@@ -85,16 +85,16 @@ FlowRouter.triggers.enter([ () => { window.scrollTo(0, 0); }, () => {
 //global subscriptions (on client side immidiately available)
 FlowRouter.subscriptions = function() {
   //convert global subscriptions back to SubsCache since they're unlikely to duplicated at some template with different params breaking fast-render
-  let FastRender = SubsCache
-  this.register('publicUserData', FastRenderer.subscribe('publicUserData'));
-  this.register('graphdata', FastRenderer.subscribe('graphdata'));
+  let sub = Meteor.isClient? SubsCache: Meteor
+  this.register('publicUserData', sub.subscribe('publicUserData'));
+  this.register('graphdata', sub.subscribe('graphdata'));
 
   // subscribe to bounties so user's can keep track of active bounties
-  this.register('bounties', FastRenderer.subscribe('bounties'));
+  this.register('bounties', sub.subscribe('bounties'));
 
   //subscribe to users so that people can switch out accounts with constellation's account module
   if (Meteor.isDevelopment){
-    this.register('users', FastRenderer.subscribe('users'))
+    this.register('users', sub.subscribe('users'))
   }
 };
 
