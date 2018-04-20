@@ -453,4 +453,165 @@ gm(filename)
     });
 
   },
+  possibleModerators: () => {
+    let possible = []
+    Meteor.users.find({}).fetch().forEach(i => {
+      let u = UserData.findOne({
+        _id: i._id
+      })
+
+      if (u) {
+        let flags = []
+        Object.keys(u.flags || {}).forEach(i => {
+          if (typeof u.flags[i] === 'object') {
+            Object.keys(u.flags[i]).forEach(j => {
+              if (u.flags[i][j]) {
+                flags.push(`${i}.${j}`)
+              }
+            })
+          }
+        })
+
+        let strikes = (u.strikes || []).filter(i => i.time > (new Date().getTime() - 1000*60*60*24*30))
+
+        if (!i.suspended && !u.moderator && flags.every(i => !i.startsWith('duplicate.')) && strikes.length === 0 && !(u.mod || {}).denied) { // three requirements, user is not a moderator, he has no duplicate flags and he has no strikes in the last 30 days
+          let features = Features.find({
+            createdBy: u._id
+          }).count()
+          let redflags = Redflags.find({
+            createdBy: u._id
+          }).count()
+          let summaries = Summaries.find({
+            createdBy: u._id
+          }).count()
+
+          let wallet = Wallet.find({
+            owner: u._id
+          }).fetch()
+
+          wallet = wallet.filter(i => {
+            return ~['anwserQuestion', 'newCurrency', 'hashReward'].indexOf(i.rewardType)
+          })
+
+          possible.push({
+            _id: u._id,
+            inputRanking: u.inputRanking,
+            totalInput: features + redflags + summaries,
+            totalBounties: wallet.length,
+          })
+        }
+      }
+    })
+
+    let maxTotalInput = possible.reduce((i1, i2) => i2.totalInput > i1 ? i2.totalInput : i1, 0) || 1
+    let maxTotalBounties = possible.reduce((i1, i2) => i2.totalBounties > i1 ? iw.totalBounties : i1, 0) || 1
+
+    possible = possible.map(i => _.extend(i, {
+      rating: (i.inputRanking + (i.totalInput / maxTotalInput) + (i.totalBounties / maxTotalBounties)) / 3
+    })).sort((i1, i2) => {
+      return i2.rating - i1.rating
+    })
+
+    possible = possible.slice(0, Math.ceil(possible.length * 0.3))
+
+    UserData.update({
+      'mod.candidate': true
+    }, {
+      $set: {
+        'mod.candidate': false
+      }
+    }) // reset all flags before
+
+    possible.forEach(i => { // set the flag for all candidates
+      UserData.update({
+        _id: i._id
+      }, {
+        $set: {
+          'mod.candidate': true,
+          'mod.data': _.omit(i, '_id')
+        }
+      })
+    })
+  },
+  modCandidateVote: function(id, type) {
+    if (!Meteor.userId()) {
+      throw new Meteor.Error('Error.', 'Please log in first')
+    }
+
+    let mod = UserData.findOne({
+      _id: this.userId
+    }, {
+      fields: {
+        moderator: true
+      }
+    })
+
+    if (!mod || !mod.moderator) {
+      throw new Meteor.Error('Error.', 'mod-only')
+    }
+        
+    let user = UserData.findOne({
+      _id: id
+    })
+
+    if (!((user.mod.votes || {}).votes || []).filter(i => i.userId === this.userId).length) { // user hasn't voted yet
+      let ip = '0.0.0.0'
+
+      if (Meteor.isServer) {
+        ip = this.connection.clientAddress
+      }
+
+      UserData.update({
+        _id: user._id
+      }, {
+        $inc: {
+          'mod.votes.score': type === 'voteUp' ? 1 : -1, // increase or decrease the current score
+          [type === 'voteUp' ? 'mod.votes.upvotes' : 'mod.votes.downvotes']: 1 // increase upvotes or downvotes
+        },
+        $push: {
+          'mod.votes.votes': {
+            userId: this.userId,
+            type: type,
+            loggedIP: ip,
+            time: new Date().getTime()
+          }
+        }
+      })
+    }
+           
+    let approveChange = UserData.find({
+      _id: user._id
+    }, {
+      fields: {
+        mod: 1
+      } 
+    }).fetch()[0]
+
+    if (approveChange.mod.votes.score >= 3) {
+      UserData.update({
+        _id: user._id
+      }, {
+        $set: {
+          'mod.approved': true,
+          'mod.time': new Date().getTime(),
+          moderator: true
+        }
+      })
+
+      return 'ok'
+    }
+
+    if (approveChange.mod.votes.score <= -3) {
+      UserData.update({
+        _id: user._id
+      }, {
+        $set: {
+          'mod.denied': true,
+          'mod.time': new Date().getTime()
+        }
+      })
+
+      return 'not-ok'
+    }
+  }
 });

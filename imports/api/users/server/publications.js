@@ -13,7 +13,8 @@ import { UserData, ProfileImages, UsersStats } from '/imports/api/indexDB.js'
       return UserData.find({}, {
         fields: {
           sessionData: 1,
-          flags: 1 // publish only a limited set of fields to prevent security issues
+          flags: 1,
+          mod: 1 // publish only a limited set of fields to prevent security issues
         }
       })
     } else {
