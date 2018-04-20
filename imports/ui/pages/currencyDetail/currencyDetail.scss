@@ -14,3 +14,354 @@
 .g-recaptcha {
   display: inline-block;
 }
+
+.currency-details-header {
+  margin-bottom: 15px;
+}
+
+@media only screen and (min-width : 768px) {
+  .currency-details-header {
+    margin-left: 15px;
+  }
+
+  .currency-x-container {
+    position: relative;
+    padding: 0 30px 30px 30px !important;
+  }
+
+  .currency-x-side-container:first-child {
+    padding-left: 30px!important;
+  }
+  .currency-x-side-container:last-child {
+    padding-right: 30px!important;
+  }
+}
+
+
+
+
+/** styles for fundementalMatrics.html **/
+
+.matrics-main-container {
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+
+  .currency-container {
+    border-radius: 0;
+    padding-bottom: 0;
+
+    .currency-card {
+      box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+      border-radius: 0;
+    }
+
+    .currency-card:hover {
+      box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+    }
+  }
+
+}
+
+@media only screen and (max-width : 767px) {
+  .matrics-main-container {
+    padding-top: 30px;
+  }
+}
+
+
+/** styles for summaries.html **/
+
+.currency-summaries {
+  background: white;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+  padding-top: 15px;
+  padding-bottom: 15px;
+
+  .summary-footer {
+    margin: 15px 15px 0 15px;
+    #summary {
+      border-radius: 5px;
+      margin-bottom: 10px;
+      width: 100%; 
+      height: 100px;
+      resize: none;
+    }
+
+    .help {
+      float: left;
+      position: relative;
+    }
+
+    #charNum {
+      float: left;
+      position: relative;
+    }
+  }
+
+}
+
+/** styles for redFlags.html **/
+
+.currency-features {
+  background: white;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+  padding-top: 15px;
+  padding-bottom: 15px;
+
+}
+
+/** styles for redFlags.html **/
+
+.currency-redflags {
+  background: white;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+  padding-top: 15px;
+  padding-bottom: 15px;
+
+}
+
+/** common styles for features.html, redFlags.html , summaries.html and walletImages.html**/
+
+.commentsContainer {
+  position: relative;
+  margin-top: 10px;
+  width: 100%;
+  float: right;
+}
+
+.currency-features, .currency-summaries, .currency-redflags, .currency-wallet-images  {
+  .header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    padding: 0 0 15px 0;
+    color: #444;
+  }
+  .load-more-button {
+    margin: 10px 15px;
+    padding: 5px 0;
+    width: calc(90% - 15px);
+    margin-left: calc(10% + 15px);
+    position: relative;
+    float: right;
+    border: 0;
+    color: #999999;
+    background-color:#F5F5F7;
+    outline: 0;
+    cursor: pointer;
+  }
+  .no-result-message {
+    margin-left: 15px;
+  }
+  .commentThread {
+    max-height: 350px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    .summary {
+      border: 0;
+      margin-bottom: 10px;
+    }
+
+    .redflag-outer, .feature-outer {
+      margin-bottom: 10px;
+
+      .replyText {
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        padding: 5px 15px 5px 15px;
+      }
+
+      .replyText:focus {
+        outline: none !important;
+        box-shadow: none;
+        border-color: #cccccc;
+      }
+
+      .submitNewComment {
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        padding: 5px 15px 5px 15px;
+      }
+
+      .newCommentContainer {
+        position: relative;
+        margin-top: 10px;
+        width: 90%;
+        float: right;
+      }
+
+      .feature, .redflag {
+        padding: 0;
+        
+      }
+    }
+
+  }
+  .addNewOuter {
+    margin-top: 30px; 
+    .addNewFeatureContainer, .addNewRedflagContainer {
+      #featureName, .submitNewFeature, .cancelNewFeature, #redflagContent, .submitRedFlag, .cancelNewRedFlag {
+        max-height: 50px;
+        padding: 10px;
+        resize: none;
+      }
+      #featureName:focus, #redflagContent:focus {
+        outline: none !important;
+        box-shadow: none;
+        border-color: #cccccc;
+      }
+      .helpers{
+        .feature-help-button, .flag-help-button {
+          margin: 0;
+          padding: 0;
+          float: left;
+        }
+        #charNumFeature, #charNumFlag {
+          margin: 0;
+          float: right;
+        }
+      }
+    }
+  }
+}
+
+
+@media only screen and (max-width : 767px) {
+  .currency-features, .currency-summaries  {
+
+    margin-bottom: 30px;
+
+    .submitNewSummary,.cancelNewSummary {
+      padding-left:15px;
+      padding-right:15px;
+    }
+    #loadMoreSummaries, #hideSummaries {
+      padding-left:5px;
+      padding-right:5px;
+    }
+  }
+
+  .matrics-main-container {
+    .currency-container {
+      margin-bottom: 30px;
+    }
+  }
+}
+
+
+/** styles for commentRender.html and redflagComment.html **/
+
+.post-comment, .summary, .feature, .redflag {
+  margin-bottom: 10px;
+  width: 100%;
+
+  .comment-author, .summary-author {
+    border: 3px #cccccc solid;
+    border-radius: 5px;
+    background: #cccccc;
+    padding: 0px;
+    margin-right: 3%;
+    font-size: 10px;
+    float: right;
+    overflow: hidden;
+    img {
+      object-fit: cover;
+    }
+  }
+  .post-author {
+    width: 8%;
+    border: 3px #cccccc solid;
+    border-radius: 5px;
+    background: #cccccc;
+    max-width: 30px;
+    max-height: 30px;
+    padding: 0px;
+    margin-right: 2%;
+    font-size: 10px;
+    float: right;
+    overflow: hidden;
+    img {
+      object-fit: cover;
+    }
+  }
+  .comment-content, .summary-content {
+    width: 80%;
+    border: 1px #cccccc solid;
+    border-radius: 5px;
+    background-color:#FBFBFB;
+    padding: 10px;
+    float: right;
+  }
+  .post-content {
+    width: 90%;
+    border: 1px #cccccc solid;
+    border-radius: 5px;
+    background-color:#FBFBFB;
+    padding: 10px;
+    float: right;
+  }
+
+  .summary-content {
+    margin-bottom: 15px;
+  }
+
+}
+
+.no-messages-info {
+  margin-top: -12px;
+  margin-right: 10px;
+  padding: 0;
+  font-size: 16px;
+}
+
+.text-custom {
+  color: #555555;
+  //font-family: "EXO";
+}
+
+@media only screen and (min-width : 768px) {
+  .comment-author, .summary-author {
+    width: 14%;
+    max-width: 30px;
+    max-height: 30px;
+  }
+  
+  .summary {
+    .summary-author {
+      width: 14%;
+      max-width: 40px;
+      max-height: 40px;
+    }
+    .summary-content {
+      width: 90%;
+    }
+  }
+}
+
+@media only screen and (max-width : 768px) {
+  .comment-author, .summary-author {
+    width: 8%;
+    max-width: 20px;
+    max-height: 20px;
+  }
+}
+
+
+/** styles for walletImages.html **/
+
+.currency-wallet-images {
+  background: white;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+  margin-top: 30px;
+  padding-top: 10px;
+
+  .walletImageOpen {
+    max-width: 50px;
+    max-height: 50px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+}

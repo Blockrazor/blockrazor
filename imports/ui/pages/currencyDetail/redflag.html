@@ -1,25 +1,45 @@
 
 <template name="redflag">
-  <div class="card padBottom">
-      <div class="card-body">
-          <span class="text-muted">{{name}}</span>
-          <small class="text-muted"> - Posted by {{#hovercard template="userHover" direction="vertical" trigger="hover"}}
-          <a href="/profile/{{slugify author}}">{{author}}</a>
-        {{/hovercard}}</small>
-          <br />
-          <br />
-          <div class="pull-left">
-			  <i class="fa fa-thumbs-up {{#if hasUserVoted 'Redflags' _id 'up'}} text-info {{/if}}" aria-hidden="true"></i>
-  			<i class="fa fa-thumbs-down fa-flip-horizontal {{#if hasUserVoted 'Redflags' _id 'down'}} text-info {{/if}}" aria-hidden="true"></i>
-          </div>
-          <div class="pull-right"><i class="fa fa-flag flag" aria-hidden="true"></i><i id="comment_{{_id}}" class="fa fa-comments-o comments" aria-hidden="true" style="margin-left:10px;"><small>{{numComments}}</small></i></div>
+  <div class="redflag-outer hoverCard">
+    <div class="redflag padBottom">
+      <div class="post-content pull-right">
+        {{#if subsCacheReady}}
+          {{#unless comments}}
+            <span id="replyBox-{{_id}}" class="fa fa-bookmark text-info pull-right comments no-messages-info" title="No messages yet, be the first"></span>
+          {{/unless}}
+        {{/if}}
+        {{#hovercard template="userHover" direction="vertical" trigger="hover"}}
+        <small>
+          <a href="/profile/{{slugify author}}">
+            <span class="text-muted">
+              {{author}}
+            </span>
+          </a>
+        </small>
+        {{/hovercard}}
+        <span class="text-custom">&nbsp;&nbsp;&nbsp;{{featureName}}</span>
+        <br />
+        <br />
+        <div class="pull-left">
+          <i class="fa fa-thumbs-up {{#if hasUserVoted 'Redflags' _id 'up'}} text-info {{/if}}" aria-hidden="true"></i>
+          <i class="fa fa-thumbs-down fa-flip-horizontal {{#if hasUserVoted 'Redflags' _id 'down'}} text-info {{/if}}" aria-hidden="true"></i>
+        </div>
+        <small class="text-muted padLeft">&nbsp;&nbsp;{{relativeTime createdAt}}</small>
+        <div class="pull-right"><i class="fa fa-flag flag" aria-hidden="true"></i><i id="comment_{{_id}}" class="fa fa-comments-o comments" aria-hidden="true" style="margin-left:10px;"><small>{{numComments}}</small></i></div>
+        <br />
       </div>
-  </div>
-  <div class="input-group mb-3 newcomment-{{_id}}" style="display:none;">
+      <div class="card-header post-author">
+        <a href="/profile/{{slugify author}}" class="img-container">
+          <img src="{{profilePictureBySlug (slugify author)}}" class="mx-auto img-fluid img-circle d-block" alt="{{author}}" />
+        </a>
+      </div>
+    </div>
+    <div class="input-group mb-3 newCommentContainer newcomment-{{_id}}" style="display:none;">
       <input id="replyText-{{_id}}" type="text" class="form-control replyText" placeholder="Type a message here" aria-label="Type a message here" aria-describedby="basic-addon2" maxlength="140" minlength="6" data-toggle="popover" data-placement="top" data-content="Comments should be friendly, useful to others, and factually correct. If you see bad behavior, don't encourage it by replying, simply flag it and move on. If your comment reaches the top, you'll be rewarded.">
       <div class="input-group-append">
-          <button class="btn btn-primary submitNewComment" type="button"><i class="fa fa-envelope" aria-hidden="true"></i></button>
+        <button class="btn btn-primary submitNewComment" type="button"><i class="fa fa-envelope" aria-hidden="true"></i></button>
       </div>
+    </div>
   </div>
   <div class="modal fade" id="flagModal-{{_id}}" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
@@ -44,17 +64,14 @@
       </div>
   </div>
 
-{{#if subsCacheReady}}
-{{#each comments}}
-  {{> redflagComment}}
-{{else}}
-  <div id="replyBox-{{_id}}">
-    <small for="replyButton" class="mt-3 ml-1">No messages yet, be the first</small>
-    <button class="btn btn-sm mb-2 ml-2 btn-primary pull-right comments" id="replyButton">Reply</button>
+<div class="commentsContainer">
+    {{#if subsCacheReady}}
+    {{#each comments}}
+      {{> redflagComment}}
+    {{/each}}
+    {{else}}
+    {{> loading}}
+    {{/if}}
 </div>
-{{/each}}
-{{else}}
-{{> loading}}
-{{/if}}
 
 </template>

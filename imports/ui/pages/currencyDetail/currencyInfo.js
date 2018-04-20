@@ -9,6 +9,7 @@ import {
 } from '/imports/api/indexDB.js'
 
 import './currencyInfo.html'
+import './currencyInfo.scss'
 import '/imports/ui/components/typeahead'
 
 Template.currencyInfo.onCreated(function () {
@@ -149,6 +150,10 @@ Template.currencyInfo.onRendered(function () {
 });
 
 Template.currencyInfo.events({
+  'error img': function(e) {
+    // fires when a particular image doesn't exist in given path
+    $(e.target).attr('src','/images/noimage.png'); 
+  },
   'click .editable-click': (event, templateInstance) => {
     if ($(event.currentTarget).attr('id') === 'hashAlgorithm') {
       templateInstance.showText.set(!templateInstance.showText.get())
@@ -248,6 +253,9 @@ Template.currencyInfo.events({
         reader.readAsBinaryString(file);
       }
     }
+  },
+  'click .viewExchanges': function (event) {
+    $('#exchangesModal').modal('show');
   },
 
   'click .changeCoinImage': function (event) {

@@ -10,40 +10,58 @@
     <h6>Example: <a href="https://github.com/Blockrazor/blockrazor/pull/362">https://github.com/Blockrazor/blockrazor/pull/362</a></h6>
     </div>
   {{/if}}
+  <h3 class="currency-details-header">Currency Details</h3>
   <div class="row">
-    <div class="col-sm-12">
+    <div class="currency-x-container col-sm-12">
+    {{#with thiscurrency}}
+      {{> currencyInfo}}
+    {{/with}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="currency-x-container col-sm-12">
+    {{#with thiscurrency}}
+      {{> fundamentalMetrics}}
+    {{/with}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="currency-x-container col-sm-12">
       {{#with thiscurrency}}
-        {{> currencyInfo}}
+        {{> summaries}}
+      {{/with}}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="currency-x-side-container col-sm-12 col-md-6">
+      {{#with thiscurrency}}
+        {{> features}}
+      {{/with}}
+    </div>
+    <div class="currency-x-side-container col-sm-12 col-md-6">
+      {{#with thiscurrency}}
+        {{> redflags}}
       {{/with}}
     </div>
   </div>
   <div class="row">
-    {{#with thiscurrency}}
-      {{> fundamentalMetrics}}
-    {{/with}}
+    <div class="currency-x-container col-sm-12">
+      {{#with thiscurrency}}
+        {{> walletimages}}
+      {{/with}}
+    </div>
   </div>
   <div class="row">
-    {{#with thiscurrency}}
-      {{> summaries}}
-    {{/with}}
+    <div class="currency-x-container col-sm-12">
+      <a class="btn btn-outline-primary pull-right m-3 no-margin" href="/compareCurrencies/{{currencySymbol}}">Compare with other currencies</a>
+    </div>
   </div>
   <div class="row">
-    {{#with thiscurrency}}
-      {{> features}}
-    {{/with}}
-  </div>
-  <div class="row">
-    {{#with thiscurrency}}
-      {{> redflags}}
-    {{/with}}
-  </div>
-  <div class="row">
-    {{#with thiscurrency}}
-      {{> walletimages}}
-    {{/with}}
-  </div>
+    <br/>
+  </div>  
 
-  <!-- unclosable modal window for displaying recaptcha, if unusual activity detected -->
+  <!-- unclosable modal window for displaying recaptcha, if unusual activity detected 
   <div class="modal" id="recaptchaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -55,5 +73,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </div>-->
 </template>

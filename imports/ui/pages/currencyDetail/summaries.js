@@ -121,6 +121,10 @@ Template.summaries.events({
                 if (!err) {
                     $('#summary').val('')
                     $('#addNewSummary').collapse('hide');
+                    $(".cancelNewSummary").hide();
+                    $(".submitNewSummary").hide();
+                    $(".addNewSummaryContainer").hide();
+                    $(".showAddNewSummary").show();
                     
                     sAlert.success('Thanks! Your summary has been successfully added!')
                 } else {
@@ -130,8 +134,20 @@ Template.summaries.events({
         }
     },
     'click .showAddNewSummary': (event, templateInstance) => {
-        event.preventDefault()
-
-        $('#addNewSummary').toggle()
+      event.preventDefault()
+      $('#addNewSummary').collapse('show');
+      $("#summary").focus();
+      $(".cancelNewSummary").show();
+      $(".submitNewSummary").show();
+      $(".addNewSummaryContainer").show();
+      $(".showAddNewSummary").hide();
+    },
+    'click .cancelNewSummary': (event, templateInstance) => {
+      event.preventDefault()
+      $('#addNewSummary').collapse('hide');
+      $(".cancelNewSummary").hide();
+      $(".submitNewSummary").hide();
+      $(".addNewSummaryContainer").hide();
+      $(".showAddNewSummary").show();
     }
 })
