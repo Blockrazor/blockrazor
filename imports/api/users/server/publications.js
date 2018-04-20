@@ -9,7 +9,7 @@ import { UserData, ProfileImages, UsersStats } from '/imports/api/indexDB.js'
     })
 
     // only publish this data if the current user is a moderator
-    if (u.moderator) {
+    if (u && u.moderator) {
       return UserData.find({}, {
         fields: {
           sessionData: 1,
