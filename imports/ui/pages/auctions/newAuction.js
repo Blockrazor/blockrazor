@@ -37,28 +37,30 @@ Template.newAuction.events({
 		templateInstance.baseCurrency.set($(event.currentTarget).val())
 	},
 	'submit #js-form': (event, templateInstance) => {
-		event.preventDefault()
+		 event.preventDefault()
 
-		if (parseFloat($('#js-amount').val()) > 0 && $('#js-name').val() && $('#js-end').val() && $('#js-reserve').val()) {
-			Meteor.call('newAuction', $('#js-name').val(), '', {
-				amount: parseFloat($('#js-amount').val()),
-				baseCurrency: $('#js-bcur').val(),
-				acceptedCurrency: $('#js-acur').val(),
-				timeout: new Date().getTime() + $('#js-end').val() * 60 * 60 * 1000,  // add selected period to current timestamp
-				reserve: parseFloat($('#js-reserve').val()),
-				reserveMet: parseFloat($('#js-reserve').val()) === 0
-			}, (err, data) => {
-				if (err) {
-					sAlert.error(err.reason)
-				} else {
-					sAlert.success('Auction created.')
+	    $("#js-form").addClass('was-validated');
 
-					FlowRouter.go('/auctions')
-				}
-			})
-		} else {
-			sAlert.error('Some fields are missing.')
-		}
+	    //if the form is invalid do not submit and display errors to user
+	    if ($("#js-form")[0].checkValidity()) {
+	        //form looks good, call method
+	        Meteor.call('newAuction', $('#js-name').val(), '', {
+	            amount: parseFloat($('#js-amount').val()),
+	            baseCurrency: $('#js-bcur').val(),
+	            acceptedCurrency: $('#js-acur').val(),
+	            timeout: new Date().getTime() + $('#js-end').val() * 60 * 60 * 1000, // add selected period to current timestamp
+	            reserve: parseFloat($('#js-reserve').val()),
+	            reserveMet: parseFloat($('#js-reserve').val()) === 0
+	        }, (err, data) => {
+	            if (err) {
+	                sAlert.error(err.reason)
+	            } else {
+	            	
+	                FlowRouter.go('/auctions')
+	            }
+	        })
+	    }
+
 	},
 	'click #js-cancel': (event, templateInstance) => {
 		event.preventDefault()
