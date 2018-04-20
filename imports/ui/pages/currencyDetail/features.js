@@ -29,7 +29,7 @@ Template.features.helpers({
     return this.featureTag; //find metricTag data from collection
   },
   features: function() {
-    return Template.instance().featuresShow.get()
+    return Template.instance().featuresShow.get().fetch()
   },
   flaggedfeatures: function() {
     return Features.find({currencySlug: FlowRouter.getParam('slug'), flagRatio: {$gt: 0.6}});
@@ -51,7 +51,7 @@ Template.features.events({
   'click #loadMoreFeatures': function(ev, templ){
     templ.featureLimit.set(templ.featureLimit.get()+templ.featureIncrement)
   },
-  'click .help': function() {
+  'click .feature-help-button .help': function() {
     $('#addFeatureModal').modal('show');
   },
   'mouseover .help': function() {
@@ -63,7 +63,7 @@ Template.features.events({
       Cookies.set('addFeatureModal', true);
     }
   },
-  'mouseover .currencyDetailBox': function() {
+  'mouseover .currency-features .currencyDetailBox': function() {
     if(_.size(Features.find({}).fetch()) == 0 && !Cookies.get('featureModal')) {
       $('#featureModal').modal('show');
       Cookies.set('featureModal', true);
@@ -74,10 +74,10 @@ Template.features.events({
   var max = 140;
   var len = $(this).val().length;
   if (len >= max) {
-    $('#charNum').text(' you have reached the limit');
+    $('#charNumFeature').text(' you have reached the limit');
   } else {
     var char = max - len;
-    $('#charNum').text(char + ' characters left');
+    $('#charNumFeature').text(char + ' characters left');
   }
 });
   },
@@ -99,8 +99,8 @@ Template.features.events({
       Meteor.call('newFeature', this._id, data, res, (err, data) => {
         if (!err) {
           $('#featureName').val(" ");
-          $('#addNewFeature').collapse('hide');
-          $('.featuresheading').text("Features");
+          $(".showAddNewFeature").show();
+          $(".addNewFeatureContainer").hide();
           templ.addingnewfeature.set(false);
           sAlert.success("Thanks! That feature has been added!")
         } else {
@@ -113,14 +113,13 @@ Template.features.events({
     }
   },
   'click .showAddNewFeature': function() {
-    $('#addNewFeature').toggle();
-    if(!Template.instance().addingnewfeature.get()) {
-      $('.featuresheading').text("Add a new feature");
-      Template.instance().addingnewfeature.set(true);
-    } else {
-      $('.featuresheading').text("Features");
-      Template.instance().addingnewfeature.set(false);
-    }
+    $(".showAddNewFeature").hide();
+    $(".addNewFeatureContainer").show();
+    $("#featureName").focus();
+  },
+  'click .cancelNewFeature': function() {
+    $(".showAddNewFeature").show();
+    $(".addNewFeatureContainer").hide();
   },
   'click #name': function () {
     if(Template.instance().lastId.get()){document.getElementById(Template.instance().lastId.get()).style.display = "none";}

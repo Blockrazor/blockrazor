@@ -31,13 +31,17 @@ Template.redflag.helpers({
     return this.parentId;
   },
   comments: function() { //return database showing comments with parent: this._id
-    return Redflags.find({parentId: this._id, flagRatio: {$lt: 0.6}}, {sort: {rating: -1, appealNumber: -1}});
+    return Redflags.find({parentId: this._id, flagRatio: {$lt: 0.6}}, {sort: {rating: -1, appealNumber: -1}}).fetch();
   }
 });
 
 
 
 Template.redflag.events({
+  'error .post-author img': function(e) {
+    // fires when a particular image doesn't exist in given path
+    $(e.target).attr('src','/images/noprofile.png'); 
+  },
 	'click .fa-thumbs-down': function(event) {
       Meteor.call('vote', 'Redflags', this._id, "down", function(error,result) {
         if(!error) {

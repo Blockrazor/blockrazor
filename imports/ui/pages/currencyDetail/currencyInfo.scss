@@ -1,0 +1,106 @@
+// currency info styles
+.currency-info-basic{
+  position: relative;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+  border: 0;
+  text-align: center;
+  width: 100%;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    padding: 15px 15px 0 15px;
+    color: #444;
+  }
+  .basic-details {
+    position: relative;
+    .card{
+      margin: 5px 0;
+
+      .title{
+        font-weight: 600;
+      }
+      .value {
+        padding-top: 5px;
+        margin-left: 10px;
+        padding-bottom: 5px;
+      }
+    }
+  }
+  .editable-input{
+    input, select{
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      border-bottom: dashed 1px;
+      padding: 0 0 10px 0;
+    }
+  }
+  .editableform{
+    .editable-error-block.help-block {
+      background: red;
+      position: absolute;
+      border: 0;
+      left: 0;
+      color: #fff;
+      padding: 10px;
+      transform: translateY(100%);
+    }
+  }
+}
+
+// Charts
+.data-quality-rank {
+  position: relative;
+  margin-top: 40px;
+}
+
+.no-margin {
+	margin: 0 !important;
+}
+
+#exchangesModal{
+
+  .modal-body {
+    position: relative;
+    max-height: 250px;
+    overflow-y: scroll;
+  }
+}
+
+.addExchanges {
+  float: right;
+}
+
+.currency-info{
+  max-height: 48px;
+  .currency-brand-container {
+    text-align: center;
+    padding-left: 15px;
+    padding-right: 15px;
+
+    .currency-brand {
+      display: inline-block;
+      height: 48px;
+  
+      img.currency-logo{
+        max-height: 48px;
+        width: auto;
+        display: inline-block;
+        cursor: pointer;
+        position: relative;
+        float: left;
+      }
+      .name {
+        font-size: 20px;
+        padding-left: 20px;
+        padding-top: 10px;
+        font-weight: 800;
+        display: inline-block;
+        position: relative;
+        float: left;
+      }
+    }  
+  }
+}

@@ -1,44 +1,55 @@
 <template name="commentRender">
-	<div class="card padBottom commentParent-{{parentId}} pull-right rounded" style="background-color:#F5F5F7;display:none;width:80%">
-		<div class="card-body">
-			<span class="text-muted">
-				{{#hovercard template="userHover" direction="vertical" trigger="hover"}}
-					<a href="/profile/{{slugify author}}">{{author}}</a>
-				{{/hovercard}} {{comment}}
-			</span>
-			<br />
+	<div class="post-comment padBottom commentParent-{{parentId}} pull-right rounded" style="display:none;">
+    <div class="card-body comment-content pull-right">
+      {{#hovercard template="userHover" direction="vertical" trigger="hover"}}
+      <small>
+        <a href="/profile/{{slugify author}}">
+          <span class="text-muted">
+            {{author}}
+          </span>
+        </a>
+      </small>
+      {{/hovercard}}
+      <span class="text-custom">&nbsp;&nbsp;&nbsp;{{comment}}</span>
+			<br/>
 			<div class="pull-left card-link">
 				<div class="pull-left">
 					<i class="fa fa-thumbs-up {{#if hasUserVoted 'Features' _id 'up'}} text-info {{/if}}" aria-hidden="true"></i>
 					<i class="fa fa-thumbs-down fa-flip-horizontal {{#if hasUserVoted 'Features' _id 'down'}} text-info {{/if}}" aria-hidden="true"></i>
 				</div>
-
-				<small class="text-muted padLeft">{{relativeTime createdAt}}</small>
+				<small class="text-muted padLeft">&nbsp;&nbsp;{{relativeTime createdAt}}</small>
 			</div>
 			<div class="pull-right"><i class="fa fa-flag flag flagComment" aria-hidden="true"></i></div>
-		</div>
-	</div>
+    </div>
+    <div class="card-header comment-author">
+      <a href="/profile/{{slugify author}}" class="img-container">
+        <img src="{{profilePictureBySlug (slugify author)}}" class="mx-auto img-fluid img-circle d-block" alt="{{author}}" />
+      </a>
+    </div>
+  </div>
 
+  <!-- modals -->
 	<div class="modal fade" id="flagModal-{{_id}}" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <h5 class="modal-title">You are flagging:</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                  </button>
-              </div>
-              <div class="modal-body">
-                  <p><b><i>"{{comment}}"</i></b></p>
-                  Written by: {{#hovercard template="userHover" direction="vertical" trigger="hover"}}
-          <a href="/profile/{{slugify author}}">{{author}}</a>
-        {{/hovercard}}
-              </div>
-              <div class="modal-footer">
-                  <button type="button" class="btn btn-danger commentFlag">Report</button>
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              </div>
-          </div>
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">You are flagging:</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p><b><i>"{{comment}}"</i></b></p>
+            Written by: 
+            {{#hovercard template="userHover" direction="vertical" trigger="hover"}}
+              <a href="/profile/{{slugify author}}">{{author}}</a>
+            {{/hovercard}}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger commentFlag">Report</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
       </div>
+    </div>
   </div>
 </template>

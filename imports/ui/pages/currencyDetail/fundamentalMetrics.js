@@ -4,7 +4,7 @@ import { Currencies } from '../../../api/indexDB.js'
 import { GraphData } from '../../../api/indexDB.js'
 import Chart from 'chart.js';
 
-import './currency-info.scss'
+import './currency.scss'
 import "../../components/radarGraph.js"
 import './fundamentalMetrics.html'
 

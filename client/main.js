@@ -112,6 +112,21 @@ return _profilePictureUploadDirectoryPublic + profilePicture.profilePicture.smal
 
 });
 
+Template.registerHelper('profilePictureBySlug', (slug) => {
+  
+  if(slug){
+    let user = Meteor.users.findOne({
+      slug: slug
+    },{fields:{profilePicture:1}})
+  
+    return user.profilePicture != undefined ? _profilePictureUploadDirectoryPublic + user.profilePicture.small : '/images/noprofile.png';
+  
+  }else{
+      return '/images/noprofile.png'
+  }
+  
+});
+
 Template.registerHelper('profilePicture', (pic) => {
 
     if (pic) {

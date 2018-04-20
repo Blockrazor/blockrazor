@@ -77,46 +77,58 @@
   </div>
   {{featureModal}}
   <div class="col-sm-12 currency-features">
-    <div class="card card-header" >Features</div>
+    <div class="header" >Features</div>
     <div>
-      <div class="row">
-        <div class="col-sm-12">
-          <button class="btn btn-primary m-2"  data-toggle="collapse" href="#addNewFeature" role="button" aria-expanded="false" aria-controls="addNewFeature">
-            <i class="fa fa-plus" aria-hidden="true"></i> Add feature
-          </button>
-          <div class="collapse multi-collapse" id="addNewFeature">
-            <div class="card card-body">
-              <b>Rules:</b><br />
-              <ul>
-                <li>Use clear language, keep it as short as possible</li>
-                <li>No jokes (people new to crypto will just be confused)</li>
-                <li>Any claims must be factually correct</li>
-              </ul>
-              <textarea class="" id="featureName" style="width:100%" maxlength="140" minlength="6"></textarea><br />
-              <div style="display:flex;"><button class="btn btn-primary float-left submitNewFeature">Submit</button>
-                <h4>&nbsp;&nbsp;<i class="fa fa-question-circle help" aria-hidden="true"></i></h4>
-                <div class="float-right" id="charNum" style="margin-left:50px;"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <div class="currencyDetailBox">
         {{#unless reactiveVar 'showflagged'}}
-		<div class="row commentThread" style="padding-top: 5px;">
+		    <div class="row commentThread">
           {{#if subsCacheReady}}
             {{#each features}}
-              <div class="col-md-4">{{> feature}}</div>
+              <div class="col-sm-12">{{> feature}}</div>
             {{else}}
-              {{> empty}}
+              <div class="no-result-message">
+                {{> empty}}
+              </div>
             {{/each}}
+            {{#if features}}
+              <button class="load-more-button" id="loadMoreFeatures">Load More</button>
+            {{/if}}
           {{else}}
             {{> loading}}
           {{/if}}
-
-		</div>
-		<button class="btn btn-outline-info m-3" id="loadMoreFeatures">Load More</button>
+		    </div>
         {{/unless}}
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12 addNewOuter">
+          <button class="btn btn-primary showAddNewFeature pull-right">
+            <i class="fa fa-plus" aria-hidden="true"></i> Add feature
+          </button>
+          <div class="addNewFeatureContainer" style="display:none;">
+            <div class="input-group">
+              <textarea id="featureName" class="form-control" maxlength="140" minlength="6" data-toggle="popover" data-placement="top" data-html="true" 
+                data-content="<b>Rules:</b><br />
+                              <ul>
+                                <li>Use clear language, keep it as short as possible</li>
+                                <li>No jokes (people new to crypto will just be confused)</li>
+                                <li>Any claims must be factually correct</li>
+                              </ul>"></textarea>
+              <div class="input-group-append">
+                <button class="btn btn-primary float-left submitNewFeature">Submit</button>
+                &nbsp;&nbsp;<button class="btn btn-primary float-left cancelNewFeature">Cancel</button>
+              </div>  
+            </div>
+            <span class="helpers">
+              <br/>
+              <h4 class="feature-help-button">&nbsp;&nbsp;<i class="fa fa-question-circle help" aria-hidden="true"></i></h4>
+              <div id="charNumFeature"></div>
+            </span>
+          </div>
+        </div>
+      </div>
+    
+
 
         <!-- TODO : Confirm and Delete -->
         <!-- {{#if reactiveVar 'showflagged'}}
