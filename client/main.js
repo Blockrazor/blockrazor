@@ -1,7 +1,6 @@
 import { Accounts } from 'meteor/accounts-base';
 import '/imports/startup/client';
 import { UserData, Features, Summaries, Redflags, Currencies } from '/imports/api/indexDB.js';
-window.Currencies = Currencies
 
 const collections = { Features, Summaries, Redflags }
 
@@ -38,8 +37,6 @@ Template.registerHelper('doesCoinImageExist', function(img) {
 
     //Global helpers
     Template.registerHelper('isModerator', function() {
-        //cache userData to avoid the moderator link on the menu from not being visible on load
-        SubsCache.subscribe('userData');
         var isModerator = UserData.findOne({ _id: Meteor.userId }, { fields: { moderator: true } });
         if (isModerator && isModerator.moderator) {
             return isModerator.moderator;
