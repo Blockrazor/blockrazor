@@ -18,14 +18,11 @@ Template.currencyInfo.onCreated(function () {
   })
   this.newAlgo = new ReactiveVar(false)
   this.showText = new ReactiveVar(false)
+
+  //binding for typeahead
+  this.currency = new ReactiveVar(Template.currentData())
   this.autorun(()=>{
-    this.currency = Template.currentData()
-    //for typeahead
-    if(Template.currentData().exchangesNames){
-    this.currency.exchangesNames = this.currency.exchanges.map(x=>{
-      return x.Name
-    })
-  }
+    this.currency.set(Template.currentData())
   })
 })
 
@@ -333,6 +330,9 @@ Template.currencyInfo.events({
     event.preventDefault();
     let slug = FlowRouter.getParam("slug");
     FlowRouter.go('/currencyEdit/' + slug + '/' + event.currentTarget.id);
+  },
+  'click .createExchange': function (event, templ) {
+    Meteor.call("addExchange", templ.typeAheadValue.get())
   }
 });
 
@@ -404,14 +404,12 @@ Template.currencyInfo.helpers({
     return {
       limit: 15,
       query: function (templ, entry) {
- if(templ.currency.exchangesNames){
         return {
           name: {
-            $nin: templ.currency.exchangesNames,
+            $nin: templ.currency.get().exchanges.map(x=>x.name),
             $regex: new RegExp(entry, 'ig')
           }
         }
-      }
       },
       projection: function (templ, entry) {
         return {
@@ -422,15 +420,7 @@ Template.currencyInfo.helpers({
         }
       },
       add: function(event, data, templ){
-        Meteor.call("appendExchange", data._id, templ.currency._id)
-      },
-      noneFound: function(templ, valF){
-        function add (e){
-          console.log("adding")
-          Meteor.call("addExchange", valF())
-        }
-        console.log("render")
-        return `<span onclick=${add}>create this exchange</span>`
+        Meteor.call("appendExchange", data._id, templ.currency.get()._id)
       },
       col: Exchanges, //collection to use
       template: Template.instance(), //parent template instance
@@ -438,7 +428,17 @@ Template.currencyInfo.helpers({
       autoFocus: true,
       quickEnter: true,
       displayField: "name", //field that appears in typeahead select menu
-      placeholder: "Add Exchange"
+      placeholder: "Add Exchange",
+      results: "typeAheadRes",
+      value: "typeAheadValue"
+    }
+  },
+  activateCreateExchangeButton: function(){
+    var templ = Template.instance()
+    if ((templ.typeAheadRes? templ.typeAheadRes: []).get().length == 0){
+      return ""
+    } else {
+      return "disabled"
     }
   }
 });

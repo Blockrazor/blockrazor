@@ -20,11 +20,8 @@ import {
           params: (){
             return {
               template: Template.instance(),
-              noneFound: function(templ, entry){
-                function add (){
-                  Meteor.call("addExchange", entry)
-                }
-                return `<span onclick=${add}>add exchange ${entry}</span>`
+              noneFound: function(){
+                return `<span}>add exchange</span>`
               },
               query: function(templ, entry){return {_id: 1}}),
               projection: function(templ, entry){return {sort: {_id: 1}}})
@@ -51,7 +48,9 @@ import {
     add: function(event, doc, templ){...}, //templ is parent template instance, doc is document added
     displayField: name, //document field that appears in typeahead select menu
     placeholder: name, //placeholder for typeahead
-    noneFound: function(templ, valueFunction){...; return `ele`} //params: id of typeahead and function that returns current value; renders returned template literal if no results found
+    noneFound: function(){...; return `ele`} //params: id of typeahead and function that returns current value; renders returned template literal if no results found
+    value: string- will create reactive var bount to parent template- or reactive var to pass current input value to
+    results: string- will create reactive var bount to parent template- or reactive var to pass current results to
 }
 */
 
@@ -63,7 +62,7 @@ Template.typeahead.onCreated(function () {
   this.data.focus = this.data.focus === undefined? false: this.data.focus
   this.data.autoFocus = this.data.autoFocus === undefined? false: this.data.autoFocus
   this.data.quickEnter = this.data.quickEnter === undefined? true: this.data.quickEnter
-  this.data.noneFound = this.data.noneFound === undefined? function(templ, eleId){ return 'no result found' } : this.data.noneFound
+  this.data.noneFound = this.data.noneFound === undefined? function(){ return 'no result found' } : this.data.noneFound
 
   var props = this.data
   var templ = props.template
@@ -75,6 +74,26 @@ Template.typeahead.onCreated(function () {
     this.search = (entry) => this.data.col.findLocal(props.query(templ, entry), Object.assign(props.projection(templ, entry), {limit: props.limit})).fetch()
   } else {
     this.search = (entry) => this.data.col.find(props.query(templ, entry), Object.assign(props.projection(templ, entry), {limit: props.limit})).fetch()
+  }
+
+  //stub out if no name to bind input value to was provided
+  var value = this.data.value
+  if (value == undefined){
+    this.noValueBinding = new ReactiveVar()
+    this.value = this.noValueBinding
+  } else if (typeof value == "string") {
+    //define reactive var on parent template if undefined
+    templ[value] = new ReactiveVar()
+    this.value = templ[value]
+  }
+  var results = this.data.results
+  //same as above for results
+  if (results == undefined){
+    this.noResultsBinding = new ReactiveVar()
+    this.results = this.noResultsBinding
+  } else if (typeof results == "string") {
+    templ[results] = new ReactiveVar()
+    this.results = templ[results]
   }
 
   //initialize typeahead, is used onRendered
@@ -111,6 +130,7 @@ Template.typeahead.onCreated(function () {
 		function currySearch(templ, typeahead) {
       return function (entry, CB){
         var res = typeahead.search(entry)
+       typeahead.results.set(res)
           CB(res)
       }
     }
@@ -192,3 +212,12 @@ Template.typeahead.helpers({
     return Template.instance().data.placeholder
   }
 })
+
+Template.typeahead.events({
+  "keyup .tt-input": (event, templ)=>{
+    templ.value.set(event.currentTarget.value)
+  },
+  "change .tt-input": (event, templ)=>{
+    templ.value.set(event.currentTarget.value)
+  }
+})          
