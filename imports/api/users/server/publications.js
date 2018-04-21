@@ -87,7 +87,8 @@ import { UserData, ProfileImages, UsersStats } from '/imports/api/indexDB.js'
           fullname: 1,
           profilePicture: 1,
           strikes: 1,
-          inputRanking: 1
+          inputRanking: 1,
+          mod: 1
         }
       })
     } else {

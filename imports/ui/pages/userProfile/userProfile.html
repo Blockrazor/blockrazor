@@ -47,6 +47,14 @@
                                 <p>
                                     {{fixed userData.inputRanking}}
                                 </p>
+                                {{#unless userData.moderator}}
+                                <h6>Overall rating for possible moderators</h6>
+                                <p>
+                                    {{#with userData}}
+                                    {{rating}}
+                                    {{/with}}
+                                </p>
+                                {{/unless}}
                             </div>
     <div class="col-md-12">
                                 <div class="card border-secondary mb-3" style="max-width: 100%">

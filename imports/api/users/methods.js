@@ -512,6 +512,18 @@ gm(filename)
       return i2.rating - i1.rating
     })
 
+    possible.forEach((i, ind) => {
+      UserData.update({
+        _id: i._id
+      }, {
+        $set: {
+          'mod.data': _.extend(_.omit(i, '_id'), {
+            rank: ind + 1
+          })
+        }
+      })
+    }) // save data for all possible moderators
+
     possible = possible.slice(0, Math.ceil(possible.length * 0.3))
 
     UserData.update({
@@ -527,8 +539,7 @@ gm(filename)
         _id: i._id
       }, {
         $set: {
-          'mod.candidate': true,
-          'mod.data': _.omit(i, '_id')
+          'mod.candidate': true
         }
       })
     })
