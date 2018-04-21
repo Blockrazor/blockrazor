@@ -1,27 +1,21 @@
 <template name="currencyInfo">
+  <button {{activateCreateExchangeButton}} class="btn btn-primary createExchange">
+    <span class="fa fa-plus"></span>
+    <span class="d-none d-sm-none d-md-block pull-right">&nbsp;&nbsp;Create Exchange</span>
+  </button>
   <div class="addExchanges">
     {{> typeahead typeaheadProps}}
   </div>
-  <button {{activateCreateExchangeButton}} class="createExchange">create exchange</button>
   <div class="card currency-info">
-    <div>
-      <div class="currency-brand-container pull-left">
-        <div class="currency-brand">
-          <img class="currency-logo changeCoinImage pointer d-none d-sm-block" src="{{doesCoinImageExist currencyLogoFilename}}" alt="{{currencyName}}" title="click to change coin image">
-          <input type="hidden" value="{{currencyLogoFilenam}}" id="currencyLogoFilename_existing">
-          <div class="name">{{currencyName}} {{#with thiscurrency}}({{currencySymbol}}) {{/with}}</div>
-        </div>
-      </div>
-      <div class="currency-exchanges-container pull-right">
-        <div class="currency-exchanges"> 
-          <button type="button" class="btn btn-primary viewExchanges d-none d-md-block">View Exchanges</button>
-          <button type="button" class="btn btn-primary viewExchanges d-none d-sm-block d-md-none fa fa-list" title="View Exchanges"></button>
-        </div>
+    <div class="currency-brand-container pull-left">
+      <div class="currency-brand pull-left">
+        <img class="currency-logo changeCoinImage pointer" src="{{doesCoinImageExist currencyLogoFilename}}" alt="{{currencyName}}" title="click to change coin image">
+        <input type="hidden" value="{{currencyLogoFilenam}}" id="currencyLogoFilename_existing">
+        <div class="name d-none d-sm-block">{{currencyName}} {{#with thiscurrency}}({{currencySymbol}}) {{/with}}</div>
       </div>
     </div>
   </div>
-  <br/>
-  <p class="pull-right viewExchanges d-block d-sm-none" style="cursor:pointer">View Exchanges<br/></p>
+  <p class="pull-right viewExchanges" style="cursor:pointer">View Exchanges</p>
   <div class="card currency-info-basic">
     <div class="header">Basic Details</div>
     <div class="row">

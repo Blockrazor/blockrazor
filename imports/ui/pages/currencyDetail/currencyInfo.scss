@@ -69,8 +69,13 @@
   }
 }
 
-.addExchanges {
+.addExchanges, .createExchange {
   float: right;
+}
+.viewExchanges {
+  padding: 5px;
+  margin: 10px 0;
+  height: 30px;
 }
 
 .currency-info{
@@ -91,6 +96,9 @@
         cursor: pointer;
         position: relative;
         float: left;
+        @media (max-width : 450px) {  
+          display: none;
+        }
       }
       .name {
         font-size: 20px;
