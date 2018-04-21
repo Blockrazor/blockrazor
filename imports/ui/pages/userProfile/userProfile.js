@@ -86,6 +86,9 @@ Template.userProfile.helpers({
 			_id: (Template.instance().user.get() || {})._id
 		}) || {}
 	},
+	rating: function() {
+		return ((this.mod || {}).data || {}).rating !== undefined ? `${this.mod.data.rating.toFixed(2)} (#${this.mod.data.rank})` : 'N\\A' 
+	},
 		HashPower: () => {
 		return HashPower.find({createdBy:Template.instance().user._id})
 		 
