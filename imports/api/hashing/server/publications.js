@@ -12,3 +12,15 @@ Meteor.publish('flaggedhashpower', () => HashPower.find({
 }))
 Meteor.publish('hashpowerimages', () => HashPowerImages.find({}))
 Meteor.publish('hashunits', () => HashUnits.find({}))
+
+Meteor.publish('bountyLastHash', () => {
+	return HashPower.find({}, {
+		sort: {
+			createdAt: -1
+		},
+		limit: 1,
+		fields: {
+			createdAt: 1
+		}
+	})
+})

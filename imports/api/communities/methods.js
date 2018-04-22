@@ -222,19 +222,6 @@ Meteor.methods({
             }
         }
     },
-    getLastCommunityAnswer: () => {
-        return Ratings.find({
-            $or: [{
-                catagory: 'community'
-            }, {
-                context: 'community'
-            }]
-        }, {
-            sort: {
-                answeredAt: -1
-            }
-        }).fetch()[0]
-    },
     deleteCommunityRatings: () => {
         let rem = Ratings.find({
             $or: [{

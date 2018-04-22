@@ -55,12 +55,6 @@ describe('Hash power data', function() { // describes the feature we're testing
         })
     })
 
-    it('Last hash power data can be fetched for bounties', function() {
-        return callWithPromise('getLastHashPower').then(data => {
-            assert.ok(data) // check if the returned hash power is defined
-        })
-    })
-
     it('Bounty reward for hash power data can be fetched', function() {
         let hash = HashPower.findOne({})
 

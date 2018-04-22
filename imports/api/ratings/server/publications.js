@@ -16,4 +16,19 @@ Meteor.publish('ratings_templates', function ratings_templatesPublication() {
 Meteor.publish('addCoinQuestions', () => RatingsTemplates.find({
   context: 'add-currency'
 })
-)
+);
+
+// ['codebase', 'community', 'wallet'].forEach(type => { // this doesn't work with fastrender
+	Meteor.publish(`bountyRating`, () => {
+		return Ratings.find({}, {
+	        sort: {
+	            answeredAt: -1
+	        },
+	        fields: {
+	        	context: 1,
+	        	catagory: 1,
+	        	answeredAt: 1
+	        }
+	    })
+	})
+// })

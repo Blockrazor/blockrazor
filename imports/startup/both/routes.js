@@ -423,6 +423,9 @@ FlowRouter.route('/bounties', {
     this.register('bountyProblems', FastRenderer.subscribe('bountyProblems', 0, 0))
     this.register('bountyCurrencies', FastRenderer.subscribe('bountyCurrencies', 0, 0)) // set the limit to 0 for now, first param is limit, second is skip
     this.register('bountytypes', FastRenderer.subscribe('bountytypes'))
+    this.register('bountyRating', FastRenderer.subscribe('bountyRating'))
+    this.register('bountyLastHash', FastRenderer.subscribe('bountyLastHash'))
+    this.register('bountyLastCurrency', FastRenderer.subscribe('bountyLastCurrency'))
   },
   action() {
     BlazeLayout.render('mainLayout', {

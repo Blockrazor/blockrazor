@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { Bounties, REWARDCOEFFICIENT, Problems, Currencies, UserData } from '/imports/api/indexDB.js';
+import { Bounties, REWARDCOEFFICIENT, Problems, Currencies, PendingCurrencies, UserData, Ratings, HashPower } from '/imports/api/indexDB.js';
 import Cookies from 'js-cookie';
 
 export const LocalBounties = new Mongo.Collection(null)
@@ -61,13 +61,16 @@ Template.bounties.onCreated(function(){
     SubsCache.subscribe('bountyProblems', 0, 0)
     SubsCache.subscribe('bountyCurrencies', 0, 0)
     SubsCache.subscribe('users')
+    SubsCache.subscribe('bountyRating')
+    SubsCache.subscribe('bountyLastCurrency')
+    SubsCache.subscribe('bountyLastHash')
   })
 
   Session.set('bountyType', "")
   Session.set("now", Date.now())
   Session.set("workingBounty", false)
 
-  this.times = new ReactiveVar({})
+  this.times = new ReactiveDict()
   this.bounties = new ReactiveVar(null)
 
   this.LocalBounties = LocalBounties
@@ -75,35 +78,54 @@ Template.bounties.onCreated(function(){
 
   this.filter = new ReactiveVar({})
 
-  Meteor.call('getLastCurrency', (err, data) => {
-    let times = this.times.get()
-    times['new-currency'] = data.createdAt
-    this.times.set(times)
+  Tracker.autorun(() => {
+    this.times.set('new-currency', (PendingCurrencies.findOne({}, { sort: { createdAt: -1 }}) || {}).createdAt || (Currencies.findOne({}, { sort: { createdAt: -1 }}) || {}).createdAt || Date.now())
   })
 
-  //may return a document field without createdAt field
-  Meteor.call('getLastHashPower', (err, data) => {
-    let times = this.times.get()
-    times['new-hashpower'] = data.createdAt || Date.now()
-    this.times.set(times)
+  Tracker.autorun(() => {
+    this.times.set('new-hashpower', (HashPower.findOne({}, { sort: { createdAt: -1 }}) || {}).createdAt || Date.now())
   })
 
-  Meteor.call('getLastCommunityAnswer', (err, data) => {
-    let times = this.times.get()
-    times['new-community'] = data.answeredAt || Date.now()
-    this.times.set(times)
+  Tracker.autorun(() => {
+    this.times.set('new-codebase', (Ratings.findOne({
+        $or: [{
+            catagory: 'codebase'
+        }, {
+            context: 'codebase'
+        }]
+    }, {
+        sort: {
+            answeredAt: -1
+        }
+    }) || {}).answeredAt || Date.now())
   })
 
-  Meteor.call('getLastWalletAnswer', (err, data) => {
-    let times = this.times.get()
-    times['new-wallet'] = data.answeredAt || Date.now()
-    this.times.set(times)
+  Tracker.autorun(() => {
+    this.times.set('new-community', (Ratings.findOne({
+        $or: [{
+            catagory: 'community'
+        }, {
+            context: 'community'
+        }]
+    }, {
+        sort: {
+            answeredAt: -1
+        }
+    }) || {}).answeredAt || Date.now())
   })
 
-  Meteor.call('getLastCodebaseAnswer', (err, data) => {
-    let times = this.times.get()
-    times['new-codebase'] = data.answeredAt || Date.now()
-    this.times.set(times)
+  Tracker.autorun(() => {
+    this.times.set('new-wallet', (Ratings.findOne({
+        $or: [{
+            catagory: 'wallet'
+        }, {
+            context: 'wallet'
+        }]
+    }, {
+        sort: {
+            answeredAt: -1
+        }
+    }) || {}).answeredAt || Date.now())
   })
 
    //  references to LocalBounty have to be nonreactive since rewards are appended to documents separately causing a loop with reactivity on
@@ -173,7 +195,7 @@ Template.bounties.onCreated(function(){
     var union = _.union(Bounties.find({ // inject problems here
       pendingApproval: false
     }).fetch().map(i => {
-      i.creationTime = i.creationTime || Template.instance().times.get()[i._id]
+      i.creationTime = i.creationTime || Template.instance().times.get(i._id)
       return i
     }), problems, currencies)
 
