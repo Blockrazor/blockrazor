@@ -28,25 +28,56 @@
       }
     }
   }
-  .editable-input{
-    input, select{
-      background: transparent;
-      border: none;
-      box-shadow: none;
-      border-bottom: dashed 1px;
-      padding: 0 0 10px 0;
-    }
-  }
-  .editableform{
-    .editable-error-block.help-block {
-      background: red;
-      position: absolute;
-      border: 0;
-      left: 0;
-      color: #fff;
-      padding: 10px;
-      transform: translateY(100%);
-    }
+  .editable-container{
+    width: 100%;
+    
+    .editableform{
+      width: 100%;
+      .form-group{
+        width: 100%;
+        div {
+          width: 100%;
+          .editable-input{
+            position: relative;
+            width: 100%;
+            input, select{
+              background: transparent;
+              border: none;
+              box-shadow: none;
+              border-bottom: dashed 1px;
+              padding: 0 0 10px 0;
+              position: relative;
+              width: 100%;
+              box-sizing : border-box;
+            }
+            .combodate {
+              width: 100%;
+              box-sizing : border-box;
+              overflow-x: scroll;
+            }
+          }
+          .editable-buttons{
+            display: block;
+            button{
+              max-height: 20px;float: right;
+              padding-top: 0;
+              padding-bottom: 0;
+              margin-top: 5px;
+            }
+          }
+        }
+      }
+      .editable-error-block.help-block {
+        background: red;
+        position: absolute;
+        border: 0;
+        left: 0;
+        color: #fff;
+        padding: 10px;
+        transform: translateY(100%);
+        z-index: 2 !important;
+      }
+    }  
   }
 }
 
