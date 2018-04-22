@@ -16,7 +16,7 @@ Meteor.methods({
     if (!exchange || !currency){
       throw new Meteor.Error("exchange or currency doesn't exist")
     }
-    if (currency.exchanges.filter(x=>{x._id == eId}).length != 0){
+    if (currency.exchanges && currency.exchanges.filter(x=>{x._id == eId}).length != 0){
       throw new Meteor.Error(`exchange already appended, under name ${exchange.name}`)
     }
 
