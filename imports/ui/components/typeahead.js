@@ -178,7 +178,7 @@ Template.typeahead.onRendered(function () {
   })
   
   //initialize typeahead
-  this.init()
+  // this.init()
   this.autorun(()=>{
     // this destroy/init dance is required since you can't open menu without refocusing after select
     // and the below
