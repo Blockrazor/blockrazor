@@ -44,10 +44,8 @@
     .card-main {
       .card-logo {
         height: 100px;
-        width: 30%;
-        margin-right: auto;
-        margin-left: auto;
-        margin-bottom: 25px;
+        width: auto;
+        margin: 25px auto;
       }
   
       h4 b {
@@ -61,38 +59,6 @@
       }    
     }
 
-  }
-
-  .card-kzr {
-    .card-logo {
-      background: url('/images/KZR_logo.jpg') center center;
-      background-size: contain;
-      background-repeat: no-repeat;
-    }
-  }
-
-  .card-usd {
-    .card-logo {
-      background: url('/images/USD_logo.jpg') center center;
-      background-size: contain;
-      background-repeat: no-repeat;
-    }
-  }
-
-  .card-eth {
-    .card-logo {
-      background: url('/images/ETH_logo.jpg') center center;
-      background-size: contain;
-      background-repeat: no-repeat;
-    }
-  }
-
-  .card-xmr {
-    .card-logo {
-      background: url('/images/XMR_logo.jpg') center center;
-      background-size: contain;
-      background-repeat: no-repeat;
-    }
   }
 
   .card-content:hover {
