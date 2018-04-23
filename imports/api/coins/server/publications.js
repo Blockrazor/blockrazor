@@ -129,3 +129,29 @@ Meteor.publish('rejectedcurrencies', function rejected() {
     return RejectedCurrencies.find({owner: this.userId});
   }
 });
+
+Meteor.publish('bountyLastCurrency', () => {
+  let pending = PendingCurrencies.find({}, {
+    sort: {
+      createdAt: -1
+    },
+    limit: 1,
+    fields: {
+      createdAt: 1
+    }
+  })
+    
+  if (!pending.count()) { // in case there's no pending currencies, use the last added currency
+    pending = Currencies.find({}, {
+      sort: {
+        createdAt: -1
+      },
+      limit: 1,
+      fields: {
+        createdAt: 1
+      }
+    })
+  }
+
+  return pending
+})

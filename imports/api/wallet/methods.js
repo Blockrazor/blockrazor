@@ -216,21 +216,6 @@ Meteor.methods({
 
         Meteor.call('userStrike', Meteor.userId(), 'cheating', 's3rv3r-only', (err, data) => {}) // user earns 1 strike here
     },
-
-	getLastWalletAnswer: () => {
-        return Ratings.find({
-            $or: [{
-                catagory: 'wallet'
-            }, {
-                context: 'wallet'
-            }]
-        }, {
-            sort: {
-                answeredAt: -1
-            }
-        }).fetch()[0]
-    },
-
     markAsRead: function(currency) {
 		if (!Meteor.userId()) { throw new Meteor.Error('error', 'please log in') };
 

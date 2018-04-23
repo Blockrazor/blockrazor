@@ -175,19 +175,6 @@ Meteor.methods({
             }
         }
     },
-    getLastCodebaseAnswer: () => {
-        return Ratings.find({
-            $or: [{
-                catagory: 'codebase'
-            }, {
-                context: 'codebase'
-            }]
-        }, {
-            sort: {
-                answeredAt: -1
-            }
-        }).fetch()[0]
-    },
     deleteCodebaseRatings: () => {
         let rem = Ratings.find({
             $or: [{

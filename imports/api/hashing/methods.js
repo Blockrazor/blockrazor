@@ -508,17 +508,6 @@ Meteor.methods({
 	    	log.error('Required gm dependicies are not available', {})
 	    }
 	},
-	// last added hash power data, used to determine bounty reward
-	getLastHashPower: () => HashPower.find({
-		//will crash if no records found
-		//source of bug in hash bounties, as it will sort hashpower without createdAt field first
-		// createdAt: {$exists: true}
-	}, {
-    	sort: {
-        	createdAt: -1
-				},
-				limit: 1
-    }).fetch()[0],
     getHashPowerReward: (userId, hpId) => {
     	let bounty = Bounties.findOne({
         	userId: userId,

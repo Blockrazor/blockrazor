@@ -160,23 +160,6 @@ export const addCoin = new ValidatedMethod({
 });
 
 Meteor.methods({
-    getLastCurrency: () => {
-        let pending = PendingCurrencies.find({}, {
-          sort: {
-            createdAt: -1
-          }
-        }).fetch()[0]
-    
-        if (!pending) { // in case there's no pending currencies, use the last added currency
-          pending = Currencies.find({}, {
-            sort: {
-              createdAt: -1
-            }
-          }).fetch()[0]
-        }
-    
-        return pending
-      },
       getCurrentReward: (userId, currencyName) => {
         let bounty = Bounties.findOne({
           userId: userId,
