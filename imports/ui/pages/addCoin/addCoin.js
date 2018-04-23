@@ -69,7 +69,7 @@ Template.addCoin.onRendered(function() {
       $(".day").val("1").change()
      }, 500)
      Meteor.setTimeout(()=>{
-      $("#consensusType").val("Hybrid").change()
+      $("#consensusSecurity").val("Hybrid").change()
       $("#exampleFormControlSelect1")[0].value = "7be44dviDMiuoShan"
     }, 600)
     Meteor.setTimeout(()=>{
@@ -115,7 +115,7 @@ Template.addCoin.onCreated(function() {
   this.showAlgoField = new ReactiveVar(false)
 
   this.currencyNameMessage = new ReactiveVar(null)
-  this.consensusType = new ReactiveVar('')
+  this.consensusSecurity = new ReactiveVar('')
 
   this.autorun(() => {
     SubsCache.subscribe('currencyBounty')
@@ -178,12 +178,12 @@ Template.addCoin.events({
 
 
   },
-  'change #consensusType': function(consensusType) {
-    Template.instance().consensusType.set(consensusType.target.value);
+  'change #consensusSecurity': function(consensusSecurity) {
+    Template.instance().consensusSecurity.set(consensusSecurity.target.value);
          //init popovers again, can't init on hidden dom elements
      initPopOvers()
 
-     Template.instance().powselect.set(consensusType.target.value !== '--Select One--')
+     Template.instance().powselect.set(consensusSecurity.target.value !== '--Select One--')
   },
   'change #currencyLogoInput': function(event){
 
@@ -216,7 +216,7 @@ if(file){
 
 //Only upload if above validation are true
 //Disabled validation in development environment for easy testing (adjust in both startup index)
-if(developmentValidationEnabledFalse && !uploadError){
+if(!uploadError){
 
   $("#fileUploadValue").html("<i class='fa fa-circle-o-notch fa-spin'></i> Uploading");
 
@@ -239,9 +239,13 @@ if(developmentValidationEnabledFalse && !uploadError){
 
     $("#currencyLogoFilename").val(md5+'.'+fileExtension);
 
-       $("#fileUploadValue").html("Change");
-       $("#currencyLogoInputLabel").removeClass('btn-primary');
-       $("#currencyLogoInputLabel").addClass('btn-success');
+      $("#fileUploadValue").html("Change");
+      $("#currencyLogoInputLabel").removeClass('btn-primary');
+
+       //hide invalid validation if it exists
+      $("#currencyLogoInputLabel").removeClass('btn-danger');
+      $("#currencyLogoInputInvalid").hide();
+      $("#currencyLogoInputLabel").addClass('btn-success');
 
        }
 
@@ -378,21 +382,37 @@ if(developmentValidationEnabledFalse && !uploadError){
     addCoin.call(insert, (error, result)=>{
       //remove error classes before validating
       $('input').removeClass('is-invalid');
+      $('select').removeClass('is-invalid');
       if (error) {
-        // turn error into user friendly string
-        // throw new Error(error)
-        console.log("error", error)
-        // swal({
-        //   icon: "error",
-        //   title: "Please fix the following fields",
-        //   text: error.error 
-        //   ,
-        //   //.error.map(i => i.split(/(?=[A-Z])/).join(' ').toLowerCase()).join(', '),
-        //   button: {
-        //     className: 'btn btn-primary'
-        //   }
-        // });
-        // sAlert.error(`You need to fix the following fields to continue: ${error.error.map(i => i.split(/(?=[A-Z])/).join(' ').toLowerCase()).join(', ')}.`)
+
+      error.details.forEach((data) => {
+        console.log(data)
+
+        //dyanmicly populate the error message and flag fields as invalid based on simpleSchema validation
+        $("#" + data.name).addClass("is-invalid");
+        $("#" + data.name).next(".invalid-feedback").html(data.message);
+
+        //some fields in the dom don't match one to one, so a bit of manual work is required :(
+        if (data.name === "genesisTimestamp") {
+            $(".genesis-date").addClass("is-invalid");
+            $("#genesisDateInvalid").html(data.message);
+        }
+
+        if (data.name === "currencyLogoFilename") {
+            $("#currencyLogoInputLabel").addClass("is-invalid btn-danger");
+            $("#currencyLogoFilenameInvalid").show();
+            $("#currencyLogoFilenameInvalid").html(data.message);
+
+        //Scroll to the dom element which has caused the error, no point staying at the bottom.
+        //its -100 was we want it to scroll above the input so we can see the label
+    $('html, body').animate({
+                scrollTop: $(".is-invalid:first").offset().top-100
+            }, 1000);
+        }
+        
+      
+    });
+
       } else {
         Meteor.call('completeNewBounty', 'new-currency', $('#currencyName').val(), (err, data) => {})
         Cookies.set('workingBounty', false, {
@@ -536,7 +556,7 @@ switch (val) {
     return FormData.find({}, {});
   },
   subsecurity () {
-    if (Template.instance().consensusType.get() === 'Proof of Work') {
+    if (Template.instance().consensusSecurity.get() === 'Proof of Work') {
       return HashAlgorithm.find({
         $or: [{
           type: 'pow' 
@@ -546,11 +566,11 @@ switch (val) {
           }
         }]
       }).fetch()
-    } else if (Template.instance().consensusType.get() === 'Proof of Stake') {
+    } else if (Template.instance().consensusSecurity.get() === 'Proof of Stake') {
       return HashAlgorithm.find({
         type: 'pos'
       }).fetch()
-    } else if (Template.instance().consensusType.get() === 'Hybrid') {
+    } else if (Template.instance().consensusSecurity.get() === 'Hybrid') {
       return HashAlgorithm.find({}).fetch().map(i => { // list all here
         i.name = `Staking and ${i.name}`
 
