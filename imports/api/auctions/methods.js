@@ -228,6 +228,14 @@ Meteor.methods({
 								}
 							})
 						}
+					} else {
+						let currency = Currencies.findOne({
+							_id: options.currency
+						})
+
+						if (!currency) {
+							throw new Meteor.Error('Error', 'Unknown currency.')
+						}
 					}
 
 					Bids.insert({

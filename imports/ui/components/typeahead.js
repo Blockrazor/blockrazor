@@ -149,7 +149,10 @@ Template.typeahead.onCreated(function () {
       $(this.ele).on('keyup', {
         templ: props.template,
         typeahead: Template.instance()
-      }, function (event) {
+      }, (event) => {
+        if ($(this.ele).val() === '') { // if the input has been emptied, reset the saved value
+          curryEvent(event.data.templ, event.data.typeahead)(null, '')
+        }
         if (event.keyCode == 13) {
           var a = event.data.typeahead.search(event.target.value)
           if (a) {
