@@ -109,6 +109,10 @@ Template.currencyDetail.helpers({
   currencyName () {
     return Currencies.findOne({slug: FlowRouter.getParam("slug")}).currencyName;
   },
+  getCurrencySymbol (currency) {
+	  if (currency && currency.currencySymbol !== undefined) { return currency.currencySymbol }
+	  return "";
+  },
 
 
     finalValue () {
