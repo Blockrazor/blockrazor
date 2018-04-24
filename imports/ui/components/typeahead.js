@@ -57,7 +57,7 @@ import {
 Template.typeahead.onCreated(function () {
   
   //init default values if not specified
-  this.data.id = this.data.id == undefined? Random.id()+"": this.data.id+""
+  this.id = this.data.id || Random.id()
   this.data.transcient = this.data.transcient == undefined? true: this.data.transcient
   this.data.focus = this.data.focus === undefined? false: this.data.focus
   this.data.autoFocus = this.data.autoFocus === undefined? false: this.data.autoFocus
@@ -66,7 +66,7 @@ Template.typeahead.onCreated(function () {
 
   var props = this.data
   var templ = props.template
-  this.ele = "#"+props.id
+  this.ele = "#"+this.id
   
 
   //query to run
@@ -165,8 +165,8 @@ Template.typeahead.onCreated(function () {
     if (this.data.focus){
       $(this.ele).focus()
     }
-		$(this.ele).bind('typeahead:select', curryEvent(templ, this))
-		$(this.ele).bind('typeahead:autocomplete', curryEvent(templ, this))
+		$(this.ele).unbind('typeahead:select').bind('typeahead:select', curryEvent(templ, this))
+		$(this.ele).unbind('typeahead:autocomplete').bind('typeahead:autocomplete', curryEvent(templ, this))
   }
 })
 
@@ -181,13 +181,13 @@ Template.typeahead.onRendered(function () {
   })
   
   //initialize typeahead
-  // this.init()
+  this.init()
   this.autorun(()=>{
     // this destroy/init dance is required since you can't open menu without refocusing after select
     // and the below
     // used to keep typeahead data source reactive, running currySearch callback- CB- within autorun will not update selection menu
     this.search("")
-    if (document.activeElement === document.getElementById(this.data.id)){
+    if (document.activeElement === document.getElementById(this.id)){
       $(this.ele).typeahead('destroy')
       $(this.ele).blur()
       $(this.ele).typeahead(this.option1, this.option2)
@@ -209,7 +209,7 @@ Template.typeahead.onDestroyed(function () {
 
 Template.typeahead.helpers({
   id: ()=>{
-    return Template.instance().data.id
+    return Template.instance().id
   },
   placeholder: ()=>{
     return Template.instance().data.placeholder

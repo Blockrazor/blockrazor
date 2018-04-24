@@ -449,13 +449,15 @@ Template.currencyInfo.helpers({
         }
       },
       add: function(event, data, templ){
-        Meteor.call("appendExchange", data._id, templ.currency._id, (error, result) => {
-          if (!error){
-            sAlert.success("This exchange successfully appended to "+templ.currency.currencyName)
-          }else{
-            sAlert.error("This exchange already appended to "+templ.currency.currencyName)
-          }
-        })
+        if (data._id) {
+          Meteor.call("appendExchange", data._id, templ.currency._id, (error, result) => {
+            if (!error){
+              sAlert.success("This exchange successfully appended to "+templ.currency.currencyName)
+            }else{
+              sAlert.error("This exchange already appended to "+templ.currency.currencyName)
+            }
+          })
+        }
       },
       col: Exchanges, //collection to use
       template: Template.instance(), //parent template instance
