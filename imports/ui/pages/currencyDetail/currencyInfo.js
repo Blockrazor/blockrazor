@@ -459,7 +459,7 @@ Template.currencyInfo.helpers({
       },
       col: Exchanges, //collection to use
       template: Template.instance(), //parent template instance
-      focus: true,
+      focus: false,
       autoFocus: true,
       quickEnter: true,
       displayField: "name", //field that appears in typeahead select menu
