@@ -48,6 +48,7 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   import '../../ui/pages/suspended/suspended'
   import '../../ui/pages/distribution/distribution'
   import '../../ui/pages/faq/faq.html'
+  import '../../ui/pages/exchanges/exchanges'
 
 
   //moderator pages
@@ -295,6 +296,15 @@ FlowRouter.route('/distribution', {
     BlazeLayout.render('mainLayout', {
       main: 'distribution',
       //left: 'menu'
+    })
+  }
+})
+
+FlowRouter.route('/exchanges', {
+  name: 'exchanges',
+  action() {
+    BlazeLayout.render('mainLayout', {
+      main: 'exchanges',
     })
   }
 })
