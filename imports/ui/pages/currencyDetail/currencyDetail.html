@@ -1,4 +1,7 @@
 <template name="currencyDetail">
+ <div id="pageHeader">
+    <h3 id="pageTitle">Currency Details</h3>
+</div>
   {{> sAlert}}
   {{#if activeBounty}}
     <div class="alert alert-danger" role="alert">
@@ -10,7 +13,6 @@
     <h6>Example: <a href="https://github.com/Blockrazor/blockrazor/pull/362">https://github.com/Blockrazor/blockrazor/pull/362</a></h6>
     </div>
   {{/if}}
-  <h3 class="currency-details-header">Currency Details</h3>
   <div class="row">
     <div class="currency-x-container col-sm-12">
     {{#with thiscurrency}}
