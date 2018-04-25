@@ -13,28 +13,28 @@
                 <a href="/login" class="btn btn-success sign-in-button">Sign In</a> {{/if}}
             </div>
             <ul id="menu-content" class="menu-content collapse out">
-				<li>
+				<li class="{{activeClass 'home'}}">
                     <a href="/">Home</a>
                 </li>
-                <li>
+                <li class="{{activeClass 'compare-currencies'}}">
                     <a href="/compareCurrencies">Compare currencies</a>
                 </li>
-                <li><a href="/exchanges">Exchanges</a></li>
-                <li><a href="/addcoin">Add New Coin or ICO</a></li>
-                <li><a href="/bounties">Bounties
+                <li class="{{activeClass 'exchanges'}}"><a href="/exchanges">Exchanges</a></li>
+                <li class="{{activeClass 'addcoin'}}"><a href="/addcoin">Add New Coin or ICO</a></li>
+                <li class="{{activeClass 'bounties'}}"><a href="/bounties">Bounties
                   {{#if hasBounties activeBounties }}
                     <span class="badge badge-danger">{{ activeBounties.length }}</span>
                   {{/if}}
                 </a></li>
-                <li><a href="/problems">Problems</a></li>
-                <li><a href="/auctions">Trading</a></li>
-                <li><a href="/distribution">Krazor distribution</a></li>
+                <li class="{{activeClass 'problems'}}"><a href="/problems">Problems</a></li>
+                <li class="{{activeClass 'all-auctions'}}"><a href="/auctions">Trading</a></li>
+                <li class="{{activeClass 'distribution'}}"><a href="/distribution">Krazor distribution</a></li>
                 {{#if currentUser}}
-                <li><a href="/mypending">My Pending Items</a></li>
-                <li><a href="/notifications">Notifications
+                <li class="{{activeClass 'mypending'}}"><a href="/mypending">My Pending Items</a></li>
+                <li class="{{activeClass 'notifications'}}"><a href="/notifications">Notifications
                   {{#if activityNotifications}}<span class="badge badge-success">{{activityNotifications}}</span>{{/if}}
                 </a></li>
-                <li><a href="/wallet">My Wallet
+                <li class="{{activeClass 'wallet'}}"><a href="/wallet">My Wallet
                   {{#if walletNotifications}}<span class="badge badge-success">{{walletNotifications}}</span>{{/if}}
                 </a></li>
                 {{/if}}
@@ -43,17 +43,17 @@
                     <a href="#">Moderator Dashboard <span class="arrow"></span></a>
                 </li>
                 <ul class="sub-menu collapse" id="service">
-                    <li><a class="sub-item" href="/moderator/">Approvals</a></li>
-                    <li><a class="sub-item" href="/changedCurrencies/">Proposed Changes</a></li>
-                    <li><a class="sub-item" href="/moderator/flagged-users">Flagged IP addresses</a></li>
-                    <li><a class="sub-item" href="/moderator/candidates">Moderator candidates</a></li>
-                    <li><a class="sub-item" href="/moderator/flagged-hashpower">Flagged Hashpower</a></li>
-                    <li><a class="sub-item" href="/moderator/questions">Manage Rating Questions</a></li>
-                    <li><a class="sub-item" href="/moderator/applogs">Application logs</a></li>
-                    <li><a class="sub-item" href="/moderator/solved-problems">Solved Problems</a></li>
-                    <li><a class="sub-item" href="/moderator/pardon">Pardon Suspended Users</a></li>
-                    <li><a class="sub-item" href="/moderator/flagged">Flagged Content</a></li>
-                    <li><a class="sub-item" href="/transactions/1">All Blockrazor Transactions</a></li>
+                    <li><a class="sub-item {{activeClass 'moderator'}}" href="/moderator/">Approvals</a></li>
+                    <li><a class="sub-item {{activeClass 'changedCurrencies'}}" href="/changedCurrencies/">Proposed Changes</a></li>
+                    <li><a class="sub-item {{activeClass 'flaggedUsers'}}" href="/moderator/flagged-users">Flagged IP addresses</a></li>
+                    <li><a class="sub-item {{activeClass 'candidates'}}" href="/moderator/candidates">Moderator candidates</a></li>
+                    <li><a class="sub-item {{activeClass 'flagged-hashpower'}}" href="/moderator/flagged-hashpower">Flagged Hashpower</a></li>
+                    <li><a class="sub-item {{activeClass 'questions'}}" href="/moderator/questions">Manage Rating Questions</a></li>
+                    <li><a class="sub-item {{activeClass 'app-logs'}}" href="/moderator/applogs">Application logs</a></li>
+                    <li><a class="sub-item {{activeClass 'solved-problems'}}" href="/moderator/solved-problems">Solved Problems</a></li>
+                    <li><a class="sub-item {{activeClass 'pardon'}}" href="/moderator/pardon">Pardon Suspended Users</a></li>
+                    <li><a class="sub-item {{activeClass 'flagged'}}" href="/moderator/flagged">Flagged Content</a></li>
+                    <li><a class="sub-item {{activeClass 'transactions'}}" href="/transactions/1">All Blockrazor Transactions</a></li>
                 </ul>
                 {{/if}}
             </ul>

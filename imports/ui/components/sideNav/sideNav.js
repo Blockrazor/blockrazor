@@ -15,7 +15,12 @@ Template.sideNav.helpers({
     balance() {
       let balance = UserData.findOne({}, { fields: { balance: 1 } }).balance
       return Number( balance.toPrecision(3) )
-    }
+    },
+    activeClass: function(route) {
+        if (FlowRouter.getRouteName() === route) {
+                return 'active';
+            }
+        }
 });
 
 Template.sideNav.onCreated(function() {
