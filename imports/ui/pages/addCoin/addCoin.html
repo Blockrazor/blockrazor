@@ -1,11 +1,13 @@
 <template name="addCoin">
+      <div id="pageHeader">
+        <h3 id="pageTitle">Add Coin</h3>
+    </div>
 	{{#if activeBounty}}
 	<div class="alert alert-danger" role="alert">
 	<h5 class="text-center">{{timeRemaining}}</h5></div>
 	{{/if}}
 	<form name="addCurrency" id="addCurrency">
     <div class="m-4 form-group add-currency-form-container">
-      <h3 class="add-coin-label mb-4">Add Coin</h3>
 			<section class="row justify-content-center">
 				<div>
           <div class="card bg-white required mx-auto">

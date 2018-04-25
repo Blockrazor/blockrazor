@@ -105,3 +105,19 @@
     }
   }
 }
+
+
+#pageHeader {
+    background: #ffffff;
+    margin: -20px -30px 30px;
+    padding: 25px;
+    padding-left: 40px;
+    -webkit-box-shadow: 1px 0 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 1px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+#pageHeader h3{
+  text-transform: uppercase !important;
+  margin-bottom: 0px;
+  margin-top: 8px;
+}
