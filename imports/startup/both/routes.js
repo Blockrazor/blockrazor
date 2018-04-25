@@ -275,7 +275,7 @@ FlowRouter.route('/transactions/:page?', {
 })
 
 FlowRouter.route('/', {
-  name: 'BLOCKRAZOR',
+  name: 'home',
   subscriptions: function () {
     this.register('usersStats', FastRenderer.subscribe('usersStats'))
     this.register('dataQualityCurrencies', FastRenderer.subscribe('dataQualityCurrencies', 15));
@@ -513,6 +513,7 @@ FlowRouter.route('/currency/:slug', {
 });
 
 FlowRouter.route('/mypending', {
+  name: 'mypending',
   subscriptions: function () {
     this.register('bounties', FastRenderer.subscribe('bounties'));
     this.register('pendingcurrencies', FastRenderer.subscribe('pendingcurrencies'));
@@ -524,6 +525,7 @@ FlowRouter.route('/mypending', {
 });
 
 FlowRouter.route('/changedcurrencies', {
+  name: 'changedCurrencies',
   subscriptions: function () {
     this.register('changedCurrencies', FastRenderer.subscribe('changedCurrencies'))
     this.register('hashalgorithm', FastRenderer.subscribe('hashalgorithm'))
@@ -537,6 +539,7 @@ FlowRouter.route('/changedcurrencies', {
 });
 
 FlowRouter.route('/notifications', {
+  name: 'notifications',
   subscriptions: function () {
     this.register('activitylog', FastRenderer.subscribe('activitylog'));
   },
@@ -546,6 +549,7 @@ FlowRouter.route('/notifications', {
 });
 
 FlowRouter.route('/wallet', {
+  name: 'wallet',
   subscriptions: function () {
     this.register('wallet', FastRenderer.subscribe('wallet'));
     this.register('users', FastRenderer.subscribe('users'));
@@ -618,6 +622,7 @@ var adminRoutes = FlowRouter.group({
 });
 
 adminRoutes.route('/', {
+  name: 'moderator',
   subscriptions: function () {
     this.register('pendingcurrencies', FastRenderer.subscribe('pendingcurrencies'));
     this.register('bounties', FastRenderer.subscribe('bounties'));

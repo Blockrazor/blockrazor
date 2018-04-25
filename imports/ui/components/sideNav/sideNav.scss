@@ -137,15 +137,16 @@
       a {
         padding-left:50px;
       }
-      li.active, li.active a {
-        color: #000;
+      .active {
+        border-left: 3px solid #000 !important;
+        background-color: #484d53;
       }
     }
   }
   ul.active,
   li.active {
-    border-left: 3px solid #d19b3d;
-    background-color: #4f5b69;
+    border-left: 3px solid #000 !important;
+    background-color: #c6c6c6;
   }
   ul :not(collapsed) .arrow:before,
   li :not(collapsed) .arrow:before {
