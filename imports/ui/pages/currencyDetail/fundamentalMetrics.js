@@ -104,7 +104,8 @@ Template.fundamentalMetrics.onRendered(function (){
       options: {
         tooltips: {enabled: false},
         responsive: false,
-        maintainAspectRatio: false,
+        maintainAspectRatio: true,
+        aspectRatio: 1,
         title: {display: false},
         legend: {
           display: true,
