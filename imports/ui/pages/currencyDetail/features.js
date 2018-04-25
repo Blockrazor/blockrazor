@@ -8,7 +8,7 @@ Template.features.onCreated(function(){
   this.showflagged = new ReactiveVar(false)
   this.addingnewfeature = new ReactiveVar(false)
   this.lastId = new ReactiveVar('')
-  this.featureIncrement = 6
+  this.featureIncrement = 3
   this.featureLimit = new ReactiveVar(this.featureIncrement)
   this.featuresShow = new ReactiveVar(null)
   this.autorun(() => {
@@ -18,9 +18,9 @@ Template.features.onCreated(function(){
   //prefetch next load of features into minimongo
   this.autorun(()=>{
     var query = {currencySlug: FlowRouter.getParam('slug'), flagRatio: {$lt: 0.6}}
-    this.featuresShow.set(Features.find(query, {limit: this.featureLimit.get(), sort: {rating: -1, appealNumber: -1,createdAt:-1},limit: 3}));
+    this.featuresShow.set(Features.find(query, {limit: this.featureLimit.get(), sort: {rating: -1, appealNumber: -1,createdAt:-1}}));
     //prefetch
-    Features.find(query, {limit: this.featureLimit.get()+this.featureIncrement, sort: {rating: -1,createdAt:-1, appealNumber: -1},limit: 3}).fetch()
+    Features.find(query, {limit: this.featureLimit.get()+this.featureIncrement, sort: {rating: -1,createdAt:-1, appealNumber: -1}}).fetch()
   })
 });
 

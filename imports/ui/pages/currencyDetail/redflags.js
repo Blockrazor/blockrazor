@@ -10,12 +10,20 @@ Template.redflags.onCreated(function(){
   this.showredflagged = new ReactiveVar(false)
   this.addingnewredflag = new ReactiveVar(false)
   this.lastId = new ReactiveVar('')
+  this.redflagIncrement = 3
+  this.redflagLimit = new ReactiveVar(this.redflagIncrement)
+  this.redflagShow = new ReactiveVar(null)
 
   this.autorun(() => {
     this.currencyId = (Currencies.findOne({ slug: FlowRouter.getParam("slug") }) || {})._id
 
     if (this.currencyId) {
       SubsCache.subscribe('redflags', this.currencyId)
+
+      var query = {currencyId: this.currencyId, flagRatio: {$lt: 0.6}}
+      this.redflagShow.set(Redflags.find(query, {limit: this.redflagLimit.get(), sort: {rating: -1, appealNumber: -1,createdAt:-1}}));
+      //prefetch
+      Redflags.find(query, {limit: this.redflagLimit.get()+this.redflagIncrement, sort: {rating: -1,createdAt:-1, appealNumber: -1}}).fetch()
     }
   })
 });
@@ -31,7 +39,8 @@ Template.redflags.helpers({
     return this.featureTag; //find metricTag data from collection
   },
   redflags: function() {
-    return Redflags.find({currencyId: Template.instance().currencyId, flagRatio: {$lt: 0.6}}, {sort: {rating: -1, appealNumber: -1,createdAt:-1},limit: 3}).fetch();
+    return Template.instance().redflagShow.get().fetch()
+    // return Redflags.find({currencyId: Template.instance().currencyId, flagRatio: {$lt: 0.6}}, {sort: {rating: -1, appealNumber: -1,createdAt:-1},limit: 3}).fetch();
   },
   redflagsFlagged: function() {
     return Redflags.find({currencyId: Template.instance().currencyId, flagRatio: {$gt: 0.6}},{limit: 3});
@@ -39,6 +48,9 @@ Template.redflags.helpers({
 });
 
 Template.redflags.events({
+  'click #loadMoreRedflags': function(ev, templ){
+    templ.redflagLimit.set(templ.redflagLimit.get()+templ.redflagIncrement)
+  },
   'click .flag-help-button .help': function() {
     $('#addRedFlagModal').modal('show');
   },
