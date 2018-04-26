@@ -1,98 +1,126 @@
-import { Template } from 'meteor/templating';
-import { developmentValidationEnabledFalse, FormData, Bounties, RatingsTemplates, HashAlgorithm } from '/imports/api/indexDB.js'; //database
-import { 
+import {
+  Template
+} from 'meteor/templating';
+import {
+  developmentValidationEnabledFalse,
+  FormData,
+  Bounties,
+  RatingsTemplates,
+  HashAlgorithm,
+  Exchanges
+} from '/imports/api/indexDB.js'; //database
+import {
   addCoin
-} from '/imports/api/coins/methods' 
+} from '/imports/api/coins/methods'
 
 import swal from 'sweetalert';
 import Cookies from 'js-cookie';
 
+import '/imports/ui/components/typeahead'
+
 import './addCoin.html'
 import './addCoin.scss'
 
-function initPopOvers(){
+function initPopOvers() {
   //gotta set a small delay as dom isn't ready straight away
-      Meteor.setTimeout(function() {
-        $('[data-toggle="popover"]').popover({ trigger: 'focus' })
-    }.bind(this), 500);
+  Meteor.setTimeout(function () {
+    $('[data-toggle="popover"]').popover({
+      trigger: 'focus'
+    })
+  }.bind(this), 500);
 }
 
-const initDatePicker = function(id, format, template, klass) {
-	Meteor.setTimeout(function() {
-		$('#' + id).combodate({
-			format: format,
-			template: template,
-			customClass: klass + ' form-control',
-			maxYear: 2020,
-			minYear: 2008,
-			firstItem: 'name'
-		});
-	}.bind(this), 200)
+const initDatePicker = function (id, format, template, klass) {
+  Meteor.setTimeout(function () {
+    $('#' + id).combodate({
+      format: format,
+      template: template,
+      customClass: klass + ' form-control',
+      maxYear: 2020,
+      minYear: 2008,
+      firstItem: 'name'
+    });
+  }.bind(this), 200)
 }
 
 // convert a string of integers into an array of integers
 function stringListToInt(stringList, delimiter) {
-	return stringList.split(delimiter).map(Number);
+  return stringList.split(delimiter).map(Number);
 }
 
 // convert ICODate into an Array Date
 // purpose of this is to have it easily supported by Date.UTC
-const formatICODate = function(dateString) {
-	var dateArr = dateString.split(" ");
-	var date = stringListToInt(dateArr[0], "-");
-	var time = stringListToInt(dateArr[1], ":");;
-	date[1] = date[1] - 1;
-	return date.concat(time);
+const formatICODate = function (dateString) {
+  var dateArr = dateString.split(" ");
+  var date = stringListToInt(dateArr[0], "-");
+  var time = stringListToInt(dateArr[1], ":");;
+  date[1] = date[1] - 1;
+  return date.concat(time);
 
 }
 
-export { initDatePicker, formatICODate }
+export {
+  initDatePicker,
+  formatICODate
+}
 
-Template.addCoin.onRendered(function() {
-    //init popovers
-    $('[data-toggle="popover"]').popover({ trigger: 'focus' })
+Template.addCoin.onRendered(function () {
+  //init popovers
+  $('[data-toggle="popover"]').popover({
+    trigger: 'focus'
+  })
 
-	// init genesis and ico date pickers
-	initDatePicker('genesisDate', 'YYYY-MM-DD', 'YYYY MM D', 'genesis-date');
-	initDatePicker('icoDate', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
+  // init genesis and ico date pickers
+  initDatePicker('genesisDate', 'YYYY-MM-DD', 'YYYY MM D', 'genesis-date');
+  initDatePicker('icoDate', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
   initDatePicker('icoDateEnd', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
 
   //autopopulates fields for validation testing
-  if (Meteor.isDevelopment && developmentValidationEnabledFalse){
+  if (Meteor.isDevelopment && developmentValidationEnabledFalse) {
     $("#currencyName")[0].value = "sdfsdf"
     $("#currencySymbol")[0].value = "sdf"
-     $("#premine")[0].value = 4444
-     $("#maxCoins")[0].value = 44444
-     Meteor.setTimeout(()=>{
+    $("#premine")[0].value = 4444
+    $("#maxCoins")[0].value = 44444
+    Meteor.setTimeout(() => {
       $(".month").val("1").change()
       $(".year").val("2017").change()
       $(".day").val("1").change()
-     }, 500)
-     Meteor.setTimeout(()=>{
+    }, 500)
+    Meteor.setTimeout(() => {
       $("#consensusSecurity").val("Hybrid").change()
       $("#exampleFormControlSelect1")[0].value = "7be44dviDMiuoShan"
     }, 600)
-    Meteor.setTimeout(()=>{
+    Meteor.setTimeout(() => {
       $("#exampleFormControlSelect1")[0].value = "7be44dviDMiuoShan"
     }, 1000)
   }
 });
 
 //Functions to help with client side validation and data manipulation
-var makeTagArrayFrom = function(string) {
-  if (!string) {return new Array()};
-  array = $.map(string.split(","), $.trim).filter(function(v){return v!==''});
+var makeTagArrayFrom = function (string) {
+  if (!string) {
+    return new Array()
+  };
+  array = $.map(string.split(","), $.trim).filter(function (v) {
+    return v !== ''
+  });
   var namedArray = new Array();
   for (i in array) {
     var string = array[i].toString().replace(/[^\w\s]/gi, '');
-    if(string) {
-      namedArray.push({"tag": string});
+    if (string) {
+      namedArray.push({
+        "tag": string
+      });
     }
   }
   return namedArray;
 }
 
-Template.addCoin.onCreated(function() {
+Template.addCoin.onCreated(function () {
+  this.autorun(() => {
+    SubsCache.subscribe('exchanges')
+  })
+
   this.coinExists = new ReactiveVar(true)
   this.powselect = new ReactiveVar(false)
   this.btcfork = new ReactiveVar(false)
@@ -117,6 +145,9 @@ Template.addCoin.onCreated(function() {
   this.currencyNameMessage = new ReactiveVar(null)
   this.consensusSecurity = new ReactiveVar('')
 
+  //for typeahead
+  this.exchanges = new ReactiveVar([])
+
   this.autorun(() => {
     SubsCache.subscribe('currencyBounty')
     SubsCache.subscribe('addCoinQuestions')
@@ -126,7 +157,7 @@ Template.addCoin.onCreated(function() {
 
   this.now = new ReactiveVar(Date.now())
   Meteor.setInterval(() => {
-      this.now.set(Date.now())
+    this.now.set(Date.now())
   }, 1000)
 })
 
@@ -137,129 +168,141 @@ Template.addCoin.events({
 
     templateInstance.showAlgoField.set(!templateInstance.showAlgoField.get())
   },
-  'blur #currencyName': function(e, templateInstance){
+  'blur #currencyName': function (e, templateInstance) {
     templateInstance.currencyName.set(false);
 
-    Meteor.call('isCurrencyNameUnique', e.currentTarget.value, function(error, result){
-      if(error) {templateInstance.currencyNameMessage.set(error.error)} else {templateInstance.currencyNameMessage.set(null)};
+    Meteor.call('isCurrencyNameUnique', e.currentTarget.value, function (error, result) {
+      if (error) {
+        templateInstance.currencyNameMessage.set(error.error)
+      } else {
+        templateInstance.currencyNameMessage.set(null)
+      };
 
     });
-    },
+  },
 
-//Select form elements to display to user based on their selection
-  'change .isICO': function(dataFromForm) {
+  //Select form elements to display to user based on their selection
+  'change .isICO': function (dataFromForm) {
     Template.instance().isICO.set(dataFromForm.target.checked);
     //init popovers again, can't init on hidden dom elements
-     initPopOvers();
-	 initDatePicker('genesisDate', 'YYYY-MM-DD', 'YYYY MM D', 'genesis-date');
-	 initDatePicker('icoDate', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
-  initDatePicker('icoDateEnd', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
+    initPopOvers();
+    initDatePicker('genesisDate', 'YYYY-MM-DD', 'YYYY MM D', 'genesis-date');
+    initDatePicker('icoDate', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
+    initDatePicker('icoDateEnd', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
   },
-  'change .btcfork': function(dataFromForm) {
+  'change .btcfork': function (dataFromForm) {
     Template.instance().btcfork.set(dataFromForm.target.checked);
 
     //init popovers again, can't init on hidden dom elements
-     initPopOvers();
-	 initDatePicker('genesisDate', 'YYYY-MM-DD', 'YYYY MM D', 'genesis-date');
-	 initDatePicker('icoDate', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
-  initDatePicker('icoDateEnd', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
+    initPopOvers();
+    initDatePicker('genesisDate', 'YYYY-MM-DD', 'YYYY MM D', 'genesis-date');
+    initDatePicker('icoDate', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
+    initDatePicker('icoDateEnd', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
 
 
   },
-  'change .exists': function(dataFromForm) {
+  'change .exists': function (dataFromForm) {
     Template.instance().coinExists.set(dataFromForm.target.checked);
-        //init popovers again, can't init on hidden dom elements
-     initPopOvers();
+    //init popovers again, can't init on hidden dom elements
+    initPopOvers();
 
-	 // init genesis and ico date pickers again
-	 initDatePicker('genesisDate', 'YYYY-MM-DD', 'YYYY MM D', 'genesis-date');
-	 initDatePicker('icoDate', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
-  initDatePicker('icoDateEnd', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
+    // init genesis and ico date pickers again
+    initDatePicker('genesisDate', 'YYYY-MM-DD', 'YYYY MM D', 'genesis-date');
+    initDatePicker('icoDate', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
+    initDatePicker('icoDateEnd', 'YYYY-MM-DD HH:mm:ss', 'YYYY MM DD HH mm ss', 'ico-date');
 
 
   },
-  'change #consensusSecurity': function(consensusSecurity) {
+  'change #consensusSecurity': function (consensusSecurity) {
     Template.instance().consensusSecurity.set(consensusSecurity.target.value);
-         //init popovers again, can't init on hidden dom elements
-     initPopOvers()
+    //init popovers again, can't init on hidden dom elements
+    initPopOvers()
 
-     Template.instance().powselect.set(consensusSecurity.target.value !== '--Select One--')
+    Template.instance().powselect.set(consensusSecurity.target.value !== '--Select One--')
   },
-  'change #currencyLogoInput': function(event){
+  'change #currencyLogoInput': function (event) {
 
-  var mime = require('mime-types')
-  var instance = this;
-  var file = event.target.files[0];
-  var uploadError = false;
-  var mimetype = mime.lookup(file);
-  var fileExtension = mime.extension(file.type);
+    var mime = require('mime-types')
+    var instance = this;
+    var file = event.target.files[0];
+    var uploadError = false;
+    var mimetype = mime.lookup(file);
+    var fileExtension = mime.extension(file.type);
 
-if(file){
-  //check if filesize of image exceeds the global limit
-  if (file.size > _coinFileSizeLimit) {
-                swal({
-                    icon: "error",
-                    text: "Image must be under 2mb",
-                    button: { className: 'btn btn-primary' }
-                });
-      uploadError = true;
-  }
+    if (file) {
+      //check if filesize of image exceeds the global limit
+      if (file.size > _coinFileSizeLimit) {
+        swal({
+          icon: "error",
+          text: "Image must be under 2mb",
+          button: {
+            className: 'btn btn-primary'
+          }
+        });
+        uploadError = true;
+      }
 
- if (!_supportedFileTypes.includes(file.type)) {
-     swal({
-         icon: "error",
-         text: "File must be an image",
-         button: { className: 'btn btn-primary' }
-     });
-     uploadError = true;
- }
+      if (!_supportedFileTypes.includes(file.type)) {
+        swal({
+          icon: "error",
+          text: "File must be an image",
+          button: {
+            className: 'btn btn-primary'
+          }
+        });
+        uploadError = true;
+      }
 
-//Only upload if above validation are true
-//Disabled validation in development environment for easy testing (adjust in both startup index)
-if(!uploadError){
+      //Only upload if above validation are true
+      //Disabled validation in development environment for easy testing (adjust in both startup index)
+      if (!uploadError) {
 
-  $("#fileUploadValue").html("<i class='fa fa-circle-o-notch fa-spin'></i> Uploading");
+        $("#fileUploadValue").html("<i class='fa fa-circle-o-notch fa-spin'></i> Uploading");
 
 
-   var reader = new FileReader();
-   reader.onload = function(fileLoadEvent){
-     //var binary = event.target.result;
-     var binary = reader.result;
-     var md5 = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(binary)).toString();
+        var reader = new FileReader();
+        reader.onload = function (fileLoadEvent) {
+          //var binary = event.target.result;
+          var binary = reader.result;
+          var md5 = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(binary)).toString();
 
-     Meteor.call('uploadCoinImage', file.name, event.target.id, instance._id, reader.result,md5, function(error, result){
-       if(error){
-        console.log(error)
-         swal({
-         icon: "error",
-         text: error.message,
-         button: { className: 'btn btn-primary' }
-     });
-       }else{
+          Meteor.call('uploadCoinImage', file.name, event.target.id, instance._id, reader.result, md5, function (error, result) {
+            if (error) {
+              console.log(error)
+              swal({
+                icon: "error",
+                text: error.message,
+                button: {
+                  className: 'btn btn-primary'
+                }
+              });
+            } else {
 
-    $("#currencyLogoFilename").val(md5+'.'+fileExtension);
+              $("#currencyLogoFilename").val(md5 + '.' + fileExtension);
 
-      $("#fileUploadValue").html("Change");
-      $("#currencyLogoInputLabel").removeClass('btn-primary');
+              $("#fileUploadValue").html("Change");
+              $("#currencyLogoInputLabel").removeClass('btn-primary');
 
-       //hide invalid validation if it exists
-      $("#currencyLogoInputLabel").removeClass('btn-danger');
-      $("#currencyLogoInputInvalid").hide();
-      $("#currencyLogoInputLabel").addClass('btn-success');
+              //hide invalid validation if it exists
+              $("#currencyLogoInputLabel").removeClass('btn-danger');
+              $("#currencyLogoInputInvalid").hide();
+              $("#currencyLogoInputLabel").addClass('btn-success');
 
-       }
+            }
 
-     });
-   }
-   reader.readAsBinaryString(file);
- }
- }
-},
+          });
+        }
+        reader.readAsBinaryString(file);
+      }
+    }
+  },
 
-  'click #cancel': function(data) {
+  'click #cancel': function (data) {
     console.log(data);
     Meteor.call('deleteNewBountyClient', 'new-currency', (err, data) => {})
-    Cookies.set('workingBounty', false, { expires: 1 })
+    Cookies.set('workingBounty', false, {
+      expires: 1
+    })
     FlowRouter.go('/');
   },
   'submit form': function (data) {
@@ -324,54 +367,87 @@ if(!uploadError){
       approvalNotes: d.notes.value,
       currencyLogoFilename: d.currencyLogoFilename.value,
     }
-  
+
     if (questions.length) {
       insert['questions'] = questions
     }
 
-    var makeTagArrayFrom = function(string, key) {
-      if (!string) {return new Array()};
-      array = $.map(string.split(","), $.trim).filter(function(v){return v!==''});
+    var makeTagArrayFrom = function (string, key) {
+      if (!string) {
+        return new Array()
+      };
+      array = $.map(string.split(","), $.trim).filter(function (v) {
+        return v !== ''
+      });
       var namedArray = new Array();
       for (i in array) {
         var string = array[i].toString().replace(/[^\w\s]/gi, '');
-        if(string) {
-          namedArray.push({[key]: string});
+        if (string) {
+          namedArray.push({
+            [key]: string
+          });
         }
       }
       return namedArray;
     }
-  
-    var addToInsert = function(value, key) {
+
+    var addToInsert = function (value, key) {
       if (typeof key !== "undefined") {
         insert[key] = value; //slip the data into the 'insert' array
       } else if (eval(value) && typeof key === "undefined") { //check that 'value' actually has data and that there is no 'key'
         insert[value] = eval(value); //use the String from 'value' as the key, and evaluate the variable of the same name to get the data.
       }
     }
-  
-  // Start inserting data that may or may not exist
-    if(d.confirmations) {addToInsert(d.confirmations.value, "confirmations")};
-    if(d.previousNames) {addToInsert(makeTagArrayFrom(d.previousNames.value, "tag"), "previousNames")};
-    if(d.exchanges) {addToInsert(makeTagArrayFrom(d.exchanges.value, "name"), "exchanges")};
+
+    // Start inserting data that may or may not exist
+    if (d.confirmations) {
+      addToInsert(d.confirmations.value, "confirmations")
+    };
+    if (d.previousNames) {
+      addToInsert(makeTagArrayFrom(d.previousNames.value, "tag"), "previousNames")
+    };
+    if (d.exchanges) {
+      //simpleSchema clean() should just remove extra fields
+      addToInsert(templ.exchanges.get(), "exchanges")
+    };
     addToInsert("launchTags");
-    if(d.replayProtection) {addToInsert(d.replayProtection.value, "replayProtection")};
-    if(d.blockTime) {addToInsert(d.blockTime.value, "blockTime")};
-    if(d.forkHeight) {addToInsert(d.forkHeight.value, "forkHeight")};
-    if(d.forkParent) {addToInsert(d.forkParent.value, "forkParent")};
-    if(d.hashAlgorithm) {addToInsert(d.hashAlgorithm.value, "hashAlgorithm")};
-    if(d.ICOfundsRaised) {addToInsert(d.ICOfundsRaised.value, "ICOfundsRaised")};
-    if(d.icocurrency){addToInsert(d.icocurrency.value, "icocurrency")};
-    if(d.ICOcoinsProduced) {addToInsert(parseInt(d.ICOcoinsProduced.value), "ICOcoinsProduced")};
-    if(d.ICOcoinsIntended) {addToInsert(parseInt(d.ICOcoinsIntended.value), "ICOcoinsIntended")};
-    if(d.genesisYear) {addToInsert(Date.parse(d.genesisYear.value), "genesisTimestamp")};
-    if(d.ICOyear) {
+    if (d.replayProtection) {
+      addToInsert(d.replayProtection.value, "replayProtection")
+    };
+    if (d.blockTime) {
+      addToInsert(d.blockTime.value, "blockTime")
+    };
+    if (d.forkHeight) {
+      addToInsert(d.forkHeight.value, "forkHeight")
+    };
+    if (d.forkParent) {
+      addToInsert(d.forkParent.value, "forkParent")
+    };
+    if (d.hashAlgorithm) {
+      addToInsert(d.hashAlgorithm.value, "hashAlgorithm")
+    };
+    if (d.ICOfundsRaised) {
+      addToInsert(d.ICOfundsRaised.value, "ICOfundsRaised")
+    };
+    if (d.icocurrency) {
+      addToInsert(d.icocurrency.value, "icocurrency")
+    };
+    if (d.ICOcoinsProduced) {
+      addToInsert(parseInt(d.ICOcoinsProduced.value), "ICOcoinsProduced")
+    };
+    if (d.ICOcoinsIntended) {
+      addToInsert(parseInt(d.ICOcoinsIntended.value), "ICOcoinsIntended")
+    };
+    if (d.genesisYear) {
+      addToInsert(Date.parse(d.genesisYear.value), "genesisTimestamp")
+    };
+    if (d.ICOyear) {
       if (d.ICOyear.value) {
         var icoDate = formatICODate(d.ICOyear.value);
         var icoDateEnd = formatICODate(d.icoDateEnd.value);
         addToInsert(Date.parse(new Date(Date.UTC(icoDate[0], icoDate[1], icoDate[2], icoDate[3], icoDate[4], icoDate[5]))), "ICOnextRound")
         addToInsert(Date.parse(new Date(Date.UTC(icoDateEnd[0], icoDateEnd[1], icoDateEnd[2], icoDateEnd[3], icoDateEnd[4], icoDateEnd[5]))), "icoDateEnd")
-  
+
       }
     };
     //if(!insert.genesisTimestamp) {insert.genesisTimestamp = 0};
@@ -379,39 +455,39 @@ if(!uploadError){
     console.log(insert);
 
 
-    addCoin.call(insert, (error, result)=>{
+    addCoin.call(insert, (error, result) => {
       //remove error classes before validating
       $('input').removeClass('is-invalid');
       $('select').removeClass('is-invalid');
       if (error) {
 
-      error.details.forEach((data) => {
-        console.log(data)
+        error.details.forEach((data) => {
+          console.log(data)
 
-        //dyanmicly populate the error message and flag fields as invalid based on simpleSchema validation
-        $("#" + data.name).addClass("is-invalid");
-        $("#" + data.name).next(".invalid-feedback").html(data.message);
+          //dyanmicly populate the error message and flag fields as invalid based on simpleSchema validation
+          $("#" + data.name).addClass("is-invalid");
+          $("#" + data.name).next(".invalid-feedback").html(data.message);
 
-        //some fields in the dom don't match one to one, so a bit of manual work is required :(
-        if (data.name === "genesisTimestamp") {
+          //some fields in the dom don't match one to one, so a bit of manual work is required :(
+          if (data.name === "genesisTimestamp") {
             $(".genesis-date").addClass("is-invalid");
             $("#genesisDateInvalid").html(data.message);
-        }
+          }
 
-        if (data.name === "currencyLogoFilename") {
+          if (data.name === "currencyLogoFilename") {
             $("#currencyLogoInputLabel").addClass("is-invalid btn-danger");
             $("#currencyLogoFilenameInvalid").show();
             $("#currencyLogoFilenameInvalid").html(data.message);
 
-        //Scroll to the dom element which has caused the error, no point staying at the bottom.
-        //its -100 was we want it to scroll above the input so we can see the label
-    $('html, body').animate({
-                scrollTop: $(".is-invalid:first").offset().top-100
+            //Scroll to the dom element which has caused the error, no point staying at the bottom.
+            //its -100 was we want it to scroll above the input so we can see the label
+            $('html, body').animate({
+              scrollTop: $(".is-invalid:first").offset().top - 100
             }, 1000);
-        }
-        
-      
-    });
+          }
+
+
+        });
 
       } else {
         Meteor.call('completeNewBounty', 'new-currency', $('#currencyName').val(), (err, data) => {})
@@ -421,8 +497,8 @@ if(!uploadError){
         FlowRouter.go('/mypending');
       }
     })
-    
-    function addToInsert (value, key) {
+
+    function addToInsert(value, key) {
       if (typeof key !== "undefined") {
         insert[key] = value; //slip the data into the 'insert' array
       } else if (eval(value) && typeof key === "undefined") { //check that 'value' actually has data and that there is no 'key'
@@ -435,94 +511,94 @@ if(!uploadError){
 
 
 Template.addCoin.helpers({
-  getPopoverContent (val){
+  getPopoverContent(val) {
 
-switch (val) {
-    case "currencyName":
+    switch (val) {
+      case "currencyName":
         {
-            return 'Please input the name of the cryptocurrency, token, ICO, etc.';
-            break;
+          return 'Please input the name of the cryptocurrency, token, ICO, etc.';
+          break;
         }
-    case "currencySymbol":
+      case "currencySymbol":
         {
-            return "Please input the symbol for this currency."
-            break;
+          return "Please input the symbol for this currency."
+          break;
         }
-    case "ICOfundsRaised":
+      case "ICOfundsRaised":
         {
-            return "How much was raised in total, including all rounds and pre-sales etc?"
-            break;
+          return "How much was raised in total, including all rounds and pre-sales etc?"
+          break;
         }
-    case "genesisTimestamp":
+      case "genesisTimestamp":
         {
-            return "When was the genesis block mined? The easiest way to check this is to seach on Google for a block explorer for this blockchain and go to block 0. In most block explorers you can simply type \"0\" into their search feature and it will find the genesis block. In some cases, the genesis block may have a unix timestamp of \"0\" which translates to 1st January 1970. In those cases, simply use block 1 instead."
-            break;
+          return "When was the genesis block mined? The easiest way to check this is to seach on Google for a block explorer for this blockchain and go to block 0. In most block explorers you can simply type \"0\" into their search feature and it will find the genesis block. In some cases, the genesis block may have a unix timestamp of \"0\" which translates to 1st January 1970. In those cases, simply use block 1 instead."
+          break;
         }
-    case "intendedLaunch":
+      case "intendedLaunch":
         {
-            return "When do the people behind this coin intend to mine the genesis block or launch the coin?"
-            break;
+          return "When do the people behind this coin intend to mine the genesis block or launch the coin?"
+          break;
         }
-    case "forkParent":
+      case "forkParent":
         {
-            return "  Please select which Bitcoin blockchain this fork is forking from. For example if it is a fork of Bitcoin Cash, simply choose \"Bitcoin Cash\"."
-            break;
+          return "  Please select which Bitcoin blockchain this fork is forking from. For example if it is a fork of Bitcoin Cash, simply choose \"Bitcoin Cash\"."
+          break;
         }
-    case "forkHeight":
+      case "forkHeight":
         {
-            return "At which block did (or will) the fork happen?"
-            break;
+          return "At which block did (or will) the fork happen?"
+          break;
         }
-    case "premine":
+      case "premine":
         {
-            return "Were coins sold or distributed before the public were able to participate in mining? Did the developers mine coins before telling anyone else about it? This is more of a \"if it quacks like a duck it's probably a duck\" question. For example Zcash has a 20% mining tax until the developers recieve 2,100,000 coins, thus their premine is 2100000."
-            break;
+          return "Were coins sold or distributed before the public were able to participate in mining? Did the developers mine coins before telling anyone else about it? This is more of a \"if it quacks like a duck it's probably a duck\" question. For example Zcash has a 20% mining tax until the developers recieve 2,100,000 coins, thus their premine is 2100000."
+          break;
         }
-    case "maxCoins":
+      case "maxCoins":
         {
-            return "Is there a cap on the total number of coins produced? For example, Bitcoin is 21,000,000. If there's no cap. or if there's an inflationary tail, please input the total coins that will exist in the year 2050."
-            break;
+          return "Is there a cap on the total number of coins produced? For example, Bitcoin is 21,000,000. If there's no cap. or if there's an inflationary tail, please input the total coins that will exist in the year 2050."
+          break;
         }
-    case "gitRepo":
+      case "gitRepo":
         {
-            return "    This is the git code repository for the main node software (not the github organization). For example, Monero is https://github.com/monero-project/monero"
-            break;
+          return "    This is the git code repository for the main node software (not the github organization). For example, Monero is https://github.com/monero-project/monero"
+          break;
         }
-    case "officialSite":
+      case "officialSite":
         {
-            return "What is the offical website?"
-            break;
+          return "What is the offical website?"
+          break;
         }
-    case "reddit":
+      case "reddit":
         {
-            return "Is there a reddit page (subreddit) for this project?"
-            break;
+          return "Is there a reddit page (subreddit) for this project?"
+          break;
         }
-    case "blockTime":
+      case "blockTime":
         {
-            return "What is the block time for this blockchain?"
-            break;
-        }
-
-    case "confirmations":
-        {
-            return "How many confirmations do exchanges wait for before they let you trade it if you deposit this currency? Not all exchanges are the same, but any number you've experienced yourself is fine."
-            break;
+          return "What is the block time for this blockchain?"
+          break;
         }
 
-    case "previousNames":
+      case "confirmations":
         {
-            return "Has this currency been known by any previous names?"
-            break;
+          return "How many confirmations do exchanges wait for before they let you trade it if you deposit this currency? Not all exchanges are the same, but any number you've experienced yourself is fine."
+          break;
         }
 
-    case "exchanges":
+      case "previousNames":
         {
-            return "Which exchanges have listed this currency? Some examples include: Bittrex, Poloniex, Kraken"
-            break;
+          return "Has this currency been known by any previous names?"
+          break;
         }
 
-}
+      case "exchanges":
+        {
+          return "Which exchanges have listed this currency? Some examples include: Bittrex, Poloniex, Kraken"
+          break;
+        }
+
+    }
 
   },
   questions: () => RatingsTemplates.find({}).fetch(),
@@ -552,14 +628,14 @@ switch (val) {
 
     return `You have ${Math.round((bounty.expiresAt - Template.instance().now.get())/1000/60)} minutes to complete the bounty for ${Number(bounty.currentReward).toFixed(2)} KZR.`;
   },
-  security () {
+  security() {
     return FormData.find({}, {});
   },
-  subsecurity () {
+  subsecurity() {
     if (Template.instance().consensusSecurity.get() === 'Proof of Work') {
       return HashAlgorithm.find({
         $or: [{
-          type: 'pow' 
+          type: 'pow'
         }, {
           type: {
             $exists: false // previous data doesn't have this field, so we have to check
@@ -580,22 +656,75 @@ switch (val) {
 
     return []
   },
-  coinExists () {
+  coinExists() {
     return Template.instance().coinExists.get()
   },
 
-  icoText () {
+  icoText() {
     if (Template.instance().coinExists.get()) {
-        return "Funds were raised prior to the genesis block being mined (ICO)"
+      return "Funds were raised prior to the genesis block being mined (ICO)"
     } else {
-        return "This is planned as an ICO"
-    }},
-  btcForkText () {
+      return "This is planned as an ICO"
+    }
+  },
+  btcForkText() {
     if (Template.instance().coinExists.get()) {
-        return "This was a fork of the Bitcoin blockchain"
+      return "This was a fork of the Bitcoin blockchain"
     } else {
-        return "This is a planned fork of the Bitcoin blockchain"
-    }},
-    showAlgoField: () => Template.instance().showAlgoField.get()
+      return "This is a planned fork of the Bitcoin blockchain"
+    }
+  },
+  showAlgoField: () => Template.instance().showAlgoField.get(),
+  typeaheadProps: function () {
+    return {
+      limit: 15,
+      query: function (templ, entry) {
+          return {
+            name: {
+              $nin: templ.exchanges.get().map(x=>x.name),
+              $regex: new RegExp(entry, 'ig')
+            }
+          }
+      },
+      projection: function (templ, entry) {
+        return {
+          limit: 15,
+          sort: {
+            name: 1
+          }
+        }
+      },
+      add: function (event, data, templ) {
+        if (data._id) {
+          var exchanges = templ.exchanges.get()
+          exchanges.push(data)
+          templ.exchanges.set(exchanges)
+        }
+      },
+      create: function (event, input, templ) {
+        Meteor.call("addExchange", input, (error, result) => {
+          if (!error && result) {
+            sAlert.error("This exchange has been created, but not added")
+          } else {
+            sAlert.error("This exchange already exist.")
+          }
+        })
+      },
+      col: Exchanges, //collection to use
+      template: Template.instance(), //parent template instance
+      focus: false,
+      autoFocus: true,
+      quickEnter: true,
+      displayField: "name", //field that appears in typeahead select menu
+      placeholder: "Add Exchange",
+      results: Template.instance().typeAheadRes,
+      value: Template.instance().typeAheadValue,
+      addButtonText: "Create Exchange",
+      customAddButtonExists: false,
+    }
+  },
+  exchanges(){
+    return Template.instance().exchanges.get()
+  }
 
-  });
+});
