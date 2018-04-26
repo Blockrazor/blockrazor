@@ -1,7 +1,12 @@
 <template name="messageitem">
+  {{#if href}}<a href="{{href}}" style="text-decoration: none;"><span class="list-group-item list-group-item-action">
+  	{{content}} <br />
+     <small>Recieved {{time}} from {{from}}</small>   
+  </span></a>
+  {{else}}
   <span class="list-group-item list-group-item-action">
   	{{content}} <br />
-     <small>Recieved {{time}} from {{from}}</small>
-     
+     <small>Recieved {{time}} from {{from}}</small>   
   </span>
+  {{/if}}
 </template>
