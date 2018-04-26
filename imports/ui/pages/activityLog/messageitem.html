@@ -1,11 +1,7 @@
 <template name="messageitem">
-  <div class="card">
-  <div class="card-block">
-    <p class="card-text">{{content}}</p>
-  </div>
-  <div class="card-footer text-muted">
-    Recieved {{time}} from {{from}}
-  </div>
-</div>
-
+  <span class="list-group-item list-group-item-action">
+  	{{content}} <br />
+     <small>Recieved {{time}} from {{from}}</small>
+     
+  </span>
 </template>

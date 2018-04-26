@@ -1,14 +1,17 @@
 <template name="activityLog">
         <div id="pageHeader">
-        <h3 id="pageTitle">Notifications</h3>
+        <h3 id="pageTitle">YOUR Notifications</h3>
     </div>
     {{> notLoggedIn }}
     {{#if subsCacheReady}}
+    <div class="list-group">
     {{#each message}}
     {{> messageitem}}
+
     {{else}}
       {{> empty}}
     {{/each}}
+      </div>
   {{else}}
     {{> loading}}
   {{/if}}
