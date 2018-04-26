@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { Currencies, Features, UserData } from '/imports/api/indexDB.js'
 import { checkCaptcha } from '/imports/api/miscellaneous/methods'
+import { sendMessage } from '/imports/api/activityLog/methods'
 
 var hasUserVoted = (id, direction) => {
 	var feature = Features.findOne(id);
@@ -159,6 +160,20 @@ newComment: function(parentId, comment, depth, captcha) {
   Features.upsert(parentId, {
     $addToSet: {commenters: this.userId}
   })
+
+    let feature = Features.findOne({
+      _id: parentId
+    })
+
+    let user = Meteor.users.findOne({
+      _id: this.userId
+    })
+
+    let currency = Currencies.findOne({
+      _id: feature.currencyId
+    })
+
+    sendMessage(feature.createdBy, `${user.username} has commented on your feature on ${currency.currencyName}.`, 'System', `/currency/${currency.slug}`)
   } else {
         throw new Meteor.Error('Error.', 'Invalid captcha.')
       }

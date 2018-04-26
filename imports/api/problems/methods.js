@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { UserData, Wallet, Problems, ProblemImages, ProblemComments, developmentValidationEnabledFalse } from '/imports/api/indexDB'
 import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check'
+import { sendMessage } from '/imports/api/activityLog/methods'
 
 
 export const newProblem = new ValidatedMethod({
@@ -579,6 +580,12 @@ Meteor.methods({
 
 		if (problem) {
 			if (Meteor.userId()) {
+			    let user = Meteor.users.findOne({
+			      _id: Meteor.userId()
+			    })
+
+			    sendMessage(problem.createdBy, `${user.username} has commented on your problem.`, 'System', `/problem/${problem._id}`)
+				
 				return ProblemComments.insert({
 					problemId: problem._id,
 					parentId: parentId,

@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor'
-import { Redflags, UserData } from '/imports/api/indexDB.js'
+import { Redflags, UserData, Currencies } from '/imports/api/indexDB.js'
 import { checkCaptcha } from '/imports/api/miscellaneous/methods'
+import { sendMessage } from '/imports/api/activityLog/methods'
 
 Meteor.methods({
   redFlagVote: function(id, direction) {
@@ -152,6 +153,20 @@ redFlagNewComment: function(parentId, comment, depth, captcha) {
   Redflags.upsert(parentId, {
     $addToSet: {commenters: this.userId}
   })
+
+    let redflag = Redflags.findOne({
+      _id: parentId
+    })
+
+    let user = Meteor.users.findOne({
+      _id: this.userId
+    })
+
+    let currency = Currencies.findOne({
+      _id: redflag.currencyId
+    })
+
+    sendMessage(redflag.createdBy, `${user.username} has commented on your red flag on ${currency.currencyName}.`, 'System', `/currency/${currency.slug}`)
   } else {
         throw new Meteor.Error('Error.', 'Invalid captcha.')
       }
