@@ -13,20 +13,21 @@ import './currencyInfo.scss'
 import '/imports/ui/components/typeahead'
 
 Template.currencyInfo.onCreated(function () {
-  this.autorun(()=>{
+  this.autorun(() => {
     SubsCache.subscribe('exchanges')
   })
   this.newAlgo = new ReactiveVar(false)
   this.showText = new ReactiveVar(false)
-  this.currency = new ReactiveVar(Template.currentData())
 
-  this.autorun(()=>{
-    this.currency = Template.currentData()
-    //for typeahead
-    if(Template.currentData().exchanges){
-      this.currency.exchangesNames = this.currency.exchanges.map(x=>{
+  //for typeahead
+  this.currency = Template.currentData()
+  this.exchangesNames = new ReactiveVar([])
+  this.autorun(() => {
+    var exchanges = Template.currentData().exchanges
+    if (exchanges) {
+      this.exchangesNames.set(exchanges.map(x => {
         return x.name
-      })
+      }))
     }
   })
 })
@@ -152,9 +153,9 @@ Template.currencyInfo.onRendered(function () {
 });
 
 Template.currencyInfo.events({
-  'error img': function(e) {
+  'error img': function (e) {
     // fires when a particular image doesn't exist in given path
-    $(e.target).attr('src','/images/noimage.png'); 
+    $(e.target).attr('src', '/images/noimage.png');
   },
   'click .editable-click': (event, templateInstance) => {
     if ($(event.currentTarget).attr('id') === 'hashAlgorithm') {
@@ -336,25 +337,6 @@ Template.currencyInfo.events({
     let slug = FlowRouter.getParam("slug");
     FlowRouter.go('/currencyEdit/' + slug + '/' + event.currentTarget.id);
   },
-  'click .createExchange': function (event, templ) {
-    if(templ.typeAheadValue.get() === undefined || templ.typeAheadValue.get().replace(/\s/g, "") == ""){
-      sAlert.error("Please provide a non-empty exchange name")
-    }else{
-      Meteor.call("addExchange", templ.typeAheadValue.get(), (error, result) => {
-        if (!error && result){
-          Meteor.call("appendExchange", result, templ.currency._id, (err, res) => {
-            if (!err){
-              sAlert.success('New exchange succesfully added and appended to the '+templ.currency.currencyName)
-            }else{
-              sAlert.error("This exchange already appended to "+templ.currency.currencyName)
-            }
-          })
-        }else {
-          sAlert.error("This exchange already exist.")
-        }
-      })
-    }
-  }
 });
 
 Template.currencyInfo.helpers({
@@ -425,20 +407,12 @@ Template.currencyInfo.helpers({
     return {
       limit: 15,
       query: function (templ, entry) {
-        if(templ.currency.exchangesNames){
           return {
             name: {
-              $nin: templ.currency.exchangesNames,
+              $nin: templ.exchangesNames.get(),
               $regex: new RegExp(entry, 'ig')
             }
           }
-        }else {
-          return {
-            name: {
-              $regex: new RegExp(entry, 'ig')
-            }
-          }
-        }
       },
       projection: function (templ, entry) {
         return {
@@ -448,16 +422,25 @@ Template.currencyInfo.helpers({
           }
         }
       },
-      add: function(event, data, templ){
+      add: function (event, data, templ) {
         if (data._id) {
           Meteor.call("appendExchange", data._id, templ.currency._id, (error, result) => {
-            if (!error){
-              sAlert.success("This exchange successfully appended to "+templ.currency.currencyName)
-            }else{
-              sAlert.error("This exchange already appended to "+templ.currency.currencyName)
+            if (!error) {
+              sAlert.success("This exchange successfully appended to " + templ.currency.currencyName)
+            } else {
+              sAlert.error("This exchange already appended to " + templ.currency.currencyName)
             }
           })
         }
+      },
+      create: function(event, input, templ) {
+        Meteor.call("addExchange", input, (error, result) => {
+          if (!error && result) {
+                sAlert.error("This exchange has been created, but not added")
+          } else {
+            sAlert.error("This exchange already exist.")
+          }
+        })
       },
       col: Exchanges, //collection to use
       template: Template.instance(), //parent template instance
@@ -466,16 +449,8 @@ Template.currencyInfo.helpers({
       quickEnter: true,
       displayField: "name", //field that appears in typeahead select menu
       placeholder: "Add Exchange",
-      results: "typeAheadRes",
-      value: "typeAheadValue"
+      addButtonText: "Create Exchange",
+      customAddButtonExists: false,
     }
   },
-  activateCreateExchangeButton: function(){
-    var templ = Template.instance()
-    if ((templ.typeAheadRes? templ.typeAheadRes.get(): []).length == 0){
-      return ""
-    } else {
-      return "disabled"
-    }
-  }
 });

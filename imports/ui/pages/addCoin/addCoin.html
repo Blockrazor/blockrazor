@@ -190,6 +190,26 @@
 									  {{/unless}}
       							<br />
                     <h5 class="card-title">Exchanges</h5>
+                    {{> typeahead typeaheadProps}}
+                    {{#if exchanges}}
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th scope="col">Name</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {{#each exchanges}}
+                        <tr>
+                          <td>{{name}}</td>
+                        </tr>
+                        {{/each}}
+                      </tbody>
+                    </table>
+                    {{else}}
+                      empty
+                    {{/if}}
+
                     <textarea class="form-control" id="exchanges" rows="4" placeholder="Exchanges separated with commas (,). Look to the right for examples =>" name="exchanges" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'exchanges'}}"></textarea>
 			    					{{/if}}
 

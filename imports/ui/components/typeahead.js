@@ -3,10 +3,10 @@ import './typeahead.html'
 import './typeahead.css'
 
 import {
-	Template
+  Template
 } from 'meteor/templating';
 import {
-	Features,
+  Features,
 } from '/imports/api/indexDB.js'
 
 /*
@@ -46,106 +46,116 @@ import {
     autoFocus: false, //typeahead will maintain focus after selection
     quickEnter: true, //On "enter" keypress typeahead will add the first value in list
     add: function(event, doc, templ){...}, //templ is parent template instance, doc is document added
+    create: function(event, inputValue, templ){...}, //templ is parent template instance, doc is document added, add button disabled on empty, activates when no results
     displayField: name, //document field that appears in typeahead select menu
     placeholder: name, //placeholder for typeahead
     noneFound: function(){...; return `ele`} //params: id of typeahead and function that returns current value; renders returned template literal if no results found
-    value: string- will create reactive var bount to parent template- or reactive var to pass current input value to
-    results: string- will create reactive var bount to parent template- or reactive var to pass current results to
+    value: reactiveVar- passes current input value to it, doesn't support passing down values to
+    results: reactiveVar- passes current results to it
+    customAddButtonExists: true, will render it's own add button on false
 }
 */
 
 Template.typeahead.onCreated(function () {
-  
+
   //init default values if not specified
   this.id = this.data.id || Random.id()
-  this.data.transcient = this.data.transcient == undefined? true: this.data.transcient
-  this.data.focus = this.data.focus === undefined? false: this.data.focus
-  this.data.autoFocus = this.data.autoFocus === undefined? false: this.data.autoFocus
-  this.data.quickEnter = this.data.quickEnter === undefined? true: this.data.quickEnter
-  this.data.noneFound = this.data.noneFound === undefined? function(){ return 'no result found' } : this.data.noneFound
+  this.data.transcient = this.data.transcient == undefined ? true : this.data.transcient
+  this.data.focus = this.data.focus === undefined ? false : this.data.focus
+  this.data.autoFocus = this.data.autoFocus === undefined ? false : this.data.autoFocus
+  this.data.quickEnter = this.data.quickEnter === undefined ? true : this.data.quickEnter
+  this.data.noneFound = this.data.noneFound === undefined ? function () {
+    return 'No results found'
+  } : this.data.noneFound
+  
+  this.results = new ReactiveVar([])
+  this.value = new ReactiveVar("")
 
   var props = this.data
   var templ = props.template
-  this.ele = "#"+this.id
-  
+  this.ele = "#" + this.id
+
 
   //query to run
   if (this.data.transcient) {
-    this.search = (entry) => this.data.col.findLocal(props.query(templ, entry), Object.assign(props.projection(templ, entry), {limit: props.limit})).fetch()
+    this.search = (entry) => this.data.col.findLocal(props.query(templ, entry), Object.assign(props.projection(templ, entry), {
+      limit: props.limit
+    })).fetch()
   } else {
-    this.search = (entry) => this.data.col.find(props.query(templ, entry), Object.assign(props.projection(templ, entry), {limit: props.limit})).fetch()
+    this.search = (entry) => this.data.col.find(props.query(templ, entry), Object.assign(props.projection(templ, entry), {
+      limit: props.limit
+    })).fetch()
   }
 
-  //stub out if no name to bind input value to was provided
+    //passes on typeahead value/results to parent if they exist
   var value = this.data.value
-  if (value == undefined){
-    this.noValueBinding = new ReactiveVar()
-    this.value = this.noValueBinding
-  } else if (typeof value == "string") {
-    //define reactive var on parent template if undefined
-    templ[value] = new ReactiveVar()
-    this.value = templ[value]
-  }
   var results = this.data.results
-  //same as above for results
-  if (results == undefined){
-    this.noResultsBinding = new ReactiveVar()
-    this.results = this.noResultsBinding
-  } else if (typeof results == "string") {
-    templ[results] = new ReactiveVar()
-    this.results = templ[results]
-  }
+  this.autorun(() => {
+    if (value) {
+      value.set(this.value.get())
+    }
+  })
+  this.autorun(() => {
+    if (results) {
+      results.set(this.results.get())
+    }
+  })
 
   //initialize typeahead, is used onRendered
-	this.init = () => {
+  this.init = () => {
     var props = this.data
     var templ = props.template
-    var {localCol, col} = props
+    var {
+      localCol,
+      col
+    } = props
 
-    function returnCurrentValue (eleString){
-      return ()=>{return $(eleString).typeahead('val')}
+    function returnCurrentValue(eleString) {
+      return () => {
+        return $(eleString).typeahead('val')
+      }
     }
 
-		var option1 = {
-			hint: true,
-			highlight: true,
-			minLength: 0,
-		}
-		var option2 = {
-			// name: 'states',
-			display: (x) => x[props.displayField],
-			limit: props.limit,
+    var option1 = {
+      hint: true,
+      highlight: true,
+      minLength: 0,
+    }
+    var option2 = {
+      // name: 'states',
+      display: (x) => x[props.displayField],
+      limit: props.limit,
       source: currySearch(templ, this),
       templates: {
         empty: this.data.noneFound(templ, returnCurrentValue(this.ele)),
       }
     }
-	
-		//binding for usage in onRednered hook
-		this.option1 = option1
+
+    //binding for usage in onRednered hook
+    this.option1 = option1
     this.option2 = option2
 
     //provides selection menu for typeahead
     //@params parent templante instance, and this template instance
-		function currySearch(templ, typeahead) {
-      return function (entry, CB){
+    function currySearch(templ, typeahead) {
+      return function (entry, CB) {
         var res = typeahead.search(entry)
-       typeahead.results.set(res)
-          CB(res)
+        typeahead.results.set(res)
+        CB(res)
       }
     }
 
-		function curryEvent (template) {
-      return function(event, value){
+    function curryEvent(template) {
+      return function (event, value) {
         // typeahead renitiliazed reactively
         props.add(event, value, template)
       }
-		}
-    
+    }
+
     $(this.ele).typeahead(option1, option2)
 
     //adds first found entry in autocomplete on enter keypress
-    if (props.quickEnter){
+    if (props.quickEnter) {
       $(this.ele).on('keyup', {
         templ: props.template,
         typeahead: Template.instance()
@@ -162,65 +172,92 @@ Template.typeahead.onCreated(function () {
       });
     }
 
-    if (this.data.focus){
+    if (this.data.focus) {
       $(this.ele).focus()
     }
-		$(this.ele).unbind('typeahead:select').bind('typeahead:select', curryEvent(templ, this))
-		$(this.ele).unbind('typeahead:autocomplete').bind('typeahead:autocomplete', curryEvent(templ, this))
+    $(this.ele).unbind('typeahead:select').bind('typeahead:select', curryEvent(templ, this))
+    $(this.ele).unbind('typeahead:autocomplete').bind('typeahead:autocomplete', curryEvent(templ, this))
   }
 })
 
 Template.typeahead.onRendered(function () {
   //reinitialize typeahead once static data is ready, and typeahead rendered
-	this.autorun((comp) => {
-		if (this.data.transcient && this.data.col.readyLocal()) {
+  this.autorun((comp) => {
+    if (this.data.transcient && this.data.col.readyLocal()) {
       $(this.ele).typeahead('destroy')
       this.init()
-			comp.stop()
-		}
+      comp.stop()
+    }
   })
-  
-  //initialize typeahead
-  this.init()
-  this.autorun(()=>{
+
+    //initialize typeahead
+    this.init()
+
     // this destroy/init dance is required since you can't open menu without refocusing after select
     // and the below
-    // used to keep typeahead data source reactive, running currySearch callback- CB- within autorun will not update selection menu
-    this.search("")
-    if (document.activeElement === document.getElementById(this.id)){
+    // used to keep typeahead data source reactive or after events that change source, running currySearch callback- CB- within autorun will not update selection menu
+  this.updateSource = function(){
+    if (document.activeElement === document.getElementById(this.id)) {
       $(this.ele).typeahead('destroy')
       $(this.ele).blur()
       $(this.ele).typeahead(this.option1, this.option2)
       $(this.ele).typeahead('val', '');
-      if (this.data.autoFocus, this.data){
+      if (this.data.autoFocus, this.data) {
         $(this.ele).focus()
       }
     } else {
       $(this.ele).typeahead('destroy')
       $(this.ele).typeahead(this.option1, this.option2)
     }
+  }
+
+  this.autorun(() => {
+    //this search is only meant to react to reactive variables rather than collection observer changes, otherwise if user types the input is just reset
+    var a = this.search("////////////////////////////////////////////////////////////////")
+    this.updateSource()
   })
 })
 
 Template.typeahead.onDestroyed(function () {
-	$(".typeahead").typeahead("destroy")
-	$(".typeahead").off("keyup")
+  $(".typeahead").typeahead("destroy")
+  $(".typeahead").off("keyup")
 })
 
 Template.typeahead.helpers({
-  id: ()=>{
+  id: () => {
     return Template.instance().id
   },
-  placeholder: ()=>{
+  placeholder: () => {
     return Template.instance().data.placeholder
+  },
+  addButtonText: () => {
+    return Template.instance().data.addButtonText
+  },
+  customAddButtonExists: () => {
+    //convert to true for if statement in spacebars, that is false for button existence should produce true in spacebars if block
+    return Template.instance().data.customAddButtonExists == undefined ? true : !Template.instance().data.customAddButtonExists
+  },
+  activateCreateButton: () => {
+    var templ = Template.instance()
+    // console.log(templ.results.get(), templ.value.get())
+    if (templ.results.get().length == 0 && templ.value.get().replace(/\s/g, "") != "") {
+      return ""
+    } else {
+      return "disabled"
+    }
   }
 })
 
 Template.typeahead.events({
-  "keyup .tt-input": (event, templ)=>{
+  "keyup .tt-input": (event, templ) => {
     templ.value.set(event.currentTarget.value)
   },
-  "change .tt-input": (event, templ)=>{
+  "change .tt-input": (event, templ) => {
     templ.value.set(event.currentTarget.value)
+  },
+  'click .createItem': function (event, templ) {
+    templ.data.create(event, templ.value.get(), templ.data.template)
+    templ.updateSource()
+    $(templ.ele).focus()
   }
-})          
+})
