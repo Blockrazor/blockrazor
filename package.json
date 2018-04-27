@@ -32,6 +32,7 @@
     "recaptcha-v2": "^0.1.3",
     "scrollmagic": "^2.0.5",
     "simpl-schema": "^1.4.2",
+    "smartwizard": "^4.3.1",
     "sweetalert": "^2.1.0",
     "underscore": "^1.8.3",
     "xml2js": "^0.4.19"

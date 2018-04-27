@@ -29,6 +29,7 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   import '../../ui/pages/editProfile/editProfile'
   import '../../ui/pages/bounties/bounties'
   import '../../ui/pages/addCoin/addCoin'
+  import '../../ui/pages/addCoin/addCoin2' //temp page for addcoin, to be merged into addCoin
   import '../../ui/pages/currencyDetail/currencyDetail'
   import '../../ui/pages/userPendingCurrencies/userPendingCurrencies'
   import '../../ui/pages/activityLog/activityLog'
@@ -476,6 +477,37 @@ FlowRouter.route('/addcoin', {
       // if the user is logged in, you can render the intented page
     BlazeLayout.render('mainLayout', {
       main: 'addCoin',
+      //left: 'luxMenu'
+    });
+
+      this.register('formdata', FastRenderer.subscribe('formdata'));
+
+    } else {
+      // but if the user is not logged in, you have to redirect him to the login page
+      // if we want to be able to redirect the user back to where he was, we have to
+      // save the current path
+      window.last = window.location.pathname
+      // and go to the login page
+      FlowRouter.go('/login')
+    }
+  }
+})
+
+FlowRouter.route('/addcoin2', {
+  name: 'addcoin2',
+  subscriptions: function () {
+    this.register('currencyBounty', FastRenderer.subscribe('currencyBounty'));
+    this.register('addCoinQuestions', FastRenderer.subscribe('addCoinQuestions'));
+    this.register('hashalgorithm', FastRenderer.subscribe('hashalgorithm'));
+    this.register('exchanges', FastRenderer.subscribe('exchanges'))
+    // this.register('formdata', FastRenderer.subscribe('formdata')); //userId isn't
+    // availabe on server
+  },
+  action: function () {
+    if (Meteor.userId()) {
+      // if the user is logged in, you can render the intented page
+    BlazeLayout.render('mainLayout', {
+      main: 'addCoin2',
       //left: 'luxMenu'
     });
 
