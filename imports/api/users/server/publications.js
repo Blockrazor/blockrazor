@@ -38,7 +38,8 @@ import { UserData, ProfileImages, UsersStats } from '/imports/api/indexDB.js'
         bountyPreference: 1,
         strikes: 1,
         inputRanking: 1,
-        others: 1
+        others: 1,
+        paymentId: 1
       }
     })
   })
@@ -55,7 +56,8 @@ import { UserData, ProfileImages, UsersStats } from '/imports/api/indexDB.js'
       pardon: 1,
       activity: 1,
       inputRanking: 1,
-      others: 1
+      others: 1,
+      paymentId: 1
     }
   }))
 

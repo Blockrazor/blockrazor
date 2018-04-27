@@ -30,6 +30,7 @@ Meteor.methods({
       }
     })
   },
+  // needs to be removed before launch
   addOthers: (currency, amount) => {
     UserData.update({
       _id: Meteor.userId()

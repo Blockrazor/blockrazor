@@ -21,6 +21,8 @@ import '/imports/api/exchanges/server/publications'
 
 //server methods- don't make these, they get bundled with client and are callable from client anyhow, only detracts optimistc UI
 import '/imports/api/coins/server/methods.js'
+import '/imports/api/payments/server/methods'
+import '/imports/api/payments/server/startup'
 
 // import './fastRender.js'
 import './fixtures.js'
