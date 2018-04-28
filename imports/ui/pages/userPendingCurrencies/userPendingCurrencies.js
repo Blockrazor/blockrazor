@@ -9,8 +9,8 @@ Template.userPendingCurrencies.onCreated(function bodyOnCreated() {
   var self = this
   self.autorun(function() {
     SubsCache.subscribe('bounties');
-    SubsCache.subscribe('pendingcurrencies');
-    SubsCache.subscribe('rejectedcurrencies');
+    SubsCache.subscribe('mypendingcurrencies');
+    SubsCache.subscribe('myrejectedcurrencies');
   })
 });
 

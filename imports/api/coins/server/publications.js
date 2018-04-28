@@ -109,27 +109,35 @@ Meteor.publish('approvedcurrency', slug => Currencies.find({
   slug: slug
 }))
 
-Meteor.publish('pendingcurrencies', function pending() {
-  if(UserData.findOne({_id: this.userId}).moderator) {
-      return PendingCurrencies.find({});
-  } else {
-    return PendingCurrencies.find({owner: this.userId});
-  }
+Meteor.publish('mypendingcurrencies', function pending() {
+  return PendingCurrencies.find({owner: this.userId});
 });
 
   Meteor.publish('changedCurrencies', function changed() {
-      if (UserData.findOne({ _id: this.userId }).moderator) {
+      if ((UserData.findOne({ _id: this.userId }) || {}).moderator) {
           return ChangedCurrencies.find({status: { $nin: ['merged','deleted']}});
       }
+      
+      return null
   });
 
-Meteor.publish('rejectedcurrencies', function rejected() {
-  if(UserData.findOne({_id: this.userId}).moderator) {
-      return RejectedCurrencies.find();
-  } else {
-    return RejectedCurrencies.find({owner: this.userId});
-  }
+Meteor.publish('myrejectedcurrencies', function rejected() {
+  return RejectedCurrencies.find({owner: this.userId});
 });
+
+Meteor.publish('pendingcurrencies', function pending() {
+  if((UserData.findOne({_id: this.userId}) || {}).moderator) {
+      return PendingCurrencies.find({});
+  }
+  return null
+})
+
+Meteor.publish('rejectedcurrencies', function rejected() {
+  if((UserData.findOne({_id: this.userId}) || {}).moderator) {
+      return RejectedCurrencies.find();
+  }
+  return null
+})
 
 Meteor.publish('bountyLastCurrency', () => {
   let pending = PendingCurrencies.find({}, {
