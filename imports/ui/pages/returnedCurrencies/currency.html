@@ -8,14 +8,12 @@
       {{> radarGraph _id=_id width=400 height=300 options=graphOptions}}
     </div>
     {{#if top_red_flag}}
-    <div class="top-redflag text-danger">
-      <span class="top-redflag-text">
-        <span class="fa fa-exclamation-circle"></span>
-        <span class="text">
-          {{top_red_flag}}
-        </span>
+    <small class="top-redflag text-danger">
+      <span class="fa fa-exclamation-circle"></span>
+      <span class="text">
+        {{top_red_flag}}
       </span>
-    </div>
+    </small>
     {{/if}}
     <div class="footer col-sm-12">
       <div><small class="pr-2">PRICE: {{price}}</small> <small class="pr-2">CPC: {{significant cpc}}</small> <small>CPT: {{significant cpt}}</small></div>
