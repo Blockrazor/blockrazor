@@ -98,12 +98,12 @@ Meteor.methods({
 							let user = ids.filter(j => j.paymentId === i.payment_id)
 
 							if (user.length) {
-								// let payment = Payments.findOne({
-								//	userId: user[0].userId,
-								//	txHash: i.tx_hash
-								//})
+								let payment = Payments.findOne({
+									userId: user[0].userId,
+									txHash: i.tx_hash
+								})
 
-								//if (!payment) { // if the payment hasn't been processed yet
+								if (!payment) { // if the payment hasn't been processed yet
 									Payments.insert({
 										userId: user[0].userId,
 										paymentId: i.payment_id,
@@ -117,7 +117,7 @@ Meteor.methods({
 									let realAmount = i.amount / 1000000000000
 
 									transfer(user[0].userId, 'System', `You have deposited ${realAmount} XMR`, realAmount, 'XMR')
-								//}
+								}
 							}
 						}
 					})
