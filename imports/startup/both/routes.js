@@ -80,7 +80,9 @@ FlowRouter.triggers.enter([ () => { window.scrollTo(0, 0); }, () => {
     })
 
     if (user && user.suspended) {
-      FlowRouter.go('/suspended') // redirect all suspended users here
+      if (!~['problems', 'problem', 'new-problem'].indexOf(FlowRouter.getRouteName())) { // let suspended users access problems page
+        FlowRouter.go('/suspended') // redirect all suspended users here
+      }
     }
   })
 } ])
