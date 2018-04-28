@@ -59,7 +59,8 @@ Meteor.publish('bountyCurrencies', function(limit, skip) {
   let sub = Currencies.find({
     hashpowerApi: {
       $ne: true
-    } // skip all currencies that don't need to show on the bounty page
+    },
+    consensusSecurity: 'Proof of Work' // skip all currencies that don't need to show on the bounty page
   }, {
     limit: limit,
     skip: skip,
