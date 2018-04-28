@@ -100,13 +100,14 @@
   }
 }
 
-.addExchanges, .createExchange {
+.addExchanges {
   float: right;
 }
 .viewExchanges {
   padding: 5px;
-  margin: 10px 0;
+  margin: -15px 0 5px 0;
   height: 30px;
+  cursor: pointer
 }
 
 .currency-info{

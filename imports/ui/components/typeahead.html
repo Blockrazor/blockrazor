@@ -1,10 +1,8 @@
 <template name="typeahead">
-  <div>
-    <div>
-    <input class="typeahead form-control" id={{id}} type="text" placeholder={{placeholder}} style="width:15em; float:left">
-    </div>
+  <div class="typeahead-container">
+    <input class="typeahead form-control" id={{id}} type="text" placeholder={{placeholder}}>
   {{#if customAddButtonExists}}
-  <button style="float:right" {{activateCreateButton}} class="btn btn-primary createItem">
+  <button {{activateCreateButton}} class="btn btn-primary typeahead-create-item">
     <span class="fa fa-plus"></span>
     <span class="d-none d-sm-none d-md-block pull-right">&nbsp;&nbsp;{{addButtonText}}</span>
   </button>
