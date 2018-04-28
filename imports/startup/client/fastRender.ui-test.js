@@ -6,13 +6,12 @@ const baseUrl = 'http://localhost:3000' // baseUrl of the app we are testing, it
 describe("Fast render's sub params match params in declared in templates by subsCache by each route (else it breaks #1196)", function () {
   browser.url(`${baseUrl}`)
   browser.pause(4000)
-  var routeStrings
-  
-  it('has flow-router instance', function () {
-    routeStrings = browser.execute(() => {
+  var routeStrings = browser.execute(() => {
       return window.FlowRouter._routes.map(x => x.pathDef)
     })
-  })
+
+    browser.pause(4000)
+    console.log("asdf", routeStrings)
 
   routeStrings.forEach(x => {
     it(`will fast-render route [${x}]`, function () {
