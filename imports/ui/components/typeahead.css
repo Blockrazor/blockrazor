@@ -1,7 +1,3 @@
-span.twitter-typeahead {
-  width: calc(100% - 3rem);
-}
-
 
 .typeahead.dropdown-menu,
 span.twitter-typeahead .tt-menu {
@@ -37,4 +33,15 @@ span.twitter-typeahead .tt-suggestion.tt-cursor:hover {
 
 label.active {
   color: #666 !important;
+}
+
+.typeahead-container .typeahead {
+  display: inline-block;
+  float: left;
+  width:15em;
+}
+
+.typeahead-container .typeahead-create-item {
+  display: inline-block;
+  float: right;
 }
