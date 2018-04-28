@@ -27,6 +27,16 @@ Template.walletTransactions.onCreated(function bodyOnCreated() {
 });
 
 Template.walletTransactions.helpers({
+  canDeposit: () => ~['xmr'].indexOf(FlowRouter.getParam('currency')),
+  hasPaymentId: () => ~['xmr'].indexOf(FlowRouter.getParam('currency')),
+  depositAddress: () => global[`_${FlowRouter.getParam('currency').toUpperCase()}Address`],
+  paymentId: () => {
+    let user = UserData.findOne({
+      _id: Meteor.userId()
+    })
+
+    return user.paymentId
+  },
   entry (){
     var filter = Template.instance().rewardType.get();
     var currencyType = Template.instance().currencyType;

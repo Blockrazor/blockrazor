@@ -4,6 +4,9 @@
     {{> notLoggedIn}}
   </div>
   <div class="wallet-body">
+    {{#if canDeposit}}
+    Deposit {{currencyType}} by sending coins to the following address: <b>{{depositAddress}}</b> {{#if hasPaymentId}}with the following payment id <b>{{paymentId}}</b>{{/if}}.
+    {{/if}}
     <div class="input-group pull-left pb-3">
       <select class="form-control rewardTypeFilter custom-select" id="js-type" name="type">
         <option disabled selected>--Select transaction type--</option>

@@ -3,7 +3,7 @@ import { UserData, Wallet, Currencies, Bids, Auctions } from '/imports/api/index
 import { check } from 'meteor/check'
 import { segmentEvent } from '/imports/api/analytics.js';
 
-const transfer = (to, from, message, amount, currency) => {
+export const transfer = (to, from, message, amount, currency) => {
 	UserData.upsert({
 		_id: to
 	}, {
