@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating'
 import { Currencies, Auctions, Bids, UserData } from '/imports/api/indexDB.js'
-import { FlowRouter } from 'meteor/staringatlights:flow-router'
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra'
 
 import './currencyAuction.template.html'
 

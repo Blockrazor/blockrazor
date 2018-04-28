@@ -1,4 +1,4 @@
-import {FlowRouter} from 'meteor/staringatlights:flow-router';
+import {FlowRouter} from 'meteor/ostrio:flow-router-extra';
 import {FastRender} from 'meteor/staringatlights:fast-render'
 import {SubsCache as Sub} from 'meteor/blockrazor:subscache-c4'
 

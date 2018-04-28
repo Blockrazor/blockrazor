@@ -1,4 +1,5 @@
 import { ActivityLog, Wallet, UserData } from '/imports/api/indexDB.js';
+import {FlowRouter} from 'meteor/ostrio:flow-router-extra';
 
 import './sideNav.html'
 import './sideNav.scss'
