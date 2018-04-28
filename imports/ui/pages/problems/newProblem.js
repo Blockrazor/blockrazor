@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating'
 import { UserData } from '/imports/api/indexDB'
-import { FlowRouter } from 'meteor/staringatlights:flow-router'
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra'
 import { newProblem } from '/imports/api/problems/methods'
 
 import './newProblem.html'
