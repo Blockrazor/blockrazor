@@ -36,24 +36,17 @@
 
 .currency-card {
   .top-redflag {
-    width: 100%;
-    margin-top: -20px !important;
-    .top-redflag-text {
-      float: right;
-      text-align: left;
-      padding-right: 10px;
-      max-width: calc(100% - 170px);
-      .fa {
-        position: absolute;
-        width: 20px;
-        padding-top: 3px;
-        display: inline-block;
-      }
-      .text{
-        padding-left: 20px;
-        width: 100%;
-        display: inline-block;
-      }
+    position: relative;
+    .fa {
+      position: absolute;
+      width: 20px;
+      padding: 5px 0 10px 0;
+      display: inline-block;
+    }
+    .text{
+      padding: 0 0 10px 20px;
+      max-width: 400px;
+      display: inline-block;
     }
   }
 }
