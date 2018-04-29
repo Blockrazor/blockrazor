@@ -330,6 +330,14 @@ Template.currencyInfo.events({
       }
     })
   },
+
+  // Cancel button on the modal to revert changes
+  'click #cancelChange': function (event) {
+    event.preventDefault();
+    $('#modal_new').val($('#modal_old').val());
+    $(`#${$('#modal_field').val()}`).text($('#modal_old').val());
+  },
+
   'click .contribute': function (event) {
     event.preventDefault();
     let slug = FlowRouter.getParam("slug");
