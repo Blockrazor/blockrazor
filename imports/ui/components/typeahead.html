@@ -1,4 +1,6 @@
 <template name="typeahead">
+  <!-- framework for rendering nothing found template -->
+    <script src="https://cdn.jsdelivr.net/npm/@nx-js/framework@1.0.0-beta.2.0.1/index.min.js"></script>
   <div class="typeahead-container">
     <input class="typeahead form-control" id={{id}} type="text" placeholder={{placeholder}}>
   {{#if customAddButtonExists}}

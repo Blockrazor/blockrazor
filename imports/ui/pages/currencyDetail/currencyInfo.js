@@ -456,7 +456,8 @@ Template.currencyInfo.helpers({
       displayField: "name", //field that appears in typeahead select menu
       placeholder: "Add Exchange",
       addButtonText: "Create Exchange",
-      customAddButtonExists: false,
+      customAddButtonExists: true,
+      noneFound: `@{value} doesn't exist, create and add it to @{parent.currency.currencyName}`
     }
   },
 });
