@@ -722,6 +722,15 @@ Template.addCoin.helpers({
             sAlert.error("This exchange already exist.")
           }
         })
+        Meteor.call("addExchange", input, (error, result) => { 
+          if (!error && result){ 
+            var exchanges = templ.exchanges.get()
+            exchanges.push(Exchanges.findOne(result))
+            templ.exchanges.set(exchanges)
+          }else { 
+            sAlert.error("This exchange already exist.") 
+          }
+      }) 
       },
       col: Exchanges, //collection to use
       template: Template.instance(), //parent template instance
