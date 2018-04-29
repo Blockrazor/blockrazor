@@ -9,6 +9,8 @@ import {
 } from '/imports/api/indexDB.js'
 
 import Cookies from 'js-cookie'
+import Chart from 'chart.js';
+
 
 import {
 	FlowRouter
