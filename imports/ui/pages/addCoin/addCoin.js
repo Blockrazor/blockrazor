@@ -730,10 +730,9 @@ Template.addCoin.helpers({
       quickEnter: true,
       displayField: "name", //field that appears in typeahead select menu
       placeholder: "Add Exchange",
-      results: Template.instance().typeAheadRes,
-      value: Template.instance().typeAheadValue,
       addButtonText: "Create Exchange",
-      customAddButtonExists: false,
+      customAddButtonExists: true,
+      noneFound: `@{value} doesn't exist, create and add it currency`
     }
   },
   exchanges(){
