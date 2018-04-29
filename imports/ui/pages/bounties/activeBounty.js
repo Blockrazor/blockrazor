@@ -23,6 +23,6 @@ Template.activeBounty.onRendered(function(){
 
 Template.activeBounty.onCreated(function(){
   this.autorun(() => {
-    SubsCache.subscribe('bounties', FlowRouter.getParam("_id"));
+    SubsCache.subscribe('bounty', FlowRouter.getParam("_id"));
   });
 });//Session.set('activeBountyRendered', true);

@@ -450,9 +450,9 @@ FlowRouter.route('/bounties', {
 });
 
 FlowRouter.route('/bounties/:_id', {
-  name: 'CurrencyDetail',
+  name: 'bounties-id',
   subscriptions: function (params) {
-    this.register('bounties', FastRenderer.subscribe('bounties', params._id));
+    this.register('bounty', FastRenderer.subscribe('bounty', params._id));
   },
   action: function (params, queryParams) {
     console.log("rendering activeBounty");
@@ -550,8 +550,8 @@ FlowRouter.route('/mypending', {
   name: 'mypending',
   subscriptions: function () {
     this.register('bounties', FastRenderer.subscribe('bounties'));
-    this.register('pendingcurrencies', FastRenderer.subscribe('pendingcurrencies'));
-    this.register('rejectedcurrencies', FastRenderer.subscribe('rejectedcurrencies'));
+    this.register('mypendingcurrencies', FastRenderer.subscribe('mypendingcurrencies'));
+    this.register('myrejectedcurrencies', FastRenderer.subscribe('myrejectedcurrencies'));
   },
   action: function (params, queryParams) {
     BlazeLayout.render('mainLayout', {main: 'userPendingCurrencies'});
@@ -790,7 +790,7 @@ adminRoutes.route('/flagged', {
 adminRoutes.route('/applogs', {
   name: 'app-logs',
   subscriptions: function (params) {
-    this.register('applogs', FastRenderer.subscribe('applogs', 1, 50))
+    this.register('applogs', FastRenderer.subscribe('applogs', 1, 100))
     this.register('users', FastRenderer.subscribe('users'))
   },
   action: (params, queryParams) => {
