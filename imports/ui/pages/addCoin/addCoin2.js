@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { developmentValidationEnabledFalse, FormData, Bounties, RatingsTemplates, HashAlgorithm } from '/imports/api/indexDB.js'; //database
+import { developmentValidationEnabledFalse, FormData, Bounties, RatingsTemplates, HashAlgorithm, Exchanges } from '/imports/api/indexDB.js'; //database
 import { 
   addCoin
 } from '/imports/api/coins/methods' 
@@ -7,6 +7,8 @@ import {
 import swal from 'sweetalert';
 import Cookies from 'js-cookie';
 import smartWizard from 'smartwizard';
+
+import '/imports/ui/components/typeahead'
 
 import './addCoin2.html'
 import './addCoin.scss'
@@ -151,6 +153,9 @@ Template.addCoin2.onCreated(function() {
 
   this.currencyNameMessage = new ReactiveVar(null)
   this.consensusSecurity = new ReactiveVar('')
+
+  //for typeahead
+  this.exchanges = new ReactiveVar([])
 
   this.autorun(() => {
     SubsCache.subscribe('currencyBounty')
@@ -297,6 +302,19 @@ if(!uploadError){
     Cookies.set('workingBounty', false, { expires: 1 })
     FlowRouter.go('/');
   },
+  'click .remove-exchange': function (event) {
+    let selectedExchangeId = $(event["target"]).data("id")
+    let exchanges = Template.instance().exchanges.get()
+    if (exchanges.length > 0){
+      exchanges.some(function(exchange, index){
+        if(exchange._id === selectedExchangeId) {
+          exchanges.splice(index, 1)
+          return true   // breaks loop iteration
+        }
+      })
+      Template.instance().exchanges.set(exchanges)
+    }
+  },
   'submit form': function (data) {
     data.preventDefault(); //is technically not suppose to be here as per comment #1, note return false in existence check
     var insert = {}; //clear insert dataset
@@ -388,7 +406,10 @@ if(!uploadError){
   // Start inserting data that may or may not exist
     if(d.confirmations) {addToInsert(d.confirmations.value, "confirmations")};
     if(d.previousNames) {addToInsert(makeTagArrayFrom(d.previousNames.value, "tag"), "previousNames")};
-    if(d.exchanges) {addToInsert(makeTagArrayFrom(d.exchanges.value, "name"), "exchanges")};
+    if(Template.instance().exchanges.get()) {
+      //simpleSchema clean() should just remove extra fields
+      addToInsert(Template.instance().exchanges.get(), "exchanges")
+    };
     addToInsert("launchTags");
     if(d.replayProtection) {addToInsert(d.replayProtection.value, "replayProtection")};
     if(d.blockTime) {addToInsert(d.blockTime.value, "blockTime")};
@@ -631,6 +652,56 @@ switch (val) {
     } else {
         return "This is a planned fork of the Bitcoin blockchain"
     }},
-    showAlgoField: () => Template.instance().showAlgoField.get()
-
-  });
+  showAlgoField: () => Template.instance().showAlgoField.get(),
+  typeaheadProps: function () {
+    return {
+      limit: 15,
+      query: function (templ, entry) {
+          return {
+            name: {
+              $nin: templ.exchanges.get().map(x=>x.name),
+              $regex: new RegExp(entry, 'ig')
+            }
+          }
+      },
+      projection: function (templ, entry) {
+        return {
+          limit: 15,
+          sort: {
+            name: 1
+          }
+        }
+      },
+      add: function (event, data, templ) {
+        if (data._id) {
+          var exchanges = templ.exchanges.get()
+          exchanges.push(data)
+          templ.exchanges.set(exchanges)
+        }
+      },
+      create: function (event, input, templ) {
+        Meteor.call("addExchange", input, (error, result) => {
+          if (!error && result) {
+            sAlert.error("This exchange has been created, but not added")
+          } else {
+            sAlert.error("This exchange already exist.")
+          }
+        })
+      },
+      col: Exchanges, //collection to use
+      template: Template.instance(), //parent template instance
+      focus: false,
+      autoFocus: true,
+      quickEnter: true,
+      displayField: "name", //field that appears in typeahead select menu
+      placeholder: "Add Exchange",
+      results: Template.instance().typeAheadRes,
+      value: Template.instance().typeAheadValue,
+      addButtonText: "Create Exchange",
+      customAddButtonExists: false,
+    }
+  },
+  exchanges(){
+    return Template.instance().exchanges.get()
+  }
+});

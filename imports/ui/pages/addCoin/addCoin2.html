@@ -156,7 +156,21 @@
                     {{/unless}}
                     <br />
                     <h5 class="card-title">Exchanges</h5>
-                    <textarea class="form-control" id="exchanges" rows="4" placeholder="Exchanges separated with commas (,). Look to the right for examples =>" name="exchanges" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'exchanges'}}"></textarea>
+                    <div class="exchange-typeahead">
+                      {{> typeahead typeaheadProps}}
+                    </div>
+                    <div class="exchanges-list form-control" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'exchanges'}}" data-trigger="hover">
+                      {{#each exchanges}}
+                      <span class="exchange-item">
+                        <button type="button" class="remove-exchange fa fa-times-circle" data-id="{{_id}}"></button>
+                        {{name}}
+                      </span>
+                      {{else}}
+                      <span class="no-exchanges">
+                        No exchanges added
+                      </span>
+                      {{/each}}
+                    </div>
                     {{/if}}
                 </div>
                 <div id="step-5" class="p-4">

@@ -305,6 +305,19 @@ Template.addCoin.events({
     })
     FlowRouter.go('/');
   },
+  'click .remove-exchange': function (event) {
+    let selectedExchangeId = $(event["target"]).data("id")
+    let exchanges = Template.instance().exchanges.get()
+    if (exchanges.length > 0){
+      exchanges.some(function(exchange, index){
+        if(exchange._id === selectedExchangeId) {
+          exchanges.splice(index, 1)
+          return true   // breaks loop iteration
+        }
+      })
+      Template.instance().exchanges.set(exchanges)
+    }
+  },
   'submit form': function (data) {
     data.preventDefault(); //is technically not suppose to be here as per comment #1, note return false in existence check
     var insert = {}; //clear insert dataset
@@ -406,9 +419,9 @@ Template.addCoin.events({
     if (d.previousNames) {
       addToInsert(makeTagArrayFrom(d.previousNames.value, "tag"), "previousNames")
     };
-    if (d.exchanges) {
+    if (Template.instance().exchanges.get()) {
       //simpleSchema clean() should just remove extra fields
-      addToInsert(templ.exchanges.get(), "exchanges")
+      addToInsert(Template.instance().exchanges.get(), "exchanges")
     };
     addToInsert("launchTags");
     if (d.replayProtection) {

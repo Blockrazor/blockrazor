@@ -1,3 +1,6 @@
+span.twitter-typeahead .tt-input, span.twitter-typeahead .tt-hint {
+  max-width: 200px;
+}
 
 .typeahead.dropdown-menu,
 span.twitter-typeahead .tt-menu {
@@ -41,7 +44,7 @@ label.active {
   width:15em;
 }
 
-.typeahead-container .typeahead-create-item {
+.typeahead-container .createItem {
   display: inline-block;
   float: right;
 }
