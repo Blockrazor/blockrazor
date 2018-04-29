@@ -10,3 +10,31 @@
 		width: calc(100%/6) !important;
 	}
 }
+
+.exchanges-list {
+  min-height: 30px;
+  width: 100%;
+  background: white;
+  padding: 10px 0 0 10px;
+  margin-top: 5px;
+  .exchange-item {
+    display: inline-block;
+    background-color: #f5f5f5;
+    font-family: "Exo";
+    border-radius: 2px;
+    padding: 5px;
+    margin: 0 10px 10px 0;
+    .remove-exchange{
+      outline: none;
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+      font-size: 16px;
+    }
+  }
+  .no-exchanges {
+    display: inline-block;
+    padding: 5px;
+    margin: 0 10px 10px 0;
+  }
+}
