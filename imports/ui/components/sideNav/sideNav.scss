@@ -1,10 +1,8 @@
 #sidebar {
   position: fixed;
   top: 60px !important;
-  overflow-y: hidden;
   min-width: 225px;
-  max-width: 225px;
-  min-height: 100vh;
+  height: 100%;
   margin-left: -225px;
   background: #ddd;
   transition: all 0.2s ease;
@@ -56,12 +54,6 @@
 
 /** following styles added after sidebar submenu concept implemented **/
 .nav-side-menu-container {
-  overflow-y: scroll;
-  max-height: calc(100vh - 60px);
-  position: absolute;
-  left: 0;
-  right: -25px;
-
   .sign-in-button {
     margin-bottom: 15px;
   }
@@ -71,7 +63,6 @@
   font-size: 12px;
   font-weight: 200;
   background-color: #ddd;
-  width: 225px;
   height: 100%;
   color: #e1ffff;
   position: relative;

@@ -21,5 +21,17 @@
 
 #sidebar {
   top:86px !important;
-  overflow: scroll;
+  .nav-side-close > a {
+    width: 32px;
+    height: 32px;
+    text-decoration: none;
+    // Center the icon.
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // Position the link right next to the sidebar.
+    position: absolute;
+    right: -32px;
+    background-color: #ddd;
+  }
 }

@@ -7,6 +7,9 @@
 
       <nav id="sidebar" class="{{openSidebar}}">
         {{> sideNav}}
+        <div class="nav-side-close">
+          <a class="nav-side-close-btn" href="#"><i class="fa {{#if openSidebar}}fa-caret-left{{else}}fa-caret-right{{/if}}" aria-hidden="true"></i></a>
+        </div>
       </nav>
       <div id="content" class="app-content container">
           {{> Template.dynamic template=main}}
