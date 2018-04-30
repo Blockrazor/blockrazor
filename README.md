@@ -31,19 +31,12 @@ Note: if you want to edit things and send a pull request you should _fork_ this 
 #### Install Dependencies   
 ```
 meteor npm install
-```   
-
-#### Set environment variables for local usage
-`export ROOT_URL=http://localhost:3000`    
-`export HTTP_FORWARDED_COUNT=0`    
-
-For blockrazor.org production server:   
-`export ROOT_URL=https://blockrazor.org`
-`export HTTP_FORWARDED_COUNT=1`
+```
 
 #### Run meteor
-`meteor`   
-(use `meteor --production` to minify everything and simulate production speeds
+`npm start`
+(use `npm run prod` to minify everything and simulate production speeds)
+(use `npm run debug` to start Meteor in debug mode)
 
 If Meteor starts but you get a white screen:
 ```

@@ -57,6 +57,8 @@ typings/
 # dotenv environment variables file
 .env
 
+# Build directory for 'npm run build'
+dist/
 
 \.vscode/
 

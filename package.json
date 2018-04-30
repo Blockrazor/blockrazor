@@ -3,8 +3,13 @@
   "private": true,
   "version": "0.0.1",
   "scripts": {
-    "start": "meteor run",
-    "debug": "meteor run --inspect",
+    "build": "meteor build ./dist",
+    "start": "npm run start:dev",
+    "prod": "npm run start:prod",
+    "debug": "npm run start:debug",
+    "start:dev": "./node_modules/.bin/cross-env ROOT_URL=http://localhost:3000 HTTP_FORWARDED_COUNT=0 meteor run",
+    "start:prod": "./node_modules/.bin/cross-env ROOT_URL=https://blockrazor.org HTTP_FORWARDED_COUNT=1 meteor run --production",
+    "start:debug": "npm run start:dev --inspect",
     "lint": "./node_modules/.bin/eslint . --fix",
     "test": "jest --testMatch \"**/?(*.)(jest-test).js?(x)\" --passWithNoTests --watch"
   },
@@ -47,6 +52,7 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "blaze-renderer": "^0.9.0",
+    "cross-env": "^5.1.4",
     "eslint": "^4.19.1",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-import": "^2.10.0",
