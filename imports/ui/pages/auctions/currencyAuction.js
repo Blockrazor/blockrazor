@@ -127,7 +127,7 @@ Template.currencyAuction.helpers({
 			template: Template.instance(), //parent template instance
 			focus: false,
 			autoFocus: false,
-			quickEnter: true,
+			quickEnter: false,
 			displayField: "currencyName", //field that appears in typeahead select menu
 			placeholder: "Search cryptocurrencies"
 		}
@@ -155,7 +155,7 @@ Template.currencyAuction.events({
 	    // this replacement line no longer necessary after updating the currncy symbol of Krazor in the database 
 	    // currencySymbol = currencySymbol === 'ZKR' ? 'KZR' : currencySymbol  // TODO: remove this replacement line after updating the database
 
-		if (parseFloat($('#js-amount').val()) > 0 && templateInstance.selectedId.get()) {
+		if (parseFloat($('#js-amount').val()) > 0 && templateInstance.selectedId.get() != "") {
 			Meteor.call('placeBid', 'top-currency', parseFloat($('#js-amount').val()), {
 				type: 'currency',
 				currency: templateInstance.selectedId.get()
