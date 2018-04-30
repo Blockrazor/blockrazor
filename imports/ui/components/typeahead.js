@@ -81,7 +81,11 @@ Template.typeahead.onCreated(function () {
         })
         ele.$cleanup(() => autorun.stop())
       }
-      nx.components.app()
+      nx.component({root: true,})//s.app({root: true})
+      .useOnContent(nx.middlewares.observe)
+      .useOnContent(nx.middlewares.interpolate)
+      .useOnContent(nx.middlewares.attributes)
+      .useOnContent(nx.middlewares.events)
         .use(passTemplates)
         .use((ele, state) => {
           if (!state.typeahead.data.create || state.clicked || !state.typeahead.data.customAddButtonExists) {
