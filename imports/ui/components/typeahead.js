@@ -69,36 +69,38 @@ Template.typeahead.onCreated(function () {
   this.data.autoFocus = this.data.autoFocus === undefined ? false : this.data.autoFocus
   this.data.quickEnter = this.data.quickEnter === undefined ? true : this.data.quickEnter
   if (this.data.noneFound) {
-    this.noneFound = ()=>"<" + this.id + "> <span #click='clicked()'>" + this.data.noneFound + "</span></" + this.id + ">"
-      //create web component with nx-framework for nothing found template rendering
-      //produces "module is not defined" error for no good reason while working
-      var self = this
-      var passTemplates = function (ele, state) {
-        state.typeahead = self
-        state.parent = self.data.template
-        var autorun = Tracker.autorun(() => {
-          state.value = state.typeahead.value.get()
-        })
-        ele.$cleanup(() => autorun.stop())
-      }
-      nx.component({root: true,})//s.app({root: true})
+    this.noneFound = () => "<" + this.id + "> <span #click='clicked()'>" + this.data.noneFound + "</span></" + this.id + ">"
+    //create web component with nx-framework for nothing found template rendering
+    //produces "module is not defined" error for no good reason while working
+    var self = this
+    var passTemplates = function (ele, state) {
+      state.typeahead = self
+      state.parent = self.data.template
+      var autorun = Tracker.autorun(() => {
+        state.value = state.typeahead.value.get()
+      })
+      ele.$cleanup(() => autorun.stop())
+    }
+    nx.component({
+        root: true,
+      }) //s.app({root: true})
       .useOnContent(nx.middlewares.observe)
       .useOnContent(nx.middlewares.interpolate)
       .useOnContent(nx.middlewares.attributes)
       .useOnContent(nx.middlewares.events)
-        .use(passTemplates)
-        .use((ele, state) => {
-          if (!state.typeahead.data.create || state.clicked || !state.typeahead.data.customAddButtonExists) {
-            return
-          }
-  
-          state.clicked = function (eve) {
-            state.typeahead.data.create(eve, state.value, state.typeahead.data.template)
-          }
-        })
-        .register(this.id)
+      .use(passTemplates)
+      .use((ele, state) => {
+        if (!state.typeahead.data.create || state.clicked || !state.typeahead.data.customAddButtonExists) {
+          return
+        }
+
+        state.clicked = function (eve) {
+          state.typeahead.data.create(eve, state.value, state.typeahead.data.template)
+        }
+      })
+      .register(this.id)
   } else {
-    this.noneFound = ()=>`nothing found`
+    this.noneFound = () => `nothing found`
   }
 
   this.results = new ReactiveVar([])
@@ -132,6 +134,24 @@ Template.typeahead.onCreated(function () {
       results.set(this.results.get())
     }
   })
+
+  // this destroy/init dance is required since you can't open menu without refocusing after select
+  // and the below
+  // used to keep typeahead data source reactive or after events that change source, running currySearch callback- CB- within autorun will not update selection menu
+  // reset = false for use inside tracker, true for events
+  this.updateSource = function (reset = false, autoFocus = this.data.autoFocus) {
+    if (document.activeElement === document.getElementById(this.id)) {
+      $(this.ele).typeahead('destroy')
+      $(this.ele).typeahead(this.option1, this.option2)
+      if (reset) $(this.ele).typeahead('val', ''); //reset only on event
+      if (autoFocus) {
+        $(this.ele).focus()
+      }
+    } else {
+      $(this.ele).typeahead('destroy')
+      $(this.ele).typeahead(this.option1, this.option2)
+    }
+  }
 
   //initialize typeahead, is used onRendered
   this.init = () => {
@@ -177,10 +197,11 @@ Template.typeahead.onCreated(function () {
       }
     }
 
-    function curryEvent(template) {
+    function curryEvent(template, typeahead) {
       return function (event, value) {
         // typeahead renitiliazed reactively
         props.add(event, value, template)
+        typeahead.updateSource(true, typeahead.data.autoFocus)
       }
     }
 
@@ -188,17 +209,15 @@ Template.typeahead.onCreated(function () {
 
     //adds first found entry in autocomplete on enter keypress
     if (props.quickEnter) {
-      $(this.ele).on('keyup', {
+      $(this.ele).off("keyup").on('keyup', {
         templ: props.template,
         typeahead: Template.instance()
       }, (event) => {
-        if ($(this.ele).val() === '') { // if the input has been emptied, reset the saved value
-          curryEvent(event.data.templ, event.data.typeahead)(null, '')
-        }
         if (event.keyCode == 13) {
           var a = event.data.typeahead.search(event.target.value)
+          a = a.length ? a[0] : null
           if (a) {
-            curryEvent(event.data.templ, event.data.typeahead)(null, a)
+            curryEvent(event.data.templ, event.data.typeahead)(event, a)
           }
         }
       });
@@ -225,27 +244,9 @@ Template.typeahead.onRendered(function () {
   //initialize typeahead
   this.init()
 
-  // this destroy/init dance is required since you can't open menu without refocusing after select
-  // and the below
-  // used to keep typeahead data source reactive or after events that change source, running currySearch callback- CB- within autorun will not update selection menu
-  this.updateSource = function () {
-    if (document.activeElement === document.getElementById(this.id)) {
-      $(this.ele).typeahead('destroy')
-      $(this.ele).blur()
-      $(this.ele).typeahead(this.option1, this.option2)
-      $(this.ele).typeahead('val', '');
-      if (this.data.autoFocus, this.data) {
-        $(this.ele).focus()
-      }
-    } else {
-      $(this.ele).typeahead('destroy')
-      $(this.ele).typeahead(this.option1, this.option2)
-    }
-  }
-
   this.autorun(() => {
-    //this search is only meant to react to reactive variables rather than collection observer changes, otherwise if user types the input is just reset
-    var a = this.search("////////////////////////////////////////////////////////////////")
+    //this search is meant to update typeahead menu source, and possible in reaction to reactiveVars outside control of typeahead
+    var a = this.search(this.value.get())
     this.updateSource()
   })
 })
@@ -267,11 +268,10 @@ Template.typeahead.helpers({
   },
   customAddButtonExists: () => {
     //convert to true for if statement in spacebars, that is false for button existence should produce true in spacebars if block
-    return Template.instance().data.customAddButtonExists == undefined ? true : !Template.instance().data.customAddButtonExists
+    return Template.instance().data.customAddButtonExists == undefined ? false : !Template.instance().data.customAddButtonExists
   },
   activateCreateButton: () => {
     var templ = Template.instance()
-    // console.log(templ.results.get(), templ.value.get())
     if (templ.results.get().length == 0 && templ.value.get().replace(/\s/g, "") != "") {
       return ""
     } else {
@@ -289,7 +289,7 @@ Template.typeahead.events({
   },
   'click .createItem': function (event, templ) {
     templ.data.create(event, templ.value.get(), templ.data.template)
-    templ.updateSource()
+    templ.updateSource(true, templ.data.autoFocus)
     $(templ.ele).focus()
   }
 })
