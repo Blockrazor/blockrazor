@@ -4,6 +4,8 @@ import {
 import {
   GraphData,
 } from '/imports/api/indexDB.js';
+import {FlowRouter} from 'meteor/ostrio:flow-router-extra';
+
 import Chart from 'chart.js';
 
 import './radarGraph.html'

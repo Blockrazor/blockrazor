@@ -30,34 +30,37 @@ function closingWindow(){
   Meteor.call("sidebarPreference", Session.get("openedSidebarPreference"), UserData.findOne(Meteor.userId()).screenSize)
 }
 
+function navbarToggle(event) {
+  event.preventDefault();
+  Session.set("openedSidebar", !Session.get('openedSidebar'))
+  var screen = Session.get("screenSize")
+  //if is mobile then sidebar will just close constantly with no option to keep it open outside actual usage
+  if (screen == 0) {
+    return
+  }
+  var val = Session.get('openedSidebar')
+  var temp = Template.instance()
+  var user = temp.user.get()
+  if (!user) {
+    return
+  }
+  var pref = Session.get("openedSidebarPreference")
+  if (val == true) {
+    if (screen < pref) {
+      //adjust pref because user wants menu opened at screenSize smaller than current preference
+      Session.set('openedSidebarPreference', screen)
+    }
+  } else {
+    if (screen > pref) {
+      //adjust pref because user wants menu closed at screenSize bigger than current preference
+      Session.set('openedSidebarPreference', 1+screen)
+    }
+  }
+}
+
 Template.mainLayout.events({
-  'click #navbar-toggler': function (event) {
-    event.preventDefault();
-    Session.set("openedSidebar", !Session.get('openedSidebar')) 
-    var screen = Session.get("screenSize") 
-    //if is mobile then sidebar will just close constantly with no option to keep it open outside actual usage 
-    if (screen == 0) { 
-      return 
-    } 
-    var val = Session.get('openedSidebar') 
-    var temp = Template.instance() 
-    var user = temp.user.get()
-    if (!user) { 
-      return 
-    } 
-    var pref = Session.get("openedSidebarPreference")
-    if (val == true) { 
-      if (screen < pref) { 
-        //adjust pref because user wants menu opened at screenSize smaller than current preference 
-        Session.set('openedSidebarPreference', screen)
-      } 
-    } else { 
-      if (screen > pref) { 
-        //adjust pref because user wants menu closed at screenSize bigger than current preference 
-        Session.set('openedSidebarPreference', 1+screen)
-      } 
-    } 
-  },
+  'click #navbar-toggler': navbarToggle,
+  'click .nav-side-close-btn': navbarToggle,
   "click #hideDevelopmentNotification": (eve, templ) => {
       return Cookies.set('underDevelopmentShown', true, 5)
   },

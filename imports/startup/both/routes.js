@@ -1,4 +1,4 @@
-import {FlowRouter} from 'meteor/staringatlights:flow-router';
+import {FlowRouter} from 'meteor/ostrio:flow-router-extra';
 import {FastRender} from 'meteor/staringatlights:fast-render'
 import {SubsCache as Sub} from 'meteor/blockrazor:subscache-c4'
 
@@ -10,62 +10,63 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   FastRenderer = {subscribe(){}} // stub out subscription calls since duplicate subscriptions with different params will not be considered one by SubsCache, and will break fast-render is there's disconnected between parameters used
   
     //ubiquitous components
-    import '../../ui/components/loading.js'
-    import '../../ui/components/empty.html'
+    import '/imports/ui/components/loading.js'
+    import '/imports/ui/components/empty.html'
 
     //pages
-  import '../../ui/layouts/MainBody.html'
-  import '../../ui/pages/changedCurrencies/changedCurrencies.js'
-  import '../../ui/pages/allHashpower/allHashpower'
-  import '../../ui/pages/compareCurrencies/compareCurrencies'
-  import '../../ui/pages/userProfile/userProfile'
-  import '../../ui/pages/transactions/transactions'
-  import '../../ui/pages/returnedCurrencies/returnedCurrencies.js'
-  import '../../ui/pages/ratings/ratings.js'
-  import '../../ui/pages/theme.html'
-  import '../../ui/pages/communities/communities'
-  import '../../ui/pages/codebase/codebase'
-  import '../../ui/pages/developers/developers'
-  import '../../ui/pages/editProfile/editProfile'
-  import '../../ui/pages/bounties/bounties'
-  import '../../ui/pages/addCoin/addCoin'
-  import '../../ui/pages/addCoin/addCoin2' //temp page for addcoin, to be merged into addCoin
-  import '../../ui/pages/currencyDetail/currencyDetail'
-  import '../../ui/pages/userPendingCurrencies/userPendingCurrencies'
-  import '../../ui/pages/activityLog/activityLog'
-  import '../../ui/pages/wallet/wallet'
-  import '../../ui/pages/wallet/walletTransactions'
-  import '../../ui/pages/signin/signin'
-  import '../../ui/pages/signup/signup'
-  import '../../ui/pages/auctions/currencyAuction'
-  import '../../ui/pages/auctions/allAuctions'
-  import '../../ui/pages/auctions/bidAuction'
-  import '../../ui/pages/auctions/newAuction'
-  import '../../ui/pages/problems/problems'
-  import '../../ui/pages/problems/newProblem'
-  import '../../ui/pages/problems/problem'
-  import '../../ui/pages/allHashaverage/allHashaverage'
-  import '../../ui/pages/addHashpower/addHashpower.js'
-  import '../../ui/pages/suspended/suspended'
-  import '../../ui/pages/distribution/distribution'
-  import '../../ui/pages/faq/faq.html'
-  import '../../ui/pages/exchanges/exchanges'
+  import '/imports/ui/layouts/MainBody.html'
+  // import '/imports/ui/pages/changedCurrencies/changedCurrencies.js'
+  // import '/imports/ui/pages/allHashpower/allHashpower'
+  // import '/imports/ui/pages/compareCurrencies/compareCurrencies'
+  // import '/imports/ui/pages/userProfile/userProfile'
+  // import '/imports/ui/pages/transactions/transactions'
+  // import '/imports/ui/pages/returnedCurrencies/returnedCurrencies.js'
+  // import '/imports/ui/pages/ratings/ratings.js'
+  // import '/imports/ui/pages/theme.html'
+  // import '/imports/ui/pages/communities/communities'
+  // import '/imports/ui/pages/codebase/codebase'
+  // import '/imports/ui/pages/developers/developers'
+  // import '/imports/ui/pages/editProfile/editProfile'
+  // import '/imports/ui/pages/bounties/bounties'
+  // import '/imports/ui/pages/addCoin/addCoin'
+  // import '/imports/ui/pages/currencyDetail/currencyDetail'
+  // import '/imports/ui/pages/userPendingCurrencies/userPendingCurrencies'
+  import '/imports/ui/pages/activityLog/activityLog'
+  import '/imports/ui/pages/wallet/wallet'
+  // import '/imports/ui/pages/wallet/walletTransactions'
+  import '/imports/ui/pages/signin/signin'
+  import '/imports/ui/pages/signup/signup'
+  // import '/imports/ui/pages/auctions/currencyAuction'
+  // import '/imports/ui/pages/auctions/allAuctions'
+  // import '/imports/ui/pages/auctions/bidAuction'
+  // import '/imports/ui/pages/auctions/newAuction'
+  // import '/imports/ui/pages/problems/problems'
+  // import '/imports/ui/pages/problems/newProblem'
+  // import '/imports/ui/pages/problems/problem'
+  import '/imports/ui/pages/allHashaverage/allHashaverage'
+  import '/imports/ui/pages/addHashpower/addHashpower.js'
+  import '/imports/ui/pages/suspended/suspended'
+  import '/imports/ui/pages/distribution/distribution'
+  import '/imports/ui/pages/faq/faq.html'
+  // import '../../ui/pages/addCoin/addCoin2' //temp page for addcoin, to be merged into addCoin
+  import '/imports/ui/pages/exchanges/exchanges'
+
 
 
   //moderator pages
-  import '../../ui/pages/moderator/moderatorDash/moderatorDash'
-  import '../../ui/pages/moderator/questions/questions'
-  import '../../ui/pages/moderator/flaggedUsers/flaggedUsers'
-  import '../../ui/pages/moderator/flaggedUsers/flaggedIP'
-  import '../../ui/pages/moderator/candidates/candidates.js'
-  import '../../ui/pages/moderator/hashpower/flaggedHashpower'
-  import '../../ui/pages/moderator/appLogs/appLogs'
-  import '../../ui/pages/moderator/problems/solvedProblems'
-  import '../../ui/pages/moderator/pardon/pardon'
-  import '../../ui/pages/moderator/flagged/flagged'
+  // import '/imports/ui/pages/moderator/moderatorDash/moderatorDash'
+  // import '/imports/ui/pages/moderator/questions/questions'
+  // import '/imports/ui/pages/moderator/flaggedUsers/flaggedUsers'
+  // import '/imports/ui/pages/moderator/flaggedUsers/flaggedIP'
+  // import '/imports/ui/pages/moderator/candidates/candidates.js'
+  // import '/imports/ui/pages/moderator/hashpower/flaggedHashpower'
+  // import '/imports/ui/pages/moderator/appLogs/appLogs'
+  // import '/imports/ui/pages/moderator/problems/solvedProblems'
+  // import '/imports/ui/pages/moderator/pardon/pardon'
+  // import '/imports/ui/pages/moderator/flagged/flagged'
 
   // New Layout doesn't use side Template.dynamic side
-  import '../../ui/layouts/mainLayout/mainLayout'
+  import '/imports/ui/layouts/mainLayout/mainLayout'
 
   //Stylesheet
 } else {
@@ -80,7 +81,9 @@ FlowRouter.triggers.enter([ () => { window.scrollTo(0, 0); }, () => {
     })
 
     if (user && user.suspended) {
-      FlowRouter.go('/suspended') // redirect all suspended users here
+      if (!~['problems', 'problem', 'new-problem'].indexOf(FlowRouter.getRouteName())) { // let suspended users access problems page
+        FlowRouter.go('/suspended') // redirect all suspended users here
+      }
     }
   })
 } ])
@@ -107,7 +110,10 @@ FlowRouter.route('/profile/:slug', {
     this.register('userdataSlug', FastRenderer.subscribe('userdataSlug', params.slug))
     this.register('user', FastRenderer.subscribe('user', params.slug))
     this.register('comments', FastRenderer.subscribe('comments'))
-  },
+  }, 
+  waitOn() { 
+    return import ('/imports/ui/pages/userProfile/userProfile')
+  }, 
   action: function (params, queryParams) {
     BlazeLayout.render('mainLayout', {
       main: 'userProfile'
@@ -126,6 +132,9 @@ FlowRouter.route('/faq', {
 
 FlowRouter.route('/profile', {
   name: 'profile',
+  waitOn(){
+    return import ('/imports/ui/pages/editProfile/editProfile')
+  },
   action: () => {
      FlowRouter.go('/profile/' + Meteor.user().slug)
   }
@@ -137,7 +146,10 @@ FlowRouter.route('/compareCurrencies/:currencies?', {
     this.register('approvedcurrencies', FastRenderer.subscribe('approvedcurrencies'))
     this.register('features', FastRenderer.subscribe('features'))
     this.register('redflags', FastRenderer.subscribe('redflags'))
-  },
+  }, 
+  waitOn() { 
+    return   import( '/imports/ui/pages/compareCurrencies/compareCurrencies')
+  }, 
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {
       main: 'compareCurrencies',
@@ -152,7 +164,10 @@ FlowRouter.route('/currencyAuction', {
     this.register('approvedcurrencies', FastRenderer.subscribe('approvedcurrencies'))
     this.register('auction', FastRenderer.subscribe('auction', 'top-currency'))
     this.register('bids', FastRenderer.subscribe('bids', 'top-currency'))
-  },
+  }, 
+  waitOn() { 
+    return import ('/imports/ui/pages/auctions/currencyAuction')
+  }, 
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {
       main: 'currencyAuction',
@@ -167,7 +182,10 @@ FlowRouter.route('/auctions', {
     this.register('auctions', FastRenderer.subscribe('auctions'))
     this.register('publicUserData', FastRenderer.subscribe('publicUserData'))
     this.register('approvedcurrencies', FastRenderer.subscribe('approvedcurrencies'))
-  },
+  }, 
+  waitOn() { 
+    return import ('/imports/ui/pages/auctions/allAuctions')
+  }, 
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {
       main: 'allAuctions',
@@ -184,7 +202,10 @@ FlowRouter.route('/auction/:id', {
     this.register('bids', FastRenderer.subscribe('bids', params.id))
     this.register('publicUserData', FastRenderer.subscribe('publicUserData'))
     this.register('approvedcurrencies', FastRenderer.subscribe('approvedcurrencies'))
-  },
+  }, 
+  waitOn() { 
+    return import ('/imports/ui/pages/auctions/bidAuction')
+  }, 
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {
       main: 'bidAuction',
@@ -197,7 +218,10 @@ FlowRouter.route('/new-auction', {
   name: 'new-auction',
   subscriptions: function (params) {
     this.register('publicUserData', FastRenderer.subscribe('publicUserData'))
-  },
+  }, 
+  waitOn() { 
+    return import ('/imports/ui/pages/auctions/newAuction')
+  }, 
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {
       main: 'newAuction',
@@ -210,7 +234,10 @@ FlowRouter.route('/suspended', {
   name: 'suspended',
   subscriptions: function(params) {
     this.register('myUserData', FastRenderer.subscribe('myUserData'))
-  },
+  }, 
+  waitOn() { 
+    return null 
+  }, 
   action: (params, queryParams) => {
     let user = Meteor.userId() && Meteor.users.findOne({
       _id: Meteor.userId()
@@ -229,7 +256,10 @@ FlowRouter.route('/problems', {
   subscriptions: function (params) {
     this.register('users', FastRenderer.subscribe('users'))
     this.register('problems', FastRenderer.subscribe('problems'))
-  },
+  }, 
+  waitOn() { 
+    return   import ('/imports/ui/pages/problems/problems')
+  }, 
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {
       main: 'problems',
@@ -243,7 +273,10 @@ FlowRouter.route('/problem/:id', {
   subscriptions: function (params) {
     this.register('problem', FastRenderer.subscribe('problem', params.id))
     this.register('users', FastRenderer.subscribe('users'))
-  },
+  }, 
+  waitOn() { 
+    return import ('/imports/ui/pages/problems/problem')
+  }, 
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {
       main: 'problem',
@@ -254,6 +287,9 @@ FlowRouter.route('/problem/:id', {
 
 FlowRouter.route('/new-problem', {
   name: 'new-problem',
+  waitOn() {
+    return import ('/imports/ui/pages/problems/newProblem')
+  },
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {
       main: 'newProblem',
@@ -266,7 +302,10 @@ FlowRouter.route('/transactions/:page?', {
   name: 'transactions',
   subscriptions: function (params) {
     this.register('users', FastRenderer.subscribe('users'))
-  },
+  }, 
+  waitOn() { 
+    return import ('/imports/ui/pages/transactions/transactions')
+  }, 
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {
       main: 'transactions',
@@ -282,6 +321,9 @@ FlowRouter.route('/', {
     this.register('dataQualityCurrencies', FastRenderer.subscribe('dataQualityCurrencies', 15));
     this.register('graphdata', FastRenderer.subscribe('graphdata'))
     this.register('redflagsHome', FastRenderer.subscribe('redflagsHome'))
+  },
+  waitOn(){
+    return   import ('/imports/ui/pages/returnedCurrencies/returnedCurrencies.js')
   },
   action() {
     BlazeLayout.render('mainLayout', {
@@ -318,6 +360,9 @@ FlowRouter.route('/ratings', {
     this.register('walletBounty', FastRenderer.subscribe('walletBounty'));
     this.register('walletimages', FastRenderer.subscribe('walletimages'));
   },
+  waitOn(){
+    return   import ('/imports/ui/pages/ratings/ratings.js')
+  },
   action() {
     BlazeLayout.render('mainLayout', {
       main: 'ratings',
@@ -328,6 +373,9 @@ FlowRouter.route('/ratings', {
 
 FlowRouter.route('/theme', {
   name: 'theme',
+  waitOn() {
+    return import ('/imports/ui/pages/theme.html')
+  },
   action() {
     BlazeLayout.render('mainLayout', {
       main: 'theme',
@@ -344,7 +392,10 @@ FlowRouter.route('/add-hashpower', {
     this.register('hashalgorithm', FastRenderer.subscribe('hashalgorithm'));
     this.register('hashunits', FastRenderer.subscribe('hashunits'));
     this.register('hashpowerBounty', FastRenderer.subscribe('hashpowerBounty'));
-  },
+  }, 
+  waitOn() { 
+    return null 
+  }, 
   action: () => {
     BlazeLayout.render('mainLayout', {
       main: 'addHashpower',
@@ -358,7 +409,10 @@ FlowRouter.route('/avg-hashpower', {
   subscriptions: function () {
     this.register('hashaverage', FastRenderer.subscribe('hashaverage'));
     this.register('hashalgorithm', FastRenderer.subscribe('hashalgorithm'));
-  },
+  }, 
+  waitOn() { 
+    return null 
+  }, 
   action: () => {
     BlazeLayout.render('mainLayout', {
       main: 'allHashaverage',
@@ -374,7 +428,10 @@ FlowRouter.route('/hashpower', {
     this.register('hashhardware', FastRenderer.subscribe('hashhardware'));
     this.register('hashalgorithm', FastRenderer.subscribe('hashalgorithm'));
     this.register('hashunits', FastRenderer.subscribe('hashunits'));
-  },
+  }, 
+  waitOn() { 
+    return   import ('/imports/ui/pages/allHashpower/allHashpower')
+  }, 
   action: () => {
     BlazeLayout.render('mainLayout', {
       main: 'allHashpower',
@@ -389,7 +446,10 @@ FlowRouter.route('/communities', {
     this.register('approvedcurrencies', FastRenderer.subscribe('approvedcurrencies'));
     this.register('ratings', FastRenderer.subscribe('ratings'));
     this.register('communityBounty', FastRenderer.subscribe('communityBounty'));
-  },
+  }, 
+  waitOn() { 
+    return  import ('/imports/ui/pages/communities/communities')
+  }, 
   action: () => {
     BlazeLayout.render('mainLayout', {
       main: 'communities',
@@ -404,7 +464,10 @@ FlowRouter.route('/codebase', {
     this.register('approvedcurrencies', FastRenderer.subscribe('approvedcurrencies'));
     this.register('ratings', FastRenderer.subscribe('ratings'));
     this.register('codebaseBounty', FastRenderer.subscribe('codebaseBounty'));
-  },
+  }, 
+  waitOn() { 
+    return import( '/imports/ui/pages/codebase/codebase')
+  }, 
   action: () => {
     BlazeLayout.render('mainLayout', {
       main: 'codebase',
@@ -417,7 +480,10 @@ FlowRouter.route('/developers', {
   name: 'developers',
   subscriptions: function () {
     this.register('developers', FastRenderer.subscribe('developers'));
-  },
+  }, 
+  waitOn() { 
+    return import ('/imports/ui/pages/developers/developers')
+  }, 
   action: () => {
     BlazeLayout.render('mainLayout', {
       main: 'developers',
@@ -438,6 +504,9 @@ FlowRouter.route('/bounties', {
     this.register('bountyLastHash', FastRenderer.subscribe('bountyLastHash'))
     this.register('bountyLastCurrency', FastRenderer.subscribe('bountyLastCurrency'))
   },
+  waitOn(){
+    return   import ('/imports/ui/pages/bounties/bounties')
+  },
   action() {
     BlazeLayout.render('mainLayout', {
       main: 'bounties',
@@ -448,9 +517,9 @@ FlowRouter.route('/bounties', {
 });
 
 FlowRouter.route('/bounties/:_id', {
-  name: 'CurrencyDetail',
+  name: 'bounties-id',
   subscriptions: function (params) {
-    this.register('bounties', FastRenderer.subscribe('bounties', params._id));
+    this.register('bounty', FastRenderer.subscribe('bounty', params._id));
   },
   action: function (params, queryParams) {
     console.log("rendering activeBounty");
@@ -471,7 +540,10 @@ FlowRouter.route('/addcoin', {
     this.register('exchanges', FastRenderer.subscribe('exchanges'))
     // this.register('formdata', FastRenderer.subscribe('formdata')); //userId isn't
     // availabe on server
-  },
+  }, 
+  waitOn() { 
+    return   import ('/imports/ui/pages/addCoin/addCoin')
+  }, 
   action: function () {
     if (Meteor.userId()) {
       // if the user is logged in, you can render the intented page
@@ -502,6 +574,9 @@ FlowRouter.route('/addcoin2', {
     this.register('exchanges', FastRenderer.subscribe('exchanges'))
     // this.register('formdata', FastRenderer.subscribe('formdata')); //userId isn't
     // availabe on server
+  },
+  waitOn(){
+    return import ('../../ui/pages/addCoin/addCoin2')
   },
   action: function () {
     if (Meteor.userId()) {
@@ -534,7 +609,10 @@ FlowRouter.route('/currency/:slug', {
     this.register('summaries', FastRenderer.subscribe('summaries', param.slug))
     this.register('bounties', FastRenderer.subscribe('bounties'))
     this.register('exchanges', FastRenderer.subscribe('exchanges'))
-  },
+  }, 
+  waitOn() { 
+    return import( '/imports/ui/pages/currencyDetail/currencyDetail')
+  }, 
   action: function (params, queryParams) {
     BlazeLayout.render('mainLayout', {
       main: 'currencyDetail',
@@ -548,9 +626,12 @@ FlowRouter.route('/mypending', {
   name: 'mypending',
   subscriptions: function () {
     this.register('bounties', FastRenderer.subscribe('bounties'));
-    this.register('pendingcurrencies', FastRenderer.subscribe('pendingcurrencies'));
-    this.register('rejectedcurrencies', FastRenderer.subscribe('rejectedcurrencies'));
+    this.register('mypendingcurrencies', FastRenderer.subscribe('mypendingcurrencies'));
+    this.register('myrejectedcurrencies', FastRenderer.subscribe('myrejectedcurrencies'));
   },
+  waitOn() { 
+    return import ('/imports/ui/pages/userPendingCurrencies/userPendingCurrencies')
+  }, 
   action: function (params, queryParams) {
     BlazeLayout.render('mainLayout', {main: 'userPendingCurrencies'});
   }
@@ -562,6 +643,9 @@ FlowRouter.route('/changedcurrencies', {
     this.register('changedCurrencies', FastRenderer.subscribe('changedCurrencies'))
     this.register('hashalgorithm', FastRenderer.subscribe('hashalgorithm'))
   },
+  waitOn() {
+    return import('/imports/ui/pages/changedCurrencies/changedCurrencies.js');
+  }, 
   action: function (params, queryParams) {
     BlazeLayout.render('mainLayout', {
       main: 'changedCurrencies',
@@ -574,7 +658,10 @@ FlowRouter.route('/notifications', {
   name: 'notifications',
   subscriptions: function () {
     this.register('activitylog', FastRenderer.subscribe('activitylog'));
-  },
+  }, 
+  waitOn() { 
+    return null 
+  }, 
   action: function (params, queryParams) {
     BlazeLayout.render('mainLayout', {main: 'activityLog'});
   }
@@ -586,7 +673,10 @@ FlowRouter.route('/wallet', {
     this.register('wallet', FastRenderer.subscribe('wallet'));
     this.register('users', FastRenderer.subscribe('users'));
     this.register("publicUserData", FastRenderer.subscribe("publicUserData"))
-  },
+  }, 
+  waitOn() { 
+    return null 
+  }, 
   action: function (params, queryParams) {
     BlazeLayout.render('mainLayout', {main: 'wallet'});
   }
@@ -597,7 +687,10 @@ FlowRouter.route('/wallet/:currency', {
     this.register('wallet', FastRenderer.subscribe('wallet'));
     this.register('users', FastRenderer.subscribe('users'));
     this.register("publicUserData", FastRenderer.subscribe("publicUserData"))
-  },
+  }, 
+  waitOn() { 
+    return import ('/imports/ui/pages/wallet/walletTransactions')
+  }, 
   action: function (params, queryParams) {
     BlazeLayout.render('mainLayout', {main: 'walletTransactions'});
   }
@@ -651,6 +744,20 @@ FlowRouter.notFound = {
 var adminRoutes = FlowRouter.group({
   prefix: '/moderator',
   name: 'moderator',
+  waitOn(){
+    return [
+      import ('/imports/ui/pages/moderator/moderatorDash/moderatorDash'),
+      import ('/imports/ui/pages/moderator/questions/questions'),
+      import ('/imports/ui/pages/moderator/flaggedUsers/flaggedUsers'),
+      import ('/imports/ui/pages/moderator/flaggedUsers/flaggedIP'),
+      import ('/imports/ui/pages/moderator/candidates/candidates.js'),
+      import ('/imports/ui/pages/moderator/hashpower/flaggedHashpower'),
+      import ('/imports/ui/pages/moderator/appLogs/appLogs'),
+      import ('/imports/ui/pages/moderator/problems/solvedProblems'),
+      import ('/imports/ui/pages/moderator/pardon/pardon'),
+      import ('/imports/ui/pages/moderator/flagged/flagged'),
+    ]
+  }
 });
 
 adminRoutes.route('/', {
@@ -659,7 +766,10 @@ adminRoutes.route('/', {
     this.register('pendingcurrencies', FastRenderer.subscribe('pendingcurrencies'));
     this.register('bounties', FastRenderer.subscribe('bounties'));
     this.register('walletimages', FastRenderer.subscribe('walletimages'));
-  },
+  }, 
+  waitOn() { 
+    return null 
+  }, 
   action: function (params, queryParams) {
     BlazeLayout.render('mainLayout', {main: 'moderatorDash'});
   }
@@ -685,7 +795,10 @@ adminRoutes.route('/flagged-users', {
     this.register('userData', FastRenderer.subscribe('userData'));
     this.register('users', FastRenderer.subscribe('users'))
     this.register('activityIPs', FastRenderer.subscribe('activityIPs'))
-  },
+  }, 
+  waitOn() { 
+    return null 
+  }, 
   action: function () {
     if (Meteor.userId()) {
       BlazeLayout.render('mainLayout', {
@@ -704,7 +817,10 @@ adminRoutes.route('/candidates', {
   subscriptions: function () {
     this.register('userData', FastRenderer.subscribe('userData'))
     this.register('users', FastRenderer.subscribe('users'))
-  },
+  }, 
+  waitOn() { 
+    return null 
+  }, 
   action: function () {
     if (Meteor.userId()) {
       BlazeLayout.render('mainLayout', {
@@ -728,7 +844,10 @@ adminRoutes.route('/flagged-ip/:ip', {
     this.register('redflags', FastRenderer.subscribe('redflags'))
     this.register('approvedcurrencies', FastRenderer.subscribe('approvedcurrencies'))
     this.register('walletsMod', FastRenderer.subscribe('walletsMod'))
-  },
+  }, 
+  waitOn() { 
+    return null 
+  }, 
   action: function () {
     if (Meteor.userId()) {
       BlazeLayout.render('mainLayout', {
@@ -749,7 +868,10 @@ adminRoutes.route('/flagged-hashpower', {
     this.register('hashhardware', FastRenderer.subscribe('hashhardware'));
     this.register('hashalgorithm', FastRenderer.subscribe('hashalgorithm'));
     this.register('hashunits', FastRenderer.subscribe('hashunits'));
-  },
+  }, 
+  waitOn() { 
+    return null 
+  }, 
   action: () => {
     BlazeLayout.render('mainLayout', {
       main: 'flaggedHashpower',
@@ -763,7 +885,10 @@ adminRoutes.route('/pardon', {
   subscriptions: function () {
     this.register('users', FastRenderer.subscribe('users'))
     this.register('pardonUserData', FastRenderer.subscribe('pardonUserData'))
-  },
+  }, 
+  waitOn() { 
+    return null 
+  }, 
   action: () => {
     BlazeLayout.render('mainLayout', {
       main: 'pardon'
@@ -777,7 +902,10 @@ adminRoutes.route('/flagged', {
     this.register('users', FastRenderer.subscribe('users'))
     this.register('features', FastRenderer.subscribe('features'))
     this.register('redflags', FastRenderer.subscribe('redflags'))
-  },
+  }, 
+  waitOn() { 
+    return null 
+  }, 
   action: () => {
     BlazeLayout.render('mainLayout', {
       main: 'flagged'
@@ -788,9 +916,12 @@ adminRoutes.route('/flagged', {
 adminRoutes.route('/applogs', {
   name: 'app-logs',
   subscriptions: function (params) {
-    this.register('applogs', FastRenderer.subscribe('applogs', 1, 50))
+    this.register('applogs', FastRenderer.subscribe('applogs', 1, 100))
     this.register('users', FastRenderer.subscribe('users'))
-  },
+  }, 
+  waitOn() { 
+    return null 
+  }, 
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {
       main: 'appLogs',
@@ -804,7 +935,10 @@ adminRoutes.route('/solved-problems', {
   subscriptions: function (params) {
     this.register('solvedProblems', FastRenderer.subscribe('solvedProblems'))
     this.register('users', FastRenderer.subscribe('users'))
-  },
+  }, 
+  waitOn() { 
+    return null 
+  }, 
   action: (params, queryParams) => {
     BlazeLayout.render('mainLayout', {
       main: 'solvedProblems',

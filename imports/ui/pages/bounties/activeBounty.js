@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { FlowRouter } from 'meteor/staringatlights:flow-router';;
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';;
 import Cookies from 'js-cookie';
 
 import './activeBounty.html'
@@ -23,6 +23,6 @@ Template.activeBounty.onRendered(function(){
 
 Template.activeBounty.onCreated(function(){
   this.autorun(() => {
-    SubsCache.subscribe('bounties', FlowRouter.getParam("_id"));
+    SubsCache.subscribe('bounty', FlowRouter.getParam("_id"));
   });
 });//Session.set('activeBountyRendered', true);

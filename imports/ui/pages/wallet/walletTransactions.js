@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import {FlowRouter} from 'meteor/staringatlights:flow-router';
+import {FlowRouter} from 'meteor/ostrio:flow-router-extra';
 import { Wallet, UserData } from '/imports/api/indexDB.js';
 
 import '/imports/ui/components/notLoggedIn.html'
