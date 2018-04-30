@@ -187,8 +187,6 @@ Template.currencyInfo.events({
     templateInstance.showText.set(true)
   },
   'change #currencyLogoInput': function (event) {
-
-    var mime = require('mime-types')
     var instance = this;
     var file = event.target.files[0];
     var uploadError = false;

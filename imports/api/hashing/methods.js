@@ -441,7 +441,7 @@ Meteor.methods({
 
         const fs = require('fs')
 
-        let mime = require('mime-types')
+        let mime = require('/imports/api/miscellaneous/mime').default
         let mimetype = mime.lookup(fileName)
         let validFile = _supportedFileTypes.includes(mimetype)
         let fileExtension = mime.extension(mimetype)

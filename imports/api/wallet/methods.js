@@ -321,7 +321,7 @@ Meteor.methods({
 
 		var fs = Npm.require('fs');
 		//get mimetpe of uploaded file
-		var mime = Npm.require('mime-types');
+		var mime = require('/imports/api/miscellaneous/mime').default
 		var mimetype = mime.lookup(fileName);
 		var validFile = _supportedFileTypes.includes(mimetype);
 		var fileExtension = mime.extension(mimetype);

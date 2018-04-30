@@ -137,8 +137,6 @@ Template.commCurrencyChoices.events({
         })
     },
     'change .uploadInput': (event, templateInstance) => {
-        const mime = require('mime-types')
-
         let file = event.target.files[0]
         let uploadError = false
         let mimetype = mime.lookup(file)
