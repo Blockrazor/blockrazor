@@ -423,12 +423,12 @@ FlowRouter.route('/addcoin', {
     this.register('addCoinQuestions', FastRenderer.subscribe('addCoinQuestions'));
     this.register('hashalgorithm', FastRenderer.subscribe('hashalgorithm'));
     this.register('exchanges', FastRenderer.subscribe('exchanges'))
-    // this.register('formdata', FastRenderer.subscribe('formdata'));
+    this.register('formdata', FastRenderer.subscribe('formdata'));
     // userId isn't availabe on server
   },
   action: async (params, queryParams) => {
     if (Meteor.userId()) {
-      this.register('formdata', FastRenderer.subscribe('formdata'));
+    //  this.register('formdata', FastRenderer.subscribe('formdata'));
       // if the user is logged in, you can render the intented page
       await import ('/imports/ui/pages/addCoin/addCoin')
       BlazeLayout.render('mainLayout', {
