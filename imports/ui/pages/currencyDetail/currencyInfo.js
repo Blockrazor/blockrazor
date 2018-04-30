@@ -407,12 +407,12 @@ Template.currencyInfo.helpers({
     return {
       limit: 15,
       query: function (templ, entry) {
-          return {
-            name: {
-              $nin: templ.exchangesNames.get(),
-              $regex: new RegExp(entry, 'ig')
-            }
+        return {
+          name: {
+            $nin: templ.exchangesNames.get(),
+            $regex: new RegExp(entry, 'ig')
           }
+        }
       },
       projection: function (templ, entry) {
         return {
@@ -433,10 +433,16 @@ Template.currencyInfo.helpers({
           })
         }
       },
-      create: function(event, input, templ) {
+      create: function (event, input, templ) {
         Meteor.call("addExchange", input, (error, result) => {
           if (!error && result) {
-                sAlert.error("This exchange has been created, but not added")
+            Meteor.call("appendExchange", result, templ.currency._id, (err, res) => {
+              if (!err) {
+                sAlert.success('New exchange succesfully added and appended to the ' + templ.currency.currencyName)
+              } else {
+                sAlert.error("This exchange already appended to " + templ.currency.currencyName)
+              }
+            })
           } else {
             sAlert.error("This exchange already exist.")
           }
@@ -450,7 +456,8 @@ Template.currencyInfo.helpers({
       displayField: "name", //field that appears in typeahead select menu
       placeholder: "Add Exchange",
       addButtonText: "Create Exchange",
-      customAddButtonExists: false,
+      customAddButtonExists: true,
+      noneFound: `@{value} doesn't exist, create and add it to @{parent.currency.currencyName}`
     }
   },
 });

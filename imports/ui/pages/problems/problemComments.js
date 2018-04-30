@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating'
 import { ProblemComments } from '/imports/api/indexDB'
 import { Problems } from '/imports/api/indexDB'
-import { FlowRouter } from 'meteor/staringatlights:flow-router'
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra'
 import Cookies from 'js-cookie'
 
 

@@ -1,10 +1,39 @@
 import { Template } from 'meteor/templating'
 import { UserData } from '/imports/api/indexDB'
-import { FlowRouter } from 'meteor/staringatlights:flow-router'
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra'
 import { newProblem } from '/imports/api/problems/methods'
 
 import './newProblem.html'
 import { format } from 'url';
+
+function proceedSubmittingProblem() {
+  let images = $('#js-images').children('img').map(function() {
+      return $(this).attr('src').replace(`${_problemUploadDirectoryPublic}`, '')
+  }).get()
+
+  //formats and combines variable and text fields into a single fields with field title appended before each section.
+  var formattedBody = ""
+  var type = Template.instance().type.get()
+  if (type == "question"){
+    formattedBody += $('#js-text').val()
+  } else if (type == "feature"){
+    formattedBody += "Problem:\n\r" + $('#js-text').val() + "\n\n\rPotential Solution:\n\r" + $('#js-variable').val()
+  } else {
+    formattedBody += "Problem:\n\r" + $('#js-text').val() + "\n\n\rSteps to Reproduce:\n\r" + $('#js-variable').val()
+  }
+
+  var params = {type: $('#js-type').val(), header: $('#js-header').val(), text: formattedBody, images: images, bounty: Number.isNaN(Number($('#js-amount').val()))? 0: Number($('#js-amount').val())}
+  console.log(params)
+  newProblem.call(params, (err, data)=>{
+    if (!err) {
+      FlowRouter.go('/problems')
+    } else {
+      console.log(err, "reason", err.reason)
+
+      sAlert.error(err.reason)
+    }
+  })
+}
 
 Template.newProblem.onCreated(function() {
 	this.lastAmount = 0
@@ -15,7 +44,8 @@ Template.newProblem.onCreated(function() {
 	this.problemDescriptionPrompt = new ReactiveVar("")
 	this.problemSummaryPrompt = new ReactiveVar("")
 	this.problemVariablePrompt = new ReactiveVar("")
-	this.problemVariableTitle = new ReactiveVar("")
+  this.problemVariableTitle = new ReactiveVar("")
+  this.bountyContributeMessage = new ReactiveVar("")
 
 	//determines field placeholders and wether to show 3rd field, and when to show the other 2
 	this.autorun(()=>{
@@ -53,34 +83,30 @@ Template.newProblem.events({
 	},
 	'submit #js-form': (event, templ) => {
 		event.preventDefault()
-
-		let images = $('#js-images').children('img').map(function() {
-		    return $(this).attr('src').replace(`${_problemUploadDirectoryPublic}`, '')
-		}).get()
-
-		//formats and combines variable and text fields into a single fields with field title appended before each section.
-		var formattedBody = ""
-		var type = templ.type.get()
-		if (type == "question"){
-			formattedBody += $('#js-text').val()
-		} else if (type == "feature"){
-			formattedBody += "Problem:\n\r" + $('#js-text').val() + "\n\n\rPotential Solution:\n\r" + $('#js-variable').val()
-		} else {
-			formattedBody += "Problem:\n\r" + $('#js-text').val() + "\n\n\rSteps to Reproduce:\n\r" + $('#js-variable').val()
-		}
-
-		var params = {type: $('#js-type').val(), header: $('#js-header').val(), text: formattedBody, images: images, bounty: Number.isNaN(Number($('#js-amount').val()))? 0: Number($('#js-amount').val())}
-		console.log(params)
-		newProblem.call(params, (err, data)=>{
-			if (!err) {
-				FlowRouter.go('/problems')
-			} else {
-				console.log(err, "reason", err.reason)
-
-				sAlert.error(err.reason)
-			}
-		})
-	},
+    // check whether user willing to donate some krazor
+    if(Number($('#js-amount').val()) == 0) {
+      // if not willing to donate, check whether user have kzr available in wallet
+      let user = UserData.findOne({
+        _id: Meteor.userId()
+      }, { 
+        fields: { balance: 1 } 
+      })
+      if(user && Number(user.balance.toPrecision(3)) > 0) {
+        // show advice modal
+        $('#donationAdviceModal').modal("show")
+      } else {
+        proceedSubmittingProblem()
+      }
+    } else {
+      proceedSubmittingProblem()
+    }
+  },
+  'click #notWantToDonate': () => {
+    proceedSubmittingProblem()
+  },
+  'click #wantToDonate': () => {
+    Template.instance().bountyContributeMessage.set("Thank you. Please fill the amount to contribute and resubmit the report")
+  },
 	'change #js-type': (event, templ) => {
 		templ.type.set(event.target.value)
 		if ($(event.currentTarget).val() === 'question') {
@@ -149,5 +175,19 @@ Template.newProblem.helpers({
 	balance: () => (UserData.findOne({
 		_id: Meteor.userId()
 	}) || {}).balance,
-	fixed: (val) => val.toFixed(6),
+  fixed: (val) => val.toFixed(6),
+  adviceText: () => {
+    switch(Template.instance().type.get()) {
+      case "feature": {
+        return "Blockrazor.org is a platform with distributed decision making, where anyone can submit a request for a new feature and any interested candidate can implement the requested feature. <br/><br/>\
+                Therefore when requesting a new feature, It is your responsibility to contribute with some Krazor to the bounty for implementing the new feature."
+        break;
+      }
+      case "bug": {
+        return "Blockrazor.org is a platform with distributed decision making, where anyone can submit a bug report and any interested candidate can solve the reported bug. <br/><br/>\
+                Therefore when adding a bug report, It is your responsibility to contribute with some Krazor to the bounty for solving the problem."
+        break;
+      }
+    }
+  }
 })

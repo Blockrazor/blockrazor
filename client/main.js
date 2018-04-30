@@ -1,6 +1,8 @@
 import { Accounts } from 'meteor/accounts-base';
 import '/imports/startup/client';
 import { UserData, Features, Summaries, Redflags, Currencies } from '/imports/api/indexDB.js';
+import {FlowRouter} from 'meteor/ostrio:flow-router-extra';
+window.FlowRouter = FlowRouter
 
 const collections = { Features, Summaries, Redflags }
 

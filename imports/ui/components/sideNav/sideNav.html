@@ -13,6 +13,7 @@
                 <a href="/login" class="btn btn-success sign-in-button">Sign In</a> {{/if}}
             </div>
             <ul id="menu-content" class="menu-content collapse out">
+                {{#unless currentUser.suspended}}
 				<li class="{{activeClass 'home'}}">
                     <a href="/">Home</a>
                 </li>
@@ -56,6 +57,11 @@
                     <li><a class="sub-item {{activeClass 'transactions'}}" href="/transactions/1">All Blockrazor Transactions</a></li>
                 </ul>
                 {{/if}}
+                {{else}}
+                <h3 style="text-align: center">Suspended</h3>
+                <li class="{{activeClass 'home'}}"><a href="/">Home</a></li>
+                <li class="{{activeClass 'problems'}}"><a href="/problems">Problems</a></li>
+                {{/unless}}
             </ul>
         </div>
     </div>

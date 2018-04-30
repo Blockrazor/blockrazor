@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import { HashHardware, HashPower, HashAlgorithm, HashUnits } from '/imports/api/indexDB.js'
-import { FlowRouter } from 'meteor/staringatlights:flow-router';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 
 import './flaggedHashpower.html'
 

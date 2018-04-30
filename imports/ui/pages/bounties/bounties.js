@@ -158,7 +158,8 @@ Template.bounties.onCreated(function(){
     let currencies = Currencies.find({
       hashpowerApi: {
         $ne: true
-      }
+      },
+      consensusSecurity: 'Proof of Work'
     }).fetch().map(i => {
       let b = Bounties.findOne({
         type: `currency-${i.slug}`

@@ -41,11 +41,9 @@ ostrio:loggermongo
 todda00:friendly-slugs
 cfs:graphicsmagick
 check
-random
 momentjs:moment
 fortawesome:fontawesome
 blaze-html-templates
-staringatlights:flow-router
 fourseven:scss
 gwendall:hovercard
 babrahams:constellation
@@ -56,3 +54,5 @@ meteorhacks:picker
 mdg:validated-method
 aslagle:reactive-table
 socialize:user-presence
+ostrio:flow-router-extra
+random

@@ -9,10 +9,12 @@ import {
 } from '/imports/api/indexDB.js'
 
 import Cookies from 'js-cookie'
+import Chart from 'chart.js';
+
 
 import {
 	FlowRouter
-} from 'meteor/staringatlights:flow-router'
+} from 'meteor/ostrio:flow-router-extra'
 
 import '/imports/ui/components/typeahead'
 import './compareCurrencies.scss'
