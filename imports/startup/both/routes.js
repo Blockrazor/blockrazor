@@ -423,12 +423,12 @@ FlowRouter.route('/addcoin', {
     this.register('addCoinQuestions', FastRenderer.subscribe('addCoinQuestions'));
     this.register('hashalgorithm', FastRenderer.subscribe('hashalgorithm'));
     this.register('exchanges', FastRenderer.subscribe('exchanges'))
-    // this.register('formdata', FastRenderer.subscribe('formdata'));
+    this.register('formdata', FastRenderer.subscribe('formdata'));
     // userId isn't availabe on server
   },
   action: async (params, queryParams) => {
     if (Meteor.userId()) {
-      this.register('formdata', FastRenderer.subscribe('formdata'));
+    //  this.register('formdata', FastRenderer.subscribe('formdata'));
       // if the user is logged in, you can render the intented page
       await import ('/imports/ui/pages/addCoin/addCoin')
       BlazeLayout.render('mainLayout', {
@@ -445,34 +445,6 @@ FlowRouter.route('/addcoin', {
   }
 })
 
-FlowRouter.route('/addcoin2', {
-  name: 'addcoin2',
-  subscriptions: function () {
-    this.register('currencyBounty', FastRenderer.subscribe('currencyBounty'));
-    this.register('addCoinQuestions', FastRenderer.subscribe('addCoinQuestions'));
-    this.register('hashalgorithm', FastRenderer.subscribe('hashalgorithm'));
-    this.register('exchanges', FastRenderer.subscribe('exchanges'))
-    // this.register('formdata', FastRenderer.subscribe('formdata'));
-    // userId isn't availabe on server
-  },
-  action: async (params, queryParams) => {
-    if (Meteor.userId()) {
-      this.register('formdata', FastRenderer.subscribe('formdata'));
-      // if the user is logged in, you can render the intented page
-      await import ('../../ui/pages/addCoin/addCoin2')
-      BlazeLayout.render('mainLayout', {
-        main: 'addCoin2'
-      })
-    } else {
-      // but if the user is not logged in, you have to redirect him to the login page
-      // if we want to be able to redirect the user back to where he was, we have to
-      // save the current path
-      window.last = window.location.pathname
-      // and go to the login page
-      FlowRouter.go('/login')
-    }
-  }
-})
 
 FlowRouter.route('/currency/:slug', {
   name: 'CurrencyDetail',
