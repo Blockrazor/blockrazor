@@ -4,6 +4,7 @@ import { GraphData } from '/imports/api/indexDB.js';
 
 import "/imports/ui/components/radarGraph.js"
 import "./currency.html"
+import "../currencyDetail/currency.scss"
 
 Template.currency.events({
   'click .currency-card': function(event) {
