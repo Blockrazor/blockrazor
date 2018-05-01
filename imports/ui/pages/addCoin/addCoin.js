@@ -638,7 +638,15 @@ switch (val) {
         type: 'pos'
       }).fetch()
     } else if (Template.instance().consensusSecurity.get() === 'Hybrid') {
-      return HashAlgorithm.find({}).fetch().map(i => { // list all here
+      return HashAlgorithm.find({
+        $or: [{
+          type: 'pow' 
+        }, {
+          type: {
+            $exists: false // previous data doesn't have this field, so we have to check
+          }
+        }]
+      }).fetch().map(i => { // list all here
         i.name = `Staking and ${i.name}`
 
         return i
