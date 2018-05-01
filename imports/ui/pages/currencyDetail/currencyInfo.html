@@ -22,7 +22,7 @@
             <div class="card-body" style="display:{{bodydisplay}};">
               <input type="hidden" id="_id" value="{{_id}}">
               <input type="hidden" id="name" value="{{currencyName}}">
-              
+
               <ul class="nav nav-tabs">
                   <li class="nav-item">
                     <a class="nav-link active" data-toggle="tab" href="#compendiumtab">Compendium</a>
@@ -90,7 +90,7 @@
                             <div class="title">Genesis Timestamp</div>
                             <div class="value" id="genesisTimestamp">{{isDateNull genesisTimestamp 'genesisTimestamp'}}</div>
                           </div>
-                        </div> 
+                        </div>
                         <div class="col-md-4 col-lg-3">
                           <div class="card card-header">
                             <div class="title">Premine</div>
@@ -114,7 +114,7 @@
                             <div class="title">Previous Names</div>
                             <div class="value" id="previousNames">{{previousNames}}</div>
                           </div>
-                        </div>     
+                        </div>
                     </div>
                   </div>
                   <div class="tab-pane fade" id="technologicaltab">
@@ -152,7 +152,7 @@
                 </div>
             </div>
           </div>
-        </div>    
+        </div>
       </div>
     </div>
   </div>
@@ -203,7 +203,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <p>Are you sure you want to change <span class="text-primary" id="from"></span> to <span class="text-primary" id="to"></span> for <span class="text-primary" id="forField"></span> 
+          <p>Are you sure you want to change <span class="text-primary" id="from"></span> to <span class="text-primary" id="to"></span> for <span class="text-primary" id="forField"></span>
             <br /><br />
             <input id="currencyNotes" type="text" placeholder="Why is this change needed?" style="width:100%" class="form-control">
           </p>
@@ -213,7 +213,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" id="proposeChange">Save changes</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" id="cancelChange" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
