@@ -141,10 +141,11 @@ Template.typeahead.onCreated(function () {
   // reset = false for use inside tracker, true for events
   this.updateSource = function (reset = false, autoFocus = this.data.autoFocus) {
     if (document.activeElement === document.getElementById(this.id)) {
+      console.log(reset, document.activeElement === document.getElementById(this.id))
       $(this.ele).typeahead('destroy')
       $(this.ele).typeahead(this.option1, this.option2)
-      if (reset) $(this.ele).typeahead('val', ''); //reset only on event
-      if (autoFocus) {
+      if (reset && autoFocus) $(this.ele).typeahead('val', ''); 
+      if (!reset || (autoFocus && reset)) { //if this isn't event then keep focused, otherwise refocus if autoFocus
         $(this.ele).focus()
       }
     } else {
