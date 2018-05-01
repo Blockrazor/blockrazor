@@ -1,16 +1,19 @@
-import { ActivityLog, Wallet, UserData } from '/imports/api/indexDB.js';
 import {FlowRouter} from 'meteor/ostrio:flow-router-extra';
 
 import './sideNav.html'
 import './sideNav.scss'
 import '../global/globalHelpers'
 
+import { colStub } from '/imports/ui/components/compatability/colStub'
+
+Wallet = ActivityLog = UserData = colStub
+
 Template.sideNav.helpers({
     activityNotifications() {
-        return ActivityLog.find({ owner: Meteor.userId(), type: "message", read: { $ne: true } }).count();
+        return ActivityLog.find({ owner: Meteor.userId(), type: "message", read: { $ne: true } }).count()
     },
     walletNotifications() {
-        return Wallet.find({ owner: Meteor.userId(), type: "transaction", read: { $ne: true } }).count();
+        return Wallet.find({ owner: Meteor.userId(), type: "transaction", read: { $ne: true } }).count()
     },
     balance() {
       let balance = UserData.findOne({}, { fields: { balance: 1 } }).balance
@@ -23,7 +26,10 @@ Template.sideNav.helpers({
         }
 });
 
-Template.sideNav.onCreated(function() {
+Template.sideNav.onCreated(async function() {
+  ({ ActivityLog, UserData, Wallet } = (await import('/imports/api/indexDB')));
+  colStub.change()
+
   this.autorun(()=> {
     this.subscribe('wallet');
     this.subscribe('activitylog');

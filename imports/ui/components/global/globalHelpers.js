@@ -1,6 +1,13 @@
 import { Template } from 'meteor/templating';
-import { Bounties } from '/imports/api/indexDB.js';
+import { colStub } from '/imports/ui/components/compatability/colStub'
 
+Bounties = colStub
+
+import('/imports/api/bounties/bounties').then(b => {
+	Bounties = b.Bounties
+
+	colStub.change()
+})
 
 //global helpers are in /client/main.js, but truly belong in /imports/startup
 var getBountyUrl = (bountyType) => {
