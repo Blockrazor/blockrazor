@@ -210,6 +210,12 @@ Currencies.schema = new SimpleSchema({
     max: 300,
     required: false,
   }, //n
+  smartContractURL: {
+    type: Domain,
+    min: 12,
+    max: 300,
+    required: false,
+  }, //n
   blockExplorer: {
     type: Domain,
     min: 6,

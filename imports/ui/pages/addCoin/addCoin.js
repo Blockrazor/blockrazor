@@ -132,6 +132,7 @@ var makeTagArrayFrom = function(string) {
 
 Template.addCoin.onCreated(function() {
   this.coinExists = new ReactiveVar(true)
+  this.smartContract = new ReactiveVar(false)
   this.powselect = new ReactiveVar(false)
   this.btcfork = new ReactiveVar(false)
   this.isICO = new ReactiveVar(false)
@@ -219,6 +220,10 @@ Template.addCoin.events({
 
 
   },
+    'change #smartContract': function(dataFromForm) {
+    Template.instance().smartContract.set(dataFromForm.target.checked);
+  },
+
   'change #consensusSecurity': function(consensusSecurity) {
     Template.instance().consensusSecurity.set(consensusSecurity.target.value);
          //init popovers again, can't init on hidden dom elements
@@ -334,6 +339,11 @@ if(!uploadError){
         "tag": "Bitcoin Fork"
       })
     };
+    if (d.smartContract.checked) {
+      launchTags.push({
+        "tag": "Smart Contract"
+      })
+    };
     if (!d.BTCFork.checked) {
       launchTags.push({
         "tag": "Altcoin"
@@ -372,6 +382,7 @@ if(!uploadError){
       gitRepo: d.gitRepo.value,
       officialSite: d.officialSite.value,
       reddit: d.reddit.value,
+      smartContractURL: d.smartContractURL.value,
       blockExplorer: d.blockExplorer.value,
       approvalNotes: d.notes.value,
       currencyLogoFilename: d.currencyLogoFilename.value,
@@ -413,6 +424,7 @@ if(!uploadError){
     if(d.replayProtection) {addToInsert(d.replayProtection.value, "replayProtection")};
     if(d.blockTime) {addToInsert(d.blockTime.value, "blockTime")};
     if(d.forkHeight) {addToInsert(d.forkHeight.value, "forkHeight")};
+    if(d.smartContractURL) {addToInsert(d.smartContractURL.value, "smartContractURL")};
     if(d.forkParent) {addToInsert(d.forkParent.value, "forkParent")};
     if(d.hashAlgorithm) {addToInsert(d.hashAlgorithm.value, "hashAlgorithm")};
     if(d.ICOfundsRaised) {addToInsert(d.ICOfundsRaised.value, "ICOfundsRaised")};
@@ -638,7 +650,9 @@ switch (val) {
   coinExists () {
     return Template.instance().coinExists.get()
   },
-
+  smartContract () {
+    return Template.instance().smartContract.get()
+  },
   icoText () {
     if (Template.instance().coinExists.get()) {
         return "Funds were raised prior to the genesis block being mined (ICO)"
