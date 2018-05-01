@@ -227,8 +227,6 @@ Template.addCoin.events({
      Template.instance().powselect.set(consensusSecurity.target.value !== '--Select One--')
   },
   'change #currencyLogoInput': function(event){
-
-  var mime = require('mime-types')
   var instance = this;
   var file = event.target.files[0];
   var uploadError = false;
