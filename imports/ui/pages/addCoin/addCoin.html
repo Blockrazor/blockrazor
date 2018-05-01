@@ -14,19 +14,25 @@
             <div>
                 <div id="step-1" class="p-4">
                     <div class="row mx-3 my-5">
-                        <div class="col-md-4">
+                       <div class="col-md-3">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" name="smartContract" value="smartContract" class="custom-control-input exists" id="smartContract">
+                                <label class="custom-control-label" for="smartContract">Is this a smart contract?</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" name="exists" value="exists" class="custom-control-input exists" checked="checked" id="bc-launched">
                                 <label class="custom-control-label" for="bc-launched">This blockchain has been launched (genesis block has been mined)</label>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" name="ICO" value="ICO" class="custom-control-input isICO" id="is-ico">
                                 <label class="custom-control-label" for="is-ico">{{icoText}}</label>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input btcfork" name="BTCFork" value="BTCFork" id="btc-fork">
                                 <label class="custom-control-label" for="btc-fork">{{btcForkText}}</label>
@@ -106,7 +112,9 @@
                 </div>
                 <div id="step-3" class="p-4">
                     {{ #unless reactiveVar 'btcfork'}} {{ #if reactiveVar 'coinExists'}}
-                    <h5 class="card-title mt-3">Genesis Block Date</h5> {{ /if }} {{ #unless reactiveVar 'coinExists'}}
+                    <h5 class="card-title mt-3">
+                    {{#if smartContract}}Smart Contract {{else}}
+                    Genesis Block {{/if}} Date</h5> {{ /if }} {{ #unless reactiveVar 'coinExists'}}
                     <h5 class="card-title mt-3">Genesis Block ETA</h5> {{ /unless }}
                     <div class="float-right" style="width:100%; display:flex;">
                         <input type="text" id="genesisDate" name="genesisYear" value="YYYY-MM-DD" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'genesisTimestamp'}}" style="width:100%">
@@ -148,6 +156,14 @@
 
                         <input type="text" class="form-control mb-3" id="blockExplorer" placeholder="Block Explorer" name="blockExplorer">
                         <div class="invalid-feedback"> </div>
+
+                        {{#if reactiveVar 'coinExists'}}
+                        {{#if reactiveVar 'smartContract'}}
+
+                        <input type='text' class="form-control mb-3" id="smartContractURL" placeholder="What is the smart contract URL" name="smartContractURL">
+                        <div class="invalid-feedback"> </div>
+                        {{/if}}
+                        {{/if}}
                   
                     {{#if reactiveVar 'coinExists'}} {{ #unless reactiveVar 'btcfork' }}
                     <br />

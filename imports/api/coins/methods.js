@@ -16,7 +16,7 @@ const addCoinFormSchema =  new SimpleSchema(Currencies.schema.pick(
     'currencyName', 'currencySymbol', 'premine', 'maxCoins', 'consensusSecurity', 'gitRepo', 
 'officialSite', 'reddit', 'blockExplorer', 'currencyLogoFilename', 'confirmations', 'previousNames', 'exchanges', 
 'launchTags', 'blockTime', 'forkHeight', 'forkParent', 'hashAlgorithm', 'ICOfundsRaised', 'genesisTimestamp', 'proposal', 'altcoin', 
-'ico', 'ICOcoinsProduced', 'ICOcoinsIntended',  'ICOnextRound', 'icoDateEnd', 'btcfork', 'approvalNotes'
+'ico', 'ICOcoinsProduced', 'ICOcoinsIntended',  'ICOnextRound', 'icoDateEnd', 'btcfork', 'approvalNotes', 'smartContractURL'
 )
 .extend({
     proposal: { 
@@ -73,12 +73,12 @@ export const addCoin = new ValidatedMethod({
     run({currencyName, currencySymbol, premine, maxCoins, consensusSecurity, gitRepo, 
         officialSite, reddit, blockExplorer, currencyLogoFilename, confirmations, previousNames, exchanges, 
         launchTags, blcokTime, forkHeight, forkParent, hashAlgorithm, ICOfundsRaised, genesisTimestamp, proposal, altcoin, 
-        ico, ICOcoinsProduced, ICOcoinsIntended,  ICOnextRound, icoDateEnd, btcfork, approvalNotes}) {
+        ico, ICOcoinsProduced, ICOcoinsIntended,  ICOnextRound, icoDateEnd, btcfork, approvalNotes,smartContractURL}) {
             //data should be used since some of items may be undefined
             var data = {currencyName, currencySymbol, premine, maxCoins, consensusSecurity, gitRepo, 
                 officialSite, reddit, blockExplorer, currencyLogoFilename, confirmations, previousNames, exchanges, 
                 launchTags, blcokTime, forkHeight, forkParent, hashAlgorithm, ICOfundsRaised, genesisTimestamp, proposal, altcoin, 
-                ico, ICOcoinsProduced, ICOcoinsIntended,  ICOnextRound, icoDateEnd, btcfork, approvalNotes}
+                ico, ICOcoinsProduced, ICOcoinsIntended,  ICOnextRound, icoDateEnd, btcfork, approvalNotes,smartContractURL}
             if (Meteor.isServer){
         var Future = require('fibers/future')
         var fut = new Future()
