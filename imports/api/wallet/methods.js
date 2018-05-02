@@ -243,11 +243,19 @@ Meteor.methods({
 		);
 	},
 
-	transactionCount: () => {
-		return Wallet.find({
-			type: 'transaction',
-			amount: { $nin: [0, NaN] } // filter out invalid transactions}
-		}).count()
+	transactionCount: (rewardType) => {
+		if(rewardType){
+			return Wallet.find({
+				rewardType: rewardType,
+				type: 'transaction',
+				amount: { $nin: [0, NaN] } // filter out invalid transactions}
+			}).count()
+		}else{
+			return Wallet.find({
+				type: 'transaction',
+				amount: { $nin: [0, NaN] } // filter out invalid transactions}
+			}).count()
+		}
 	},
 
 	totalAmount: () => {

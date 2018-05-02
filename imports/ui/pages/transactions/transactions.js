@@ -25,18 +25,19 @@ Template.transactions.onCreated(function() {
 		Meteor.call('transactions', FlowRouter.getParam('page') || '1', Template.instance().rewardType.get(),  (err, data) => {
 			this.transactions.set(data)
 		})
-	})
+	
 
-	Meteor.call('transactionCount', (err, data) => { // get the total nubmer of transactions for pagination
-		this.transactionsCount.set(data)
-	})
+		Meteor.call('transactionCount',Template.instance().rewardType.get(), (err, data) => { // get the total nubmer of transactions for pagination
+			this.transactionsCount.set(data)
+		})
 
-	Meteor.call('totalAmount', (err, data) => { // get the total nubmer of transactions for pagination
-	    if (err) {
-	        console.log(err)
-	    } else {
-	        this.total.set(data)
-	    }
+		Meteor.call('totalAmount', (err, data) => { // get the total nubmer of transactions for pagination
+		    if (err) {
+		        console.log(err)
+		    } else {
+		        this.total.set(data)
+		    }
+		})
 	})
 })
 
@@ -98,9 +99,11 @@ Template.transactions.helpers({
 
 Template.transactions.events({
     'change .rewardTypeFilter': function(event) {
+    	FlowRouter.setParams({page:1})
         Template.instance().rewardType.set(event.target.value)
     },
     'click .clearFilter': function(event) {
+    	FlowRouter.setParams({page:1})
         Template.instance().rewardType.set(false);
 
         $(".rewardTypeFilter option").filter(function() {
