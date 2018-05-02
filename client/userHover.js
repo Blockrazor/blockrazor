@@ -1,10 +1,16 @@
 import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra'
-import { Currencies, UserData, Features } from '/imports/api/indexDB.js'
+
+import { colStub } from '/client/main'
+
+UserData = Features = colStub
 
 import './userHover.html'
 
-Template.userHover.onCreated(function() {
+Template.userHover.onCreated(async function() {
+	({ Features, UserData } = (await import('/imports/api/indexDB')));
+	colStub.change()
+
 	this.autorun(() => {
 		this.userId = this.data.createdBy // || this.data.owner || this.data.author,... // userId depends on the passed context, so we can use the || operator to support multiple values if needed
 

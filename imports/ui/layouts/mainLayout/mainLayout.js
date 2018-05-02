@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { UserData, developmentValidationEnabledFalse } from '/imports/api/indexDB.js';
+import { developmentValidationEnabledFalse } from '/imports/startup/both/developmentValidationEnabledFalse'
 import './mainLayout.html'
 import './mainLayout.scss'
 
@@ -9,6 +9,16 @@ import validate from 'jquery-validation'
 
 import '../../components/topNav/topNav'
 import '../../components/sideNav/sideNav'
+
+import { colStub } from '/imports/ui/components/compatability/colStub'
+
+UserData = colStub
+
+Template.mainLayout.onCreated(async () => {
+  UserData = (await import('/imports/api/indexDB')).UserData
+
+  colStub.change()
+})
 
 //writes to DB preferences on change and window close/log out
 //doesn't run on unload as it should as websocket closes before method reaches server, is an issue in meteor

@@ -1,8 +1,20 @@
 import { Accounts } from 'meteor/accounts-base';
 import '/imports/startup/client';
-import { UserData, Features, Summaries, Redflags, Currencies } from '/imports/api/indexDB.js';
 import {FlowRouter} from 'meteor/ostrio:flow-router-extra';
 window.FlowRouter = FlowRouter
+
+import { colStub } from '/imports/ui/components/compatability/colStub'
+
+UserData = Features = Summaries = Redflags = colStub // stub collections until they're loaded
+
+import('/imports/api/indexDB').then(u => {
+    UserData = u.UserData
+    Features = u.Features
+    Summaries = u.Summaries
+    Redflags = u.Redflags
+
+    colStub.change()
+})
 
 const collections = { Features, Summaries, Redflags }
 

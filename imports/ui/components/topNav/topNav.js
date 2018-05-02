@@ -1,9 +1,11 @@
-import { ActivityLog, Wallet, UserData, Bounties } from '/imports/api/indexDB.js';
-
 import './topNav.html'
 import './topNav.scss'
 import '../global/globalHelpers'
 import swal from 'sweetalert';
+
+import { colStub } from '/imports/ui/components/compatability/colStub'
+
+Wallet = ActivityLog = UserData = Bounties = colStub
 
 Template.topNav.events({
   'click #js-logout': (event, templateInstance) => {
@@ -14,10 +16,10 @@ Template.topNav.events({
 Template.topNav.helpers({
     shareUrl: () => `${window.location.href}#${(Meteor.users.findOne({_id: Meteor.userId()}) || {}).inviteCode}`,
     activityNotifications() {
-        return ActivityLog.find({ owner: Meteor.userId(), type: "message", read: { $ne: true } }).count();
+        return ActivityLog.find({ owner: Meteor.userId(), type: "message", read: { $ne: true } }).count()
     },
     walletNotifications() {
-        return Wallet.find({ owner: Meteor.userId(), type: "transaction", read: { $ne: true } }).count();
+        return Wallet.find({ owner: Meteor.userId(), type: "transaction", read: { $ne: true } }).count()
     },
     slug: () => Meteor.users.findOne({
         _id: Meteor.userId()
@@ -28,7 +30,10 @@ Template.topNav.helpers({
   	}
 });
 
-Template.topNav.onCreated(function() {
+Template.topNav.onCreated(async function() {
+  ({ ActivityLog, UserData, Wallet, Bounties } = (await import('/imports/api/indexDB')));
+  colStub.change()
+
   this.autorun(()=> {
     this.subscribe('wallet');
     this.subscribe('activitylog');
