@@ -603,13 +603,13 @@ FlowRouter.route('/signup', {
 })
 
 // the App_notFound template is used for unknown routes and missing lists
-FlowRouter.notFound = {
+FlowRouter.route('*',{
   action: async (params, queryParams) => {
     BlazeLayout.render('error', {
       main: 'App_notFound'
     })
   }
-};
+});
 
 //moderator routes
 var adminRoutes = FlowRouter.group({
