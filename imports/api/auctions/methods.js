@@ -111,6 +111,29 @@ Meteor.methods({
 						transfer(winner.userId, auction.createdBy, `${winner.amount} ${auction.options.acceptedCurrency} has been removed from your account.`, -winner.amount, auction.options.acceptedCurrency)
 					    
 						transfer(auction.createdBy, winner.userId, `${winner.amount} ${auction.options.acceptedCurrency} has been added to your account.`, winner.amount, auction.options.acceptedCurrency)
+
+						// save the current USD price for currency
+						let currency
+
+						if (auction.options.baseCurrency === 'KZR' && auction.options.acceptedCurrency !== 'USD') {
+							currency = Currencies.findOne({
+								currencySymbol: auction.options.acceptedCurrency
+							})
+						} else if (auction.options.baseCurrency !== 'KZR' && auction.options.baseCurrency !== 'USD') {
+							currency = Currencies.findOne({
+								currencySymbol: auction.options.baseCurrency
+							})
+						}
+
+						if (currency && currency.price) {
+							Auctions.update({
+								_id: auctionId
+							}, {
+								$set: {
+									currentPrice: currency.price
+								}
+							})
+						}
 					} else {
 						transfer(auction.createdBy, 'Blockrazor', `${auction.options.amount} ${auction.options.baseCurrency} has been returned your account.`, auction.options.amount, auction.options.baseCurrency)
 					}
