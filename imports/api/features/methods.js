@@ -44,10 +44,6 @@ Meteor.methods({
   },
   newFeature: function(coinId, featureName, captcha) {
     if(this.userId){
-      if(typeof featureName != "string") { throw new Meteor.Error('Error', 'Error') }
-      if(featureName.length > 140 || featureName.length < 6) {
-        throw new Meteor.Error('Error', 'That name is too long or too short.')
-      }
 
     let added = Features.find({
       createdBy: this.userId,
