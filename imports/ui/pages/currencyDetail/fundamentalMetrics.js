@@ -28,6 +28,9 @@ Template.fundamentalMetrics.events({
 Template.fundamentalMetrics.helpers({
   options: function (){
     return {
+      animation: {
+        duration: 0
+      },
       responsive:  false,
       defaultFontColor: 'red',
       tooltips: {enabled: false},
@@ -102,6 +105,9 @@ Template.fundamentalMetrics.onRendered(function (){
 
       // Configuration options go here
       options: {
+        animation: {
+          duration: 0
+        },
         tooltips: {enabled: false},
         responsive: false,
         maintainAspectRatio: true,

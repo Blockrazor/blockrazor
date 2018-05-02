@@ -19,8 +19,11 @@ Template.currency.events({
 Template.currency.helpers({
   graphOptions(){
     return {
-      responsive: false,
-      defaultFontColor: 'red',
+    animation: {
+      duration: 0
+    },
+    responsive: false,
+    defaultFontColor: 'red',
     tooltips: {enabled: false},
     maintainAspectRatio: false,
     title: {display: false},
