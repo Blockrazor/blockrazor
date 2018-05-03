@@ -39,7 +39,7 @@ import {
 
   @@props //shows default values for booleans
     id: string, defaults to random number, id for typeahead field, upon typeahead initialization ".typeahead" isn't safe to use,
-    transcient: true, //if typeahead should begin querying locally from LocalizableCollection 
+    transcient: true, //if typeahead should begin querying locally from LocalizableCollection
     col: obj, //collection to use
     template: Template.instance(), //parent template instance
     query: (templ, entry)=>{return {...}}, //templ is parent template instance, text in typeahead field
@@ -142,11 +142,12 @@ Template.typeahead.onCreated(function () {
   this.updateSource = function (reset = false, autoFocus = this.data.autoFocus) {
     if (document.activeElement === document.getElementById(this.id)) {
       console.log(reset, document.activeElement === document.getElementById(this.id))
-      $(this.ele).typeahead('destroy')
-      $(this.ele).typeahead(this.option1, this.option2)
-      if (reset && autoFocus) $(this.ele).typeahead('val', ''); 
+      if (reset && autoFocus) $(this.ele).typeahead('val', '');
       if (!reset || (autoFocus && reset)) { //if this isn't event then keep focused, otherwise refocus if autoFocus
-        $(this.ele).focus()
+        if (reset) {
+          $(this.ele).typeahead('destroy')
+          $(this.ele).typeahead(this.option1, this.option2)
+        }
       }
     } else {
       $(this.ele).typeahead('destroy')
@@ -172,7 +173,7 @@ Template.typeahead.onCreated(function () {
     var option1 = {
       hint: true,
       highlight: true,
-      minLength: 0,
+      minLength: 0
     }
     var option2 = {
       // name: 'states',
@@ -180,7 +181,7 @@ Template.typeahead.onCreated(function () {
       limit: props.limit,
       source: currySearch(templ, this),
       templates: {
-        empty: this.noneFound(),
+        empty: this.noneFound()
       }
     }
 
@@ -227,6 +228,7 @@ Template.typeahead.onCreated(function () {
     if (this.data.focus) {
       $(this.ele).focus()
     }
+
     $(this.ele).unbind('typeahead:select').bind('typeahead:select', curryEvent(templ, this))
     $(this.ele).unbind('typeahead:autocomplete').bind('typeahead:autocomplete', curryEvent(templ, this))
   }
