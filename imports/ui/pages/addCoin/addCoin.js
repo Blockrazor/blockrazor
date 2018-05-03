@@ -3,8 +3,8 @@ import { developmentValidationEnabledFalse, FormData, Bounties, RatingsTemplates
 import { 
   addCoin
 } from '/imports/api/coins/methods' 
+import('sweetalert').then(swal => window.swal = swal.default)
 
-import swal from 'sweetalert';
 import Cookies from 'js-cookie';
 import smartWizard from 'smartwizard';
 

@@ -1,7 +1,6 @@
 import { Template } from 'meteor/templating'
 import './moderatorPendingCurrency.html'
-
-import swal from 'sweetalert'
+import('sweetalert').then(swal => window.swal = swal.default)
 
 Template.moderatorPendingCurrency.onCreated(function() {
 
