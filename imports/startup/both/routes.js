@@ -257,6 +257,19 @@ FlowRouter.route('/distribution', {
   }
 })
 
+FlowRouter.route('/priceChart', {
+  name: 'price-chart',
+  subscriptions: function() {
+    this.register('timeAuctions', FastRenderer.subscribe('timeAuctions', 9))
+  },
+  action: async (params, queryParams) => {
+    await import ('/imports/ui/pages/prices/priceChart')
+    BlazeLayout.render('mainLayout', {
+      main: 'priceChart'
+    })
+  }
+})
+
 FlowRouter.route('/exchanges', {
   name: 'exchanges',
   action: async (params, queryParams) => {
