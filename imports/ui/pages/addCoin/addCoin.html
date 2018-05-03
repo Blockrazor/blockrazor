@@ -16,14 +16,20 @@
                     <div class="row mx-3 my-5">
                        <div class="col-md-3">
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" name="smartContract" value="smartContract" class="custom-control-input exists" id="smartContract">
+                                <input type="checkbox" name="smartContract" value="smartContract" class="custom-control-input smartContract" id="smartContract">
                                 <label class="custom-control-label" for="smartContract">Is this a smart contract?</label>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" name="exists" value="exists" class="custom-control-input exists" checked="checked" id="bc-launched">
-                                <label class="custom-control-label" for="bc-launched">This blockchain has been launched (genesis block has been mined)</label>
+                                <label class="custom-control-label" for="bc-launched">
+                                {{#if smartContract}}
+                                    This contract has launched been launched
+                                {{else}}
+                                    This blockchain has been launched (genesis block has been mined)
+                                {{/if}}
+                                </label>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -32,12 +38,14 @@
                                 <label class="custom-control-label" for="is-ico">{{icoText}}</label>
                             </div>
                         </div>
+                        {{#unless smartContract}}
                         <div class="col-md-3">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input btcfork" name="BTCFork" value="BTCFork" id="btc-fork">
                                 <label class="custom-control-label" for="btc-fork">{{btcForkText}}</label>
                             </div>
                         </div>
+                        {{/unless}}
                     </div>
                 </div>
                 <div id="step-2" class="p-4">
