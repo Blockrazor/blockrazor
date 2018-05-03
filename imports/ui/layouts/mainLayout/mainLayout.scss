@@ -22,7 +22,7 @@
 #sidebar {
   top:86px !important;
   .nav-side-close > a {
-    width: 32px;
+    width: 25px;
     height: 32px;
     text-decoration: none;
     // Center the icon.
@@ -30,8 +30,8 @@
     justify-content: center;
     align-items: center;
     // Position the link right next to the sidebar.
-    position: absolute;
-    right: -32px;
+    /*position: absolute;*/
+    /*right: -32px;*/
     background-color: #ddd;
   }
 }
