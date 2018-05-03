@@ -36,6 +36,55 @@ Meteor.methods({
     })
     return 
   },
+  untagExchange(eId, cId){
+    if (!Meteor.userId()){
+      throw new Meteor.Error("log in")
+    }
+    let exchange = Exchanges.findOne(eId)
+    let currency = Currencies.findOne(cId)
+    if (!exchange || !currency){
+      throw new Meteor.Error("exchange or currency doesn't exist")
+    }
+    Currencies.update(cId, {
+      $pull: {exchanges: {
+        name: exchange.name,
+        _id: eId,
+        slug: exchange.slug
+      } }
+    })
+    Exchanges.update(eId, {
+      $pull: {currencies: {
+        name: currency.currencyName,
+        _id: cId,
+        slug: currency.slug
+      } }
+    })
+    return 
+  },
+  deleteExchange(eId){
+    if (!Meteor.userId()){
+      throw new Meteor.Error("log in")
+    }
+    let exchange = Exchanges.findOne(eId)
+    if (!exchange){
+      throw new Meteor.Error("exchange doesn't exist")
+    }
+    // first untag exchange from all tagged currencies
+    if (exchange.currencies.length > 0) {
+      exchange.currencies.forEach(function(currency) {
+        Currencies.update(currency._id, {
+          $pull: {exchanges: {
+            name: exchange.name,
+            _id: eId,
+            slug: exchange.slug
+          } }
+        })        
+      });
+    }
+    // then delete exchange
+    Exchanges.remove(eId);
+    return 
+  },
   addExchange(name){
     if (!Meteor.userId()){
       throw new Meteor.Error("log in")

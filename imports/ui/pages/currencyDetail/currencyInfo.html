@@ -172,9 +172,11 @@
                          {{#if exchanges}}
               {{#each exchanges}}
                         <div class="col-md-4">
-                          <div class="card card-header">
-                            <div class="title">{{name}}</div>
-                            <div class="value"></div>
+                          <div class="card exchange-card card-header">
+                            <div class="row">
+                              <button type="button" class="col-2 fa fa-times-circle untagExchange pull-right" data-id="{{_id}}" title="Remove Exchange"></button>
+                              <span class="col-10 title">{{name}}</span>
+                            </div>
                           </div>
                         </div>
               {{/each}}
