@@ -7,6 +7,7 @@
     <div class="graph">
       {{> radarGraph _id=_id width=400 height=300 options=graphOptions}}
     </div>
+ <div class="text-center">
     {{#if top_red_flag}}
     <small class="top-redflag text-danger">
       <span class="fa fa-exclamation-circle"></span>
@@ -14,10 +15,22 @@
         {{top_red_flag}}
       </span>
     </small>
+{{else}}
+<br /> <!-- ensure a nice UI even if we don't have a top_ted_flag -->
     {{/if}}
-    <div class="footer col-sm-12">
-      <div><small class="pr-2">PRICE: {{price}}</small> <small class="pr-2">CPC: {{significant cpc}}</small> <small>CPT: {{significant cpt}}</small></div>
-      <div>RazorRank: {{razorRank}}</div>
+  </div>    
+    <div class="footer col-sm-12 text-center">
+<!-- <div class="row"> -->
+    <div class="col-sm">
+        <small><strong>PRICE</strong><br />{{price}}</small>
+    </div>
+    <div class="col-sm">
+       <small data-toggle="tooltip" data-placement="bottom" title="{{cpc}}"> <strong>CPC</strong><br />{{significant cpc}}</small>
+    </div>
+    <div class="col-sm">
+       <small data-toggle="tooltip" data-placement="bottom" title="{{cpt}}"> <strong>CPT</strong><br />{{significant cpt}}</small>
+    </div>
+<!-- </div> -->
     </div>
   </div>
 </template>
