@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import { Currencies, Ratings } from '/imports/api/indexDB.js';
-import swal from 'sweetalert';
+import('sweetalert').then(swal => window.swal = swal.default)
 
 import './question.html'
 import './ratings.scss'

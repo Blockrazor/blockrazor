@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import './approveCommunityImage.html'
-import swal from 'sweetalert'
+import('sweetalert').then(swal => window.swal = swal.default)
 
 Template.approveCommunityImage.helpers({
         getThumbnailImage: function(img) {

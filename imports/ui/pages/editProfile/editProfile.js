@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import { ProfileImages } from '/imports/api/indexDB.js'
-import swal from 'sweetalert';
+import('sweetalert').then(swal => window.swal = swal.default)
 
 import './editProfile.html'
 

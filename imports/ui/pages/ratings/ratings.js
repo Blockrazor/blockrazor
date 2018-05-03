@@ -9,7 +9,7 @@ import './question'
 import './upload'
 
 import Cookies from 'js-cookie'
-import swal from 'sweetalert';
+import('sweetalert').then(swal => window.swal = swal.default)
 
 Template.ratings.onCreated(function bodyOnCreated() {
   var self = this

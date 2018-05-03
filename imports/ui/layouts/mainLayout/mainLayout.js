@@ -2,8 +2,8 @@ import { Template } from 'meteor/templating';
 import { developmentValidationEnabledFalse } from '/imports/startup/both/developmentValidationEnabledFalse'
 import './mainLayout.html'
 import './mainLayout.scss'
+import('sweetalert').then(swal => window.swal = swal.default)
 
-import swal from 'sweetalert';
 import Cookies from 'js-cookie';
 import validate from 'jquery-validation'
 

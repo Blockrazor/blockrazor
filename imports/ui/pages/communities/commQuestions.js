@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Currencies, Ratings, Bounties } from '/imports/api/indexDB.js';
 import Cookies from 'js-cookie'
-import swal from 'sweetalert';
+import('sweetalert').then(swal => window.swal = swal.default)
 
 import './commQuestions.html'
 import './communities.scss'
