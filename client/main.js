@@ -13,10 +13,12 @@ import('/imports/api/indexDB').then(u => {
     Summaries = u.Summaries
     Redflags = u.Redflags
 
+    collections = { Features, Summaries, Redflags } // update references
+
     colStub.change()
 })
 
-const collections = { Features, Summaries, Redflags }
+let collections = { Features, Summaries, Redflags }
 
 import Cookies from 'js-cookie'
 
@@ -100,13 +102,21 @@ Template.registerHelper('nlToBr', function(value) {
 });
 
 Template.registerHelper('hasUserVoted', (collection, collectionId, direction) => {
-	var doc = collections[collection].findOne(collectionId);
-	var downVoted = doc.downVoted;
-	var appealVoted = doc.appealVoted;
+	var doc = collections[collection].findOne(collectionId)
 
-	if (direction === 'down') { return _.include(downVoted, Meteor.userId()) }
-	return _.include(appealVoted, Meteor.userId());
-});
+    if (doc) {
+    	var downVoted = doc.downVoted
+    	var appealVoted = doc.appealVoted
+
+    	if (direction === 'down') {
+            return _.include(downVoted, Meteor.userId())
+        }
+
+    	return _.include(appealVoted, Meteor.userId())
+    }
+
+    return false
+})
 
 Template.registerHelper('profilePictureByID', (id) => {
 
