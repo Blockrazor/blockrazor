@@ -91,23 +91,19 @@
 	margin: 0 !important;
 }
 
-#exchangesModal{
-
-  .modal-body {
-    position: relative;
-    max-height: 250px;
-    overflow-y: scroll;
-  }
-}
-
 .addExchanges {
   float: right;
 }
-.viewExchanges {
-  padding: 5px;
-  margin: -15px 0 5px 0;
-  height: 30px;
-  cursor: pointer
+
+.exchange-card {
+  .untagExchange {
+    outline: none;
+    background: transparent;
+    max-width: 25px;
+    border: 0;
+    cursor: pointer;
+    float: right;
+  }
 }
 
 .currency-info{

@@ -343,6 +343,15 @@ Template.currencyInfo.events({
     let slug = FlowRouter.getParam("slug");
     FlowRouter.go('/currencyEdit/' + slug + '/' + event.currentTarget.id);
   },
+  'click .untagExchange': function (event, templ) {
+    Meteor.call("untagExchange", $(event.target).data("id"), templ.currency._id, (err, res) => {
+      if (!err) {
+        sAlert.success('The exchange succesfully untagged from the ' + templ.currency.currencyName)
+      } else {
+        sAlert.error("There is a problem with untagging the exchange from " + templ.currency.currencyName)
+      }
+    })
+  }
 });
 
 Template.currencyInfo.helpers({
