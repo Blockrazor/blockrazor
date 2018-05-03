@@ -63,6 +63,7 @@ FlowRouter.route('/profile/:slug', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/userProfile/userProfile')
+    await import ('/imports/ui/pages/editProfile/editProfile')
     BlazeLayout.render('mainLayout', {
       main: 'userProfile'
     })

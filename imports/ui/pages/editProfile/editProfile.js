@@ -1,5 +1,6 @@
 import { Template } from 'meteor/templating';
 import { ProfileImages } from '/imports/api/indexDB.js'
+import swal from 'sweetalert';
 
 import './editProfile.html'
 
@@ -21,7 +22,15 @@ Template.editProfile.events({
             if (err) {
                 console.log('error editing profile', err)
             } else {
-                FlowRouter.go('/profile');
+                //route to your profile page not the /profile page
+                FlowRouter.go('/profile/'+Meteor.user().slug);
+
+                //give the user a better UX and let them know its been saved!
+                swal({
+                    icon: "success",
+                    text: 'Your profile has been updated',
+                    button: { className: 'btn btn-primary' }
+                  });
             }
         })
     },
