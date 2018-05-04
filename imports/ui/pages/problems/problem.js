@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating'
 import { UserData, Problems } from '/imports/api/indexDB'
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra'
-import('sweetalert').then(swal => window.swal = swal.default)
+import('sweetalert2').then(swal => window.swal = swal.default)
 
 import './problem.html'
 import './problemImages'

@@ -1,6 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Bounties, REWARDCOEFFICIENT, Problems, Currencies, PendingCurrencies, UserData, Ratings, HashPower } from '/imports/api/indexDB.js';
 import Cookies from 'js-cookie';
+import('sweetalert2').then(swal => window.swal = swal.default)
 
 export const LocalBounties = new Mongo.Collection(null)
 

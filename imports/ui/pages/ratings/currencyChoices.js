@@ -1,5 +1,6 @@
 import { Template } from 'meteor/templating'
-import { Currencies, Ratings, WalletImages } from '/imports/api/indexDB.js';
+import { Currencies, Ratings, WalletImages } from '/imports/api/indexDB.js'
+import('sweetalert2').then(swal => window.swal = swal.default)
 
 import './currencyChoices.html'
 
@@ -97,20 +98,20 @@ Template.currencyChoices.events({
                 swal({
                     icon: "error",
                     text: "Please upload at least two wallet images to continue.",
-                    button: { className: 'btn btn-primary' }
+                    confirmButtonClass: 'btn btn-primary'
                 });
             } else if (walletCheckCount >= 3 && walletCheckCount < 6) {
                 swal({
                     icon: "error",
                     text: "Please upload one more wallet image to continue.",
-                    button: { className: 'btn btn-primary' }
+                    confirmButtonClass: 'btn btn-primary'
                 });
             } else {
 				swal({
                     icon: "warning",
 					title: "We detect lazy answering!",
                     text: _lazyAnsweringWarningText,
-                    button: { text: 'continue', className: 'btn btn-primary' }
+                    confirmButtonClass: 'btn btn-primary'
                 });
             }
 

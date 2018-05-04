@@ -1,5 +1,6 @@
 import { Template } from 'meteor/templating';
 import './approveWalletImage.html'
+import('sweetalert2').then(swal => window.swal = swal.default)
 
 Template.approveWalletImage.events({
 'click .image': function(event) {
@@ -13,14 +14,13 @@ Template.approveWalletImage.events({
 
     },
   'click #reject': function(event){
-          swal("Why are you rejecting this?", {
-              content: "input",
-              button: { className: 'btn btn-primary' },
-              showCancelButton: true,
-              attributes: {
-                  type: "text",
-                  required: true,
-              }
+          swal({
+              text: "Why are you rejecting this?",
+              type: "warning",
+              input: "text",
+              confirmButtonClass: 'btn btn-primary',
+              cancelButtonClass: 'btn',
+              showCancelButton: true
           })
           .then((rejectionReason) => {
 

@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import { ProfileImages } from '/imports/api/indexDB.js'
-import('sweetalert').then(swal => window.swal = swal.default)
+import('sweetalert2').then(swal => window.swal = swal.default)
 
 import './editProfile.html'
 
@@ -29,7 +29,7 @@ Template.editProfile.events({
                 swal({
                     icon: "success",
                     text: 'Your profile has been updated',
-                    button: { className: 'btn btn-primary' }
+                    confirmButtonClass: 'btn btn-primary'
                   });
             }
         })

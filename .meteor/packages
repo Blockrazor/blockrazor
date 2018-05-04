@@ -24,7 +24,6 @@ session@1.1.7
 raix:handlebar-helpers
 accounts-ui@1.2.0
 accounts-password@1.5.0
-cleandersonlobo:sweetalert2
 simple:reactive-method
 juliancwirko:s-alert
 barbatus:stars-rating
@@ -40,7 +39,6 @@ ostrio:loggermongo
 todda00:friendly-slugs
 cfs:graphicsmagick
 check
-momentjs:moment
 blaze-html-templates
 fourseven:scss
 gwendall:hovercard
