@@ -6,7 +6,7 @@ span.twitter-typeahead .tt-input, span.twitter-typeahead .tt-hint {
 span.twitter-typeahead .tt-menu {
   z-index: 1051; !important;
   min-width: 40%;
-background: white;
+  background: white;
   /*as large as input*/
   border: none;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);

@@ -1,4 +1,3 @@
-
 #recaptchaModal {
   margin-top: 25vh;
 
@@ -84,7 +83,7 @@
     #summary {
       border-radius: 5px;
       margin-bottom: 10px;
-      width: 100%; 
+      width: 100%;
       height: 100px;
       resize: none;
     }
@@ -195,13 +194,13 @@
 
       .feature, .redflag {
         padding: 0;
-        
+
       }
     }
 
   }
   .addNewOuter {
-    margin-top: 30px; 
+    margin-top: 30px;
     .addNewFeatureContainer, .addNewRedflagContainer {
       #featureName, .submitNewFeature, .cancelNewFeature, #redflagContent, .submitRedFlag, .cancelNewRedFlag {
         max-height: 50px;
@@ -328,7 +327,7 @@
     max-width: 30px;
     max-height: 30px;
   }
-  
+
   .summary {
     .summary-author {
       width: 14%;
