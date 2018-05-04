@@ -60,6 +60,9 @@
 .nav-side-menu-container {
     height: 100%;
 }
+.modal-open .content_child {
+    position: unset;
+}
 .content_child {
     position: fixed;
     overflow: auto;
@@ -67,6 +70,7 @@
     height: 100vh;
     background-image: linear-gradient(to bottom right, #f7f7f7, #eafbff);
 }
+
 .sticky-top {
     margin: 0 15px;
 }
