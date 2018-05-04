@@ -698,6 +698,24 @@ adminRoutes.route('/candidates', {
   }
 })
 
+adminRoutes.route('/exchanges', {
+  name: 'exchanges-removal',
+  subscriptions: function () {
+    this.register('modExchanges', FastRenderer.subscribe('modExchanges'))
+  },
+  action: async (params, queryParams) => {
+    if (Meteor.userId()) {
+      await import ('/imports/ui/pages/moderator/exchanges/removeExchanges')
+      BlazeLayout.render('mainLayout', {
+        main: 'removeExchanges'
+      })
+    } else {
+      window.last = window.location.pathname
+      FlowRouter.go('/login')
+    }
+  }
+})
+
 adminRoutes.route('/flagged-ip/:ip', {
   name: 'flaggedIP',
   subscriptions: function (params) {
