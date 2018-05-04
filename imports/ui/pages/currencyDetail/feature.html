@@ -18,12 +18,12 @@
               <br /><br />
               <div class="pull-left">
                 <i class="fa fa-thumbs-up {{#if hasUserVoted 'Features' _id 'up'}} text-info {{/if}}" aria-hidden="true"></i>
-                <i class="fa fa-thumbs-down fa-flip-horizontal {{#if hasUserVoted 'Features' _id 'down'}} text-info {{/if}}" aria-hidden="true"></i>
+                <i class="fa fa-thumbs-down fa-flip-horizontal ml-1 {{#if hasUserVoted 'Features' _id 'down'}} text-info {{/if}}" aria-hidden="true"></i>
               </div>
-              <small class="text-muted padLeft">&nbsp;&nbsp;{{relativeTime createdAt}}</small>
+              <small class="text-muted padLeft">&nbsp;&nbsp;&nbsp;{{relativeTime createdAt}}</small>
               <div class="pull-right">
                 <i class="fa fa-flag flag" aria-hidden="true"></i>
-                <i id="comment_{{_id}}" class="fa fa-comments-o comments" aria-hidden="true" style="margin-left:10px;">
+                <i id="comment_{{_id}}" class="fa fa-comments comments" aria-hidden="true" style="margin-left:10px;">
                   <small>{{numComments}}</small>
                 </i>
               </div>
