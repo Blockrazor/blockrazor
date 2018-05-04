@@ -467,7 +467,8 @@ Template.currencyInfo.helpers({
       placeholder: "Add Exchange",
       addButtonText: "Create Exchange",
       customAddButtonExists: true,
-      noneFound: `@{value} doesn't exist, create and add it to @{parent.currency.currencyName}`
+      noneFound: `@{value} doesn't exist, create and add it to @{parent.currency.currencyName}`,
+      inlineButton: true,
     }
   },
 });
