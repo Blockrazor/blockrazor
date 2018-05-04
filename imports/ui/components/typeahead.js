@@ -28,7 +28,7 @@ import {
               },
               query: function(templ, entry){return {_id: 1}}),
               projection: function(templ, entry){return {sort: {_id: 1}}})
-              noneFound: function(){return `<span class="beautiful"> @{value} not found, create and add exchange to @{parent.currency.name}} //adds event listner if create prop exists
+              noneFound: function(){return `<span class="beautiful"> @{value} not found, create and add exchange to @{parent.currency.name}} //requires eventListener true, adds event listner if create prop exists
             }
           }
         in spacebars:
@@ -55,7 +55,7 @@ import {
     noneFound: `ele` // renders returned template literal if no results found in another framework, example above, has state: {value: input value, parent: parent template instance, typeahead: typeahead template instance}
     value: reactiveVar- passes current input value to it, doesn't support passing down values to
     results: reactiveVar- passes current results to it
-    customAddButtonExists: true, will render it's own add button on false
+    customAddButtonExists: true, will render it's own add button on false, exclusive to inline 'button'-within menu-, 
 }
 */
 
@@ -68,8 +68,15 @@ Template.typeahead.onCreated(function () {
   this.data.focus = this.data.focus === undefined ? false : this.data.focus
   this.data.autoFocus = this.data.autoFocus === undefined ? false : this.data.autoFocus
   this.data.quickEnter = this.data.quickEnter === undefined ? true : this.data.quickEnter
-  if (this.data.noneFound) {
-    this.noneFound = () => "<" + this.id + "> <span #click='clicked()'>" + this.data.noneFound + "</span></" + this.id + ">"
+  this.data.inlineButton = this.data.inlineButton == undefined ? false : this.data.inlineButton
+  if (true) { //is just true so that this code could collapsed in editor, is about noneFound template
+    if (this.data.noneFound){
+        this.noneFound = () => "<" + this.id + "> <span #click='clicked()'>" + this.data.noneFound + "</span></" + this.id + ">"
+    } else if (this.data.create && this.data.customAddButtonExists) {
+        this.noneFound = () => "<" + this.id + "> <span #click='clicked()'>" + "@{value} not found, create and add it" + "</span></" + this.id + ">"
+    } else {
+        this.noneFound = () => "<" + this.id + "> <span #click='clicked()'>" + "@{value} not found" + "</span></" + this.id + ">"
+    }
     //create web component with nx-framework for nothing found template rendering
     //produces "module is not defined" error for no good reason while working
     var self = this
@@ -90,17 +97,19 @@ Template.typeahead.onCreated(function () {
       .useOnContent(nx.middlewares.events)
       .use(passTemplates)
       .use((ele, state) => {
-        if (!state.typeahead.data.create || state.clicked || !state.typeahead.data.customAddButtonExists) {
+        if (state.clicked) {
           return
-        }
-
-        state.clicked = function (eve) {
-          state.typeahead.data.create(eve, state.value, state.typeahead.data.template)
+        } else {
+            if (!state.typeahead.data.create || !state.typeahead.data.customAddButtonExists){ //stop binding event on rerun or if externa button is rendered
+                state.clicked = ()=>{}
+            } else {
+            state.clicked = function (eve) {
+            state.typeahead.data.create(eve, state.value, state.typeahead.data.template)
+            }
+          }
         }
       })
       .register(this.id)
-  } else {
-    this.noneFound = () => `nothing found`
   }
 
   this.results = new ReactiveVar([])
@@ -141,7 +150,6 @@ Template.typeahead.onCreated(function () {
   // reset = false for use inside tracker, true for events
   this.updateSource = function (reset = false, autoFocus = this.data.autoFocus) {
     if (document.activeElement === document.getElementById(this.id)) {
-      console.log(reset, document.activeElement === document.getElementById(this.id))
       if (reset && autoFocus) $(this.ele).typeahead('val', '');
       if (!reset || (autoFocus && reset)) { //if this isn't event then keep focused, otherwise refocus if autoFocus
         if (reset) {
