@@ -1,7 +1,4 @@
 <template name="currencyInfo">
-  <div class="addExchanges">
-    {{> typeahead typeaheadProps}}
-  </div>
   <div class="card currency-info">
     <div class="currency-brand-container pull-left">
       <div class="currency-brand pull-left">
@@ -23,7 +20,7 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="basic-details">
-          <div class="border-secondary mb-3 mb-3" style="min-width:100px;overflow:hidden;">
+          <div class="border-secondary mb-3 mb-3" style="min-width:100px;">
             <div class="card-body" style="display:{{bodydisplay}};">
               <input type="hidden" id="_id" value="{{_id}}">
               <input type="hidden" id="name" value="{{currencyName}}">
@@ -174,7 +171,12 @@
                   <div class="tab-pane fade" id="exchangestab">
                     <br/>
                     <div class="row">
-
+                      <div class="addExchanges">
+                        {{> typeahead typeaheadProps}}
+                      </div>
+                    </div>
+                    <br/>
+                    <div class="row">
                          {{#if exchanges}}
               {{#each exchanges}}
                         <div class="col-md-4">

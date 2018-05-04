@@ -30,7 +30,7 @@
   }
   .editable-container{
     width: 100%;
-    
+
     .editableform{
       width: 100%;
       .form-group{
@@ -77,7 +77,7 @@
         transform: translateY(100%);
         z-index: 2 !important;
       }
-    }  
+    }
   }
 }
 
@@ -92,6 +92,7 @@
 }
 
 .addExchanges {
+  margin-left: 15px;
   float: right;
 }
 
@@ -116,7 +117,7 @@
     .currency-brand {
       display: inline-block;
       height: 48px;
-  
+
       img.currency-logo{
         max-height: 48px;
         width: auto;
@@ -124,7 +125,7 @@
         cursor: pointer;
         position: relative;
         float: left;
-        @media (max-width : 450px) {  
+        @media (max-width : 450px) {
           display: none;
         }
       }
@@ -137,6 +138,6 @@
         position: relative;
         float: left;
       }
-    }  
+    }
   }
 }
