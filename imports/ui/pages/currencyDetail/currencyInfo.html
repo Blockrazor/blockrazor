@@ -145,14 +145,20 @@
                         </div>
                         <div class="col-md-4">
                           <div class="card card-header">
-                            <div class="title">Git Update</div>
-                            <div class="value" id="gitUpdate">{{isNullReadOnly gitUpdate}}</div>
+                            <div class="title">Official Website</div>
+                            <div class="value" id="officialSite">{{isNull officialSite 'officialSite' }}</div>
                           </div>
                         </div>
                         <div class="col-md-4">
                           <div class="card card-header">
                             <div class="title">Git Repo</div>
                             <div class="value" id="gitRepo">{{isNull gitRepo 'gitRepo'}}</div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="card card-header">
+                            <div class="title">Git Update</div>
+                            <div class="value" id="gitUpdate">{{isNullReadOnly gitUpdate}}</div>
                           </div>
                         </div>
                         {{#if smartContractURL}}
