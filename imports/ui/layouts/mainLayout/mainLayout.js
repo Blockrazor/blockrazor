@@ -5,7 +5,7 @@ import './mainLayout.scss'
 import('sweetalert2').then(swal => window.swal = swal.default)
 
 import Cookies from 'js-cookie';
-import validate from 'jquery-validation'
+import('jquery-validation').then(validate => window.validate = validate.default)
 
 import '../../components/topNav/topNav'
 import '../../components/sideNav/sideNav'

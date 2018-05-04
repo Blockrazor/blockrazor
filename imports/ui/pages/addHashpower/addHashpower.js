@@ -3,7 +3,7 @@ import { developmentValidationEnabledFalse, FormData, HashHardware, HashAlgorith
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import Cookies from 'js-cookie'
 
-import validate from 'jquery-validation'
+import('jquery-validation').then(validate => window.validate = validate.default)
 
 import './addHashpower.html'
 
