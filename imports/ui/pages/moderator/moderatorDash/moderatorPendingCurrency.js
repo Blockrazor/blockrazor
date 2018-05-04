@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating'
 import './moderatorPendingCurrency.html'
-import('sweetalert').then(swal => window.swal = swal.default)
+import('sweetalert2').then(swal => window.swal = swal.default)
 
 Template.moderatorPendingCurrency.onCreated(function() {
 
@@ -46,7 +46,7 @@ Template.moderatorPendingCurrency.events({
                 swal({
                     icon: "error",
                     text: err.error,
-                    button: { className: 'btn btn-primary' }
+                    confirmButtonClass: 'btn btn-primary'
                 });
             }
             

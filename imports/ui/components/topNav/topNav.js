@@ -1,7 +1,7 @@
 import './topNav.html'
 import './topNav.scss'
 import '../global/globalHelpers'
-import('sweetalert').then(swal => window.swal = swal.default)
+import('sweetalert2').then(swal => window.swal = swal.default)
 
 import { colStub } from '/imports/ui/components/compatability/colStub'
 

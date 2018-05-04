@@ -1,6 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Currencies, Ratings, Bounties } from '/imports/api/indexDB.js';
 import Cookies from 'js-cookie'
+import('sweetalert2').then(swal => window.swal = swal.default)
 
 import './communities.html'
 import './commCurrencyChoices'
@@ -62,14 +63,14 @@ Template.communities.events({
 				swal({
                     icon: "error",
                     text: err.reason,
-                    button: { className: 'btn btn-primary' }
+                    confirmButtonClass: 'btn btn-primary'
                 });
             } else {
 				swal({
 					icon: "warning",
 					title: "We detect lazy answering!",
 					text: _lazyAnsweringWarningText,
-					button: { text: 'continue', className: 'btn btn-primary' }
+					confirmButtonClass: 'btn btn-primary'
 				}).then((value) => {
 					if (!Ratings.findOne({
 	                    $or: [{
@@ -83,7 +84,7 @@ Template.communities.events({
 						swal({
 		                    icon: "error",
 		                    text: 'Please add some communities to continue.',
-		                    button: { className: 'btn btn-primary' }
+		                    confirmButtonClass: 'btn btn-primary'
 		                });
 	                }
 				});

@@ -4,6 +4,17 @@ import {FlowRouter} from 'meteor/ostrio:flow-router-extra';
 window.FlowRouter = FlowRouter
 
 import { colStub } from '/imports/ui/components/compatability/colStub'
+import { moment } from '/imports/ui/components/compatability/moment'
+
+window.moment = moment // stub the moment package so we can dynamically import it without breaking anything
+
+import('moment').then(moment => {
+    let oldRef = window.moment 
+
+    window.moment = moment.default
+
+    oldRef().change() // notify all helpers and handlers that moment has been imported
+})
 
 UserData = Features = Summaries = Redflags = colStub // stub collections until they're loaded
 

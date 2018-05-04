@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import './approveCommunityImage.html'
-import('sweetalert').then(swal => window.swal = swal.default)
+import('sweetalert2').then(swal => window.swal = swal.default)
 
 Template.approveCommunityImage.helpers({
         getThumbnailImage: function(img) {
@@ -21,17 +21,14 @@ Template.approveCommunityImage.events({
       },
   'click #reject': function(event) {
 
-      swal("Why are you rejecting this?", {
+      swal({
+        text: "Why are you rejecting this?",
         type: "warning",
-              content: "input",
-              button: { className: 'btn btn-primary' },
-              showCancelButton: true,
-              attributes: {
-                  type: "text",
-                  required: true,
-              }
-          })
-          .then((rejectionReason) => {
+        input: "text",
+        confirmButtonClass: 'btn btn-primary',
+        cancelButtonClass: 'btn',
+        showCancelButton: true
+      }).then((rejectionReason) => {
 
               if (rejectionReason) {
                   Meteor.call('flagCommunityImage', this._id, rejectionReason, (err, data) => {

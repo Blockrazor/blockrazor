@@ -11,6 +11,7 @@ import {
 import './currencyInfo.html'
 import './currencyInfo.scss'
 import '/imports/ui/components/typeahead'
+import('sweetalert2').then(swal => window.swal = swal.default)
 
 Template.currencyInfo.onCreated(function () {
   this.autorun(() => {
@@ -199,9 +200,7 @@ Template.currencyInfo.events({
         swal({
           icon: "error",
           text: "Image must be under 2mb",
-          button: {
-            className: 'btn btn-primary'
-          }
+          confirmButtonClass: 'btn btn-primary'
         });
         uploadError = true;
       }
@@ -210,9 +209,7 @@ Template.currencyInfo.events({
         swal({
           icon: "error",
           text: "File must be an image",
-          button: {
-            className: 'btn btn-primary'
-          }
+          confirmButtonClass: 'btn btn-primary'
         });
         uploadError = true;
       }
@@ -235,9 +232,7 @@ Template.currencyInfo.events({
               swal({
                 icon: "error",
                 text: error.message,
-                button: {
-                  className: 'btn btn-primary'
-                }
+                confirmButtonClass: 'btn btn-primary'
               });
             } else {
 

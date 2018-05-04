@@ -39,7 +39,7 @@
     "scrollmagic": "^2.0.5",
     "simpl-schema": "^1.4.2",
     "smartwizard": "^4.3.1",
-    "sweetalert": "^2.1.0",
+    "sweetalert2": "^7.19.3",
     "underscore": "^1.8.3",
     "wdio-mocha-framework": "^0.5.13",
     "webdriverio": "^4.12.0",

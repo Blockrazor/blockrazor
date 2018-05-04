@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import { Currencies, Ratings } from '/imports/api/indexDB.js';
-import('sweetalert').then(swal => window.swal = swal.default)
+import('sweetalert2').then(swal => window.swal = swal.default)
 
 import './question.html'
 import './ratings.scss'
@@ -83,7 +83,7 @@ Template.question.events({
 					swal({
 						icon: "error",
 						text: _lazyAnsweringErrorText,
-						button: { className: 'btn btn-primary' }
+						confirmButtonClass: 'btn btn-primary'
 					});
 				}
 			}
@@ -93,7 +93,7 @@ Template.question.events({
 					swal({
 						icon: "warning",
 						text: 'Your answer is in contradiction with your previous answers. Please try again. If this persists, your progress will be purged and bounties will be nullified.',
-						button: { className: 'btn btn-primary' }
+						confirmButtonClass: 'btn btn-primary'
 					});
                 } else {
                     Meteor.call('deleteWalletRatings', (err, data) => {})
@@ -101,7 +101,7 @@ Template.question.events({
 					swal({
 						icon: "error",
 						text: _lazyAnsweringErrorText,
-						button: { className: 'btn btn-primary' }
+						confirmButtonClass: 'btn btn-primary'
 					});
                 }
             }
@@ -114,7 +114,7 @@ Template.question.events({
 				swal({
 					icon: "error",
 					text: _lazyAnsweringErrorText,
-					button: { className: 'btn btn-primary' }
+					confirmButtonClass: 'btn btn-primary'
 				});
             }
         })
