@@ -1,9 +1,9 @@
 #sidebar {
   position: fixed;
-  top: 60px !important;
-  min-width: 225px;
+  top: 55px !important;
+  width: 245px;
   height: 100%;
-  margin-left: -225px;
+  margin-left: -245px;
   background: #ddd;
   transition: all 0.2s ease;
   z-index: 9;
@@ -160,4 +160,45 @@
     float: right;
   }
 }
+
+/**** sss ***/
+
+.nav-side-menu {
+  li {
+    a {
+      i{
+        padding-left: 0;
+        &.fas, &.fab {
+            color: #000;
+            margin: 0 10px 0 0;
+            &:before {
+              font-size: 16px;
+              display: inline-block;
+              vertical-align: middle;
+              color: #000;
+          }
+        }
+      }
+    }
+  }
+}
  
+
+#sidebar {
+  ul {
+    li {
+      &.active {
+        a {
+            border-left: none;
+        }
+      }
+      a {
+          border-left: 3px solid transparent;
+      }
+    }
+  }
+}
+
+.child_menu_list li a i:before {
+    color: #fff !important;
+}
