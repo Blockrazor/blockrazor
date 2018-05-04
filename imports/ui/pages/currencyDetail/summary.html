@@ -10,9 +10,9 @@
       <br />
       <div class="pull-left">
         <i class="fa fa-thumbs-up {{#if hasUserVoted 'Summaries' _id 'up'}} text-info {{/if}}" aria-hidden="true"></i>
-        <i class="fa fa-thumbs-down fa-flip-horizontal {{#if hasUserVoted 'Summaries' _id 'down'}} text-info {{/if}}" aria-hidden="true"></i>
+        <i class="fa fa-thumbs-down fa-flip-horizontal ml-1 {{#if hasUserVoted 'Summaries' _id 'down'}} text-info {{/if}}" aria-hidden="true"></i>
       </div>
-      <small class="text-muted padLeft">&nbsp;&nbsp;{{relativeTime createdAt}}</small>
+      <small class="text-muted padLeft">&nbsp;&nbsp;&nbsp;{{relativeTime createdAt}}</small>
     </div>
     <div class="card-header summary-author">
       <a href="/profile/{{slugify author}}" class="img-container">

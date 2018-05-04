@@ -22,10 +22,14 @@
         <br />
         <div class="pull-left">
           <i class="fa fa-thumbs-up {{#if hasUserVoted 'Redflags' _id 'up'}} text-info {{/if}}" aria-hidden="true"></i>
-          <i class="fa fa-thumbs-down fa-flip-horizontal {{#if hasUserVoted 'Redflags' _id 'down'}} text-info {{/if}}" aria-hidden="true"></i>
+          <i class="fa fa-thumbs-down fa-flip-horizontal ml-1 {{#if hasUserVoted 'Redflags' _id 'down'}} text-info {{/if}}" aria-hidden="true"></i>
         </div>
-        <small class="text-muted padLeft">&nbsp;&nbsp;{{relativeTime createdAt}}</small>
-        <div class="pull-right"><i class="fa fa-flag flag" aria-hidden="true"></i><i id="comment_{{_id}}" class="fa fa-comments-o comments" aria-hidden="true" style="margin-left:10px;"><small>{{numComments}}</small></i></div>
+        <small class="text-muted padLeft">&nbsp;&nbsp;&nbsp;{{relativeTime createdAt}}</small>
+        <div class="pull-right">
+          <i class="fa fa-flag flag" aria-hidden="true"></i>
+          <i id="comment_{{_id}}" class="fa fa-comments comments" aria-hidden="true" style="margin-left:10px;">
+            <small>{{numComments}}</small>
+          </i></div>
         <br />
       </div>
       <div class="card-header post-author">
