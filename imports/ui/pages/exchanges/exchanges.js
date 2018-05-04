@@ -14,9 +14,9 @@ Template.exchangeActions.events({
   'click .deleteExchange': function (event, templ) {
     Meteor.call("deleteExchange", $(event.target).data("id"), (err, res) => {
       if (!err) {
-        sAlert.success("The exchange succesfully deleted.")
+        sAlert.success('Exchange removal successfully proposed. Moderators will decide whether to actually delete it or not.')
       } else {
-        sAlert.error("There is a problem with deleting the exchange")
+        sAlert.error('There is a problem with proposing exchange removal.')
       }
     })
   }

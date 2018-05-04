@@ -33,6 +33,15 @@ Exchanges.schema = new SimpleSchema({
   "currencies.$._id": { type: Id},
   'currencies.$.name': { type: String },
   'currencies.$.slug': { type: String },
+  scores: { type: Integer },
+  upvotes: { type: Integer },
+  votes: { type: Array },
+  "votes.$": { type: Object }, 
+  "votes.$.userId": { type: Id }, 
+  "votes.$.type": { type: String }, 
+  "votes.$.loggedIP": { type: String }, 
+  "votes.$.time": { type: Integer },
+  removalProposed: { type: Boolean }
 }, { requiredByDefault: developmentValidationEnabledFalse });
 
 Exchanges.deny({

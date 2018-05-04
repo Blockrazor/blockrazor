@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { Exchanges, Currencies } from '/imports/api/indexDB.js';
+import { Exchanges, Currencies, UserData } from '/imports/api/indexDB.js';
 
 Meteor.methods({
   fetchExchanges(){
@@ -61,29 +61,122 @@ Meteor.methods({
     })
     return 
   },
-  deleteExchange(eId){
-    if (!Meteor.userId()){
-      throw new Meteor.Error("log in")
-    }
-    let exchange = Exchanges.findOne(eId)
-    if (!exchange){
-      throw new Meteor.Error("exchange doesn't exist")
-    }
-    // first untag exchange from all tagged currencies
-    if (exchange.currencies.length > 0) {
-      exchange.currencies.forEach(function(currency) {
-        Currencies.update(currency._id, {
-          $pull: {exchanges: {
-            name: exchange.name,
-            _id: eId,
-            slug: exchange.slug
-          } }
-        })        
-      });
-    }
-    // then delete exchange
-    Exchanges.remove(eId);
-    return 
+    exchangeVote: function(eId, type) {
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('Error.', 'Please log in first')
+        }
+
+        let mod = UserData.findOne({
+            _id: this.userId
+        }, {
+            fields: {
+                moderator: true
+            }
+        })
+
+        if (!mod || !mod.moderator) {
+            throw new Meteor.Error('Error.', 'mod-only')
+        }
+        
+        let exchange = Exchanges.findOne({
+            _id: eId
+        })
+
+        if (exchange) {
+            if (!(exchange.votes || []).filter(i => i.userId === this.userId).length) { // user hasn't voted yet
+                Exchanges.update({
+                    _id: exchange._id
+                }, {
+                    $inc: {
+                        score: type === 'voteUp' ? 1 : -1, // increase or decrease the current score
+                        [type === 'voteUp' ? 'upvotes' : 'downvotes']: 1 // increase upvotes or downvotes
+                    },
+                    $push: {
+                        votes: {
+                            userId: this.userId,
+                            type: type,
+                            loggedIP: (this.connection || {}).clientAddress || '0.0.0.0', // we don't want to break the simulation
+                            time: new Date().getTime()
+                        }
+                    }
+                })
+            }
+               
+            let approveChange = Exchanges.find({
+                _id: exchange._id
+            }, {
+                fields: {
+                    score: 1,
+                    upvotes: 1,
+                    downvotes: 1 
+                } 
+            }).fetch()[0]
+
+            // remove the proposal if the score is <= -3
+            if (approveChange.score <= -3) {
+                Exchanges.update({
+                    _id: exchange._id
+                }, {
+                    $set: {
+                        score: 0, // reset all vote related values
+                        upvotes: 0,
+                        downvotes: 0,
+                        votes: [],
+                        removalProposed: false
+                    }
+                })
+
+                return 'not-ok'
+            }
+
+            // Delete the exchange if it the score is >= -3
+            if (approveChange.score >= 3) {
+                if (exchange.currencies.length > 0) {
+                    // first untag exchange from all tagged currencies
+                    exchange.currencies.forEach((currency) => {
+                        Currencies.update({
+                            _id: currency._id
+                        }, {
+                            $pull: {
+                                exchanges: {
+                                    name: exchange.name,
+                                    _id: eId,
+                                    slug: exchange.slug
+                                }
+                            }
+                        })        
+                    })
+                }
+
+                // then delete exchange
+                Exchanges.remove({
+                    _id: exchange._id
+                })
+                    
+                return 'ok'
+            }
+        }
+    },
+    deleteExchange: (eId) => {
+        if (!Meteor.userId()) {
+            throw new Meteor.Error('Please log in.')
+        }
+
+        let exchange = Exchanges.findOne({
+            _id: eId
+        })
+
+        if (!exchange) {
+            throw new Meteor.Error('Given exchange does not exist.')
+        }
+   
+        Exchanges.update({
+            _id: exchange._id
+        }, {
+            $set: {
+                removalProposed: true
+            }
+        })
   },
   addExchange(name){
     if (!Meteor.userId()){
