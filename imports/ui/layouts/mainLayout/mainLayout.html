@@ -1,21 +1,23 @@
 <template name="mainLayout">
-  {{> topNav}}
+  
     <div class="app-body">
-
-        
+        {{> topNav}}
         {{> sAlert}}
-
-      <nav id="sidebar" class="{{openSidebar}}">
+      <div class="content_child">
+      <div id="content" class="app-content container {{#if openSidebar}} open_sidemenu {{else}} close_sidemenu {{/if}}">
+          
+            {{> Template.dynamic template=main}}
+            {{> Template.dynamic template=bottom}}
+          
+      </div>
+    </div>
+    </div>
+    <nav id="sidebar" class="{{openSidebar}}">
         {{> sideNav}}
         <div class="nav-side-close">
           <a class="nav-side-close-btn" href="#"><i class="fa {{#if openSidebar}}fa-caret-left{{else}}fa-caret-right{{/if}}" aria-hidden="true"></i></a>
         </div>
       </nav>
-      <div id="content" class="app-content container">
-          {{> Template.dynamic template=main}}
-          {{> Template.dynamic template=bottom}}
-      </div>
-    </div>
     <div class="modal underDev {{show}}" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">

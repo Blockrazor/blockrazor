@@ -119,6 +119,16 @@ Template.mainLayout.helpers({
 });
 
 Template.mainLayout.onRendered(function(){
+
+  $(".content_child").scroll(function() {
+   if ($(this).scrollTop() > 100){  
+      $('.sticky-top').addClass("sticky");
+    }
+    else{
+      $('.sticky-top').removeClass("sticky");
+    }
+  });
+
   //used to toggle under development toggle
       if (!developmentValidationEnabledFalse) {
         return 
