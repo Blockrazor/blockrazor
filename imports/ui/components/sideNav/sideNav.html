@@ -1,4 +1,4 @@
-<template name="sideNav">   
+<template name="sideNav">
   <div class="nav-side-menu-container">
     <div class="nav-side-menu">
         <div class="menu-list">
@@ -18,33 +18,40 @@
                     <a href="/"><i class="fas fa-home"></i>Home</a>
                 </li>
                 <li class="{{activeClass 'compare-currencies'}}">
-                    <a href="/compareCurrencies"><i class="fas fa-dollar-sign"></i>Compare currencies</a>
+                    <a href="/compareCurrencies"><i class="fas fa-balance-scale"></i>Compare currencies</a>
                 </li>
-                <li class="{{activeClass 'exchanges'}}"><a href="/exchanges"><i class="fas fa-exchange-alt"></i>Exchanges</a></li>
-                <li class="{{activeClass 'addcoin'}}"><a href="/addcoin"><i class="fab fa-bitcoin"></i>Add New Coin or ICO</a></li>
-                <li class="{{activeClass 'bounties'}}"><a href="/bounties"><i class="fas fa-globe"></i>Bounties
+                <li class="{{activeClass 'addcoin'}}"><a href="/addcoin"><i class="fas fa-plus-square"></i>Add New Coin or ICO</a></li>
+                <li class="{{activeClass 'bounties'}}"><a href="/bounties"><i class="fas fa-bullseye"></i>Bounties
                   {{#if hasBounties activeBounties }}
                     <span class="badge badge-danger">{{ activeBounties.length }}</span>
                   {{/if}}
                 </a></li>
-                <li class="{{activeClass 'problems'}}"><a href="/problems"><i class="fas fa-exclamation-triangle"></i>Problems</a></li>
-                <li class="{{activeClass 'all-auctions'}}"><a href="/auctions"><i class="fas fa-text-width"></i>Trading</a></li>
-                <li class="{{activeClass 'priceChart'}}"><a href="/priceChart"><i class="fas fa-hand-holding-usd"></i>Krazor price chart</a></li>
-                <li class="{{activeClass 'distribution'}}"><a href="/distribution"><i class="fas fa-users"></i>Krazor distribution</a></li>
+                <li class="{{activeClass 'problems'}}"><a href="/problems"><i class="fas fa-question-circle"></i>Get Help</a></li>
+                <li data-toggle="collapse" data-target="#krazor" class="collapsed">
+                    <a href="#"><b>KZR</b>&nbsp;&nbsp;&nbsp;Krazor&nbsp;&nbsp;&nbsp;<span class="fas fa-chevron-down"></span></a>
+                </li>
+                <ul class="sub-menu collapse child_menu_list" id="krazor">
+                    <li><a class="sub-item" href="http://krazor.org"><i class="fas fa-link"></i>Krazor Home</a></li>
+                    <li><a class="sub-item {{activeClass 'all-auctions'}}" href="/auctions"><i class="fas fa-exchange-alt"></i>Trade Krazor</a></li>
+                    <li><a class="sub-item {{activeClass 'priceChart'}}" href="/priceChart"><i class="fas fa-chart-line"></i>Krazor price chart</a></li>
+                    <li><a class="sub-item {{activeClass 'distribution'}}" href="/distribution"><i class="fas fa-users"></i>Krazor distribution</a></li>
+                    <li><a class="sub-item {{activeClass 'transactions'}}" href="/transactions/1"><i class="fas fa-database"></i>All Blockrazor Transactions</a></li>
+                </ul>
                 {{#if currentUser}}
                 <li class="{{activeClass 'mypending'}}"><a href="/mypending"><i class="fas fa-hourglass-end"></i>My Pending Items</a></li>
                 <li class="{{activeClass 'notifications'}}"><a href="/notifications"><i class="fas fa-bell"></i>Notifications
                   {{#if activityNotifications}}<span class="badge badge-success">{{activityNotifications}}</span>{{/if}}
                 </a></li>
-                <li class="{{activeClass 'wallet'}}"><a href="/wallet"><i class="fab fa-google-wallet"></i>My Wallet
+                <li class="{{activeClass 'wallet'}}"><a href="/wallet"><i class="fab fa-btc"></i>My Wallet
                   {{#if walletNotifications}}<span class="badge badge-success">{{walletNotifications}}</span>{{/if}}
                 </a></li>
                 {{/if}}
+                <li class="{{activeClass 'exchanges'}}"><a href="/exchanges"><i class="fas fa-exchange-alt"></i>Exchanges</a></li>
                 {{#if isModerator}}
-                <li data-toggle="collapse" data-target="#service" class="collapsed">
-                    <a href="#"><i class="fas fa-laptop"></i>Moderator Dashboard <span class="arrow"></span></a>
+                <li data-toggle="collapse" data-target="#moderator" class="collapsed">
+                    <a href="#"><i class="fas fa-rocket"></i>Moderator Dashboard&nbsp;&nbsp;&nbsp;<span class="fas fa-chevron-down"></span></a>
                 </li>
-                <ul class="sub-menu collapse child_menu_list" id="service">
+                <ul class="sub-menu collapse child_menu_list" id="moderator">
                     <li><a class="sub-item {{activeClass 'moderator'}}" href="/moderator/"><i class="fas fa-check"></i>Approvals</a></li>
                     <li><a class="sub-item {{activeClass 'changedCurrencies'}}" href="/changedCurrencies/"><i class="fas fa-edit"></i>Proposed Changes</a></li>
                     <li><a class="sub-item {{activeClass 'flaggedUsers'}}" href="/moderator/flagged-users"><i class="fas fa-map-marker"></i>Flagged IP addresses</a></li>
@@ -56,7 +63,6 @@
                     <li><a class="sub-item {{activeClass 'solved-problems'}}" href="/moderator/solved-problems"><i class="fas fa-check-circle"></i>Solved Problems</a></li>
                     <li><a class="sub-item {{activeClass 'pardon'}}" href="/moderator/pardon"><i class="fas fa-user-slash"></i>Pardon Suspended Users</a></li>
                     <li><a class="sub-item {{activeClass 'flagged'}}" href="/moderator/flagged"><i class="fas fa-flag"></i>Flagged Content</a></li>
-                    <li><a class="sub-item {{activeClass 'transactions'}}" href="/transactions/1"><i class="fas fa-id-card"></i>All Blockrazor Transactions</a></li>
                 </ul>
                 {{/if}}
                 {{else}}
