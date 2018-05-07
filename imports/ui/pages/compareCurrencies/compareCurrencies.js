@@ -62,7 +62,7 @@ Template.compareCurrencies.onCreated(function () {
 					borderColor: color,
 					backgroundColor: `rgba(${(rgb >> 16) & 255}, ${(rgb >> 8) & 255}, ${rgb & 255}, 0.2)`
 				})
-			} 
+			}
 
 			return i
 		})
@@ -460,13 +460,13 @@ Template.compareCurrencies.helpers({
 		return this.hashpower ? Math.round(this.hashpower).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 'N\\A'
 	},
 	finalValue: function () {
-		return Math.round(this.marketCap / this.maxCoins).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+		return (isNaN(this.marketCap) || isNaN(this.maxCoins)) ? '' : Math.round(this.marketCap / this.maxCoins).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 	},
 	martketCap: function () {
 		return Math.round(this.marketCap).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 	},
 	circulating: function () {
-		return Math.round(this.circulating).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+		return isNaN(this.circulating) ? '' : Math.round(this.circulating).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 	},
 	founder: () => "No data" // currently, there's no data about founders
 })
