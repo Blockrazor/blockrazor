@@ -134,6 +134,23 @@ Meteor.methods({
 								}
 							})
 						}
+
+						// set the KZR price to the last price
+						let pricePerKZR
+
+						if (auction.options.baseCurrency === 'KZR') {
+							pricePerKZR = ((auction.options.highest || 0) / auction.options.amount)
+						} else {
+							pricePerKZR = (auction.options.highest || 0) !== 0 ? (auction.options.amount / (auction.options.highest || 0)) : 0
+						}
+						
+						Currencies.update({
+							currencySymbol: 'KZR'
+						}, {
+							$set: {
+								price: (pricePerKZR * ((currency && currency.price) || 1)).toFixed(2)
+							}
+						})
 					} else {
 						transfer(auction.createdBy, 'Blockrazor', `${auction.options.amount} ${auction.options.baseCurrency} has been returned your account.`, auction.options.amount, auction.options.baseCurrency)
 					}
