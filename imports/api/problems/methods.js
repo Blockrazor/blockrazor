@@ -5,11 +5,20 @@ import { check } from 'meteor/check'
 import { sendMessage } from '/imports/api/activityLog/methods'
 
 
+SimpleSchema.defineValidationErrorTransform(error => {
+  const ddpError = new Meteor.Error(error.message);
+  ddpError.error = 'validation-error';
+  ddpError.details = error.details[0].message;
+  return ddpError;
+});
+
+
+
 export const newProblem = new ValidatedMethod({
   name: 'newProblem',
 	validate: //null,
   new SimpleSchema(Problems.schema.pick("type","header","text","images","images.$","bounty")
-	, {requiredByDefault: developmentValidationEnabledFalse }).validator(),
+	, {requiredByDefault: developmentValidationEnabledFalse }).validator({clean:true}),
   run({ type, header, text, images, bounty }) {
 			if (Meteor.userId()) {
 				if (bounty > 0) { // check if the user can finance the bounty
