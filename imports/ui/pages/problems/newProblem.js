@@ -30,7 +30,7 @@ function proceedSubmittingProblem() {
     } else {
       console.log(err, "reason", err.reason)
 
-      sAlert.error(err.reason)
+      sAlert.error(err.details)
     }
   })
 }
