@@ -158,7 +158,7 @@ export const addCoin = new ValidatedMethod({
     }
 })
 
-let editCoinChangedFieldSchema = new SimpleSchema(Currencies.schema.pick('currencyName', 'currencySymbol', 'gitRepo', 'officialSite','smartContractURL', 'genesisTimestamp', 'hashAlgorithm', 'premine', 'maxCoins', 'consensusSecurity')
+let editCoinChangedFieldSchema = new SimpleSchema(Currencies.schema.pick('currencyName', 'currencySymbol', 'gitRepo', 'officialSite','smartContractURL', 'genesisTimestamp', 'hashAlgorithm', 'premine', 'maxCoins', 'consensusSecurity', 'currencyLogoFilename')
     .extend({
         consensusSecurity: {
             custom() {
