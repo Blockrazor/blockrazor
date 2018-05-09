@@ -41,6 +41,10 @@ Template.newAuction.events({
 
 	    $("#js-form").addClass('was-validated');
 
+	    if(!$('#js-reserve').val()){
+	    	$('#js-reserve').val('0')
+	    }
+
 	    //if the form is invalid do not submit and display errors to user
 	    if ($("#js-form")[0].checkValidity()) {
 	        //form looks good, call method
