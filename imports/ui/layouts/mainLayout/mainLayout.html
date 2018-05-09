@@ -1,23 +1,19 @@
 <template name="mainLayout">
-  
-    <div class="app-body">
-        {{> topNav}}
+  {{> topNav}}
+    <div class="app-body">    
         {{> sAlert}}
-      <div class="content_child">
-      <div id="content" class="app-content container {{#if openSidebar}} open_sidemenu {{else}} close_sidemenu {{/if}}">
-          
-            {{> Template.dynamic template=main}}
-            {{> Template.dynamic template=bottom}}
-          
-      </div>
-    </div>
-    </div>
-    <nav id="sidebar" class="{{openSidebar}}">
+
+      <nav id="sidebar" class="{{openSidebar}}">
         {{> sideNav}}
         <div class="nav-side-close">
           <a class="nav-side-close-btn" href="#"><i class="fa {{#if openSidebar}}fa-caret-left{{else}}fa-caret-right{{/if}}" aria-hidden="true"></i></a>
         </div>
       </nav>
+      <div id="content" class="app-content container {{openSidebar}}">
+          {{> Template.dynamic template=main}}
+          {{> Template.dynamic template=bottom}}
+      </div>
+    </div>
     <div class="modal underDev {{show}}" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -38,16 +34,15 @@
             <a href="https://twitter.com/blockrazor">
               <i class="fab fa-twitter" aria-hidden="true" style="font-size:32px;padding:10px"></i>
             </a>
-<br />
-
-                                <div class="form-group">
-                                  <form id="registerEmailForm">
-                      <h4 class="mt-3">Register and get notified when we Launch!!</h4>
-                      <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" required>
-                      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                      <button class="btn btn-primary mt-2 registerEmail" type="button">Register</button>
-                    </form>
-                    </div>
+            <br />
+            <div class="form-group">
+              <form id="registerEmailForm">
+                <h4 class="mt-3">Register and get notified when we Launch!!</h4>
+                <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" required>
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                <button class="btn btn-primary mt-2 registerEmail" type="button">Register</button>
+              </form>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" id="hideDevelopmentNotification" class="btn btn-secondary" data-dismiss="modal">Hide for 5 days</button>
