@@ -1,7 +1,101 @@
 import { Meteor } from 'meteor/meteor'
-import { Currencies, Features, UserData } from '/imports/api/indexDB.js'
+import { Currencies, Features, UserData, developmentValidationEnabledFalse } from '/imports/api/indexDB.js'
 import { checkCaptcha } from '/imports/api/miscellaneous/methods'
 import { sendMessage } from '/imports/api/activityLog/methods'
+import SimpleSchema from 'simpl-schema';
+
+const featureSchema = new SimpleSchema({
+    featureName: {
+        type: String,
+        min: 6,
+        max: 140,
+        label: 'Feature name'
+    },
+    coinId: {
+        type: SimpleSchema.RegEx.Id
+    },
+    captcha: {
+        type: String,
+        optional: true
+    }
+}, { 
+    requiredByDefault: developmentValidationEnabledFalse
+})
+
+export const newFeature = new ValidatedMethod({
+    name: 'newFeature',
+    validate: featureSchema.validator({
+        clean: true
+    }),
+    run({coinId, featureName, captcha}) {
+        if (Meteor.userId()) {
+            let added = Features.find({
+                createdBy: Meteor.userId(),
+                currencyId: coinId
+            }).count()
+
+            let canAdd = true
+
+            if (added > 10) { // if the user has added more than 10 items
+                let last = Features.findOne({
+                    createdBy: Meteor.userId(),
+                    currencyId: coinId
+                }, {
+                    sort: {
+                        createdAt: -1
+                    }
+                })
+
+                canAdd = !(last && new Date(last.createdAt).getTime() > (new Date().getTime() - 259200000)) // 3 days have to pass between adding new if the user has added more than 10 features
+            }
+
+            if (canAdd) {
+                if (Meteor.isServer) {
+                    const Future = require('fibers/future')
+                    const fut = new Future()
+                        
+                    checkCaptcha(captcha, fut, this.connection.clientAddress)
+
+                    if (fut.wait()) {
+                        Features.insert({
+                            currencyId: coinId,
+                            currencySlug: (Currencies.findOne({ _id: coinId }) || {}).slug,
+                            featureName: featureName,
+                            appeal: 2,
+                            appealNumber: 2,
+                            appealVoted: [Meteor.userId()],
+                            flags: 0,
+                            flagRatio: 0,
+                            flaggedBy: [],
+                            commenters: [],
+                            createdAt: Date.now(),
+                            author: Meteor.user().username,
+                            createdBy: Meteor.userId(),
+                            rating: 1
+                        })
+
+                        UserData.update({
+                            _id: Meteor.userId()
+                        }, {
+                            $push: {
+                                activity: {
+                                    time: new Date().getTime(),
+                                    type: 'feature'
+                                }
+                            }
+                        })
+                    } else {
+                        throw new Meteor.Error('Error.', 'Invalid captcha.')
+                    }
+                }
+            } else {
+                throw new Meteor.Error('Error.', 'You have to wait until you can post another feature.')
+            }
+        } else {
+            throw new Meteor.Error('Error', 'You must be signed in to add a new feature')
+        }
+    }
+})
 
 var hasUserVoted = (id, direction) => {
 	var feature = Features.findOne(id);
@@ -42,72 +136,6 @@ Meteor.methods({
       }
     })
   },
-  newFeature: function(coinId, featureName, captcha) {
-    if(this.userId){
-     
-    let added = Features.find({
-      createdBy: this.userId,
-      currencyId: coinId
-    }).count()
-
-    let canAdd = true
-
-    if (added > 10) { // if the user has added more than 10 items
-      let last = Features.findOne({
-        createdBy: this.userId,
-        currencyId: coinId
-      }, {
-        sort: {
-          createdAt: -1
-        }
-      })
-
-      canAdd = !(last && new Date(last.createdAt).getTime() > (new Date().getTime() - 259200000)) // 3 days have to pass between adding new if the user has added more than 10 features
-    }
-
-    if (canAdd) {
-      const Future = require('fibers/future')
-      const fut = new Future()
-                
-      checkCaptcha(captcha, fut, this.connection.clientAddress)
-
-      if (fut.wait()) {
-        Features.insert({
-          currencyId: coinId,
-          currencySlug: (Currencies.findOne({ _id: coinId }) || {}).slug,
-          featureName: featureName,
-          appeal: 2,
-          appealNumber: 2,
-          appealVoted: [this.userId],
-          flags: 0,
-          flagRatio: 0,
-          flaggedBy: [],
-          commenters: [],
-          createdAt: Date.now(),
-          author: Meteor.user().username,
-          createdBy: this.userId,
-          rating: 1
-        })
-
-        UserData.update({
-          _id: this.userId
-        }, {
-          $push: {
-            activity: {
-              time: new Date().getTime(),
-              type: 'feature'
-            }
-          }
-        })
-      } else {
-        throw new Meteor.Error('Error.', 'Invalid captcha.')
-      }
-    } else {
-      throw new Meteor.Error('Error.', 'You have to wait until you can post another feature.')
-    }
-
-  } else {throw new Meteor.Error('Error', 'You must be signed in to add a new feature')}
-},
 
 newComment: function(parentId, comment, depth, captcha) {
   if(this.userId){

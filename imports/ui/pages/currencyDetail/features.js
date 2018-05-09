@@ -3,7 +3,8 @@ import { HashAlgorithm, Currencies, Features } from '/imports/api/indexDB.js'
 import Cookies from 'js-cookie'
 
 import './features.html'
-import { FeatureValidate } from "../../../validate/featuresValidate";
+import { newFeature } from '/imports/api/features/methods' 
+
 Template.features.onCreated(function(){
   this.showflagged = new ReactiveVar(false)
   this.addingnewfeature = new ReactiveVar(false)
@@ -81,42 +82,42 @@ Template.features.events({
   }
 });
   },
-  'click .submitNewFeature': function () {
-    if (!Meteor.user()) {
-        sAlert.error("You must be logged in to add a new feature!");
-    }
-    var data = $('#featureName').val();
-    let res;
-    try {
-        res = grecaptcha && grecaptcha.getResponse()
-    } catch (e) {
-        res = 'pass'
-    }
-    let valid = FeatureValidate({featureName:data})
-    if(!valid){
-      console.log("Before call server method")
-      sAlert.error("That entry is too short, or too long.");
-    }else{
-        let res;
+    'click .submitNewFeature': function(event, templateInstance) {
+        if (!Meteor.user()) {
+            sAlert.error("You must be logged in to add a new feature!")
+        }
+
+        const data = $('#featureName').val()
+
+        let res
         try {
             res = grecaptcha && grecaptcha.getResponse()
         } catch (e) {
             res = 'pass'
         }
-        const templ = Template.instance();
-        Meteor.call('newFeature', this._id, data, res, (err, data) => {
+
+        newFeature.call({
+            coinId: this._id,
+            featureName: data, 
+            captcha: res
+        }, (err, data) => {
             if (!err) {
-                $('#featureName').val(" ");
-                $(".showAddNewFeature").show();
-                $(".addNewFeatureContainer").hide();
-                templ.addingnewfeature.set(false);
-                sAlert.success("Thanks! That feature has been added!")
+                $('#featureName').val(' ')
+                $('.showAddNewFeature').show()
+                $('.addNewFeatureContainer').hide()
+                templateInstance.addingnewfeature.set(false)
+                sAlert.success('Thanks! That feature has been added!')
             } else {
-                sAlert.error(err.reason)
+                if (err.details) {
+                    err.details.forEach(i => {
+                        sAlert.error(i.message)
+                    })
+                } else {
+                    sAlert.error(err.reason)
+                }
             }
         })
-    }
-  },
+    },
   'click .showAddNewFeature': function() {
     $(".showAddNewFeature").hide();
     $(".addNewFeatureContainer").show();
