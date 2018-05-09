@@ -66,7 +66,6 @@ addCoinFormSchema.messageBox.messages({
     }
 })
 
-
 export const addCoin = new ValidatedMethod({
     name: 'addCoin',
     validate: addCoinFormSchema.validator({clean: true}),
@@ -157,7 +156,133 @@ export const addCoin = new ValidatedMethod({
                 }
             });
     }
-});
+})
+
+let editCoinChangedFieldSchema = new SimpleSchema(Currencies.schema.pick('currencyName', 'currencySymbol', 'gitRepo', 'officialSite','smartContractURL', 'genesisTimestamp', 'hashAlgorithm', 'premine', 'maxCoins', 'consensusSecurity')
+    .extend({
+        consensusSecurity: {
+            custom() {
+                return Currencies.schemaFuncs.checkForDropdown.call(this, "--Select One--")
+            },
+        },
+        hashAlgorithm: {
+            custom(){
+                return Currencies.schemaFuncs.checkForDropdown.call(this, "--Select One--")
+            },
+        },
+        genesisTimestamp: {
+            autoValue() {
+                if (!this.field("genesisYear").isSet) return;
+                return Date.parse(this.field("genesisYear").value)
+            },
+        }
+    }), {
+        requiredByDefault: developmentValidationEnabledFalse
+    })
+
+const {
+  Integer,
+  RegEx,
+  oneOf
+} = SimpleSchema
+
+const {
+  Id,
+  Domain
+} = RegEx
+
+editCoinChangedFieldSchema._firstLevelSchemaKeys.forEach(i => {
+    editCoinChangedFieldSchema.extend({
+        [i]: {
+            optional: true
+        }
+    }) // make them all optional
+})
+
+editCoinChangedFieldSchema.extend({
+    previousNames: {
+        type: String,
+        optional: true
+    }
+})
+
+const editCoinFormSchema =  new SimpleSchema({
+    coin_id: {
+        type: Id
+    },
+    coinName: {
+        type: String,
+        min: 3,
+        max: 20
+    },
+    changed: editCoinChangedFieldSchema,
+    old: SimpleSchema.oneOf({
+        type: String
+    }, {
+        type: Number
+    }),
+    changedDate: {
+        type: Number
+    },
+    createdBy: {
+        type: String
+    },
+    score: {
+        type: Number
+    },
+    status: {
+        type: String
+    },
+    notes: {
+        type: String
+    }
+}, {
+    requiredByDefault: developmentValidationEnabledFalse
+})
+
+export const editCoin = new ValidatedMethod({
+    name: 'editCoin',
+    validate: editCoinFormSchema.validator({}),
+    run({coin_id, coinName, changed, old, changedDate, createdBy, score, status, notes}) {
+        //data should be used since some of items may be undefined
+        const data = {coin_id, coinName, old, changed, changedDate, createdBy, score, status, notes}
+
+        // convert new input data to the old system (adapter)
+        data.field = Object.keys(changed)[0]
+        data.new = data.changed[data.field]
+
+        delete data.changed
+
+        if (!Meteor.userId()) {
+            throw new Meteor.Error("Please log in first")
+        }
+
+        //check to see if a coin change exists already, if so, thow an exception.
+        let coinChangeExist = ChangedCurrencies.find({
+            coin_id: data.coin_id,
+            field: data.field,
+            status: 'pending review'
+        }).count()
+
+        if (coinChangeExist >= 1) {
+            throw new Meteor.Error("A change already exists for this field")
+        }
+
+        if (data.field === 'currencyName') {
+            Meteor.call('isCurrencyNameUnique', data.new)
+        }
+
+        ChangedCurrencies.insert(data, (error, result) => {
+            if (!result) {
+                console.log(error)
+                
+                throw new Meteor.Error('Invalid', error)
+            } else {
+                return 'ok'
+            }
+        })
+    }
+})
 
 Meteor.methods({
       getCurrentReward: (userId, currencyName) => {
@@ -426,215 +551,6 @@ Meteor.methods({
         } else {return "OK"};
       }
       },
-    editCoin(data) {
-        //Check that user is logged in
-        if (!Meteor.userId()) {
-            throw new Meteor.Error("Please log in first")
-        };
-
-        //check to see if a coin change exists already, if so, thow an exception.
-        let coinChangeExist = ChangedCurrencies.find({
-            coin_id: data[0].coin_id,
-            field: data[0].field,
-            status: 'pending review'
-        }).count();
-
-        if (coinChangeExist >= 1) {
-            throw new Meteor.Error("A change already exists for this field")
-        };
-
-
-        //Initialize arrays to store which data.<item>s pass or fail validation
-        var allowed = [];
-        var error = [];
-
-        //Function to validate data (checkSanity)
-        var checkSanity = function (value, name, type, minAllowed, maxAllowed, nullAllowed) {
-            if (type == "object") {
-                if (typeof value == type && _.size(value) >= minAllowed && _.size(value) <= maxAllowed && nullAllowed) {
-                    allowed.push(name);
-                    return true;
-                } else {
-                    error.push(name);
-                    return false;
-                }
-            }
-            if (typeof value == type && value.toString().length >= minAllowed && value.toString().length <= maxAllowed && nullAllowed) {
-                allowed.push(name);
-                return true;
-            } else if (!value && nullAllowed) {
-                allowed.push(name);
-                return true;
-            } else {
-                error.push(name);
-                return false;
-            }
-        } //END checkSanity
-
-        //Get coin status and type for dependent validation
-        var altcoin = false;
-        var proposal = false;
-        var btcfork = false;
-        var ico = false;
-
-        for (i in data.launchTags) {
-            if (data.launchTags[i].tag == "Altcoin") {
-                altcoin = true;
-            }
-            if (data.launchTags[i].tag == "proposal") {
-                proposal = true;
-            }
-            if (data.launchTags[i].tag == "Bitcoin Fork") {
-                btcfork = true;
-            }
-            if (data.launchTags[i].tag == "ICO") {
-                ico = true;
-            }
-        }
-
-        //compulsory checks
-        if (data.launchTags) checkSanity(data.launchTags, "launchTags", "object", 1, 3, true);
-        checkSanity(data.currencyName, "currencyName", "string", 3, 20, true);
-        checkSanity(data.currencySymbol, "currencySymbol", "string", 2, 5, true);
-        checkSanity(data.premine, "premine", "number", 1, 15, true);
-        checkSanity(data.maxCoins, "maxCoins", "number", 4, 18, true);
-        checkSanity(data.gitRepo, "gitRepo", "string", 18, 300, true);
-        checkSanity(data.officialSite, "officialSite", "string", 6, 200, true);
-        checkSanity(data.officialSite, "currencyLogoFilename", "string", 6, 200, true);
-        checkSanity(data.createdBy, "createdBy", "string", 6, 200, true);
-
-        //Check the self-populating dropdowns
-        if (data.consensusSecurity != "--Select One--") {
-            checkSanity(data.consensusSecurity, "consensusSecurity", "string", 6, 20, true);
-        } else {
-            error.push("consensusSecurity")
-        };
-        if (data.hashAlgorithm) {
-            if (data.hashAlgorithm == "--Select One--") {
-                error.push("hashAlgorithm")
-            } else {
-                checkSanity(data.hashAlgorithm, "hashAlgorithm", "string", 3, 40, true);
-            }
-        };
-
-        //Check things that are always optional
-        checkSanity(data.reddit, "reddit", "string", 12, 300, true);
-        checkSanity(data.blockExplorer, "blockExplorer", "string", 6, 300, true);
-        checkSanity(data.approvalNotes, "approvalNotes", "string", 0, 1000, true);
-
-        //If this is a normal altcoin that already exists:
-        if (altcoin && !proposal) {
-            checkSanity(data.previousNames, "previousNames", "object", 0, 5, true);
-            checkSanity(data.genesisTimestamp, "genesisTimestamp", "number", 13, 16, true);
-            if (data.genesisTimestamp != 0) {
-                if (data.genesisTimestamp < 1231006505000) {
-                    error.push("genesisTimestamp");
-                    allowed = allowed.filter(function (i) {
-                        return i != "genesisTimestamp"
-                    })
-                }
-            }
-        }
-        //If the coin exists, no matter what it is
-        if (altcoin && proposal) {
-            checkSanity(data.genesisTimestamp, "intendedLaunch", "number", 13, 16, true);
-            if (data.genesisTimestamp < 1509032068000) {
-                error.push("genesisTimestamp");
-                allowed = allowed.filter(function (i) {
-                    return i != "genesisTimestamp"
-                })
-            }
-        }
-
-        //If this is an ICO (launched or not)
-        if (ico) {
-            checkSanity(data.ICOcoinsProduced, "ICOcoinsProduced", "number", 1, 15, true);
-            checkSanity(data.ICOfundsRaised, "ICOfundsRaised", "number", 1, 15, true);
-            checkSanity(data.icocurrency, "icocurrency", "string", 3, 3, true);
-            if (data.premine < data.ICOcoinsProduced) {
-                error.push("premine");
-                allowed = allowed.filter(function (i) {
-                    return i != "premine"
-                })
-            };
-        }
-
-        //If this is an ICO that hasnt launched yet
-        if (ico && proposal) {
-            checkSanity(data.ICOcoinsIntended, "ICOcoinsIntended", "number", 1, 15, true);
-            checkSanity(data.ICOnextRound, "ICOnextRound", "number", 13, 16, true);
-            if (data.premine < data.ICOcoinsProduced + data.ICOcoinsIntended) {
-                error.push("premine");
-                allowed = allowed.filter(function (i) {
-                    return i != "premine"
-                })
-            };
-        }
-        //If this is a bitcoin fork (planned or existing)
-        if (btcfork) {
-            checkSanity(data.forkParent, "forkParent", "string", 6, 20, false, true);
-            checkSanity(data.forkHeight, "forkHeight", "number", 6, 6, false, true);
-            checkSanity(data.replayProtection, "replayProtection", "string", 4, 5, false)
-        }
-        //If this is not proposal
-        if (!proposal) {
-            if (data.exchanges) checkSanity(data.exchanges, "exchanges", "object", 0, 15, true);
-            checkSanity(data.blockTime, "blockTime", "number", 1, 4, true);
-            checkSanity(data.confirmations, "confirmations", "number", 1, 4, true);
-
-        }
-
-
-
-
-
-        //Check that no one is playing silly buggers trying to put extra malicious crap into the data
-        //for (item in data) {
-        console.log("data: " + _.size(data));
-        console.log(data);
-
-        console.log("allowed: " + _.size(allowed));
-        console.log(allowed);
-
-        console.log("errors: " + _.size(error));
-        console.log(error);
-
-        console.log("unprocessed inputs: ", _.size(data) - (_.size(allowed) + _.size(error)));
-        console.log("-----------------");
-        //if(allowed.includes(data[item].)
-        //  }
-
-        if (error.length != 0) {
-            throw new Meteor.Error(error)
-        }
-        if (error.length == 0) { //not worrying about size on updates as only a few fields could be changed
-
-
-            for (var changed in data) {
-
-                // changed.push({ [newValue]: { old: originalValue, new: insert[newValue] } });
-
-                ChangedCurrencies.insert(data[changed], function (error, result) {
-                    if (!result) {
-                        console.log(error);
-                        //return error;
-                        throw new Meteor.Error('Invalid', error);
-                    } else {
-                        //console.log(error);
-                        console.log(result);
-                        return "OK";
-                    }
-                });
-            }
-
-
-        } else {
-            console.log("did not run insert function")
-        }
-
-
-
-    },
     rejectCurrency(name, id, owner, message, moderator) {
         if(UserData.findOne({_id: this.userId}).moderator) {
         var original = PendingCurrencies.findOne({_id: id});
