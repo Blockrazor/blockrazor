@@ -50,3 +50,17 @@
     }
   }
 }
+
+.top-bid-currency {
+  .header {
+    width: 400px;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-bid-currency {
+    .header {
+      width: 320px;
+    }
+  } 
+}
