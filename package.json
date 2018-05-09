@@ -17,7 +17,7 @@
     "analytics-node": "^3.2.0",
     "assert": "^1.4.1",
     "babel-runtime": "^6.26.0",
-    "bcrypt": "^1.0.3",
+    "bcrypt": "^2.0.1",
     "body-parser": "^1.18.2",
     "bootstrap": "^4.1.0",
     "bootstrap-slider": "^10.0.0",
