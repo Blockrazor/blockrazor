@@ -8,6 +8,10 @@ import {
   Exchanges,
 } from '/imports/api/indexDB.js'
 
+import { 
+  editCoin
+} from '/imports/api/coins/methods' 
+
 import './currencyInfo.html'
 import './currencyInfo.scss'
 import '/imports/ui/components/typeahead'
@@ -269,21 +273,27 @@ Template.currencyInfo.events({
 
 
 
-    Meteor.call('editCoin', [{
+    editCoin.call({
       coin_id: $('#_id').val(),
       coinName: $('#name').val(),
-      field: 'currencyLogoFilename',
+      changed: {
+        ['currencyLogoFilename']: $('#currencyLogoFilename').val()
+      },
       old: $('#currencyLogoFilename_existing').val(),
-      new: $('#currencyLogoFilename').val(),
       changedDate: new Date().getTime(),
       createdBy: Meteor.userId(),
       score: 0,
       status: 'pending review',
       notes: $('#currencyNotes').val()
-    }], (error, result) => {
+    }, (error, result) => {
       if (error) {
-        console.log(error.reason)
-        sAlert.error(error.reason)
+        if (error.details) {
+          error.details.forEach(i => {
+            sAlert.error(i.message)
+          })
+        } else {
+          sAlert.error(error.error)
+        }
       } else {
         console.log('coinChangeModal ran successfully')
         sAlert.success('Change proposed.')
@@ -300,25 +310,30 @@ Template.currencyInfo.events({
 
     //call method to edit coin
 
-    Meteor.call('editCoin', [{
+    let type = $('#modal_field').val()
+    let val = ~['premine', 'maxCoins', 'genesisTimestamp'].indexOf(type) ? Number($('#modal_new').val()) : $('#modal_new').val()
+
+    editCoin.call({
       coin_id: $('#_id').val(),
       coinName: $('#name').val(),
-      field: $('#modal_field').val(),
+      changed: {
+        [type]: val
+      },
       old: $('#modal_old').val(),
-      new: $('#modal_new').val(),
       changedDate: new Date().getTime(),
       createdBy: Meteor.userId(),
       score: 0,
       status: 'pending review',
       notes: $('#currencyNotes').val()
-    }], (error, result) => {
+    }, (error, result) => {
       if (error) {
-        if (error.reason) {
-          sAlert.error(error.reason)
+        if (error.details) {
+          error.details.forEach(i => {
+            sAlert.error(i.message)
+          })
         } else {
-          sAlert.error(error);
+          sAlert.error(error.error)
         }
-
       } else {
         console.log('yay')
         sAlert.success('Change proposed.')
