@@ -2,7 +2,6 @@
     <div id="pageHeader">
         <h3 id="pageTitle">ProblemS</h3>
     </div>
-    
 <div id="problemsFilterContainer" class="container">
     <form id="problemsFilter" name="problemsFilter">
         <div class="row form-items">
@@ -32,11 +31,18 @@
 	   {{#each problems}}
 		<div class="card padBottom hoverCard">
             <a href="/problem/{{_id}}">
-			<div class="card-header"><span class="badge badge-primary">{{newType type}}</span>
-{{header}}
-				<h5 class="float-right my-4 my-sm-0">
-					<span class="mr-2" style="color: {{statusColor status}}">{{status}}</span>
-				</h5>
+			<div class="card-header">
+        <div class="row">
+          <div class="col-8">
+            <span class="badge badge-primary">{{newType type}}</span>
+            {{header}}
+          </div>
+          <div class="col-4">
+    				<h5 class="float-right my-4 my-sm-0">
+    					<span class="mr-2" style="color: {{statusColor status}}">{{status}}</span>
+    				</h5>
+          </div>
+        </div>
 			</div>
             </a>
 			<div class="card-body">
