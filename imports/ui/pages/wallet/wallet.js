@@ -52,18 +52,22 @@ Template.wallet.helpers({
 Template.wallet.events({
   'error img': function(e) {
     // fires when a particular image doesn't exist in given path
-    $(e.target).attr('src','/images/noimage.png'); 
+    $(e.target).attr('src','/images/noimage.png');
   },
   'click #js-add': (event, templateInstance) => {
     event.preventDefault()
+    if ($('#js-amount').val() && (parseFloat($('#js-amount').val()) > 0)) {
+      Meteor.call('addOthers', $('#js-cur').val(), parseFloat($('#js-amount').val()), (err, data) => {
+        if (err) {
+          sAlert.error(err.reason)
+        } else {
+          sAlert.success('Successfully deposited.')
+        }
+      })
+    } else {
+      sAlert.error('Please enter a valid amount.')
+    }
 
-    Meteor.call('addOthers', $('#js-cur').val(), parseFloat($('#js-amount').val()), (err, data) => {
-      if (err) {
-        sAlert.error(err.reason)
-      } else {
-        sAlert.success('Successfully deposited.')
-      }
-    })
   },
   'click .currency-card .card-content': function(event) {
     FlowRouter.go('/wallet/'+event.currentTarget.getAttribute('data-value'))
