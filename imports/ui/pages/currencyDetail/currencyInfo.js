@@ -458,9 +458,10 @@ Template.currencyInfo.helpers({
           })
         }
       },
-      create: function (event, input, templ) {
+      create: function (event, input, templ, cb) {
         Meteor.call("addExchange", input, (error, result) => {
           if (!error && result) {
+            cb(null, true)
             Meteor.call("appendExchange", result, templ.currency._id, (err, res) => {
               if (!err) {
                 sAlert.success('New exchange succesfully added and appended to the ' + templ.currency.currencyName)
@@ -469,6 +470,7 @@ Template.currencyInfo.helpers({
               }
             })
           } else {
+            cb(error, false)
             sAlert.error("This exchange already exist.")
           }
         })

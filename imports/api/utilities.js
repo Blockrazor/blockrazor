@@ -286,7 +286,8 @@ export class LocalizableCollection extends Mongo.Collection {
           //if called within tracker begins observing query and destroys it once the tracker that called is invalidated
           if (Tracker.active){
           var computation = Tracker.currentComputation
-          var observeHandle = res.observeChanges({
+
+          let observer = {
             changed(id, fields){
               self.local.update(id, {$set: fields})
             },
@@ -296,7 +297,18 @@ export class LocalizableCollection extends Mongo.Collection {
             removed(id){
               self.local.remove(id)
             }
-          })
+          }
+
+          // you have to use an ordered observer (addedBefore instead of added) if you want to use limit or skip in the query
+          if (projection.limit || projection.skip) {
+            observer = _.omit(_.extend(observer, {
+              addedBefore(id, fields, before) {
+                self.local.upsert(id, {$set: Object.assign({_id: id}, fields)})
+              }
+            }), 'added')
+          }
+
+          var observeHandle = res.observeChanges(observer)
           computation.onInvalidate(function(){
             observeHandle.stop()
           })
