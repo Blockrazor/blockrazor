@@ -164,6 +164,7 @@ Template.addCoin.onCreated(function() {
     SubsCache.subscribe('addCoinQuestions')
     SubsCache.subscribe('hashalgorithm')
     SubsCache.subscribe('formdata')
+    SubsCache.subscribe('exchanges')
   })
 
   this.now = new ReactiveVar(Date.now())
@@ -700,11 +701,13 @@ switch (val) {
           templ.exchanges.set(exchanges)
         }
       },
-      create: function (event, input, templ) {
+      create: function (event, input, templ, cb) {
         Meteor.call("addExchange", input, (error, result) => {
           if (!error && result) {
-            sAlert.error("This exchange has been created, but not added")
+            cb(null, true)
+            sAlert.success("This exchange has been created")
           } else {
+            cb(error, false)
             sAlert.error("This exchange already exist.")
           }
         })
@@ -712,6 +715,7 @@ switch (val) {
       col: Exchanges, //collection to use
       template: Template.instance(), //parent template instance
       focus: false,
+      transcient: false,
       autoFocus: true,
       quickEnter: true,
       displayField: "name", //field that appears in typeahead select menu
