@@ -224,7 +224,11 @@ Meteor.methods({
 		if (currency === 'kzr') {
 			filterOptions = {
 				owner: Meteor.userId,
-				currency: { $exists: false }
+				$or: [{
+          currency: { $exists: false }
+        },{
+          currency: currency.toUpperCase()
+        }]
 			}
 		} else {
 			filterOptions = {
