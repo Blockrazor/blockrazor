@@ -55,7 +55,7 @@ import {
     noneFound: `ele` // renders returned template literal if no results found in another framework, example above, has state: {value: input value, parent: parent template instance, typeahead: typeahead template instance}
     value: reactiveVar- passes current input value to it, doesn't support passing down values to
     results: reactiveVar- passes current results to it
-    customAddButtonExists: true, will render it's own add button on false, exclusive to inline 'button'-within menu-, 
+    customAddButtonExists: true, will render it's own add button on false, exclusive to inline 'button'-within menu-,
 }
 */
 
@@ -150,12 +150,11 @@ Template.typeahead.onCreated(function () {
   // reset = false for use inside tracker, true for events
   this.updateSource = function (reset = false, autoFocus = this.data.autoFocus) {
     if (document.activeElement === document.getElementById(this.id)) {
+      $(this.ele).typeahead('destroy')
+      $(this.ele).typeahead(this.option1, this.option2)
       if (reset && autoFocus) $(this.ele).typeahead('val', '');
       if (!reset || (autoFocus && reset)) { //if this isn't event then keep focused, otherwise refocus if autoFocus
-        if (reset) {
-          $(this.ele).typeahead('destroy')
-          $(this.ele).typeahead(this.option1, this.option2)
-        }
+        $(this.ele).focus();
       }
     } else {
       $(this.ele).typeahead('destroy')
