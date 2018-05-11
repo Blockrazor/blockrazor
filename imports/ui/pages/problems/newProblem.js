@@ -29,8 +29,12 @@ function proceedSubmittingProblem() {
       FlowRouter.go('/problems')
     } else {
       console.log(err, "reason", err.reason)
-
-      sAlert.error(err.details)
+      var error = err.details
+      if (error.includes('Header')) {
+        sAlert.error("Problem summary is required")
+      } else if (error.includes('Text')) {
+        sAlert.error("Problem description is required")
+      }
     }
   })
 }
@@ -88,8 +92,8 @@ Template.newProblem.events({
       // if not willing to donate, check whether user have kzr available in wallet
       let user = UserData.findOne({
         _id: Meteor.userId()
-      }, { 
-        fields: { balance: 1 } 
+      }, {
+        fields: { balance: 1 }
       })
       if(user && Number(user.balance.toPrecision(3)) > 0) {
         // show advice modal
@@ -138,7 +142,7 @@ Template.newProblem.events({
 
 			if (!_supportedFileTypes.includes(file.type)) {
 			 	sAlert.error('File must be an image')
-			    
+
 			    uploadError = true
 			}
 
