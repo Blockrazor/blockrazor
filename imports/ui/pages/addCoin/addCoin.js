@@ -1,8 +1,8 @@
 import { Template } from 'meteor/templating';
 import { developmentValidationEnabledFalse, FormData, Bounties, RatingsTemplates, HashAlgorithm, Exchanges } from '/imports/api/indexDB.js'; //database
-import { 
+import {
   addCoin
-} from '/imports/api/coins/methods' 
+} from '/imports/api/coins/methods'
 import('sweetalert2').then(swal => window.swal = swal.default)
 
 import Cookies from 'js-cookie';
@@ -57,7 +57,7 @@ Template.addCoin.onRendered(function() {
             //extra finish button not available out the box.
             var btnFinish = $('<button id="btnFinish"></button>').text('Finish')
                 .addClass('btn btn-primary d-none')
-                .on('click', function() { 
+                .on('click', function() {
                   console.log('do some fancy Meteor Stuff here')
                 });
 
@@ -78,7 +78,7 @@ Template.addCoin.onRendered(function() {
             //Smart Wizard function to watch what step we are on. All I have done atm is catch the final
             // step to enable the finish button.
             $("#smartwizard").on("showStep", function(e, anchorObject, stepNumber, stepDirection, stepPosition) {
-                
+
                 if (stepPosition === 'first') {
                     $("#prev-btn").addClass('disabled');
                 } else if (stepPosition === 'final') {
@@ -383,12 +383,12 @@ if(!uploadError){
       gitRepo: d.gitRepo.value,
       officialSite: d.officialSite.value,
       reddit: d.reddit.value,
-      smartContractURL: d.smartContractURL.value,
+      smartContractURL: d.smartContractURL ? d.smartContractURL.value : '',
       blockExplorer: d.blockExplorer.value,
       approvalNotes: d.notes.value,
       currencyLogoFilename: d.currencyLogoFilename.value,
     }
-  
+
     if (questions.length) {
       insert['questions'] = questions
     }
@@ -405,7 +405,7 @@ if(!uploadError){
       }
       return namedArray;
     }
-  
+
     var addToInsert = function(value, key) {
       if (typeof key !== "undefined") {
         insert[key] = value; //slip the data into the 'insert' array
@@ -413,7 +413,7 @@ if(!uploadError){
         insert[value] = eval(value); //use the String from 'value' as the key, and evaluate the variable of the same name to get the data.
       }
     }
-  
+
   // Start inserting data that may or may not exist
     if(d.confirmations) {addToInsert(d.confirmations.value, "confirmations")};
     if(d.previousNames) {addToInsert(makeTagArrayFrom(d.previousNames.value, "tag"), "previousNames")};
@@ -439,7 +439,7 @@ if(!uploadError){
         var icoDateEnd = formatICODate(d.icoDateEnd.value);
         addToInsert(Date.parse(new Date(Date.UTC(icoDate[0], icoDate[1], icoDate[2], icoDate[3], icoDate[4], icoDate[5]))), "ICOnextRound")
         addToInsert(Date.parse(new Date(Date.UTC(icoDateEnd[0], icoDateEnd[1], icoDateEnd[2], icoDateEnd[3], icoDateEnd[4], icoDateEnd[5]))), "icoDateEnd")
-  
+
       }
     };
     //if(!insert.genesisTimestamp) {insert.genesisTimestamp = 0};
@@ -477,8 +477,8 @@ if(!uploadError){
                 scrollTop: $(".is-invalid:first").offset().top-100
             }, 1000);
         }
-        
-      
+
+
     });
 
       } else {
@@ -489,7 +489,7 @@ if(!uploadError){
         FlowRouter.go('/mypending');
       }
     })
-    
+
     function addToInsert (value, key) {
       if (typeof key !== "undefined") {
         insert[key] = value; //slip the data into the 'insert' array
@@ -627,7 +627,7 @@ switch (val) {
     if (Template.instance().consensusSecurity.get() === 'Proof of Work') {
       return HashAlgorithm.find({
         $or: [{
-          type: 'pow' 
+          type: 'pow'
         }, {
           type: {
             $exists: false // previous data doesn't have this field, so we have to check
@@ -641,7 +641,7 @@ switch (val) {
     } else if (Template.instance().consensusSecurity.get() === 'Hybrid') {
       return HashAlgorithm.find({
         $or: [{
-          type: 'pow' 
+          type: 'pow'
         }, {
           type: {
             $exists: false // previous data doesn't have this field, so we have to check
