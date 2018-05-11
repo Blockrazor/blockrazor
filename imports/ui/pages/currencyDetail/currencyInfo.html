@@ -46,31 +46,31 @@
                         <div class="col-md-4">
                           <div class="card card-header">
                             <div class="title">Wallet Ranking</div>
-                            <div class="value" id="walletRanking">{{isNull walletRanking 'walletRanking'}}</div>
+                            <div class="value" id="walletRanking">{{isNullReadOnly walletRanking}}</div>
                           </div>
                         </div>
                         <div class="col-md-4">
                           <div class="card card-header">
                             <div class="title">Price</div>
-                            <div class="value" id="price">{{isNull price 'price'}}$</div>
+                            <div class="value" id="price">{{isNullDollar price}}</div>
                           </div>
                         </div>
                         <div class="col-md-4">
                           <div class="card card-header">
                             <div class="title">Comparison Price (Circulation)</div>
-                            <div class="value" id="cpc">{{isNull cpc 'cpc'}}$</div>
+                            <div class="value" id="cpc">{{isNullDollar cpc}}</div>
                           </div>
                         </div>
                         <div class="col-md-4">
                           <div class="card card-header">
                             <div class="title">Comparison Price (Total)</div>
-                            <div class="value" id="cpt">{{isNull cpt 'cpt'}}$</div>
+                            <div class="value" id="cpt">{{isNullDollar cpt}}</div>
                           </div>
                         </div>
                         <div class="col-md-4">
                           <div class="card card-header">
                             <div class="title">Market Cap</div>
-                            <div class="value" id="marketCap">{{isNull marketCap 'marketCap'}}</div>
+                            <div class="value" id="marketCap">{{isNullReadOnly marketCap}}</div>
                           </div>
                         </div>
                     </div>
@@ -81,37 +81,37 @@
                         <div class="col-md-4 col-lg-3">
                           <div class="card card-header">
                             <div class="title">Currency Name</div>
-                            <div class="value" id="currencyName">{{isNull currencyName 'currencyName'}}</div>
+                            <div class="value" id="currencyName">{{isNull currencyName}}</div>
                           </div>
                         </div>
                         <div class="col-md-4 col-lg-3">
                           <div class="card card-header">
                             <div class="title">Currency Symbol</div>
-                            <div class="value" id="currencySymbol">{{isNull currencySymbol 'currencySymbol'}}</div>
+                            <div class="value" id="currencySymbol">{{isNull currencySymbol}}</div>
                           </div>
                         </div>
                         <div class="col-md-4 col-lg-3">
                           <div class="card card-header">
                             <div class="title">Genesis Timestamp</div>
-                            <div class="value" id="genesisTimestamp">{{isDateNull genesisTimestamp 'genesisTimestamp'}}</div>
+                            <div class="value" id="genesisTimestamp">{{isDateNull genesisTimestamp}}</div>
                           </div>
                         </div>
                         <div class="col-md-4 col-lg-3">
                           <div class="card card-header">
                             <div class="title">Premine</div>
-                            <div class="value" id="premine">{{isNull premine 'premine'}}</div>
+                            <div class="value" id="premine">{{isNull premine}}</div>
                           </div>
                         </div>
                         <div class="col-md-4 col-lg-3">
                           <div class="card card-header">
                             <div class="title">Circulating</div>
-                            <div class="value" id="circulating">{{isNull circulating 'circulating'}}</div>
+                            <div class="value" id="circulating">{{isNullReadOnly circulating}}</div>
                           </div>
                         </div>
                         <div class="col-md-4 col-lg-3">
                           <div class="card card-header">
                             <div class="title">Max Coins</div>
-                            <div class="value" id="maxCoins">{{isNull maxCoins 'maxCoins'}}</div>
+                            <div class="value" id="maxCoins">{{isNullReadOnly maxCoins}}</div>
                           </div>
                         </div>
                         <div class="col-md-4 col-lg-3">
@@ -128,13 +128,13 @@
                         <div class="col-md-4">
                           <div class="card card-header">
                             <div class="title">Consensus Security</div>
-                            <div class="value" id="consensusSecurity">{{isNull consensusSecurity 'consensusSecurity'}}</div>
+                            <div class="value" id="consensusSecurity">{{isNull consensusSecurity}}</div>
                           </div>
                         </div>
                         <div class="col-md-4">
                           <div class="card card-header">
                             <div class="title">Hash Algorithm</div>
-                            <div class="value" id="hashAlgorithm">{{isNull hashAlgorithm 'hashAlgorithm'}}</div>
+                            <div class="value" id="hashAlgorithm">{{isNull hashAlgorithm}}</div>
                             <a style="display: {{showText}}" href="#" id="js-add">You algorithm is not on the list? Add it.</a>
                             <div style="display: {{newAlgo}}"><input type="text" id="js-newAlgo" placeholder="Algorithm name..." />
                             <button class="btn btn-primary btn-sm" id="js-addAlgo"><i class="fa fa-check"></i></button><button type="button" class="btn btn-default btn-sm" id="js-cancel"><i class="fa fa-close"></i></button></div>
@@ -143,13 +143,13 @@
                         <div class="col-md-4">
                           <div class="card card-header">
                             <div class="title">Official Website</div>
-                            <div class="value" id="officialSite">{{isNull officialSite 'officialSite' }}</div>
+                            <div class="value" id="officialSite">{{isNull officialSite}}</div>
                           </div>
                         </div>
                         <div class="col-md-4">
                           <div class="card card-header">
                             <div class="title">Git Repo</div>
-                            <div class="value" id="gitRepo">{{isNull gitRepo 'gitRepo'}}</div>
+                            <div class="value" id="gitRepo">{{isNull gitRepo}}</div>
                           </div>
                         </div>
                         <div class="col-md-4">
@@ -162,7 +162,7 @@
                         <div class="col-md-4">
                           <div class="card card-header">
                             <div class="title">Smart Contract URL</div>
-                            <div class="value" id="smartContractURL">{{isNull smartContractURL 'smartContractURL'}}</div>
+                            <div class="value" id="smartContractURL">{{isNull smartContractURL}}</div>
                           </div>
                         </div>
                         {{/if}}

@@ -347,12 +347,6 @@ Template.currencyInfo.events({
     $('#modal_new').val($('#modal_old').val());
     $(`#${$('#modal_field').val()}`).text($('#modal_old').val());
   },
-
-  'click .contribute': function (event) {
-    event.preventDefault();
-    let slug = FlowRouter.getParam("slug");
-    FlowRouter.go('/currencyEdit/' + slug + '/' + event.currentTarget.id);
-  },
   'click .untagExchange': function (event, templ) {
     Meteor.call("untagExchange", $(event.target).data("id"), templ.currency._id, (err, res) => {
       if (!err) {
@@ -387,7 +381,10 @@ Template.currencyInfo.helpers({
       }
     }
   },
-  isNull(val, field) {
+  isNullDollar: (val) => {
+    return val ? `${val}$` : '-'
+  },
+  isNull(val) {
     if (val || val === 0) {
       if (typeof val == "string") {
         return val;
@@ -397,12 +394,10 @@ Template.currencyInfo.helpers({
         return val;
       }
     } else {
-      if (field) {
-        return Spacebars.SafeString('<span id=' + field + ' class="label label-danger contribute pointer"><i class="fa fa-plus"></i> Contribute</span>');
-      }
+      return 'N\\A'
     }
   },
-  isNullReadOnly(val, field) {
+  isNullReadOnly(val) {
     if (val || val === 0) {
       if (typeof val == "string") {
         return val;
