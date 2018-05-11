@@ -102,7 +102,7 @@ Template.registerHelper('slugify', function(author) {
 })
 
 Template.registerHelper('relativeTime', function(date) {
-  var timePassed = moment(date).fromNow();
+  var timePassed = window.moment(date).fromNow();
   return timePassed;
 });
 
