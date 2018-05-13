@@ -69,7 +69,6 @@ export {
   REWARDCOEFFICIENT,
 
   Currencies,
-  LocalCurrencies,
   PendingCurrencies,
   RejectedCurrencies,
   ChangedCurrencies,
