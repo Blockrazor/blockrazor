@@ -284,6 +284,21 @@ export const editCoin = new ValidatedMethod({
     }
 })
 
+if (Meteor.isDevelopment) {
+    Meteor.methods({
+        generateTestCurrencies: () => {
+            for (let i = 0; i < 10; i++) {
+                Currencies.insert({
+                    currencyName: `Test ${i}`,
+                    currencySymbol: `TST${i}`,
+                    createdAt: new Date().getTime(),
+                    owner: 'randId'
+                })
+            }
+        }
+    })
+}
+
 Meteor.methods({
       getCurrentReward: (userId, currencyName) => {
         let bounty = Bounties.findOne({

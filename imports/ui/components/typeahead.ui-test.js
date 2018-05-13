@@ -26,19 +26,34 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
             var list = $('div.tt-menu.tt-open').children()
             var name
             //if list is empty then the list div doesn't have children
-            if (list.children().length) {
+
+            if (list.children().length) { // this will hold even if the data wasn't found, it'll return the div, so you can check here whether it's a currency or a notFound div and return the appropriate result
                 name = list.children()[0].innerHTML
+
+                return Currencies.findOne({currencyName: name}) || name
             } else {
                 return list[0].innerHTML // This is the actual problem that causes tests to fail. innerHTML is currencyName, while we use currencySymbol in the URL. Adding a data attribute with currencySymbol and using that value or something similar should do the trick
             }
-            return Currencies.findOne({currencyName: name})
         }).value
         return currency
     }
 
+    it('initializes test data successfully', function() {
+        browser.url('http://localhost:3000/')
+        browser.pause(10000)
+        // tests were failing because there was no currency data in the CI environment, so we have to create some test data here
+        browser.execute(() => {
+            Meteor.call('generateTestCurrencies', (err, data) => {})
+
+            return 'ok'
+        })
+        browser.pause(10000)
+    })
+
     it('renders route comparedCurrencies with typeahead', function () {
         browser.url(`${baseUrl}/`) // navigate to the home route `/`
-        browser.pause(2000) // let it load, wait for 2 seconds
+        browser.pause(10000) // let it load, wait for 2 seconds
+
         assert(browser.isExisting('.tt-input'), true) // check if at least one currency card has rendered, isExisting === $() !== undefined
         assert(browser.isVisible('.tt-input'), true) // check if at least one currency card is visible on the page isVisible === $().is(':visible')
     })
@@ -48,37 +63,50 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
     it("follows 'quickEnter' prop, it triggers add action", function () {
         var child = listChild()
         browser.setValue(inputSel, "Enter")
-        // console.log(FRparams().value.pop()) // returns currencySymbol
-        // console.log(child) // returns currencyName
+        browser.pause(2000)
         assert(child.currencySymbol === FRparams().value.pop(), true)
         browser.click(".js-delete")
+        browser.pause(1000)
     })
     it("will autocomplete", function () {
         var child = listChild()
         browser.setValue(inputSel, "Tab")
+        browser.pause(2000)
         assert(child.currencySymbol === FRparams().value.pop(), true)
         browser.click(".js-delete")
+        browser.pause(1000)
     })
     it("will select", function () {
         var child = listChild()
         browser.click(childSel)
+        browser.pause(2000)
         assert(child.currencySymbol === FRparams().value.pop(), true)
         browser.click(".js-delete")
+        browser.pause(1000)
     })
     it("updates typeahead menu source on outside change, works as if input is constantly focused(therefore testing cursor change as well)", function () {
         var child = listChild()
         browser.click(childSel)
+        browser.pause(2000)
         assert(child._id != listChild()._id, true)
-        child = listChild()
+
+        // If I understand this test correctly, upon deletion of a currency that's compared, it should return to the menu for selection.
+        // So, basically, if you select the first one, the ids of that one and the new first one in the list won't match (the first assert).
+        // When you delete the currency, it should go back to the selection, so, ids of the first one and the deleted one match, as they're supposed to.
+        // So, there's no need to update the child here, hence I've commented it out and the test works again.
+
+        // child = listChild()
         browser.click(".js-delete")
-        console.log(FRparams().value, listChild().currencyName, child.currencyName)
+        browser.pause(2000)
         assert(child._id == listChild()._id, true)
     })
     it("doesn't erase input on outside change", function () {
         listChild() //focus
         browser.click(childSel)
+        browser.pause(2000)
         browser.setValue(inputSel, "bit")
         browser.click(".js-delete")
+        browser.pause(2000)
         assert(browser.getValue(inputSel) == "bit", true)
     })
     it("can use nx framework (typeNX filename) for empty template", function () {
@@ -90,9 +118,8 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
     it("renders input text in empty template", function () {
         var string = "zzzzzzzzzzzzzzzzzzzzzz////"
         browser.setValue(inputSel, string)
-        browser.pause(1000)
+        browser.pause(2000)
         var child = listChild()
-        console.log("results", child)
         assert(child.indexOf(string)!= -1, true)
     })
     // it ('runs add function on click', function(){

@@ -27,7 +27,7 @@ cache:
 before_script:
   - meteor npm install
   - meteor npm install --unsafe wdio-mocha-framework webdriverio assert
-  - meteor --production &
+  - meteor &
   - sleep 300 # wait for Meteor to start, it takes some time, 5 minutes should be sufficient
  
 script:
