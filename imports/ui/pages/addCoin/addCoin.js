@@ -1,8 +1,6 @@
 import { Template } from 'meteor/templating';
 import { developmentValidationEnabledFalse, FormData, Bounties, RatingsTemplates, HashAlgorithm, Exchanges } from '/imports/api/indexDB.js'; //database
-import {
-  addCoin
-} from '/imports/api/coins/methods'
+import { addCoin } from '/imports/api/coins/methods'
 import('sweetalert2').then(swal => window.swal = swal.default)
 
 import Cookies from 'js-cookie';
@@ -78,13 +76,18 @@ Template.addCoin.onRendered(function() {
             //Smart Wizard function to watch what step we are on. All I have done atm is catch the final
             // step to enable the finish button.
             $("#smartwizard").on("showStep", function(e, anchorObject, stepNumber, stepDirection, stepPosition) {
-
                 if (stepPosition === 'first') {
                     $("#prev-btn").addClass('disabled');
                 } else if (stepPosition === 'final') {
                     $("#next-btn").addClass('disabled');
                     $("#btnFinish").removeClass('d-none');
                 }
+            });
+
+            $("#smartwizard").on("leaveStep", function(anchorObject, context, stepNumber, stepDirection) {
+              if (stepDirection == 'forward') {
+                return validateStep(stepNumber);
+              }
             });
 
     //init popovers
@@ -128,6 +131,55 @@ var makeTagArrayFrom = function(string) {
     }
   }
   return namedArray;
+}
+
+var validateStep = function(step) {
+  switch(step) {
+    case 0: // step 1
+    console.log($('#bc-launched').is(':checked'));
+      if ($('#smartContract').is(':checked') || $('#bc-launched').is(':checked') || $('#is-ico').is(':checked') || $('#btc-fork').is(':checked')) {
+        return true;
+      }
+      sAlert.error('Please select an option');
+      return false;
+    break;
+    case 1: // step 2
+      if (!$('#currencyName').val()) {
+        sAlert.error('Please enter a valid name for the currency');
+        return false;
+      }
+      if (!$('#currencySymbol').val()) {
+        sAlert.error('Please enter a valid symbol for the currency');
+        return false;
+      }
+      if ($('#consensusSecurity') && !$('#consensusSecurity').val()) {
+        sAlert.error('Please select a security option');
+        return false;
+      }
+      if ($('#hashAlgorithm') && !$('#hashAlgorithm').val()) {
+        sAlert.error('Please select an algorithm');
+        return false;
+      }
+      return true;
+    break;
+    case 2: //step 2
+    if ($('.year.genesis-date') && !$('.year.genesis-date').val() ||
+      $('.month.genesis-date') && !$('.month.genesis-date').val() ||
+      $('.day.genesis-date') && !$('.day.genesis-date').val()) {
+      sAlert.error('Please select a proper date');
+      return false;
+    }
+    if ($('#premine') && !$('#premine').val()) {
+      sAlert.error('Please enter valid premine amount');
+      return false;
+    }
+    if ($('#maxCoins') && !$('#maxCoins').val()) {
+      sAlert.error('Please enter valid max coin amount');
+      return false;
+    }
+    return true;
+    break;
+  }
 }
 
 Template.addCoin.onCreated(function() {
@@ -447,7 +499,7 @@ if(!uploadError){
     console.log(insert);
 
 
-    addCoin.call(insert, (error, result)=>{
+    addCoin.call(insert, (error, result)=> {
       //remove error classes before validating
       $('input').removeClass('is-invalid');
       $('select').removeClass('is-invalid');
@@ -477,7 +529,6 @@ if(!uploadError){
                 scrollTop: $(".is-invalid:first").offset().top-100
             }, 1000);
         }
-
 
     });
 

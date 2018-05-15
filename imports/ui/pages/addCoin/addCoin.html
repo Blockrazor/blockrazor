@@ -22,7 +22,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" name="exists" value="exists" class="custom-control-input exists" checked="checked" id="bc-launched">
+                                <input type="checkbox" name="exists" value="exists" class="custom-control-input exists" id="bc-launched" checked>
                                 <label class="custom-control-label" for="bc-launched">
                                 {{#if smartContract}}
                                     This contract has launched been launched
@@ -57,12 +57,12 @@
                         <strong class="text-danger">
                       {{reactiveVar 'currencyNameMessage'}}
                     </strong>
-                    
+
                         <h5 class="card-title mt-4">Security</h5>
                         <select class="form-control consensus" id="consensusSecurity" name="consensusSecurity">
                             <option disabled selected>--Select One--</option>
                             {{#each security}}
-                            <option>{{name}}</option>
+                            <option value={{name}}>{{name}}</option>
                             {{ /each }}
                         </select>
                         <div class="invalid-feedback"> </div>
@@ -151,13 +151,13 @@
                 </div>
                 <div id="step-4" class="p-4">
                     <h5 class="card-title">Community</h5>
-                 
+
                         <input type='text' class="form-control mb-3" id="gitRepo" placeholder="GitHub repository for main node software" name="gitRepo" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'gitRepo'}}">
                         <div class="invalid-feedback"> </div>
 
                         <input type="text" class="form-control mb-3" id="officialSite" placeholder="Official website" name="officialSite" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'officialSite'}}">
                         <div class="invalid-feedback"> </div>
-        
+
 
                         <input type='text' class="form-control mb-3" id="reddit" placeholder="Reddit" name="reddit" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'reddit'}}">
                         <div class="invalid-feedback"> </div>
@@ -173,7 +173,7 @@
                         <div class="invalid-feedback"> </div>
                         {{/if}}
                         {{/if}}
-                  
+
                     {{#if reactiveVar 'coinExists'}} {{ #unless reactiveVar 'btcfork' }}
                     <br />
                     <h5 class="card-title">History</h5>
