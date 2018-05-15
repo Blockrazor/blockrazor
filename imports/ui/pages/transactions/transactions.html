@@ -1,5 +1,9 @@
 <template name="transactions">
-    <h3>Transactions</h3>
+<div id="pageHeader">
+    <h3 id="pageTitle">Transactions</h3>
+</div>
+    <h4>Total KZR moved from the main wallet: {{total}}</h4>
+
 <div class="input-group">
                                     <select class="form-control rewardTypeFilter custom-select" id="js-type" name="type">
                                     <option disabled selected>--Select transaction type--</option>
@@ -12,13 +16,13 @@
                                     <option value="anwserQuestion">Answered Question</option>
                                 </select>
                                   <div class="input-group-append">
-    <button class="btn btn-primary clearFilter" type="button"><i class="fa fa-close"></i></button>
+    <button class="btn btn-primary clearFilter" type="button"><i class="fas fa-window-close"></i></button>
   </div>
 </div>
 
-    <table class="table">
+    <table class="table table-hover mt-2">
         <thead>
-            <tr>
+            <tr scope="row" class="table-light">
                 <th scope="col">From</th>
                 <th scope="col">To</th>
                 <th scope="col">Amount</th>
@@ -29,7 +33,7 @@
         <tbody>
             {{#if subsCacheReady}}
                 {{#each transactions}}
-                    <tr>
+                    <tr scope="row" class="table-light">
                         <td>{{from}}</td>
                         <td>{{to}}</td>
                         <td><span style="color: {{color}}">{{amount}}</span> {{currency}}</td>
@@ -51,5 +55,4 @@
     {{/each}}
     <a class="btn" href="/transactions/{{nextPage}}">&gt;&gt;</a>
     <a class="btn" href="/transactions/{{lastPage}}">&gt;|</a></span><br />
-    <h4>Total KZR moved from the main wallet: {{total}}</h4>
 </template>
