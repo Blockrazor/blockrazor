@@ -15,6 +15,7 @@
                     <div>
                         <div class="card bg-white required mx-auto" style="width:80% !important">
                             <div class="card-body"> 
+                                {{#if myMax}}<h5>Your maximum amount: {{options.max}} {{options.acceptedCurrency}}</h5><hr>{{/if}}
                                 <h5>Highest bid: {{highest}} {{options.acceptedCurrency}} {{#if needsUSD options.acceptedCurrency}}{{#if USDprice options.acceptedCurrency highest}}({{USDprice options.acceptedCurrency highest}} USD){{/if}}{{/if}}</h5>  
                                 {{#if closed}}<h5>Winner: {{winner}}</h5>{{/if}}
                                 <hr>

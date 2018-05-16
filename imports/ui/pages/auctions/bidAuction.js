@@ -48,11 +48,14 @@ Template.bidAuction.helpers({
 	auction: () => Auctions.findOne({
 		_id: FlowRouter.getParam('id')
 	}),
+	myMax: function() {
+		return this.options.highestBidder === Meteor.userId()
+	},
 	bids: () => Bids.find({
 		auctionId: FlowRouter.getParam('id')
 	}, {
 		sort: {
-			date: -1
+			amount: -1
 		}
 	}).fetch().slice(0, 10),
 	balance: () => {
@@ -75,7 +78,7 @@ Template.bidAuction.helpers({
 	winner: function() {
 		let bid = Bids.findOne({
 			auctionId: this._id,
-			amount: this.options.highest
+			userId: this.options.highestBidder
 		})
 
 		return bid && (Meteor.users.findOne({
