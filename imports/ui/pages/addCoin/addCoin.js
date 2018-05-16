@@ -136,7 +136,6 @@ var makeTagArrayFrom = function(string) {
 var validateStep = function(step) {
   switch(step) {
     case 0: // step 1
-    console.log($('#bc-launched').is(':checked'));
       if ($('#smartContract').is(':checked') || $('#bc-launched').is(':checked') || $('#is-ico').is(':checked') || $('#btc-fork').is(':checked')) {
         return true;
       }
@@ -156,8 +155,11 @@ var validateStep = function(step) {
         sAlert.error('Please select a security option');
         return false;
       }
-      if ($('#hashAlgorithm') && !$('#hashAlgorithm').val()) {
+      if ($('#hashAlgorithm').is(':visible') && !$('#hashAlgorithm').val()) {
         sAlert.error('Please select an algorithm');
+        return false;
+      } else if (!$("input[name='hashAlgorithm']").val()){
+        sAlert.error('Please enter an algorithm');
         return false;
       }
       return true;
