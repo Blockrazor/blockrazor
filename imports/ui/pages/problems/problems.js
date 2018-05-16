@@ -6,6 +6,31 @@ import './problems.html'
 
 window.Problems = Problems
 
+function setFilters(filterPref, newItem) {
+
+	if (newItem && filterPref.indexOf('ALL') != -1 && newItem != 'ALL') {
+		filterPref = [newItem];
+	}
+
+	if (!filterPref.length) {
+		filterPref = ['OPEN']
+	}
+
+	if (filterPref.indexOf('ALL') != -1) {
+		filterPref = ['ALL']
+	}
+	setCheckBoxes(filterPref);
+	return filterPref;
+}
+
+function setCheckBoxes(levels) {
+	$('#all-problems').prop('checked', (levels.indexOf('ALL')!= -1 || levels.length == 0))
+	$('#open-problems').prop('checked', (levels.indexOf('OPEN')!= -1  || levels.length == 0))
+	$('#in-progress-problems').prop('checked', (levels.indexOf('IN PROGRESS')!= -1))
+	$('#solved-problems').prop('checked', (levels.indexOf('SOLVED')!= -1))
+  $('#closed-problems').prop('checked', (levels.indexOf('CLOSED')!= -1))
+}
+
 Template.problems.onCreated(function() {
 	this.autorun(() => {
 		SubsCache.subscribe('problems')
@@ -13,7 +38,11 @@ Template.problems.onCreated(function() {
 	})
 
 	this.filter = new ReactiveVar('')
-	this.level = new ReactiveVar('ALL')
+	this.levels = new ReactiveVar(['OPEN'])
+})
+
+Template.problems.onRendered(function(){
+	setCheckBoxes(Template.instance().levels.get());
 })
 
 Template.problems.events({
@@ -28,10 +57,12 @@ Template.problems.events({
 	'submit #problemsFilter': (event, templateInstance) => {
 		event.preventDefault()
 	},
-	'change #js-level': (event, templateInstance) => {
-		event.preventDefault()
-
-		templateInstance.level.set($(event.currentTarget).val())
+	'click .form-check-input': (event, templateInstance) => {
+		var setFilter = templateInstance.$('input:checked').map(function() {
+				return $(this).val()
+		});
+		setFilter = $.makeArray(setFilter)
+		templateInstance.levels.set(setFilters(setFilter, $(event.currentTarget).val()));
 	}
 })
 
@@ -45,19 +76,18 @@ Template.problems.helpers({
 			}]
 		}
 
-		if (Template.instance().level.get()) {
-			let l = Template.instance().level.get()
-
-			if (l === 'OPEN') {
+		if (Template.instance().levels.get()) {
+			let l = Template.instance().levels.get()
+			if (l.indexOf('OPEN') != -1) {
 				query['open'] = true
-			} else if (l === 'IN PROGRESS') {
+			} else if (l.indexOf('IN PROGRESS') != -1) {
 				query['open'] = true
 				query['locked'] = true
 				query['solved'] = false
-			} else if (l === 'SOLVED') {
+			} else if (l.indexOf('SOLVED') != -1) {
 				query['open'] = true
 				query['solved'] = true
-			} else if (l === 'CLOSED') {
+			} else if (l.indexOf('CLOSED') != -1) {
 				query['closed'] = true
 				query['open'] = false
 			}
@@ -84,7 +114,7 @@ Template.problems.helpers({
 
 		if (this.locked) {
 			return 'IN PROGRESS'
-		} 
+		}
 
 		if (this.open) {
 			return 'OPEN'
@@ -96,7 +126,7 @@ Template.problems.helpers({
 		 }else{
 		 	return 'QUESTION';
 		 }
-		
+
 	},
 
 

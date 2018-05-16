@@ -2,18 +2,47 @@
     <div id="pageHeader">
         <h3 id="pageTitle">ProblemS</h3>
     </div>
+<div class="form-check form-control" style="margin-bottom: 20px !important;">
+  <div class="row">
+    <span class="form-check-item filter-bounties-label col-sm-2">
+      <h5 style="margin-bottom: 0;margin-top: 3px;">Filter Bounties:</h5>
+    </span>
+    <span class="form-check-item col-sm-2">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input form-check-input" id="all-problems" value="ALL">
+        <label class="custom-control-label" for="all-problems">All</label>
+      </div>
+    </span>
+    <span class="form-check-item col-sm-2">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input form-check-input" id="open-problems" value="OPEN">
+        <label class="custom-control-label" for="open-problems">Open</label>
+      </div>
+    </span>
+    <span class="form-check-item col-sm-2">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input form-check-input" id="in-progress-problems" value="IN PROGRESS">
+        <label class="custom-control-label" for="in-progress-problems">In Progress</label>
+      </div>
+    </span>
+    <span class="form-check-item col-sm-2">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input form-check-input" id="solved-problems" value="SOLVED">
+        <label class="custom-control-label" for="solved-problems">Solved</label>
+      </div>
+    </span>
+    <span class="form-check-item col-sm-2">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input form-check-input" id="closed-problems" value="CLOSED">
+        <label class="custom-control-label" for="closed-problems">Closed</label>
+      </div>
+    </span>
+  </div>
+</div>
 <div id="problemsFilterContainer" class="container">
     <form id="problemsFilter" name="problemsFilter">
         <div class="row form-items">
             <div class="col-12 form-group" style="padding: 0">
-                <select class="form-control" id="js-level">
-                    <option>ALL</option>
-                    <option>OPEN</option>
-                    <option>IN PROGRESS</option>
-                    <option>SOLVED</option>
-                    <option>CLOSED</option>
-                </select>
-                <br />
                 <div class="input-group mb-3">
                     <input id="js-search" name="searchInput" type="text" class="form-control" placeholder="Search problems before adding a new problem..." aria-label="" aria-describedby="basic-addon1">
                     <div class="input-group-append">
