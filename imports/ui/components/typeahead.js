@@ -49,7 +49,7 @@ import {
     autoFocus: false, //typeahead will maintain focus after selection
     quickEnter: true, //On "enter" keypress typeahead will add the first value in list
     add: function(event, doc, templ){...}, //templ is parent template instance, doc is document added
-    create: function(event, inputValue, templ, cb){...}, //templ is parent template instance, doc is document added. triggers on click of noneFound element if exists, cb is a callback functions that's called when data has been created
+    create: function(event, inputValue, templ, cb){...}, //templ is parent template instance, doc is document added. triggers on click of noneFound element if exists.
     displayField: name, //document field that appears in typeahead select menu
     placeholder: name, //placeholder for typeahead
     noneFound: `ele` // renders returned template literal if no results found in another framework, example above, has state: {value: input value, parent: parent template instance, typeahead: typeahead template instance}
@@ -68,7 +68,6 @@ Template.typeahead.onCreated(function () {
   this.data.focus = this.data.focus === undefined ? false : this.data.focus
   this.data.autoFocus = this.data.autoFocus === undefined ? false : this.data.autoFocus
   this.data.quickEnter = this.data.quickEnter === undefined ? true : this.data.quickEnter
-  this.data.inlineButton = this.data.inlineButton == undefined ? false : this.data.inlineButton
   if (true) { //is just true so that this code could collapsed in editor, is about noneFound template
     if (this.data.noneFound){
         this.noneFound = () => "<" + this.id + "> <span #click='clicked()'>" + this.data.noneFound + "</span></" + this.id + ">"
@@ -160,10 +159,6 @@ Template.typeahead.onCreated(function () {
       $(this.ele).typeahead('destroy')
       $(this.ele).typeahead(this.option1, this.option2)
     }
-
-//    if (self.data.transcient) {
-//      self.data.col.populateLocal() // refresh the local collection with new data
-//    }
   }
 
   //initialize typeahead, is used onRendered
@@ -302,12 +297,7 @@ Template.typeahead.events({
     templ.value.set(event.currentTarget.value)
   },
   'click .createItem': function (event, templ) {
-    templ.data.create(event, templ.value.get(), templ.data.template, (err, data) => {
-      if (!err) {
-        templ.updateSource(false, templ.data.autoFocus)
-
-        $(templ.ele).focus()
-      }
-    })
+   templ.data.create(event, templ.value.get(), templ.data.template)
+   templ.updateSource(true, templ.data.autoFocus)
   }
 })
