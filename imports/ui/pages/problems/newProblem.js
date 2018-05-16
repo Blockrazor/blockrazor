@@ -32,7 +32,7 @@ function proceedSubmittingProblem() {
       var error = err.details
       if (error.includes('Header')) {
         sAlert.error("Problem summary is required")
-      } else if (error.includes('Text')) {
+      } else if (error.toLowerCase().includes('text')) {
         sAlert.error("Problem description is required")
       }
     }
