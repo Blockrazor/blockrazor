@@ -158,7 +158,7 @@ var validateStep = function(step) {
       if ($('#hashAlgorithm').is(':visible') && !$('#hashAlgorithm').val()) {
         sAlert.error('Please select an algorithm');
         return false;
-      } else if (!$("input[name='hashAlgorithm']").val()){
+      } else if ($("input[name='hashAlgorithm']").is(':visible') && !$("input[name='hashAlgorithm']").val()){
         sAlert.error('Please enter an algorithm');
         return false;
       }
