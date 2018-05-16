@@ -756,13 +756,11 @@ switch (val) {
           templ.exchanges.set(exchanges)
         }
       },
-      create: function (event, input, templ, cb) {
+      create: function (event, input, templ) {
         Meteor.call("addExchange", input, (error, result) => {
           if (!error && result) {
-            cb(null, true)
             sAlert.success("This exchange has been created")
           } else {
-            cb(error, false)
             sAlert.error("This exchange already exist.")
           }
         })
@@ -770,7 +768,7 @@ switch (val) {
       col: Exchanges, //collection to use
       template: Template.instance(), //parent template instance
       focus: false,
-      transcient: false,
+      transcient: true,
       autoFocus: true,
       quickEnter: true,
       displayField: "name", //field that appears in typeahead select menu
