@@ -762,6 +762,12 @@ switch (val) {
         Meteor.call("addExchange", input, (error, result) => {
           if (!error && result) {
             sAlert.success("This exchange has been created")
+
+            if (result._id) {
+              let exchanges = templ.exchanges.get()
+              exchanges.push(result)
+              templ.exchanges.set(exchanges)
+            }
           } else {
             sAlert.error("This exchange already exist.")
           }
