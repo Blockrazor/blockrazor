@@ -187,9 +187,9 @@ Meteor.methods({
       throw new Meteor.Error("exchange exists")
     }
     
-    return Exchanges.insert({
+    return Exchanges.findOne(Exchanges.insert({
       name: name,
       curencies: [],
-    })
+    }))
   },
 })
