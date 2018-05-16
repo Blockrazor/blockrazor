@@ -387,21 +387,22 @@ if(!uploadError){
         "tag": "ICO"
       })
     };
-    if (d.BTCFork.checked) {
-      launchTags.push({
-        "tag": "Bitcoin Fork"
-      })
-    };
     if (d.smartContract.checked) {
       launchTags.push({
         "tag": "Smart Contract"
       })
-    };
-    if (!d.BTCFork.checked) {
-      launchTags.push({
-        "tag": "Altcoin"
-      })
-    };
+    } else {
+      //when smartContract checked, there is no BTCFork option
+      if (d.BTCFork.checked) {
+        launchTags.push({
+          "tag": "Bitcoin Fork"
+        })
+      } else {
+        launchTags.push({
+          "tag": "Altcoin"
+        })
+      };
+    }
     if (!d.exists.checked) {
       launchTags.push({
         "tag": "proposal"
