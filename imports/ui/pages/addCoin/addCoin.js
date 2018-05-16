@@ -163,11 +163,14 @@ var validateStep = function(step) {
       return true;
     break;
     case 2: //step 2
-    if ($('.year.genesis-date') && !$('.year.genesis-date').val() ||
-      $('.month.genesis-date') && !$('.month.genesis-date').val() ||
-      $('.day.genesis-date') && !$('.day.genesis-date').val()) {
-      sAlert.error('Please select a proper date');
-      return false;
+    if (!$('#btc-fork').is(':checked')) {
+      // validate genesis date only if BTCfork not checked
+      if ($('.year.genesis-date') && !$('.year.genesis-date').val() ||
+        $('.month.genesis-date') && !$('.month.genesis-date').val() ||
+        $('.day.genesis-date') && !$('.day.genesis-date').val()) {
+        sAlert.error('Please select a proper date');
+        return false;
+      }
     }
     if ($('#premine') && !$('#premine').val()) {
       sAlert.error('Please enter valid premine amount');
