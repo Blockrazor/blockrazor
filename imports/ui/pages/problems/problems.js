@@ -70,7 +70,7 @@ Template.problems.helpers({
 	problems: () => {
 		let query = {
 			$or: [{
-				heading: new RegExp(Template.instance().filter.get(), 'ig')
+				header: new RegExp(Template.instance().filter.get(), 'ig')
 			}, {
 				text: new RegExp(Template.instance().filter.get(), 'ig')
 			}]
