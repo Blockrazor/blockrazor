@@ -1,11 +1,10 @@
 <template name="userPendingCurrency">
-  <div class="card border-secondary mb-3 mb-3" style="min-width:300px;overflow:hidden;">
-  <div class="card-header" style="height:50px"><h4 class="pull-left"><img style="width:50px; height:50px padding-right:10px" src="{{doesCoinImageExist currencyLogoFilename}}">{{currencyName}} ({{currencySymbol}})</h4></div>
-  <div class="card-body">
-    {{#if rejected}}
-    Reason this was not approved: {{rejectedReason}} <br />
-    Moderator: {{rejectedBy}}
-    {{/if}}
-  </div>
-  </div>
+    <li class="list-group-item justify-content-between align-items-center">
+        <img style="width:50px; height:50px" clas="pr-4" src="{{doesCoinImageExist currencyLogoFilename}}"> {{currencyName}} <small class="pull-right"> {{relativeTime createdAt}}</small> {{#if rejected}}
+        <br />
+        <small><strong>Reason this was not approved:</strong> {{rejectedReason}}</small>
+        <br />
+        <small><strong>Moderator:</strong> {{rejectedBy}}</small>
+        <br /> {{/if}}
+    </li>
 </template>
