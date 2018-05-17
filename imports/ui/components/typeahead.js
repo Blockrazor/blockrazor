@@ -55,7 +55,7 @@ import {
     noneFound: `ele` // renders returned template literal if no results found in another framework, example above, has state: {value: input value, parent: parent template instance, typeahead: typeahead template instance}
     value: reactiveVar- passes current input value to it, doesn't support passing down values to
     results: reactiveVar- passes current results to it
-    customAddButtonExists: true, will render it's own add button on false, exclusive to inline 'button'-within menu-,
+    customAddButtonExists: true, will render it's own add button on false, exclusive to inline 'button'-within menu- with existence of create prop (create=true, customAddButtonExists either triggers inline or integrated buttons),
 }
 */
 
