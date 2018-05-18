@@ -35,6 +35,10 @@ FlowRouter.triggers.enter([ () => { window.scrollTo(0, 0); }, () => {
         FlowRouter.go('/suspended') // redirect all suspended users here
       }
     }
+
+    if (user && user.enabled2fa && !user.pass2fa && !window.isLoggingOut) {
+      FlowRouter.go('/2fa')
+    }
   })
 } ])
 
@@ -584,7 +588,35 @@ FlowRouter.route('/login', {
       await import ('/imports/ui/pages/signin/signin')
       BlazeLayout.render('signin')
     } else {
-      FlowRouter.go('/')
+      let user = Meteor.users.findOne({
+        _id: Meteor.userId()
+      })
+      if (user.enabled2fa) {
+        FlowRouter.go('/2fa')
+      } else {
+        FlowRouter.go('/')
+      }
+    }
+  }
+})
+
+FlowRouter.route('/2fa', {
+  name: '2fa',
+  action: async (params, queryParams) => {
+    if (!Meteor.userId()) {
+      FlowRouter.go('/login')
+    } else {
+      let user = Meteor.users.findOne({
+        _id: Meteor.userId()
+      })
+
+      if (user.enabled2fa && !user.pass2fa) {
+        await import ('/imports/ui/pages/signin/twoFactor')
+
+        BlazeLayout.render('twoFactor')
+      } else {
+        FlowRouter.go('/')
+      }
     }
   }
 })

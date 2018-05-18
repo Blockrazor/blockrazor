@@ -21,6 +21,25 @@
     <span class='label label-info fileInfo' id="fileInfo"></span>
     <input type='hidden' id='js-image'><br />
         </div>
+        <div class="form-group">
+            <label for="2fa">Two-factor authentication</label>
+            {{#if user.enabled2fa}}<div style="width: 100%"><input type="checkbox" checked id="2fa"> Enable</div>{{else}}<div style="width: 100%"><input type="checkbox" id="2fa"> Enable</div>{{/if}}
+        </div>
+        {{#if enable2fa}}
+        <div id="qr2fa" class="form-group">
+                1. Scan the QR code:<br />
+                <img src="{{qrcode}}" />
+                <br />
+                2. Enter the first code:
+                <input type="text" class="form-control" id="2facode" />
+        </div>
+        {{/if}}
+        {{#if disable2fa}}
+        <div id="qr2fa" class="form-group">
+                1. Verify 2FA code:
+                <input type="text" class="form-control" id="2facode" />
+        </div>
+        {{/if}}
         <button type="submit" class="btn btn-primary">Save</button>
     </form>
 </template>
