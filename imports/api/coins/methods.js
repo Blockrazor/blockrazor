@@ -571,7 +571,7 @@ Meteor.methods({
         var original = PendingCurrencies.findOne({_id: id});
         var insert = _.extend(original, {
           rejectedReason: message,
-          rejectedBy: moderator
+          rejectedBy: Meteor.user().username
         });
         RejectedCurrencies.insert(insert, function(error, result) {
           if(!error) {
