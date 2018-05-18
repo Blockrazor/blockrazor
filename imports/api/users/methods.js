@@ -3,6 +3,8 @@ import {  ProfileImages, UserData, Wallet, ProblemComments, Features, Redflags, 
 import { check } from 'meteor/check'
 import { creditUserWith } from '/imports/api/utilities.js'
 
+import speakeasy from 'speakeasy'
+
 Meteor.methods({
   signedUpLastMonth: () => {
   	return Meteor.users.find({}).fetch().filter(i => new Date(i.createdAt) > (new Date().getTime() - 1000*60*60*24*30) /* 30 days */).length
@@ -375,6 +377,46 @@ Meteor.methods({
   getUserConnectionInfo: function() {
     return this.connection;
   },
+  verify2fa: function(token) {
+    check(token, String)
+
+    let user = Meteor.users.findOne({
+      _id: this.userId
+    })
+
+    if (user) {
+      if (user.enabled2fa) {
+        let verified = speakeasy.totp.verify({
+          secret: user.secret2fa,
+          encoding: 'base32',
+          token: token
+        })
+
+        if (verified) {
+          Meteor.users.update({
+            _id: this.userId,
+          }, {
+            $set: {
+              pass2fa: true
+            }
+          })
+
+          return true
+        } else {
+          throw new Meteor.Error('Invalid token.')
+        }
+      }
+    }
+  },
+  end2faSession: function() {
+    Meteor.users.update({
+      _id: this.userId,
+    }, {
+      $set: {
+        pass2fa: false
+      }
+    })
+  },
   'editProfile': function(data) {
       if (!this.userId) { throw new Meteor.Error('error', 'please log in') };
 
@@ -384,19 +426,58 @@ Meteor.methods({
           check(data.email, String)
           check(data.bio, String)
           check(data.username, String)
+          check(data.secret, Match.Maybe(String))
+          check(data.userToken, Match.Maybe(String))
+          check(data.status2fa, Boolean)
+
+          let user = Meteor.users.findOne({
+            _id: this.userId
+          })
+
+          let verified = false
+
+          if (data.status2fa && !user.enabled2fa) {
+            verified = speakeasy.totp.verify({
+              secret: data.secret,
+              encoding: 'base32',
+              token: data.userToken
+            })
+
+            if (!verified) {
+              throw new Meteor.Error('2FA configuration failed, please try again.')
+            }
+          } else if (!data.status2fa && user.enabled2fa) {
+            verified = speakeasy.totp.verify({
+              secret: user.secret2fa,
+              encoding: 'base32',
+              token: data.userToken
+            })
+
+            if (!verified) {
+              throw new Meteor.Error('2FA configuration failed, please try again.')
+            }
+          }
+
+          let set = {
+            email: data.email,
+            username: data.username,
+            bio: data.bio
+          }
+
+          if (verified) {
+            set = _.extend(set, {
+              secret2fa: data.status2fa ? data.secret : '',
+              enabled2fa: data.status2fa,
+              pass2fa: true
+            })
+          }
 
           Meteor.users.update({ _id: this.userId }, {
-                  $set: {
-                      email: data.email,
-                      username: data.username,
-                      bio: data.bio
-                  }
-              },
-              function(error) {
-                  console.log('editProfile method failed', error)
-              });
+            $set: set
+          }, function(error) {
+            console.log('editProfile method failed', error)
+          })
       }
-
   },
   uploadProfilePicture: (fileName, binaryData, md5) => {
       let md5validate = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(binaryData)).toString()

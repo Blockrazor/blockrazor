@@ -1,0 +1,17 @@
+<template name="twoFactor">
+    {{> sAlert}}
+    <div class="sign-in">
+        <div class="title">Two-factor authentication</div>
+        <div class="email-sign-in">
+            <form id="signIn">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                    </div>
+                    <input type="password" id="token" class="form-control" placeholder="2FA key">
+                </div>
+                <button type="submit" class="btn btn-primary">Continue</button>
+            </form>
+        </div>
+    </div>
+</template>
