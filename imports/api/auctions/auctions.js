@@ -19,8 +19,14 @@ Auctions.schema = new SimpleSchema({
   "options.reserve": { type: Number },
   "options.reserveMet": {type: Boolean},
   "options.highest": {type: Number},
+  'options.highestBidder': {type: String},
+  'options.max': {type: Number},
   createdBy: {type: String},
-  createdAt: {type: String}
+  createdAt: {type: String},
+  bids: { type: Array },
+  'bids.$': { type: Object },
+  'bids.$.userId': { type: String },
+  'bids.$.amount': { type: Number }
 }, { requiredByDefault: developmentValidationEnabledFalse });
 
 Auctions.deny({

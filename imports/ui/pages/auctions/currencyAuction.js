@@ -138,7 +138,7 @@ Template.currencyAuction.events({
 	'click .js-cancel': function(event, templateInstance) {
 		event.preventDefault()
 
-		Meteor.call('cancelBid', this._id, (err, data) => {
+		Meteor.call('cancelCurrencyBid', this._id, (err, data) => {
 			if (err) {
 				sAlert.error(err.reason)
 			} else {
