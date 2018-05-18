@@ -62,11 +62,18 @@ FlowRouter.route('/profile/:slug', {
     this.register('comments', FastRenderer.subscribe('comments'))
   },
   action: async (params, queryParams) => {
-    await import ('/imports/ui/pages/userProfile/userProfile')
-    await import ('/imports/ui/pages/editProfile/editProfile')
-    BlazeLayout.render('mainLayout', {
-      main: 'userProfile'
-    })
+    if (Meteor.userId()) {
+      // if the user is logged in, render the intented page
+      await import ('/imports/ui/pages/userProfile/userProfile')
+      await import ('/imports/ui/pages/editProfile/editProfile')
+      BlazeLayout.render('mainLayout', {
+        main: 'userProfile'
+      })
+    } else {
+      // else redirect to the login page, saving the current path, to be able to redirect the user back
+      window.last = window.location.pathname
+      FlowRouter.go('/login')
+    }
   }
 })
 
@@ -83,7 +90,14 @@ FlowRouter.route('/faq', {
 FlowRouter.route('/profile', {
   name: 'profile',
   action: async (params, queryParams) => {
-    FlowRouter.go('/profile/' + Meteor.user().slug)
+    if (Meteor.userId()) {
+      // if the user is logged in, go to the intented page
+      FlowRouter.go('/profile/' + Meteor.user().slug)
+    } else {
+      // else redirect to the login page, saving the current path, to be able to redirect the user back
+      window.last = window.location.pathname
+      FlowRouter.go('/login')
+    }
   }
 })
 
