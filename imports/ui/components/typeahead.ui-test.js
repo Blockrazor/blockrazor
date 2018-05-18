@@ -30,7 +30,7 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
             if (list.children().length) { // this will hold even if the data wasn't found, it'll return the div, so you can check here whether it's a currency or a notFound div and return the appropriate result
                 name = list.children()[0].innerHTML
 
-                return Currencies.findOne({currencyName: name}) || name
+                return testingCurrencies.findOne({currencyName: name}) || name
             } else {
                 return list[0].innerHTML // This is the actual problem that causes tests to fail. innerHTML is currencyName, while we use currencySymbol in the URL. Adding a data attribute with currencySymbol and using that value or something similar should do the trick
             }
