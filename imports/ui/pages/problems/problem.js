@@ -22,7 +22,7 @@ Template.problem.onCreated(function() {
 
 Template.problem.onRendered(function() {
 	$.fn.editable.defaults.mode = 'inline' // display them inline
-  	$.fn.editableform.buttons = `<button type="submit" class="btn btn-primary btn-sm editable-submit"><i class="fa fa-check"></i></button><button type="button" class="btn btn-default btn-sm editable-cancel"><i class="fa fa-close"></i></button>` // custom buttons with fa icons
+  	$.fn.editableform.buttons = `<button type="submit" class="btn btn-primary btn-sm editable-submit"><i class="fa fa-check"></i></button><button type="button" class="btn btn-default btn-sm editable-cancel"><i class="fa fa-times"></i></button>` // custom buttons with fa icons
 
 	let editables = ['header', 'text']
 
