@@ -263,18 +263,17 @@ Template.bounties.events({
       event.preventDefault()
       
       swal({
-          title: "Share with friends and earn 5% of KZR they earn every day.",
-          button: { className: 'btn btn-primary' },
-          content: {
-              element: "input",
-              attributes: {
-                  id: 'shareURL',
-                  value: "https://blockrazor.org/#H8hpyxk5uoiuiZSbmdfX",
-                  type: "text",
-              },
+          title: 'Share with friends and earn 5% of KZR they earn every day.',
+          input: 'text',
+          confirmButtonText: 'Ok',
+          confirmButtonColor : "#000",
+          inputValue: "https://blockrazor.org/#H8hpyxk5uoiuiZSbmdfX",
+          inputAttributes: {
+              id: 'shareURL'
           }
-      })
 
+      })
+      $('#shareURL').focus()
       $('#shareURL').select()
 
   },
