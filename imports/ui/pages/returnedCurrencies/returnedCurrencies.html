@@ -112,11 +112,10 @@
     {{/if}}
     {{#if reactiveVar 'everythingLoaded'}}
       <div class="end-of-page"> *** End of results ***</div>
-      {{else}}
+    {{/if}}
       <div id="loader">
         <!-- used to determine that page is ending for infinite scroll -->
         <!-- Loading more... -->
       </div>
-    {{/if}}
   </div>
 </template>
