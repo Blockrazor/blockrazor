@@ -43,6 +43,16 @@ Template.editProfile.events({
             }
         })
     },
+    'click #js-backup2fa': (event, templateInstance) => {
+        event.preventDefault()
+
+        templateInstance.show2fa.set(!templateInstance.show2fa.get())
+    },
+    'click #js-regen': (event, templateInstance) => {
+        event.preventDefault()
+
+        Meteor.call('regenerateBackup2fa', (err, data) => {})
+    },
     'change #2fa': (event, templateInstance) => {
         event.preventDefault()
 
@@ -130,6 +140,7 @@ Template.editProfile.events({
 Template.editProfile.onCreated(function() {
     this.enable2fa = new ReactiveVar(false)
     this.disable2fa = new ReactiveVar(false)
+    this.show2fa = new ReactiveVar(false)
     this.qrcode = new ReactiveVar('')
 })
 
@@ -139,6 +150,7 @@ Template.editProfile.helpers({
             _id: Meteor.userId()
         });
     },
+    show2fa: () => Template.instance().show2fa.get(),
     ProfileImages: () => {
         return ProfileImages.findOne({createdBy:Meteor.userId()});
     },

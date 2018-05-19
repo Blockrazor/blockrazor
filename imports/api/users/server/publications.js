@@ -114,7 +114,8 @@ import { UserData, ProfileImages, UsersStats } from '/imports/api/indexDB.js'
         inviteCode: 1,
         suspended: 1,
         pass2fa: 1,
-        enabled2fa: 1
+        enabled2fa: 1,
+        backup2fa: 1
 			}
 		})
 	})
@@ -142,9 +143,7 @@ import { UserData, ProfileImages, UsersStats } from '/imports/api/indexDB.js'
 				bio: 1,
 				slug: 1,
 				profilePicture: 1,
-        suspended: 1,
-        pass2fa: 1,
-        enabled2fa: 1
+        suspended: 1
 			} // only show the absolutely required fields
 		})
 	})
@@ -159,9 +158,7 @@ import { UserData, ProfileImages, UsersStats } from '/imports/api/indexDB.js'
         bio: 1,
         slug: 1,
         profilePicture: 1,
-        suspended: 1,
-        pass2fa: 1,
-        enabled2fa: 1
+        suspended: 1
       } // only show the absolutely required fields
     })
   })

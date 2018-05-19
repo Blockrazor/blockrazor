@@ -403,10 +403,39 @@ Meteor.methods({
 
           return true
         } else {
+          if (~(user.backup2fa || []).indexOf(token)) {
+            let backup2fa = user.backup2fa
+
+            backup2fa = backup2fa.filter(i => i !== token)
+            backup2fa.push(('0000000' + Math.floor(Math.random() * 100000000)).slice(-8)) // reset the code
+
+            Meteor.users.update({
+              _id: this.userId,
+            }, {
+              $set: {
+                pass2fa: true,
+                backup2fa: backup2fa
+              }
+            })
+
+            return true
+          }
+
           throw new Meteor.Error('Invalid token.')
         }
       }
     }
+  },
+  regenerateBackup2fa: function() {
+    let codes = [...Array(10).keys()].map(i => ('0000000' + Math.floor(Math.random() * 100000000)).slice(-8))
+
+    Meteor.users.update({
+      _id: Meteor.userId()
+    }, {
+      $set: {
+        'backup2fa': codes
+      }
+    })
   },
   end2faSession: function() {
     Meteor.users.update({
@@ -453,6 +482,8 @@ Meteor.methods({
               token: data.userToken
             })
 
+            verified = verified || ~(user.backup2fa || []).indexOf(data.userToken)
+
             if (!verified) {
               throw new Meteor.Error('2FA configuration failed, please try again.')
             }
@@ -468,7 +499,8 @@ Meteor.methods({
             set = _.extend(set, {
               secret2fa: data.status2fa ? data.secret : '',
               enabled2fa: data.status2fa,
-              pass2fa: true
+              pass2fa: true,
+              backup2fa: data.status2fa ? [...Array(10).keys()].map(i => ('0000000' + Math.floor(Math.random() * 100000000)).slice(-8)) : []
             })
           }
 
