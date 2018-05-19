@@ -24,7 +24,17 @@
         <div class="form-group">
             <label for="2fa">Two-factor authentication</label>
             {{#if user.enabled2fa}}<div style="width: 100%"><input type="checkbox" checked id="2fa"> Enable</div>{{else}}<div style="width: 100%"><input type="checkbox" id="2fa"> Enable</div>{{/if}}
+            {{#if user.enabled2fa}}<a href="#" id="js-backup2fa">Show backup 2FA tokens</a>{{/if}}
         </div>
+        {{#if show2fa}}
+        <div id="show2fa" class="form-group">
+            {{#each user.backup2fa}}
+            {{this}}<br />
+            {{/each}}
+            <br />
+            Compromised? <a href="#" id="js-regen">Regenerate 2FA backup tokens</a>.
+        </div>
+        {{/if}}
         {{#if enable2fa}}
         <div id="qr2fa" class="form-group">
                 1. Scan the QR code:<br />
