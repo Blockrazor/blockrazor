@@ -8,6 +8,7 @@ import { newFeature } from '/imports/api/features/methods'
 Template.features.onCreated(function(){
   this.showflagged = new ReactiveVar(false)
   this.addingnewfeature = new ReactiveVar(false)
+  this.loadMore = new ReactiveVar(true)
   this.lastId = new ReactiveVar('')
   this.featureIncrement = 3
   this.featureLimit = new ReactiveVar(this.featureIncrement)
@@ -34,6 +35,9 @@ Template.features.helpers({
   },
   flaggedfeatures: function() {
     return Features.find({currencySlug: FlowRouter.getParam('slug'), flagRatio: {$gt: 0.6}});
+  },
+    loadMoreActive: function() {
+    return Template.instance().loadMore.get()
   }
 });
 
@@ -51,6 +55,12 @@ Template.features.events({
   },
   'click #loadMoreFeatures': function(ev, templ){
     templ.featureLimit.set(templ.featureLimit.get()+templ.featureIncrement)
+
+    let currentCount = templ.featuresShow.get().count()
+
+    if(templ.featureLimit.get() > currentCount){
+    templ.loadMore.set(false);
+    }
   },
   'click .feature-help-button .help': function() {
     $('#addFeatureModal').modal('show');
