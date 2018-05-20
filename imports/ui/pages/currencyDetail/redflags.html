@@ -87,7 +87,9 @@
               </div>
             {{/each}} 
             {{#if redflags}}
+                {{#if loadMoreActive}}
               <button class="load-more-button" id="loadMoreRedflags">Load More</button>
+                {{/if}}
             {{/if}}
           {{else}}
             {{> loading}}

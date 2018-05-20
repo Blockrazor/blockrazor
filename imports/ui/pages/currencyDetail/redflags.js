@@ -9,6 +9,7 @@ import './redflagComment.js'
 Template.redflags.onCreated(function(){
   this.showredflagged = new ReactiveVar(false)
   this.addingnewredflag = new ReactiveVar(false)
+  this.loadMore = new ReactiveVar(true)
   this.lastId = new ReactiveVar('')
   this.redflagIncrement = 3
   this.redflagLimit = new ReactiveVar(this.redflagIncrement)
@@ -44,12 +45,21 @@ Template.redflags.helpers({
   },
   redflagsFlagged: function() {
     return Redflags.find({currencyId: Template.instance().currencyId, flagRatio: {$gt: 0.6}},{limit: 3});
+  },
+    loadMoreActive: function() {
+    return Template.instance().loadMore.get()
   }
 });
 
 Template.redflags.events({
   'click #loadMoreRedflags': function(ev, templ){
     templ.redflagLimit.set(templ.redflagLimit.get()+templ.redflagIncrement)
+
+    let currentCount = templ.redflagShow.get().count()
+
+    if(templ.redflagLimit.get() > currentCount){
+    templ.loadMore.set(false);
+    }
   },
   'click .flag-help-button .help': function() {
     $('#addRedFlagModal').modal('show');

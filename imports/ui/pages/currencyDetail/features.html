@@ -91,7 +91,10 @@
               </div>
             {{/each}}
             {{#if features}}
+              {{#if loadMoreActive}}
               <button class="load-more-button" id="loadMoreFeatures">Load More</button>
+              {{/if}}
+              
             {{/if}}
           {{else}}
             {{> loading}}
