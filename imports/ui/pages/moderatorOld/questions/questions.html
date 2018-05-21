@@ -1,0 +1,42 @@
+<template name="questions">
+	<h3>Questions</h3>
+	{{#if subsCacheReady}}
+    {{#each questions}}
+			{{question}} ({{#if negative}}-{{else}}+{{/if}}) ({{catagory}}) {{#if context}}(shown at: {{context}}){{/if}} {{#if isXor}}(XOR){{/if}} {{#if author}}<a href="#" class="js-context">+/-</a> <a href="#" class="js-delete">X</a>{{/if}}<br />
+    {{else}}
+      {{> empty}}
+    {{/each}}
+  {{else}}
+    {{> loading}}
+  {{/if}}
+	<br />
+	<b>* Legend:</b> <i>+/-</i> to change context, <i>X</i> to delete
+<form>
+  <input id="question" placeholder="Question here" size="100">
+  <select id="js-cat">
+  	<option value="wallet">Wallet</option>
+  	<option value="community">Community</option>
+  	<option value="codebase">Codebase</option>
+  	<option value="decentralization">Decentralization</option>
+  </select>
+  <input type="checkbox" id="js-negative">Negative<br />
+  {{#if needsContext}}<select id="context">
+  	<option value="wallet">Wallet</option>
+  	<option value="community">Community</option>
+  	<option value="codebase">Codebase</option>
+  	<option value="add-currency">Add currency</option>
+  </select> (context){{/if}}
+  <input type="checkbox" id="js-xor">XOR<br />
+  {{#if xor}}
+  {{#each xors}}
+  <select class="js-xors">
+  	{{#each questionsCat}}
+  	<option value="{{_id}}">{{question}}</option>
+  	{{/each}}
+  </select>
+  {{/each}}
+  <a href="#" id="js-add-xor">+</a>
+  {{/if}}
+  <button type="submit" class="btn btn-primary" id="submit">Add Question</button>
+</form>
+</template>

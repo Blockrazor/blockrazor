@@ -1,0 +1,50 @@
+<template name="appLogs">
+    {{#if isModerator}}
+    <h3>Application logs</h3>
+     <div id="logsFilterContainer" class="container"> 
+        <form id="logsFilter" name="logsFilter"> 
+            <div class="row form-items"> 
+                <div class="col-12 form-group"> 
+                    <select class="form-control" id="js-level">
+                        <option>ALL</option>
+                        <option>INFO</option>
+                        <option>WARN</option>
+                        <option>ERROR</option>
+                    </select>
+                    <input id="js-search" name="searchInput" type="text" class="form-control" placeholder="Search logs by message..."> 
+                    <input id="js-search-username" name="searchInput" type="text" class="form-control" placeholder="by username"> 
+                    <input id="js-search-ip" name="searchInput" type="text" class="form-control" placeholder="by IP"> 
+                </div> 
+            </div>
+            <div class="found-result">
+               {{#if filterCount}} Found {{filterCount}} results {{/if}}
+            </div> 
+        </form> 
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Level</th>
+                <th scope="col">Date &amp; Time</th>
+                <th scope="col">User</th>
+                <th scope="col">Message</th>
+                <th scope="col">Additional info</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each applogs}}
+            <tr>
+                <td style="color: {{levelColor}}">{{level}}</td>
+                <td>{{date}}</td>
+                <td>{{user}}</td>
+                <td>{{message}}</td>
+                <td>{{additionalInfo}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    <button id="js-more" class="btn btn-action" style="width: 100%">More data?</button>
+    {{else}}
+    <h1>This page is for moderators only.</h1>
+    {{/if}}
+</template>
