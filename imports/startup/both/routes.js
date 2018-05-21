@@ -640,7 +640,6 @@ adminRoutes.route('/', {
   name: 'moderator',
   subscriptions: function () {
     this.register('pendingcurrencies', FastRenderer.subscribe('pendingcurrencies'));
-    this.register('bounties', FastRenderer.subscribe('bounties'));
     this.register('walletimages', FastRenderer.subscribe('walletimages'));
   },
   action: async (params, queryParams) => {
@@ -845,7 +844,6 @@ adminRoutesOld.route('/', {
   name: 'moderatorOld',
   subscriptions: function () {
     this.register('pendingcurrencies', FastRenderer.subscribe('pendingcurrencies'));
-    this.register('bounties', FastRenderer.subscribe('bounties'));
     this.register('walletimages', FastRenderer.subscribe('walletimages'));
   },
   action: async (params, queryParams) => {

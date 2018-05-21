@@ -7,7 +7,6 @@ import './moderatorDash.html'
 import '/imports/ui/components/notLoggedIn.html'
 import './approveWalletImage.js'
 import './approveCommunityImage.js'
-import './moderatorPendingAPIBounty.js'
 import './moderatorPendingCurrency.js'
 
 
@@ -19,9 +18,6 @@ function getApprovalItemsToDisplay(type) {
   switch (type) {
     case "moderatorPendingCurrency" :
           return PendingCurrencies.find({}, { sort: { createdAt: -1 }})
-          break
-    case "moderatorPendingAPIBounty" :
-          return Bounties.find({pendingApproval: true, bountyType: "HashrateAPI"})
           break
     case "approveWalletImage" :
           return WalletImages.find({approved: false})
@@ -36,7 +32,6 @@ Template.moderatorDash.onCreated(function bodyOnCreated() {
   var self = this;
   self.autorun(function(){
     SubsCache.subscribe('pendingcurrencies');
-    SubsCache.subscribe('bounties');
     SubsCache.subscribe('walletimages');
      SubsCache.subscribe('communities');
   })
@@ -46,7 +41,7 @@ Template.moderatorDash.onCreated(function bodyOnCreated() {
   this.submittername = new ReactiveVar(null)
   this.owner = new ReactiveVar(null)
   this.currencyName = new ReactiveVar(null)
-  this.approvalDisplayOrder = ["moderatorPendingCurrency", "moderatorPendingAPIBounty", "approveWalletImage", "approveCommunityImage"]
+  this.approvalDisplayOrder = ["moderatorPendingCurrency", "approveWalletImage", "approveCommunityImage"]
   this.nothingToApprove = new ReactiveVar(true)
   this.displayingApproval = new ReactiveVar(null)
   this.displayingApprovalData = new ReactiveVar(null)
