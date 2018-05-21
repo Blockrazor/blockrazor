@@ -7,14 +7,12 @@ import './moderatorDash.html'
 import '/imports/ui/components/notLoggedIn.html'
 import './approveWalletImage.js'
 import './approveCommunityImage.js'
-import './moderatorPendingAPIBounty.js'
 import './moderatorPendingCurrency.js'
 
 Template.moderatorDash.onCreated(function bodyOnCreated() {
   var self = this;
   self.autorun(function(){
     SubsCache.subscribe('pendingcurrencies');
-    SubsCache.subscribe('bounties');
     SubsCache.subscribe('walletimages');
      SubsCache.subscribe('communities');
   })
@@ -50,9 +48,6 @@ Template.moderatorDash.helpers({
   },
   pendingWalletImages() {
     return WalletImages.find({approved: false});
-  },
-  pendingAPIBounties() {
-    return Bounties.find({pendingApproval: true, bountyType: "HashrateAPI"});
   },
   pendingCurrencies() {
         return PendingCurrencies.find({}, { sort: { createdAt: -1 }, limit: 20});
