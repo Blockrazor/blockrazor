@@ -1,0 +1,160 @@
+<template name="moderatorPendingCurrency">
+    <div class="card mb-2">
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <small>Posted {{relativeTime createdAt}}</small>
+                </div>
+                <div class="col-10">
+                    <p class="card-text"> A new currency has been added called {{currencyName}}
+                    </p>
+                    <button class="btn btn-primary pull-right" id="review">REVIEW</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade reviewCurrencyModal-{{_id}}" tabindex="-1" role="dialog" aria-hidden="true" style="max-width: 90% !important;">
+        <div class="modal-dialog" style="max-width: 90% !important;">
+            <div class="modal-content" style="max-width: 90% !important;">
+                <div class="modal-body" style="max-width: 90% !important;">
+                    <div class="currency-info">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="card card-header d-flex align-items-center flex-row">
+                                    <img class="currency-logo" src="{{doesCoinImageExist currencyReview.currencyLogoFilename}}" alt="{{currencyReview.currencyName}}">
+                                    <input type="hidden" value="{{currencyLogoFilenam}}" id="currencyLogoFilename_existing">
+                                    <div class="name">{{currencyReview.currencyName}}</div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="basic-details">
+                                    <div class="card border-secondary mb-3 mb-3" style="min-width:100px;overflow:hidden;">
+                                        <div class="card-body">
+                                            <input type="hidden" id="_id" value="{{currencyReview._id}}">
+                                            <input type="hidden" id="name" value="{{currencyReview.currencyName}}">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="card card-body">
+                                                        <div class="title">Currency Name</div>
+                                                        <div class="value" id="currencyName">{{currencyReview.currencyName}}</div>
+                                                    </div>
+                                                </div>
+                                                {{#if currencyReview.currencySymbol}}
+                                                <div class="col-md-4">
+                                                    <div class="card card-body">
+                                                        <div class="title">Currency Symbol</div>
+                                                        <div class="value" id="currencySymbol">{{currencyReview.currencySymbol}}</div>
+                                                    </div>
+                                                </div>
+                                                {{/if}} {{#if currencyReview.genesisTimestamp}}
+                                                <div class="col-md-4">
+                                                    <div class="card card-body">
+                                                        <div class="title">Genesis Timestamp</div>
+                                                        <div class="value" id="genesisTimestamp">{{currencyReview.genesisTimestamp}}</div>
+                                                    </div>
+                                                </div>
+                                                {{/if}} {{#if currencyReview.premine}}
+                                                <div class="col-md-4">
+                                                    <div class="card card-body">
+                                                        <div class="title">Premine</div>
+                                                        <div class="value" id="premine">{{premine}}</div>
+                                                    </div>
+                                                </div>
+                                                {{/if}} {{#if currencyReview.circulating}}
+                                                <div class="col-md-4">
+                                                    <div class="card card-body">
+                                                        <div class="title">Circulating</div>
+                                                        <div class="value" id="circulating">{{currencyReview.circulating}}</div>
+                                                    </div>
+                                                </div>
+                                                {{/if}} {{#if currencyReview.maxCoins}}
+                                                <div class="col-md-4">
+                                                    <div class="card card-body">
+                                                        <div class="title">Max Coins</div>
+                                                        <div class="value" id="maxCoins">{{maxCoins}}</div>
+                                                    </div>
+                                                </div>
+                                                {{/if}} {{#if currencyReview.consensusSecurity}}
+                                                <div class="col-md-4">
+                                                    <div class="card card-body">
+                                                        <div class="title">Consensus Security</div>
+                                                        <div class="value" id="consensusSecurity">{{consensusSecurity}}</div>
+                                                    </div>
+                                                </div>
+                                                {{/if}} {{#if currencyReview.hashAlgorithm}}
+                                                <div class="col-md-4">
+                                                    <div class="card card-body">
+                                                        <div class="title">Hash Algorithm</div>
+                                                        <div class="value" id="hashAlgorithm">{{hashAlgorithm}}</div>
+                                                    </div>
+                                                </div>
+                                                {{/if}} {{#if currencyReview.gitUpdate}}
+                                                <div class="col-md-4">
+                                                    <div class="card card-body">
+                                                        <div class="title">Git Update</div>
+                                                        <div class="value" id="gitUpdate">{{gitUpdate}}</div>
+                                                    </div>
+                                                </div>
+                                                {{/if}} {{#if currencyReview.cpc}}
+                                                <div class="col-md-4">
+                                                    <div class="card card-body">
+                                                        <div class="title">Comparison Price (Circulation)</div>
+                                                        <div class="value" id="cpc">{{cpc}}$</div>
+                                                    </div>
+                                                </div>
+                                                {{/if}} {{#if currencyReview.cpt}}
+                                                <div class="col-md-4">
+                                                    <div class="card card-body">
+                                                        <div class="title">Comparison Price (Total)</div>
+                                                        <div class="value" id="cpt">{{cpt}}$</div>
+                                                    </div>
+                                                </div>
+                                                {{/if}} {{#if currencyReview.marketCap}}
+                                                <div class="col-md-4">
+                                                    <div class="card card-body">
+                                                        <div class="title">Market Cap</div>
+                                                        <div class="value" id="marketCap">{{marketCap}}</div>
+                                                    </div>
+                                                </div>
+                                                {{/if}} {{#if currencyReview.previousNames}}
+                                                <div class="col-md-4">
+                                                    <div class="card card-body">
+                                                        <div class="title">Previous Names</div>
+                                                        <div class="value" id="previousNames">{{currencyReview.previousNames}}</div>
+                                                    </div>
+                                                </div>
+                                                {{/if}} {{#if currencyReview.gitRepo}}
+                                                <div class="col-md-4">
+                                                    <div class="card card-body">
+                                                        <div class="title">Git Repo</div>
+                                                        <div class="value" id="gitRepo">{{currencyReview.gitRepo}}</div>
+                                                    </div>
+                                                </div>
+                                                {{/if}}
+                                                {{#if currencyReview.reddit}}
+                                                <div class="col-md-4">
+                                                    <div class="card card-body">
+                                                        <div class="title">Reddit</div>
+                                                        <div class="value" id="reddit">{{currencyReview.reddit}}</div>
+                                                    </div>
+                                                </div>
+                                                {{/if}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-group pull-right" role="group">
+                            <button class="btn btn-success" id="approve">APPROVE <i class="fa fa-check" aria-hidden="true"></i></button>
+                            <button class="btn btn-danger" id="reject">REJECT <i class="fa fa-times" aria-hidden="true"></i></button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

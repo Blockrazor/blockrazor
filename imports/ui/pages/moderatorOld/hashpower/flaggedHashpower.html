@@ -1,0 +1,42 @@
+<template name="flaggedHashpower">
+    {{#if isModerator}}
+    <h3>Flagged Hash power data</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Image</th>
+                <th scope="col">Hardware category</th>
+                <th scope="col">Hardware device</th>
+                <th scope="col">Algorithm</th>
+                <th scope="col">Hash rate</th>
+                <th scope="col">Power consumption</th>
+                <th scope="col"># Flags</th>
+                <th scope="col">Reasons</th>
+                <th scope="col">Upvotes (remove flag)</th>
+                <th scope="col">Downvotes (remove data)</th>
+                <th scope="col">Vote</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each hashpower}}
+            <tr>
+                <td><img src="{{image}}" style="height: 40px;" /></td>
+                <td>{{hashCategory}}</td>
+                <td>{{hashDevice}}</td>
+                <td>{{hashAlgorithm}}</td>
+                <td>{{hashRate}} {{unit}}</td>
+                <td>{{powerConsumption}} W</td>
+                <td>{{flags.length}}</td>
+                <td>{{#each flags}}{{reason}}<br />{{/each}}</td>
+                <td>{{upvotes}}</td>
+                <td>{{downvotes}}</td>
+                <td>{{#if voted}}-{{else}}<button class="js-vote btn btn-default notVoted" data-vote="voteUp"><i class="fa fa-arrow-up"></i></button> <button class="js-vote btn btn-default notVoted" data-vote="voteDown"><i class="fa fa-arrow-down"></i></button>{{/if}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    {{else}}
+    <h1>This page is for moderators only.</h1>
+    {{/if}}
+    <a href="/hashpower">Back to all data</a>
+</template>

@@ -1,0 +1,32 @@
+<template name="pardon">
+    {{#if isModerator}}
+    <h3>Suspended users' pardon requests</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Username</th>
+                <th scope="col">Offences</th>
+                <th scope="col">Reason</th>
+                <th scope="col">Upvotes (pardon)</th>
+                <th scope="col">Downvotes (deny)</th>
+                <th scope="col">Vote</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each pardons}}
+            <tr>
+                <td>{{username}}</td>
+                <td>{{#each offences}}{{name}} - {{date}}<br />{{/each}}</td>
+                <td>{{pardon.reason}}</td>
+                <td>{{upvotes}}</td>
+                <td>{{downvotes}}</td>
+                <td>{{#if voted}}-{{else}}<button class="js-vote btn btn-default notVoted" data-vote="voteUp"><i class="fa fa-arrow-up"></i></button> <button class="js-vote btn btn-default notVoted" data-vote="voteDown"><i class="fa fa-arrow-down"></i></button>{{/if}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    {{else}}
+    <h1>This page is for moderators only.</h1>
+    {{/if}}
+    <a href="/moderator">Back to moderator dashboard</a>
+</template>

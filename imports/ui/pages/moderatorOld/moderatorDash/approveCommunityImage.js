@@ -34,10 +34,8 @@ Template.approveCommunityImage.events({
                   Meteor.call('flagCommunityImage', this._id, rejectionReason, (err, data) => {
                       if (!err) {
                           sAlert.success('Rejected.')
-                          Session.set('lastApproval', 'approveCommunityImage');
                       } else {
                           sAlert.error(err.reason)
-                          Session.set('lastApproval', 'approveCommunityImage');
                       }
                   })
               }else{
@@ -49,10 +47,8 @@ Template.approveCommunityImage.events({
     Meteor.call('approveCommunityImage', this._id, (err, data) => {
       if (!err) {
         sAlert.success('Approved.')
-        Session.set('lastApproval', 'approveCommunityImage');
       } else {
         sAlert.error(err.reason)
-        Session.set('lastApproval', 'approveCommunityImage');
       }
     })
   }

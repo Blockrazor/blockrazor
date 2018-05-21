@@ -1,0 +1,44 @@
+<template name="changedCurrencies">
+    <h3>Proposed Changed</h3>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Coin Name</th>
+                <th scope="col">Field</th>
+                <th scope="col">From</th>
+                <th scope="col">To</th>
+                <th scope="col">Status</th>
+                <th scope="col">Reason</th>
+                <th scope="col">Vote</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each changedCurrencies}}
+            <tr>
+                <td scope="row">{{coinName}} </td>
+                <td>{{field}} </td>
+                <td>{{{checkType old}}}</td>
+                <td>{{{checkType new}}}</td>
+                <th scope="col">{{status}}</th>
+                <th scope="col">{{notes}}</th>
+                <td>{{score}}</td>
+                <td>
+                    {{#if voted _id}}
+                        {{#if voteType _id}}
+                        <button id="currencyVoteBtnUp" type="button" class="btn btn-default notVoted" style="background-color:black;color:white;color:white;cursor:not-allowed" disabled><i class="fa fa-arrow-up"></i></button>
+                        <button id="currencyVoteBtnDown" type="button" class="btn btn-default notVoted" style="background-color:black;color:white"><i class="fa fa-arrow-down"></i></button>
+                        {{else}}
+                        <button id="currencyVoteBtnUp" type="button" class="btn btn-default notVoted" style="background-color:black;color:white"><i class="fa fa-arrow-up"></i></button>
+                        <button id="currencyVoteBtnDown" type="button" class="btn btn-default notVoted" style="background-color:black;color:white;cursor:not-allowed" disabled><i class="fa fa-arrow-down"></i></button>
+                        {{/if}}
+                    {{else}}
+                    <button id="currencyVoteBtnUp" type="button" class="btn btn-default notVoted" style="background-color:black;color:white"><i class="fa fa-arrow-up"></i></button>
+                    <button id="currencyVoteBtnDown" type="button" class="btn btn-default notVoted" style="background-color:black;color:white"><i class="fa fa-arrow-down"></i></button>
+                    {{/if}}
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</template>

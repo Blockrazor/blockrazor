@@ -1,0 +1,24 @@
+<template name="approveWalletImage">
+    <div class="card mb-2">
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <img class="pointer image" src="{{_walletUpoadDirectoryPublic}}{{_id}}_thumbnail.{{extension}}" style="cursor:pointer;width:100px"><br />
+                    <small>Posted {{relativeTime createdAt}}</small>
+                </div>
+                <div class="col-10">
+                    <p class="card-text"> This should be an image of a <b>{{currencyName}}</b> wallet. It should show the <b>{{imageOf}}</b> page/screen.
+
+                    </p>
+                                                 
+                        <div class="btn-group pull-right mt-4" role="group">
+                            <button class="btn btn-success" id="approve">APPROVE <i class="fa fa-check" aria-hidden="true"></i></button>
+                            <button class="btn btn-danger" id="reject">REJECT <i class="fa fa-times" aria-hidden="true"></i></button>
+                        </div>
+           
+        </div>
+                </div>
+            </div>
+
+    </div>
+</template>

@@ -2,7 +2,7 @@ import { Template } from 'meteor/templating';
 import { Currencies, ChangedCurrencies, HashAlgorithm } from '/imports/api/indexDB.js';
 
 // import '../../../api/coins/methods.js'; //is broken adress
-import '../../layouts/MainBody.html'
+import '../../../layouts/MainBody.html'
 import './changedCurrencies.html';
 
 Template.changedCurrencies.onCreated(function bodyOnCreated() {

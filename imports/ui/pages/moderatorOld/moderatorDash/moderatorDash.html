@@ -2,12 +2,14 @@
       <h2>Approvals</h2>
 
   {{#unless reactiveVar 'reject'}}
-    {{#unless reactiveVar 'nothingToApprove'}}
-      {{> Template.dynamic template=approvalItem data=approvalItemData}}
-    {{/unless}}
-    {{#if reactiveVar 'nothingToApprove'}}
-      <h5>Nothing new to Approve</h5>
-    {{/if}}
+
+  {{#each pendingCurrencies}}
+       {{> moderatorPendingCurrency}}
+  {{/each}}
+  {{#each pendingAPIBounties}}{{> moderatorPendingAPIBounty}}{{/each}}
+  {{#each pendingWalletImages}}{{> approveWalletImage}}{{/each}}
+  {{#each pendingCommunityImages}}{{> approveCommunityImage}}{{/each}}
+
   {{/unless}}
   {{#if reactiveVar 'reject'}}
   <form>

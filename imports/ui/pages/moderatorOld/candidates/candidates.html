@@ -1,0 +1,46 @@
+<template name="candidates">
+    <h3>Moderator candidates</h3>
+    <i>(data is updated every 24 hours)</i>
+    {{#if isModerator}}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Username</th>
+                <th scope="col">Input ranking</th>
+                <th scope="col">Comments (features/redflags/summaries)</th>
+                <th scope="col">Completed bounties</th>
+                <th scope="col">Overall rating (0-1)</th>
+                <th scope="col">Voting score</th>
+                <th scope="col">Vote</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#if subsCacheReady}}
+                {{#each users}}
+                    <tr>
+                        <td><a href="/profile/{{user.slug}}">{{user.username}}</a></td>
+                        <td>{{fixed info.mod.data.inputRanking}}</td>
+                        <td>{{info.mod.data.totalInput}}</td>
+                        <td>{{info.mod.data.totalBounties}}</td>
+                        <td>{{fixed info.mod.data.rating}}</td>
+                        <td>{{score}} ({{upvotes}}, {{downvotes}})</td>
+                        <td>{{#unless voted}}
+                            <button class="btn btn-default js-vote" data-vote="voteUp"><i class="fa fa-arrow-up"></i></button>
+                            <button class="btn btn-default js-vote" data-vote="voteDown"><i class="fa fa-arrow-down"></i></button>
+                            {{else}}
+                            -
+                            {{/unless}}
+                        </td>
+                    </tr>
+                {{else}}
+                    {{> empty}}
+                {{/each}}
+            {{else}}
+                {{> loading}}
+            {{/if}}
+        </tbody>
+    </table>
+    {{else}}
+    <h5>You have to be a moderator to view this page.</h5>
+    {{/if}}
+</template>

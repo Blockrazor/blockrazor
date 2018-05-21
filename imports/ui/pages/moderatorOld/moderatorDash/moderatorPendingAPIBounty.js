@@ -5,7 +5,6 @@ Template.moderatorPendingAPIBounty.events({
   'click #approve': function(data) {
     data.preventDefault();
     Meteor.call('approveAPIbounty', this._id);
-    Session.set('lastApproval', 'moderatorPendingAPIBounty');
   },
   'click #reject': function(data) {
     data.preventDefault();
@@ -17,6 +16,5 @@ Template.moderatorPendingAPIBounty.events({
     // Session.set('submittername', this.username);
     // Session.set('owner', this.owner);
     // Session.set('currencyName', this.currencyName);
-    Session.set('lastApproval', 'moderatorPendingAPIBounty');
   }
 });

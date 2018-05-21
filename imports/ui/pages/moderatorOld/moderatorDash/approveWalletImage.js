@@ -32,7 +32,6 @@ Template.approveWalletImage.events({
                           sAlert.error(err.reason)
                       }
                   })
-                  Session.set('lastApproval', 'approveWalletImage');
               }else{
                 sAlert.error('No rejection reason supplied, image not rejected')
               }
@@ -41,17 +40,18 @@ Template.approveWalletImage.events({
   },
   'click #approve': function(event){
     swal({
-      title: "Are you sure?",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-    .then((willDelete) => {
-      if (willDelete) {
-        Meteor.call('approveWalletImage', this._id);
-      }
-      Session.set('lastApproval', 'approveWalletImage');
-    });
+  title: "Are you sure?",
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+})
+.then((willDelete) => {
+  if (willDelete) {
+    Meteor.call('approveWalletImage', this._id);
+
+  }
+});
+
   }
 })
 

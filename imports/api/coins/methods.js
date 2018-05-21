@@ -341,14 +341,6 @@ Meteor.methods({
           return ((Date.now() - lastCurrency.createdAt) / REWARDCOEFFICIENT) * 1.8
         }
       },
-      reviewCurrency: function(currencyId) {
-        if(UserData.findOne({_id: this.userId}).moderator) {
-            var original = PendingCurrencies.findOne({_id: currencyId});
-    
-            return original;
-        }
-    
-      },
       approveCurrency: function(currencyId) {
         if(UserData.findOne({_id: this.userId}).moderator) {
             var original = PendingCurrencies.findOne({_id: currencyId});

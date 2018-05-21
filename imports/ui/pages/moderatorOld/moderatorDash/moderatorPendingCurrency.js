@@ -4,6 +4,7 @@ import('sweetalert2').then(swal => window.swal = swal.default)
 
 Template.moderatorPendingCurrency.onCreated(function() {
 
+  this.currencyReview = new ReactiveVar(null)
   // a way to get parent's template instance
   let view = this.view
 
@@ -19,9 +20,23 @@ Template.moderatorPendingCurrency.onCreated(function() {
 
 Template.moderatorPendingCurrency.onRendered(function (){
   this.parent.reject.set(false);
-});
+  });
 
 Template.moderatorPendingCurrency.events({
+      'click #review': function(data,templateInstance) {
+        data.preventDefault();
+
+        $('.reviewCurrencyModal-'+this._id).modal('show');
+
+        Meteor.call('reviewCurrency', this._id, (err, data) => {
+
+            if (err) {
+               console.error(err)
+            }else{
+              templateInstance.currencyReview.set(data)
+            }
+        })
+    },
     'click #approve': function(data) {
         data.preventDefault();
 
@@ -34,19 +49,25 @@ Template.moderatorPendingCurrency.events({
                     confirmButtonClass: 'btn btn-primary'
                 });
             }
-            Session.set('lastApproval', 'moderatorPendingCurrency');
+            
+            $('.reviewCurrencyModal-'+this._id).modal('hide');
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
         })
     },
     'click #reject': function(data, templateInstance) {
         data.preventDefault();
+
+        // As accessing parent template just after firing modal(hide), the modal won't completely close. need to manually remove backdrop
+        $('.reviewCurrencyModal-'+this._id).modal('hide');
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
         Meteor.call('setRejected', this._id, true);
         templateInstance.parent.currentlyRejecting.set(this._id)
         templateInstance.parent.reject.set(true)
         templateInstance.parent.submittername.set(this.username)
         templateInstance.parent.owner.set(this.owner)
         templateInstance.parent.currencyName.set(this.currencyName)
-
-        Session.set('lastApproval', 'moderatorPendingCurrency');
     }
 });
 Template.moderatorPendingCurrency.helpers({
@@ -88,6 +109,9 @@ Template.moderatorPendingCurrency.helpers({
       return "Add the " + this.currencyName + " launch date!"
     }
   },
+  currencyReview: function(){
+    return Template.instance().currencyReview.get()
+  }
 });
 
 
