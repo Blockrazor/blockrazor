@@ -4,6 +4,7 @@ import { PendingCurrencies, RejectedCurrencies, Bounties } from '/imports/api/in
 import './userPendingCurrencies.html'
 import '/imports/ui/components/notLoggedIn.html'
 import './userPendingCurrency'
+import './userPendingBounty'
 
 Template.userPendingCurrencies.onCreated(function bodyOnCreated() {
   var self = this
@@ -20,10 +21,27 @@ Template.userPendingCurrencies.onRendered( function () {
 
 Template.userPendingCurrencies.helpers({
   pendingbounties() {
-    return Bounties.find({pendingApproval: true, completedBy: Meteor.user()._id});
+    return Bounties.find({
+      type: new RegExp('currency-'), // currently, only these can be pending
+      pendingApproval: true,
+      userId: Meteor.userId()
+    }, {
+      sort: {
+        completedAt: -1
+      }
+    })
   },
   rejectedbounties() {
-    return Bounties.find({pendingApproval: false, approved: false, completedBy: Meteor.user()._id});
+    return Bounties.find({
+      type: new RegExp('currency-'),
+      pendingApproval: false,
+      approved: false,
+      userId: Meteor.userId()
+    }, {
+      sort: {
+        completedAt: -1
+      }
+    })
   },
   pendingcurrencies() {
     // if(_.size(PendingCurrencies.find({owner: Meteor.user()._id}).fetch()) == 0) {
