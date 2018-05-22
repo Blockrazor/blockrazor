@@ -40,6 +40,13 @@ Template.editProfile.events({
                     text: 'Your profile has been updated',
                     confirmButtonClass: 'btn btn-primary'
                   });
+
+//send an event to segment
+        let payload = {
+            event: 'Succesfully edited their profile',
+        }
+
+        segmentEvent(payload);
             }
         })
     },
@@ -122,11 +129,18 @@ Template.editProfile.events({
                         $('#uploadLabel').addClass('btn-primary');
                         $(".uploadText").html("Upload");
                     } else {                        
-                        $('#js-image').val(`${md5}.${fileExtension}`)
+                    $('#js-image').val(`${md5}.${fileExtension}`)
                     $("button").attr("disabled", false); //enable all buttons
                     $('#uploadLabel').addClass('btn-success');
                     $(".uploadText").html("Change"); //update button text now upload is complete
                     $('#profilePicture').attr('src', `${_profilePictureUploadDirectoryPublic}${md5}_thumbnail.${fileExtension}`)
+
+                    //send an event to segment
+        let payload = {
+            event: 'Changed their profile picture',
+        }
+
+        segmentEvent(payload);
 
                     }
                 })

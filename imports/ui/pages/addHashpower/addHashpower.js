@@ -133,6 +133,12 @@ Template.addHashpower.events({
 				if (!err) {
         			Cookies.set('workingBounty', false, { expires: 1 }) // you can now start working on another bounty
 					FlowRouter.go('/hashpower')
+					//send an event to segment
+        let payload = {
+            event: 'Added hash power',
+        }
+
+        segmentEvent(payload);
 				} else {
 					console.error(err.reason)
 				}

@@ -13,6 +13,12 @@ Template.allAuctions.onCreated(function() {
 
     this.open = new ReactiveVar(true)
     this.closed = new ReactiveVar()
+
+        let payload = {
+            event: 'Opened all auctions',
+        }
+
+        segmentEvent(payload);
 })
 
 Template.allAuctions.helpers({
