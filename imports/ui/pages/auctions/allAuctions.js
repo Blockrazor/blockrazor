@@ -1,6 +1,7 @@
 import { Template } from 'meteor/templating'
 import { Auctions, UserData, Currencies } from '/imports/api/indexDB.js'
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra'
+import { segmentEvent } from '/imports/api/analytics.js'
 
 import './allAuctions.template.html'
 
