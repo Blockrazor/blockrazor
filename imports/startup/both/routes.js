@@ -664,6 +664,20 @@ adminRoutes.route('/changedcurrencies', {
   }
 });
 
+adminRoutes.route('/changedcurrencies/:id', {
+  name: 'changedCurrency',
+  subscriptions: function () {
+    this.register('changedCurrencies', FastRenderer.subscribe('changedCurrencies'))
+    this.register('hashalgorithm', FastRenderer.subscribe('hashalgorithm'))
+  },
+  action: async (params, queryParams) => {
+    await import('/imports/ui/pages/moderator/changedCurrencies/changedCurrency')
+    BlazeLayout.render('mainLayout', {
+      main: 'changedCurrency'
+    })
+  }
+});
+
 adminRoutes.route('/questions', {
   name: 'questions',
   subscriptions: function () {
