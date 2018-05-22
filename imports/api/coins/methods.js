@@ -287,6 +287,8 @@ export const editCoin = new ValidatedMethod({
 if (Meteor.isDevelopment) {
     Meteor.methods({
         generateTestCurrencies: () => {
+            Currencies.remove({}) // delete all previous ones as this may cause problems
+            
             for (let i = 0; i < 10; i++) {
                 Currencies.insert({
                     currencyName: `Test ${i}`,
