@@ -106,6 +106,11 @@ Template.bidAuction.events({
 					sAlert.error(err.reason)
 				} else {
 					sAlert.success('Bid successfully placed.')
+					let payload = {
+            			event: 'Planced a bid on an auction',
+       				}
+
+        			segmentEvent(payload);
 				}
 			})
 		} else {
@@ -119,6 +124,12 @@ Template.bidAuction.events({
         if (!err) {
             sAlert.success('Successfully cancelled.')
             FlowRouter.go('/auctions')
+
+            let payload = {
+            	event: 'Cancelled an auction',
+       		}
+
+        	segmentEvent(payload);
         } else {
             sAlert.error(err.reason)
         }
