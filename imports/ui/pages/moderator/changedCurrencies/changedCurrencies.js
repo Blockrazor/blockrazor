@@ -21,7 +21,7 @@ Template.changedCurrencies.events({
 
             if (error && error.error == 'moderatorOnlyAction') {
                 sAlert.error('Only moderators can vote');
-            }else if (error && error.error == 'noVoteOnOwn') {
+            } else if (error && error.error == 'noVoteOnOwn') {
                 sAlert.error('You can not vote on your own proposed change');
             }
 
@@ -72,7 +72,7 @@ Template.changedCurrencies.helpers({
 
                     return val;
                 }
-                     
+
             } else if (typeof val == "object") {
                 return JSON.stringify(val);
             } else if (typeof val == "number") {
@@ -81,7 +81,7 @@ Template.changedCurrencies.helpers({
                         return moment(val).format(_globalDateFormat)
                     }
                 }
-                
+
                 return val;
             }
         } else {
@@ -115,5 +115,13 @@ Template.changedCurrencies.helpers({
                 return false;
             }
         }
-    }
+    },
+    selfProposed(id) {
+      let created = ChangedCurrencies.findOne({ _id: id, 'createdBy': Meteor.userId() }, { fields: { createdBy: 1 } });
+      if (created) {
+              return true;
+      } else {
+              return false;
+      }
+      }
 });
