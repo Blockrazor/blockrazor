@@ -70,6 +70,12 @@ Template.allHashpower.events({
 				sAlert.error(err.reason)
 			} else {
 				sAlert.success('Flagged successfully.')
+				//send an event to segment
+        let payload = {
+            event: 'Flagged hash power',
+        }
+
+        segmentEvent(payload);
 
 				// remove the reason field
 				let l = templateInstance.flags.get()
@@ -84,7 +90,14 @@ Template.allHashpower.events({
 		Meteor.call('deleteHashpower', this._id, (err, data) => {
 			if (err) {
 				sAlert.error(err.reason)
-			} 
+			}else{
+				//send an event to segment
+        let payload = {
+            event: 'Deleted hash power',
+        }
+
+        segmentEvent(payload);
+			}
 		})		
 	}
 })

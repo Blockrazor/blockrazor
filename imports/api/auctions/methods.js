@@ -55,9 +55,6 @@ Meteor.methods({
 						//you must define an event and can define multiple properties if required
 						let payload = {
 						    event: 'Created an Auction',
-						    properties: {
-						        auction: name
-						    }
 						}
 						//invoke segment function with the defined payload above
 						segmentEvent(payload);

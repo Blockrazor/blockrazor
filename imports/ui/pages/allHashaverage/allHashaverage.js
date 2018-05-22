@@ -8,6 +8,13 @@ Template.allHashaverage.onCreated(function() {
 		SubsCache.subscribe('hashaverage')
 		SubsCache.subscribe('hashalgorithm')
 	})
+
+	//send an event to segment
+        let payload = {
+            event: 'Opened all hash average',
+        }
+
+        segmentEvent(payload);
 })
 
 Template.allHashaverage.helpers({
