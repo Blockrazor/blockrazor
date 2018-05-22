@@ -4,8 +4,6 @@ const baseUrl = 'http://localhost:3000/compareCurrencies' // baseUrl of the app 
 
 // see the full webdriverio browser API here: http://webdriver.io/api.html
 describe("a:", function () { //typeahead's compareCurrencies implementation
-
-
     var childSel = 'div.tt-menu.tt-open>div>:nth-child(1)'
     var inputSel = '.tt-input'
 
@@ -19,6 +17,14 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
         })
     }
 
+    function exchangeExists(name) {
+        return browser.execute((name) => {
+            return !!testingExchanges.findOne({
+                name: name
+            })
+        }, name).value
+    }
+
     function listChild() {
         browser.click(inputSel)
         var currency = browser.execute(() => {
@@ -30,7 +36,7 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
             if (list.children().length) { // this will hold even if the data wasn't found, it'll return the div, so you can check here whether it's a currency or a notFound div and return the appropriate result
                 name = list.children()[0].innerHTML
 
-                return testingCurrencies.findOne({currencyName: name}) || name
+                return testingCurrencies.findOne({currencyName: name}) || testingCurrencies.findOne({currencyName: $(name).text()}) || name
             } else {
                 return list[0].innerHTML // This is the actual problem that causes tests to fail. innerHTML is currencyName, while we use currencySymbol in the URL. Adding a data attribute with currencySymbol and using that value or something similar should do the trick
             }
@@ -44,10 +50,17 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
         // tests were failing because there was no currency data in the CI environment, so we have to create some test data here
         browser.execute(() => {
             Meteor.call('generateTestCurrencies', (err, data) => {})
+            Meteor.call('generateTestUser', (err, data) => {})
 
             return 'ok'
         })
         browser.pause(10000)
+        browser.execute(() => {
+            Meteor.loginWithPassword('testing', 'testing')
+
+            return 'ok'
+        })
+        browser.pause(2000)
     })
 
     it('renders route comparedCurrencies with typeahead', function () {
@@ -122,6 +135,52 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
         var child = listChild()
         assert(child.indexOf(string)!= -1, true)
     })
+    it('creates an item with inline button click', function () {
+        browser.setValue(inputSel, '')
+        browser.pause(3000)
+
+        browser.setValue(inputSel, 'test 0')
+        browser.pause(3000)
+
+        console.log(browser.execute(() => testingCurrencies.find().fetch().map(i => i.currencyName)).value)
+
+        const child = listChild()
+        console.log(child)
+
+        browser.url(`http://localhost:3000/currency/${child.slug}`) // go to first child
+        browser.pause(20000)
+
+        browser.click('a[href$="#exchangestab"]')
+        browser.pause(3000)
+
+        const string = 'JustATestExchange12'
+        browser.setValue(inputSel, string)
+        browser.pause(3000)
+
+        browser.click('div.tt-menu.tt-open')
+        browser.pause(5000)
+
+        assert(exchangeExists(string), true)
+        browser.pause(3000)
+    })
+    it('creates an item when the external button is clicked', function() {
+        browser.url('http://localhost:3000/addcoin')
+        browser.pause(10000)
+
+        browser.execute(() => window.location.hash = '#step-4')
+        browser.pause(5000)
+
+        const string = 'JustATestExchange'
+
+        browser.setValue(inputSel, string)
+        browser.pause(3000)
+
+        browser.click('.createItem')
+        browser.pause(5000)
+
+        assert(exchangeExists(string), true)
+        browser.pause(3000)
+    }) // note that the browser is on addcoin page right now
     // it ('runs add function on click', function(){
     //   assert(true, true)
     // })
