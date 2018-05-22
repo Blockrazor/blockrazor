@@ -1,0 +1,58 @@
+<template name="changedCurrency">
+    <div class="pull-right" style="margin-top: 10px;">
+        <a id="skipChange" href class="text-warning">Skip <i class="fa fa-step-forward"></i></a>
+    </div>
+
+    <h3>Proposed Change</h3>
+
+    {{#with changedCurrency}}
+    <div class="row">
+        <div class="col-sm-1" style="margin: 1rem 0 1rem 0;">
+                {{#if voted _id}}
+                    {{#if voteType _id}}
+                        <button id="currencyVoteBtnUp" type="button" class="btn btn-default notVoted" style="background-color:black;color:white;color:white;cursor:not-allowed" disabled><i class="fa fa-arrow-up"></i></button>
+                        <button class="btn text-center" style="background-color: transparent; color:#000" disabled>{{score}}</button>
+                        <button id="currencyVoteBtnDown" type="button" class="btn btn-default notVoted" style="background-color:black;color:white"><i class="fa fa-arrow-down"></i></button>
+                    {{else}}
+                        <button id="currencyVoteBtnUp" type="button" class="btn btn-default notVoted" style="background-color:black;color:white"><i class="fa fa-arrow-up"></i></button>
+                        <button class="btn text-center" style="background-color: transparent; color:#000" disabled>{{score}}</button>
+                        <button id="currencyVoteBtnDown" type="button" class="btn btn-default notVoted" style="background-color:black;color:white;cursor:not-allowed" disabled><i class="fa fa-arrow-down"></i></button>
+                    {{/if}}
+                {{else}}
+                    <button id="currencyVoteBtnUp" type="button" class="btn btn-default notVoted" style="background-color:black;color:white"><i class="fa fa-arrow-up"></i></button>
+                    <button class="btn text-center" style="background-color: transparent; color:#000" disabled>{{score}}</button>
+                    <button id="currencyVoteBtnDown" type="button" class="btn btn-default notVoted" style="background-color:black;color:white"><i class="fa fa-arrow-down"></i></button>
+                {{/if}}
+        </div>
+        <div class="col-sm-11">
+            <div class="card my-3">
+                <div class="card-body">
+            
+                    <h4 class="card-title mb-3">{{ coinName }}</h4>
+                    <h5 class="card-subtitle mb-2">status: <span class=" text-muted">{{status}}</span> </h5>
+                    <hr>
+                    <div class="row">
+                        <div class="col">
+                            <h5>Field </h5>
+                            <div class="card-text">{{field}}</div>
+                        </div>
+                        <div class="col">
+                            <h5>From </h5>
+                            <div class="card-text">{{{checkType old}}}</div>
+                        </div>
+                            <div class="col">
+                                <h5>To </h5>
+                                <div class="card-text">{{{checkType new}}}</div>
+                            </div>
+                    </div>
+                    
+                    <hr>
+                    <div class="row">
+                        <div class="col"><label>Reason: </label> {{notes}} </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/with}}
+</template>
