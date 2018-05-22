@@ -85,7 +85,7 @@ Template.addCoin.onRendered(function() {
             });
 
             $("#smartwizard").on("leaveStep", function(anchorObject, context, stepNumber, stepDirection) {
-              if (stepDirection == 'forward') {
+              if (stepDirection == 'forward' && developmentValidationEnabledFalse) {
                 return validateStep(stepNumber);
               }
             });
@@ -133,56 +133,68 @@ var makeTagArrayFrom = function(string) {
   return namedArray;
 }
 
+var validateInputs = function(inputs) {
+  var isValid = true;
+  inputs.forEach(input => {
+    if ($(`#${input}`).is(':visible') && !$(`#${input}`).val()) {
+      $(`#${input}`).addClass('danger-outline');
+      $(`#${input}`).next().show();
+      isValid = false;
+    } else {
+      $(`#${input}`).removeClass('danger-outline');
+      $(`#${input}`).next().hide();
+    }
+  })
+  return isValid;
+}
+
 var validateStep = function(step) {
+  isValid = true;
   switch(step) {
-    case 0: // step 1
+    case 0:
       if ($('#smartContract').is(':checked') || $('#bc-launched').is(':checked') || $('#is-ico').is(':checked') || $('#btc-fork').is(':checked')) {
         return true;
       }
       sAlert.error('Please select an option');
       return false;
     break;
-    case 1: // step 2
-      if (!$('#currencyName').val()) {
-        sAlert.error('Please enter a valid name for the currency');
-        return false;
+    case 1:
+      isValid = validateInputs(["currencyName", "currencySymbol", "consensusSecurity", "hashAlgorithm"]);
+
+      // Validate input for custom algorithm
+      if ($("input[name='hashAlgorithm']").is(':visible') && !$("input[name='hashAlgorithm']").val()){
+        $("input[name='hashAlgorithm']").addClass('danger-outline');
+        $("input[name='hashAlgorithm']").next().hide();
+        isValid = false;
+      } else  {
+        $("input[name='hashAlgorithm']").removeClass('danger-outline');
+        $("input[name='hashAlgorithm']").next().hide();
       }
-      if (!$('#currencySymbol').val()) {
-        sAlert.error('Please enter a valid symbol for the currency');
-        return false;
-      }
-      if ($('#consensusSecurity') && !$('#consensusSecurity').val()) {
-        sAlert.error('Please select a security option');
-        return false;
-      }
-      if ($('#hashAlgorithm').is(':visible') && !$('#hashAlgorithm').val()) {
-        sAlert.error('Please select an algorithm');
-        return false;
-      } else if ($("input[name='hashAlgorithm']").is(':visible') && !$("input[name='hashAlgorithm']").val()){
-        sAlert.error('Please enter an algorithm');
-        return false;
-      }
-      return true;
+
+    return isValid;
     break;
-    case 2: //step 2
+    case 2:
+    isValid = validateInputs(['maxCoins', 'premine'])
+
+    // validate genesis date only if BTCfork not checked
     if (!$('#btc-fork').is(':checked')) {
-      // validate genesis date only if BTCfork not checked
       if ($('.year.genesis-date') && !$('.year.genesis-date').val() ||
         $('.month.genesis-date') && !$('.month.genesis-date').val() ||
         $('.day.genesis-date') && !$('.day.genesis-date').val()) {
-        sAlert.error('Please select a proper date');
-        return false;
+        $('.year.genesis-date').addClass('danger-outline');
+        $('.month.genesis-date').addClass('danger-outline');
+        $('.day.genesis-date').addClass('danger-outline');
+        $("#genesisDateInvalid.invalid-feedback").show();
+        isValid = false;
+      } else {
+        $('.year.genesis-date').removeClass('danger-outline');
+        $('.month.genesis-date').removeClass('danger-outline');
+        $('.day.genesis-date').removeClass('danger-outline');
+        $("#genesisDateInvalid.invalid-feedback").hide();
       }
     }
-    if ($('#premine') && !$('#premine').val()) {
-      sAlert.error('Please enter valid premine amount');
-      return false;
-    }
-    if ($('#maxCoins') && !$('#maxCoins').val()) {
-      sAlert.error('Please enter valid max coin amount');
-      return false;
-    }
-    return true;
+
+    return isValid;
     break;
   }
 }
