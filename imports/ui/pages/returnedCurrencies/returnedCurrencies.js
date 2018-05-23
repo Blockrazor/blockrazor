@@ -196,6 +196,7 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
     }
   })
   this.autorun(() => {
+    console.log(Currencies.readyLocal())
     this.countReady.set(Currencies.readyLocal())
   })
 

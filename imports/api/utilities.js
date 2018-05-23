@@ -261,7 +261,11 @@ export class LocalizableCollection extends Mongo.Collection {
             if (this.methodName) {
                 Meteor.call(this.methodName, (err, res) => {
                     res.forEach(x => {
-                        this.local.insert(x)
+                        if (!this.local.findOne({
+                            _id: x._id
+                        })) { // prevent duplicate id inserts, and local queries are almost instant
+                            this.local.insert(x)
+                        }
                     })
                     this.ready = true
                     this.readyDep.changed()
