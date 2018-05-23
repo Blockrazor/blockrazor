@@ -143,10 +143,10 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
         browser.setValue(inputSel, 'test 0')
         browser.pause(3000)
 
-        console.log(browser.execute(() => testingCurrencies.find().fetch().map(i => i.currencyName)).value)
+        // console.log(browser.execute(() => testingCurrencies.find().fetch().map(i => i.currencyName)).value)
 
         const child = listChild()
-        console.log(child)
+        // console.log(child)
 
         browser.url(`http://localhost:3000/currency/${child.slug}`) // go to first child
         browser.pause(20000)
@@ -180,6 +180,23 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
         browser.pause(5000)
 
         assert(exchangeExists(string), true)
+        browser.pause(3000)
+    })
+    it('inline button doesn\'t react to events if an external button is available', function() {
+        browser.execute(() => window.location.hash = '#step-4')
+        browser.pause(5000)
+
+        const string = 'JustATestExchange1111'
+        browser.setValue(inputSel, '') // empty it out
+        browser.pause(2000)
+
+        browser.setValue(inputSel, string)
+        browser.pause(3000)
+
+        browser.click('div.tt-menu.tt-open')
+        browser.pause(5000)
+
+        assert(!exchangeExists(string), true) // the exchange shouldn't be created
         browser.pause(3000)
     }) // note that the browser is on addcoin page right now
     // it ('runs add function on click', function(){
