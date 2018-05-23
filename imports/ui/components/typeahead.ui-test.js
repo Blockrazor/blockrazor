@@ -51,6 +51,7 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
         browser.execute(() => {
             Meteor.call('generateTestCurrencies', (err, data) => {})
             Meteor.call('generateTestUser', (err, data) => {})
+            Meteor.call('removeExchanges', (err, data) => {})
 
             return 'ok'
         })
@@ -153,7 +154,7 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
         browser.click('a[href$="#exchangestab"]')
         browser.pause(3000)
 
-        const string = 'JustATestExchange12'
+        const string = 'JustATestExchange'
         browser.setValue(inputSel, string)
         browser.pause(3000)
 
@@ -170,7 +171,7 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
         browser.execute(() => window.location.hash = '#step-4')
         browser.pause(5000)
 
-        const string = 'JustATestExchange'
+        const string = 'JustATestExchange587'
 
         browser.setValue(inputSel, string)
         browser.pause(3000)

@@ -193,3 +193,11 @@ Meteor.methods({
     }))
   },
 })
+
+if (Meteor.isDevelopment) {
+    Meteor.methods({
+        removeExchanges: () => {
+            Exchanges.remove({}) // delete all previous ones as this may cause problems
+        }
+    })
+}
