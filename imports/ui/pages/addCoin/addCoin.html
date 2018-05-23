@@ -50,10 +50,10 @@
                 </div>
                 <div id="step-2" class="p-4">
                     <div id="form-step-2" role="form" data-toggle="validator">
-                        <input type="text" id="currencyName" name="currencyName" placeholder="Currency Name" class="form-control mb-3" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'currencyName'}}">
-                        <div class="invalid-feedback"> </div>
-                        <input type="text" id="currencySymbol" name="currencySymbol" placeholder="Symbol" class="form-control padLeft" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'currencySymbol'}}">
-                        <div class="invalid-feedback"> </div>
+                        <input type="text" id="currencyName" name="currencyName" placeholder="Currency Name" class="form-control" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'currencyName'}}">
+                        <div class="invalid-feedback">Please enter a currency name</div>
+                        <input type="text" id="currencySymbol" name="currencySymbol" placeholder="Symbol" class="form-control padLeft mt-3" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'currencySymbol'}}">
+                        <div class="invalid-feedback">Please enter a currency symbol</div>
                         <strong class="text-danger">
                       {{reactiveVar 'currencyNameMessage'}}
                     </strong>
@@ -65,7 +65,7 @@
                             <option value={{name}}>{{name}}</option>
                             {{ /each }}
                         </select>
-                        <div class="invalid-feedback"> </div>
+                        <div class="invalid-feedback">Please select a consensus security</div>
                         {{ #if reactiveVar 'powselect' }}
                         <br />
                         <div class="form-group">
@@ -76,10 +76,10 @@
                                 <option value="{{_id}}">{{name}}</option>
                                 {{ /each }}
                             </select>
-                            <div class="invalid-feedback"> </div>
+                            <div class="invalid-feedback">Please select an algorithm</div>
                             <a href="#" id="js-nothere">Your algorithm is not here? Add it.</a> {{else}}
                             <input type="text" class="form-control" name="hashAlgorithm" placeholder="Algorithm name" />
-                            <div class="invalid-feedback"> </div>
+                            <div class="invalid-feedback">Please enter an algorithm</div>
                             <a href="#" id="js-nothere">Return to selection</a> {{/unless}}
                         </div>
                         {{/if}} {{ #if reactiveVar 'btcfork' }}
@@ -127,7 +127,7 @@
                     <div class="float-right" style="width:100%; display:flex;">
                         <input type="text" id="genesisDate" name="genesisYear" value="YYYY-MM-DD" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'genesisTimestamp'}}" style="width:100%">
                     </div>
-                    <div id="genesisDateInvalid" class="invalid-feedback"> </div>
+                    <div id="genesisDateInvalid" class="invalid-feedback">Please enter a valid date</div>
                     <div class="clearfix"></div>
                     {{ #if reactiveVar 'coinExists' }}{{/if}} {{ #unless reactiveVar 'coinExists' }} {{ #if reactiveVar 'genesis' }} {{> intendedLaunch}}{{/if}}{{/unless}} {{ /unless }} {{ #if reactiveVar 'btcfork' }}
                     <select class="form-control forkParent" id="forkParent" name="forkParent">
@@ -135,7 +135,7 @@
                         <option>Bitcoin</option>
                         <option>Bitcoin Cash</option>
                     </select>
-                    <div class="invalid-feedback"> </div>
+                    <div class="invalid-feedback"></div>
                     <br />
                     <input type="number" class="form-control" min="478500" max="600000" name="forkHeight" id="forkHeight" placeholder="Fork Height" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'forkHeight'}}">
                     <div class="invalid-feedback"> </div>
@@ -143,9 +143,9 @@
                     <br />
                     <div class="input-group">
                         <input type="number" min="0" name="premine" id="premine" placeholder="Premine amount" class="form-control" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'premine'}}">
-                        <div class="invalid-feedback"> </div>
+                        <div class="invalid-feedback">Please enter a valid premibe amount</div>
                         <input type="number" name="maxCoins" id="maxCoins" placeholder="Maximum Coins" class="form-control padLeft" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'maxCoins'}}">
-                        <div class="invalid-feedback"> </div>
+                        <div class="invalid-feedback">Please enter a valid max coin amount</div>
                     </div>
                     <br />
                 </div>
