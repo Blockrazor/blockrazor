@@ -2,6 +2,7 @@ import { Template } from 'meteor/templating'
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 
 import './signup.html'
+import '../signin/signin.scss'
 
 Template.signup.events({
 	'submit #signUp': (event, templateInstance) => {
