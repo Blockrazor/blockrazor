@@ -802,6 +802,20 @@ adminRoutes.route('/pardon', {
   }
 })
 
+adminRoutes.route('/pardon/:id', {
+  name: 'pardonUser',
+  subscriptions: function () {
+    this.register('users', FastRenderer.subscribe('users'))
+    this.register('pardonUserData', FastRenderer.subscribe('pardonUserData'))
+  },
+  action: async (params, queryParams) => {
+    await import ('/imports/ui/pages/moderator/pardon/pardonUser')
+    BlazeLayout.render('mainLayout', {
+      main: 'pardonUser'
+    })
+  }
+})
+
 adminRoutes.route('/flagged', {
   name: 'flagged',
   subscriptions: function () {
