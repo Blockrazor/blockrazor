@@ -136,6 +136,16 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
         var child = listChild()
         assert(child.indexOf(string)!= -1, true)
     })
+    it('renders default empty text message', function () {
+        const string = 'testingemptymessage'
+
+        browser.setValue(inputSel, string)
+        browser.pause(2000)
+        
+        const child = listChild()
+        
+        assert(child.indexOf('not found') !== -1, true)
+    })
     it('creates an item with inline button click', function () {
         browser.setValue(inputSel, '')
         browser.pause(3000)
@@ -203,14 +213,14 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
         browser.pause(3000)
     }) // note that the browser is on addcoin page right now
     it('search results update when new item is added externally', function() {
+        const string = 'AaaandrejTest1'
+        browser.execute((string) => Meteor.call('addExchange', string), string)
+        browser.pause(5000)
+
         browser.url('http://localhost:3000/addcoin')
         browser.pause(10000)
 
         browser.execute(() => window.location.hash = '#step-4')
-        browser.pause(5000)
-
-        const string = 'AaaandrejTest1'
-        browser.execute((string) => Meteor.call('addExchange', string), string)
         browser.pause(5000)
 
         browser.setValue(inputSel, '')
