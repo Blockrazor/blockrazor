@@ -36,7 +36,7 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
             if (list.children().length) { // this will hold even if the data wasn't found, it'll return the div, so you can check here whether it's a currency or a notFound div and return the appropriate result
                 name = list.children()[0].innerHTML
 
-                return testingCurrencies.findOne({currencyName: name}) || testingCurrencies.findOne({currencyName: $(name).text()}) || name
+                return testingCurrencies.findOne({currencyName: name}) || testingCurrencies.findOne({currencyName: $(name).text()}) || $(name).text()
             } else {
                 return list[0].innerHTML // This is the actual problem that causes tests to fail. innerHTML is currencyName, while we use currencySymbol in the URL. Adding a data attribute with currencySymbol and using that value or something similar should do the trick
             }
@@ -183,6 +183,9 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
         browser.pause(3000)
     })
     it('inline button doesn\'t react to events if an external button is available', function() {
+        browser.url('http://localhost:3000/addcoin')
+        browser.pause(10000)
+
         browser.execute(() => window.location.hash = '#step-4')
         browser.pause(5000)
 
@@ -197,6 +200,31 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
         browser.pause(5000)
 
         assert(!exchangeExists(string), true) // the exchange shouldn't be created
+        browser.pause(3000)
+    }) // note that the browser is on addcoin page right now
+    it('search results update when new item is added externally', function() {
+        browser.url('http://localhost:3000/addcoin')
+        browser.pause(10000)
+
+        browser.execute(() => window.location.hash = '#step-4')
+        browser.pause(5000)
+
+        const string = 'AaaandrejTest1'
+        browser.execute((string) => Meteor.call('addExchange', string), string)
+        browser.pause(5000)
+
+        browser.setValue(inputSel, '')
+        browser.pause(3000)
+
+        browser.setValue(inputSel, string)
+        browser.pause(3000)
+
+        const child = listChild()
+        let exchange = browser.execute((name) => testingExchanges.findOne({
+            name: name
+        }), child).value
+
+        assert.equal(exchange.name, string)
         browser.pause(3000)
     }) // note that the browser is on addcoin page right now
     // it ('runs add function on click', function(){
