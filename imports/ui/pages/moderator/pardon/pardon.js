@@ -13,45 +13,18 @@ Template.pardon.onCreated(function() {
 })
 
 Template.pardon.helpers({
-	pardons: () => UserData.find({
-		'pardon.status': 'new'
-	}),
-	username: function() {
-		return (Meteor.users.findOne({
-			_id: this._id
-		}) || {}).username
+	pardonRequest: () => {
+		return _.sample(UserData.find({ 
+			'pardon.status' : 'new',
+			"pardon.votes" : { "$not" : { "$elemMatch" : { "userId" : Meteor.userId()  } } }
+		}).fetch());
 	},
-	offences: function() {
-		return this.strikes && this.strikes.map(i => ({
-			date: moment(i.time).fromNow(),
-			name: getName(i.type)
-		}))
-	},
-	voted: function() {
-		return !!(this.pardon.votes || []).filter(i => i.userId === Meteor.userId()).length
-	},
-	upvotes: function() {
-		return this.pardon.upvotes || 0
-	},
-	downvotes: function() {
-		return this.pardon.downvotes || 0
+	nextPardonRequest: (pardon) => {
+		if (pardon === undefined) {
+			return
+		} 
+		FlowRouter.go('/moderator/pardon/' + pardon._id);
 	}
 })
 
-Template.pardon.events({
-	'click .js-vote': function(event, templateInstance) {
-        let type = $(event.currentTarget).data('vote')
-
-        Meteor.call('pardonVote', this._id, type, (err, data) => {
-            if (err && err.error === 'mod-only') {
-                sAlert.error('Only moderators can vote')
-            }
-
-            if (data === 'ok') {
-                sAlert.success('User has been pardoned.')
-            } else if (data === 'not-ok') {
-            	sAlert.success('Pardon application denied.')
-            }
-        })
-    }
-})
+Template.pardon.events({ })
