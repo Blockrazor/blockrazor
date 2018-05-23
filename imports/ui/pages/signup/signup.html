@@ -4,19 +4,25 @@
     <div class="title">Create Account</div>
     <div class="email-sign-in">
       <form id="signUp">
-        <div class="form-group input-group">
-          <span class="input-group-addon" id="basic-addon1"><i class="fa fa-envelope"></i></span>
-          <input type="text" id="js-email" class="form-control" placeholder="Email ID" required>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+            </div>
+            <input type="text" id="js-email" class="form-control" placeholder="Email ID" required>
         </div>
-        <div class="form-group input-group">
-          <span class="input-group-addon" id="basic-addon1"><i class="fa fa-key"></i></span>
-          <input type="password" id="js-password" class="form-control" placeholder="Password" required>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-key"></i></span>
+            </div>
+            <input type="password" id="js-password" class="form-control" placeholder="Password">
         </div>
-        <div class="form-group input-group">
-          <span class="input-group-addon" id="basic-addon1"><i class="fa fa-key"></i></span>
-          <input type="password" id="js-password-conf" class="form-control" placeholder="Confirm Password" required>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-key"></i></span>
+            </div>
+            <input type="password" id="js-password-conf" class="form-control" placeholder="Password">
         </div>
-        <button class="btn btn-sucess" type="submit">Sign Up</button>
+        <button class="btn btn-primary" type="submit">Sign Up</button>
       </form>
       <div class="sign-up-link">
         Aready have an account? <a href="/login">Sign In</a>.
