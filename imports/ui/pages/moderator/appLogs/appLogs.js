@@ -4,6 +4,7 @@ import { FlowRouter } from 'meteor/ostrio:flow-router-extra'
 
 import './appLogs.html'
 
+
 Template.appLogs.onCreated(function() {
 	this.page = 1
 
@@ -18,7 +19,20 @@ Template.appLogs.onCreated(function() {
 	this.level = new ReactiveVar('ALL')
 })
 
+Template.appLogs.onRendered(function() {
+	$('#all-logs').prop('checked', true)
+})
+
 Template.appLogs.events({
+	'click .form-check-input': (event, templateInstance) => {
+		templateInstance.$('input:checked').each(function() {
+			if ($(this).val() !== $(event.currentTarget).val()) {
+				$(this).prop('checked', false);
+			}
+		});
+
+		templateInstance.level.set($(event.currentTarget).val())
+	}, 
 	'keyup #js-search': (event, templateInstance) => {
 		event.preventDefault()
 
@@ -34,11 +48,6 @@ Template.appLogs.events({
 
 		templateInstance.filterIp.set($(event.currentTarget).val())
 	},
-	'change #js-level': (event, templateInstance) => {
-		event.preventDefault()
-
-		templateInstance.level.set($(event.currentTarget).val())
-	},
 	'click #js-more': (event, templateInstance) => {
 		event.preventDefault()
 
@@ -51,14 +60,14 @@ Template.appLogs.helpers({
 		var templ = Template.instance()
 		var query = {
 			level: new RegExp(templ.level.get() === 'ALL' ? '' : templ.level.get(), 'i'),
-			message: new RegExp(templ.filter.get(), 'ig'),
+			$or : [ 
+				{ message: new RegExp(templ.filter.get(), 'ig') },
+				{"additional.user.username" : new RegExp(templ.filter.get(), 'ig')}, 
+				{"additional.user.user.username" : new RegExp(templ.filter.get(), 'ig')},
+				{"additional.connection.clientAddress" : new RegExp(templ.filter.get(), 'ig') }
+			]
 		}
-		if (templ.filterUsername.get() != ""){
-			query["$or"] = [{"additional.user.username": new RegExp(templ.filterUsername.get(), 'ig')}, {"additional.user.user.username": new RegExp(templ.filterUsername.get(), 'ig')}] 
-		}
-		if (templ.filterIp.get() != ""){
-			query["additional.connection.clientAddress"] = new RegExp(templ.filterIp.get(), 'ig')
-		}
+		
 		console.log(query)
 		return AppLogs.find( query, {
 			sort: {
