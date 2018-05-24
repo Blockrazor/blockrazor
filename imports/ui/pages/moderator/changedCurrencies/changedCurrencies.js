@@ -23,7 +23,7 @@ Template.changedCurrencies.events({
 //Helpers
 Template.changedCurrencies.helpers({
     changedCurrency () {
-        return _.sample(ChangedCurrencies.find({}).fetch());
+        return _.sample(ChangedCurrencies.find({ "createdBy" : { $ne : Meteor.userId() } }).fetch());
     },
     nextChangedCurrency (change) {
         if (change === undefined) {
