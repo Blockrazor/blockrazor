@@ -9,20 +9,23 @@ Template.questions.events({
     let xors = []
 
     $('.js-xors').each((ind, i) => xors.push($(i).val())).filter(i => !!i)
-
-    Meteor.call(
-		'addRatingQuestion',
-		event.target.question.value,
-		$('#js-cat').val(),
-		$('#js-negative').is(':checked'),
-		$('#context').val() || '',
-		xors,
-		(err, data) => {
-			console.log('err >>>>>', err);
-		});
-    $('#question').val('')
-    templateInstance.xor.set(false)
-    templateInstance.xors.set([1])
+    if (event.target.question.value) {
+      Meteor.call(
+  		'addRatingQuestion',
+  		event.target.question.value,
+  		$('#js-cat').val(),
+  		$('#js-negative').is(':checked'),
+  		$('#context').val() || '',
+  		xors,
+  		(err, data) => {
+  			console.log('err >>>>>', err);
+  		});
+      $('#question').val('')
+      templateInstance.xor.set(false)
+      templateInstance.xors.set([1])
+    } else {
+      sAlert.error("Please enter a question");
+    }
   },
   'click .js-delete': function(event, templateInstance) {
   	Meteor.call('deleteQuestion', this._id, (err, data) => {})
