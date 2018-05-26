@@ -105,14 +105,20 @@ Template.walletTransactions.helpers({
 })
 
 Template.walletTransactions.events({
-  'change .rewardTypeFilter': function(event) {
-      Template.instance().rewardType.set(event.target.value)
-  },
-  'click .clearFilter': function(event) {
-    Template.instance().rewardType.set(false);
-
-    $(".rewardTypeFilter option").filter(function() {
-        return $(this).text() == "--Select transaction type--";
-    }).prop('selected', true);
+	'click .form-check-input': function(event, templateInstance) {
+		if (templateInstance.$('input:checked').length > 0) {
+			templateInstance.$('input:checked').each(function() {
+				if ($(this).val() !== $(event.currentTarget).val()) {
+					$(this).prop('checked', false)
+				}
+			});
+			if (event.target.value === 'all') {
+				Template.instance().rewardType.set(false);
+			} else {
+				Template.instance().rewardType.set(event.target.value);
+			}
+		} else {
+			Template.instance().rewardType.set(' ')
+		}
   }
 })
