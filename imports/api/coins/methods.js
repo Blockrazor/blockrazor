@@ -12,11 +12,12 @@ import SimpleSchema from 'simpl-schema';
 
 
 //can't extend custom/autoValue fields therefore some of the form related parsers/validators may reside on original schema
-const addCoinFormSchema =  new SimpleSchema(Currencies.schema.pick(
+Currencies.newCoinSchema = new SimpleSchema(Currencies.schema.pick(
     'currencyName', 'currencySymbol', 'premine', 'maxCoins', 'consensusSecurity', 'gitRepo', 
 'officialSite', 'reddit', 'blockExplorer', 'currencyLogoFilename', 'confirmations', 'previousNames', 'exchanges', 
 'launchTags', 'blockTime', 'forkHeight', 'forkParent', 'hashAlgorithm', 'ICOfundsRaised', 'genesisTimestamp', 'proposal', 'altcoin', 
-'ico', 'ICOcoinsProduced', 'ICOcoinsIntended',  'ICOnextRound', 'icoDateEnd', 'btcfork', 'approvalNotes', 'smartContractURL'
+'ico', 'ICOcoinsProduced', 'ICOcoinsIntended',  'ICOnextRound', 'icoDateEnd', 'btcfork', 'approvalNotes', 'smartContractURL', 'icocurrency',
+'replayProtection'
 )
 .extend({
     proposal: { 
@@ -59,7 +60,7 @@ const addCoinFormSchema =  new SimpleSchema(Currencies.schema.pick(
 })
 ,{requiredByDefault: developmentValidationEnabledFalse,
 })
-addCoinFormSchema.messageBox.messages({
+Currencies.newCoinSchema.messageBox.messages({
     en: {
         "Premine lower then produced": "Premine lower then produced.",
         "Premine lower then produced and intended": "Premine lower then produced and intended."
@@ -68,16 +69,18 @@ addCoinFormSchema.messageBox.messages({
 
 export const addCoin = new ValidatedMethod({
     name: 'addCoin',
-    validate: addCoinFormSchema.validator({clean: true}),
+    validate: Currencies.newCoinSchema.validator({clean: true}),
     run({currencyName, currencySymbol, premine, maxCoins, consensusSecurity, gitRepo, 
         officialSite, reddit, blockExplorer, currencyLogoFilename, confirmations, previousNames, exchanges, 
         launchTags, blcokTime, forkHeight, forkParent, hashAlgorithm, ICOfundsRaised, genesisTimestamp, proposal, altcoin, 
-        ico, ICOcoinsProduced, ICOcoinsIntended,  ICOnextRound, icoDateEnd, btcfork, approvalNotes,smartContractURL}) {
+        ico, ICOcoinsProduced, ICOcoinsIntended,  ICOnextRound, icoDateEnd, btcfork, approvalNotes,smartContractURL, icocurrency,
+replayProtection}) {
             //data should be used since some of items may be undefined
             var data = {currencyName, currencySymbol, premine, maxCoins, consensusSecurity, gitRepo, 
                 officialSite, reddit, blockExplorer, currencyLogoFilename, confirmations, previousNames, exchanges, 
                 launchTags, blcokTime, forkHeight, forkParent, hashAlgorithm, ICOfundsRaised, genesisTimestamp, proposal, altcoin, 
-                ico, ICOcoinsProduced, ICOcoinsIntended,  ICOnextRound, icoDateEnd, btcfork, approvalNotes,smartContractURL}
+                ico, ICOcoinsProduced, ICOcoinsIntended,  ICOnextRound, icoDateEnd, btcfork, approvalNotes,smartContractURL, icocurrency,
+replayProtection}
             if (Meteor.isServer){
         var Future = require('fibers/future')
         var fut = new Future()
