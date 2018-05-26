@@ -64,6 +64,7 @@ FlowRouter.route('/profile/:slug', {
     this.register('userdataSlug', FastRenderer.subscribe('userdataSlug', params.slug))
     this.register('user', FastRenderer.subscribe('user', params.slug))
     this.register('comments', FastRenderer.subscribe('comments'))
+    this.register('userdata', FastRenderer.subscribe('userdata'))
   },
   action: async (params, queryParams) => {
     if (Meteor.userId()) {

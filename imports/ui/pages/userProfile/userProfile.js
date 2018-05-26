@@ -24,6 +24,7 @@ Template.userProfile.onCreated(function() {
 		SubsCache.subscribe('approvedcurrencies')
 		SubsCache.subscribe('comments')
 		SubsCache.subscribe('hashpower')
+		SubsCache.subscribe('userdata')
 	})
 
 	this.user = new ReactiveVar()
@@ -56,8 +57,15 @@ Template.userProfile.helpers({
 		    }
 		},
     balance() {
-      let balance = UserData.findOne({}, { fields: { balance: 1 } }).balance
-      return Number( balance.toPrecision(3) )
+		let profileUser = Template.instance().user.get()
+		let profileUserData = UserData.findOne({ _id : Template.instance().user.get()._id }, { fields: { balance: 1 } })
+
+		if (profileUserData !== undefined) {
+			let balance = profileUserData.balance
+			if (balance !== undefined) { return Number( balance.toPrecision(3) ) }
+		}
+
+		return 0
   	},
 	hashPowerUploadDirectoryPublic: () => _hashPowerUploadDirectoryPublic,
 	user: () => Template.instance().user.get(),

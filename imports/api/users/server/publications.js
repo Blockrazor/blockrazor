@@ -126,6 +126,10 @@ import { UserData, ProfileImages, UsersStats } from '/imports/api/indexDB.js'
     })
   })
 
+  Meteor.publish('userdata', () => {
+    return UserData.find({ })
+  })
+
 	Meteor.publish('user', (slug) => {
 		return Meteor.users.find({
 			$or: [{
