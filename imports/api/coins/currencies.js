@@ -84,7 +84,7 @@ Currencies.schemaFuncs = {
   },
   //If this is an ICO that hasnt launched yet
   ifICOUnlaunched() {
-    if (Currencies.schemaFuncs.ifICO == null && this.field("proposal").value) {
+    if (this.field("ico").value && this.field("proposal").value) {
       return nullValidator.call(this)
     }
     return null

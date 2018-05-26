@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { developmentValidationEnabledFalse, FormData, Bounties, RatingsTemplates, HashAlgorithm, Exchanges } from '/imports/api/indexDB.js'; //database
+import { developmentValidationEnabledFalse, FormData, Bounties, RatingsTemplates, HashAlgorithm, Exchanges, Currencies } from '/imports/api/indexDB.js'; //database
 import { addCoin } from '/imports/api/coins/methods'
 import('sweetalert2').then(swal => window.swal = swal.default)
 
@@ -51,27 +51,27 @@ const formatICODate = function(dateString) {
 export { initDatePicker, formatICODate }
 
 Template.addCoin.onRendered(function() {
+  let self = this
+  //extra finish button not available out the box.
+  var btnFinish = $('<button id="btnFinish"></button>').text('Finish')
+  .addClass('btn btn-primary d-none')
+  .on('click', function(event) {
+    // event.preventDefault()
+  });
 
-            //extra finish button not available out the box.
-            var btnFinish = $('<button id="btnFinish"></button>').text('Finish')
-                .addClass('btn btn-primary d-none')
-                .on('click', function() {
-                  console.log('do some fancy Meteor Stuff here')
-                });
 
-
-            // Smart Wizard Init.. fairly OOTB except the finish button I added.
-            $('#smartwizard').smartWizard({
-                selected: 0,
-                theme: 'default',
-                transitionEffect: 'fade',
-                showStepURLhash: true,
-                toolbarSettings: {
-                    toolbarPosition: 'top',
-                    toolbarButtonPosition: 'end',
-                    toolbarExtraButtons: [btnFinish]
-                }
-            });
+  // Smart Wizard Init.. fairly OOTB except the finish button I added.
+  $('#smartwizard').smartWizard({
+    selected: 0,
+    theme: 'default',
+    transitionEffect: 'fade',
+    showStepURLhash: true,
+    toolbarSettings: {
+      toolbarPosition: 'top',
+      toolbarButtonPosition: 'end',
+      toolbarExtraButtons: [btnFinish]
+    }
+  })
 
             //Smart Wizard function to watch what step we are on. All I have done atm is catch the final
             // step to enable the finish button.
@@ -85,8 +85,8 @@ Template.addCoin.onRendered(function() {
             });
 
             $("#smartwizard").on("leaveStep", function(anchorObject, context, stepNumber, stepDirection) {
-              if (stepDirection == 'forward' && developmentValidationEnabledFalse) {
-                return validateStep(stepNumber);
+              if (stepDirection == 'forward') {
+                return validateStep(stepNumber, self);
               }
             });
 
@@ -133,68 +133,185 @@ var makeTagArrayFrom = function(string) {
   return namedArray;
 }
 
-var validateInputs = function(inputs) {
-  var isValid = true;
+// building the context from the bottom
+let currentContext = {}
+
+/*
+validate inputs takes an array of inputs and checks them all individually
+array elements can be either strings (default type) or objects
+object supports the following fields: 
+  {
+    type: String ('custom'|''),
+    name: String,
+    customValue: Any,
+    customValidation: Function ((error, success) => {})
+  }
+*/
+
+var validateInputs = (inputs) => {
+  let isValid = true
+
   inputs.forEach(input => {
-    if ($(`#${input}`).is(':visible') && !$(`#${input}`).val()) {
-      $(`#${input}`).addClass('danger-outline');
-      $(`#${input}`).next().show();
-      isValid = false;
+    let error
+    let val
+    let custom = false
+    let customVal
+
+    if (typeof input === 'object') {
+      if (input.type === 'custom') {
+        val = input.customValue 
+
+        custom = true
+      }
+
+      if (typeof input.customValidation === 'function') {
+        customVal = input.customValidation
+      }
+
+      input = input.name
+    }
+
+    if (!custom) {
+      let type = ((Currencies.newCoinSchema._schema[input].type || {}).singleType || '')
+
+      if (type === Boolean) {
+        val = $(`#${input}`).is(':checked')
+      } else if (type === Number || type === 'SimpleSchema.Integer') {
+        val = Number($(`#${input}`).val())
+      }
+
+      val = $(`#${input}`).val()
+    }
+
+    try {
+      let posContext = _.extend(currentContext, {
+        [input]: val
+      })
+      Currencies.newCoinSchema.validate(Currencies.newCoinSchema.clean(posContext), {
+        keys: [input],
+        extendedCustomContext: currentContext
+      })
+    } catch(e) {
+      isValid = false
+
+      error = e.message
+
+      console.log(error)
+    }
+
+    if (isValid && ($(`#${input}`).is(':visible') || input === 'currencyLogoFilename' || custom)) {
+      currentContext[input] = val
     } else {
-      $(`#${input}`).removeClass('danger-outline');
-      $(`#${input}`).next().hide();
+      delete currentContext[input]
+    }
+
+    if ($(`#${input}`).is(':visible') && !isValid) {
+      if (!customVal) {
+        $(`#${input}`).addClass('danger-outline')
+        $(`#${input}`).next().show().text(error)
+      } else {
+        customVal(error, false)
+      }
+    } else {
+      if (!customVal) {
+        $(`#${input}`).removeClass('danger-outline')
+        $(`#${input}`).next().hide()
+      } else {
+        customVal(null, true)
+      }
     }
   })
-  return isValid;
+
+  return isValid
 }
 
-var validateStep = function(step) {
-  isValid = true;
+var validateStep = function(step, templ) {
+  isValid = true
+
+  if (!developmentValidationEnabledFalse) { // skip validation on dev
+    return true
+  }
+
   switch(step) {
     case 0:
-      if ($('#smartContract').is(':checked') || $('#bc-launched').is(':checked') || $('#is-ico').is(':checked') || $('#btc-fork').is(':checked')) {
-        return true;
+      let launchTags = []
+
+      if ($('#is-ico').is(':checked')) {
+        launchTags.push({
+          'tag': 'ICO'
+        })
       }
-      sAlert.error('Please select an option');
-      return false;
+      if ($('#smartContract').is(':checked')) {
+        launchTags.push({
+          'tag': 'Smart Contract'
+        })
+      } else {
+        if ($('#btc-fork').is(':checked')) {
+          launchTags.push({
+            'tag': 'Bitcoin Fork'
+          })
+        } else {
+          launchTags.push({
+            'tag': 'Altcoin'
+          })
+        }
+      }
+      if ($('#bc-launched').is(':checked')) {
+        launchTags.push({
+          'tag': 'proposal'
+        })
+      }
+
+      currentContext['launchTags'] = launchTags // set the context
     break;
     case 1:
-      isValid = validateInputs(["currencyName", "currencySymbol", "consensusSecurity", "hashAlgorithm"]);
+      let ico = {}
+      if ($('#icoDate').val()) {
+        let icoDate = formatICODate($('#icoDate').val())
 
-      // Validate input for custom algorithm
-      if ($("input[name='hashAlgorithm']").is(':visible') && !$("input[name='hashAlgorithm']").val()){
-        $("input[name='hashAlgorithm']").addClass('danger-outline');
-        $("input[name='hashAlgorithm']").next().hide();
-        isValid = false;
-      } else  {
-        $("input[name='hashAlgorithm']").removeClass('danger-outline');
-        $("input[name='hashAlgorithm']").next().hide();
+        ico['nextRound'] = (Date.parse(new Date(Date.UTC(icoDate[0], icoDate[1], icoDate[2], icoDate[3], icoDate[4], icoDate[5]))))
       }
 
-    return isValid;
+      if ($('#icoDateEnd').val()) {
+        let icoDateEnd = formatICODate($('#icoDateEnd').val())
+
+        ico['dateEnd'] = (Date.parse(new Date(Date.UTC(icoDateEnd[0], icoDateEnd[1], icoDateEnd[2], icoDateEnd[3], icoDateEnd[4], icoDateEnd[5]))))
+      }
+
+      return validateInputs(['currencyName', 'currencySymbol', 'consensusSecurity', 'hashAlgorithm', 'ICOcoinsIntended', {
+        name: 'ICOnextRound',
+        customValue: ico['nextRound'],
+        type: 'custom'
+      }, {
+        name: 'icoDateEnd',
+        customValue: ico['dateEnd'],
+        type: 'custom'
+      }, 'icocurrency', 'ICOfundsRaised', 'ICOcoinsProduced', 'replayProtection'])
     break;
     case 2:
-    isValid = validateInputs(['maxCoins', 'premine'])
-
-    // validate genesis date only if BTCfork not checked
-    if (!$('#btc-fork').is(':checked')) {
-      if ($('.year.genesis-date') && !$('.year.genesis-date').val() ||
-        $('.month.genesis-date') && !$('.month.genesis-date').val() ||
-        $('.day.genesis-date') && !$('.day.genesis-date').val()) {
-        $('.year.genesis-date').addClass('danger-outline');
-        $('.month.genesis-date').addClass('danger-outline');
-        $('.day.genesis-date').addClass('danger-outline');
-        $("#genesisDateInvalid.invalid-feedback").show();
-        isValid = false;
-      } else {
-        $('.year.genesis-date').removeClass('danger-outline');
-        $('.month.genesis-date').removeClass('danger-outline');
-        $('.day.genesis-date').removeClass('danger-outline');
-        $("#genesisDateInvalid.invalid-feedback").hide();
-      }
-    }
-
-    return isValid;
+      return validateInputs(['maxCoins', 'premine', 'forkParent', 'forkHeight', {
+        name: 'genesisTimestamp',
+        type: 'custom',
+        customValue: Date.parse($('#genesisDate').val())
+      }])
+    break;
+    case 3:
+      return validateInputs(['gitRepo', 'officialSite', 'reddit', 'blockExplorer', 'smartContractURL', {
+        name: 'previousNames',
+        type: 'custom',
+        customValue: makeTagArrayFrom($('#previousNames').val(), 'tag')
+      }, {
+        name: 'exchanges',
+        type: 'custom',
+        customValue: templ.exchanges.get()
+      }])
+    break;
+    case 4:
+      return validateInputs(['currencyLogoFilename', {
+        name: 'approvalNotes',
+        type: 'custom',
+        customValue: $('#notes').val()
+      }])
     break;
   }
 }
@@ -391,39 +508,14 @@ if(!uploadError){
   },
   'submit form': function (data) {
     data.preventDefault(); //is technically not suppose to be here as per comment #1, note return false in existence check
-    var insert = {}; //clear insert dataset
 
+    if (!validateStep(4, self)) {
+      return
+    }
+    
     if (Template.instance().currencyNameMessage.get() != null) { //pending/existing check
-      sAlert.error(Template.instance().currencyNameMessage.get())
+      sAlert.error(Template.instance().currencyNameMessage.get()) // needs UI fixing
       return false
-    }
-    var d = data.target;
-    var launchTags = [];
-    if (d.ICO.checked) {
-      launchTags.push({
-        "tag": "ICO"
-      })
-    };
-    if (d.smartContract.checked) {
-      launchTags.push({
-        "tag": "Smart Contract"
-      })
-    } else {
-      //when smartContract checked, there is no BTCFork option
-      if (d.BTCFork.checked) {
-        launchTags.push({
-          "tag": "Bitcoin Fork"
-        })
-      } else {
-        launchTags.push({
-          "tag": "Altcoin"
-        })
-      };
-    }
-    if (!d.exists.checked) {
-      launchTags.push({
-        "tag": "proposal"
-      })
     }
 
     let questions = []
@@ -439,137 +531,57 @@ if(!uploadError){
 
     for (let i = 0; i < questions.length; i++) {
       if (!questions[i].value) {
-        sAlert.error('Please answer all additional questions.')
+        sAlert.error('Please answer all additional questions.') // needs UI fixing
         return
       }
     }
 
-    var insert = {
-      currencyName: d.currencyName.value,
-      currencySymbol: d.currencySymbol.value,
-      premine: d.premine.value,
-      maxCoins: d.maxCoins.value,
-      consensusSecurity: d.consensusSecurity.value,
-      gitRepo: d.gitRepo.value,
-      officialSite: d.officialSite.value,
-      reddit: d.reddit.value,
-      smartContractURL: d.smartContractURL ? d.smartContractURL.value : '',
-      blockExplorer: d.blockExplorer.value,
-      approvalNotes: d.notes.value,
-      currencyLogoFilename: d.currencyLogoFilename.value,
-    }
-
     if (questions.length) {
-      insert['questions'] = questions
+      currentContext['questions'] = questions
     }
 
-    var makeTagArrayFrom = function(string, key) {
-      if (!string) {return new Array()};
-      array = $.map(string.split(","), $.trim).filter(function(v){return v!==''});
-      var namedArray = new Array();
-      for (i in array) {
-        var string = array[i].toString().replace(/[^\w\s]/gi, '');
-        if(string) {
-          namedArray.push({[key]: string});
-        }
-      }
-      return namedArray;
-    }
-
-    var addToInsert = function(value, key) {
-      if (typeof key !== "undefined") {
-        insert[key] = value; //slip the data into the 'insert' array
-      } else if (eval(value) && typeof key === "undefined") { //check that 'value' actually has data and that there is no 'key'
-        insert[value] = eval(value); //use the String from 'value' as the key, and evaluate the variable of the same name to get the data.
-      }
-    }
-
-  // Start inserting data that may or may not exist
-    if(d.confirmations) {addToInsert(d.confirmations.value, "confirmations")};
-    if(d.previousNames) {addToInsert(makeTagArrayFrom(d.previousNames.value, "tag"), "previousNames")};
-    if(Template.instance().exchanges.get()) {
-      //simpleSchema clean() should just remove extra fields
-      addToInsert(Template.instance().exchanges.get(), "exchanges")
-    };
-    addToInsert("launchTags");
-    if(d.replayProtection) {addToInsert(d.replayProtection.value, "replayProtection")};
-    if(d.blockTime) {addToInsert(d.blockTime.value, "blockTime")};
-    if(d.forkHeight) {addToInsert(d.forkHeight.value, "forkHeight")};
-    if(d.smartContractURL) {addToInsert(d.smartContractURL.value, "smartContractURL")};
-    if(d.forkParent) {addToInsert(d.forkParent.value, "forkParent")};
-    if(d.hashAlgorithm) {addToInsert(d.hashAlgorithm.value, "hashAlgorithm")};
-    if(d.ICOfundsRaised) {addToInsert(d.ICOfundsRaised.value, "ICOfundsRaised")};
-    if(d.icocurrency){addToInsert(d.icocurrency.value, "icocurrency")};
-    if(d.ICOcoinsProduced) {addToInsert(parseInt(d.ICOcoinsProduced.value), "ICOcoinsProduced")};
-    if(d.ICOcoinsIntended) {addToInsert(parseInt(d.ICOcoinsIntended.value), "ICOcoinsIntended")};
-    if(d.genesisYear) {addToInsert(Date.parse(d.genesisYear.value), "genesisTimestamp")};
-    if(d.ICOyear) {
-      if (d.ICOyear.value) {
-        var icoDate = formatICODate(d.ICOyear.value);
-        var icoDateEnd = formatICODate(d.icoDateEnd.value);
-        addToInsert(Date.parse(new Date(Date.UTC(icoDate[0], icoDate[1], icoDate[2], icoDate[3], icoDate[4], icoDate[5]))), "ICOnextRound")
-        addToInsert(Date.parse(new Date(Date.UTC(icoDateEnd[0], icoDateEnd[1], icoDateEnd[2], icoDateEnd[3], icoDateEnd[4], icoDateEnd[5]))), "icoDateEnd")
-
-      }
-    };
-    //if(!insert.genesisTimestamp) {insert.genesisTimestamp = 0};
-    data.preventDefault(); //this goes after the 'insert' array is built, strange things happen when it's used too early; #1
-    console.log(insert);
-
-
-    addCoin.call(insert, (error, result)=> {
+    addCoin.call(currentContext, (error, result)=> {
       //remove error classes before validating
-      $('input').removeClass('is-invalid');
-      $('select').removeClass('is-invalid');
+      $('input').removeClass('is-invalid')
+      $('select').removeClass('is-invalid')
+      
       if (error) {
+        error.details.forEach((data) => {
+          console.log(data)
+          //dyanmicly populate the error message and flag fields as invalid based on simpleSchema validation
+          $(`#${data.name}`).addClass('is-invalid')
+          $(`#${data.name}`).next('.invalid-feedback').html(data.message)
 
-      error.details.forEach((data) => {
-        console.log(data)
+          //some fields in the dom don't match one to one, so a bit of manual work is required :(
+          if (data.name === 'genesisTimestamp') {
+            $('.genesis-date').addClass('is-invalid')
+            $('#genesisDateInvalid').html(data.message)
+          }
 
-        //dyanmicly populate the error message and flag fields as invalid based on simpleSchema validation
-        $("#" + data.name).addClass("is-invalid");
-        $("#" + data.name).next(".invalid-feedback").html(data.message);
+          if (data.name === 'currencyLogoFilename') {
+            $('#currencyLogoInputLabel').addClass('is-invalid btn-danger')
+            $('#currencyLogoFilenameInvalid').show()
+            $('#currencyLogoFilenameInvalid').html(data.message)
 
-        //some fields in the dom don't match one to one, so a bit of manual work is required :(
-        if (data.name === "genesisTimestamp") {
-            $(".genesis-date").addClass("is-invalid");
-            $("#genesisDateInvalid").html(data.message);
-        }
-
-        if (data.name === "currencyLogoFilename") {
-            $("#currencyLogoInputLabel").addClass("is-invalid btn-danger");
-            $("#currencyLogoFilenameInvalid").show();
-            $("#currencyLogoFilenameInvalid").html(data.message);
-
-        //Scroll to the dom element which has caused the error, no point staying at the bottom.
-        //its -100 was we want it to scroll above the input so we can see the label
-    $('html, body').animate({
+            //Scroll to the dom element which has caused the error, no point staying at the bottom.
+            //its -100 was we want it to scroll above the input so we can see the label
+            $('html, body').animate({
                 scrollTop: $(".is-invalid:first").offset().top-100
-            }, 1000);
-        }
-
-    });
-
+            }, 1000)
+          }
+        })
       } else {
+        currentContext = {}
+
         Meteor.call('completeNewBounty', 'new-currency', $('#currencyName').val(), (err, data) => {})
         Cookies.set('workingBounty', false, {
           expires: 1
         })
-        FlowRouter.go('/mypending');
+        FlowRouter.go('/mypending')
       }
     })
-
-    function addToInsert (value, key) {
-      if (typeof key !== "undefined") {
-        insert[key] = value; //slip the data into the 'insert' array
-      } else if (eval(value) && typeof key === "undefined") { //check that 'value' actually has data and that there is no 'key'
-        insert[value] = eval(value); //use the String from 'value' as the key, and evaluate the variable of the same name to get the data.
-      }
-    }
   }
-});
-
-
+})
 
 Template.addCoin.helpers({
   getPopoverContent (val){
