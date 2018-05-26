@@ -3,23 +3,62 @@
     <h3 id="pageTitle">Transactions</h3>
 </div>
     <h4>Total KZR moved from the main wallet: {{total}}</h4>
-
-<div class="input-group">
-                                    <select class="form-control rewardTypeFilter custom-select" id="js-type" name="type">
-                                    <option disabled selected>--Select transaction type--</option>
-                                    <option value="topCommentReward">Top Comment</option>
-                                    <option value="hashReward">Hash Data</option>
-                                    <option value="bountyReward">Bounty Reward</option>
-                                    <option value="problemReward">Problem Reward</option>
-                                    <option value="createCoinReward">Created a Coin</option>
-                                    <option value="cheating">Cheating</option>
-                                    <option value="anwserQuestion">Answered Question</option>
-                                </select>
-                                  <div class="input-group-append">
-    <button class="btn btn-primary clearFilter" type="button"><i class="fa fa-times"></i></button>
+<br>
+<div class="form-check form-control" style="margin-bottom: 20px !important;">
+  <div class="row">
+    <span class="form-check-item filter-bounties-label col-sm-2">
+      <h5 style="margin-bottom: 0;margin-top: 3px;">Filter Transactions:</h5>
+    </span>
+    <span class="form-check-item col-sm-1">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input form-check-input" id="all-txn" value="all" checked>
+        <label class="custom-control-label" for="all-txn">All</label>
+      </div>
+    </span>
+    <span class="form-check-item col-sm-1">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input form-check-input" id="top-comment-txn" value="topCommentReward">
+        <label class="custom-control-label" for="top-comment-txn">Top Comment</label>
+      </div>
+    </span>
+    <span class="form-check-item col-sm-1">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input form-check-input" id="hash-data-txn" value="hashReward">
+        <label class="custom-control-label" for="hash-data-txn">Hash Data</label>
+      </div>
+    </span>
+    <span class="form-check-item col-sm-1">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input form-check-input" id="bounty-reward-txn" value="bountyReward">
+        <label class="custom-control-label" for="bounty-reward-txn">Bounty Reward</label>
+      </div>
+    </span>
+    <span class="form-check-item col-sm-1">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input form-check-input" id="problem-reward-txn" value="problemReward">
+        <label class="custom-control-label" for="problem-reward-txn">Problem Reward</label>
+      </div>
+    </span>
+    <span class="form-check-item col-sm-1">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input form-check-input" id="create-coin-txn" value="createCoinReward">
+        <label class="custom-control-label" for="create-coin-txn">Created a Coin</label>
+      </div>
+    </span>
+    <span class="form-check-item col-sm-1">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input form-check-input" id="cheating-txn" value="cheating">
+        <label class="custom-control-label" for="cheating-txn">Cheating</label>
+      </div>
+    </span>
+    <span class="form-check-item col-sm-1">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input form-check-input" id="answer-txn" value="anwserQuestion">
+        <label class="custom-control-label" for="answer-txn">Answered Question</label>
+      </div>
+    </span>
   </div>
 </div>
-
     <table class="table table-hover mt-2">
         <thead>
             <tr scope="row" class="table-light">
