@@ -12,8 +12,7 @@ Template.wallet.onCreated(function bodyOnCreated() {
   self.autorun(function() {
     SubsCache.subscribe('wallet');
     SubsCache.subscribe('users');
- SubsCache.subscribe('approvedcurrencies');
-
+    SubsCache.subscribe('approvedcurrencies');
   })
 });
 
@@ -31,12 +30,24 @@ Template.wallet.helpers({
     return UserData.findOne({}, {fields: {balance: 1}}).balance
   },
   currencyNotifications: (currency) => {
-	  return Wallet.find({
-		  owner: Meteor.userId(),
-		  type: "transaction",
-		  currency: currency,
-		  read: false
-	  }).count();
+    var query = {};
+    if (currency) {
+      switch(currency.toUpperCase()) {
+        case 'KZR' :
+          query = {owner: Meteor.userId(), read: false, type: "transaction",  $or: [ {message:/KZR/i}, {message:/ZRQ/i} ]}
+          break
+        case 'USD' :
+          query = {owner: Meteor.userId(), read: false, type: "transaction", message:/USD/i}
+          break
+        case 'ETH' :
+          query = {owner: Meteor.userId(), read: false, type: "transaction", message:/ETH/i}
+          break
+        case 'XMR' :
+          query = {owner: Meteor.userId(), read: false, type: "transaction", message:/XMR/i}
+          break
+      }
+    }
+	  return Wallet.find(query).count();
   },
   currencyLogo: (currency) => {
   //Not all currencies have a logo so check if the currencyLogoFilename exists otherwise return a placeholder
