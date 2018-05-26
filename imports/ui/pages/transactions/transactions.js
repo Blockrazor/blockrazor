@@ -96,16 +96,20 @@ Template.transactions.helpers({
 })
 
 Template.transactions.events({
-    'change .rewardTypeFilter': function(event) {
-    	FlowRouter.setParams({page:1})
-        Template.instance().rewardType.set(event.target.value)
-    },
-    'click .clearFilter': function(event) {
-    	FlowRouter.setParams({page:1})
-        Template.instance().rewardType.set(false);
-
-        $(".rewardTypeFilter option").filter(function() {
-            return $(this).text() == "--Select transaction type--";
-        }).prop('selected', true);
+    'click .form-check-input': function(event, templateInstance) {
+			if (templateInstance.$('input:checked').length > 0) {
+				if (event.target.value === 'all') {
+					Template.instance().rewardType.set(false)
+				} else {
+					templateInstance.$('input:checked').each(function() {
+						if ($(this).val() !== $(event.currentTarget).val()) {
+							$(this).prop('checked', false);
+						}
+					});
+					Template.instance().rewardType.set(event.target.value)
+				}
+			} else {
+				Template.instance().rewardType.set(' ')
+			}
     }
 });
