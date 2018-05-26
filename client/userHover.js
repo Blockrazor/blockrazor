@@ -9,7 +9,7 @@ import './userHover.html'
 
 Template.userHover.onCreated(async function() {
 	({ Features, UserData } = (await import('/imports/api/indexDB')));
-	colStub.change()
+	if (colStub !== undefined) { colStub.change() }
 
 	this.autorun(() => {
 		this.userId = this.data.createdBy // || this.data.owner || this.data.author,... // userId depends on the passed context, so we can use the || operator to support multiple values if needed
