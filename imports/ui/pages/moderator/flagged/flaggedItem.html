@@ -1,0 +1,53 @@
+<template name="flaggedItem">
+    {{#if isModerator}}
+    <div class="pull-right" style="margin-top: 10px;">
+        <a id="nextFlaggedItem" href class="text-warning">Skip <i class="fa fa-step-forward"></i></a>
+    </div>
+
+    <h3>Flagged comments/red flags/features</h3>
+    <br>
+    {{#with flaggedItem}}
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="media">
+                        <div class="media-body">
+                            <h5 class="mt-0">{{username}}</h5>
+                            <p>{{text}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <h5 class="card-title">Flag ratio</h5>
+                    <p class="card-text"> {{ flagRatio }} </p>
+                </div>
+                <div class="col-sm-2">
+                    <h5 class="card-title">Upvotes</h5>
+                    <p class="card-text"> {{upvotes}} </p>
+                    <h5 class="card-title">Downvotes</h5>
+                    <p class="card-text"> {{downvotes}} </p>
+                </div>
+                <div class="col-sm-2">
+                    <p class="card-text"> 
+                        <button class="js-vote btn btn-primary notVoted" data-vote="voteUp">
+                            <i class="fa fa-arrow-up"></i>
+                        </button>  
+                    </p>
+
+                    <p class="card-text">
+                        <button class="js-vote btn btn-primary notVoted" data-vote="voteDown">
+                            <i class="fa fa-arrow-down"></i>
+                        </button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/with}}
+    {{else}}
+    <h1>This page is for moderators only.</h1>
+    {{/if}}
+    <br>
+    <a href="/moderator">Back to moderator dashboard</a>
+</template>

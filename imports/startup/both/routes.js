@@ -831,6 +831,23 @@ adminRoutes.route('/flagged', {
   }
 })
 
+adminRoutes.route('/flagged/:collection/:id', {
+  name: 'flaggedItem',
+  subscriptions: function () {
+    this.register('users', FastRenderer.subscribe('users'))
+    this.register('features', FastRenderer.subscribe('features'))
+    this.register('redflags', FastRenderer.subscribe('redflags'))
+  },
+  action: async (params, queryParams) => {
+    await import ('/imports/ui/pages/moderator/flagged/flaggedItem')
+    BlazeLayout.render('mainLayout', {
+      main: 'flaggedItem'
+    })
+  }
+})
+
+
+
 adminRoutes.route('/applogs', {
   name: 'app-logs',
   subscriptions: function (params) {
