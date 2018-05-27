@@ -88,5 +88,9 @@ Template.appLogs.helpers({
 	},
 	additionalInfo: function() {
 		return this.additional.connection ? `IP: ${this.additional.connection.clientAddress}` : 'N\\A'
+	},
+	loadMore: (data) => {
+		if (data.count() > 0) { return true }
+		return
 	}
 })

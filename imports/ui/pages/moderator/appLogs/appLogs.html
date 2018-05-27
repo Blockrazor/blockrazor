@@ -79,7 +79,11 @@
                             {{/each}}
                         </tbody>
                     </table>
-                    <button id="js-more" class="btn btn-action" style="width: 100%">More data?</button>
+                    {{#if loadMore applogs}}
+                        <button id="js-more" class="btn btn-action" style="width: 100%">More data?</button>
+                    {{ else }}
+                        No search results found
+                    {{/if}}
                 </div>
             </div>
         </div>
