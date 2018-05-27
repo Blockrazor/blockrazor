@@ -178,8 +178,11 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
         browser.url('http://localhost:3000/addcoin')
         browser.pause(10000)
 
-        browser.execute(() => window.location.hash = '#step-4')
-        browser.pause(5000)
+        //browser.execute(() => window.location.hash = '#step-4')
+        for (let i = 0; i < 3; i++) {
+            browser.click('.sw-btn-next')
+            browser.pause(2000)
+        }
 
         const string = 'JustATestExchange587'
 
@@ -196,8 +199,11 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
         browser.url('http://localhost:3000/addcoin')
         browser.pause(10000)
 
-        browser.execute(() => window.location.hash = '#step-4')
-        browser.pause(5000)
+        //browser.execute(() => window.location.hash = '#step-4')
+        for (let i = 0; i < 3; i++) {
+            browser.click('.sw-btn-next')
+            browser.pause(2000)
+        }
 
         const string = 'JustATestExchange1111'
         browser.setValue(inputSel, '') // empty it out
@@ -220,8 +226,11 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
         browser.url('http://localhost:3000/addcoin')
         browser.pause(10000)
 
-        browser.execute(() => window.location.hash = '#step-4')
-        browser.pause(5000)
+        //browser.execute(() => window.location.hash = '#step-4')
+        for (let i = 0; i < 3; i++) {
+            browser.click('.sw-btn-next')
+            browser.pause(2000)
+        }
 
         browser.setValue(inputSel, '')
         browser.pause(3000)

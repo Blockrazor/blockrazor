@@ -2382,7 +2382,7 @@
 	  const paramsEvent = new CustomEvent('params', {
 	    bubbles: true,
 	    cancelable: true,
-	    detail: {params: history.state.params, history: historyChanged}
+	    detail: {params: (history.state || {}).params || {}, history: historyChanged}
 	  })
 	  document.dispatchEvent(paramsEvent)
 
