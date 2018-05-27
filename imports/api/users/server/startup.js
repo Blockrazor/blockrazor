@@ -12,7 +12,7 @@ if (stats.length != 3){
 }
 
 //used to prevent edits to connected field parsed from userIds field on every running instance when observer triggers
-var connectedLength = new Set(UsersStats.findOne("connected", {fields: {userIds: 1}}).userIds)
+/*var connectedLength = new Set(UsersStats.findOne("connected", {fields: {userIds: 1}}).userIds)
 
 UsersStats.find({_id: "connected"}, {fields: {userIds: 1}}).observeChanges({
   changed(id, fields){
@@ -22,23 +22,27 @@ UsersStats.find({_id: "connected"}, {fields: {userIds: 1}}).observeChanges({
     }
     return  
   }
-})
+})*/
 
 //will fire several times per user thus requires observer
 UserPresence.onUserOnline(function(userId, connection){
-  var len = connectedLength.size
-  connectedLength.add(userId)
-  if (len != connectedLength.size){
+  //var len = connectedLength.size
+  //connectedLength.add(userId)
+  //if (len != connectedLength.size){
+  if (!~((UsersStats.findOne('connected') || {}).userIds || []).indexOf(userId)) { // if it's not already on the list, add it
     UsersStats.update("connected", {$addToSet: {userIds: userId}, $inc: {connected: 1}})
   }
+  //}
 })
 
 UserPresence.onUserOffline(function (userId) {
-  var len = connectedLength.size
-  connectedLength.delete(userId)
-  if (len != connectedLength.size){
+  //var len = connectedLength.size
+  //connectedLength.delete(userId)
+  //if (len != connectedLength.size){
+  if (~((UsersStats.findOne('connected') || {}).userIds || []).indexOf(userId)) { // if it was on the list, remove it
     UsersStats.update("connected", {$pull: {userIds: userId}, $inc: {connected: -1}})
   }
+  //}
 })
 
 Meteor.startup(() => {
