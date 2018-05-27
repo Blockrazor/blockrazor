@@ -133,7 +133,7 @@ Meteor.methods({
 
             let reward = ratings.reduce((i1, i2) => i1 + (i2.reward || 0), 0)
 
-            removeUserCredit(reward, Meteor.userId(), 'posting an invalid wallet screenshot','cheating') // remove all credit user has gained from this
+            removeUserCredit(reward, wallet.createdBy, 'posting an invalid wallet screenshot','cheating') // remove all credit user has gained from this
 
             Ratings.remove({
                 _id: {
@@ -141,7 +141,7 @@ Meteor.methods({
                 }
             }) // remove only unprocessed ratings associated with this wallet image, as processed ones are already part of the ELO calculation and can't be removed
 
-            Meteor.call('userStrike', Meteor.userId(), 'bad-wallet', 's3rv3r-only', (err, data) => {}) // user earns 1 strike here
+            Meteor.call('userStrike', wallet.createdBy, 'bad-wallet', 's3rv3r-only', (err, data) => {}) // user earns 1 strike here
 
             WalletImages.remove({
                 _id: imageId
