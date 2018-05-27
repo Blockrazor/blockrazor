@@ -21,6 +21,7 @@
     "body-parser": "^1.18.2",
     "bootstrap": "^4.1.0",
     "bootstrap-slider": "^10.0.0",
+    "bootswatch": "^4.1.1",
     "chart.js": "^2.7.1",
     "core-js": "^2.5.3",
     "corejs-typeahead": "^1.2.1",
