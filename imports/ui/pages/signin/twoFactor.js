@@ -12,5 +12,17 @@ Template.twoFactor.events({
 				FlowRouter.go('/')
 			}
 		})
+	},
+	'click #cancel-signin': (event) => {
+		event.preventDefault()
+		Meteor.logout()
+
+		// using timeout function because for some reason 
+		// the .logout callback doesn't seem to be working
+		// setting timeout to 1 second allowing .logout 
+		// request to complete
+		setTimeout(() => {
+			FlowRouter.go('/')
+		}, 1000);
 	}
 })
