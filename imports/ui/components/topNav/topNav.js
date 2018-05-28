@@ -2,7 +2,7 @@ import './topNav.html'
 import './topNav.scss'
 import '../global/globalHelpers'
 import('sweetalert2').then(swal => window.swal = swal.default)
-
+import '/imports/ui/components/global/globalHelpers'
 import { colStub } from '/imports/ui/components/compatability/colStub'
 
 Wallet = ActivityLog = UserData = Bounties = colStub
@@ -25,8 +25,7 @@ Template.topNav.helpers({
         _id: Meteor.userId()
     }).slug,
     balance() {
-      let balance = UserData.findOne({}, { fields: { balance: 1 } }).balance
-      return Number( balance.toPrecision(3) )
+      return UserData.findOne({}, { fields: { balance: 1 } }).balance
   	}
 });
 

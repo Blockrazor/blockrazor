@@ -5,6 +5,7 @@ import './sideNav.scss'
 import '../global/globalHelpers'
 
 import { colStub } from '/imports/ui/components/compatability/colStub'
+import '/imports/ui/components/global/globalHelpers'
 
 Wallet = ActivityLog = UserData = colStub
 
@@ -16,8 +17,7 @@ Template.sideNav.helpers({
         return Wallet.find({ owner: Meteor.userId(), type: "transaction", read: { $ne: true } }).count()
     },
     balance() {
-      let balance = UserData.findOne({}, { fields: { balance: 1 } }).balance
-      return Number( balance.toPrecision(3) )
+      return UserData.findOne({}, { fields: { balance: 1 } }).balance
     },
     activeClass: function(route) {
         if (FlowRouter.getRouteName() === route) {
