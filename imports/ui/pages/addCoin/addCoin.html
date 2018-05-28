@@ -50,7 +50,7 @@
                 </div>
                 <div id="step-2" class="p-4">
                     <div id="form-step-2" role="form" data-toggle="validator">
-                        <input type="text" id="currencyName" name="currencyName" placeholder="Currency Name" class="form-control" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'currencyName'}}">
+                        <input type="text" id="currencyName" name="currencyName" placeholder="Currency Name" class="form-control" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'currencyName'}}" required>
                         <div class="invalid-feedback">Please enter a currency name</div>
                         <input type="text" id="currencySymbol" name="currencySymbol" placeholder="Symbol" class="form-control padLeft mt-3" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'currencySymbol'}}">
                         <div class="invalid-feedback">Please enter a currency symbol</div>
@@ -169,7 +169,7 @@
                         {{#if reactiveVar 'smartContract'}}
                         <br />
                         <h5 class="card-title">Smart Contract</h5>
-                        <input type='text' class="form-control mb-3" id="smartContractURL" placeholder="What is the smart contract URL" name="smartContractURL">
+                        <input type='text' class="form-control mb-3" id="smartContractURL" placeholder="What is the smart contract URL" name="smartContractURL" required>
                         <div class="invalid-feedback"> </div>
                         {{/if}}
                         {{/if}}
