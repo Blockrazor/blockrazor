@@ -96,6 +96,13 @@ Currencies.schemaFuncs = {
     }
     return null
   },
+ //If this is a smartContract
+  ifSmartContract() {
+    if (this.field("smartContract").value) {
+      return nullValidator.call(this)
+    }
+    return null
+  },
   //If this is not proposal
   ifNotProposal() {
     if (this.field("proposal").value) {
@@ -108,6 +115,7 @@ Currencies.schemaFuncs = {
     const fieldKeysToValues = {
       altcoin: "Altcoin",
       proposal: "proposal",
+      smartContract: "Smart Contract",
       btcfork: "Bitcoin Fork",
       ico: "ICO"
     }
@@ -164,6 +172,9 @@ Currencies.schema = new SimpleSchema({
   btcfork: {
     type: Boolean,
   }, //if not fork then altcoin?
+  smartContract: {
+    type: Boolean,
+  }, //if not smartContract
   premine: {
     type: Number,
     min: 0,
@@ -214,7 +225,9 @@ Currencies.schema = new SimpleSchema({
     type: Domain,
     min: 12,
     max: 300,
-    required: false,
+    custom() {
+      return Currencies.schemaFuncs.ifSmartContract.call(this)
+    },
   }, //n
   blockExplorer: {
     type: Domain,

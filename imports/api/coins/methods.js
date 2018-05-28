@@ -16,7 +16,7 @@ Currencies.newCoinSchema = new SimpleSchema(Currencies.schema.pick(
     'currencyName', 'currencySymbol', 'premine', 'maxCoins', 'consensusSecurity', 'gitRepo', 
 'officialSite', 'reddit', 'blockExplorer', 'currencyLogoFilename', 'confirmations', 'previousNames', 'exchanges', 
 'launchTags', 'blockTime', 'forkHeight', 'forkParent', 'hashAlgorithm', 'ICOfundsRaised', 'genesisTimestamp', 'proposal', 'altcoin', 
-'ico', 'ICOcoinsProduced', 'ICOcoinsIntended',  'ICOnextRound', 'icoDateEnd', 'btcfork', 'approvalNotes', 'smartContractURL', 'icocurrency',
+'ico', 'ICOcoinsProduced', 'ICOcoinsIntended',  'ICOnextRound', 'icoDateEnd', 'btcfork', 'approvalNotes', 'smartContractURL', 'smartContract','icocurrency',
 'replayProtection'
 )
 .extend({
@@ -36,6 +36,11 @@ Currencies.newCoinSchema = new SimpleSchema(Currencies.schema.pick(
         }
     },
     btcfork: { 
+        autoValue() {
+            return Currencies.schemaFuncs.launchTagsAuto.call(this)
+        }
+    },
+    smartContract: { 
         autoValue() {
             return Currencies.schemaFuncs.launchTagsAuto.call(this)
         }
@@ -73,13 +78,13 @@ export const addCoin = new ValidatedMethod({
     run({currencyName, currencySymbol, premine, maxCoins, consensusSecurity, gitRepo, 
         officialSite, reddit, blockExplorer, currencyLogoFilename, confirmations, previousNames, exchanges, 
         launchTags, blcokTime, forkHeight, forkParent, hashAlgorithm, ICOfundsRaised, genesisTimestamp, proposal, altcoin, 
-        ico, ICOcoinsProduced, ICOcoinsIntended,  ICOnextRound, icoDateEnd, btcfork, approvalNotes,smartContractURL, icocurrency,
+        ico, ICOcoinsProduced, ICOcoinsIntended,  ICOnextRound, icoDateEnd, btcfork, approvalNotes,smartContractURL,smartContract, icocurrency,
 replayProtection}) {
             //data should be used since some of items may be undefined
             var data = {currencyName, currencySymbol, premine, maxCoins, consensusSecurity, gitRepo, 
                 officialSite, reddit, blockExplorer, currencyLogoFilename, confirmations, previousNames, exchanges, 
                 launchTags, blcokTime, forkHeight, forkParent, hashAlgorithm, ICOfundsRaised, genesisTimestamp, proposal, altcoin, 
-                ico, ICOcoinsProduced, ICOcoinsIntended,  ICOnextRound, icoDateEnd, btcfork, approvalNotes,smartContractURL, icocurrency,
+                ico, ICOcoinsProduced, ICOcoinsIntended,  ICOnextRound, icoDateEnd, btcfork, approvalNotes,smartContractURL,smartContract, icocurrency,
 replayProtection}
             if (Meteor.isServer){
         var Future = require('fibers/future')
@@ -145,6 +150,7 @@ replayProtection}
                 altcon: altcoin,
                 ico: ico,
                 btcfork: btcfork,
+                smartContract: smartContract,
                 bountiesCreated: false
             })
             PendingCurrencies.insert(insert, function (error, result) {
