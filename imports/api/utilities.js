@@ -49,7 +49,13 @@ var formatAmount = (amount) => {
 
 export var creditUserWith = function (amount, userId, reason, rewardType) {
     if (Meteor.isServer) {
-        UserData.upsert({_id: userId}, {$inc: {balance: amount}});
+        var userdata = UserData.findOne({ _id : userId })
+        var balance = formatAmount(amount)
+        var currentBalance = (userdata === undefined) ? 0.0 : userdata.balance
+        var amountToCredit = formatAmount(parseFloat(currentBalance) + parseFloat(balance))
+
+
+        UserData.upsert({_id: userId}, {$set: {balance: amountToCredit}});
         Wallet.insert({
             time: new Date().getTime(),
             owner: userId,
@@ -66,7 +72,12 @@ export var creditUserWith = function (amount, userId, reason, rewardType) {
 
 export var removeUserCredit = (amount, userId, reason, rewardType) => { // if we need to remove user's credit for whatever reason
     if (Meteor.isServer) {
-        UserData.upsert({_id: userId}, {$inc: {balance: -amount}});
+        var userdata = UserData.findOne({ _id : userId })
+        var balance = formatAmount(amount)
+        var currentBalance = (userdata === undefined) ? 0.0 : userdata.balance
+        var amountToDebit = formatAmount(parseFloat(currentBalance) - parseFloat(balance))
+
+        UserData.upsert({_id: userId}, {$set: {balance: amountToDebit}});
         Wallet.insert({
             time: new Date().getTime(),
             owner: userId,

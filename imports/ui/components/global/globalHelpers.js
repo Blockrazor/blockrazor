@@ -66,3 +66,9 @@ Template.registerHelper('activeBounties', () => {
 		return bounty.expiresAt > Date.now();
 	});
 });
+
+Template.registerHelper('formatBalance', (amount) => {
+	var balance = parseFloat(amount)
+	var formatBalance = balance > 0.00001 ? balance : balance.toExponential(3);
+	return Number(formatBalance).toFixed(3).replace(/\.?0+$/, "");
+})
