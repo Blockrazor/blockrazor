@@ -146,6 +146,17 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
         
         assert(child.indexOf('not found') !== -1, true)
     })
+    it('when there\'s no item creation, neither inline nor external button exist', function () {
+        const string = 'Somethingtotallyrandom'
+
+        browser.setValue(inputSel, string)
+        browser.pause(2000)
+        
+        const child = listChild()
+        
+        assert(child.indexOf('create') === -1, true)
+        assert(!browser.isExisting('.createItem'), true)
+    })
     it('creates an item with inline button click', function () {
         browser.setValue(inputSel, '')
         browser.pause(3000)
@@ -174,6 +185,22 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
         assert(exchangeExists(string), true)
         browser.pause(3000)
     })
+    it('inline button exists and works if an external button is not available', function() {
+        const string = 'JustATestExchange21111j'
+        browser.setValue(inputSel, '') // empty it out
+        browser.pause(2000)
+        
+        browser.setValue(inputSel, string)
+        browser.pause(3000)
+
+        browser.click('div.tt-menu.tt-open')
+        browser.pause(5000)
+
+        assert(exchangeExists(string), true)
+
+        assert(!browser.isExisting('.createItem'), true)
+        browser.pause(3000)
+    }) // note that the browser is on addcoin page right now
     it('creates an item when the external button is clicked', function() {
         browser.url('http://localhost:3000/addcoin')
         browser.pause(10000)
@@ -195,7 +222,7 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
         assert(exchangeExists(string), true)
         browser.pause(3000)
     })
-    it('inline button doesn\'t react to events if an external button is available', function() {
+    it('inline button doesn\'t exist if an external button is available', function() {
         browser.url('http://localhost:3000/addcoin')
         browser.pause(10000)
 
@@ -214,6 +241,8 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
 
         browser.click('div.tt-menu.tt-open')
         browser.pause(5000)
+
+        assert(browser.isExisting('.createItem'), true)
 
         assert(!exchangeExists(string), true) // the exchange shouldn't be created
         browser.pause(3000)
