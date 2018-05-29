@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating'
-import { UserData } from '/imports/api/indexDB'
+import { UserData, developmentValidationEnabledFalse } from '/imports/api/indexDB'
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra'
 import { newProblem } from '/imports/api/problems/methods'
 
@@ -23,12 +23,12 @@ function proceedSubmittingProblem() {
   }
 
   var params = {type: $('#js-type').val(), header: $('#js-header').val(), text: formattedBody, images: images, bounty: Number.isNaN(Number($('#js-amount').val()))? 0: Number($('#js-amount').val())}
-  console.log(params)
+  // console.log(params)
   newProblem.call(params, (err, data)=>{
     if (!err) {
       FlowRouter.go('/problems')
     } else {
-      console.log(err, "reason", err.reason)
+      console.log(err)
       var error = err.details
       if (error.includes('Header')) {
         sAlert.error("Problem summary is required")
@@ -95,7 +95,7 @@ Template.newProblem.events({
       }, {
         fields: { balance: 1 }
       })
-      if(user && Number(user.balance.toPrecision(3)) > 0) {
+      if(user && Number(user.balance) > 0) {
         // show advice modal
         $('#donationAdviceModal').modal("show")
       } else {

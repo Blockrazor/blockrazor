@@ -19,10 +19,22 @@ var { Id } = RegEx
 Problems.schema = new SimpleSchema({
 	_id: { type: Id },
 	type: {type: String, allowedValues: ['bug', 'feature', 'question'] },
-	header:  {type: String, max: 80 },
+	header:  {type: String, max: 80, custom: function() {
+		if (!developmentValidationEnabledFalse) {
+			return undefined
+		}
+
+		if (!this.value) {
+			return 'Header is required'
+		}
+	}},
 	text: { 
 		type: String,
 		custom: function() {
+			if (!developmentValidationEnabledFalse) {
+				return undefined
+			}
+
 			if (!this.value || this.value === 'Problem:\n\r\n\n\rPotential Solution:' || this.value === 'Problem:\n\r\n\n\rSteps to Reproduce:') {
 				return 'Problem description is required'
 			} // problem description has to be defined
