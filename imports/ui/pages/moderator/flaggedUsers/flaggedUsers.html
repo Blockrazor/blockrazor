@@ -1,9 +1,11 @@
 <template name="flaggedUsers">
-    <h3>Flagged IP addresses</h3>
+    <div id="pageHeader">
+            <h3 class="pageTitle">Flagged IP addresses</h3>
+    </div>
     {{#if isModerator}}
-    <table class="table">
+    <table class="table table-hover mt-2">
         <thead>
-            <tr>
+            <tr scope="row" class="table-light">
                 <th scope="col">Flagged IP</th>
                 <th scope="col">Users count</th>
                 <th scope="col">Last access</th>
@@ -12,7 +14,7 @@
         <tbody>
             {{#if subsCacheReady}}
                 {{#each ipAddresses}}
-                    <tr>
+                    <tr scope="row" class="table-light">
                         <td><a href="/moderator/flagged-ip/{{ip}}">{{ip}}</a></td>
                         <td>{{users}}</td>
                         <td>{{lastAccess}}</td>
