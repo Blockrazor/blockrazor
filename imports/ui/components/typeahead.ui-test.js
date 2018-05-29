@@ -129,6 +129,20 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
     // it ("doesn't erase input on change of cursor observer", function(){ //no access to collections
     //   assert(true, true)r
     // })
+    it("placeholder property works", function () {
+        assert(browser.execute(() => $('.tt-input').attr('placeholder')).value === 'Select Currency', true)
+    })
+    it("limit property works", function () {
+        browser.click(inputSel)
+        browser.pause(1000)
+
+        assert(browser.execute(() => $('div.tt-menu.tt-open').children().children().length).value < 15, true)
+    })
+    it("displayField property works", function() {
+        let currency = listChild()
+
+        assert(!!currency, true)
+    })
     it("renders input text in empty template", function () {
         var string = "zzzzzzzzzzzzzzzzzzzzzz////"
         browser.setValue(inputSel, string)
