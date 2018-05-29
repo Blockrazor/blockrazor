@@ -1,11 +1,16 @@
 <template name="flaggedItem">
     {{#if isModerator}}
-    <div class="pull-right" style="margin-top: 10px;">
-        <a id="nextFlaggedItem" href class="text-warning">Skip <i class="fa fa-step-forward"></i></a>
+
+    <div id="pageHeader">
+        <h3 id="pageTitle">Flagged comments/red flags/features</h3>
     </div>
 
-    <h3>Flagged comments/red flags/features</h3>
-    <br>
+    <div class="row">
+        <div class="col-sm-12">
+            <a id="nextFlaggedItem" href class="pull-right text-warning">Skip <i class="fa fa-step-forward"></i></a>
+        </div>
+    </div>
+
     {{#with flaggedItem}}
     <div class="card">
         <div class="card-body">

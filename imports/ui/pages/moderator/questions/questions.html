@@ -1,5 +1,6 @@
 <template name="questions">
-	<h3>Questions</h3>
+  <div id="pageHeader"><h3 id="pageTitle">Questions</h3></div>
+	
 	{{#if subsCacheReady}}
     {{#each questions}}
 			{{question}} ({{#if negative}}-{{else}}+{{/if}}) ({{catagory}}) {{#if context}}(shown at: {{context}}){{/if}} {{#if isXor}}(XOR){{/if}} {{#if author}}<a href="#" class="js-context">+/-</a> <a href="#" class="js-delete">X</a>{{/if}}<br />

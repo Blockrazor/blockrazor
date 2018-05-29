@@ -1,5 +1,7 @@
 <template name="moderatorDash">
-      <h2>Approvals</h2>
+  <div id="pageHeader">
+      <h3 id="pageTitle">Approvals</h3>
+  </div>
 
   {{#unless reactiveVar 'reject'}}
     {{#unless reactiveVar 'nothingToApprove'}}

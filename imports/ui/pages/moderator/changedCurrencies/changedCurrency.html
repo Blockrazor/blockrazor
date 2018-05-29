@@ -1,9 +1,15 @@
 <template name="changedCurrency">
-    <div class="pull-right" style="margin-top: 10px;">
-        <a id="skipChange" href class="text-warning">Skip <i class="fa fa-step-forward"></i></a>
+    
+
+    <div id="pageHeader">
+        <h3 id="pageTitle">Proposed Changes</h3>
     </div>
 
-    <h3>Proposed Change</h3>
+    <div class="row">
+        <div class="col-sm-12">
+                <a id="skipChange" href class="pull-right text-warning">Skip <i class="fa fa-step-forward"></i></a>
+        </div>
+    </div>
 
     {{#with changedCurrency}}
     <div class="row">

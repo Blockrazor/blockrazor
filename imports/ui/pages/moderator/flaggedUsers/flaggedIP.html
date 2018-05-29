@@ -1,6 +1,8 @@
 <template name="flaggedIP">
-    <h3>Flagged IP address: {{ip}}</h3>
-    <i>(data features five most recent items)</i><br />
+    <div id="pageHeader">
+            <h3 id="pageTitle">Flagged IP address: {{ip}}</h3>
+            <i>(data features five most recent items)</i><br />
+    </div>
     {{#if isModerator}}
     <table class="table">
         <thead>

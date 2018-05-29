@@ -1,6 +1,9 @@
 <template name="flagged">
     {{#if isModerator}}
-        <h3>Flagged comments/red flags/features</h3>
+        <div id="pageHeader">
+            <h3 id="pageTitle">Flagged comments/red flags/features</h3>
+        </div>
+        
         No more flagged Items {{ flagged }} <br><br>
     {{else}}
         <h1>This page is for moderators only.</h1>
