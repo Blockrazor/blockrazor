@@ -16,9 +16,9 @@ SimpleSchema.defineValidationErrorTransform(error => {
 
 export const newProblem = new ValidatedMethod({
   name: 'newProblem',
-	validate: //null,
-  new SimpleSchema(Problems.schema.pick("type","header","text","images","images.$","bounty")
-	, {requiredByDefault: developmentValidationEnabledFalse }).validator({clean:true}),
+	validate: new SimpleSchema(Problems.schema.pick("type","header","text","images","images.$","bounty"), {
+		requiredByDefault: developmentValidationEnabledFalse
+	}).validator({clean:true}),
   run({ type, header, text, images, bounty }) {
 			if (Meteor.userId()) {
 				if (bounty > 0) { // check if the user can finance the bounty
