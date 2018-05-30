@@ -168,5 +168,5 @@ import { UserData, ProfileImages, UsersStats } from '/imports/api/indexDB.js'
   })
 
   Meteor.publish("usersStats", ()=>{
-    return UsersStats.find({}, {fields: {connected: 1, created: 1}})
+    return UsersStats.find({}, {fields: {userIds: 1, created: 1}})
   })

@@ -6,7 +6,7 @@ import SimpleSchema from 'simpl-schema'
 var stats = UsersStats.find().fetch()
 if (stats.length != 3){
   UsersStats.remove({})
-  UsersStats.insert({_id: "connected", connected: 0, userIds: []})
+  UsersStats.insert({_id: "connected", userIds: []})
   UsersStats.insert({_id: "created", created: Meteor.users.find().count()})
   UsersStats.insert({_id: "lastMonth", created: Meteor.users.find({}).fetch().filter(i => new Date(i.createdAt) > (new Date().getTime() - 1000*60*60*24*30) /* 30 days */).length})
 }
@@ -29,9 +29,13 @@ UserPresence.onUserOnline(function(userId, connection){
   //var len = connectedLength.size
   //connectedLength.add(userId)
   //if (len != connectedLength.size){
-  if (!~((UsersStats.findOne('connected') || {}).userIds || []).indexOf(userId)) { // if it's not already on the list, add it
-    UsersStats.update("connected", {$addToSet: {userIds: userId}, $inc: {connected: 1}})
-  }
+  //if (!~((UsersStats.findOne('connected') || {}).userIds || []).indexOf(userId)) { // if it's not already on the list, add it
+  UsersStats.update("connected", {
+    $addToSet: {
+      userIds: userId
+    }
+  })
+  //}
   //}
 })
 
@@ -39,9 +43,13 @@ UserPresence.onUserOffline(function (userId) {
   //var len = connectedLength.size
   //connectedLength.delete(userId)
   //if (len != connectedLength.size){
-  if (~((UsersStats.findOne('connected') || {}).userIds || []).indexOf(userId)) { // if it was on the list, remove it
-    UsersStats.update("connected", {$pull: {userIds: userId}, $inc: {connected: -1}})
-  }
+  //if (~((UsersStats.findOne('connected') || {}).userIds || []).indexOf(userId)) { // if it was on the list, remove it
+  UsersStats.update("connected", {
+    $pull: {
+      userIds: userId
+    }
+  })
+  //}
   //}
 })
 

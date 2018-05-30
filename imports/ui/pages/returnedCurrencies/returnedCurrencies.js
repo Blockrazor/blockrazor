@@ -312,7 +312,7 @@ Template.returnedCurrencies.helpers({
     return templateVars;
   },
   onlineUsers() {
-    let connectionUsers = (UsersStats.findOne("connected") || {}).connected;
+    let connectionUsers = ((UsersStats.findOne("connected") || {}).userIds || []).length;
     return connectionUsers ? connectionUsers : 0;
   },
   createdUsers() {
