@@ -20,12 +20,16 @@
     content: '';
     display: inline-block;
     background: #666;
-    margin: 0px 10px 0 0; 
+    margin: 0px 10px 0 0;
     width: 1px;
     vertical-align: top;
   }
   .bounties-icon {
-    margin-left: 10px; 
+    margin-left: 10px;
+  }
+
+  .nav-item {
+    margin: 0;
   }
 
   button, .nav-item > a {
@@ -59,7 +63,7 @@
       content: '';
       display: inline-block;
       background: #666;
-      margin: 0px 10px 0 0; 
+      margin: 0px 10px 0 0;
       width: 1px;
       vertical-align: top;
     }

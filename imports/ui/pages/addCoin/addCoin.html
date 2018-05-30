@@ -52,7 +52,7 @@
                     <div id="form-step-2" role="form" data-toggle="validator">
                         <input type="text" id="currencyName" name="currencyName" placeholder="Currency Name" class="form-control" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'currencyName'}}" required>
                         <div class="invalid-feedback">Please enter a currency name</div>
-                        <input type="text" id="currencySymbol" name="currencySymbol" placeholder="Symbol" class="form-control padLeft mt-3" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'currencySymbol'}}">
+                        <input type="text" id="currencySymbol" name="currencySymbol" placeholder="Symbol" class="form-control mt-3" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'currencySymbol'}}">
                         <div class="invalid-feedback">Please enter a currency symbol</div>
                         <strong class="text-danger">
                       {{reactiveVar 'currencyNameMessage'}}
@@ -91,11 +91,11 @@
                         {{/if}} {{ #if reactiveVar 'isICO'}}
                         <h5 class="card-title mt-3">Completed ICO funding</h5>
                         <div class="input-group">
-                            <input type="number" min="0" name="ICOcoinsProduced" id="ICOcoinsProduced" placeholder="Coins allocated" class="form-control padLeft" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'currencySymbol'}}">
+                            <input type="number" min="0" name="ICOcoinsProduced" id="ICOcoinsProduced" placeholder="Coins allocated" class="form-control" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'currencySymbol'}}">
                             <div class="invalid-feedback"> </div>
-                            <input type="number" min="0" name="ICOfundsRaised" id="ICOfundsRaised" placeholder="Funds raised" class="form-control padLeft" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'ICOfundsRaised'}}">
+                            <input type="number" min="0" name="ICOfundsRaised" id="ICOfundsRaised" placeholder="Funds raised" class="form-control" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'ICOfundsRaised'}}">
                             <div class="invalid-feedback"> </div>
-                            <select class="form-control icocurrency padLeft" id="icocurrency" name="icocurrency" style="width: 20px;">
+                            <select class="form-control icocurrency" id="icocurrency" name="icocurrency" style="width: 20px;">
                                 <option disabled selected>-- Currency --</option>
                                 <option>USD</option>
                                 <option>BTC</option>
@@ -144,7 +144,7 @@
                     <div class="input-group">
                         <input type="number" min="0" name="premine" id="premine" placeholder="Premine amount" class="form-control" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'premine'}}">
                         <div class="invalid-feedback">Please enter a valid premibe amount</div>
-                        <input type="number" name="maxCoins" id="maxCoins" placeholder="Maximum Coins" class="form-control padLeft" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'maxCoins'}}">
+                        <input type="number" name="maxCoins" id="maxCoins" placeholder="Maximum Coins" class="form-control" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'maxCoins'}}">
                         <div class="invalid-feedback">Please enter a valid max coin amount</div>
                     </div>
                     <br />

@@ -4,9 +4,10 @@
   background-image: linear-gradient(to bottom right, #f7f7f7, #eafbff);
 }
 
-.app-content{
+.app-content {
   position: relative;
   flex: 1;
+  text-align: left;
   transition: all 0.2s ease;
   min-height: 100vh;
   max-height: 100%;
