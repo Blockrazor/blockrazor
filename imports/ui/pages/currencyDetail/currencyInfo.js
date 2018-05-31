@@ -455,7 +455,7 @@ Template.currencyInfo.helpers({
       create: function (event, input, templ) {
         Meteor.call("addExchange", input, (error, result) => {
           if (!error && result) {
-            Meteor.call("appendExchange", result, templ.currency._id, (err, res) => {
+            Meteor.call("appendExchange", result._id, templ.currency._id, (err, res) => {
               if (!err) {
                 sAlert.success('New exchange succesfully added and appended to the ' + templ.currency.currencyName)
               } else {
