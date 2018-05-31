@@ -105,7 +105,9 @@ Template.currencyDetail.helpers({
     return Math.round((bounty.expiresAt - Template.instance().now.get())/1000/60) < 10 // les than 10 minutes remaining
   },
   thiscurrency () {
-    return Currencies.findOne({slug: FlowRouter.getParam("slug")});
+    return Currencies.findOne({
+      slug: FlowRouter.getParam('slug')
+    })
   },
   currencyName () {
     return Currencies.findOne({slug: FlowRouter.getParam("slug")}).currencyName;
