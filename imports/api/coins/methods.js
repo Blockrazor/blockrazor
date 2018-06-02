@@ -306,6 +306,14 @@ if (Meteor.isDevelopment) {
                     owner: 'randId'
                 })
             }
+        },
+        newTestCurrency: () => {
+            Currencies.insert({
+                currencyName: 'ZNew name', // go after test ones
+                currencySymbol: 'NNN',
+                createdAt: new Date().getTime(),
+                owner: 'randId'
+            })
         }
     })
 }
