@@ -28,6 +28,8 @@
                 <td>{{downvotes}}</td>
                 <td>{{#if voted}}-{{else}}<button class="js-vote btn btn-default notVoted" data-vote="voteUp"><i class="fa fa-arrow-up"></i></button> <button class="js-vote btn btn-default notVoted" data-vote="voteDown"><i class="fa fa-arrow-down"></i></button>{{/if}}</td>
             </tr>
+            {{else}}
+            No problems available.
             {{/each}}
         </tbody>
     </table>
