@@ -45,12 +45,8 @@ cursor: not-allowed;
     background-color: #f5f5f5;
 }
 
-body .modal-dialog {
-    /* Width */
-    max-width: 80%;
-    width: auto !important;
-    display: inline-block;
-    margin-left: 10%;
+.card, .list-group, .modal-dialog, .form-check-item {
+  text-align: left;
 }
 
 .bootstrapFileInput {
