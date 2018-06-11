@@ -1,10 +1,12 @@
-span.twitter-typeahead .tt-input, span.twitter-typeahead .tt-hint {
+span.twitter-typeahead .tt-input,
+span.twitter-typeahead .tt-hint {
   max-width: 200px;
 }
 
 .typeahead.dropdown-menu,
 span.twitter-typeahead .tt-menu {
-  z-index: 1051; !important;
+  /* fixed wrong semicolon which causing the styles to not apply */
+  z-index: 1051 !important;
   min-width: 40%;
   background: white;
   /*as large as input*/
@@ -13,7 +15,6 @@ span.twitter-typeahead .tt-menu {
   border-radius: 0;
   font-size: 0.8rem;
 }
-
 
 span.twitter-typeahead .tt-suggestion {
   color: #000;
@@ -39,12 +40,13 @@ label.active {
 }
 
 .typeahead-container .typeahead {
-  display: inline-block;
+  /* removed display as inline block */
   float: left;
-  width:15em;
+  width: 15em;
 }
 
 .typeahead-container .createItem {
-  display: inline-block;
+    /* removed display as inline block */
+
   float: right;
 }
