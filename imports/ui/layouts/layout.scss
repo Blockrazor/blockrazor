@@ -1,0 +1,27 @@
+/* Layouts - Layout
+-------------------------------------------------- */
+
+.layout {
+    .app-body {
+        margin-top: 0 !important;
+    }
+
+    .sidebar, .main {
+   margin-top: 55px; 
+    }
+
+    .app-header {
+        border-bottom: none !important;
+         .nav-item{
+         min-width:20px !important;
+         }
+    }
+
+    .navbar-dark .navbar-nav .nav-link {
+        color: #fff;
+
+        &:hover {
+            color: #fff;
+        }
+    }
+}

@@ -46,7 +46,11 @@
     "underscore": "^1.8.3",
     "wdio-mocha-framework": "^0.5.13",
     "webdriverio": "^4.12.0",
-    "xml2js": "^0.4.19"
+    "xml2js": "^0.4.19",
+    "@coreui/coreui": "2.0.0",
+    "@coreui/icons": "^0.1.1",
+    "coreui": "^0.4.2-alpha2",
+    "noty": "^3.1.4"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

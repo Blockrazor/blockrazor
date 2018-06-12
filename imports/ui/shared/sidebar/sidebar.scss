@@ -1,0 +1,15 @@
+/* Shared - Sidebar
+-------------------------------------------------- */
+
+@media (max-width: 991px) {
+    html:not([dir="rtl"]) .sidebar-lg-show .sidebar {
+        margin-left: 0px;
+        box-shadow: 0 10px 25px 0 rgba(46, 61, 73, 0.5);
+    }
+}
+
+.nav{
+	.active{
+	background-color:#3a4248;
+	}
+}
