@@ -28,50 +28,6 @@
   }
 }
 
-.currency-card {
-  padding: 15px;
-  background: transparent;
-
-  .card-content {
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
-    transition: 0.3s;
-    border-radius: 5px;
-    padding: 2px 16px;
-    text-align: center;
-    background: white;
-    cursor: pointer;
-
-    .card-main {
-      .card-logo {
-        height: 100px;
-        width: auto;
-        margin: 25px auto;
-      }
-  
-      h4 b {
-        color: #999999;
-        text-shadow: 2px 2px 4px #cccccc;      
-      }
-  
-      .balance {
-        margin: 20px 0 20px 0;
-        background: #f1f1f1;
-      }    
-    }
-
-  }
-
-  .card-content:hover {
-    box-shadow: 0 10px 25px 0 rgba(46, 61, 73, 0.2);
-
-    .see-transactions-label {
-      color: #333333;
-    }
-  }
-
-}
-
-
 .exchange-body {
   margin: 0 15px 0 15px;
   padding: 15px;
