@@ -48,7 +48,6 @@ Template.sidebar.events({
     },
 
     'click .nav-dropdown': function(event) {
-        event.preventDefault()
         $(event.target).parent().toggleClass("open");
 
     }
