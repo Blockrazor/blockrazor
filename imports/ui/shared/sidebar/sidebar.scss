@@ -1,10 +1,10 @@
 /* Shared - Sidebar
 -------------------------------------------------- */
 
-@media (max-width: 991px) {
+@media (max-width: 767px) {
     html:not([dir="rtl"]) .sidebar-lg-show .sidebar {
         margin-left: 0px;
-        box-shadow: 0 10px 25px 0 rgba(46, 61, 73, 0.5);
+        box-shadow: 0 10px 25px 0 rgba(46, 61, 73, 0.7);
     }
 }
 

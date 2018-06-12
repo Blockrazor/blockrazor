@@ -8,11 +8,11 @@ Template.header.onCreated(function() {
 
 Template.header.events({
     'click .sidebar-toggler': function() {
-        // toggle "sidebar-show" class to show/hide sidebar
-        // $('body').toggleClass("sidebar-md-show sidebar-fixed")
-        
-        $('body').toggleClass("app header-fixed sidebar-fixed aside-menu-fixed  sidebar-lg-show  pace-done")
-
+        if ($(window).width() < 768) {
+            $('body').toggleClass("sidebar-lg-show")
+        } else {
+            $('body').toggleClass("sidebar-md-show")
+        }
     },
     'click #logout': (event, templateInstance) => {
     Meteor.logout()
