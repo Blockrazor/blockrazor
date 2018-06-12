@@ -4,9 +4,10 @@
             <button class="navbar-toggler sidebar-toggler d-block" type="button" style="border: none;">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand" href="{{pathFor '/'}}">BLOCKRAZOR</a>
+            <a class="customized-brand navbar-brand d-none d-md-block pull-left" href="{{pathFor '/'}}" style="">BLOCKRAZOR</a>
+            <a class="customized-brand brand-image text-white d-md-none" href="{{pathFor '/'}}"><img src="/images/logo_black.svg"></a>
             <ul class="nav navbar-nav mr-auto">
-                <li class="nav-item px-3">
+                <li class="nav-item px-1">
                     <a class="nav-link bounties-icon fa fa-plus-square d-md-none" href="/bounties"></a>
                     <a class="nav-link d-none d-md-block" href="/bounties"><span class="separator"></span> BOUNTIES</a>
                 </li>
