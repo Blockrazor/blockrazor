@@ -2,8 +2,6 @@ import { Template } from 'meteor/templating';
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { Currencies, ChangedCurrencies, HashAlgorithm } from '/imports/api/indexDB.js';
 
-// import '../../../api/coins/methods.js'; //is broken adress
-import '../../../layouts/MainBody.html'
 import './changedCurrency.html';
 
 var nextChangedCurrency = function () {
