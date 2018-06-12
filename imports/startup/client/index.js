@@ -1,3 +1,9 @@
+// ***************************************************************
+// Bundle for client modules
+// ***************************************************************
+
+// Modules and Config
+import "./config";
 import ('/imports/ui/components/compatability/index.js')
 import ('bootstrap')
 import '/imports/api/users/client/users.js'
