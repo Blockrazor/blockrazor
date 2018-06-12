@@ -13,10 +13,10 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
   import '/imports/ui/components/empty.html'
 
   // pages
-  import '/imports/ui/layouts/MainBody.html'
+  import '/imports/ui/layouts/layout.html'
+  import '/imports/ui/shared/header/header.html'
+  import '/imports/ui/shared/sidebar/sidebar.html'
 
-  // New Layout doesn't use side Template.dynamic side
-  import '/imports/ui/layouts/mainLayout/mainLayout'
 
   //Stylesheet
 } else {
@@ -71,8 +71,11 @@ FlowRouter.route('/profile/:slug', {
       // if the user is logged in, render the intented page
       await import ('/imports/ui/pages/userProfile/userProfile')
       await import ('/imports/ui/pages/editProfile/editProfile')
-      BlazeLayout.render('mainLayout', {
-        main: 'userProfile'
+      BlazeLayout.render('layout', {
+        main: 'userProfile',
+        header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
       })
     } else {
       // else redirect to the login page, saving the current path, to be able to redirect the user back
@@ -86,8 +89,11 @@ FlowRouter.route('/faq', {
   name: 'faq',
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/faq/faq')
-    BlazeLayout.render('mainLayout', {
-      main: 'faq'
+    BlazeLayout.render('layout', {
+      main: 'faq',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -115,8 +121,11 @@ FlowRouter.route('/compareCurrencies/:currencies?', {
   },
   action: async (params, queryParams) => {
     await import ( '/imports/ui/pages/compareCurrencies/compareCurrencies')
-    BlazeLayout.render('mainLayout', {
-      main: 'compareCurrencies'
+    BlazeLayout.render('layout', {
+      main: 'compareCurrencies',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -130,8 +139,11 @@ FlowRouter.route('/currencyAuction', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/auctions/currencyAuction')
-    BlazeLayout.render('mainLayout', {
-      main: 'currencyAuction'
+    BlazeLayout.render('layout', {
+      main: 'currencyAuction',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -145,8 +157,11 @@ FlowRouter.route('/auctions', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/auctions/allAuctions')
-    BlazeLayout.render('mainLayout', {
-      main: 'allAuctions'
+    BlazeLayout.render('layout', {
+      main: 'allAuctions',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -162,8 +177,11 @@ FlowRouter.route('/auction/:id', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/auctions/bidAuction')
-    BlazeLayout.render('mainLayout', {
-      main: 'bidAuction'
+    BlazeLayout.render('layout', {
+      main: 'bidAuction',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -175,8 +193,11 @@ FlowRouter.route('/new-auction', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/auctions/newAuction')
-    BlazeLayout.render('mainLayout', {
-      main: 'newAuction'
+    BlazeLayout.render('layout', {
+      main: 'newAuction',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -208,8 +229,11 @@ FlowRouter.route('/problems', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/problems/problems')
-    BlazeLayout.render('mainLayout', {
-      main: 'problems'
+    BlazeLayout.render('layout', {
+      main: 'problems',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -222,8 +246,11 @@ FlowRouter.route('/problem/:id', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/problems/problem')
-    BlazeLayout.render('mainLayout', {
-      main: 'problem'
+    BlazeLayout.render('layout', {
+      main: 'problem',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -232,8 +259,11 @@ FlowRouter.route('/new-problem', {
   name: 'new-problem',
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/problems/newProblem')
-    BlazeLayout.render('mainLayout', {
-      main: 'newProblem'
+    BlazeLayout.render('layout', {
+      main: 'newProblem',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -245,8 +275,11 @@ FlowRouter.route('/transactions/:page?', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/transactions/transactions')
-    BlazeLayout.render('mainLayout', {
-      main: 'transactions'
+    BlazeLayout.render('layout', {
+      main: 'transactions',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -261,18 +294,27 @@ FlowRouter.route('/', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/returnedCurrencies/returnedCurrencies')
-    BlazeLayout.render('mainLayout', {
-      main: 'returnedCurrencies'
+    BlazeLayout.render("layout", {
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
+      main: "returnedCurrencies"
+
     })
   }
 })
+
+
 
 FlowRouter.route('/distribution', {
   name: 'distribution',
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/distribution/distribution')
-    BlazeLayout.render('mainLayout', {
-      main: 'distribution'
+    BlazeLayout.render('layout', {
+      main: 'distribution',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -284,8 +326,11 @@ FlowRouter.route('/priceChart', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/prices/priceChart')
-    BlazeLayout.render('mainLayout', {
-      main: 'priceChart'
+    BlazeLayout.render('layout', {
+      main: 'priceChart',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -294,8 +339,11 @@ FlowRouter.route('/exchanges', {
   name: 'exchanges',
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/exchanges/exchanges')
-    BlazeLayout.render('mainLayout', {
+    BlazeLayout.render('layout', {
       main: 'exchanges',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -310,8 +358,11 @@ FlowRouter.route('/ratings', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/ratings/ratings')
-    BlazeLayout.render('mainLayout', {
-      main: 'ratings'
+    BlazeLayout.render('layout', {
+      main: 'ratings',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     });
   }
 })
@@ -320,8 +371,11 @@ FlowRouter.route('/theme', {
   name: 'theme',
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/theme.html')
-    BlazeLayout.render('mainLayout', {
-      main: 'theme'
+    BlazeLayout.render('layout', {
+      main: 'theme',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -337,8 +391,11 @@ FlowRouter.route('/add-hashpower', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/addHashpower/addHashpower')
-    BlazeLayout.render('mainLayout', {
-      main: 'addHashpower'
+    BlazeLayout.render('layout', {
+      main: 'addHashpower',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -351,8 +408,11 @@ FlowRouter.route('/avg-hashpower', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/allHashaverage/allHashaverage')
-    BlazeLayout.render('mainLayout', {
-      main: 'allHashaverage'
+    BlazeLayout.render('layout', {
+      main: 'allHashaverage',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -367,8 +427,11 @@ FlowRouter.route('/hashpower', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/allHashpower/allHashpower')
-    BlazeLayout.render('mainLayout', {
-      main: 'allHashpower'
+    BlazeLayout.render('layout', {
+      main: 'allHashpower',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -382,8 +445,11 @@ FlowRouter.route('/communities', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/communities/communities')
-    BlazeLayout.render('mainLayout', {
-      main: 'communities'
+    BlazeLayout.render('layout', {
+      main: 'communities',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -397,8 +463,11 @@ FlowRouter.route('/codebase', {
   },
   action: async (params, queryParams) => {
     await import( '/imports/ui/pages/codebase/codebase')
-    BlazeLayout.render('mainLayout', {
-      main: 'codebase'
+    BlazeLayout.render('layout', {
+      main: 'codebase',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -410,8 +479,11 @@ FlowRouter.route('/developers', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/developers/developers')
-    BlazeLayout.render('mainLayout', {
-      main: 'developers'
+    BlazeLayout.render('layout', {
+      main: 'developers',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -430,8 +502,11 @@ FlowRouter.route('/bounties', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/bounties/bounties')
-    BlazeLayout.render('mainLayout', {
-      main: 'bounties'
+    BlazeLayout.render('layout', {
+      main: 'bounties',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 });
@@ -443,8 +518,11 @@ FlowRouter.route('/bounties/:_id', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/bounties/activeBounty')
-    BlazeLayout.render('mainLayout', {
-      main: 'activeBounty'
+    BlazeLayout.render('layout', {
+      main: 'activeBounty',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 });
@@ -463,8 +541,11 @@ FlowRouter.route('/addcoin', {
     if (Meteor.userId()) {
       // if the user is logged in, you can render the intented page
       await import ('/imports/ui/pages/addCoin/addCoin')
-      BlazeLayout.render('mainLayout', {
-        main: 'addCoin'
+      BlazeLayout.render('layout', {
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
+      main: 'addCoin'
       })
     } else {
       // but if the user is not logged in, you have to redirect him to the login page
@@ -490,9 +571,12 @@ FlowRouter.route('/currency/:slug', {
   },
   action: async (params, queryParams) => {
     await import( '/imports/ui/pages/currencyDetail/currencyDetail')
-    BlazeLayout.render('mainLayout', {
+    BlazeLayout.render('layout', {
       main: 'currencyDetail',
-      bottom: 'edit'
+      bottom: 'edit',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 });
@@ -506,8 +590,11 @@ FlowRouter.route('/mypending', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/userPendingCurrencies/userPendingCurrencies')
-    BlazeLayout.render('mainLayout', {
-      main: 'userPendingCurrencies'
+    BlazeLayout.render('layout', {
+      main: 'userPendingCurrencies',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 });
@@ -519,8 +606,11 @@ FlowRouter.route('/notifications', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/activityLog/activityLog')
-    BlazeLayout.render('mainLayout', {
-      main: 'activityLog'
+    BlazeLayout.render('layout', {
+      main: 'activityLog',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 });
@@ -534,8 +624,11 @@ FlowRouter.route('/wallet', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/wallet/wallet')
-    BlazeLayout.render('mainLayout', {
-      main: 'wallet'
+    BlazeLayout.render('layout', {
+      main: 'wallet',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 });
@@ -548,8 +641,11 @@ FlowRouter.route('/wallet/:currency', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/wallet/walletTransactions')
-    BlazeLayout.render('mainLayout', {
-      main: 'walletTransactions'
+    BlazeLayout.render('layout', {
+      main: 'walletTransactions',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 });
@@ -563,7 +659,9 @@ FlowRouter.route('/m', {
     await import ('/imports/ui/pages/returnedCurrencies/returnedCurrencies')
     BlazeLayout.render('mobile', {
       main: 'returnedCurrencies',
-      top: 'sideNav'
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 });
@@ -645,8 +743,11 @@ adminRoutes.route('/', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/moderator/moderatorDash/moderatorDash')
-    BlazeLayout.render('mainLayout', {
-      main: 'moderatorDash'
+    BlazeLayout.render('layout', {
+      main: 'moderatorDash',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 });
@@ -659,8 +760,11 @@ adminRoutes.route('/changedcurrencies', {
   },
   action: async (params, queryParams) => {
     await import('/imports/ui/pages/moderator/changedCurrencies/changedCurrencies')
-    BlazeLayout.render('mainLayout', {
-      main: 'changedCurrencies'
+    BlazeLayout.render('layout', {
+      main: 'changedCurrencies',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 });
@@ -673,8 +777,11 @@ adminRoutes.route('/changedcurrencies/:id', {
   },
   action: async (params, queryParams) => {
     await import('/imports/ui/pages/moderator/changedCurrencies/changedCurrency')
-    BlazeLayout.render('mainLayout', {
-      main: 'changedCurrency'
+    BlazeLayout.render('layout', {
+      main: 'changedCurrency',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 });
@@ -686,8 +793,11 @@ adminRoutes.route('/questions', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/moderator/questions/questions')
-    BlazeLayout.render('mainLayout', {
-      main: 'questions'
+    BlazeLayout.render('layout', {
+      main: 'questions',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 });
@@ -702,8 +812,11 @@ adminRoutes.route('/flagged-users', {
   action: async (params, queryParams) => {
     if (Meteor.userId()) {
       await import ('/imports/ui/pages/moderator/flaggedUsers/flaggedUsers')
-      BlazeLayout.render('mainLayout', {
-        main: 'flaggedUsers'
+      BlazeLayout.render('layout', {
+      main: 'flaggedUsers',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
       })
     } else {
       window.last = window.location.pathname
@@ -721,8 +834,11 @@ adminRoutes.route('/candidates', {
   action: async (params, queryParams) => {
     if (Meteor.userId()) {
       await import ('/imports/ui/pages/moderator/candidates/candidates')
-      BlazeLayout.render('mainLayout', {
-        main: 'candidates'
+      BlazeLayout.render('layout', {
+        main: 'candidates',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
       })
     } else {
       window.last = window.location.pathname
@@ -739,8 +855,11 @@ adminRoutes.route('/exchanges', {
   action: async (params, queryParams) => {
     if (Meteor.userId()) {
       await import ('/imports/ui/pages/moderator/exchanges/removeExchanges')
-      BlazeLayout.render('mainLayout', {
-        main: 'removeExchanges'
+      BlazeLayout.render('layout', {
+        main: 'removeExchanges',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
       })
     } else {
       window.last = window.location.pathname
@@ -757,8 +876,11 @@ adminRoutes.route('/exchanges/:id', {
   action: async (params, queryParams) => {
     if (Meteor.userId()) {
       await import ('/imports/ui/pages/moderator/exchanges/removeExchange')
-      BlazeLayout.render('mainLayout', {
-        main: 'removeExchange'
+      BlazeLayout.render('layout', {
+        main: 'removeExchange',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
       })
     } else {
       window.last = window.location.pathname
@@ -781,8 +903,11 @@ adminRoutes.route('/flagged-ip/:ip', {
   action: async (params, queryParams) => {
     if (Meteor.userId()) {
       await import ('/imports/ui/pages/moderator/flaggedUsers/flaggedIP')
-      BlazeLayout.render('mainLayout', {
-        main: 'flaggedIP'
+      BlazeLayout.render('layout', {
+        main: 'flaggedIP',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
       })
     } else {
       window.last = window.location.pathname
@@ -801,8 +926,11 @@ adminRoutes.route('/flagged-hashpower', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/moderator/hashpower/flaggedHashpower')
-    BlazeLayout.render('mainLayout', {
-      main: 'flaggedHashpower'
+    BlazeLayout.render('layout', {
+      main: 'flaggedHashpower',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -815,8 +943,11 @@ adminRoutes.route('/pardon', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/moderator/pardon/pardon')
-    BlazeLayout.render('mainLayout', {
-      main: 'pardon'
+    BlazeLayout.render('layout', {
+      main: 'pardon',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -829,8 +960,11 @@ adminRoutes.route('/pardon/:id', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/moderator/pardon/pardonUser')
-    BlazeLayout.render('mainLayout', {
-      main: 'pardonUser'
+    BlazeLayout.render('layout', {
+      main: 'pardonUser',
+        header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -844,8 +978,11 @@ adminRoutes.route('/flagged', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/moderator/flagged/flagged')
-    BlazeLayout.render('mainLayout', {
-      main: 'flagged'
+    BlazeLayout.render('layout', {
+      main: 'flagged',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -859,8 +996,11 @@ adminRoutes.route('/flagged/:collection/:id', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/moderator/flagged/flaggedItem')
-    BlazeLayout.render('mainLayout', {
-      main: 'flaggedItem'
+    BlazeLayout.render('layout', {
+      main: 'flaggedItem',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -875,8 +1015,11 @@ adminRoutes.route('/applogs', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/moderator/appLogs/appLogs')
-    BlazeLayout.render('mainLayout', {
-      main: 'appLogs'
+    BlazeLayout.render('layout', {
+      main: 'appLogs',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -889,8 +1032,11 @@ adminRoutes.route('/solved-problems', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/moderator/problems/solvedProblems')
-    BlazeLayout.render('mainLayout', {
-      main: 'solvedProblems'
+    BlazeLayout.render('layout', {
+      main: 'solvedProblems',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -912,8 +1058,11 @@ adminRoutesOld.route('/', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/moderatorOld/moderatorDash/moderatorDash')
-    BlazeLayout.render('mainLayout', {
-      main: 'moderatorDash'
+    BlazeLayout.render('layout', {
+      main: 'moderatorDash',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 });
@@ -926,8 +1075,11 @@ adminRoutesOld.route('/changedcurrencies', {
   },
   action: async (params, queryParams) => {
     await import('/imports/ui/pages/moderatorOld/changedCurrencies/changedCurrencies')
-    BlazeLayout.render('mainLayout', {
-      main: 'changedCurrencies'
+    BlazeLayout.render('layout', {
+      main: 'changedCurrencies',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 });
@@ -939,8 +1091,11 @@ adminRoutesOld.route('/questions', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/moderatorOld/questions/questions')
-    BlazeLayout.render('mainLayout', {
-      main: 'questions'
+    BlazeLayout.render('layout', {
+      main: 'questions',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 });
@@ -955,8 +1110,11 @@ adminRoutesOld.route('/flagged-users', {
   action: async (params, queryParams) => {
     if (Meteor.userId()) {
       await import ('/imports/ui/pages/moderatorOld/flaggedUsers/flaggedUsers')
-      BlazeLayout.render('mainLayout', {
-        main: 'flaggedUsers'
+      BlazeLayout.render('layout', {
+        main: 'flaggedUsers',
+        header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
       })
     } else {
       window.last = window.location.pathname
@@ -974,8 +1132,11 @@ adminRoutesOld.route('/candidates', {
   action: async (params, queryParams) => {
     if (Meteor.userId()) {
       await import ('/imports/ui/pages/moderatorOld/candidates/candidates')
-      BlazeLayout.render('mainLayout', {
-        main: 'candidates'
+      BlazeLayout.render('layout', {
+        main: 'candidates',
+        header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
       })
     } else {
       window.last = window.location.pathname
@@ -992,8 +1153,11 @@ adminRoutesOld.route('/exchanges', {
   action: async (params, queryParams) => {
     if (Meteor.userId()) {
       await import ('/imports/ui/pages/moderatorOld/exchanges/removeExchanges')
-      BlazeLayout.render('mainLayout', {
-        main: 'removeExchanges'
+      BlazeLayout.render('layout', {
+        main: 'removeExchanges',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
       })
     } else {
       window.last = window.location.pathname
@@ -1016,8 +1180,11 @@ adminRoutesOld.route('/flagged-ip/:ip', {
   action: async (params, queryParams) => {
     if (Meteor.userId()) {
       await import ('/imports/ui/pages/moderatorOld/flaggedUsers/flaggedIP')
-      BlazeLayout.render('mainLayout', {
-        main: 'flaggedIP'
+      BlazeLayout.render('layout', {
+        main: 'flaggedIP',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
       })
     } else {
       window.last = window.location.pathname
@@ -1036,8 +1203,11 @@ adminRoutesOld.route('/flagged-hashpower', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/moderatorOld/hashpower/flaggedHashpower')
-    BlazeLayout.render('mainLayout', {
-      main: 'flaggedHashpower'
+    BlazeLayout.render('layout', {
+      main: 'flaggedHashpower',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -1050,8 +1220,11 @@ adminRoutesOld.route('/pardon', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/moderatorOld/pardon/pardon')
-    BlazeLayout.render('mainLayout', {
-      main: 'pardon'
+    BlazeLayout.render('layout', {
+      main: 'pardon',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -1065,8 +1238,11 @@ adminRoutesOld.route('/flagged', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/moderatorOld/flagged/flagged')
-    BlazeLayout.render('mainLayout', {
-      main: 'flagged'
+    BlazeLayout.render('layout', {
+      main: 'flagged',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -1079,8 +1255,11 @@ adminRoutesOld.route('/applogs', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/moderatorOld/appLogs/appLogs')
-    BlazeLayout.render('mainLayout', {
-      main: 'appLogs'
+    BlazeLayout.render('layout', {
+      main: 'appLogs',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })
@@ -1093,8 +1272,11 @@ adminRoutesOld.route('/solved-problems', {
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/moderatorOld/problems/solvedProblems')
-    BlazeLayout.render('mainLayout', {
-      main: 'solvedProblems'
+    BlazeLayout.render('layout', {
+      main: 'solvedProblems',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
     })
   }
 })

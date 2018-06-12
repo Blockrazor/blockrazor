@@ -1,0 +1,65 @@
+<template name="header">
+    <header class="app-header navbar">
+        <div class="container-fluid">
+            <button class="navbar-toggler sidebar-toggler d-block" type="button" style="border: none;">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="{{pathFor '/'}}">BLOCKRAZOR</a>
+            <ul class="nav navbar-nav mr-auto">
+                <li class="nav-item px-3">
+                    <a class="nav-link bounties-icon fa fa-plus-square d-md-none" href="/bounties"></a>
+                    <a class="nav-link d-none d-md-block" href="/bounties"><span class="separator"></span> BOUNTIES</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav ml-auto">
+                {{#if currentUser}}
+                <li class="nav-item dropdown">
+                    <a class="nav-link nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+<strong class="d-none d-sm-block">{{currentUser.username}}<i class="ml-2 fa fa-caret-down"></i></strong>
+                        <!-- d-sm-none will display when on mobile -->
+                        <strong class="d-sm-none"><i class="fa fa-user"></i></strong>
+</a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <div class="dropdown-header text-center">
+                            <strong>Account</strong>
+                        </div>
+                        <a class="dropdown-item" href="/profile">
+Profile
+</a>
+                        <div class="divider"></div>
+                        <a class="dropdown-item" href="#" id="logout">
+<i class="fa fa-lock"></i> Logout</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    {{#if hasBounties activeBounties }}
+                    <a href="{{bountyUrl activeBounties}}" title="Active BlockRazor Bounties" class="nav-link">
+                          <i class="fa fa-dot-circle" style="font-size: 19px"></i>
+                          <span class="badge badge-pill badge-danger">{{ activeBounties.length }}</span>
+                        </a> {{/if}}
+                </li>
+                <li class="nav-item">
+                    <a href="/notifications" class="nav-link" title="Your Notifications"><i class="icon-bell"></i>
+                        {{#if activityNotifications}}<span class="badge badge-pill badge-danger">{{activityNotifications}}</span>{{/if}}
+                        </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/wallet" id="navNotification" title="Open your Wallet" class="nav-link d-sm-none"><i class="fa fa-university "></i>
+                        {{#if walletNotifications}}<span class="badge badge-pill badge-light">{{walletNotifications}}</span>{{/if}}
+                        </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/wallet" class="nav-link  text-muted ml-2 d-none d-sm-block mr-5">{{formatBalance balance}} KZR
+                        {{#if walletNotifications}}<span class="badge badge-pill badge-light">{{walletNotifications}}</span>{{/if}}
+                        </a>
+                </li>
+                {{else}}
+                <li class="nav-item">
+                 
+                    <a class="btn btn-success" href="/login">SIGN IN</a>
+                </li>
+                {{/if}}
+            </ul>
+        </div>
+    </header>
+</template>

@@ -1,5 +1,3 @@
-@import '../../layouts/variables';
-
 .sign-in{
   position: relative;
   max-width: 420px;
@@ -67,8 +65,7 @@
       }
       &:hover, &:focus, &:active{
         text-decoration: none;
-        color: $colorLightGreen;
-        font-weight: $fwBold;
+        color: #000;
       }
       span{
         flex: 1;
@@ -82,8 +79,7 @@
     position: relative;
     margin-top: 20px;
     a{
-      color: $colorLightGreen;
-      font-weight: $fwBold;
+      color: #fff;
     }
   }
 }

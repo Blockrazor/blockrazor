@@ -1,0 +1,18 @@
+<template name="layout">
+  <div class="layout">
+    {{> Template.dynamic template=header}}
+
+    <div class="app-body">
+      {{> Template.dynamic template="sidebar"}}
+
+      <main class="main">
+        <div class="container-fluid" style="margin-top: 30px;">
+          {{> Template.dynamic template=main}}
+        </div>
+      </main>
+    </div>
+
+    {{> Template.dynamic template=footer}}
+  </div>
+
+</template>

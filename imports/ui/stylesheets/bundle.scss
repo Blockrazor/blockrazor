@@ -1,0 +1,84 @@
+/* Style bundle
+-------------------------------------------------- */
+
+// Helpers
+@import "{}/imports/ui/stylesheets/helpers.scss";
+
+// Layouts
+@import "{}/imports/ui/layouts/layout.scss";
+
+// Shared
+@import "{}/imports/ui/shared/header/header.scss";
+@import "{}/imports/ui/shared/footer/footer.scss";
+@import "{}/imports/ui/shared/error-404/error-404.scss";
+@import "{}/imports/ui/shared/empty-result/empty-result.scss";
+@import "{}/imports/ui/shared/loader/loader.scss";
+
+// Override Boostrap variables
+@import "{}/node_modules/@coreui/coreui/scss/_bootstrap-variables";
+
+// Bootstrap SASS library
+@import "{}/imports/ui/stylesheets/bootstrap/_bootstrap.scss";
+
+// Noty with custom theme
+@import "{}/node_modules/noty/src/noty.scss";
+@import "{}/imports/ui/stylesheets/theme/noty.scss";
+
+// Your own variables
+@import "{}/imports/ui/stylesheets/theme/variables.scss";
+
+// Import Core UI variables and Mixins
+@import "{}/node_modules/@coreui/coreui/scss/_variables";
+@import "{}/node_modules/@coreui/coreui/scss/_mixins";
+@import "{}/node_modules/@coreui/coreui/scss/mixins/_buttons";
+@import "{}/node_modules/@coreui/coreui/scss/mixins/_list-group";
+
+// Import Core UI Animations
+@import "{}/node_modules/@coreui/coreui/scss/_animate";
+
+// Import Core UI Vendors
+@import "{}/node_modules/@coreui/coreui/scss/_vendors";
+
+// Import Core UI Components
+@import "{}/node_modules/@coreui/coreui/scss/_aside";
+@import "{}/node_modules/@coreui/coreui/scss/_avatars";
+@import "{}/node_modules/@coreui/coreui/scss/_badge";
+@import "{}/node_modules/@coreui/coreui/scss/_breadcrumb-menu";
+@import "{}/node_modules/@coreui/coreui/scss/_breadcrumb";
+@import "{}/node_modules/@coreui/coreui/scss/_brand-card";
+@import "{}/node_modules/@coreui/coreui/scss/_brand-buttons";
+@import "{}/node_modules/@coreui/coreui/scss/_buttons";
+@import "{}/node_modules/@coreui/coreui/scss/_callout";
+@import "{}/node_modules/@coreui/coreui/scss/_card";
+@import "{}/node_modules/@coreui/coreui/scss/_charts";
+@import "{}/node_modules/@coreui/coreui/scss/_dropdown";
+@import "{}/node_modules/@coreui/coreui/scss/_footer";
+@import "{}/node_modules/@coreui/coreui/scss/_grid";
+@import "{}/node_modules/@coreui/coreui/scss/_header";
+@import "{}/node_modules/@coreui/coreui/scss/_input-group";
+@import "{}/node_modules/@coreui/coreui/scss/_images";
+@import "{}/node_modules/@coreui/coreui/scss/_list-group";
+@import "{}/node_modules/@coreui/coreui/scss/_modal";
+@import "{}/node_modules/@coreui/coreui/scss/_nav";
+@import "{}/node_modules/@coreui/coreui/scss/_progress";
+@import "{}/node_modules/@coreui/coreui/scss/_progress-group";
+@import "{}/node_modules/@coreui/coreui/scss/_sidebar";
+@import "{}/node_modules/@coreui/coreui/scss/_switches";
+@import "{}/node_modules/@coreui/coreui/scss/_tables";
+@import "{}/node_modules/@coreui/coreui/scss/_widgets";
+
+// Import Core UI Layout Options
+@import "{}/node_modules/@coreui/coreui/scss/_layout";
+@import "{}/node_modules/@coreui/coreui/scss/_others";
+
+// Import Core UI Utility classes
+@import "{}/node_modules/@coreui/coreui/scss/_utilities";
+
+// Import Core UI Right-to-left
+@import "{}/node_modules/@coreui/coreui/scss/_rtl";
+
+// Import Core UI Custom Properties support for Internet Explorer
+@import "{}/node_modules/@coreui/coreui/scss/_ie-custom-properties";
+
+// Base
+@import "{}/imports/ui/stylesheets/common.scss";
