@@ -9,7 +9,8 @@ const featureSchema = new SimpleSchema({
         type: String,
         min: 6,
         max: 140,
-        label: 'Feature name'
+        label: 'Feature name',
+        optional: false
     },
     coinId: {
         type: SimpleSchema.RegEx.Id
@@ -18,7 +19,7 @@ const featureSchema = new SimpleSchema({
         type: String,
         optional: true
     }
-}, { 
+}, {
     requiredByDefault: developmentValidationEnabledFalse
 })
 
@@ -53,7 +54,7 @@ export const newFeature = new ValidatedMethod({
                 if (Meteor.isServer) {
                     const Future = require('fibers/future')
                     const fut = new Future()
-                        
+
                     checkCaptcha(captcha, fut, this.connection.clientAddress)
 
                     if (fut.wait()) {
@@ -150,7 +151,7 @@ newComment: function(parentId, comment, depth, captcha) {
 
     const Future = require('fibers/future')
       const fut = new Future()
-                
+
       checkCaptcha(captcha, fut, this.connection.clientAddress)
 
       if (fut.wait()) {
