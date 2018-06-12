@@ -111,7 +111,7 @@
 
 .sw-theme-default > ul.step-anchor > li.active > a {
     border: none !important;
-    color: #000 !important;
+    color: #fff !important;
     background: transparent !important;
     cursor: pointer;
 }
