@@ -14,6 +14,8 @@
     "test": "jest --testMatch \"**/?(*.)(jest-test).js?(x)\" --passWithNoTests --watch"
   },
   "dependencies": {
+    "@coreui/coreui": "^2.0.2",
+    "@coreui/icons": "^0.1.1",
     "analytics-node": "^3.2.0",
     "assert": "^1.4.1",
     "babel-runtime": "^6.26.0",
@@ -25,6 +27,7 @@
     "chart.js": "^2.7.1",
     "core-js": "^2.5.3",
     "corejs-typeahead": "^1.2.1",
+    "coreui": "^0.4.2-alpha2",
     "disposable-email": "^0.2.3",
     "fibers": "^2.0.0",
     "jquery-validation": "^1.17.0",
@@ -34,6 +37,7 @@
     "marked": "^0.3.17",
     "meteor-node-stubs": "~0.2.4",
     "moment": "^2.20.1",
+    "noty": "^3.1.4",
     "popper.js": "^1.14.3",
     "qrcode": "^1.2.0",
     "recaptcha-v2": "^0.1.3",
@@ -46,11 +50,7 @@
     "underscore": "^1.8.3",
     "wdio-mocha-framework": "^0.5.13",
     "webdriverio": "^4.12.0",
-    "xml2js": "^0.4.19",
-    "@coreui/coreui": "2.0.0",
-    "@coreui/icons": "^0.1.1",
-    "coreui": "^0.4.2-alpha2",
-    "noty": "^3.1.4"
+    "xml2js": "^0.4.19"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
