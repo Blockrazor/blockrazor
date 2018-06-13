@@ -14,27 +14,29 @@ function proceedSubmittingProblem() {
   //formats and combines variable and text fields into a single fields with field title appended before each section.
   var formattedBody = ""
   var type = Template.instance().type.get()
-  if (type == "question"){
+  if (type == "question") {
     formattedBody += $('#js-text').val()
-  } else if (type == "feature"){
+  } else if (type == "feature") {
     formattedBody += "Problem:\n\r" + $('#js-text').val() + "\n\n\rPotential Solution:\n\r" + $('#js-variable').val()
   } else {
     formattedBody += "Problem:\n\r" + $('#js-text').val() + "\n\n\rSteps to Reproduce:\n\r" + $('#js-variable').val()
   }
 
   var params = {type: $('#js-type').val(), header: $('#js-header').val(), text: formattedBody, images: images, bounty: Number.isNaN(Number($('#js-amount').val()))? 0: Number($('#js-amount').val())}
-  // console.log(params)
-  newProblem.call(params, (err, data)=>{
+  newProblem.call(params, (err, data) => {
     if (!err) {
       FlowRouter.go('/problems')
     } else {
-      console.log(err)
-      var error = err.details
-      if (error.includes('Header')) {
-        sAlert.error("Problem summary is required")
+      var error = ''
+      if (err.details.includes('Header')) {
+        $('#js-header').addClass('is-invalid')
+        error = 'header'
       } else if (error.toLowerCase().includes('text')) {
-        sAlert.error("Problem description is required")
+        $('#js-text').addClass('is-invalid')
+        error = 'description'
       }
+      $('#' + error + 'Error').show()
+      $('#' + error + 'Error').text(err.details)
     }
   })
 }

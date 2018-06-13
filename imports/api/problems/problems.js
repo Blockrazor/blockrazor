@@ -28,7 +28,7 @@ Problems.schema = new SimpleSchema({
 			return 'Header is required'
 		}
 	}},
-	text: { 
+	text: {
 		type: String,
 		custom: function() {
 			if (!developmentValidationEnabledFalse) {
