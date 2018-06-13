@@ -1,6 +1,6 @@
 .currency-detail-container {
   overflow:hidden;
-  
+
   .radar-graph, .bar-chart, .currencyDetailBox {
     background: #ffffff;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
@@ -18,10 +18,20 @@
   #js-comparing {
     display: block;
     position: relative;
-    
+
     @media only screen and (min-width : 768px) {
       max-width: calc(100vw - 330px);
     }
+  }
+}
+
+// custom view for comparision for mobile device
+@media only screen and (max-width: 425px) {
+  td, th {
+    display: block;
+  }
+  .sub-heading {
+    background-color: #efecec
   }
 }
 
