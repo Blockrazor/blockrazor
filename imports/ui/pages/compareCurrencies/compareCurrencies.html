@@ -15,7 +15,7 @@
         </div>
       </div>
     </div>
-    <div class="row">    
+    <div class="row">
       <div class="col-md-12">
         <button class="btn pull-right" id="js-randomize">Randomize colors</button>
         <br/><br/>
@@ -45,19 +45,19 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>Price</td>
+                  <td class="sub-heading">Price</td>
                   {{#each comparedCurrencies}}
                   <td style="color: {{color}};">{{price}}$</td>
                   {{/each}}
                 </tr>
                 <tr>
-                  <td>Comparison Price (Circulation)</td>
+                  <td class="sub-heading">Comparison Price (Circulation)</td>
                   {{#each comparedCurrencies}}
                   <td style="color: {{color}};">{{cpc}}$</td>
                   {{/each}}
                 </tr>
                 <tr>
-                  <td>Comparison Price (Total)</td>
+                  <td class="sub-heading">Comparison Price (Total)</td>
                   {{#each comparedCurrencies}}
                   <td style="color: {{color}};">{{cpt}}$</td>
                   {{/each}}
@@ -67,7 +67,7 @@
                 </tr>
                 {{#each top3}}
                 <tr>
-                  <td>Top feature {{this}}</td>
+                  <td class="sub-heading">Top feature {{this}}</td>
                   {{#each comparedCurrencies}}
                   <td style="color: {{color}};">{{topFeature ..}}</td>
                   {{/each}}
@@ -78,7 +78,7 @@
                 </tr>
                 {{#each top3}}
                 <tr>
-                  <td>Top red flag {{this}}</td>
+                  <td class="sub-heading">Top red flag {{this}}</td>
                   {{#each comparedCurrencies}}
                   <td style="color: {{color}};">{{topFlag ..}}</td>
                   {{/each}}
@@ -88,7 +88,7 @@
                   <td style="text-align: center;background-color:#c6c6c6;color:#000" colspan="{{colspan}}">Founder</td>
                 </tr>
                 <tr>
-                  <td>Status</td>
+                  <td class="sub-heading">Status</td>
                   {{#each comparedCurrencies}}
                   <td style="color: {{color}};">{{founder}}</td>
                   {{/each}}
@@ -97,25 +97,25 @@
                   <td style="text-align: center;background-color:#c6c6c6;color:#000" colspan="{{colspan}}">Other data</td>
                 </tr>
                 <tr>
-                  <td>Hash power</td>
+                  <td class="sub-heading">Hash power</td>
                   {{#each comparedCurrencies}}
                   <td style="color: {{color}};">{{hashpower}} W</td>
                   {{/each}}
                 </tr>
                 <tr>
-                  <td>Market cap</td>
+                  <td class="sub-heading">Market cap</td>
                   {{#each comparedCurrencies}}
                   <td style="color: {{color}};">{{marketCap}}$</td>
                   {{/each}}
                 </tr>
                 <tr>
-                  <td>Circulating coins</td>
+                  <td class="sub-heading">Circulating coins</td>
                   {{#each comparedCurrencies}}
                   <td style="color: {{color}};">{{circulating}}</td>
                   {{/each}}
                 </tr>
                 <tr>
-                  <td>Final value</td>
+                  <td class="sub-heading">Final value</td>
                   {{#each comparedCurrencies}}
                   <td style="color: {{color}};">{{finalValue}}$</td>
                   {{/each}}
