@@ -189,7 +189,7 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
         browser.click('a[href$="#exchangestab"]')
         browser.pause(3000)
 
-        const string = 'JustATestExchange'
+        const string = `RandomStringy${new Date().getTime()}`
         browser.setValue(inputSel, string)
         browser.pause(3000)
 
@@ -200,7 +200,7 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
         browser.pause(3000)
     })
     it('inline button exists and works if an external button is not available', function() {
-        const string = 'JustATestExchange21111j'
+        const string = `AnotherRnd${new Date().getTime()}`
         browser.setValue(inputSel, '') // empty it out
         browser.pause(2000)
         
@@ -220,12 +220,14 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
         browser.pause(10000)
 
         //browser.execute(() => window.location.hash = '#step-4')
+        browser.scroll(0, 0)
+        browser.pause(1000)
         for (let i = 0; i < 3; i++) {
             browser.click('.sw-btn-next')
             browser.pause(2000)
         }
 
-        const string = 'JustATestExchange587'
+        const string = `NestoSkrozRandom${new Date().getTime()}`
 
         browser.setValue(inputSel, string)
         browser.pause(3000)
@@ -241,12 +243,14 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
         browser.pause(10000)
 
         //browser.execute(() => window.location.hash = '#step-4')
+        browser.scroll(0, 0)
+        browser.pause(1000)
         for (let i = 0; i < 3; i++) {
             browser.click('.sw-btn-next')
             browser.pause(2000)
         }
 
-        const string = 'JustATestExchange1111'
+        const string = `JosJedanRandomString${new Date().getTime()}`
         browser.setValue(inputSel, '') // empty it out
         browser.pause(2000)
 
@@ -270,6 +274,8 @@ describe("a:", function () { //typeahead's compareCurrencies implementation
         browser.pause(10000)
 
         //browser.execute(() => window.location.hash = '#step-4')
+        browser.scroll(0, 0)
+        browser.pause(1000)
         for (let i = 0; i < 3; i++) {
             browser.click('.sw-btn-next')
             browser.pause(2000)
