@@ -21,6 +21,7 @@
                                 <h5 class="card-title">Problem description</h5>
                                 <textarea id="js-text" name="text" placeholder="{{reactiveVar 'problemDescriptionPrompt'}}"
                                     class="form-control"></textarea>
+                                <div id="descriptionError" class="invalid-feedback"></div>
                                 <br />
                                 {{#if reactiveVar 'isNotQuestion'}}
                                 <h5 class="card-title">{{reactiveVar 'problemVariableTitle'}}</h5>
@@ -30,6 +31,7 @@
                                 {{/if}}
                                 <h5 class="card-title">Summary of the Problem</h5>
                                 <input type="text" id="js-header" name="header" placeholder="{{reactiveVar 'problemSummaryPrompt'}}" class="form-control">
+                                <div id="headerError" class="invalid-feedback"></div>
                                 <span style="float:right;">character count : {{reactiveVar 'summaryCharsCount'}}</span>
                                 <br />
                                 <hr>
