@@ -25,17 +25,18 @@
                             <strong>Account</strong>
                         </div>
                         <a class="dropdown-item" href="/profile">
-Profile
-</a>
+                        Profile
+                        </a>
                         <div class="divider"></div>
                         <a class="dropdown-item" href="#" id="logout">
-<i class="fa fa-lock"></i> Logout</a>
+                          <i class="fa fa-lock"></i> Logout
+                        </a>
                     </div>
                 </li>
                 <li class="nav-item">
                     {{#if hasBounties activeBounties }}
                     <a href="{{bountyUrl activeBounties}}" title="Active BlockRazor Bounties" class="nav-link">
-                          <i class="fa fa-dot-circle" style="font-size: 19px"></i>
+                          <i class="fa fa-dot-circle"></i>
                           <span class="badge badge-pill badge-danger">{{ activeBounties.length }}</span>
                         </a> {{/if}}
                 </li>
@@ -56,7 +57,7 @@ Profile
                 </li>
                 {{else}}
                 <li class="nav-item">
-                 
+
                     <a class="btn btn-success" href="/login">SIGN IN</a>
                 </li>
                 {{/if}}
