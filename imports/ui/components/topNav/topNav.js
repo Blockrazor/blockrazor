@@ -25,7 +25,9 @@ Template.topNav.helpers({
         _id: Meteor.userId()
     }).slug,
     balance() {
-      return UserData.findOne({}, { fields: { balance: 1 } }).balance
+      let balance = UserData.findOne({}, { fields: { balance: 1 } }).balance
+      if (typeof(balance) === 'string') { return balance }
+      return Number( balance.toPrecision(3) )
   	}
 });
 

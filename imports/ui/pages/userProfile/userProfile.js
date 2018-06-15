@@ -58,11 +58,14 @@ Template.userProfile.helpers({
 		},
     balance() {
 		let profileUser = Template.instance().user.get()
+
+		let balance = UserData.findOne({}, { fields: { balance: 1 } }).balance
 		let profileUserData = UserData.findOne({ _id : Template.instance().user.get()._id }, { fields: { balance: 1 } })
 
 		if (profileUserData !== undefined) {
 			let balance = profileUserData.balance
-			if (balance !== undefined) { return Number( balance.toPrecision(3) ) }
+			if (typeof(balance) === 'string') { return balance }
+			return Number( balance.toPrecision(3) ).toFixed(11).replace(/\.?0+$/, "")
 		}
 
 		return 0

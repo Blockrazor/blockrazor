@@ -14,7 +14,9 @@ Template.sidebar.helpers({
         return Wallet.find({ owner: Meteor.userId(), type: "transaction", read: { $ne: true } }).count()
     },
     balance() {
-        return UserData.findOne({}, { fields: { balance: 1 } }).balance
+        let balance = UserData.findOne({}, { fields: { balance: 1 } }).balance
+        if (typeof(balance) === 'string') { return balance }
+        return Number( balance.toPrecision(3) )
     },
     activeClass: function(route) {
         if (FlowRouter.getRouteName() === route) {

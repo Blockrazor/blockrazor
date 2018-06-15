@@ -27,7 +27,9 @@ Template.wallet.helpers({
     }
   },
   balance () {
-    return UserData.findOne({}, {fields: {balance: 1}}).balance
+    let balance = UserData.findOne({}, { fields: { balance: 1 } }).balance
+    if (typeof(balance) === 'string') { return balance }
+    return Number( balance.toPrecision(3) ).toFixed(11).replace(/\.?0+$/, "")
   },
   currencyNotifications: (currency) => {
     var query = {};
