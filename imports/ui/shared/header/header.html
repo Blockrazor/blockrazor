@@ -13,9 +13,41 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="/faq" title="BlockRazor FAQ" class="nav-link"><i class="icon-question"></i></a>
+                </li>
                 {{#if currentUser}}
+                <li class="nav-item">
+                    <a href="/notifications" class="nav-link" title="Your Notifications"><i class="icon-bell"></i>
+                        {{#if activityNotifications}}<span class="badge badge-pill badge-danger">{{activityNotifications}}</span>{{/if}}
+                    </a>
+                </li>
+
+                {{#if hasBounties activeBounties }}
+                <li class="nav-item">
+                    
+                    <a href="{{bountyUrl activeBounties}}" title="Active BlockRazor Bounties" class="nav-link">
+                          <i class="icon-target"></i>
+                          <span class="badge badge-pill badge-danger">{{ activeBounties.length }}</span>
+                        </a>
+                </li>
+                {{/if}}
+
+                <li class="nav-item">
+                        <a href="/wallet" id="navNotification" title="Open your Wallet" class="nav-link">
+                            <i class="icon-wallet"></i>
+                            {{#if walletNotifications}}<span class="badge badge-pill badge-light">{{walletNotifications}}</span>{{/if}}
+                        </a>
+                    </li>
+    
+                    <li class="nav-item">
+                        <a href="/wallet" class="nav-link  text-muted ml-2 d-none d-sm-block mr-3">{{formatBalance balance}} KZR
+                            {{#if walletNotifications}}<span class="badge badge-pill badge-light">{{walletNotifications}}</span>{{/if}}
+                            </a>
+                    </li>
+
                 <li class="nav-item dropdown">
-                    <a class="nav-link nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+                    <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
 <strong class="d-none d-sm-block">{{currentUser.username}}<i class="ml-2 fa fa-caret-down"></i></strong>
                         <!-- d-sm-none will display when on mobile -->
                         <strong class="d-sm-none"><i class="fa fa-user"></i></strong>
