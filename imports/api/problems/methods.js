@@ -52,6 +52,22 @@ export const newProblem = new ValidatedMethod({
 				})
 
 				if (bounty > 0) { // take the bounty from user's wallet
+					var userData = UserData.findOne({ _id : Meteor.userId() })
+
+					if (userData.balance && typeof(userData.balance) === 'string') {
+						var balance = parseFloat(userData.balance);
+
+						// unset the initial balance which is a string value
+						UserData.update({ _id: Meteor.userId() }, {
+							$unset : { balance: true }
+						})
+
+						// update user data with new numerical balance value
+						UserData.update({ _id: Meteor.userId() }, {
+							$set : { balance: balance }
+						})
+					}
+					
 					UserData.upsert({
 						_id: Meteor.userId()
 					}, {
