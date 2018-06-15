@@ -180,7 +180,10 @@ Template.newProblem.helpers({
 	balance: () => (UserData.findOne({
 		_id: Meteor.userId()
 	}) || {}).balance,
-  fixed: (val) => val.toFixed(6),
+	fixed: (val) => {
+		if (typeof(val) === 'string') { return parseFloat(val).toFixed(6) }
+		return val.toFixed(6)
+	},
   adviceText: () => {
     switch(Template.instance().type.get()) {
       case "feature": {
