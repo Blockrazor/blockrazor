@@ -2,14 +2,15 @@ import { Meteor } from 'meteor/meteor'
 import { ActivityLog, ActivityIPs, UserData } from '/imports/api/indexDB.js'
 import { log } from '/imports/api/utilities'
 
-export const sendMessage = function(userId, message, from, href) {
+export const sendMessage = function(userId, message, from, href, related) {
     ActivityLog.insert({
       time: new Date().getTime(),
       owner: userId,
-      type: "message",
+      type: 'message',
       from: from ? from : "System",
       content: message,
-      href: href || ''
+      href: href || '',
+      related: related || ''
     })
   }
 

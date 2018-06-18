@@ -25,7 +25,7 @@
                     <span class="badge badge-danger">{{ activeBounties.length }}</span>
                   {{/if}}
                 </a></li>
-                <li class="{{activeClass 'problems'}} nav-item"><a class="nav-link" href="/problems">Get Help</a></li>
+                <li class="{{activeClass 'problems'}} nav-item"><a class="nav-link" style="display: inline;" href="/problems">Get Help</a> {{#if problemNotifications}}<a style="display: inline;" href="/notifications"><span class="badge badge-pill badge-danger">{{problemNotifications}}</span></a>{{/if}}</li>
                 <li data-toggle="collapse" data-target="#krazor" class="collapsed">
                     <a class="nav-link" href="#"><b>KZR</b>&nbsp;&nbsp;&nbsp;Krazor&nbsp;&nbsp;&nbsp;<span class="fas fa-chevron-down"></span></a>
                 </li>
