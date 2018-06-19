@@ -103,6 +103,10 @@ Meteor.methods({
 			_id: problemId
 		})
 
+		let user = Meteor.users.findOne({
+			_id: Meteor.userId()
+		})
+
 		const Future = require('fibers/future')
 		const fut = new Future()
 
@@ -135,6 +139,8 @@ Meteor.methods({
 										locked: true
 									}
 								})
+
+								sendMessage(problem.createdBy, `${user.username} has claimed your problem.`, 'System', `/problem/${problem._id}`, 'problem')
 							} else {
 								throw new Meteor.Error('Error.', 'GitHub fork or issue URL is wrong.')
 							}
@@ -609,7 +615,7 @@ Meteor.methods({
 			      _id: Meteor.userId()
 			    })
 
-			    sendMessage(problem.createdBy, `${user.username} has commented on your problem.`, 'System', `/problem/${problem._id}`)
+			    sendMessage(problem.createdBy, `${user.username} has commented on your problem.`, 'System', `/problem/${problem._id}`, 'problem')
 				
 				return ProblemComments.insert({
 					problemId: problem._id,

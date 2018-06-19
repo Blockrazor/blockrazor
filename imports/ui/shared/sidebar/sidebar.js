@@ -7,6 +7,9 @@ import '/imports/ui/components/global/globalHelpers'
 Wallet = ActivityLog = UserData = colStub
 
 Template.sidebar.helpers({
+    problemNotifications() {
+        return ActivityLog.find({ owner: Meteor.userId(), related: "problem", read: { $ne: true } }).count()
+    },
     activityNotifications() {
         return ActivityLog.find({ owner: Meteor.userId(), type: "message", read: { $ne: true } }).count()
     },

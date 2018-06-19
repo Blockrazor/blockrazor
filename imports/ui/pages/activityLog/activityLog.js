@@ -28,7 +28,7 @@ Template.activityLog.onRendered( function () {
 
 Template.activityLog.helpers({
   message(){
-    return ActivityLog.find({type: "message"}, {sort: {time: -1 }});
+    return ActivityLog.find({owner: Meteor.userId(), type: "message"}, {sort: {time: -1 }});
   }
 });
 
