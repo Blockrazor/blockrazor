@@ -39,14 +39,14 @@
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
     transition: 0.3s;
     border-radius: 5px;
-    padding: 2px 16px;
+    padding: 0;
     text-align: center;
     background: white;
     cursor: pointer;
 
     .card-main {
       .card-logo {
-        height: 100px;
+        height: 124px;
         width: auto;
         margin: 18px auto;
       }
@@ -58,7 +58,8 @@
 
       .balance {
         margin: 20px 0 20px 0;
-        background: #f1f1f1;
+        background: #29ab87;
+        color: #fff;
       }
 
       i {
@@ -81,6 +82,12 @@
 
 .wallet-outer {
   padding: 15px 15px 0 15px;
+
+  #js-cur{
+    border: none;
+    background: #f4f4f4;
+    padding: 10px;
+  }
 
   a:hover {
     text-decoration: none;

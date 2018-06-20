@@ -23,7 +23,7 @@
   }
 }
 
-// Lis of currencies on home page
+// List of currencies on home page
 .currency-container {
   position: relative;
   display: flex;
@@ -40,6 +40,8 @@
     margin: 10px !important;
     transition: all 0.5s ease;
     // max-width: 480px;
+
+
     &:hover{
       cursor: pointer;
       box-shadow: 7px 10px 25px -5px rgba(46, 61, 73, 0.2);
