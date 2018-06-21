@@ -32,12 +32,13 @@
   }
 }
 
+//fixed share button
 #js-shareUrl {
   float: right;
-  padding: 3px 10px 3px 10px;
+  padding: 10px;  //3px 10px 3px 10px;
   margin-top: -40px !important;
   margin-bottom: 15px;
-  height: 27px;
+  // height: 27px;
 
   .share-label {
     vertical-align: top;
