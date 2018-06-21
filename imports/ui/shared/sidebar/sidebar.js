@@ -55,6 +55,10 @@ Template.sidebar.events({
     'click .nav-dropdown': function(event) {
         $(event.target).parent().toggleClass("open");
 
+    },
+    'click .problem-notifications': function(event) {
+        event.preventDefault();
+        FlowRouter.go('/notifications')
     }
 })
 
