@@ -127,9 +127,10 @@ Template.problems.helpers({
 		 	return 'QUESTION';
 		 }
 
-	},
-
-
+    },
+    badgeType: function() {
+        return this.type =='bug' || this.type =='feature' ? 'badge-danger' : 'badge-info';
+    },
 	statusColor: function(status) {
 		return status === 'OPEN' ? 'green' : (status === 'SOLVED' || status === 'IN PROGRESS') ? 'orange' : 'red'
 	},
