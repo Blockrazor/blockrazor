@@ -25,7 +25,13 @@
                     <span class="badge badge-danger">{{ activeBounties.length }}</span>
                   {{/if}}
                 </a></li>
-                <li class="{{activeClass 'problems'}} nav-item"><a class="nav-link" style="display: inline;" href="/problems">Get Help</a> {{#if problemNotifications}}<a style="display: inline;" href="/notifications"><span class="badge badge-pill badge-danger">{{problemNotifications}}</span></a>{{/if}}</li>
+                <li class="{{activeClass 'problems'}} nav-item"><a class="nav-link" href="/problems">Get Help
+                  {{#if problemNotifications}}
+                    <span class="problem-notifications badge badge-pill badge-danger">
+                      {{problemNotifications}}
+                    </span>
+                  {{/if}}
+                </a></li>
                 <li data-toggle="collapse" data-target="#krazor" class="collapsed">
                     <a class="nav-link" href="#"><b>KZR</b>&nbsp;&nbsp;&nbsp;Krazor&nbsp;&nbsp;&nbsp;<span class="fas fa-chevron-down"></span></a>
                 </li>
@@ -65,8 +71,12 @@
                 </li>
                 {{/if}} {{else}}
                 <h3 style="text-align: center">Suspended</h3>
-                <li class="{{activeClass 'home'}}"><a href="/">Home</a></li>
-                <li class="{{activeClass 'problems'}}"><a href="/problems">Problems</a></li>
+                <li class="{{activeClass 'home'}} nav-item">
+                  <a href="/" class="nav-link">Home</a>
+                </li>
+                <li class="{{activeClass 'problems'}} nav-item">
+                  <a class="nav-link" href="/problems">Get Help</a>
+                </li>
                 {{/unless}}
                 <li class="nav-item">
 <a class="nav-link nav-link-danger share" href="#">
