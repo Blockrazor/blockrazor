@@ -29,11 +29,6 @@
 // List of currencies on home page
 .currency-container {
   position: relative;
-  display: flex;
-  margin: 0 auto;
-  width: 40%;
-  flex-wrap: wrap;
-  justify-content: center;
   padding-bottom: 50px;
   .currency-card{
     position: relative;
@@ -44,9 +39,7 @@
     padding: 10px;
     margin: 10px !important;
     transition: all 0.5s ease;
-    // max-width: 480px;
-
-
+    max-width: 480px;
     &:hover{
       cursor: pointer;
       box-shadow: 7px 10px 25px -5px rgba(46, 61, 73, 0.2);
@@ -60,7 +53,6 @@
     canvas{
       margin: 0 auto;
     }
-  
     // Responsive
     @media screen and (max-width: 480px) {
       canvas{
@@ -69,15 +61,14 @@
       }
     }
   }
-
-  .match-results{
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%);
-  }
   
+  .match-results{
+    display: flex;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
   // End result message
   .end-of-page {
     position: relative;
