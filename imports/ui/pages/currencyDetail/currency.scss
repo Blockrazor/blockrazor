@@ -10,16 +10,19 @@
     padding: 15px;
     border: none;
     border-bottom: solid 2px rgba(46, 61, 73, 0.2);
+    background: #fff;
+    color: #888;
     transition: all 0.5s ease;
     &:hover, &:focus, &:active{
       outline: none;
-      background: #fff;
       box-shadow: 7px 10px 25px -5px rgba(46, 61, 73, 0.2);
     }
   }
   .found-result {
     position: relative;
     padding: 20px 0;
+    font-size: 1rem;
+    text-align: center;
   }
 }
 
@@ -27,6 +30,8 @@
 .currency-container {
   position: relative;
   display: flex;
+  margin: 0 auto;
+  width: 40%;
   flex-wrap: wrap;
   justify-content: center;
   padding-bottom: 50px;
@@ -47,7 +52,7 @@
       box-shadow: 7px 10px 25px -5px rgba(46, 61, 73, 0.2);
     }
     .header, .footer {
-      display: flex;
+      display: block;
       justify-content: space-between;
       font-size: 18px;
       padding: 5px;
@@ -63,6 +68,14 @@
         max-height: 240px;
       }
     }
+  }
+
+  .match-results{
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%);
   }
   
   // End result message
