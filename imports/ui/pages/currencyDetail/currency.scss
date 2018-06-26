@@ -45,7 +45,7 @@
       box-shadow: 7px 10px 25px -5px rgba(46, 61, 73, 0.2);
     }
     .header, .footer {
-      display: block;
+      display: flex;
       justify-content: space-between;
       font-size: 18px;
       padding: 5px;
