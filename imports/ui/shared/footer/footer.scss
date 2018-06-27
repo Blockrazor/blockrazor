@@ -3,9 +3,14 @@
 
 /* Simple sticky */
 .footer {
-    position: absolute;
-    bottom: 0;
-    width: 100vh;
-    height: 60px;
-    background-color: #eceeef;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  background-color: #eceeef;
+}
+
+.app-footer.footer{
+  margin-left: 0 !important;
+  justify-content: center;
 }

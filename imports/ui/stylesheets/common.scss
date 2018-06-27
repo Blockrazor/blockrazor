@@ -10,5 +10,11 @@ html {
 
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 60px;
+  // margin-bottom: 60px;
+}
+
+// Footer Fix
+.app-body .main{
+  position: relative;
+  min-height: calc(100vh - 60px);
 }

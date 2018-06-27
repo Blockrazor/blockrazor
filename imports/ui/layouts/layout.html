@@ -6,13 +6,12 @@
       {{> Template.dynamic template="sidebar"}}
 
       <main class="main">
-        <div class="container-fluid" style="margin-top: 30px;">
+        <div class="container-fluid" style="margin-top: 30px; margin-bottom: 100px;">
           {{> Template.dynamic template=main}}
         </div>
+        {{> Template.dynamic template=footer}}
       </main>
     </div>
-
-    {{> Template.dynamic template=footer}}
   </div>
 
 </template>
