@@ -17,19 +17,12 @@
                     <a href="/faq" title="BlockRazor FAQ" class="nav-link"><i class="icon-question"></i></a>
                 </li>
                 {{#if currentUser}}
-                <li class="nav-item">
-                    <a href="/notifications" class="nav-link" title="Your Notifications"><i class="icon-bell"></i>
-                        {{#if activityNotifications}}<span class="badge badge-pill badge-danger">{{activityNotifications}}</span>{{/if}}
-                    </a>
-                </li>
-
                 {{#if hasBounties activeBounties }}
                 <li class="nav-item">
-                    
                     <a href="{{bountyUrl activeBounties}}" title="Active BlockRazor Bounties" class="nav-link">
-                          <i class="icon-target"></i>
-                          <span class="badge badge-pill badge-danger">{{ activeBounties.length }}</span>
-                        </a>
+                      <i class="icon-target"></i>
+                      <span class="badge badge-pill badge-danger">{{ activeBounties.length }}</span>
+                    </a>
                 </li>
                 {{/if}}
 
@@ -40,11 +33,11 @@
                         </a>
                     </li>
     
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a href="/wallet" class="nav-link  text-muted ml-2 d-none d-sm-block mr-3">{{balance}} KZR
                             {{#if walletNotifications}}<span class="badge badge-pill badge-light">{{walletNotifications}}</span>{{/if}}
                             </a>
-                    </li>
+                    </li> -->
 
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
@@ -82,11 +75,11 @@
                         {{#if walletNotifications}}<span class="badge badge-pill badge-light">{{walletNotifications}}</span>{{/if}}
                         </a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a href="/wallet" class="nav-link  text-muted ml-2 d-none d-sm-block mr-5">{{ balance}} KZR
                         {{#if walletNotifications}}<span class="badge badge-pill badge-light">{{walletNotifications}}</span>{{/if}}
                         </a>
-                </li>
+                </li> -->
                 {{else}}
                 <li class="nav-item">
 
