@@ -8,13 +8,15 @@
             <a class="customized-brand brand-image text-white d-md-none" href="{{pathFor '/'}}"><img src="/images/logo_black.svg"></a>
             <ul class="nav navbar-nav mr-auto">
                 <li class="nav-item px-1">
-                    <a class="nav-link bounties-icon fa fa-plus-square d-md-none" href="/bounties"></a>
-                    <a class="nav-link d-none d-md-block" href="/bounties"><span class="separator"></span> BOUNTIES</a>
+                  <!-- Bounties link hidden on mobile -->
+                  <!-- <a class="nav-link bounties-icon fa fa-plus-square d-md-none" href="/bounties"></a> -->
+                  <a class="nav-link d-none d-md-block" href="/bounties"><span class="separator"></span> BOUNTIES</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a href="/faq" title="BlockRazor FAQ" class="nav-link"><i class="icon-question"></i></a>
+              <!-- Hide FAQs on mobile -->
+                <li class="nav-item d-none d-md-block">
+                  <a href="/faq" title="BlockRazor FAQ" class="nav-link"><i class="icon-question"></i></a>
                 </li>
                 {{#if currentUser}}
                 {{#if hasBounties activeBounties }}
@@ -58,23 +60,24 @@
                         </a>
                     </div>
                 </li>
-                <li class="nav-item">
-                    {{#if hasBounties activeBounties }}
+                {{#if hasBounties activeBounties }}
+                  <li class="nav-item">
                     <a href="{{bountyUrl activeBounties}}" title="Active BlockRazor Bounties" class="nav-link">
-                          <i class="fa fa-dot-circle"></i>
-                          <span class="badge badge-pill badge-danger">{{ activeBounties.length }}</span>
-                        </a> {{/if}}
-                </li>
+                      <i class="fa fa-dot-circle"></i>
+                      <span class="badge badge-pill badge-danger">{{ activeBounties.length }}</span>
+                    </a>
+                  </li>
+                {{/if}}
                 <li class="nav-item">
                     <a href="/notifications" class="nav-link" title="Your Notifications"><i class="icon-bell"></i>
                         {{#if activityNotifications}}<span class="badge badge-pill badge-danger">{{activityNotifications}}</span>{{/if}}
                         </a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a href="/wallet" id="navNotification" title="Open your Wallet" class="nav-link d-sm-none"><i class="fa fa-university "></i>
                         {{#if walletNotifications}}<span class="badge badge-pill badge-light">{{walletNotifications}}</span>{{/if}}
                         </a>
-                </li>
+                </li> -->
                 <!-- <li class="nav-item">
                     <a href="/wallet" class="nav-link  text-muted ml-2 d-none d-sm-block mr-5">{{ balance}} KZR
                         {{#if walletNotifications}}<span class="badge badge-pill badge-light">{{walletNotifications}}</span>{{/if}}
@@ -82,8 +85,7 @@
                 </li> -->
                 {{else}}
                 <li class="nav-item">
-
-                    <a class="btn btn-success" href="/login">SIGN IN</a>
+                  <a class="btn btn-success" href="/login">SIGN IN</a>
                 </li>
                 {{/if}}
             </ul>
