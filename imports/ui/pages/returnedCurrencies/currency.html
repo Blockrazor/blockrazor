@@ -22,7 +22,7 @@
     <div class="footer col-sm-12 text-center">
 <!-- <div class="row"> -->
     <div class="col-sm">
-        <small><strong>PRICE</strong><br />{{price}}</small>
+        <small><strong>PRICE</strong><br />{{#if price}}${{price}}{{else}}$0.00{{/if}}</small>
     </div>
     <div class="col-sm">
        <small data-toggle="tooltip" data-placement="bottom" title="{{cpc}}"> <strong>CPC</strong><br />{{significant cpc}}</small>
