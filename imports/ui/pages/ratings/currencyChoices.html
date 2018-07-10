@@ -1,7 +1,7 @@
 <template name="currencyChoices">
 	<b>You have already added the following cryptocurrency wallets:</b>
 
-	<div class="row" style="margin-top: 15px;">
+	<div class="row">
 		<div class="col-sm-4 col-md-4 col-lg-4">
               <a href="#" class="toggle">{{currencyName}}</a>
               <div class="row" style="display:none;" id="links_{{_id}}">
@@ -9,10 +9,12 @@
                   <input type='text' id='js-com-url_{{_id}}' placeholder="URL here"><button class="js-save">Save</button></p>
               </div>
           </div>
+    </div>
+    <div class="row">
       {{#if subsCacheReady}}
           {{#each alreadyAdded}}
               <div class="col-sm-4 col-md-4 col-lg-4">
-                  <a href="/currency/{{slug}}" class="btn btn-secondary" style="width:100%">
+                  <a href="/currency/{{slug}}" class="btn btn-secondary currencyChoiceBtn" style="width:100%">
 					  {{currencyName}}
 				  </a>
               </div>
@@ -29,15 +31,20 @@
   <br />
   <br />
   <hr>
-  <form id="js-form" class="jumbotron" style="padding:30px;">
-      <b class="lead">Filter by</b>
-      <div class="input-group">
-          <input type="text" id="js-name" class="form-control" placeholder="Enter the name of the cryptocurrency" />
-          <span class="input-group-addon"> OR </span>
-          <input type="text" id="js-symbol" class="form-control" placeholder="Enter the symbol of the cryptocurrency" />
+  <div class="row">
+      <div class="col-sm-12">
+            <form id="js-form">
+                    <h4 class="lead">Filter by</h4>
+                    <div class="input-group">
+                        <input type="text" id="js-name" class="form-control" placeholder="Enter the name of the cryptocurrency" />
+                        <div class="input-group-addon" style="padding: 10px;"> OR </div>
+                        <input type="text" id="js-symbol" class="form-control" placeholder="Enter the symbol of the cryptocurrency" />
+                    </div>
+                </form>
+            <br>
       </div>
-  </form>
-  <div class="row" style="margin: 15px 0 20px 0;">
+  </div>
+  <div class="row">
       {{#if subsCacheReady}}
           {{#each currencies}}
               <div class="col-sm-4 col-md-4 col-lg-4">
@@ -52,6 +59,9 @@
       {{/if}}
   </div>
   <div class="row">
-      <button id="populateRatings" class="btn btn-primary">Next</button>
+      <div class="col-sm-12">
+          <br>
+            <button id="populateRatings" class="btn btn-primary">Next</button>
+      </div>
   </div>
 </template>
