@@ -34,7 +34,7 @@
                             {{#if walletNotifications}}<span class="badge badge-pill badge-light">{{walletNotifications}}</span>{{/if}}
                         </a>
                     </li>
-    
+
                     <!-- <li class="nav-item">
                         <a href="/wallet" class="nav-link  text-muted ml-2 d-none d-sm-block mr-3">{{balance}} KZR
                             {{#if walletNotifications}}<span class="badge badge-pill badge-light">{{walletNotifications}}</span>{{/if}}
@@ -60,14 +60,6 @@
                         </a>
                     </div>
                 </li>
-                {{#if hasBounties activeBounties }}
-                  <li class="nav-item">
-                    <a href="{{bountyUrl activeBounties}}" title="Active BlockRazor Bounties" class="nav-link">
-                      <i class="fa fa-dot-circle"></i>
-                      <span class="badge badge-pill badge-danger">{{ activeBounties.length }}</span>
-                    </a>
-                  </li>
-                {{/if}}
                 <li class="nav-item">
                     <a href="/notifications" class="nav-link" title="Your Notifications"><i class="icon-bell"></i>
                         {{#if activityNotifications}}<span class="badge badge-pill badge-danger">{{activityNotifications}}</span>{{/if}}
