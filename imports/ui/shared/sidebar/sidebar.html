@@ -1,16 +1,6 @@
 <template name="sidebar">
     <div class="sidebar">
         <div class="sidebar-nav">
-            <!--             <div class="sidebar-header">
-                {{#if currentUser}}
-                <ul class="list-unstyled components d-sm-none">
-                    <li>
-                        <a href="/wallet"><strong>Balance: {{ balance}} KZR</strong></a>
-                    </li>
-                </ul>
-                {{else}}
-                <a href="/login" class="btn btn-success sign-in-button">Sign In</a> {{/if}}
-            </div> -->
             <ul class="nav">
                 {{#unless currentUser.suspended}}
                 <li class="{{activeClass 'home'}} nav-item">
@@ -36,103 +26,89 @@
                         {{/if}}
                     </a>
                 </li>
-                <li data-toggle="collapse" data-target="#krazor" class="collapsed">
-                    <a class="nav-link" href="#">
-                        <b>KZR</b>&nbsp;&nbsp;&nbsp;Krazor&nbsp;&nbsp;&nbsp;
-                        <span class="fas fa-chevron-down"></span>
-                    </a>
-                </li>
-                <ul class="sub-menu collapse child_menu_list" id="krazor">
-                    <li>
-                        <a class="sub-item" href="http://krazor.org">Krazor Home</a>
-                    </li>
-                    <li>
-                        <a class="sub-item {{activeClass 'all-auctions'}}" href="/auctions">Trade Krazor</a>
-                    </li>
-                    <li>
-                        <a class="sub-item {{activeClass 'priceChart'}}" href="/priceChart">Krazor price chart</a>
-                    </li>
-                    <li>
-                        <a class="sub-item {{activeClass 'distribution'}}" href="/distribution">Krazor distribution</a>
-                    </li>
-                    <li>
-                        <a class="sub-item {{activeClass 'transactions'}}" href="/transactions/1">All Blockrazor Transactions</a>
-                    </li>
-                </ul>
-                {{#if currentUser}}
-                <li class="{{activeClass 'mypending'}} nav-item">
-                    <a class="nav-link" href="/mypending">My Pending Items</a>
-                </li>
-                <li class="{{activeClass 'notifications'}} nav-item">
-                    <a class="nav-link" href="/notifications">Notifications {{#if activityNotifications}}
-                        <span class="badge badge-success">{{activityNotifications}}</span>{{/if}}
-                    </a>
-                </li>
-                <li class="{{activeClass 'wallet'}} nav-item">
-                    <a class="nav-link" href="/wallet">My Wallet {{#if walletNotifications}}
-                        <span class="badge badge-success">{{walletNotifications}}</span>{{/if}}
-                    </a>
-                </li>
-                {{/if}}
-                <li class="{{activeClass 'exchanges'}} nav-item">
-                    <a class="nav-link" href="/exchanges">Exchanges</a>
-                </li>
-                {{#if isModerator}}
                 <li class="nav-item nav-dropdown">
-                    <a href="#" class="nav-link nav-dropdown-toggle">Moderator</a>
+                    <a class="nav-link nav-dropdown-toggle" href="#">Krazor</a>
                     <ul class="nav-dropdown-items">
                         <li class="nav-item">
-                            <a class="nav-link {{activeClass 'moderator'}}" href="/moderator/">Approvals</a>
+                            <a class="nav-link" href="http://krazor.org">
+ Krazor Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{activeClass 'changedCurrencies'}}" href="/moderator/changedCurrencies/">Proposed Changes</a>
+                            <a class="nav-link" href="/priceChart">
+ Trade Krazor</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{activeClass 'flaggedUsers'}}" href="/moderator/flagged-users">Flagged IP addresses</a>
+                        <li class="nav-item ">
+                            <a class="nav-link " href="/distribution ">
+Distribution </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{activeClass 'candidates'}}" href="/moderator/candidates">Moderator candidates</a>
+                        <li class="nav-item ">
+                            <a class="nav-link " href="/transactions/1">
+All Transactions </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{activeClass 'exchanges-removal'}}" href="/moderator/exchanges">Remove exchanges</a>
+                    </ul>
+                </li>
+                {{#if currentUser}}
+                <li class="{{activeClass 'mypending'}} nav-item ">
+                    <a class="nav-link " href="/mypending ">My Pending Items</a>
+                </li>
+                <li class="{{activeClass 'notifications'}} nav-item ">
+                    <a class="nav-link " href="/notifications ">Notifications {{#if activityNotifications}}
+                        <span class="badge badge-success ">{{activityNotifications}}</span>{{/if}}
+                    </a>
+                </li>
+                <li class="{{activeClass 'wallet'}} nav-item ">
+                    <a class="nav-link " href="/wallet ">My Wallet {{#if walletNotifications}}
+                        <span class="badge badge-success ">{{walletNotifications}}</span>{{/if}}
+                    </a>
+                </li>
+                {{/if}} {{#if isModerator}}
+                <li class="nav-item nav-dropdown ">
+                    <a href="# " class="nav-link nav-dropdown-toggle ">Moderator</a>
+                    <ul class="nav-dropdown-items ">
+                        <li class="nav-item ">
+                            <a class="nav-link {{activeClass 'moderator'}} " href="/moderator/ ">Approvals</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{activeClass 'flagged-hashpower'}}" href="/moderator/flagged-hashpower">Flagged Hashpower</a>
+                        <li class="nav-item ">
+                            <a class="nav-link {{activeClass 'changedCurrencies'}} " href="/moderator/changedCurrencies/ ">Proposed Changes</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{activeClass 'questions'}}" href="/moderator/questions">Manage Rating Questions</a>
+                        <li class="nav-item ">
+                            <a class="nav-link {{activeClass 'flaggedUsers'}} " href="/moderator/flagged-users ">Flagged IP addresses</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{activeClass 'app-logs'}}" href="/moderator/applogs">Application logs</a>
+                        <li class="nav-item ">
+                            <a class="nav-link {{activeClass 'candidates'}} " href="/moderator/candidates ">Moderator candidates</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{activeClass 'solved-problems'}}" href="/moderator/solved-problems">Solved Problems</a>
+                        <li class="nav-item ">
+                            <a class="nav-link {{activeClass 'exchanges-removal'}} " href="/moderator/exchanges ">Remove exchanges</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{activeClass 'pardon'}}" href="/moderator/pardon">Pardon Suspended Users</a>
+                        <li class="nav-item ">
+                            <a class="nav-link {{activeClass 'flagged-hashpower'}} " href="/moderator/flagged-hashpower ">Flagged Hashpower</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{activeClass 'flagged'}}" href="/moderator/flagged">Flagged Content</a>
+                        <li class="nav-item ">
+                            <a class="nav-link {{activeClass 'questions'}} " href="/moderator/questions ">Manage Rating Questions</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link {{activeClass 'app-logs'}} " href="/moderator/applogs ">Application logs</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link {{activeClass 'solved-problems'}} " href="/moderator/solved-problems ">Solved Problems</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link {{activeClass 'pardon'}} " href="/moderator/pardon ">Pardon Suspended Users</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link {{activeClass 'flagged'}} " href="/moderator/flagged ">Flagged Content</a>
                         </li>
                     </ul>
                 </li>
                 {{/if}} {{else}}
-                <h3 style="text-align: center">Suspended</h3>
-                <li class="{{activeClass 'home'}} nav-item">
-                    <a href="/" class="nav-link">Home</a>
+                <h3 style="text-align: center ">Suspended</h3>
+                <li class="{{activeClass 'home'}} nav-item ">
+                    <a href="/ " class="nav-link ">Home</a>
                 </li>
-                <li class="{{activeClass 'problems'}} nav-item">
-                    <a class="nav-link" href="/problems">Get Help</a>
+                <li class="{{activeClass 'problems'}} nav-item ">
+                    <a class="nav-link " href="/problems ">Get Help</a>
                 </li>
                 {{/unless}}
-                <li class="nav-item">
-                  <a href="/faq" title="BlockRazor FAQ" class="nav-link">FAQs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link nav-link-danger share" href="#">
-                        Share BlockRazor
-                    </a>
-                </li>
             </ul>
         </div>
     </div>
