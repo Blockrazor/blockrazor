@@ -4,9 +4,41 @@ import {FlowRouter} from 'meteor/ostrio:flow-router-extra';
 import './header.html'
 
 Template.header.onCreated(function() {
+        this.searchInputFilter = new ReactiveVar(undefined);
+        let searchInputFilter = Template.instance().searchInputFilter.get();
+
 })
 
 Template.header.events({
+        'keyup #searchFilterHeader': function (event) {
+        event.preventDefault();
+        //close the sidebar if you start typing on a mobile
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            $('body').removeClass('sidebar-lg-show')
+        }
+
+        let query = $('#searchFilterHeader').val();
+        let documentsIndex = $("div.documents-index")
+
+        if (documentsIndex.length === 0) {
+            let queryParam = { query: query }
+            let path = FlowRouter.path('/', {}, queryParam)
+            FlowRouter.go(path)
+        }
+
+        //clear filter if no value in search bar
+        if (query.length < 1) {
+            Blaze.getView($("div.currency-container")[0])._templateInstance.searchInputFilter.set('')
+
+            history.replaceState(null, '', `/`)
+        }
+
+        if (query) {
+            Blaze.getView($("div.currency-container")[0])._templateInstance.searchInputFilter.set(query)
+
+            history.replaceState(null, '', `?query=${query}`)
+        }
+    },
     'click .sidebar-toggler': function() {
         if ($(window).width() < 768) {
             $('body').toggleClass("sidebar-lg-show")
