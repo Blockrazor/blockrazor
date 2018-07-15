@@ -26,7 +26,11 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
     SubsCache.subscribe('usersStats')
     SubsCache.subscribe('redflagsHome')
   })
-  this.searchInputFilter = new ReactiveVar(undefined);
+ // this.searchInputFilter = new ReactiveVar(undefined);
+  this.filter = new ReactiveVar({})
+  this.searchInputFilter = new ReactiveVar(FlowRouter.current().queryParams.query || '')
+
+
   this.increment = 15
   this.limit = new ReactiveVar(this.increment)
   self.autorun((comp) => {
@@ -44,7 +48,7 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
       }
     })
   })
-  this.searchInputFilter = new ReactiveVar(undefined);
+ 
   this.filter = new ReactiveVar({})
   this.currenciesShown = new ReactiveVar(0) // used to tell if list has rendered
   this.countReady = new ReactiveVar(false) //used to tell wether to show count, count occurs once local collection is populated
