@@ -1,8 +1,4 @@
 <template name="pardon">
-    <div id="pageHeader">
-        <h3 id="pageTitle">Suspended users' pardon requests</h3>
-    </div>
-    
     {{#if isModerator}}
         {{nextPardonRequest pardonRequest}}
         <div class="alert alert-info">

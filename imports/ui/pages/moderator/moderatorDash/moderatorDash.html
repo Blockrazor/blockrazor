@@ -1,8 +1,4 @@
 <template name="moderatorDash">
-  <div id="pageHeader">
-      <h3 id="pageTitle">Approvals</h3>
-  </div>
-
   {{#unless reactiveVar 'reject'}}
     {{#unless reactiveVar 'nothingToApprove'}}
       {{> Template.dynamic template=approvalItem data=approvalItemData}}
