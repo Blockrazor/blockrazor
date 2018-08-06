@@ -6,6 +6,12 @@
             <main class="main">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">{{breadcrumbs}}</li>
+                    <li class="breadcrumb-menu d-md-down-none filterComponent" style="display:none">
+                        <div class="btn-group" role="group" aria-label="Button group">
+                            <a class="btn" href="#">
+<i class="fa fa-filter" aria-hidden="true"></i> &nbsp;Filter</a>
+                        </div>
+                    </li>
                 </ol>
                 <div class="container-fluid" style="margin-top: 30px; margin-bottom: 100px;">
                     {{> Template.dynamic template=main}}
