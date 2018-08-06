@@ -161,13 +161,25 @@ Template.currencyAuction.events({
 				currency: templateInstance.selectedId.get()
 			}, (err, data) => {
 				if (err) {
-					sAlert.error(err.reason)
+					if (err.reason.toLowerCase().includes('currency')) {
+						$('#currencyError').text(err.reason)
+						$('#currencyError').show()
+					} else {
+						$('#amountError').text(err.reason)
+						$('#amountError').show()
+					}
 				} else {
+					['amount', 'currency'].forEach(i => $(`#${i}Error`).hide())
+
 					sAlert.success('Bid successfully placed.')
 				}
 			})
 		} else {
-			sAlert.error('Some fields are missing.')
+			$('#amountError').toggle(isNaN(parseFloat($('#js-amount').val())) || parseFloat($('#js-amount').val()) <= 0) 
+			$('#currencyError').toggle(!templateInstance.selectedId.get())
+
+			$('#amountError').text('Amount is invalid.')
+			$('#currencyError').text('Currency is invalid.')
 		}
 	},
 })

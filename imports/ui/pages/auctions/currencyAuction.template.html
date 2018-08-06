@@ -16,12 +16,14 @@
                             <div class="card-body">
                                 <h5 class="card-title">Cryptocurrency</h5>
                                 {{> typeahead typeaheadProps}}
+                                 <div id="currencyError" class="invalid-feedback"></div>
                                 <hr>                                           
                                 <h5 class="card-title">Amount</h5>         
                                 <div class="input-group">
                                     <input type="number" step="any" min="0" id="js-amount" name="amount" placeholder="0"  class="form-control">
                                     <span style="padding: 20px;"><b style="color: green">{{fixed balance}}</b> KZR</span>
                                 </div>
+                                <div id="amountError" class="invalid-feedback"></div>
                                 <hr>      
                                 <div class="submit-form">
                                     <button type="submit" class="btn btn-primary" id="submit">Place a bid</button>

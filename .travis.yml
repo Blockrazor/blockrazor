@@ -17,7 +17,6 @@ before_install:
   - npm install selenium-standalone@latest -g
   - selenium-standalone install
   - selenium-standalone start &
-  - npm install -g jest
  
 cache:
   directories:
@@ -32,5 +31,4 @@ before_script:
  
 script:
   - ./node_modules/.bin/wdio wdio.conf.js # client side tests with wdio
-  - jest --testMatch "**/?(*.)(jest-test).js?(x)" --passWithNoTests # jest tests
   - meteor test --driver-package=meteortesting:mocha --once --port 5000 # unit tests
