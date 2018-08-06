@@ -1337,10 +1337,4 @@ adminRoutesOld.route('/solved-problems', {
   }
 })
 
-/*Breadcrumbs*/
-FlowRouter.onRouteRegister(function (route) {
-     // do anything with the route object
-     console.log(route);
- });
-
 

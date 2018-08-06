@@ -206,6 +206,7 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
 });
 
 Template.returnedCurrencies.onRendered(function () {
+
   // init controller
   this.controller = new scrollmagic.Controller();
   var templ = Template.instance()
@@ -254,6 +255,9 @@ Template.returnedCurrencies.onRendered(function () {
     value: [sliderDateStart, sliderDateEnd],
     formatter
   });
+
+  //only show the filter on the home page. This method breaks meteor design but its quick and works #yolo
+  $('.filterComponent').show();
 
 });
 
@@ -355,9 +359,6 @@ Template.returnedCurrencies.events({
       template.dateSlider.disable();
     }
   },
-  'click .currencyFilter': function (event) {
-    $('.currencyFilterModal').modal('show');
-  },
   'keyup #searchInput': function (event) {
     event.preventDefault();
     let query = $('#searchInput').val();
@@ -375,6 +376,9 @@ Template.returnedCurrencies.events({
 })
 
 Template.returnedCurrencies.onDestroyed(function () {
+  //only show the filter on the home page. This method breaks meteor design but its quick and works #yolo
+  $('.filterComponent').hide();
+
   // destroys scenes and controller
   this.controller.destroy()
 });
