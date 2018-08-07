@@ -339,7 +339,7 @@ Meteor.methods({
 						}
 					}
 
-					if (userId !== auction.options.highestBidder) { // don't insert a new bid if the highest bidder remains
+					if (userId !== (auction.options || {}).highestBidder) { // don't insert a new bid if the highest bidder remains
 						Bids.insert({
 							auctionId: auctionId,
 							userId: userId,
