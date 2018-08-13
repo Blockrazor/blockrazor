@@ -306,24 +306,37 @@ FlowRouter.route('/transactions/:page?', {
 })
 
 FlowRouter.route('/', {
-  name: 'home',
-  breadcrumb: 'Home',
-  subscriptions: function () {
-    this.register('usersStats', FastRenderer.subscribe('usersStats'))
-    this.register('dataQualityCurrencies', FastRenderer.subscribe('dataQualityCurrencies', 15));
-    this.register('graphdata', FastRenderer.subscribe('graphdata'))
-    this.register('redflagsHome', FastRenderer.subscribe('redflagsHome'))
-  },
-  action: async (params, queryParams) => {
-    await import ('/imports/ui/pages/returnedCurrencies/returnedCurrencies')
-    BlazeLayout.render("layout", {
-      header: "header",
-      sidebar: 'sidebar',
-      footer: "footer",
-      main: "returnedCurrencies"
+    name: 'home',
+    breadcrumb: 'Home',
+    subscriptions: function() {
+        this.register('usersStats', FastRenderer.subscribe('usersStats'))
+        this.register('dataQualityCurrencies', FastRenderer.subscribe('dataQualityCurrencies', 15));
+        this.register('graphdata', FastRenderer.subscribe('graphdata'))
+        this.register('redflagsHome', FastRenderer.subscribe('redflagsHome'))
+    },
+    action: async(params, queryParams) => {
+        if (Meteor.userId()) {
+            await
+            import ('/imports/ui/pages/returnedCurrencies/returnedCurrencies')
+            BlazeLayout.render("layout", {
+                header: "header",
+                sidebar: 'sidebar',
+                footer: "footer",
+                main: "returnedCurrencies"
 
-    })
-  }
+            })
+
+        } else {
+            await
+            import ('/imports/ui/pages/landingpage/landingpage')
+            BlazeLayout.render("layout", {
+                header: "header",
+                footer: "footer",
+                main: "landingpage"
+
+            })
+        }
+    }
 })
 
 
