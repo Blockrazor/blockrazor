@@ -1,9 +1,11 @@
-import { chai, assert } from 'meteor/practicalmeteor:chai'
+import { chai, assert, expect } from 'meteor/practicalmeteor:chai'
 import { Meteor } from 'meteor/meteor'
 import { callWithPromise, LocalizableCollection } from '/imports/api/utilities' // import helpful utils
 import { Mongo } from 'meteor/mongo'
 
+
 let localCurrencies = new LocalizableCollection('currenciesTest', 'fetchCurrencies')
+
 
 describe('Localizable collections', function() {
 	it('Always calls super while running on the server', function() {
@@ -16,8 +18,8 @@ describe('Localizable collections', function() {
 
         assert.equal(localCurrencies.findOne({
             _id: id
-        }).currencyName, 'Test')
-
-        assert.equal(localCurrencies.find({}).fetch().length, 1)
+        }).currencyName, 'Test');
+        
+        expect(localCurrencies.find({}).fetch().length).to.be.at.least(1);
   	})
 })
