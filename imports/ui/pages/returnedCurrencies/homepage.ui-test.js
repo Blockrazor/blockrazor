@@ -7,7 +7,7 @@ describe('Home page', function () {
     it('Currencies should render properly', function () {
         browser.url(`${baseUrl}/`) // navigate to the home route `/`
         browser.pause(5000) // let it load, wait for 2 seconds
-        assert(browser.isExisting('.currency-card'), true) // check if at least one currency card has rendered, isExisting === $() !== undefined
-        assert(browser.isVisible('.currency-card'), true) // check if at least one currency card is visible on the page isVisible === $().is(':visible')
+        assert(browser.isExisting('.container'), true) // check if at least one currency card has rendered, isExisting === $() !== undefined
+        assert(browser.isVisible('.container'), true) // check if at least one currency card is visible on the page isVisible === $().is(':visible')
     })
 })
