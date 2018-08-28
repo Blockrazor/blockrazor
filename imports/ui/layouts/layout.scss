@@ -98,6 +98,8 @@ header.masthead h1 {
 
 .features-icons .features-icons-item .features-icons-icon i {
   font-size: 4.5rem;
+  //Adding transition for smooth animations
+  transition: all 0.2s ease-in-out;
 }
 
 .features-icons .features-icons-item:hover .features-icons-icon i {
