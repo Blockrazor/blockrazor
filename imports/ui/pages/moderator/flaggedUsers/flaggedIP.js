@@ -145,15 +145,15 @@ Template.flaggedIP.events({
 
         Meteor.call('activityIPVote', FlowRouter.getParam('ip'), type, (err, data) => {
             if (err && err.error === 'mod-only') {
-                sAlert.error('Only moderators can vote')
+                sAlert.error(TAPi18n.__('moderator.flaggedUsers.only_mods'))
             }
 
             if (data === 'ok') {
-                sAlert.success('IP successfully ignored.')
+                sAlert.success(TAPi18n.__('moderator.flaggedUsers.success'))
 
                 FlowRouter.go('/moderator/flagged-users')
             } else if (data === 'not-ok') {
-            	sAlert.success('All users suspended.')
+            	sAlert.success(TAPi18n.__('moderator.flaggedUsers.suspended'))
 
             	FlowRouter.go('/moderator/flagged-users')
             }

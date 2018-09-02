@@ -2,8 +2,8 @@
     {{#if isModerator}}
         {{nextPardonRequest pardonRequest}}
         <div class="alert alert-info">
-            <p>No more pardon requests</p>
+            <p>{{_ "moderator.pardon.no_more"}}</p>
         </div>
     {{/if}}
-    <a href="/moderator">Back to moderator dashboard</a>
+    <a href="/moderator">{{_ "moderator.pardon.back"}}</a>
 </template>

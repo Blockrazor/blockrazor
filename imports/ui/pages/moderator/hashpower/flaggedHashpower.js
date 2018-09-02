@@ -60,13 +60,13 @@ Template.flaggedHashpower.events({
 
         Meteor.call('hashPowerVote', this._id, type, (err, data) => {
             if (err && err.error === 'mod-only') {
-                sAlert.error('Only moderators can vote')
+                sAlert.error(TAPi18n.__('moderator.hashpower.only_mod'))
             }
 
             if (data === 'ok') {
-                sAlert.success('Flags were successfully removed.')
+                sAlert.success(TAPi18n.__('moderator.hashpower.success'))
             } else if (data === 'not-ok') {
-            	sAlert.success('Hash power data has been deleted.')
+            	sAlert.success(TAPi18n.__('moderator.hashpower.deleted'))
             }
         })
     }

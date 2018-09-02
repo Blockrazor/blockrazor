@@ -47,13 +47,13 @@ Template.candidates.events({
 
         Meteor.call('modCandidateVote', this.user._id, type, (err, data) => {
             if (err && err.error === 'mod-only') {
-                sAlert.error('Only moderators can vote')
+                sAlert.error(TAPi18n.__('moderator.candidates.only_mods_can_vote'))
             }
 
             if (data === 'ok') {
-                sAlert.success('Successfully promoted.')
+                sAlert.success(TAPi18n.__('moderator.candidates.success'))
             } else if (data === 'not-ok') {
-            	sAlert.success('Candidate denied.')
+            	sAlert.success(TAPi18n.__('moderator.candidates.denied'))
             }
         })
     }

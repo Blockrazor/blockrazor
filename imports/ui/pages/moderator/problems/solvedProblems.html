@@ -3,14 +3,14 @@
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">Status</th>
-                <th scope="col">Date &amp; Time</th>
-                <th scope="col">Problem</th>
-                <th scope="col">Proposed by</th>
-                <th scope="col">Issue</th>
-                <th scope="col">Upvotes</th>
-                <th scope="col">Downvotes</th>
-                <th scope="col">Vote</th>
+                <th scope="col">{{_ "moderator.problems.status"}}</th>
+                <th scope="col">{{_ "moderator.problems.date"}}</th>
+                <th scope="col">{{_ "moderator.problems.problem"}}</th>
+                <th scope="col">{{_ "moderator.problems.proposed"}}</th>
+                <th scope="col">{{_ "moderator.problems.issue"}}</th>
+                <th scope="col">{{_ "moderator.problems.upvotes"}}</th>
+                <th scope="col">{{_ "moderator.problems.downvotes"}}</th>
+                <th scope="col">{{_ "moderator.problems.vote"}}</th>
             </tr>
         </thead>
         <tbody>
@@ -20,17 +20,17 @@
                 <td>{{date}}</td>
                 <td><a href="/problem/{{_id}}">{{header}}</a></td>
                 <td>{{user}}</td>
-                <td><a href="{{issue}}">issue</a></td>
+                <td><a href="{{issue}}">{{_ "moderator.problems.issue"}}</a></td>
                 <td>{{upvotes}}</td>
                 <td>{{downvotes}}</td>
                 <td>{{#if voted}}-{{else}}<button class="js-vote btn btn-default notVoted" data-vote="voteUp"><i class="fa fa-arrow-up"></i></button> <button class="js-vote btn btn-default notVoted" data-vote="voteDown"><i class="fa fa-arrow-down"></i></button>{{/if}}</td>
             </tr>
             {{else}}
-            No problems available.
+            {{_ "moderator.problems.no"}}
             {{/each}}
         </tbody>
     </table>
     {{else}}
-    <h1>This page is for moderators only.</h1>
+    <h1>{{_ "moderator.mod_only"}}</h1>
     {{/if}}
 </template>

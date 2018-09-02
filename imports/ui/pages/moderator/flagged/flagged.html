@@ -1,9 +1,9 @@
 <template name="flagged">
     {{#if isModerator}}
         
-        No more flagged Items {{ flagged }} <br><br>
+        {{_ "moderator.flagged.no_more"}} {{ flagged }} <br><br>
     {{else}}
-        <h1>This page is for moderators only.</h1>
+        <h1>{{_ "moderator.mod_only"}}</h1>
     {{/if}}
-    <a href="/moderator">Back to moderator dashboard</a>
+    <a href="/moderator">{{_ "moderator.flagged.back"}}</a>
 </template>

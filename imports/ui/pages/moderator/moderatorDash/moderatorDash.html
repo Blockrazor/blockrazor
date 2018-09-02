@@ -4,14 +4,14 @@
       {{> Template.dynamic template=approvalItem data=approvalItemData}}
     {{/unless}}
     {{#if reactiveVar 'nothingToApprove'}}
-      <h5>Nothing new to Approve</h5>
+      <h5>{{_ "moderator.dash.nothing_new"}}</h5>
     {{/if}}
   {{/unless}}
   {{#if reactiveVar 'reject'}}
   <form>
-    <h5>Please tell {{ reactiveVar 'submittername' }} what was wrong with their entry so that they can do better next time:</h5>
-    <textarea class="form-control" rows="6" placeholder="Please tell the user why this was rejected" name="reason"></textarea>
-    <button type="submit" class="btn btn-primary" id="submit">Send</button>
+    <h5>{{_ "moderator.dash.reason" (reactiveVar 'submittername')}}</h5>
+    <textarea class="form-control" rows="6" placeholder='{{_ "moderator.dash.placeholder"}}' name="reason"></textarea>
+    <button type="submit" class="btn btn-primary" id="submit">{{_ "moderator.dash.send"}}</button>
   </form>
   {{/if}}
 

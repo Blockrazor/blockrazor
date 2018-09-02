@@ -23,7 +23,7 @@ Template.removeExchanges.helpers({
     },
     nextExchange (exchange) {
         if (exchange === undefined) {
-            return "No more changes to approve"    
+            return TAPi18n.__('moderator.exchanges.no_more')    
         } else {
             FlowRouter.go('/moderator/exchanges/' + exchange._id);
         }    

@@ -3,10 +3,10 @@
     <div class="card-header">
       <div class="row">
         <div class="col-4">
-          <small>Posted {{relativeTime createdAt}}</small>
+          <small>{{_ "moderator.dash.communityImage.posted"}} {{relativeTime createdAt}}</small>
         </div>
         <div class="col-8">
-          <p class="card-text"> New Community Image</p>
+          <p class="card-text"> {{_ "moderator.dash.communityImage.new"}}</p>
         </div>
       </div>
     </div>
@@ -16,10 +16,10 @@
           <img class="pointer image" src="{{getThumbnailImage image}}" style="cursor:pointer;width:100px"><br />
         </div>
         <div class="col-8">
-          <p class="card-text"> This should be an image of a <b>{{currencyName}}</b> community. It should show the <b>{{imageOf}}</b> page/screen.</p>                               
+          <p class="card-text"> {{{_ "moderator.dash.communityImage.text" currencyName imageOf}}}</p>                               
           <div class="btn-group pull-right mt-4" role="group">
-            <button class="btn btn-success" id="approve">APPROVE <i class="fa fa-check" aria-hidden="true"></i></button>
-            <button class="btn btn-danger" id="reject">REJECT <i class="fa fa-times" aria-hidden="true"></i></button>
+            <button class="btn btn-success" id="approve">{{_ "moderator.dash.approve"}} <i class="fa fa-check" aria-hidden="true"></i></button>
+            <button class="btn btn-danger" id="reject">{{_ "moderator.dash.reject"}} <i class="fa fa-times" aria-hidden="true"></i></button>
           </div>
         </div>
       </div>

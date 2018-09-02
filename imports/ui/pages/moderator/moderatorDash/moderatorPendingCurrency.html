@@ -3,16 +3,16 @@
       <div class="card-header">
         <div class="row">
           <div class="col-4">
-            <small>Posted {{relativeTime createdAt}}</small>
+            <small>{{_ "moderator.dash.currency.posted"}} {{relativeTime createdAt}}</small>
           </div>
           <div class="col-8">
-            <p class="card-text"> New Currency</p>
+            <p class="card-text"> {{_ "moderator.dash.currency.new"}}</p>
           </div>
         </div>
       </div>
       <div class="card-body">
         <div class="row">
-          <p class="card-text pl-4"> A new currency has been added called {{currencyName}}</p>
+          <p class="card-text pl-4"> {{_ "moderator.dash.currency.text" currencyName}}</p>
         </div>
         <div class="row">
           <div class="basic-details">
@@ -31,98 +31,98 @@
                   </div>
                   <div class="col-md-4">
                     <div class="card card-body mb-2">
-                      <div class="title">Currency Name</div>
+                      <div class="title">{{_ "moderator.dash.currency.name"}}</div>
                       <div class="value" id="currencyName">{{currencyName}}</div>
                     </div>
                   </div>
                   {{#if currencySymbol}}
                   <div class="col-md-4">
                     <div class="card card-body mb-2">
-                      <div class="title">Currency Symbol</div>
+                      <div class="title">{{_ "moderator.dash.currency.symbol"}}</div>
                       <div class="value" id="currencySymbol">{{currencySymbol}}</div>
                     </div>
                   </div>
                   {{/if}} {{#if genesisTimestamp}}
                   <div class="col-md-4">
                     <div class="card card-body mb-2">
-                      <div class="title">Genesis Timestamp</div>
+                      <div class="title">{{_ "moderator.dash.currency.genesis"}}</div>
                       <div class="value" id="genesisTimestamp">{{genesisTimestamp}}</div>
                     </div>
                   </div>
                   {{/if}} {{#if premine}}
                   <div class="col-md-4">
                     <div class="card card-body mb-2">
-                      <div class="title">Premine</div>
+                      <div class="title">{{_ "moderator.dash.currency.premine"}}</div>
                       <div class="value" id="premine">{{premine}}</div>
                     </div>
                   </div>
                   {{/if}} {{#if circulating}}
                   <div class="col-md-4">
                     <div class="card card-body mb-2">
-                      <div class="title">Circulating</div>
+                      <div class="title">{{_ "moderator.dash.currency.circulating"}}</div>
                       <div class="value" id="circulating">{{circulating}}</div>
                     </div>
                   </div>
                   {{/if}} {{#if maxCoins}}
                   <div class="col-md-4">
                     <div class="card card-body mb-2">
-                      <div class="title">Max Coins</div>
+                      <div class="title">{{_ "moderator.dash.currency.max"}}</div>
                       <div class="value" id="maxCoins">{{maxCoins}}</div>
                     </div>
                   </div>
                   {{/if}} {{#if consensusSecurity}}
                   <div class="col-md-4">
                     <div class="card card-body mb-2">
-                      <div class="title">Consensus Security</div>
+                      <div class="title">{{_ "moderator.dash.currency.consensus"}}</div>
                       <div class="value" id="consensusSecurity">{{consensusSecurity}}</div>
                     </div>
                   </div>
                   {{/if}} {{#if hashAlgorithm}}
                   <div class="col-md-4">
                     <div class="card card-body mb-2">
-                      <div class="title">Hash Algorithm</div>
+                      <div class="title">{{_ "moderator.dash.currency.hashAlgo"}}</div>
                       <div class="value" id="hashAlgorithm">{{hashAlgorithm}}</div>
                     </div>
                   </div>
                   {{/if}} {{#if gitUpdate}}
                   <div class="col-md-4">
                     <div class="card card-body mb-2">
-                      <div class="title">Git Update</div>
+                      <div class="title">{{_ "moderator.dash.currency.git"}}</div>
                       <div class="value" id="gitUpdate">{{gitUpdate}}</div>
                     </div>
                   </div>
                   {{/if}} {{#if cpc}}
                   <div class="col-md-4">
                     <div class="card card-body mb-2">
-                      <div class="title">Comparison Price (Circulation)</div>
+                      <div class="title">{{_ "moderator.dash.currency.cpc"}}</div>
                       <div class="value" id="cpc">{{cpc}}$</div>
                     </div>
                   </div>
                   {{/if}} {{#if cpt}}
                   <div class="col-md-4">
                     <div class="card card-body mb-2">
-                      <div class="title">Comparison Price (Total)</div>
+                      <div class="title">{{_ "moderator.dash.currency.cpt"}}</div>
                       <div class="value" id="cpt">{{cpt}}$</div>
                     </div>
                   </div>
                   {{/if}} {{#if marketCap}}
                   <div class="col-md-4">
                     <div class="card card-body mb-2">
-                      <div class="title">Market Cap</div>
+                      <div class="title">{{_ "moderator.dash.currency.market"}}</div>
                       <div class="value" id="marketCap">{{marketCap}}</div>
                     </div>
                   </div>
                   {{/if}} {{#if previousNames}}
                   <div class="col-md-4">
                     <div class="card card-body mb-2">
-                      <div class="title">Previous Names</div>
+                      <div class="title">{{_ "moderator.dash.currency.previous"}}</div>
                       <div class="value" id="previousNames">{{previousNames}}</div>
                     </div>
                   </div>
                   {{/if}} {{#if gitRepo}}
                   <div class="col-md-4">
                     <div class="card card-body mb-2">
-                      <div class="title">Git Repo</div>
+                      <div class="title">{{_ "moderator.dash.currency.repo"}}</div>
                       <div class="value" id="gitRepo">{{gitRepo}}</div>
                     </div>
                   </div>
@@ -130,7 +130,7 @@
                   {{#if reddit}}
                   <div class="col-md-4">
                     <div class="card card-body mb-2">
-                      <div class="title">Reddit</div>
+                      <div class="title">{{_ "moderator.dash.currency.reddit"}}</div>
                       <div class="value" id="reddit">{{reddit}}</div>
                     </div>
                   </div>
@@ -141,8 +141,8 @@
           </div>
         </div>
         <div class="pull-right">
-          <button class="btn btn-success" id="approve">APPROVE <i class="fa fa-check" aria-hidden="true"></i></button>
-          <button class="btn btn-danger" id="reject">REJECT <i class="fa fa-times" aria-hidden="true"></i></button>
+          <button class="btn btn-success" id="approve">{{_ "moderator.dash.approve"}} <i class="fa fa-check" aria-hidden="true"></i></button>
+          <button class="btn btn-danger" id="reject">{{_ "moderator.dash.reject"}} <i class="fa fa-times" aria-hidden="true"></i></button>
         </div>
       </div>
     </div>

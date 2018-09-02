@@ -37,13 +37,13 @@ Template.changedCurrency.events({
         Meteor.call('voteOnCurrencyChange', voteType, this, function(error, result) {
 
             if (error && error.error == 'moderatorOnlyAction') {
-                sAlert.error('Only moderators can vote');
+                sAlert.error(TAPi18n.__('moderator.changedCurrencies.only_mods'));
             }else if (error && error.error == 'noVoteOnOwn') {
-                sAlert.error('You can not vote on your own proposed change');
+                sAlert.error(TAPi18n.__('moderator.changedCurrencies.own_change'));
             }
 
             if (result == 'merged') {
-                sAlert.success('Success, proposed change has been merged');
+                sAlert.success(TAPi18n.__('moderator.changedCurrencies.success'));
                 nextChangedCurrency();
             }
         });
@@ -53,10 +53,10 @@ Template.changedCurrency.events({
         let voteType = e.currentTarget.id;
         Meteor.call('voteOnCurrencyChange', voteType, this, function(error, result) {
             if (error && error.error == 'moderatorOnlyAction') {
-                sAlert.error('Only moderators can vote');
+                sAlert.error(TAPi18n.__('moderator.changedCurrencies.only_mods'));
             }
             if (result == 'deleted') {
-                sAlert.success('Proposed change has been deleted');
+                sAlert.success(TAPi18n.__('moderator.changedCurrencies.deleted'));
                 nextChangedCurrency();
             }
         });

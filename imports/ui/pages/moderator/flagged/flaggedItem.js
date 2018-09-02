@@ -74,13 +74,13 @@ Template.flaggedItem.events({
 
         Meteor.call('flaggedVote', this._id, type, this.comment ? 'comment' : (this.featureName ? 'features' : 'redflags'), (err, data) => {
             if (err && err.error === 'mod-only') {
-                sAlert.error('Only moderators can vote')
+                sAlert.error(TAPi18n.__('moderator.flagged.only_mod'))
             }
 
             if (data === 'ok') {
-                sAlert.success('Deleted.')
+                sAlert.success(TAPi18n.__('moderator.flagged.deleted'))
             } else if (data === 'not-ok') {
-            	sAlert.success('Flag removed.')
+            	sAlert.success(TAPi18n.__('moderator.flagged.removed'))
             }
         })
 

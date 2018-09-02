@@ -3,17 +3,17 @@
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">Image</th>
-                <th scope="col">Hardware category</th>
-                <th scope="col">Hardware device</th>
-                <th scope="col">Algorithm</th>
-                <th scope="col">Hash rate</th>
-                <th scope="col">Power consumption</th>
-                <th scope="col"># Flags</th>
-                <th scope="col">Reasons</th>
-                <th scope="col">Upvotes (remove flag)</th>
-                <th scope="col">Downvotes (remove data)</th>
-                <th scope="col">Vote</th>
+                <th scope="col">{{_ "moderator.hashpower.image"}}</th>
+                <th scope="col">{{_ "moderator.hashpower.category"}}</th>
+                <th scope="col">{{_ "moderator.hashpower.device"}}</th>
+                <th scope="col">{{_ "moderator.hashpower.algorithm"}}</th>
+                <th scope="col">{{_ "moderator.hashpower.rate"}}</th>
+                <th scope="col">{{_ "moderator.hashpower.power"}}</th>
+                <th scope="col"># {{_ "moderator.hashpower.flags"}}</th>
+                <th scope="col">{{_ "moderator.hashpower.reason"}}</th>
+                <th scope="col">{{_ "moderator.hashpower.upvotes"}}</th>
+                <th scope="col">{{_ "moderator.hashpower.downvotes"}}</th>
+                <th scope="col">{{_ "moderator.hashpower.vote"}}</th>
             </tr>
         </thead>
         <tbody>
@@ -35,7 +35,7 @@
         </tbody>
     </table>
     {{else}}
-    <h1>This page is for moderators only.</h1>
+    <h1>{{_ "moderator.mod_only"}}</h1>
     {{/if}}
-    <a href="/hashpower">Back to all data</a>
+    <a href="/hashpower">{{_ "moderator.hashpower.back"}}</a>
 </template>
