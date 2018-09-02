@@ -78,7 +78,7 @@ Template.currencyInfo.onRendered(function () {
       return ''
     }
 
-    return 'Please change the value if you want to propose a change.'
+    return TAPi18n.__('currency.info.change_data')
   }
 
   editables.forEach(i => $(`#${i}`).editable({
@@ -203,7 +203,7 @@ Template.currencyInfo.events({
       if (file.size > _coinFileSizeLimit) {
         swal({
           icon: "error",
-          text: "Image must be under 2mb",
+          text: TAPi18n.__('currency.info.image_2m'),
           confirmButtonClass: 'btn btn-primary'
         });
         uploadError = true;
@@ -212,7 +212,7 @@ Template.currencyInfo.events({
       if (!_supportedFileTypes.includes(file.type)) {
         swal({
           icon: "error",
-          text: "File must be an image",
+          text: TAPi18n.__('currency.info.must_be_image'),
           confirmButtonClass: 'btn btn-primary'
         });
         uploadError = true;
@@ -242,7 +242,7 @@ Template.currencyInfo.events({
 
               $("#currencyLogoFilename").val(md5 + '.' + fileExtension);
 
-              $("#fileUploadValue").html("Change");
+              $("#fileUploadValue").html(TAPi18n.__('currency.info.change'));
               $("#currencyLogoInputLabel").removeClass('btn-primary');
               $("#currencyLogoInputLabel").addClass('btn-success');
 
@@ -296,7 +296,7 @@ Template.currencyInfo.events({
         }
       } else {
         console.log('coinChangeModal ran successfully')
-        sAlert.success('Change proposed.')
+        sAlert.success(TAPi18n.__('currency.info.proposed'))
       }
     })
 
@@ -336,7 +336,7 @@ Template.currencyInfo.events({
         }
       } else {
         console.log('yay')
-        sAlert.success('Change proposed.')
+        sAlert.success(TAPi18n.__('currency.info.proposed'))
       }
     })
   },
@@ -350,9 +350,9 @@ Template.currencyInfo.events({
   'click .untagExchange': function (event, templ) {
     Meteor.call("untagExchange", $(event.target).data("id"), templ.currency._id, (err, res) => {
       if (!err) {
-        sAlert.success('The exchange succesfully untagged from the ' + templ.currency.currencyName)
+        sAlert.success(TAPi18n.__('currency.info.exchange_success') + templ.currency.currencyName)
       } else {
-        sAlert.error("There is a problem with untagging the exchange from " + templ.currency.currencyName)
+        sAlert.error(TAPi18n.__('currency.info.exchange_problem') + templ.currency.currencyName)
       }
     })
   }
@@ -445,9 +445,9 @@ Template.currencyInfo.helpers({
         if (data._id) {
           Meteor.call("appendExchange", data._id, templ.currency._id, (error, result) => {
             if (!error) {
-              sAlert.success("This exchange successfully appended to " + templ.currency.currencyName)
+              sAlert.success(TAPi18n.__('currency.info.exchange_success_append') + templ.currency.currencyName)
             } else {
-              sAlert.error("This exchange already appended to " + templ.currency.currencyName)
+              sAlert.error(TAPi18n.__('currency.info.exchange_already_appended') + templ.currency.currencyName)
             }
           })
         }
@@ -457,13 +457,13 @@ Template.currencyInfo.helpers({
           if (!error && result) {
             Meteor.call("appendExchange", result._id, templ.currency._id, (err, res) => {
               if (!err) {
-                sAlert.success('New exchange succesfully added and appended to the ' + templ.currency.currencyName)
+                sAlert.success(TAPi18n.__('currency.info.exchange_new') + templ.currency.currencyName)
               } else {
-                sAlert.error("This exchange already appended to " + templ.currency.currencyName)
+                sAlert.error(TAPi18n.__('currency.info.exchange_already_appended') + templ.currency.currencyName)
               }
             })
           } else {
-            sAlert.error("This exchange already exist.")
+            sAlert.error(TAPi18n.__('currency.info.exchange_exists'))
           }
         })
       },
@@ -476,7 +476,7 @@ Template.currencyInfo.helpers({
       placeholder: "Add Exchange",
       addButtonText: "Create Exchange",
       customAddButtonExists: true,
-      noneFound: `@{value} doesn't exist, create and add it to @{parent.currency.currencyName}`,
+      noneFound: TAPi18n.__('currency.info.typeahead'),
       inlineButton: true,
     }
   },

@@ -96,7 +96,7 @@ Template.fundamentalMetrics.onRendered(function (){
       type: 'doughnut',
       // The data for our dataset
       data: {
-          labels: ["Founder(s) share: " + currencyData.premine, "Mined coins: " + currencyData.circulating, "Not yet mined: " + (currencyData.maxCoins - currencyData.circulating)],
+          labels: [TAPi18n.__('currency.fundamental.share') + currencyData.premine, TAPi18n.__('currency.fundamental.mined') + currencyData.circulating, TAPi18n.__('currency.fundamental.not_mined') + (currencyData.maxCoins - currencyData.circulating)],
           datasets: [{
             data: [(((currencyData.premine / currencyData.maxCoins) * 100).toFixed()), ((((currencyData.circulating - currencyData.premine) / currencyData.maxCoins) * 100).toFixed()), ((((currencyData.maxCoins - currencyData.circulating)/currencyData.maxCoins) * 100).toFixed())],
             backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f"]

@@ -1,6 +1,6 @@
 <template name="discussion">
   <div class="currencyDetailBox">
-      <h5 class="text-center currencyDetailHeading">Discussion</h5> 
+      <h5 class="text-center currencyDetailHeading">{{_ "currency.discussion.discussion"}}</h5> 
       {{#if subsCacheReady}}
           {{#each topComment}}
               <div class="commentThread">
@@ -28,6 +28,6 @@
       {{else}}
           {{> loading}}
       {{/if}}
-      <div class="text-right">{{totalComments}} more</div>
+      <div class="text-right">{{totalComments}} {{_ "currency.discussion.more"}}</div>
   </div>
 </template>

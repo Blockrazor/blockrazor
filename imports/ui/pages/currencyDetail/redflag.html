@@ -5,7 +5,7 @@
       <div class="post-content pull-right">
         {{#if subsCacheReady}}
           {{#unless comments}}
-            <span id="replyBox-{{_id}}" class="fa fa-bookmark text-info pull-right comments no-messages-info" title="No messages yet, be the first"></span>
+            <span id="replyBox-{{_id}}" class="fa fa-bookmark text-info pull-right comments no-messages-info" title='{{_ "currency.feature.first"}}'></span>
           {{/unless}}
         {{/if}}
         {{#hovercard template="userHover" direction="vertical" trigger="hover"}}
@@ -39,7 +39,7 @@
       </div>
     </div>
     <div class="input-group mb-3 newCommentContainer newcomment-{{_id}}" style="display:none;">
-      <input id="replyText-{{_id}}" type="text" class="form-control replyText" placeholder="Type a message here" aria-label="Type a message here" aria-describedby="basic-addon2" maxlength="140" minlength="6" data-toggle="popover" data-placement="top" data-content="Comments should be friendly, useful to others, and factually correct. If you see bad behavior, don't encourage it by replying, simply flag it and move on. If your comment reaches the top, you'll be rewarded.">
+      <input id="replyText-{{_id}}" type="text" class="form-control replyText" placeholder='{{_ "currency.feature.message_here"}}' aria-label="Type a message here" aria-describedby="basic-addon2" maxlength="140" minlength="6" data-toggle="popover" data-placement="top" data-content='{{_ "currency.feature.content"}}'>
       <div class="input-group-append">
         <button class="btn btn-primary submitNewComment" type="button"><i class="fa fa-envelope" aria-hidden="true"></i></button>
       </div>
@@ -49,20 +49,20 @@
       <div class="modal-dialog" role="document">
           <div class="modal-content">
               <div class="modal-header">
-                  <h5 class="modal-title">You are flagging:</h5>
+                  <h5 class="modal-title">{{_ "currency.feature.flagging"}}</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                   </button>
               </div>
               <div class="modal-body">
                   <p><b><i>"{{featureName}}"</i></b></p>
-                  Written by: {{#hovercard template="userHover" direction="vertical" trigger="hover"}}
+                  {{_ "currency.feature.written_by"}} {{#hovercard template="userHover" direction="vertical" trigger="hover"}}
           <a href="/profile/{{slugify author}}">{{author}}</a>
         {{/hovercard}}
               </div>
               <div class="modal-footer">
-                  <button type="button" class="btn btn-danger flagButton">Report</button>
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-danger flagButton">{{_ "currency.feature.report"}}</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">{{_ "currency.feature.close"}}</button>
               </div>
           </div>
       </div>

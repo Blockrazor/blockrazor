@@ -84,20 +84,20 @@ Template.redflags.events({
   var max = 140;
   var len = $(this).val().length;
   if (len >= max) {
-    $('#charNumFlag').text(' you have reached the limit');
+    $('#charNumFlag').text(TAPi18n.__('currency.redflags.limit'));
   } else {
     var char = max - len;
-    $('#charNumFlag').text(char + ' characters left');
+    $('#charNumFlag').text(char + TAPi18n.__('currency.redflags.left'));
   }
 });
   },
   'click .submitRedFlag': function () {
     if(!Meteor.user()) {
-      sAlert.error("You must be logged in to red flag a currency");
+      sAlert.error(TAPi18n.__('currency.redflags.must_login'));
     }
     var data = $('#redflagContent').val();
     if(data.length < 6 || data.length > 140) {
-      sAlert.error("That entry is too short, or too long.");
+      sAlert.error(TAPi18n.__('currency.redflags.too_short'));
     } else {
       let res 
       try {
@@ -112,7 +112,7 @@ Template.redflags.events({
           $(".showAddNewRedflag").show();
           $(".addNewRedflagContainer").hide();
           templ.addingnewredflag.set(false);
-          sAlert.success("Thanks! Red flag added")
+          sAlert.success(TAPi18n.__('currency.redflags.added'))
         } else {
           sAlert.error(err.reason)
         }

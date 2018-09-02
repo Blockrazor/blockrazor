@@ -12,9 +12,9 @@
   <div class="card currency-info-basic">
     <div class="header">
       {{#if smartContractURL}}
-      Smart Contract Details
+      {{_ "currency.info.smart_contract"}}
       {{else}}
-      Blockchain Details
+      {{_ "currency.info.blockchain_details"}}
       {{/if}}
     </div>
     <div class="row">
@@ -27,16 +27,16 @@
 
               <ul class="nav nav-tabs">
                   <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#compendiumtab">Compendium</a>
+                    <a class="nav-link active" data-toggle="tab" href="#compendiumtab">{{_ "currency.info.compendium"}}</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#informationtab">Basics</a>
+                    <a class="nav-link" data-toggle="tab" href="#informationtab">{{_ "currency.info.basics"}}</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#technologicaltab">Technological</a>
+                    <a class="nav-link" data-toggle="tab" href="#technologicaltab">{{_ "currency.info.tech"}}</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#exchangestab">Exchanges</a>
+                    <a class="nav-link" data-toggle="tab" href="#exchangestab">{{_ "currency.info.exchanges"}}</a>
                   </li>
                 </ul>
                 <div id="currencyTabContent" class="tab-content">
@@ -45,31 +45,31 @@
                     <div class="row">
                         <div class="col-md-4">
                           <div class="card card-header">
-                            <div class="title">Wallet Ranking</div>
+                            <div class="title">{{_ "currency.info.wallet_ranking"}}</div>
                             <div class="value" id="walletRanking">{{isNullReadOnly walletRanking}}</div>
                           </div>
                         </div>
                         <div class="col-md-4">
                           <div class="card card-header">
-                            <div class="title">Price</div>
+                            <div class="title">{{_ "currency.info.price"}}</div>
                             <div class="value" id="price">{{isNullDollar price}}</div>
                           </div>
                         </div>
                         <div class="col-md-4">
                           <div class="card card-header">
-                            <div class="title">Comparison Price (Circulation)</div>
+                            <div class="title">{{_ "currency.info.cpc"}}</div>
                             <div class="value" id="cpc">{{isNullDollar cpc}}</div>
                           </div>
                         </div>
                         <div class="col-md-4">
                           <div class="card card-header">
-                            <div class="title">Comparison Price (Total)</div>
+                            <div class="title">{{_ "currency.info.cpt"}}</div>
                             <div class="value" id="cpt">{{isNullDollar cpt}}</div>
                           </div>
                         </div>
                         <div class="col-md-4">
                           <div class="card card-header">
-                            <div class="title">Market Cap</div>
+                            <div class="title">{{_ "currency.info.market"}}</div>
                             <div class="value" id="marketCap">{{isNullReadOnly marketCap}}</div>
                           </div>
                         </div>
@@ -80,43 +80,43 @@
                     <div class="row">
                         <div class="col-md-4 col-lg-3">
                           <div class="card card-header">
-                            <div class="title">Currency Name</div>
+                            <div class="title">{{_ "currency.info.name"}}</div>
                             <div class="value" id="currencyName">{{isNull currencyName}}</div>
                           </div>
                         </div>
                         <div class="col-md-4 col-lg-3">
                           <div class="card card-header">
-                            <div class="title">Currency Symbol</div>
+                            <div class="title">{{_ "currency.info.symbol"}}</div>
                             <div class="value" id="currencySymbol">{{isNull currencySymbol}}</div>
                           </div>
                         </div>
                         <div class="col-md-4 col-lg-3">
                           <div class="card card-header">
-                            <div class="title">Genesis Timestamp</div>
+                            <div class="title">{{_ "currency.info.genesis"}}</div>
                             <div class="value" id="genesisTimestamp">{{isDateNull genesisTimestamp}}</div>
                           </div>
                         </div>
                         <div class="col-md-4 col-lg-3">
                           <div class="card card-header">
-                            <div class="title">Premine</div>
+                            <div class="title">{{_ "currency.info.premine"}}</div>
                             <div class="value" id="premine">{{isNull premine}}</div>
                           </div>
                         </div>
                         <div class="col-md-4 col-lg-3">
                           <div class="card card-header">
-                            <div class="title">Circulating</div>
+                            <div class="title">{{_ "currency.info.circulating"}}</div>
                             <div class="value" id="circulating">{{isNullReadOnly circulating}}</div>
                           </div>
                         </div>
                         <div class="col-md-4 col-lg-3">
                           <div class="card card-header">
-                            <div class="title">Max Coins</div>
+                            <div class="title">{{_ "currency.info.max"}}</div>
                             <div class="value" id="maxCoins">{{isNullReadOnly maxCoins}}</div>
                           </div>
                         </div>
                         <div class="col-md-4 col-lg-3">
                           <div class="card card-header">
-                            <div class="title">Previous Names</div>
+                            <div class="title">{{_ "currency.info.previous"}}</div>
                             <div class="value" id="previousNames">{{previousNames}}</div>
                           </div>
                         </div>
@@ -127,41 +127,41 @@
                     <div class="row">
                         <div class="col-md-4">
                           <div class="card card-header">
-                            <div class="title">Consensus Security</div>
+                            <div class="title">{{_ "currency.info.consensus"}}</div>
                             <div class="value" id="consensusSecurity">{{isNull consensusSecurity}}</div>
                           </div>
                         </div>
                         <div class="col-md-4">
                           <div class="card card-header">
-                            <div class="title">Hash Algorithm</div>
+                            <div class="title">{{_ "currency.info.hashAlgo"}}</div>
                             <div class="value" id="hashAlgorithm">{{isNull hashAlgorithm}}</div>
-                            <a style="display: {{showText}}" href="#" id="js-add">You algorithm is not on the list? Add it.</a>
-                            <div style="display: {{newAlgo}}"><input type="text" id="js-newAlgo" placeholder="Algorithm name..." />
+                            <a style="display: {{showText}}" href="#" id="js-add">{{_ "currency.info.add_hashAlgo"}}</a>
+                            <div style="display: {{newAlgo}}"><input type="text" id="js-newAlgo" placeholder='{{_ "currency.info.name_hashAlgo"}}' />
                             <button class="btn btn-primary btn-sm" id="js-addAlgo"><i class="fa fa-check"></i></button><button type="button" class="btn btn-default btn-sm" id="js-cancel"><i class="fa fa-times"></i></button></div>
                           </div>
                         </div>
                         <div class="col-md-4">
                           <div class="card card-header">
-                            <div class="title">Official Website</div>
+                            <div class="title">{{_ "currency.info.website"}}</div>
                             <div class="value" id="officialSite">{{isNull officialSite}}</div>
                           </div>
                         </div>
                         <div class="col-md-4">
                           <div class="card card-header">
-                            <div class="title">Git Repo</div>
+                            <div class="title">{{_ "currency.info.repo"}}</div>
                             <div class="value" id="gitRepo">{{isNull gitRepo}}</div>
                           </div>
                         </div>
                         <div class="col-md-4">
                           <div class="card card-header">
-                            <div class="title">Git Update</div>
+                            <div class="title">{{_ "currency.info.git"}}</div>
                             <div class="value" id="gitUpdate">{{isNullReadOnly gitUpdate}}</div>
                           </div>
                         </div>
                         {{#if smartContractURL}}
                         <div class="col-md-4">
                           <div class="card card-header">
-                            <div class="title">Smart Contract URL</div>
+                            <div class="title">{{_ "currency.info.sc_url"}}</div>
                             <div class="value" id="smartContractURL">{{isNull smartContractURL}}</div>
                           </div>
                         </div>
@@ -182,7 +182,7 @@
                         <div class="col-md-4">
                           <div class="card exchange-card card-header">
                             <div class="row">
-                              <button type="button" class="col-2 fa fa-times-circle untagExchange pull-right" data-id="{{_id}}" title="Remove Exchange"></button>
+                              <button type="button" class="col-2 fa fa-times-circle untagExchange pull-right" data-id="{{_id}}" title='{{_ "currency.info.remove_exchange"}}'></button>
                               <span class="col-10 title">{{name}}</span>
                             </div>
                           </div>
@@ -190,7 +190,7 @@
               {{/each}}
 
           {{else}}
-            No exchange available
+            {{_ "currency.info.no_exchanges"}}
           {{/if}}
 
                     </div>
@@ -209,7 +209,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Coin Image Change</h5>
+          <h5 class="modal-title">{{_ "currency.info.image_change"}}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -217,23 +217,23 @@
         <div class="modal-body">
           <p>
             <div class="logo-upload">
-              <h5>Select new logo</h5>
+              <h5>{{_ "currency.info.new_logo"}}</h5>
               <label class="btn btn-primary" for="currencyLogoInput" id="currencyLogoInputLabel">
-                <input id="currencyLogoInput" type="file" style="display:none" onchange="$('#fileInfo2').html(this.files[0].name)"> <span id="fileUploadValue">UPLOAD</span>
+                <input id="currencyLogoInput" type="file" style="display:none" onchange="$('#fileInfo2').html(this.files[0].name)"> <span id="fileUploadValue">{{_ "currency.info.upload"}}</span>
               </label>
               <span class='label label-info' id="fileInfo2"></span>
               <input type='hidden' id='currencyLogoFilename'>
             </div>
             <br /><br />
-            <input id="imageCurrencyNotes" type="text" placeholder="Why is this change needed for this image?" style="width:100%" class="form-control">
+            <input id="imageCurrencyNotes" type="text" placeholder='{{_ "currency.info.notes"}}' style="width:100%" class="form-control">
             <input id="coinModal_field" type="hidden">
             <input id="coinModal_old" type="hidden">
             <input id="coinModal_new" type="hidden">
           </p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" id="proposeCoinChange">Save changes</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="proposeCoinChange">{{_ "currency.info.save"}}</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">{{_ "currency.info.close"}}</button>
         </div>
       </div>
     </div>
@@ -243,23 +243,23 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Proposing Change</h5>
+          <h5 class="modal-title">{{_ "currency.info.propose_change"}}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <p>Are you sure you want to change <span class="text-primary" id="from"></span> to <span class="text-primary" id="to"></span> for <span class="text-primary" id="forField"></span>
+          <p>{{_ "currency.info.are_you_sure"}} <span class="text-primary" id="from"></span> {{_ "currency.info.to"}} <span class="text-primary" id="to"></span> {{_ "currency.info.for"}} <span class="text-primary" id="forField"></span>
             <br /><br />
-            <input id="currencyNotes" type="text" placeholder="Why is this change needed?" style="width:100%" class="form-control">
+            <input id="currencyNotes" type="text" placeholder='{{_ "currency.info.notes"}}' style="width:100%" class="form-control">
           </p>
           <input id="modal_field" type="hidden">
             <input id="modal_old" type="hidden">
             <input id="modal_new" type="hidden">
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" id="proposeChange">Save changes</button>
-          <button type="button" class="btn btn-secondary" id="cancelChange" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="proposeChange">{{_ "currency.info.save"}}</button>
+          <button type="button" class="btn btn-secondary" id="cancelChange" data-dismiss="modal">{{_ "currency.info.close"}}</button>
         </div>
       </div>
     </div>

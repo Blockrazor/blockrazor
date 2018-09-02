@@ -3,16 +3,16 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Adding a new summary</h5>
+          <h5 class="modal-title" id="exampleModalLabel">{{_ "currency.summaries.add"}}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          You're adding a summary for {{currencyName}}. If gets voted to the top, you'll receive some Krazors as a reward.
+          {{_ "currency.summaries.text" currencyName}}
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Thanks, don't show this again</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">{{_ "currency.summaries.dont_show"}}</button>
         </div>
       </div>
     </div>
@@ -21,24 +21,22 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add a new summary</h5>
+          <h5 class="modal-title" id="exampleModalLabel">{{_ "currency.summaries.add_new"}}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          It looks like {{currencyName}} has only recently been added to Blockrazor and
-          its summaries have not yet been added. This is a great opportunity for you to
-          add a summary for {{currencyName}} and earn some Krazor!
+          {{_ "currency.summaries.modal_body_info" currencyName}}
         </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Thanks, don't show this again</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">{{_ "currency.summaries.dont_show"}}</button>
           </div>
       </div>
     </div>
   </div>
   <div class="col-sm-12 currency-summaries">
-    <div class="header">Summaries</div>
+    <div class="header">{{_ "currency.summaries.summaries"}}</div>
     <div class="row">
       <div class="col-sm-12">
         <div class="row commentThread">
@@ -56,13 +54,8 @@
         </div>
         <div class="summary-footer">
           <div class="collapse multi-collapse" id="addNewSummary">
-            <textarea id="summary" class="form-control" placeholder="*Markdown* is supported" maxlength="500" minlength="10" data-toggle="popover" data-placement="top" data-html="true" 
-              data-content="<b>Rules:</b><br />
-                            <ul>
-                              <li>Use clear language, keep it as short as possible</li>
-                              <li>No jokes (people new to crypto will just be confused)</li>
-                              <li>Any claims must be factually correct</li>
-                            </ul>"></textarea>
+            <textarea id="summary" class="form-control" placeholder='{{_ "currency.summaries.markdown"}}' maxlength="500" minlength="10" data-toggle="popover" data-placement="top" data-html="true" 
+              data-content='{{_ "currency.summaries.rules"}}'></textarea>
           </div> 
           <div class="pull-left addNewSummaryContainer" style="display:none;">
             <h4 class="pull-left">&nbsp;&nbsp;<i class="fa fa-question-circle help" aria-hidden="true"></i></h4>
@@ -71,15 +64,15 @@
 
           <div class="form-group pull-right">
             {{#if anyExist}}
-            <button class="btn btn-secondary" id="loadMoreSummaries">Load more</button>
-            <button class="btn btn-secondary"  style="display:none;" id="hideSummaries">Hide</button>
+            <button class="btn btn-secondary" id="loadMoreSummaries">{{_ "currency.summaries.load"}}</button>
+            <button class="btn btn-secondary"  style="display:none;" id="hideSummaries">{{_ "currency.summaries.hide"}}</button>
             {{/if}}
             <span class="pull-right" style="display: inline-block">
-              <button class="btn btn-primary submitNewSummary" style="display:none;">Submit</button>
+              <button class="btn btn-primary submitNewSummary" style="display:none;">{{_ "currency.summaries.submit"}}</button>
               <button class="btn btn-primary showAddNewSummary">
-                <i class="fa fa-plus" aria-hidden="true"></i> Add summary
+                <i class="fa fa-plus" aria-hidden="true"></i> {{_ "currency.summaries.add_sum"}}
               </button>
-              <button class="btn btn-primary cancelNewSummary" style="display:none;">Cancel</button>
+              <button class="btn btn-primary cancelNewSummary" style="display:none;">{{_ "currency.summaries.cancel"}}</button>
             </span>
           </div>
         </div>
