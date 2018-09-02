@@ -25,7 +25,7 @@ Template.changedCurrencies.helpers({
     },
     nextChangedCurrency (change) {
         if (change === undefined) {
-            return "No more changes to approve"    
+            return TAPi18n.__('moderator.changedCurrencies.no_more')    
         } else {
             FlowRouter.go('/moderator/changedCurrencies/' + change._id);
         }    

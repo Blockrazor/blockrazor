@@ -22,7 +22,7 @@ Template.approveCommunityImage.events({
   'click #reject': function(event) {
 
       swal({
-        text: "Why are you rejecting this?",
+        text: TAPi18n.__('moderator.dash.why'),
         type: "warning",
         input: "text",
         confirmButtonClass: 'btn btn-primary',
@@ -33,7 +33,7 @@ Template.approveCommunityImage.events({
               if (rejectionReason) {
                   Meteor.call('flagCommunityImage', this._id, rejectionReason, (err, data) => {
                       if (!err) {
-                          sAlert.success('Rejected.')
+                          sAlert.success(TAPi18n.__('moderator.dash.rejected'))
                           Session.set('lastApproval', 'approveCommunityImage');
                       } else {
                           sAlert.error(err.reason)
@@ -41,14 +41,14 @@ Template.approveCommunityImage.events({
                       }
                   })
               }else{
-                sAlert.error('No rejection reason supplied, image not rejected')
+                sAlert.error(TAPi18n.__('moderator.dash.no_reason'))
               }
           });
   },
   'click #approve': function(event) {
     Meteor.call('approveCommunityImage', this._id, (err, data) => {
       if (!err) {
-        sAlert.success('Approved.')
+        sAlert.success(TAPi18n.__('moderator.dash.approved'))
         Session.set('lastApproval', 'approveCommunityImage');
       } else {
         sAlert.error(err.reason)

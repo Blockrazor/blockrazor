@@ -60,13 +60,13 @@ Template.removeExchange.events({
 
         Meteor.call('exchangeVote', this._id, type, (err, data) => {
             if (err && err.error === 'mod-only') {
-                sAlert.error('Only moderators can vote')
+                sAlert.error(TAPi18n.__('moderator.exchanges.only_mods'))
             }
 
             if (data === 'ok') {
-                sAlert.success('Successfully removed.')
+                sAlert.success(TAPi18n.__('moderator.exchanges.sucess'))
             } else if (data === 'not-ok') {
-            	sAlert.success('Removal denied.')
+            	sAlert.success(TAPi18n.__('moderator.exchanges.denied'))
             }
 
             nextExchange()

@@ -52,13 +52,13 @@ Template.moderatorPendingCurrency.events({
 Template.moderatorPendingCurrency.helpers({
   display () {
     if(this.rejected) {
-      return "none";
+      return TAPi18n.__('moderator.dash.currency.none');
     }},
   finalValue () {
     if (this.maxCoins && this.marketCap) {
     return Math.round(this.marketCap / this.maxCoins).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   } else {
-    return "calculating..."
+    return TAPi18n.__('moderator.dash.currency.calculating')
   }
   },
   marketCap () {
@@ -69,7 +69,7 @@ Template.moderatorPendingCurrency.helpers({
   },
   launchDate () {
     if (this.genesisTimestamp) {
-    return "Launched " + moment(this.genesisTimestamp).fromNow();
+    return TAPi18n.__('moderator.dash.currency.launched') + ' ' + moment(this.genesisTimestamp).fromNow();
   } else {
     return "";
   }
@@ -85,7 +85,7 @@ Template.moderatorPendingCurrency.helpers({
     if (this.genesisTimestamp) {
       return "";
     } else {
-      return "Add the " + this.currencyName + " launch date!"
+      return TAPi18n.__('moderator.dash.currency.add') + this.currencyName + TAPi18n.__('moderator.dash.currency.launch_date')
     }
   },
 });

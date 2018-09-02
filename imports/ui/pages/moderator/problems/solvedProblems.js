@@ -27,23 +27,23 @@ Template.solvedProblems.helpers({
 	},
 	status: function() {
 		if (this.closed) {
-			return 'CLOSED'
+			return TAPi18n.__('moderator.problems.closed')
 		}
 
 		if (this.solved) {
-			return 'SOLVED'
+			return TAPi18n.__('moderator.problems.solved')
 		}
 
 		if (this.locked) {
-			return 'IN PROGRESS'
+			return TAPi18n.__('moderator.problems.progress')
 		} 
 
 		if (this.open) {
-			return 'OPEN'
+			return TAPi18n.__('moderator.problems.open')
 		}
 	},
 	statusColor: function(status) {
-		return status === 'OPEN' ? 'green' : (status === 'SOLVED' || status === 'IN PROGRESS') ? 'orange' : 'red'
+		return status === TAPi18n.__('moderator.problems.open') ? 'green' : (status === TAPi18n.__('moderator.problems.solved') || status === TAPi18n.__('moderator.problems.progress')) ? 'orange' : 'red'
 	},
 	date: function() {
 		return moment(this.date).format(`${_globalDateFormat} HH:MM:SS`)
@@ -64,13 +64,13 @@ Template.solvedProblems.events({
 
         Meteor.call('problemVote', this._id, type, (err, data) => {
             if (err && err.error === 'mod-only') {
-                sAlert.error('Only moderators can vote')
+                sAlert.error(TAPi18n.__('moderator.problems.only_mod'))
             }
 
             if (data === 'ok') {
-                sAlert.success('Solution accepted.')
+                sAlert.success(TAPi18n.__('moderator.problems.accepted'))
             } else if (data === 'not-ok') {
-            	sAlert.success('Solution not accepted.')
+            	sAlert.success(TAPi18n.__('moderator.problems.denied'))
             }
         })
     }

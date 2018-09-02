@@ -62,13 +62,13 @@ Template.pardonUser.events({
 
         Meteor.call('pardonVote', this._id, type, (err, data) => {
             if (err && err.error === 'mod-only') {
-                sAlert.error('Only moderators can vote')
+                sAlert.error(TAPi18n.__('moderator.pardon.only_mod'))
             }
 
             if (data === 'ok') {
-                sAlert.success('User has been pardoned.')
+                sAlert.success(TAPi18n.__('moderator.pardon.success'))
             } else if (data === 'not-ok') {
-            	sAlert.success('Pardon application denied.')
+            	sAlert.success(TAPi18n.__('moderator.pardon.denied'))
 			}
 			newPardonUser();
         })

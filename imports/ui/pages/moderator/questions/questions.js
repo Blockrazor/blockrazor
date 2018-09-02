@@ -24,7 +24,7 @@ Template.questions.events({
       templateInstance.xor.set(false)
       templateInstance.xors.set([1])
     } else {
-      sAlert.error("Please enter a question");
+      sAlert.error(TAPi18n.__('moderator.questions.please_enter'));
     }
   },
   'click .js-delete': function(event, templateInstance) {

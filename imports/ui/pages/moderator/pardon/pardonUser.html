@@ -1,9 +1,9 @@
 <template name="pardonUser">
     {{#if isModerator}}
     <div class="pull-right" style="margin-top: 10px;">
-        <a id="skipPardon" href class="text-warning">Skip <i class="fa fa-step-forward"></i></a>
+        <a id="skipPardon" href class="text-warning">{{_ "moderator.pardon.skip"}} <i class="fa fa-step-forward"></i></a>
     </div>
-    <h3>Suspended users' pardon requests</h3>
+    <h3>{{_ "moderator.pardon.requests"}}</h3>
     <br>
     {{#with pardonUser}}
     <div class="row">
@@ -12,23 +12,23 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-2">
-                            <h5 class="card-title">Username</h5>
+                            <h5 class="card-title">{{_ "moderator.pardon.username"}}</h5>
                             <p class="card-text"> {{ username }} </p>
                         </div>
                         <div class="col-sm-6">
-                            <h5 class="card-title">Offences</h5>
+                            <h5 class="card-title">{{_ "moderator.pardon.offences"}}</h5>
                             <p class="card-text"> {{#each offences}} {{name}} - {{date}} <br> {{/each}} </p>
             
-                            <h5 class="card-title">Reason</h5>
+                            <h5 class="card-title">{{_ "moderator.pardon.reason"}}</h5>
                             <p class="card-text"> {{ pardon.reason }} </p>
                         </div>
                         <div class="col-sm-2">
                             {{#if voted}}
                                 -
                             {{else}}
-                                <h5 class="card-title">Upvotes</h5>
+                                <h5 class="card-title">{{_ "moderator.pardon.upvotes"}}</h5>
                                 <p class="card-text"> {{upvotes}} </p>
-                                <h5 class="card-title">Downvotes</h5>
+                                <h5 class="card-title">{{_ "moderator.pardon.downvotes"}}</h5>
                                 <p class="card-text"> {{downvotes}} </p>
                             {{/if}}
                         </div>
@@ -57,8 +57,8 @@
     {{/with}}
 
     {{else}}
-    <h1>This page is for moderators only.</h1>
+    <h1>{{_ "moderator.mod_only"}}</h1>
     {{/if}}
     <br>
-    <a href="/moderator">Back to moderator dashboard</a>
+    <a href="/moderator">{{_ "moderator.pardon.back"}}</a>
 </template>

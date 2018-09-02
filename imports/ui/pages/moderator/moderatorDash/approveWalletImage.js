@@ -15,7 +15,7 @@ Template.approveWalletImage.events({
     },
   'click #reject': function(event){
           swal({
-              text: "Why are you rejecting this?",
+              text: TAPi18n.__('moderator.dash.why'),
               type: "warning",
               input: "text",
               confirmButtonClass: 'btn btn-primary',
@@ -27,21 +27,21 @@ Template.approveWalletImage.events({
               if (rejectionReason) {
                   Meteor.call('flagWalletImage', this._id, rejectionReason, (err, data) => {
                       if (!err) {
-                          sAlert.success('Rejected.')
+                          sAlert.success(TAPi18n.__('moderator.dash.rejected'))
                       } else {
                           sAlert.error(err.reason)
                       }
                   })
                   Session.set('lastApproval', 'approveWalletImage');
               }else{
-                sAlert.error('No rejection reason supplied, image not rejected')
+                sAlert.error(TAPi18n.__('moderator.dash.no_reason'))
               }
           });
 
   },
   'click #approve': function(event){
     swal({
-      title: "Are you sure?",
+      title: TAPi18n.__('moderator.dash.sure'),
       icon: "warning",
       buttons: true,
       dangerMode: true,

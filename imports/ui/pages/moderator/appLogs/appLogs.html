@@ -4,34 +4,34 @@
     <div class="form-check form-control" style="margin-bottom: 20px !important;">
         <div class="row">
             <span class="form-check-item filter-bounties-label col-sm-2">
-                <h5 style="margin-bottom: 0;margin-top: 3px;">Filter App Logs:</h5>
+                <h5 style="margin-bottom: 0;margin-top: 3px;">{{_ "moderator.appLogs.filter"}}</h5>
             </span>
             
             <span class="form-check-item col-sm-2">
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input form-check-input" id="all-logs" value="ALL">
-                    <label class="custom-control-label" for="all-logs">All</label>
+                    <label class="custom-control-label" for="all-logs">{{_ "moderator.appLogs.all"}}</label>
                 </div>
             </span>
             
             <span class="form-check-item col-sm-2">
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input form-check-input" id="info-logs" value="INFO">
-                    <label class="custom-control-label" for="info-logs">Info</label>
+                    <label class="custom-control-label" for="info-logs">{{_ "moderator.appLogs.info"}}</label>
                 </div>
             </span>
             
             <span class="form-check-item col-sm-2">
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input form-check-input" id="warn-logs" value="WARN">
-                    <label class="custom-control-label" for="warn-logs">Warn</label>
+                    <label class="custom-control-label" for="warn-logs">{{_ "moderator.appLogs.warn"}}</label>
                 </div>
             </span>
             
             <span class="form-check-item col-sm-2">
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input form-check-input" id="error-logs" value="ERROR">
-                    <label class="custom-control-label" for="error-logs">Error</label>
+                    <label class="custom-control-label" for="error-logs">{{_ "moderator.appLogs.error"}}</label>
                 </div>
             </span>
         </div>
@@ -42,11 +42,11 @@
             <div class="row form-items">
                 <div class="col-12 form-group" style="padding: 0">
                     <div class="input-group mb-3">
-                        <input id="js-search" name="searchInput" type="text" class="form-control" placeholder="Search logs by message, username or IP..." aria-label="" aria-describedby="basic-addon1">
+                        <input id="js-search" name="searchInput" type="text" class="form-control" placeholder='{{_ "moderator.appLogs.search"}}' aria-label="" aria-describedby="basic-addon1">
                     </div>
                 </div>
                 <div class="found-result">
-                    {{#if filterCount}} Found {{filterCount}} results {{/if}}
+                    {{#if filterCount}} {{_ "moderator.appLogs.found_results" filterCount}} {{/if}}
                 </div>
             </div>
         </form>
@@ -59,11 +59,11 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">Level</th>
-                                <th scope="col">Date &amp; Time</th>
-                                <th scope="col">User</th>
-                                <th scope="col">Message</th>
-                                <th scope="col">Additional info</th>
+                                <th scope="col">{{_ "moderator.appLogs.level"}}</th>
+                                <th scope="col">{{_ "moderator.appLogs.date"}}</th>
+                                <th scope="col">{{_ "moderator.appLogs.user"}}</th>
+                                <th scope="col">{{_ "moderator.appLogs.message"}}</th>
+                                <th scope="col">{{_ "moderator.appLogs.additional"}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -79,15 +79,15 @@
                         </tbody>
                     </table>
                     {{#if loadMore applogs}}
-                        <button id="js-more" class="btn btn-action" style="width: 100%">More data?</button>
+                        <button id="js-more" class="btn btn-action" style="width: 100%">{{_ "moderator.appLogs.more"}}?</button>
                     {{ else }}
-                        No search results found
+                        {{_ "moderator.appLogs.no_results"}}
                     {{/if}}
                 </div>
             </div>
         </div>
     </div>
     {{else}}
-    <h1>This page is for moderators only.</h1>
+    <h1>{{_ "moderator.mod_only"}}</h1>
     {{/if}}
 </template>

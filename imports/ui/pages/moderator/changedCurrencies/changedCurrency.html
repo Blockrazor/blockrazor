@@ -1,7 +1,7 @@
 <template name="changedCurrency">
     <div class="row">
         <div class="col-sm-12">
-                <a id="skipChange" href class="pull-right text-warning">Skip <i class="fa fa-step-forward"></i></a>
+                <a id="skipChange" href class="pull-right text-warning">{{_ "moderator.changedCurrencies.skip"}} <i class="fa fa-step-forward"></i></a>
         </div>
     </div>
 
@@ -29,26 +29,26 @@
                 <div class="card-body">
             
                     <h4 class="card-title mb-3">{{ coinName }}</h4>
-                    <h5 class="card-subtitle mb-2">status: <span class=" text-muted">{{status}}</span> </h5>
+                    <h5 class="card-subtitle mb-2">{{_ "moderator.changedCurrencies.status"}}: <span class=" text-muted">{{status}}</span> </h5>
                     <hr>
                     <div class="row">
                         <div class="col">
-                            <h5>Field </h5>
+                            <h5>{{_ "moderator.changedCurrencies.field"}} </h5>
                             <div class="card-text">{{field}}</div>
                         </div>
                         <div class="col">
-                            <h5>From </h5>
+                            <h5>{{_ "moderator.changedCurrencies.from"}} </h5>
                             <div class="card-text">{{{checkType old}}}</div>
                         </div>
                             <div class="col">
-                                <h5>To </h5>
+                                <h5>{{_ "moderator.changedCurrencies.to"}} </h5>
                                 <div class="card-text">{{{checkType new}}}</div>
                             </div>
                     </div>
                     
                     <hr>
                     <div class="row">
-                        <div class="col"><label>Reason: </label> {{notes}} </div>
+                        <div class="col"><label>{{_ "moderator.changedCurrencies.notes"}}: </label> {{notes}} </div>
                     </div>
                 </div>
             </div>
