@@ -1,0 +1,32 @@
+{
+	"home": {
+		"filter": "Filter your results",
+		"project_status": "Project Status",
+		"genesis_timestamp": "Genesis Timestamp",
+		"launched_and_stable": "Launched and Stable Projects",
+		"planned_projects": "Planned Projects and ICOs",
+		"security": "Security",
+		"pow": "Proof of Work",
+		"pos": "Proof of Stake",
+		"hybrid": "Hybrid",
+		"unknown": "Unknown",
+		"apply_filter": "Apply Filter",
+		"found_results": "Found %s results",
+		"loading_results": "Loading count of results",
+		"users_online": "Users online: %s/%s",
+		"new_users": "New users in the last month: %s",
+		"ico_or_coin": "Put your ICO or coin here",
+		"top_bid": "top bid",
+		"end_results": "End of results"
+	},
+	"landing": {
+		"info": "Absolutely <strong>all</strong> information about <strong>every</strong> blockchain project in a comparison tool that <strong>anyone</strong> can understand.",
+		"get_started": "Get Started... It's Free",
+		"join": "Join in",
+		"solve": "Solve bounties and earn Krazor!",
+		"compare_currencies": "Compare Currencies",
+		"compare_info": "Compare currencies and become insanely rich",
+		"easy": "Easy to Use",
+		"easy_info": "Easy to use"
+	}
+}

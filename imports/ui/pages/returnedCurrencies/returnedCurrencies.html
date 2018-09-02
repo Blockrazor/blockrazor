@@ -5,11 +5,11 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Filter your results</h5>
+        <h5 class="modal-title">{{_ "home.filter"}}</h5>
       </div>
       <div class="modal-body">
-        <h5 class="card-title">Project Status</h5>
-        <p class="card-title mt-2">Genesis Timestamp :</p>
+        <h5 class="card-title">{{_ "home.project_status"}}</h5>
+        <p class="card-title mt-2">{{_ "home.genesis_timestamp"}}:</p>
         <div class="row date-slider-container">
           <input type="text" class="date-slider span2"/>
         </div>
@@ -18,7 +18,7 @@
             <span class="col-sm-12 projects-status-option">
               <div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input form-check-input" id="launched-projects-checkbox" value="Launched" checked>
-                <label class="custom-control-label" for="launched-projects-checkbox">Launched and Stable Projects</label>
+                <label class="custom-control-label" for="launched-projects-checkbox">{{_ "home.launched_and_stable"}}</label>
               </div>
             </span>
           </div>
@@ -26,25 +26,25 @@
             <span class="col-sm-12 projects-status-option">
               <div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input form-check-input" id="future-projects-checkbox" value="Future" checked>
-                <label class="custom-control-label" for="future-projects-checkbox">Planned Projects and ICOs</label>
+                <label class="custom-control-label" for="future-projects-checkbox">{{_ "home.planned_projects"}}</label>
               </div>
             </span>
           </div>
         </div>
         <br/><br/>
-        <h5 class="card-title mt-2">Security</h5>
+        <h5 class="card-title mt-2">{{_ "home.security"}}</h5>
         <div class="form-check security-constraints">
           <div class="row">
             <span class="col-sm-6">
               <div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input form-check-input" id="pow" value="Proof of Work" checked>
-                <label class="custom-control-label" for="pow">Proof of Work</label>
+                <label class="custom-control-label" for="pow">{{_ "home.pow"}}</label>
               </div>
             </span>
             <span class="col-sm-6">
               <div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input form-check-input" id="pos" value="Proof of Stake" checked>
-                <label class="custom-control-label" for="pos" id="pos">Proof of Stake</label>
+                <label class="custom-control-label" for="pos" id="pos">{{_ "home.pos"}}</label>
               </div>
             </span>
           </div>
@@ -52,13 +52,13 @@
             <span class="col-sm-6">
               <div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input form-check-input" id="hybrid" value="Hybrid" checked>
-                <label class="custom-control-label" for="hybrid" id="hybrid" >Hybrid</label>
+                <label class="custom-control-label" for="hybrid" id="hybrid" >{{_ "home.hybrid"}}</label>
               </div>
             </span>
             <span class="col-sm-6">
               <div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input form-check-input" id="unknown" value="--Select One--" checked>
-                <label class="custom-control-label" for="unknown" id="unknown" >Unknown</label>
+                <label class="custom-control-label" for="unknown" id="unknown" >{{_ "home.unknown"}}</label>
               </div>
             </span>
           </div>
@@ -66,7 +66,7 @@
         <br/>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary apply-filter-button" data-dismiss="modal">Apply Filter</button>
+        <button type="button" class="btn btn-secondary apply-filter-button" data-dismiss="modal">{{_ "home.apply_filter"}}</button>
       </div>
     </div>
   </div>
@@ -74,12 +74,12 @@
   <div class="search-bar">
     <div class="found-result">
       {{#if reactiveVar 'countReady'}}
-        Found {{reactiveVar 'count'}} results;
+        {{_ "home.found_results" (reactiveVar 'count')}};
       {{else}}
-        Loading count of results;
+        {{_ "home.loading_results"}};
       {{/if}}
-       Users online: {{onlineUsers}}/{{createdUsers}};
-       New users in the last month: {{signedUp}}
+       {{_ "home.users_online" onlineUsers createdUsers}};
+       {{_ "home.new_users" signedUp}}
     </div>
   </div>
   <div class="currency-container">
@@ -89,7 +89,7 @@
           <div class="currency-card top-bid-currency" style="height: 70px;text-decoration: none;">
               <div class="header">
                   <div><i style="padding-right: 10px; padding-left: 10px;" class="fa fa-gavel"></i> 
-                    Put your ICO or coin here <div style="font-size: 12px; display: inline-block">(top bid)</div>
+                    {{_ "home.ico_or_coin"}} <div style="font-size: 12px; display: inline-block">({{_ "home.top_bid"}})</div>
                   </div>
               </div>
           </div>
@@ -106,7 +106,7 @@
       {{/if}}
     </div>    
     {{#if reactiveVar 'everythingLoaded'}}
-        <div class="end-of-page"> *** End of results ***</div>
+        <div class="end-of-page"> *** {{_ "home.end_results"}} ***</div>
     {{/if}}
     <div id="loader">
       <!-- used to determine that page is ending for infinite scroll -->

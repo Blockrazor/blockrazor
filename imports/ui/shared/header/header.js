@@ -3,10 +3,14 @@ import {FlowRouter} from 'meteor/ostrio:flow-router-extra';
 
 import './header.html'
 
+import { Cookies } from 'meteor/ostrio:cookies'
+const cookies = new Cookies()
+
 Template.header.onCreated(function() {
         this.searchInputFilter = new ReactiveVar(undefined);
         let searchInputFilter = Template.instance().searchInputFilter.get();
 
+    TAPi18n.setLanguage(cookies.get('language') || 'en')
 })
 
 Template.header.events({
@@ -48,6 +52,11 @@ Template.header.events({
     },
     'click #logout': (event, templateInstance) => {
     Meteor.logout()
+  },
+  'click .js-change-lang': function(event, templateInstance) {
+    TAPi18n.setLanguage(this.code)
+
+    cookies.set('language', this.code)
   }
 })
 
@@ -66,5 +75,14 @@ Template.header.helpers({
         let balance = UserData.findOne({}, { fields: { balance: 1 } }).balance
         if (typeof(balance) === 'string') { return balance }
         return Number( balance.toPrecision(3) ).toFixed(11).replace(/\.?0+$/, "")
-  	}
+  	},
+    languages: () => {
+      return Object.keys(TAPi18n.languages_names).map(key => {
+        return {
+          code: key,
+          name: TAPi18n.languages_names[key][1],
+          selected: key === TAPi18n.getLanguage()
+        }
+      })
+    }
 });

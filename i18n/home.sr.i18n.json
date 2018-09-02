@@ -1,0 +1,32 @@
+{
+	"home": {
+		"filter": "Filtriraj rezultate",
+		"project_status": "Status projekta",
+		"genesis_timestamp": "Vreme genesis bloka",
+		"launched_and_stable": "Lansirani i stabilni projekti",
+		"planned_projects": "Planirani projekti i ICO-i",
+		"security": "Sigurnost",
+		"pow": "Proof of Work",
+		"pos": "Proof of Stake",
+		"hybrid": "Hibridni",
+		"unknown": "Nepoznat",
+		"apply_filter": "Primeni filter",
+		"found_results": "Pronađeno %s rezultata",
+		"loading_results": "Rezultati se učitavaju",
+		"users_online": "Broj online korisnika: %s/%s",
+		"new_users": "Novi korisnici tokom prošlog meseca: %s",
+		"ico_or_coin": "Stavi svoj ICO ili kriptovalutu ovde",
+		"top_bid": "najbolja ponuda",
+		"end_results": "Kraj rezultata"
+	},
+	"landing": {
+		"info": "Apsolutno <strong>sve</strong> informacije o <strong>svakom</strong> blockchain projektu u alatu za poređenje koji <strong>svako</strong> može da razume.",
+		"get_started": "Počni...Besplatno je.",
+		"join": "Priključi se",
+		"solve": "Rešavaj nagradne zadatke i zaradi Krazor!",
+		"compare_currencies": "Uporedi kriptovalute",
+		"compare_info": "Uporedi kriptovalute i postani ekstremno bogat",
+		"easy": "Lako za korišćenje",
+		"easy_info": "Lako za korišćenje"
+	}
+}
