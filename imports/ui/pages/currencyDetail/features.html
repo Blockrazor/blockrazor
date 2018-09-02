@@ -3,24 +3,16 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Adding a new feature</h5>
+          <h5 class="modal-title" id="exampleModalLabel">{{_ "currency.features.new"}}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          You're adding a {{currencyName}} feature. You will be credited with a bounty of {{bountyamount}} ZZR in 7 days as long as it:
-          <ul>
-            <li>Maintains 3 or more stars</li>
-            <li>Is not sent to the Sin Bin by a moderator</li>
-          </ul>
-          Here's an example feature from Monero:<br />
-          <i>Privacy - all transactions made with Monero are private and untraceable.</i>
-          <br>
-          You'll also receive more KZR if your feature reaches the top.
+          {{{_ "currency.features.modal_text" currencyName bountyamount}}}
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Thanks, don't show this again</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">{{_ "currency.features.dont_show"}}</button>
         </div>
       </div>
     </div>
@@ -29,28 +21,16 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Commenting</h5>
+          <h5 class="modal-title" id="exampleModalLabel">{{_ "currency.features.commenting"}}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <p>You'll be asked how much <i>wymi</i> you want to give your comment. </p>
-          <p>You must have enough avalable balance in your wallet to fund the amount you choose.</p>
-          <p>If your comment becomes the <i>top comment</i> in the thread, you get <i>triple</i> your wymi back!
-          If not, your wymi is <i>returned to you in full</i>. Comments sent to the Sin Bin for violating
-          the rules shall forfeit their wymi.</p>
-          <p>The wymi is currently optional but a minimum amount may be implimented in future depending on how much spam etc there is.</p>
-          <h5>Rules</h5>
-          If you think you're doing the right thing, you probably are.
-          <ul>
-            <li>No spamming</li>
-            <li>No personal attacks or abuse</li>
-            <li>Warning people about scams etc is perfectly fine, but <i>malicious</i> FUD is not.</li>
-          </ul>
+          {{{_ "currency.features.modal_body"}}}
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Close</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">{{_ "currency.features.close"}}</button>
         </div>
       </div>
     </div>
@@ -59,25 +39,23 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add a new feature</h5>
+          <h5 class="modal-title" id="exampleModalLabel">{{_ "currency.features.add_new"}}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          It looks like {{currencyName}} has only recently been added to Blockrazor and
-          its features have not yet been added. This is a great opportunity for you to
-          add one of {{currencyName}}'s features and earn some Krazor!
+          {{_ "currency.features.modal_body_info" currencyName currencyName}}
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Thanks, don't show this again</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">{{_ "currency.features.dont_show"}}</button>
         </div>
       </div>
     </div>
   </div>
   {{featureModal}}
   <div class="col-sm-12 currency-features">
-    <div class="header" >Features</div>
+    <div class="header" >{{_ "currency.features.features"}}</div>
     <div>
       <div class="currencyDetailBox">
         {{#unless reactiveVar 'showflagged'}}
@@ -92,7 +70,7 @@
             {{/each}}
             {{#if features}}
               {{#if loadMoreActive}}
-              <button class="load-more-button" id="loadMoreFeatures">Load More</button>
+              <button class="load-more-button" id="loadMoreFeatures">{{_ "currency.features.load"}}</button>
               {{/if}}
               
             {{/if}}
@@ -106,20 +84,15 @@
       <div class="row">
         <div class="col-sm-12 addNewOuter">
           <button class="btn btn-primary showAddNewFeature pull-right">
-            <i class="fa fa-plus" aria-hidden="true"></i> Add feature
+            <i class="fa fa-plus" aria-hidden="true"></i> {{_ "currency.features.add_feat"}}
           </button>
           <div class="addNewFeatureContainer" style="display:none;">
             <div class="input-group">
               <textarea id="featureName" class="form-control" maxlength="140" minlength="6" data-toggle="popover" data-placement="top" data-html="true" 
-                data-content="<b>Rules:</b><br />
-                              <ul>
-                                <li>Use clear language, keep it as short as possible</li>
-                                <li>No jokes (people new to crypto will just be confused)</li>
-                                <li>Any claims must be factually correct</li>
-                              </ul>"></textarea>
+                data-content='{{_ "currency.features.rules"}}'></textarea>
               <div class="input-group-append">
-                <button class="btn btn-primary float-left submitNewFeature">Submit</button>
-                &nbsp;&nbsp;<button class="btn btn-primary float-left cancelNewFeature">Cancel</button>
+                <button class="btn btn-primary float-left submitNewFeature">{{_ "currency.features.submit"}}</button>
+                &nbsp;&nbsp;<button class="btn btn-primary float-left cancelNewFeature">{{_ "currency.features.cancel"}}</button>
               </div>  
             </div>
             <span class="helpers">

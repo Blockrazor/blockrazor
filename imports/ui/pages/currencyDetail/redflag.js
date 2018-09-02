@@ -74,7 +74,7 @@ Template.redflag.events({
     $('#flagModal-' + this._id).modal('hide');
     Meteor.call('redflag', this._id, function(error, resonse) {
       if(!error){
-        sAlert.success("Thanks for letting us know!");
+        sAlert.success(TAPi18n.__('currency.feature.thanks'));
       } else {
         sAlert.error(error.reason);
       }
@@ -82,13 +82,13 @@ Template.redflag.events({
   },
   'click .submitNewComment': function () {
     if(!Meteor.user()) {
-      sAlert.error("You must be logged in to comment!");
+      sAlert.error(TAPi18n.__('currency.feature.must_login'));
     }
     var data = $('#replyText-' + this._id).val();
     var ifnoterror = function(){
     }
     if(data.length < 6 || data.length > 140) {
-      sAlert.error("That entry is too short, or too long.");
+      sAlert.error(TAPi18n.__('currency.feature.too_short'));
     } else {
       let res 
       try {
@@ -98,7 +98,7 @@ Template.redflag.events({
       }
       Meteor.call('redFlagNewComment', this._id, data, 1, res, function(error, result) {
         if(!error) {
-          sAlert.success("Thanks! Your comment has been posted!");
+          sAlert.success(TAPi18n.__('currency.feature.posted'));
         } else {
           sAlert.error(error.reason);
           return;
@@ -116,10 +116,10 @@ Template.redflag.events({
   var max = 140;
   var len = $(this).val().length;
   if (len >= max) {
-    $('#replyCharNum' + this._id).text(' you have reached the limit');
+    $('#replyCharNum' + this._id).text(TAPi18n.__('currency.feature.limit'));
   } else {
     var char = max - len;
-    $("#replyCharNum" + this._id).text(char + ' characters left');
+    $("#replyCharNum" + this._id).text(char + TAPi18n.__('currency.feature.left'));
   }
 });
   },

@@ -33,21 +33,21 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">You are flagging:</h5>
+          <h5 class="modal-title">{{_ "currency.comment.flagging"}}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <p><b><i>"{{comment}}"</i></b></p>
-            Written by: 
+            {{_ "currency.comment.written_by"}} 
             {{#hovercard template="userHover" direction="vertical" trigger="hover"}}
               <a href="/profile/{{slugify author}}">{{author}}</a>
             {{/hovercard}}
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger commentFlag">Report</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger commentFlag">{{_ "currency.comment.report"}}</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">{{_ "currency.comment.close"}}</button>
         </div>
       </div>
     </div>

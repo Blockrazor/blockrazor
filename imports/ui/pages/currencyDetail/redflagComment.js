@@ -24,7 +24,7 @@ Template.redflagComment.events({
     $('#flagModal-' + this._id).modal('hide');
     Meteor.call('redflag', this._id, function(error, resonse) {
       if(!error){
-        sAlert.success("Thanks for letting us know!");
+        sAlert.success(TAPi18n.__('currency.feature.thanks'));
       } else {
         sAlert.error(error.reason);
       }

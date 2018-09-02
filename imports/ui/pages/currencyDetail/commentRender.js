@@ -19,7 +19,7 @@ Template.commentRender.events({
   $('#flagModal-' + this._id).modal('hide');
   Meteor.call('flag', this._id, function(error, resonse) {
     if(!error){
-      sAlert.success("Thanks for letting us know!");
+      sAlert.success(TAPi18n.__('currenct.comment.thanks'));
     } else {
       sAlert.error(error.reason);
     }

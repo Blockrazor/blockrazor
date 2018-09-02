@@ -85,16 +85,16 @@ Template.features.events({
   var max = 140;
   var len = $(this).val().length;
   if (len >= max) {
-    $('#charNumFeature').text(' you have reached the limit');
+    $('#charNumFeature').text(TAPi18n.__('currency.features.limit'));
   } else {
     var char = max - len;
-    $('#charNumFeature').text(char + ' characters left');
+    $('#charNumFeature').text(char + TAPi18n.__('currency.features.left'));
   }
 });
   },
     'click .submitNewFeature': function(event, templateInstance) {
         if (!Meteor.user()) {
-            sAlert.error("You must be logged in to add a new feature!")
+            sAlert.error(TAPi18n.__('currency.features.must_login'))
         }
 
         const data = $('#featureName').val()
@@ -116,7 +116,7 @@ Template.features.events({
                 $('.showAddNewFeature').show()
                 $('.addNewFeatureContainer').hide()
                 templateInstance.addingnewfeature.set(false)
-                sAlert.success('Thanks! That feature has been added!')
+                sAlert.success(TAPi18n.__('currency.features.added'))
             } else {
                 if (err.details) {
                     err.details.forEach(i => {

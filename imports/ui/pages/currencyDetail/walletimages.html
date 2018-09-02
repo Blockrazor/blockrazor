@@ -1,7 +1,7 @@
 <template name="walletimages">
 	<div class="col-sm-12 currency-wallet-images">
 		<div class="border-secondary mb-3 mb-3" style="min-width:300px;overflow:hidden;margin-top:10px;">
-      <div class="header">Wallet Images</div>        
+      <div class="header">{{_ "currency.wallet.images"}}</div>        
       <div>
         {{#if subsCacheReady}}
           {{#each walletimages}}
@@ -28,7 +28,7 @@
           <img src="{{walletimagesdir}}{{_id}}.{{extension}}" style="width:300px; max-width: 100%;" class="align-middle">
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">{{_ "currency.wallet.close"}}</button>
         </div>
       </div>
     </div>

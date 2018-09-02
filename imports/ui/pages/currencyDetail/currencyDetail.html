@@ -4,10 +4,10 @@
     <div class="alert alert-danger" role="alert">
     <h5 class="text-center">{{timeRemaining}}</h5>
     <input type="text" placeholder="https://github.com/Blockrazor/blockrazor/pull/362" id="js-pr" style="padding: 10px; margin-top: 10px; margin-bottom: 10px;width: 100%"><br />
-    <button class="btn btn-danger" id="js-submitPR">Submit PR link</button>
-    {{#if canExtend}}<button class="btn btn-danger" id="js-extend">Extend time by 1 hour</button>{{/if}}
-    <button class="btn btn-danger" id="js-cancel">Cancel</button>
-    <h6>Example: <a href="https://github.com/Blockrazor/blockrazor/pull/362">https://github.com/Blockrazor/blockrazor/pull/362</a></h6>
+    <button class="btn btn-danger" id="js-submitPR">{{_ "currency.detail.submit_pr"}}</button>
+    {{#if canExtend}}<button class="btn btn-danger" id="js-extend">{{_ "currency.detail.extend"}}</button>{{/if}}
+    <button class="btn btn-danger" id="js-cancel">{{_ "currency.detail.cancel"}}</button>
+    <h6>{{_ "currency.detail.example"}}: <a href="https://github.com/Blockrazor/blockrazor/pull/362">https://github.com/Blockrazor/blockrazor/pull/362</a></h6>
     </div>
   {{/if}}
   <div class="row">
@@ -53,7 +53,7 @@
   </div>
   <div class="row">
     <div class="currency-x-container col-sm-12">
-      <a class="btn btn-outline-primary pull-right m-3 no-margin" href="/compareCurrencies/{{getCurrencySymbol thiscurrency}}">Compare with other currencies</a>
+      <a class="btn btn-outline-primary pull-right m-3 no-margin" href="/compareCurrencies/{{getCurrencySymbol thiscurrency}}">{{_ "currency.detail.compare"}}</a>
     </div>
   </div>
   <div class="row">
@@ -65,7 +65,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">We have detected an unusual activity with your account. </h5>
+          <h5 class="modal-title">{{_ "currency.detail.unusual_activity"}} </h5>
         </div>
         <div class="modal-body">
           {{{captcha}}}
