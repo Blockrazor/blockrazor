@@ -51,3 +51,5 @@ aslagle:reactive-table
 socialize:user-presence
 ostrio:flow-router-extra
 random
+tap:i18n
+ostrio:cookies

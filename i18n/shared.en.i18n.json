@@ -1,0 +1,56 @@
+{
+	"error404": {
+		"error": "Error 404",
+		"not_found": "Not found"
+	},
+	"footer": {
+		"text": "The content of this page is owned by&nbsp;<a href=\"https://blockrazor.org\">Blockrazor</a>&nbsp;and Contributors. It is licensed under Creative Commons Attribution-ShareAlike 3.0 License."
+	},
+	"header": {
+		"bounties": "BOUNTIES",
+		"search": "Search Blockazor",
+		"language_choice": "Language choice",
+		"active_bounties": "Active BlockRazor Bounties",
+		"open_wallet": "Open your Wallet",
+		"account": "Account",
+		"profile": "Profile",
+		"logout": "Logout",
+		"notifications": "Your Notifications",
+		"signin": "SIGN IN"
+	},
+	"sidebar": {
+		"home": "Home",
+		"compare_currencies": "Compare currencies",
+		"add_new_coin_ico": "Add New Coin or ICO",
+		"bounties": "Bounties",
+		"help": "Get Help",
+		"krazor": {
+			"home": "Krazor Home",
+			"trade": "Trade Krazor",
+			"distribution": "Distribution",
+			"transactions": "All Transactions"
+		},
+		"pending_items": "My Pending Items",
+		"notifications": "Notifications",
+		"my_wallet": "My Wallet",
+		"moderator": {
+			"moderator": "Moderator",
+			"approvals": "Approvals",
+			"proposed_changes": "Proposed Changes",
+			"flagged_ip": "Flagged IP addresses",
+			"candidates": "Moderator candidates",
+			"remove_exchanges": "Remove exchanges",
+			"flagged_hashpower": "Flagged Hashpower",
+			"rating_questions": "Manage Rating Questions",
+			"applogs": "Application logs",
+			"solved_problems": "Solved Problems",
+			"pardon": "Pardon Suspended Users",
+			"flagged_content": "Flagged Content"
+		},
+		"suspended": {
+			"suspended": "Suspended",
+			"home": "Home",
+			"help": "Get Help"
+		}
+	}
+}

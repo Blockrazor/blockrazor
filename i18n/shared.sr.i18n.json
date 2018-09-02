@@ -1,0 +1,56 @@
+{
+	"error404": {
+		"error": "Greška 404",
+		"not_found": "Nije pronađeno"
+	},
+	"footer": {
+		"text": "Sadržaj ove stranice je vlasništvo &nbsp;<a href=\"https://blockrazor.org\">Blockrazor</a>-a i saradnika. Licencirano je pod Creative Commons Attribution-ShareAlike 3.0 licencom."
+	},
+	"header": {
+		"bounties": "NAGRADE",
+		"search": "Pretraži Blockazor",
+		"language_choice": "Odabir jezika",
+		"active_bounties": "Aktivne Blockrazor nagrade",
+		"open_wallet": "Otvori novčanik",
+		"account": "Nalog",
+		"profile": "Profil",
+		"logout": "Odjavi se",
+		"notifications": "Tvoje notifikacije",
+		"signin": "Prijavi se"
+	},
+	"sidebar": {
+		"home": "Početna",
+		"compare_currencies": "Uporedi kriptovalute",
+		"add_new_coin_ico": "Dodaj novu kriptovalutu ili ICO",
+		"bounties": "Nagrade",
+		"help": "Pomoć",
+		"krazor": {
+			"home": "Krazor početna",
+			"trade": "Menjaj Krazor",
+			"distribution": "Distribucija",
+			"transactions": "Sve transakcije"
+		},
+		"pending_items": "Moje neodobrene stvari",
+		"notifications": "Notifikacije",
+		"my_wallet": "Moj novčanik",
+		"moderator": {
+			"moderator": "Moderator",
+			"approvals": "Odobrenja",
+			"proposed_changes": "Predložene izmene",
+			"flagged_ip": "Obeležene IP adrese",
+			"candidates": "Kandidati za moderatora",
+			"remove_exchanges": "Obriši exchnage",
+			"flagged_hashpower": "Obeležen hashpower",
+			"rating_questions": "Upravljaj rejting pitanjima",
+			"applogs": "Logovi aplikacije",
+			"solved_problems": "Rešeni problemi",
+			"pardon": "Pomiluj suspendovane korisnike",
+			"flagged_content": "Obeležen sadržaj"
+		},
+		"suspended": {
+			"suspended": "Suspendovan",
+			"home": "Početna",
+			"help": "Pomoć"
+		}
+	}
+}

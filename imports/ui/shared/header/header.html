@@ -10,13 +10,13 @@
                 <li class="nav-item px-1">
                   <!-- Bounties link hidden on mobile -->
                   <!-- <a class="nav-link bounties-icon fa fa-plus-square d-md-none" href="/bounties"></a> -->
-                  <a class="nav-link d-none d-md-block" href="/bounties"><span class="separator"></span> BOUNTIES</a>
+                  <a class="nav-link d-none d-md-block" href="/bounties"><span class="separator"></span> {{_ "header.bounties"}}</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav ml-auto">
                           <form class="form-inline center">
             <div class="input-group">
-                <input class="form-control mr-sm-2 mr-3" value="{{searchVal}}" type="search" id="searchFilterHeader" placeholder="Search Blockazor...." aria-label="Search" style="margin-right: 0 !important;width:15em">
+                <input class="form-control mr-sm-2 mr-3" value="{{searchVal}}" type="search" id="searchFilterHeader" placeholder='{{_ "header.search"}}...' aria-label="Search" style="margin-right: 0 !important;width:15em">
                 <div class="input-group-append">
                   <div class="input-group-text d-none d-sm-block">
                     <i class="nav-icon icon-magnifier"></i>
@@ -29,10 +29,26 @@
                 <li class="nav-item d-none d-md-block">
                   <a href="/faq" title="BlockRazor FAQ" class="nav-link"><i class="icon-question"></i></a>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+                    <i class="fas fa-language"></i><i class="ml-2 fa fa-caret-down"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <div class="dropdown-header text-center">
+                            <strong>{{_ "header.language_choice"}}</strong>
+                        </div>
+                        {{#each languages}}
+                            {{#if selected}}
+                            <a class="dropdown-item js-change-lang" style="background: #c8ced3" href="#">{{name}}</a>
+                            {{else}}
+                            <a class="dropdown-item js-change-lang" href="#">{{name}}</a>
+                            {{/if}}
+                        {{/each}}
+                    </div>
+                </li>
                 {{#if currentUser}}
                 {{#if hasBounties activeBounties }}
                 <li class="nav-item">
-                    <a href="{{bountyUrl activeBounties}}" title="Active BlockRazor Bounties" class="nav-link">
+                    <a href="{{bountyUrl activeBounties}}" title='{{_ "header.active_bounties"}}' class="nav-link">
                       <i class="icon-target"></i>
                       <span class="badge badge-pill badge-danger">{{ activeBounties.length }}</span>
                     </a>
@@ -40,7 +56,7 @@
                 {{/if}}
 
                 <li class="nav-item">
-                        <a href="/wallet" id="navNotification" title="Open your Wallet" class="nav-link">
+                        <a href="/wallet" id="navNotification" title='{{_ "header.open_wallet"}}' class="nav-link">
                             <i class="icon-wallet"></i>
                             {{#if walletNotifications}}<span class="badge badge-pill badge-light">{{walletNotifications}}</span>{{/if}}
                         </a>
@@ -60,19 +76,19 @@
 </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <div class="dropdown-header text-center">
-                            <strong>Account</strong>
+                            <strong>{{_ "header.account"}}</strong>
                         </div>
                         <a class="dropdown-item" href="/profile">
-                        <i class="fa fa-user"></i> Profile
+                        <i class="fa fa-user"></i> {{_ "header.profile"}}
                         </a>
                         <div class="divider"></div>
                         <a class="dropdown-item" href="#" id="logout">
-                          <i class="fa fa-lock"></i> Logout
+                          <i class="fa fa-lock"></i> {{_ "header.logout"}}
                         </a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a href="/notifications" class="nav-link" title="Your Notifications"><i class="icon-bell"></i>
+                    <a href="/notifications" class="nav-link" title='{{_ "header.notifications"}}'><i class="icon-bell"></i>
                         {{#if activityNotifications}}<span class="badge badge-pill badge-danger">{{activityNotifications}}</span>{{/if}}
                         </a>
                 </li>
@@ -88,7 +104,7 @@
                 </li> -->
                 {{else}}
                 <li class="nav-item">
-                  <a class="btn btn-success" href="/login">SIGN IN</a>
+                  <a class="btn btn-success" href="/login">{{_ "header.signin"}}</a>
                 </li>
                 {{/if}}
             </ul>

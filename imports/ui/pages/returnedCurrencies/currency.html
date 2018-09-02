@@ -1,7 +1,7 @@
 <template name="currency">
   <div class="currency-card">
     <div class="header">
-      <div>{{#if featured}}<a href="/currencyAuction"><i style="padding-right: 10px; padding-left: 10px;" class="fa fa-gavel"></i></a>{{/if}} {{currencyName}}<br>{{#if featured}}<div style="height: 0px;font-size: 10px">(top bid)</div>{{/if}}</div>
+      <div>{{#if featured}}<a href="/currencyAuction"><i style="padding-right: 10px; padding-left: 10px;" class="fa fa-gavel"></i></a>{{/if}} {{currencyName}}<br>{{#if featured}}<div style="height: 0px;font-size: 10px">({{_ "home.top_bid"}})</div>{{/if}}</div>
       <div>{{currencySymbol}}</div>
     </div>
     <div class="graph">
