@@ -17,7 +17,7 @@
           </div>
           <div class="card pointer greyHover choice equal-choice" id="tie">
               <div class="card-body">
-                  <h5 class="card-title">Both {{currency0.currencyName}} and {{currency1.currencyName}} equally</h5>
+                  <h5 class="card-title">{{_ "codebase.both" currency0.currencyName currency1.currencyName}}</h5>
                   <img class="card-img-top mx-auto d-block equal-sign" src="/images/equal_sign.png">
               </div>
           </div>
@@ -32,7 +32,7 @@
   <div class="row">
       <div class="col-lg-12">
           <br/>
-          <h5> You have <strong>{{outstandingRatings}}</strong> questions in your queue.</h5>
+          <h5> {{_ "codebase.still_have" outstandingRatings}}</h5>
       </div>
   </div>
 </template>

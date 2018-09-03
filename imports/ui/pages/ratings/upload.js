@@ -15,7 +15,7 @@ Template.upload.helpers({
       var walletUploadCount = WalletImages.find({ currencyId: id, imageOf: imageOf, createdBy: Meteor.userId() }).count();
 
       if (walletUploadCount) {
-          $('.file_' + imageOf + '_' + id).html('Change');
+          $('.file_' + imageOf + '_' + id).html(TAPi18n.__('communities.change'));
           $('#label_' + imageOf + '_' + id).removeClass('btn-primary');
           $('#label_' + imageOf + '_' + id).addClass('btn-success');
           return true;
@@ -52,16 +52,16 @@ Template.upload.events({
 
                   //add spinner if uploading
                   var sel = event.currentTarget.id.replace(/\s/g, '');
-                  $(".file_" + sel).html("<i class='fa fa-circle-o-notch fa-spin'></i> Uploading");
+                  $(".file_" + sel).html(`<i class='fa fa-circle-o-notch fa-spin'></i> ${TAPi18n.__('communities.uploading')}`);
 
                   //check if filesize of image exceeds the global limit
                   if (file.size > _walletFileSizeLimit) {
-                      Session.set('walletImageError', 'Image must be under 2mb');
+                      Session.set('walletImageError', TAPi18n.__('communities.image_big'));
                       uploadError = true;
                   }
 
                   if (!_supportedFileTypes.includes(file.type)) {
-                      Session.set('walletImageError', 'File must be an image');
+                      Session.set('walletImageError', TAPi18n.__('communities.must_be_image'));
                       uploadError = true;
                   }
 
@@ -89,14 +89,14 @@ Template.upload.events({
                                   if (error) {
                                       console.log(error)
                                       Session.set('walletImageError', error.message);
-                                      $(".file_" + sel).html("Upload");
+                                      $(".file_" + sel).html(TAPi18n.__('wallet.upload'));
                                   } else {
 
                                       Session.set('walletImageSuccess', 'Success');
 
                                       //revert to upload text as progress has ended bad or good 
 
-                                      $(".file_" + sel).html("Change");
+                                      $(".file_" + sel).html(TAPi18n.__('communities.change'));
                                       $("#label_" + sel).removeClass('btn-primary');
                                       $("#label_" + sel).addClass('btn-success');
                                       $(event.currentTarget.id).val('');

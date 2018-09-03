@@ -97,7 +97,7 @@ Template.commQuestions.events({
                 if (templateInstance.cnt++ === 0) {
 					swal({
 						icon: "warning",
-						text: 'Your answer is in contradiction with your previous answers. Please try again. If this persists, your progress will be purged and bounties will be nullified.',
+						text: TAPi18n.__('codebase.contradicts'),
 						button: { className: 'btn btn-primary' }
 					});
                 } else {

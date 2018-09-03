@@ -68,7 +68,7 @@ Template.communities.events({
             } else {
 				swal({
 					icon: "warning",
-					title: "We detect lazy answering!",
+					title: TAPi18n.__('codebase.detect'),
 					text: _lazyAnsweringWarningText,
 					confirmButtonClass: 'btn btn-primary'
 				}).then((value) => {
@@ -83,7 +83,7 @@ Template.communities.events({
 	                })) {
 						swal({
 		                    icon: "error",
-		                    text: 'Please add some communities to continue.',
+		                    text: TAPi18n.__('communities.add_to_continue'),
 		                    confirmButtonClass: 'btn btn-primary'
 		                });
 	                }
@@ -135,7 +135,10 @@ Template.communities.helpers({
             }
         }).fetch()[0]
 
-        return `You have ${Math.round((bounty.expiresAt - Template.instance().now.get())/1000/60)} minutes to complete the bounty for ${Number(bounty.currentReward).toFixed(2)} KZR.`;
+        return TAPi18n.__('codebase.time_left', {
+            postProcess: 'sprintf',
+            sprintf: [Math.round((bounty.expiresAt - Template.instance().now.get())/1000/60), Number(bounty.currentReward).toFixed(2)]
+        })
     },
     questions: () => {
         return Ratings.findOne({

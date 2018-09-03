@@ -96,7 +96,7 @@ Template.commCurrencyChoices.events({
                             context: 'community'
                         }]
                     })) {
-                    sAlert.error('Please add some communities to continue.')
+                    sAlert.error(TAPi18n.__('communities.add'))
                 }
             }
         })
@@ -145,12 +145,12 @@ Template.commCurrencyChoices.events({
 
 
         if (file.size > _defaultFileSizeLimit) {
-            sAlert.error('Image is too big.')
+            sAlert.error(TAPi18n.__('communities.image_big'))
             uploadError = true
         }
 
         if (!_supportedFileTypes.includes(file.type)) {
-            sAlert.error('File must be an image.')
+            sAlert.error(TAPi18n.__('communities.must_be_image'))
             uploadError = true
         }
 
@@ -158,7 +158,7 @@ Template.commCurrencyChoices.events({
             $('#uploadLabel_'+id).removeClass('btn-success');
             $('#uploadLabel_'+id).addClass('btn-primary');
             $("button").attr("disabled", "disabled"); //disable all buttons
-            $(".uploadText_"+id).html("<i class='fa fa-circle-o-notch fa-spin'></i> Uploading"); //show upload progress
+            $(".uploadText_"+id).html(`<i class='fa fa-circle-o-notch fa-spin'></i> ${TAPi18n.__('communities.uploading')}`); //show upload progress
 
 
             //Only upload if above validation are true
@@ -174,12 +174,12 @@ Template.commCurrencyChoices.events({
                             sAlert.error(error.message);
                             $('#uploadLabel_'+id).removeClass('btn-success');
                             $('#uploadLabel_'+id).addClass('btn-primary');
-                            $('.uploadText_'+id).html("Upload");
+                            $('.uploadText_'+id).html(TAPi18n.__('communities.upload'));
                         } else {
                             
                             $("button").attr("disabled", false); //enable all buttons
                             $('#uploadLabel_'+id).addClass('btn-success');
-                            $('.uploadText_'+id).html("Change"); //update button text now upload is complete
+                            $('.uploadText_'+id).html(TAPi18n.__('communities.change')); //update button text now upload is complete
 
                         }
                     })

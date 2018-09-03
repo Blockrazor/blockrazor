@@ -2,17 +2,17 @@
 	<div class="page-header" id="banner">
         <div class="row">
             <div class="col-lg-12">
-                <h1>Codebase</h1>
+                <h1>{{_ "codebase.codebase"}}</h1>
             </div>
         </div>
     </div>
 
     {{#if activeBounty}}
     	<div class="alert alert-danger" role="alert">
-    	<h5 class="text-center">{{timeRemaining}}</h5><button class="btn btn-danger" id="js-cancel">Cancel</button></div>
+    	<h5 class="text-center">{{timeRemaining}}</h5><button class="btn btn-danger" id="js-cancel">{{_ "codebase.cancel"}}</button></div>
     {{/if}}
 
-    <div id="outstandingRatings" class="text-center">You still have to answer {{outstandingRatings}} questions.
+    <div id="outstandingRatings" class="text-center">{{_ "codebase.still_have" outstandingRatings}}
     {{#with questions}}
         <h3 class="codebase-question">{{questionText}}?</h3>
 
@@ -26,7 +26,7 @@
 		            </div>
 		            <div class="card pointer greyHover choice equal-choice" id="tie">
 		                <div class="card-body">
-		                    <h5 class="card-title">Both {{currency0.currencyName}} and {{currency1.currencyName}} equally</h5>
+		                    <h5 class="card-title">{{_ "codebase.both" currency0.currencyName currency1.currencyName}}</h5>
 		                    <img class="card-img-top mx-auto d-block equal-sign" src="/images/equal_sign.png">
 		                </div>
 		            </div>
@@ -45,19 +45,19 @@
 
     <div id="currencyChoices" style="display:none;">
     {{#if isDeveloper}}
-        <h5>Since you're a developer, you can approve other developer applications <a href="/developers">here</a>.</h5>
+        <h5>{{{_ "codebase.developer"}}}</h5>
         <br />
         {{> codCurrencyChoices}}
     {{else}}
-    You have to be a developer in order to rate currency codebases. You can apply for a developer status by leaving your public github/gitlab/bitbucket/... profile here:<br /><br />
+    {{_ "codebase.apply"}}<br /><br />
     <div id="js-proof">
         {{#each proofs}}
         	<div class="proof row">
 				<div class="col">
-					<input type="text" name="service" class="form-control js-service" placeholder="Service name">
+					<input type="text" name="service" class="form-control js-service" placeholder='{{_ "codebase.service"}}'>
 				</div>
 				<div class="col">
-					<input type="text" name="service" class="form-control js-profile" placeholder="Public profile">
+					<input type="text" name="service" class="form-control js-profile" placeholder='{{_ "codebase.public_profile"}}'>
 				</div>
 			</div>
 			<br>
@@ -68,11 +68,11 @@
 	</button>
     <br />
     <br />
-    <button id="js-apply" class="btn btn-primary">Apply</button>
+    <button id="js-apply" class="btn btn-primary">{{_ "codebase.app"}}</button>
     {{/if}}
     </div>
     <hr />
-    <h5>ADMIN SHORTCUTS</h5>
-    <button id="elo" class="btn btn-danger">ELO</button>
-    <button id="codebase" class="btn btn-danger">CODEBASE</button>
+    <h5>{{_ "codebase.admin"}}</h5>
+    <button id="elo" class="btn btn-danger">{{_ "codebase.elo"}}</button>
+    <button id="codebase" class="btn btn-danger">{{_ "codebase.codebase"}}</button>
 </template>
