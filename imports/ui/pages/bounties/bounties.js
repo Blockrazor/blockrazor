@@ -142,7 +142,7 @@ Template.bounties.onCreated(function(){
     }).fetch().map(i => ({
       _id: i._id,
       problem: i.header,
-      solution: 'Check the problem page.',
+      solution: TAPi18n.__('bounties.solution'),
       types: {
         heading: i.header
       },
@@ -152,7 +152,7 @@ Template.bounties.onCreated(function(){
       pendingApproval : false,
       url : `/problem/${i._id}`,
       isProblem: true,
-      workingText: i.locked ? 'Someone is working on it.' : '',
+      workingText: i.locked ? TAPi18n.__('bounties.someone_working') : '',
       reward: i.reward
     }))
 
@@ -171,11 +171,11 @@ Template.bounties.onCreated(function(){
       })
       return {
         _id: `currency-${i.slug}`,
-        problem: 'Hash power API call is not available or it\'s broken',
-        solution: 'Add a hash power API call to help us determine the hash power',
+        problem: TAPi18n.__('bounties.hash_problem'),
+        solution: TAPi18n.__('bounties.hash_solution'),
         types: {
-          heading: 'Add a hash power API call',
-          rules : 'If you accept this bounty, you\'ll have 2 hours to complete it and send a pull request with hash power API call for the given reward. 10 minutes before expiration, you\'ll get a chance to extend the time limit.'
+          heading: TAPi18n.__('bounties.hash_heading'),
+          rules : TAPi18n.__('bounties.hash_rules')
         },
         currencyName: i.currencyName,
         pendingApproval : false,
@@ -263,7 +263,7 @@ Template.bounties.events({
       event.preventDefault()
       
       swal({
-          title: 'Share with friends and earn 5% of KZR they earn every day.',
+          title: TAPi18n.__('bounties.share_5'),
           input: 'text',
           confirmButtonText: 'Ok',
           confirmButtonColor : "#000",

@@ -34,8 +34,11 @@ Template.bountyRender.helpers({
   bountyReset: function() {
 	  return this.previousReward && this.previousCompletedAt > (new Date().getTime() - 7200000) // show the sign for 2 hours
   },
-  bountyResetText: function() {
-    return `${this.currentUsername} has claimed this bounty for ${this.previousReward} KZR and the bounty reward has been reset.`
+  bountyResetText: function() { 
+    return TAPi18n.__('bounties.render.reset_text', {
+      postProcess: 'sprintf',
+      sprintf: [this.currentUsername, this.previousReward]
+    })
   },
   types: function () {
     return this.types || BountyTypes.findOne();
@@ -52,7 +55,7 @@ Template.bountyRender.helpers({
     }
 
     if(this.currentlyAvailable == false) {
-        return this.currentUsername + " is working on this right now!";
+        return this.currentUsername + TAPi18n.__('bounties.render.working_on');
     } else { return null;}
   },
   canContinue: function() {
