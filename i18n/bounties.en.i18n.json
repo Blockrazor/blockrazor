@@ -1,0 +1,32 @@
+{
+	"bounties": {
+		"share": "Share With Friends",
+		"filter": "Filter Bounties:",
+		"coding_skills": "Coding Skills Required",
+		"new_data": "Adding New Data",
+		"questions": "Answering Questions",
+		"solution": "Check the problem page.",
+		"someone_working": "Someone is working on it.",
+		"hash_problem": "Hash power API call is not available or it's broken",
+		"hash_solution": "Add a hash power API call to help us determine the hash power",
+		"hash_heading": "Add a hash power API call",
+		"hash_rules": "If you accept this bounty, you'll have 2 hours to complete it and send a pull request with hash power API call for the given reward. 10 minutes before expiration, you'll get a chance to extend the time limit.",
+		"share_5": "Share with friends and earn 5% of KZR they earn every day.",
+		"render": {
+			"for": "for",
+			"in_progress": "in progress",
+			"problem": "Problem",
+			"solution": "Solution",
+			"details": "Bounty Details",
+			"cancel": "Cancel",
+			"continue": "Continue",
+			"start": "Start",
+			"last": "Last Reward",
+			"take": "Take",
+			"bounty": "bounty",
+			"check": "Check the problem",
+			"reset_text": "%s has claimed this bounty for %s KZR and the bounty reward has been reset.",
+			"working_on": " is working on this right now!"
+		}
+	}
+}

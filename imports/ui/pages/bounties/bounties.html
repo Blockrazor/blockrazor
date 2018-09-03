@@ -1,26 +1,26 @@
 <template name="bounties">
-  <a href="#" title="Share BlockRazor with Friends"  class="text-white btn btn-success" id="js-shareUrl"><i class="fa fa-share-alt text-white" style="font-size: 19px"></i><span class="share-label">&nbsp;&nbsp;&nbsp;Share With Friends</span></a>
+  <a href="#" title="Share BlockRazor with Friends"  class="text-white btn btn-success" id="js-shareUrl"><i class="fa fa-share-alt text-white" style="font-size: 19px"></i><span class="share-label">&nbsp;&nbsp;&nbsp;{{_ "bounties.share"}}</span></a>
   <div class="form-check form-control">
     <div class="row">
       <span class="form-check-item filter-bounties-label col-sm-2">
-        <h5>Filter Bounties:</h5>
+        <h5>{{_ "bounties.filter"}}</h5>
       </span>
       <span class="form-check-item col-sm-3">
         <div class="custom-control custom-checkbox">
           <input type="checkbox" class="custom-control-input form-check-input" id="coding-skills-required" value="coding">
-          <label class="custom-control-label" for="coding-skills-required">Coding Skills Required</label>
+          <label class="custom-control-label" for="coding-skills-required">{{_ "bounties.coding_skills"}}</label>
         </div>
       </span>
       <span class="form-check-item col-sm-3">
         <div class="custom-control custom-checkbox">
           <input type="checkbox" class="custom-control-input form-check-input" id="adding-new-data" value="data">
-          <label class="custom-control-label" for="adding-new-data">Adding New Data</label>
+          <label class="custom-control-label" for="adding-new-data">{{_ "bounties.new_data"}}</label>
         </div>
       </span>
       <span class="form-check-item col-sm-3">
         <div class="custom-control custom-checkbox">
           <input type="checkbox" class="custom-control-input form-check-input" id="answering-questions" value="questions">
-          <label class="custom-control-label" for="answering-questions">Answering Questions</label>
+          <label class="custom-control-label" for="answering-questions">{{_ "bouties.questions"}}</label>
         </div>
       </span>
     </div>
