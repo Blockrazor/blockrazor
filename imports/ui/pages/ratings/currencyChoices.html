@@ -1,12 +1,12 @@
 <template name="currencyChoices">
-	<b>You have already added the following cryptocurrency wallets:</b>
+	<b>{{_ "wallet.already_added"}}</b>
 
 	<div class="row">
 		<div class="col-sm-4 col-md-4 col-lg-4">
               <a href="#" class="toggle">{{currencyName}}</a>
               <div class="row" style="display:none;" id="links_{{_id}}">
-                  <p>Please add a URL to a {{currencyName}} community you are a part of:<br />
-                  <input type='text' id='js-com-url_{{_id}}' placeholder="URL here"><button class="js-save">Save</button></p>
+                  <p>{{_ "wallet.please_add" currencyName}}<br />
+                  <input type='text' id='js-com-url_{{_id}}' placeholder="URL here"><button class="js-save">{{_ "codebase.save"}}</button></p>
               </div>
           </div>
     </div>
@@ -26,19 +26,19 @@
       {{/if}}
   </div>
   <br />
-  <b>Please select any currencies that you actually use (you must have a wallet installed) and you haven't added previously.</b>
-  <br /> If you don't see your currency, you might want to <a href="/addcoin">add it</a>.
+  <b>{{_ "wallet.please_select"}}</b>
+  <br /> {{{_ "codebase.add"}}}
   <br />
   <br />
   <hr>
   <div class="row">
       <div class="col-sm-12">
             <form id="js-form">
-                    <h4 class="lead">Filter by</h4>
+                    <h4 class="lead">{{_ "codebase.filter_by"}}</h4>
                     <div class="input-group">
-                        <input type="text" id="js-name" class="form-control" placeholder="Enter the name of the cryptocurrency" />
-                        <div class="input-group-addon" style="padding: 10px;"> OR </div>
-                        <input type="text" id="js-symbol" class="form-control" placeholder="Enter the symbol of the cryptocurrency" />
+                        <input type="text" id="js-name" class="form-control" placeholder='{{_ "codebase.currency_name"}}' />
+                        <div class="input-group-addon" style="padding: 10px;"> {{_ "codebase.or"}} </div>
+                        <input type="text" id="js-symbol" class="form-control" placeholder='{{_ "codebase.currency_symbol"}}' />
                     </div>
                 </form>
             <br>
@@ -61,7 +61,7 @@
   <div class="row">
       <div class="col-sm-12">
           <br>
-            <button id="populateRatings" class="btn btn-primary">Next</button>
+            <button id="populateRatings" class="btn btn-primary">{{_ "codebase.next"}}</button>
       </div>
   </div>
 </template>

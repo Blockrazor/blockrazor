@@ -1,5 +1,5 @@
 <template name="codCurrencyChoices">
-	<b>You have already rated codebases for the following cryptocurrencies:</b>
+	<b>{{_ "codebase.already_rated"}}</b>
 
 	<div class="row" style="margin-top: 15px;">
 		{{#if subsCacheReady}}
@@ -19,18 +19,18 @@
 	<br />
 
 	<b>
-		Please select any currencies with whose codebase you're familiar and you haven't added previously.
+		{{_ "codebase.please_select"}}
 	</b> <br />
-	If you don't see your currency, you might want to <a href="/addcoin">add it here</a>. <br />
+	{{{_ "codebase.add"}}} <br />
 	<br />
 
-	<b>Filter available cryptocurrencies:</b>
+	<b>{{_ "codebase.filter"}}</b>
 	<form id="js-form" class="jumbotron" style="padding:30px;">
-		<b class="lead">Filter by</b>
+		<b class="lead">{{_ "codebase.filter_by"}}</b>
 		<div class="input-group">
-			<input type="text" id="js-name" class="form-control" placeholder="Enter the name of the cryptocurrency" />
-			<span class="input-group-addon"> OR </span>
-			<input type="text" id="js-symbol" class="form-control" placeholder="Enter the symbol of the cryptocurrency" />
+			<input type="text" id="js-name" class="form-control" placeholder='{{_ "codebase.currency_name"}}' />
+			<span class="input-group-addon"> {{_ "codebase.or"}} </span>
+			<input type="text" id="js-symbol" class="form-control" placeholder='{{_ "codebase.currency_symbol"}}' />
 		</div>
 	</form>
 
@@ -42,11 +42,11 @@
 					</button>
 					<div class="row" style="display:none;" id="links_{{_id}}">
 						<div class="col-sm-12">
-							<p>Please add a URL to a {{currencyName}} codebase you want to rate:</p>
+							<p>{{_ "codebase.please_add" currencyName}}</p>
 							<div class="input-group mb-3">
-								<input type='text' id='js-cod-url_{{_id}}' placeholder="URL here" class="form-control">
+								<input type='text' id='js-cod-url_{{_id}}' placeholder='{{_ "codebase.url"}}' class="form-control">
 								<div class="input-group-append">
-									<button class="js-save btn btn-primary">Save</button>
+									<button class="js-save btn btn-primary">{{_ "codebase.save"}}</button>
 								</div>
 							</div>
 						</div>
@@ -63,7 +63,7 @@
 	<div class="row">
 		<div class="col-sm-4 col-md-4 col-lg-4">
 			<br>
-			<button id="populateRatings" class="btn btn-primary">Next</button>
+			<button id="populateRatings" class="btn btn-primary">{{_ "codebase.next"}}</button>
 		</div>
 	</div>
 </template>

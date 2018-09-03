@@ -93,7 +93,10 @@ Template.ratings.helpers({
             }
         }).fetch()[0]
       
-        return `You have ${Math.round((bounty.expiresAt - Template.instance().now.get())/1000/60)} minutes to complete the bounty for ${Number(bounty.currentReward).toFixed(2)} KZR.`;
+        return TAPi18n.__('codebase.time_left', {
+            postProcess: 'sprintf',
+            sprintf: [Math.round((bounty.expiresAt - Template.instance().now.get())/1000/60), Number(bounty.currentReward).toFixed(2)]
+        })
     },
   populateUI() {
   },

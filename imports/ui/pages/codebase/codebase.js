@@ -71,13 +71,13 @@ Template.codebase.events({
         if (proofs.length > 0) {
             Meteor.call('applyDeveloper', proofs, (err, data) => {
                 if (!err) {
-                    sAlert.info('Thank you. You\'ll see when you\'re approved.')
+                    sAlert.info(TAPi18n.__('codebase.thank_you'))
                 } else {
                     sAlert.error(err.reason)
                 }
             })
         } else {
-            sAlert.error('You have to add at least on profile.')
+            sAlert.error(TAPi18n.__('codebase.atleast_one'))
         }
     },
     'click #elo': (event, templateInstance) => {
@@ -97,7 +97,7 @@ Template.codebase.events({
 				swal({
 					icon: "error",
 					text: err.reason,
-					button: { text: 'continue', className: 'btn btn-primary' }
+					button: { text: TAPi18n.__('codebase.continue'), className: 'btn btn-primary' }
 				});
             } else {
                 if (!Ratings.findOne({
@@ -111,15 +111,15 @@ Template.codebase.events({
                 })) {
 					swal({
 						icon: "error",
-						text: 'Please add some codebases to continue.',
-						button: { text: 'continue', className: 'btn btn-primary' }
+						text: TAPi18n.__('codebase.add_to_continue'),
+						button: { text: TAPi18n.__('codebase.continue'), className: 'btn btn-primary' }
 					});
                 } else {
 					swal({
 	                    icon: "warning",
-						title: "We detect lazy answering!",
+						title: TAPi18n.__('codebase.detect'),
 	                    text: _lazyAnsweringWarningText,
-	                    button: { text: 'continue', className: 'btn btn-primary' }
+	                    button: { text: TAPi18n.__('codebase.continue'), className: 'btn btn-primary' }
 	                });
 	            }
             }
@@ -156,7 +156,7 @@ Template.codebase.events({
 				} else {
 					// time to answer difference between previous question and current question is < 5
 					// lazy answering detected so reset user's progress and assign 0 to timeToAnswer
-					sAlert.error('Lazy answering detected. You\'ll have to start all over again.')
+					sAlert.error(TAPi18n.__('codebase.lazy_answer'))
 	                Meteor.call('deleteCodebaseRatings', (err, data) => {})
 					templateInstance.timeToAnswer = 0;
 					swal({
@@ -171,7 +171,7 @@ Template.codebase.events({
                 if (templateInstance.cnt++ === 0) {
 					swal({
 						icon: "error",
-						text: 'Your answer is in contradiction with your previous answers. Please try again. If this persists, your progress will be purged and bounties will be nullified.',
+						text: TAPi18n.__('codebase.contradicts'),
 						button: { className: 'btn btn-primary' }
 					});
                 } else {
@@ -203,7 +203,7 @@ Template.codebase.events({
             if (!err) {
                 $(`#js-cod-url_${this._id}`).attr('disabled', 'true')
                 $(event.currentTarget).attr('disabled', 'true')
-                $(event.currentTarget).text('Saved.')
+                $(event.currentTarget).text(TAPi18n.__('codebase.saved'))
 
                 setTimeout(() => $(`#links_${this._id}`).hide(), 1000)
             } else {
@@ -241,7 +241,10 @@ Template.codebase.helpers({
             }
         }).fetch()[0]
 
-        return `You have ${Math.round((bounty.expiresAt - Template.instance().now.get())/1000/60)} minutes to complete the bounty for ${Number(bounty.currentReward).toFixed(2)} KZR.`;
+        return TAPi18n.__('codebase.time_left', {
+            postProcess: 'sprintf',
+            sprintf: [Math.round((bounty.expiresAt - Template.instance().now.get())/1000/60), Number(bounty.currentReward).toFixed(2)]
+        })
     },
     proofs: () => Template.instance().proofs.get(),
     outstandingRatings: () => {

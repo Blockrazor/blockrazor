@@ -97,19 +97,19 @@ Template.currencyChoices.events({
             if (!walletCheckCount) {
                 swal({
                     icon: "error",
-                    text: "Please upload at least two wallet images to continue.",
+                    text: TAPi18n.__('wallet.please_upload_2'),
                     confirmButtonClass: 'btn btn-primary'
                 });
             } else if (walletCheckCount >= 3 && walletCheckCount < 6) {
                 swal({
                     icon: "error",
-                    text: "Please upload one more wallet image to continue.",
+                    text: TAPi18n.__('wallet.please_upload_1'),
                     confirmButtonClass: 'btn btn-primary'
                 });
             } else {
 				swal({
                     icon: "warning",
-					title: "We detect lazy answering!",
+					title: TAPi18n.__('codebase.detect'),
                     text: _lazyAnsweringWarningText,
                     confirmButtonClass: 'btn btn-primary'
                 });

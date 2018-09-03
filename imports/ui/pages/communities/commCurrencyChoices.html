@@ -1,5 +1,5 @@
 <template name="commCurrencyChoices">
-	<b>You have already added communities for the following cryptocurrencies:</b>
+	<b>{{_ "communities.already_added"}}</b>
 
 	<div class="row" style="margin-top: 15px;">
 		{{#if subsCacheReady}}
@@ -19,20 +19,20 @@
 	<br />
 
 	<b>
-		Please select any currencies that you actually use (and you're part of its community) and you haven't added previously.
+		{{_ "communities.please_select"}}
 	</b>
 	<br />
 
-	If you don't see your currency, you might want to <a href="/addcoin">add it</a>. <br /><br />
+	{{{_ "codebase.add"}}} <br /><br />
 	<hr>
 
-	<b>Filter available cryptocurrencies:</b>
+	<b>{{_ "codebase.filter"}}</b>
 	<form id="js-form" class="jumbotron" style="padding:30px;">
-		<b class="lead">Filter by</b>
+		<b class="lead">{{_ "codebase.filter_by"}}</b>
 		<div class="input-group">
-			<input type="text" id="js-name" class="form-control" placeholder="Enter the name of the cryptocurrency" />
-			<span class="input-group-addon"> OR </span>
-			<input type="text" id="js-symbol" class="form-control" placeholder="Enter the symbol of the cryptocurrency" />
+			<input type="text" id="js-name" class="form-control" placeholder='{{_ "codebase.currency_name"}}' />
+			<span class="input-group-addon"> {{_ "codebase.or"}} </span>
+			<input type="text" id="js-symbol" class="form-control" placeholder='{{_ "codebase.currency_symbol"}}' />
 		</div>
 	</form>
 
@@ -45,16 +45,16 @@
     <div class="row communityAddPanel" style="display:none;" id="links_{{_id}}">
 
         <div class="col-sm-12 text-center">
-        	<small>Please add a URL and screenshot of the community you are part of and mention BlockRazor</small><br /><br />
+        	<small>{{_ "communities.please_add"}}</small><br /><br />
         	                <label id="uploadLabel_{{_id}}" class="btn btn-primary" for="{{_id}}">
-                    <input class="uploadInput" id="{{_id}}" type="file" style="display:none" onchange="$('#fileInfo').html(this.files[0].name)"> <span class="uploadText_{{_id}}">UPLOAD</span>
+                    <input class="uploadInput" id="{{_id}}" type="file" style="display:none" onchange="$('#fileInfo').html(this.files[0].name)"> <span class="uploadText_{{_id}}">{{_ "communities.upload"}}</span>
                 </label>
                 <span class='label label-info' id="fileInfo_{{_id}}"></span>
                 <input type='hidden' id='js-image_{{_id}}'>
                 <br />
-                <input type='text' class="form-control" id='js-com-url_{{_id}}' placeholder="URL here">
+                <input type='text' class="form-control" id='js-com-url_{{_id}}' placeholder='{{_ "codebase.url"}}'>
 
-                <button class="js-save btn btn-primary my-2" id="{{_id}}">Save</button>
+                <button class="js-save btn btn-primary my-2" id="{{_id}}">{{_ "codebase.save"}}</button>
 
         </div>
     </div>
@@ -70,7 +70,7 @@
 	<div class="row">
 		<div class="col-sm-4 col-md-4 col-lg-4">
 			<br>
-			<button id="populateRatings" class="btn btn-primary">Next</button>
+			<button id="populateRatings" class="btn btn-primary">{{_ "codebase.next"}}</button>
 		</div>
 	</div>
 </template>

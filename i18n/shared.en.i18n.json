@@ -52,5 +52,11 @@
 			"home": "Home",
 			"help": "Get Help"
 		}
+	},
+	"empty": {
+		"empty": "No matching results founds"
+	},
+	"loading": {
+		"loading": "Loading..."
 	}
 }
