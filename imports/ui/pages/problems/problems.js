@@ -101,30 +101,30 @@ Template.problems.helpers({
 	},
 	status: function() {
 		if (this.closed) {
-			return 'CLOSED'
+			return TAPi18n.__('problems.problems.closed').toUpperCase()
 		}
 
 		if (this.cancelled) {
-			return 'CANCELLED'
+			return TAPi18n.__('problems.problems.cancelled').toUpperCase()
 		}
 
 		if (this.solved) {
-			return 'SOLVED'
+			return TAPi18n.__('problems.problems.solved').toUpperCase()
 		}
 
 		if (this.locked) {
-			return 'IN PROGRESS'
+			return TAPi18n.__('problems.problems.in_progress').toUpperCase()
 		}
 
 		if (this.open) {
-			return 'OPEN'
+			return TAPi18n.__('problems.problems.open').toUpperCase()
 		}
 	},
 	newType:function(){
 		 if(this.type =='bug' || this.type =='feature'){
-		 	return 'PROBLEM';
+		 	return TAPi18n.__('problems.problems.problem').toUpperCase()
 		 }else{
-		 	return 'QUESTION';
+		 	return TAPi18n.__('problems.problems.question').toUpperCase()
 		 }
 
     },
@@ -132,7 +132,7 @@ Template.problems.helpers({
         return this.type =='bug' || this.type =='feature' ? 'badge-danger' : 'badge-info';
     },
 	statusColor: function(status) {
-		return status === 'OPEN' ? 'green' : (status === 'SOLVED' || status === 'IN PROGRESS') ? 'orange' : 'red'
+		return status === TAPi18n.__('problems.problems.open').toUpperCase() ? 'green' : (status === TAPi18n.__('problems.problems.solved').toUpperCase() || status === TAPi18n.__('problems.problems.in_progress').toUpperCase()) ? 'orange' : 'red'
 	},
 	user: function() {
 		return (Meteor.users.findOne({

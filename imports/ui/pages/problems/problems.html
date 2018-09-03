@@ -2,36 +2,36 @@
 <div class="form-check form-control" style="margin-bottom: 20px !important;">
   <div class="row">
     <span class="form-check-item filter-bounties-label col-sm-2">
-      <h5 style="margin-bottom: 0;margin-top: 3px;">Filter Problems:</h5>
+      <h5 style="margin-bottom: 0;margin-top: 3px;">{{_ "problems.problems.filter"}}</h5>
     </span>
     <span class="form-check-item col-sm-2">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input form-check-input" id="all-problems" value="ALL">
-        <label class="custom-control-label" for="all-problems">All</label>
+        <label class="custom-control-label" for="all-problems">{{_ "problems.problems.all"}}</label>
       </div>
     </span>
     <span class="form-check-item col-sm-2">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input form-check-input" id="open-problems" value="OPEN">
-        <label class="custom-control-label" for="open-problems">Open</label>
+        <label class="custom-control-label" for="open-problems">{{_ "problems.problems.open"}}</label>
       </div>
     </span>
     <span class="form-check-item col-sm-2">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input form-check-input" id="in-progress-problems" value="IN PROGRESS">
-        <label class="custom-control-label" for="in-progress-problems">In Progress</label>
+        <label class="custom-control-label" for="in-progress-problems">{{_ "problems.problems.in_progress"}}</label>
       </div>
     </span>
     <span class="form-check-item col-sm-2">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input form-check-input" id="solved-problems" value="SOLVED">
-        <label class="custom-control-label" for="solved-problems">Solved</label>
+        <label class="custom-control-label" for="solved-problems">{{_ "problems.problems.solved"}}</label>
       </div>
     </span>
     <span class="form-check-item col-sm-2">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input form-check-input" id="closed-problems" value="CLOSED">
-        <label class="custom-control-label" for="closed-problems">Closed</label>
+        <label class="custom-control-label" for="closed-problems">{{_ "problems.problems.closed"}}</label>
       </div>
     </span>
   </div>
@@ -41,15 +41,15 @@
         <div class="row form-items">
             <div class="col-12 form-group" style="padding: 0">
                 <div class="input-group mb-3">
-                    <input id="js-search" name="searchInput" type="text" class="form-control" placeholder="Search problems before adding a new problem..." aria-label="" aria-describedby="basic-addon1">
+                    <input id="js-search" name="searchInput" type="text" class="form-control" placeholder='{{ _"problems.problems.search"}}' aria-label="" aria-describedby="basic-addon1">
                     <div class="input-group-append">
-                        <a href="/new-problem" class="not-allowed btn btn-primary disabled" id="addProblemButton">Add Problem</a>
+                        <a href="/new-problem" class="not-allowed btn btn-primary disabled" id="addProblemButton">{{_ "problems.problems.add"}}</a>
                     </div>
                 </div>
             </div>
         </div>
         <div class="found-result">
-            {{#if filterCount}} Found {{filterCount}} results {{/if}}
+            {{#if filterCount}} {{_ "problems.problems.found" filterCount}} {{/if}}
         </div>
     </form>
 </div>
@@ -74,10 +74,10 @@
 			<div class="card-body">
 				<p class="card-text"> {{{nlToBr text }}}</p>
 				<div class="pull-left">
-					<small class="text-muted">Created {{relativeTime date}}</small>
+					<small class="text-muted">{{_ "problems.problems.created"}} {{relativeTime date}}</small>
 				</div>
 				<div class="pull-right">
-					<small class="text-muted"> Proposed by: <a href="/profile/{{slugify author}}">{{user}}</a> </small>
+					<small class="text-muted"> {{_ "problems.problems.proposed"}} <a href="/profile/{{slugify author}}">{{user}}</a> </small>
 				</div>
 
 			</div>
@@ -91,7 +91,7 @@
     {{/if}}
 
 <br />
-  <p>Your problem is not on the list? Try <a href="#" class="focusSearch pointer">searching</a> for the problem, then adding it.
+  <p>{{{_ "problems.problems.try_searching"}}}
   </p>
 
 </template>

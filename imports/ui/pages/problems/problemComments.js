@@ -74,22 +74,22 @@ Template.problemComments.events({
         let len = $(event.currentTarget).val().length
 
         if (len >= max) {
-            $('#charNum').text(' you have reached the limit')
+            $('#charNum').text(TAPi18n.__('problems.comments.limit'))
         } else {
-            $('#charNum').text(`${max - len} characters left`)
+            $('#charNum').text(`${max - len} ${TAPi18n.__('problems.comments.left')}`)
         }
     },
     'click .submitNewComment': function(event, templateInstance) {
         event.preventDefault()
 
         if (!Meteor.user()) {
-            sAlert.error('You must be logged in to add a new comment!')
+            sAlert.error(TAPi18n.__('problems.comments.must_login'))
         }
 
         const data = $('#comment').val()
 
         if (data.length < 10 || data.length > 500) {
-            sAlert.error('That entry is too short, or too long.')
+            sAlert.error(TAPi18n.__('problems.comments.too_short'))
         } else {
             Meteor.call('addProblemComment', this._id, '', data, 1, (err, data) => {
                 if (!err) {
@@ -105,7 +105,7 @@ Template.problemComments.events({
                     }.bind(this), 200)
 
 
-                    sAlert.success('Thanks! Your comment has been successfully added!')
+                    sAlert.success(TAPi18n.__('problems.comments.success'))
                 } else {
                     sAlert.error(err.reason)
                 }

@@ -3,16 +3,16 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Adding a new comment</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{_ "problems.comments.new_comment"}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    You're adding a new comment for {{header}}.
+                    {{_ "problems.comments.new_for"}} {{header}}.
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Thanks, don't show this again</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">{{_ "problems.comments.dont_show"}}</button>
                 </div>
             </div>
         </div>
@@ -22,19 +22,15 @@
     <div class="col-sm-12 problem-comments">
 <div class="card my-3 sticky" style="width:100%">
     <div class="card card-body">
-        <h4 class="modal-title" id="exampleModalLabel">Make a comment</h4>
+        <h4 class="modal-title" id="exampleModalLabel">{{_ "problems.comments.make"}}</h4>
         <div class="input-group">
-            <input id="comment" style="width:60%;" placeholder="Make a comment!" maxlength="500" minlength="10" class="form-control">
-            <button class="btn btn-primary pull-right submitNewComment">Submit</button>
+            <input id="comment" style="width:60%;" placeholder='{{_ "problems.comments.make"}}!' maxlength="500" minlength="10" class="form-control">
+            <button class="btn btn-primary pull-right submitNewComment">{{_ "problems.comments.submit"}}</button>
             <h4>&nbsp;&nbsp;<i class="fa fa-question-circle help" aria-hidden="true"></i></h4>
         </div>
         <small class="pull-left mt-1" id="charNum"></small>
         <div class="hiddenRules mt-2" style="display:none">
-            <h5>Rules</h5>
-            <ul>
-                <li>Use clear language, keep it as short as possible</li>
-                <li>Any claims must be factually correct</li>
-            </ul>
+            {{{_ "problems.comments.rules"}}}
         </div>
     </div>
 </div>

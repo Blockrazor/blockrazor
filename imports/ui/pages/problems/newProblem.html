@@ -2,23 +2,23 @@
     <div class="form-group my-5">
         <form id="js-form">
             <div class="heading-wrapper text-center mt-2">
-                <h4 class="mb-4">Define a new problem</h4>
+                <h4 class="mb-4">{{_ "problems.new.new_problem"}}</h4>
             </div>
             <div class="justify-content-center mx-auto">
                 <div>
                     <div>
                         <div class="card bg-white required mx-auto" style="width:80% !important">
                             <div class="card-body">
-                                <h5 class="card-title">Problem type</h5>
+                                <h5 class="card-title">{{_ "problems.new.type"}}</h5>
                                 <select class="form-control" id="js-type" name="type">
-                                    <option disabled selected>--Select problem type--</option>
-                                    <option value="feature">Feature request</option>
-                                    <option value="bug">Bug report</option>
-                                    <option value="question">Question</option>
+                                    <option disabled selected>--{{_ "problems.new.select_type"}}--</option>
+                                    <option value="feature">{{_ "problems.new.feat_request"}}</option>
+                                    <option value="bug">{{_ "problems.new.bug"}}</option>
+                                    <option value="question">{{_ "problems.new.question"}}</option>
                                 </select>
                                 {{#if reactiveVar 'typeSelected'}}
                                 <hr>
-                                <h5 class="card-title">Problem description</h5>
+                                <h5 class="card-title">{{_ "problems.new.desc"}}</h5>
                                 <textarea id="js-text" name="text" placeholder="{{reactiveVar 'problemDescriptionPrompt'}}"
                                     class="form-control"></textarea>
                                 <div id="descriptionError" class="invalid-feedback"></div>
@@ -29,21 +29,21 @@
                                     class="form-control"></textarea>
                                 <br />
                                 {{/if}}
-                                <h5 class="card-title">Summary of the Problem</h5>
+                                <h5 class="card-title">{{_ "problems.new.summary"}}</h5>
                                 <input type="text" id="js-header" name="header" placeholder="{{reactiveVar 'problemSummaryPrompt'}}" class="form-control">
                                 <div id="headerError" class="invalid-feedback"></div>
-                                <span style="float:right;">character count : {{reactiveVar 'summaryCharsCount'}}</span>
+                                <span style="float:right;">{{_ "problems.new.count"}}: {{reactiveVar 'summaryCharsCount'}}</span>
                                 <br />
                                 <hr>
-                                <h5>Images</h5>
+                                <h5>{{_ "problems.new.images"}}</h5>
                                 <div id="js-images"></div>
                                 <label class="btn btn-primary" for="imageInput" id="imageInputLavel">
                                     <input id="imageInput" type="file" style="display:none">
-                                    <span id="upload">UPLOAD</span>
+                                    <span id="upload">{{_ "problems.new.upload"}}</span>
                                 </label>
                                 <hr>
                                 {{#if reactiveVar 'isNotQuestion'}}
-                                <h5 class="card-title">Bounty reward</h5>
+                                <h5 class="card-title">{{_ "problems.new.bounty"}}</h5>
                                 <div class="input-group">
                                     <input type="number" step="any" min="0" id="js-amount" name="amount" placeholder="0" class="form-control">
                                     <span style="padding: 20px;">
@@ -54,7 +54,7 @@
                                 <hr>
                                 {{/if}}
                                 <div class="submit-form">
-                                    <button type="submit" class="btn btn-primary" id="submit">Report a problem</button>
+                                    <button type="submit" class="btn btn-primary" id="submit">{{_ "problems.new.report"}}</button>
                                 </div>
                                 {{/if}}
                             </div>
@@ -68,7 +68,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Importance of Contributing to the Bounty</h5>
+            <h5 class="modal-title">{{_ "problems.new.bounty_important"}}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -79,8 +79,8 @@
             </p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="notWantToDonate">No thanks</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal" id="wantToDonate">I want to contribute</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="notWantToDonate">{{_ "problems.new.no"}}</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" id="wantToDonate">{{_ "problems.new.yes"}}</button>
           </div>
         </div>
       </div>

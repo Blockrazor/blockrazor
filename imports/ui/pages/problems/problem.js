@@ -30,7 +30,7 @@ Template.problem.onRendered(function() {
 	    if ($(this).text() !== val) {
 	    	Meteor.call('editProblem', FlowRouter.getParam('id'), $(this).attr('id'), val, (err, data) => {
 	    		if (!err) {
-	    			sAlert.success('Successfully edited.')
+	    			sAlert.success(TAPi18n.__('problems.problem.success'))
 	    		} else {
 	    			sAlert.error(err.reason)
 	    		}
@@ -39,7 +39,7 @@ Template.problem.onRendered(function() {
 	    	return ''
 	    }
 
-	    return 'Please change the value if you want to propose a change.'
+	    return TAPi18n.__('problems.problem.change_data')
 	}
 
 	this.autorun(() => {
@@ -135,7 +135,7 @@ Template.problem.events({
 			if (err) {
 				sAlert.error(err.reason)
 			} else {
-				sAlert.success('Credit added.')
+				sAlert.success(TAPi18n.__('problems.problem.credit_added'))
 			}
 		})
 	},
@@ -146,7 +146,7 @@ Template.problem.events({
 			if (err) {
 				sAlert.error(err.reason)
 			} else {
-				sAlert.success('Credit removed.')
+				sAlert.success(TAPi18n.__('problems.problem.credit_removed'))
 			}
 		})
 	},
@@ -155,7 +155,7 @@ Template.problem.events({
 
 		Meteor.call('cancelProblem', FlowRouter.getParam('id'), (err, data) => {
 			if (!err) {
-				sAlert.success('Cancelled.')
+				sAlert.success(TAPi18n.__('problems.problem.cancelled'))
 			} else {
 				sAlert.error(err.reasom)
 			}
@@ -166,7 +166,7 @@ Template.problem.events({
 
 		Meteor.call('giveUpProblem', FlowRouter.getParam('id'), (err, data) => {
 			if (!err) {
-				sAlert.success('Successfully gave up.')
+				sAlert.success(TAPi18n.__('problems.problem.gave_up'))
 			} else {
 				sAlert.error(err.reasom)
 			}
@@ -177,7 +177,7 @@ Template.problem.events({
 
 		Meteor.call('solveProblem', FlowRouter.getParam('id'), (err, data) => {
 			if (!err) {
-				sAlert.success('Successfully marked as solved. You\'ll be rewarded if the solution is accepted.')
+				sAlert.success(TAPi18n.__('problems.problem.marked_solved'))
 			} else {
 				sAlert.error(err.reasom)
 			}
@@ -187,7 +187,7 @@ Template.problem.events({
 		event.preventDefault()
 
 		if($('#js-fork').val()=="" || $('#js-issue').val() ==""){
-				sAlert.error('Please ensure both fields are populated')
+				sAlert.error(TAPi18n.__('problems.problem.both_fields'))
 
 		}else{
 
@@ -196,7 +196,7 @@ Template.problem.events({
 			issue: $('#js-issue').val()
 		}, (err, data) => {
 			if (!err) {
-				sAlert.success('The problem is yours. You have 5 days to solve it.')
+				sAlert.success(TAPi18n.__('problems.problem.problem_taken'))
 			} else {
 				sAlert.error(err.reason)
 			}

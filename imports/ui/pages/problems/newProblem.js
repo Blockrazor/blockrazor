@@ -64,19 +64,19 @@ Template.newProblem.onCreated(function() {
 			this.isNotQuestion.set(true)
 			if (type == "question"){
 				this.isNotQuestion.set(false)
-				description.set("Describe your question")
-				summary.set("Summarize question for a title of problem")
+				description.set(TAPi18n.__('problems.new.describe_question'))
+				summary.set(TAPi18n.__('problems.new.summarize_question'))
 			} else if (type == "feature"){
-				description.set("Describe the problem you are facing that your feature request will solve")
-				summary.set("Summarize problem to solve for in less than 60 characters.")
-				variable.set("If you have thought of a potential solution to this problem, describe it here. You can attache pictures below.")
-				this.problemVariableTitle.set("Potential Solution")
+				description.set(TAPi18n.__('problems.new.describe_feature'))
+				summary.set(TAPi18n.__('problems.new.summarize_feature'))
+				variable.set(TAPi18n.__('problems.new.variable_feature'))
+				this.problemVariableTitle.set(TAPi18n.__('problems.new.title_feature'))
 			} else {
 				//type = bug
-				description.set("Describe the problem you are facing that will be solved by fixing this bug.")
-				summary.set("Summarize problem to solve for in less than 60 characters.")
-				variable.set("Explain step-by-step how others can reproduce this bug to see the same problem. You can attache pictures below.")
-				this.problemVariableTitle.set("Steps to Reproduce the Bug")
+				description.set(TAPi18n.__('problems.new.describe_bug'))
+				summary.set(TAPi18n.__('problems.new.summarize_bug'))
+				variable.set(TAPi18n.__('problems.new.variable_bug'))
+				this.problemVariableTitle.set(TAPi18n.__('problems.new.title_bug'))
 			}
 
 		}
@@ -111,7 +111,7 @@ Template.newProblem.events({
     proceedSubmittingProblem()
   },
   'click #wantToDonate': () => {
-    Template.instance().bountyContributeMessage.set("Thank you. Please fill the amount to contribute and resubmit the report")
+    Template.instance().bountyContributeMessage.set(TAPi18n.__('problems.new.thank_you'))
   },
 	'change #js-type': (event, templ) => {
 		templ.type.set(event.target.value)
@@ -137,13 +137,13 @@ Template.newProblem.events({
 
 		if (file) {
 			if (file.size > _problemFileSizeLimit) {
-		        sAlert.error('Image must be under 10mb')
+		        sAlert.error(TAPi18n.__('problems.new.image_10m'))
 
 		      	uploadError = true
 		  	}
 
 			if (!_supportedFileTypes.includes(file.type)) {
-			 	sAlert.error('File must be an image')
+			 	sAlert.error(TAPi18n.__('problems.new.must_be_image'))
 
 			    uploadError = true
 			}
@@ -161,11 +161,11 @@ Template.newProblem.events({
 			       		if (err) {
 			        		sAlert.error(err.reason)
 
-			        		$('#upload').html('Upload')
+			        		$('#upload').html(TAPi18n.__('problems.new.upload'))
 			       		} else {
 			    			$("#js-images").append(`<img style="height: 50px;" src="${_problemUploadDirectoryPublic}${md5}.${fileExtension}" />`)
 
-			       			$('#upload').html('Upload more')
+			       			$('#upload').html(TAPi18n.__('problems.new.upload_more'))
 			       		}
 					})
 			    }
@@ -187,13 +187,11 @@ Template.newProblem.helpers({
   adviceText: () => {
     switch(Template.instance().type.get()) {
       case "feature": {
-        return "Blockrazor.org is a platform with distributed decision making, where anyone can submit a request for a new feature and any interested candidate can implement the requested feature. <br/><br/>\
-                Therefore when requesting a new feature, It is your responsibility to contribute with some Krazor to the bounty for implementing the new feature."
+        return TAPi18n.__('problems.new.advice_feature')
         break;
       }
       case "bug": {
-        return "Blockrazor.org is a platform with distributed decision making, where anyone can submit a bug report and any interested candidate can solve the reported bug. <br/><br/>\
-                Therefore when adding a bug report, It is your responsibility to contribute with some Krazor to the bounty for solving the problem."
+        return TAPi18n.__('problems.new.advice_bug')
         break;
       }
     }
