@@ -430,7 +430,7 @@ if(file){
   if (file.size > _coinFileSizeLimit) {
                 swal({
                     icon: "error",
-                    text: "Image must be under 2mb",
+                    text: TAPi18n.__('coin.too_big'),
                     button: { className: 'btn btn-primary' }
                 });
       uploadError = true;
@@ -439,7 +439,7 @@ if(file){
  if (!_supportedFileTypes.includes(file.type)) {
      swal({
          icon: "error",
-         text: "File must be an image",
+         text: TAPi18n.__('coin.must_be_image'),
          button: { className: 'btn btn-primary' }
      });
      uploadError = true;
@@ -449,7 +449,7 @@ if(file){
 //Disabled validation in development environment for easy testing (adjust in both startup index)
 if(!uploadError){
 
-  $("#fileUploadValue").html("<i class='fa fa-circle-o-notch fa-spin'></i> Uploading");
+  $("#fileUploadValue").html(`<i class='fa fa-circle-o-notch fa-spin'></i> ${TAPi18n.__('coin.uploading')}`);
 
 
    var reader = new FileReader();
@@ -470,7 +470,7 @@ if(!uploadError){
 
     $("#currencyLogoFilename").val(md5+'.'+fileExtension);
 
-      $("#fileUploadValue").html("Change");
+      $("#fileUploadValue").html(TAPi18n.__('coin.change'));
       $("#currencyLogoInputLabel").removeClass('btn-primary');
 
        //hide invalid validation if it exists
@@ -531,7 +531,7 @@ if(!uploadError){
 
     for (let i = 0; i < questions.length; i++) {
       if (!questions[i].value) {
-        sAlert.error('Please answer all additional questions.') // needs UI fixing
+        sAlert.error(TAPi18n.__('coin.answer_questions')) // needs UI fixing
         return
       }
     }
@@ -589,85 +589,85 @@ Template.addCoin.helpers({
 switch (val) {
     case "currencyName":
         {
-            return 'Please input the name of the cryptocurrency, token, ICO, etc.';
+            return TAPi18n.__('coin.currency_name_info');
             break;
         }
     case "currencySymbol":
         {
-            return "Please input the symbol for this currency."
+            return TAPi18n.__('coin.currency_symbol_info')
             break;
         }
     case "ICOfundsRaised":
         {
-            return "How much was raised in total, including all rounds and pre-sales etc?"
+            return TAPi18n.__('coin.ico_info')
             break;
         }
     case "genesisTimestamp":
         {
-            return "When was the genesis block mined? The easiest way to check this is to seach on Google for a block explorer for this blockchain and go to block 0. In most block explorers you can simply type \"0\" into their search feature and it will find the genesis block. In some cases, the genesis block may have a unix timestamp of \"0\" which translates to 1st January 1970. In those cases, simply use block 1 instead."
+            return TAPi18n.__('coin.genesis_info')
             break;
         }
     case "intendedLaunch":
         {
-            return "When do the people behind this coin intend to mine the genesis block or launch the coin?"
+            return TAPi18n.__('coin.launch_info')
             break;
         }
     case "forkParent":
         {
-            return "  Please select which Bitcoin blockchain this fork is forking from. For example if it is a fork of Bitcoin Cash, simply choose \"Bitcoin Cash\"."
+            return TAPi18n.__('coin.fork_info')
             break;
         }
     case "forkHeight":
         {
-            return "At which block did (or will) the fork happen?"
+            return TAPi18n.__('coin.fork_height_info')
             break;
         }
     case "premine":
         {
-            return "Were coins sold or distributed before the public were able to participate in mining? Did the developers mine coins before telling anyone else about it? This is more of a \"if it quacks like a duck it's probably a duck\" question. For example Zcash has a 20% mining tax until the developers recieve 2,100,000 coins, thus their premine is 2100000."
+            return TAPi18n.__('coin.premine_info')
             break;
         }
     case "maxCoins":
         {
-            return "Is there a cap on the total number of coins produced? For example, Bitcoin is 21,000,000. If there's no cap. or if there's an inflationary tail, please input the total coins that will exist in the year 2050."
+            return TAPi18n.__('coin.max_info')
             break;
         }
     case "gitRepo":
         {
-            return "    This is the git code repository for the main node software (not the github organization). For example, Monero is https://github.com/monero-project/monero"
+            return TAPi18n.__('coin.git_info')
             break;
         }
     case "officialSite":
         {
-            return "What is the offical website?"
+            return TAPi18n.__('coin.website_info')
             break;
         }
     case "reddit":
         {
-            return "Is there a reddit page (subreddit) for this project?"
+            return TAPi18n.__('coin.reddit_info')
             break;
         }
     case "blockTime":
         {
-            return "What is the block time for this blockchain?"
+            return TAPi18n.__('coin.block_info')
             break;
         }
 
     case "confirmations":
         {
-            return "How many confirmations do exchanges wait for before they let you trade it if you deposit this currency? Not all exchanges are the same, but any number you've experienced yourself is fine."
+            return TAPi18n.__('coin.confirm_info')
             break;
         }
 
     case "previousNames":
         {
-            return "Has this currency been known by any previous names?"
+            return TAPi18n.__('coin.prev_info')
             break;
         }
 
     case "exchanges":
         {
-            return "Which exchanges have listed this currency? Some examples include: Bittrex, Poloniex, Kraken"
+            return TAPi18n.__('coin.exchange_info')
             break;
         }
 
@@ -699,7 +699,10 @@ switch (val) {
       }
     }).fetch()[0]
 
-    return `You have ${Math.round((bounty.expiresAt - Template.instance().now.get())/1000/60)} minutes to complete the bounty for ${Number(bounty.currentReward).toFixed(2)} KZR.`;
+    return TAPi18n.__('coin.time_remaining', {
+      postProcess: 'sprintf',
+      sprintf: [Math.round((bounty.expiresAt - Template.instance().now.get())/1000/60), Number(bounty.currentReward).toFixed(2)]
+    })
   },
   security () {
     return FormData.find({}, {});
@@ -745,15 +748,15 @@ switch (val) {
   },
   icoText () {
     if (Template.instance().coinExists.get()) {
-        return "Funds were raised prior to the genesis block being mined (ICO)"
+        return TAPi18n.__('coin.funds_raised_prior')
     } else {
-        return "This is planned as an ICO"
+        return TAPi18n.__('coin.planned_ico')
     }},
   btcForkText () {
     if (Template.instance().coinExists.get()) {
-        return "This was a fork of the Bitcoin blockchain"
+        return TAPi18n.__('coin.btc_fork')
     } else {
-        return "This is a planned fork of the Bitcoin blockchain"
+        return TAPi18n.__('coin.planned_fork')
     }},
   showAlgoField: () => Template.instance().showAlgoField.get(),
   typeaheadProps: function () {
@@ -785,7 +788,7 @@ switch (val) {
       create: function (event, input, templ) {
         Meteor.call("addExchange", input, (error, result) => {
           if (!error && result) {
-            sAlert.success("This exchange has been created")
+            sAlert.success(TAPi18n.__('coin.exchange_created'))
 
             if (result._id) {
               let exchanges = templ.exchanges.get()
@@ -793,7 +796,7 @@ switch (val) {
               templ.exchanges.set(exchanges)
             }
           } else {
-            sAlert.error("This exchange already exist.")
+            sAlert.error(TAPi18n.__('coin.exchange_exists'))
           }
         })
       },
@@ -804,10 +807,10 @@ switch (val) {
       autoFocus: true,
       quickEnter: true,
       displayField: "name", //field that appears in typeahead select menu
-      placeholder: "Add Exchange",
+      placeholder: TAPi18n.__('coin.add_exchange'),
       results: Template.instance().typeAheadRes,
       value: Template.instance().typeAheadValue,
-      addButtonText: "Create Exchange",
+      addButtonText: TAPi18n.__('coin.create_exchange'),
       customAddButtonExists: false,
     }
   },
