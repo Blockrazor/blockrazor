@@ -1,0 +1,55 @@
+{
+	"hashpower": {
+		"add": {
+			"add_data": "Add Hash Power Data",
+			"hw_category": "Hardware Category",
+			"asic": "ASIC",
+			"gpu": "GPU",
+			"cpu": "CPU",
+			"hw_device": "Hardware Device",
+			"add_device": "Your device is not on the list?",
+			"device_name": "Device Name",
+			"algo": "Algorithm",
+			"add_it": "Add it",
+			"add_algo": "Your algorithm is not on the list?",
+			"algo_name": "Algorithm Name",
+			"rate": "Hash Rate",
+			"add_unit": "Unit not on the list?",
+			"unit_name": "Unit Name",
+			"power": "Power Consumption",
+			"metric": "Metric in Watts",
+			"upload": "UPLOAD",
+			"mining_rig": "Mining rig image (as a proof)",
+			"cancel": "Cancel",
+			"change": "Change",
+			"must_be_image": "File must be an image.",
+			"too_big": "Image is too big.",
+			"uploading": "Uploading",
+			"time_remaining": "You have %s minutes to complete the bounty for %s KZR."
+		},
+		"allAvg": {
+			"avg": "Hash power averages",
+			"algo": "Algorithm",
+			"power": "Average power consumption per H/s (sol/s)",
+			"update": "Update averages"
+		},
+		"all": {
+			"data": "Hash power data",
+			"image": "Image",
+			"user": "User",
+			"hw_category": "Hardware category",
+			"hw_device": "Hardware device",
+			"algo": "Algorithm",
+			"rate": "Hash rate",
+			"power": "Power consumption",
+			"flag": "Flag",
+			"delete": "Delete",
+			"submit": "Submit",
+			"reason": "Reason",
+			"add_new": "Add new data",
+			"avg": "Averages",
+			"flagged": "Flagged data",
+			"success": "Flagged successfully."
+		}
+	}
+}

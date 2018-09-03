@@ -1,10 +1,10 @@
 <template name="allHashaverage">
-    <h3>Hash power averages</h3>
+    <h3>{{_ "hashpower.allAvg.avg"}}</h3>
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">Algorithm</th>
-                <th scope="col">Average power consumption per H/s (sol/s)</th>
+                <th scope="col">{{_ "hashpower.allAvg.algo"}}</th>
+                <th scope="col">{{_ "hashpower.allAvg.power"}}</th>
             </tr>
         </thead>
         <tbody>
@@ -22,5 +22,5 @@
             {{/if}}
         </tbody>
     </table>
-    <button class="btn btn-danger" id="js-update">Update averages</button>
+    <button class="btn btn-danger" id="js-update">{{_ "hashpower.allAvg.update"}}</button>
 </template>

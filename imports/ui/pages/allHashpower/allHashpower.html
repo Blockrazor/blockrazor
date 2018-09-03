@@ -1,17 +1,17 @@
 <template name="allHashpower">
-    <h3>Hash power data</h3>
+    <h3>{{_ "hashpower.all.data"}}</h3>
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">Image</th>
-                <th scope="col">User</th>
-                <th scope="col">Hardware category</th>
-                <th scope="col">Hardware device</th>
-                <th scope="col">Algorithm</th>
-                <th scope="col">Hash rate</th>
-                <th scope="col">Power consumption</th>
-                <th scope="col">Flag</th>
-                <th scope="col">Delete?</th>
+                <th scope="col">{{_ "hashpower.all.image"}}</th>
+                <th scope="col">{{_ "hashpower.all.user"}}</th>
+                <th scope="col">{{_ "hashpower.all.hw_category"}}</th>
+                <th scope="col">{{_ "hashpower.all.hw_device"}}</th>
+                <th scope="col">{{_ "hashpower.all.algo"}}</th>
+                <th scope="col">{{_ "hashpower.all.rate"}}</th>
+                <th scope="col">{{_ "hashpower.all.power"}}</th>
+                <th scope="col">{{_ "hashpower.all.flag"}}</th>
+                <th scope="col">{{_ "hashpower.all.delete"}}?</th>
             </tr>
         </thead>
         <tbody>
@@ -25,7 +25,7 @@
                         <td>{{hashAlgorithm}}</td>
                         <td>{{hashRate}} {{unit}}</td>
                         <td>{{powerConsumption}} W</td>
-                        <td>{{#if canFlag}}<a href="#" class="js-flag">+</a>{{else}}-{{/if}}<span style="display: {{showFlagReason}}"><input type="text" id="js-flag-reason-{{_id}}" placeholder="Reason" /><button class="js-flag-cont">Submit</button></span></td>
+                        <td>{{#if canFlag}}<a href="#" class="js-flag">+</a>{{else}}-{{/if}}<span style="display: {{showFlagReason}}"><input type="text" id="js-flag-reason-{{_id}}" placeholder='{{_ "hashpower.all.reason"}}' /><button class="js-flag-cont">{{_ "hashpower.all.submit"}}</button></span></td>
                         <td>{{#if canDelete}}<a href="#" class="js-delete">X</a>{{else}}-{{/if}}</td>
                     </tr>
                 {{else}}
@@ -36,5 +36,5 @@
             {{/if}}
         </tbody>
     </table>
-    <a href="/add-hashpower">Add new data</a> <a href="/avg-hashpower">Averages</a> {{#if isModerator}}<a href="moderator/flagged-hashpower">Flagged data</a>{{/if}}
+    <a href="/add-hashpower">{{_ "hashpower.all.add_new"}}</a> <a href="/avg-hashpower">{{_ "hashpower.all.avg"}}</a> {{#if isModerator}}<a href="moderator/flagged-hashpower">{{_ "hashpower.all.flagged"}}</a>{{/if}}
 </template>

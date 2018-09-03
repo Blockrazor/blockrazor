@@ -14,7 +14,7 @@ Template.allHashaverage.onCreated(function() {
             event: 'Opened all hash average',
         }
 
-        segmentEvent(payload);
+        // segmentEvent(payload);
 })
 
 Template.allHashaverage.helpers({

@@ -69,7 +69,7 @@ Template.allHashpower.events({
 			if (err) {
 				sAlert.error(err.reason)
 			} else {
-				sAlert.success('Flagged successfully.')
+				sAlert.success(TAPi18n.__('hashpower.all.success'))
 				//send an event to segment
         let payload = {
             event: 'Flagged hash power',
