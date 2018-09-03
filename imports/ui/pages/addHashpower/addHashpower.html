@@ -2,22 +2,22 @@
 	<div class="form-group my-5">
 		<form class="js-add-haspower">
 			<div class="heading-wrapper text-center mt-2">
-                <h4 class="mb-4">Add Hash Power Data</h4>
+                <h4 class="mb-4">{{_ "hashpower.add.add_data"}}</h4>
             </div>
 			<div class="justify-content-center mx-auto">
 				<div class="card bg-white required mx-auto" style="width:80% !important">
 					<div class="card-body">
-						<h5 class="card-title">Hardware Category</h5>
+						<h5 class="card-title">{{_ "hashpower.add.hw_category"}}</h5>
 						<div class="input-group">
 							<select id="js-hw-cat" class="form-control" style="width:40%">
-								<option value="ASIC">ASIC</option>
-								<option value="GPU">GPU</option>
-								<option value="CPU">CPU</option>
+								<option value="ASIC">{{_ "hashpower.add.asic"}}</option>
+								<option value="GPU">{{_ "hashpower.add.gpu"}}</option>
+								<option value="CPU">{{_ "hashpower.add.cpu"}}</option>
 							</select>
 						</div>
 						<hr>
 						{{#if hwDevices.length}}
-							<h5 class="card-title">Hardware Device</h5>
+							<h5 class="card-title">{{_ "hashpower.add.hw_device"}}</h5>
 							<div class="input-group">
 								<select id="js-hw-dev" class="form-control" style="width:40%">
 									{{#each hwDevices}}
@@ -25,17 +25,17 @@
 									{{/each}}
 								</select>
 							</div>
-							<small>Your device is not on the list? <a href="#" id="js-add-hw">Add it.</a></small>
+							<small>{{_ "hashpower.add.add_device"}} <a href="#" id="js-add-hw">{{_ "hashpower.add.add_it"}}</a></small>
 							<hr>
 							<div style="display: {{addHw}}">
-								<h5 class="card-title">Device Name</h5>
+								<h5 class="card-title">{{_ "hashpower.add.device_name"}}</h5>
 								<div class="input-group">
 									<input type="text" id="js-hw-new" class="form-control" />
 								</div>
 								<hr>
 							</div>
 						{{else}}
-							<h5 class="card-title">Hardware Device</h5>
+							<h5 class="card-title">{{_ "hashpower.add.hw_device"}}</h5>
 							<div class="input-group">
 								<input type="text" id="js-hw-new" class="form-control" />
 							</div>
@@ -43,7 +43,7 @@
 						{{/if}}
 
 						{{#if hwAlgo.length}}
-							<h5 class="card-title">Algorithm</h5>
+							<h5 class="card-title">{{_ "hashpower.add.algo"}}</h5>
 							<div class="input-group">
 								<select id="js-algo" class="form-control" style="width:40%">
 									{{#each hwAlgo}}
@@ -51,17 +51,17 @@
 									{{/each}}
 								</select>
 							</div>
-							<small>Your algorithm is not on the list? <a href="#" id="js-add-algo">Add it</a>.</small>
+							<small>{{_ "hashpower.add.add_algo"}} <a href="#" id="js-add-algo">{{_ "hashpower.add.add_it"}}</a>.</small>
 							<hr>
 							<div style="display: {{addAlgo}}">
-								<h5 class="card-title">Algorithm Name</h5>
+								<h5 class="card-title">{{_ "hashpower.add.algo_name"}}</h5>
 								<div class="input-group">
 									<input type="text" id="js-algo-new" class="form-control" style="width:40%"/>
 								</div>
 								<hr>
 							</div>
 						{{else}}
-							<h5 class="form-control">Algorithm</h5>
+							<h5 class="form-control">{{_ "hashpower.add.algo"}}</h5>
 							<div class="input-group">
 								<input type="text" id="js-algo-new" class="form-control" style="width:40%"/>
 							</div>
@@ -69,7 +69,7 @@
 						{{/if}}
 
 						{{#if units.length}}
-							<h5 class="card-title">Hash Rate *</h5>
+							<h5 class="card-title">{{_ "hashpower.add.rate"}} *</h5>
 							<div class="input-group">
 								<input type="number" min="0" id="js-hr" class="form-control" required/>
 								<select id="js-unit" class="form-control" style="width:10px">
@@ -78,42 +78,42 @@
 									{{/each}}
 								</select>
 							</div>
-							<small>Unit not on the list? <a href="#" id="js-add-unit">Add it</a>.</small>
+							<small>{{_ "hashpower.add.add_unit"}} <a href="#" id="js-add-unit">{{_ "hashpower.add.add_it"}}</a>.</small>
 							<hr>
 							<div style="display: {{addUnit}}">
-								<h5 class="card-title">Unit Name</h5>
+								<h5 class="card-title">{{_ "hashpower.add.unit_name"}}</h5>
 								<div class="input-group">
 									<input type="text" style="width: 40%" id="js-unit-new" class="form-control"/>
 								</div>
 								<hr>
 							</div>
 						{{else}}
-							<h5 class="card-title">Unit Name</h5>
+							<h5 class="card-title">{{_ "hashpower.add.unit_name"}}</h5>
 							<div class="input-group">
 								<input type="text" id="js-unit-new" style="width: 40%" class="form-control"/>
 							</div>
 							<hr>
 						{{/if}}
 
-						<h5 class="card-title">Power Consumption</h5>
+						<h5 class="card-title">{{_ "hashpower.add.power"}}</h5>
 						<div class="input-group">
-							<input type="number" min="0" id="js-pc" name="js-pc" class="form-control" style="width:40%" placeholder="Metric in Watts" required/>
+							<input type="number" min="0" id="js-pc" name="js-pc" class="form-control" style="width:40%" placeholder='{{_ "hashpower.add.metric"}}' required/>
 						</div>
 						<hr>
 
 						<label id="uploadLabel" class="btn btn-primary" for="imageInput">
 							<input id="imageInput" name="imageInput" type="file" style="display:none;" onchange="$('#fileInfo').html(this.files[0].name)" class="required" accept="image/*">
-							<span class="uploadText">UPLOAD</span>
+							<span class="uploadText">{{_ "hashpower.add.upload"}}</span>
 						</label>
 						<br>
-						<small>Mining rig image (as a proof) *</small>
+						<small>{{_ "hashpower.add.mining_rig"}} *</small>
 						<br>
 						<span class='label label-info fileInfo' id="fileInfo"></span>
 						<input type='hidden' id='js-image'><br />
 						<br>
 						<div class="submit-form">
-							<button type="submit" id="js-add" class="btn btn-primary">Add!</button>
-							<button id="js-cancel" class="btn btn-secondary">Cancel</button>
+							<button type="submit" id="js-add" class="btn btn-primary">{{_ "hashpower.add.add_it"}}</button>
+							<button id="js-cancel" class="btn btn-secondary">{{_ "hashpower.add.cancel"}}</button>
 						</div>
 					</div>
 				</div>

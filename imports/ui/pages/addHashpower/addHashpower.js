@@ -92,8 +92,11 @@ Template.addHashpower.helpers({
 	      	}
 	    }).fetch()[0]
 	  
-	    return `You have ${Math.round((bounty.expiresAt - Template.instance().now.get())/1000/60)} minutes to complete the bounty for ${Number(bounty.currentReward).toFixed(2)} KZR.`;
-	}
+	    return TAPi18n.__('hashpower.add.time_remaining', {
+      		postProcess: 'sprintf',
+      		sprintf: [Math.round((bounty.expiresAt - Template.instance().now.get())/1000/60), Number(bounty.currentReward).toFixed(2)]
+    	})
+    }
 })
 
 Template.addHashpower.events({
@@ -168,15 +171,15 @@ Template.addHashpower.events({
   		$('#uploadLabel').removeClass('btn-success');
   		$('#uploadLabel').addClass('btn-primary');
   		$("button").attr("disabled", "disabled"); //disable all buttons
-  		$(".uploadText").html("<i class='fa fa-circle-o-notch fa-spin'></i> Uploading"); //show upload progress
+  		$(".uploadText").html(`<i class='fa fa-circle-o-notch fa-spin'></i> ${TAPi18n.__('hashpower.add.uploading')}`); //show upload progress
 
 	  	if (file.size > _hashPowerFileSizeLimit) {
-	      	sAlert.error('Image is too big.')
+	      	sAlert.error(TAPi18n.__('hashpower.add.too_big'))
 	      	uploadError = true
 	  	}
 
 	 	if (!_supportedFileTypes.includes(file.type)) {
-	      	sAlert.error('File must be an image.')
+	      	sAlert.error(TAPi18n.__('hashpower.add.must_be_image'))
 	      	uploadError = true
 	  	}
 
@@ -192,12 +195,12 @@ Template.addHashpower.events({
 		    			sAlert.error(error.message);
 		    			$('#uploadLabel').removeClass('btn-success');
   						$('#uploadLabel').addClass('btn-primary');
-  						$(".uploadText").html("Upload");
+  						$(".uploadText").html(TAPi18n.__('hashpower.add.upload'));
 		       		} else {		    			
 		    			$('#js-image').val(`${md5}.${fileExtension}`)
 		    		$("button").attr("disabled", false); //enable all buttons
 		    		$('#uploadLabel').addClass('btn-success');
-  					$(".uploadText").html("Change"); //update button text now upload is complete
+  					$(".uploadText").html(TAPi18n.__('hashpower.add.change')); //update button text now upload is complete
 		       		}
 		     	})
 		   }
