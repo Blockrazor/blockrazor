@@ -6,17 +6,17 @@
                     <div>
                         <div class="card bg-white required mx-auto" style="width:80% !important">
                             <div class="card-body">
-                                <h5 class="card-title">Name</h5>
+                                <h5 class="card-title">{{_ "auctions.new.name"}}</h5>
                                 <div class="input-group col-md-8">
                                     <input type="text" id="js-name" name="name" placeholder="Auction name"  class="form-control" required>
-                                    <div class="invalid-feedback">Please provide an auction name</div>
+                                    <div class="invalid-feedback">{{_ "auctions.new.name_error"}}</div>
                                 </div>
                                 <hr>                                           
-                                <h5 class="card-title">Selling amount</h5>         
+                                <h5 class="card-title">{{_ "auctions.new.selling"}}</h5>         
                                 <div class="form-inline">
  <div class="form-group col-md-8 row-no-padding">
   <input type="number" step="any" min="0" id="js-amount" name="amount" placeholder="0"  class="form-control col-md-12" required="true">
-                                    <div class="invalid-feedback">A selling amount is required. e.g. 0.00012</div>  </div>
+                                    <div class="invalid-feedback">{{_ "auctions.new.selling_error"}}</div>  </div>
   <div class="form-group col-md-4">
                 <span><b style="color: green">{{fixed balance}}</b> 
                                     <select id="js-bcur">
@@ -27,7 +27,7 @@
                                     </select></span>  </div>
 </div>
                                 <hr>
-                                <h5 class="card-title">Accepted currency</h5>
+                                <h5 class="card-title">{{_ "auctions.new.accepted"}}</h5>
                                 <div class="input-group col-md-8">
                                     <select id="js-acur" class="form-control">
                                         {{#each accepted}}
@@ -36,14 +36,14 @@
                                     </select> 
                                 </div>  
                                 <hr>
-                                <h5 class="card-title">Reserve</h5>
+                                <h5 class="card-title">{{_ "auctions.new.reserve"}}</h5>
                                 <div class="input-group col-md-8">
                                     <input type="number" step="any" min="0" id="js-reserve" name="reserve" placeholder="0"  class="form-control" required="true">
-                                      <div class="invalid-feedback">A reserve amount is required. e.g. 0.00012</div>
+                                      <div class="invalid-feedback">{{_ "auctions.new.reserve_error"}}</div>
                                 </div>
-                                <div class="col-md-8"><i>Value 0 means no reserve.</i></div>
+                                <div class="col-md-8"><i>{{_ "auctions.new.reserve_info"}}</i></div>
                                 <hr>
-                                <h5 class="card-title">Ends On</h5>
+                                <h5 class="card-title">{{_ "auctions.new.ends"}}</h5>
                                 <div class="input-group col-md-8">
                                     <select id="js-end" class="form-control">
                                         {{#each endsOn}}
@@ -53,8 +53,8 @@
                                 </div>
                                 <br />
                                 <div class="submit-form">
-                                    <button type="submit" class="btn btn-primary" id="submit">Start a new auction</button>
-                                    <button class="btn" id="js-cancel">Cancel</button>
+                                    <button type="submit" class="btn btn-primary" id="submit">{{_ "auctions.new.start"}}</button>
+                                    <button class="btn" id="js-cancel">{{_ "auctions.new.cancel"}}</button>
                                 </div>                  
                             </div>
                         </div>

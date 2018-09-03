@@ -86,13 +86,13 @@ Template.allAuctions.helpers({
         return moment(this.options.timeout).fromNow()
     },
     status: function() {
-        return this.closed ? 'CLOSED' : 'OPEN'
+        return this.closed ? TAPi18n.__('auctions.all.closed') : TAPi18n.__('auctions.all.open')
     },
     statusColor: function() {
         return this.closed ? 'red' : 'green'
     },
     verb: function() {
-        return this.closed ? 'Ended' : 'Ends'
+        return this.closed ? TAPi18n.__('auctions.all.ended') : TAPi18n.__('auctions.all.ends')
     }
 })
 

@@ -8,32 +8,32 @@
     
         <form id="js-form">
             <div class="heading-wrapper text-center mt-2">
-                <h4 class="mb-4">Place a bid</h4>
+                <h4 class="mb-4">{{_ "auctions.bid.place"}}</h4>
             </div>
             <div class="justify-content-center mx-auto">
                 <div>
                     <div>
                         <div class="card bg-white required mx-auto" style="width:80% !important">
                             <div class="card-body"> 
-                                {{#if myMax}}<h5>Your maximum amount: {{options.max}} {{options.acceptedCurrency}}</h5><hr>{{/if}}
-                                <h5>Highest bid: {{highest}} {{options.acceptedCurrency}} {{#if needsUSD options.acceptedCurrency}}{{#if USDprice options.acceptedCurrency highest}}({{USDprice options.acceptedCurrency highest}} USD){{/if}}{{/if}}</h5>  
-                                {{#if closed}}<h5>Winner: {{winner}}</h5>{{/if}}
+                                {{#if myMax}}<h5>{{_ "auctions.bid.max_amount"}} {{options.max}} {{options.acceptedCurrency}}</h5><hr>{{/if}}
+                                <h5>{{_ "auctions.bid.highest"}} {{highest}} {{options.acceptedCurrency}} {{#if needsUSD options.acceptedCurrency}}{{#if USDprice options.acceptedCurrency highest}}({{USDprice options.acceptedCurrency highest}} USD){{/if}}{{/if}}</h5>  
+                                {{#if closed}}<h5>{{_ "auctions.bid.winner"}} {{winner}}</h5>{{/if}}
                                 <hr>
-                                <h5>Price per KZR: {{pricePerKZR}} {{currency}} {{#if needsUSD options.acceptedCurrency}}{{#if USDprice options.acceptedCurrency pricePerKZR}}({{USDprice options.acceptedCurrency pricePerKZR}} USD){{/if}}{{/if}}</h5>  
+                                <h5>{{_ "auctions.bid.price"}} {{pricePerKZR}} {{currency}} {{#if needsUSD options.acceptedCurrency}}{{#if USDprice options.acceptedCurrency pricePerKZR}}({{USDprice options.acceptedCurrency pricePerKZR}} USD){{/if}}{{/if}}</h5>  
                                 <hr>  
-                                <h5>{{#if options.reserveMet}}<span style="color: green">Reserve is met</span>{{else}}<span style="color: red;">Reserve is not met</span>{{/if}}</h5>
-                                {{#if closed}}<hr><h5><span style="color: red">CLOSED</span></h5>{{else}}
+                                <h5>{{#if options.reserveMet}}<span style="color: green">{{_ "auctions.bid.reserve_met"}}</span>{{else}}<span style="color: red;">{{_ "auctions.bid.reserve_not_met"}}</span>{{/if}}</h5>
+                                {{#if closed}}<hr><h5><span style="color: red">{{_ "auctions.bid.closed"}}</span></h5>{{else}}
                                 <hr>
-                                <h5>Closing {{remTime}}</h5>
+                                <h5>{{_ "auctions.bid.closing"}} {{remTime}}</h5>
                                 <hr>                            
-                                <h5 class="card-title">Amount</h5>         
+                                <h5 class="card-title">{{_ "auctions.bid.amount"}}</h5>         
                                 <div class="input-group">
                                     <input type="number" step="any" min="0" id="js-amount" name="amount" placeholder="0"  class="form-control">
                                     <span style="padding: 20px;"><b style="color: green">{{fixed balance}}</b> {{options.acceptedCurrency}}</span>
                                 </div>
                                 <hr>      
                                 <div class="submit-form">
-                                    <button type="submit" class="btn btn-primary" id="submit">Place a bid</button>
+                                    <button type="submit" class="btn btn-primary" id="submit">{{_ "auctions.bid.place"}}</button>
                                 </div>   
                                 {{/if}}             
                             </div>
@@ -45,13 +45,13 @@
         <br />
 
         <div class="heading-wrapper text-center mt-2">
-            <h4 class="mb-4">Last 10 bids</h4>
+            <h4 class="mb-4">{{_ "auctions.bid.last_10"}}</h4>
         </div>
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Username</th>
-                    <th scope="col">Amount</th>
+                    <th scope="col">{{_ "auctions.bid.username"}}</th>
+                    <th scope="col">{{_ "auctions.bid.amount"}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -69,7 +69,7 @@
                 {{/if}}
             </tbody>
         </table>
-        {{#if author}}<a href="#" class="js-cancel btn btn-danger pull-right" style="margin-bottom: 15px;">Cancel Auction</a>{{/if}}
+        {{#if author}}<a href="#" class="js-cancel btn btn-danger pull-right" style="margin-bottom: 15px;">{{_ "auctions.bid.cancel"}}</a>{{/if}}
     </div>
     {{/with}}
 </template>

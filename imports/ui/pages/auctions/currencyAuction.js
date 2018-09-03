@@ -129,7 +129,7 @@ Template.currencyAuction.helpers({
 			autoFocus: false,
 			quickEnter: false,
 			displayField: "currencyName", //field that appears in typeahead select menu
-			placeholder: "Search cryptocurrencies"
+			placeholder: TAPi18n.__('auctions.currency.search')
 		}
 	}
 })
@@ -142,7 +142,7 @@ Template.currencyAuction.events({
 			if (err) {
 				sAlert.error(err.reason)
 			} else {
-				sAlert.success('Bid cancelled.')
+				sAlert.success(TAPi18n.__('auctions.currency.cancelled'))
 			}
 		})
 	},
@@ -171,15 +171,15 @@ Template.currencyAuction.events({
 				} else {
 					['amount', 'currency'].forEach(i => $(`#${i}Error`).hide())
 
-					sAlert.success('Bid successfully placed.')
+					sAlert.success(TAPi18n.__('auctions.currency.bid_placed'))
 				}
 			})
 		} else {
 			$('#amountError').toggle(isNaN(parseFloat($('#js-amount').val())) || parseFloat($('#js-amount').val()) <= 0) 
 			$('#currencyError').toggle(!templateInstance.selectedId.get())
 
-			$('#amountError').text('Amount is invalid.')
-			$('#currencyError').text('Currency is invalid.')
+			$('#amountError').text(TAPi18n.__('auctions.currency.amount_invalid'))
+			$('#currencyError').text(TAPi18n.__('auctions.currency.currency_invalid'))
 		}
 	},
 })
