@@ -1,7 +1,7 @@
 <template name="problemImages">
     <div class="card border-secondary mb-3 mb-3" style="min-width:300px;overflow:hidden;margin-top:10px;">
         <div class="card-header" style="height:50px">
-            <h4 class="pull-left">Problem images</h4>
+            <h4 class="pull-left">{{_ "problems.images.images"}}</h4>
         </div>
         <div class="card-body">
         {{#if subsCacheReady}}
@@ -26,7 +26,7 @@
         <img src="{{problemImagesDir}}{{this}}" style="width:60em"> 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{_ "problems.images.close"}}</button>
       </div>
     </div>
   </div>

@@ -47,7 +47,7 @@ Template.problemComment.events({
 
         Meteor.call('acceptAnswer', FlowRouter.getParam('id'), Template.instance().data._id, (err, data) => {
             if (!err) {
-                sAlert.success('Answer accepted.')
+                sAlert.success(TAPi18n.__('problems.comment.accepted'))
             } else {
                 sAlert.error(err.reason)
             }
