@@ -12,7 +12,21 @@ Template.newAuction.onCreated(function() {
 	})
 
   this.baseCurrency = new ReactiveVar('KZR')
-  this.auctionPeriods = [{'hours':1,'label':'1 hour'}, {'hours':3,'label':'3 hours'}, {'hours':6,'label':'6 hours'}, {'hours':24,'label':'1 day'}, {'hours':72,'label':'3 days'}, {'hours':120,'label':'5 days'}, {'hours':240,'label':'10 days'} ]
+  this.auctionPeriods = [{
+  	'hours':1,'label':TAPi18n.__('auctions.new.one_hour')
+  }, {
+  	'hours':3,'label':TAPi18n.__('auctions.new.three_hours')
+  }, {
+  	'hours':6,'label':TAPi18n.__('auctions.new.six_hours')
+  }, {
+  	'hours':24,'label': TAPi18n.__('auctions.new.one_day')
+  }, {
+  	'hours':72,'label':TAPi18n.__('auctions.new.three_days')
+  }, {
+  	'hours':120,'label':TAPi18n.__('auctions.new.five_days')
+  }, {
+  	'hours':240,'label':TAPi18n.__('auctions.new.ten_days')
+  } ]
 })
 
 Template.newAuction.helpers({

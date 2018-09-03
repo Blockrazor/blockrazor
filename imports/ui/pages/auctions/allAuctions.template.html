@@ -8,14 +8,14 @@
         <div class="form-group form-check-inline">
             <div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input open" id="open" checked="">
-                <label class="custom-control-label mr-3" for="open">Show Open Auctions</label>
+                <label class="custom-control-label mr-3" for="open">{{_ "auctions.all.show_open"}}</label>
             </div>
             <div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input closed" id="closed">
-                <label class="custom-control-label" for="closed">Show Completed Auctions</label>
+                <label class="custom-control-label" for="closed">{{_ "auctions.all.show_completed"}}</label>
             </div>
         </div>
-        <button class="btn btn-primary pull-right" id="js-new">New Auction</button>
+        <button class="btn btn-primary pull-right" id="js-new">{{_ "auctions.all.new"}}</button>
     </div>
 </div>
         </div>
@@ -25,13 +25,13 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th scope="col">Base currency</th>
-                    <th scope="col">Accepted currency</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Timeout</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Highest bid</th>
-                    <th scope="col">Price per KZR</th>
+                    <th scope="col">{{_ "auctions.all.base"}}</th>
+                    <th scope="col">{{_ "auctions.all.accepted"}}</th>
+                    <th scope="col">{{_ "auctions.all.amount"}}</th>
+                    <th scope="col">{{_ "auctions.all.timeout"}}</th>
+                    <th scope="col">{{_ "auctions.all.status"}}</th>
+                    <th scope="col">{{_ "auctions.all.highest"}}</th>
+                    <th scope="col">{{_ "auctions.all.price"}}</th>
 
                 </tr>
             </thead>

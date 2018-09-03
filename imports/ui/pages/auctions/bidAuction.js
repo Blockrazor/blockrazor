@@ -83,7 +83,7 @@ Template.bidAuction.helpers({
 
 		return bid && (Meteor.users.findOne({
 			_id: bid.userId
-		}) || {}).username || 'No winner'
+		}) || {}).username || TAPi18n.__('auctions.bid.no_winner')
 	},
 	remTime: function() {
 		return moment(this.options.timeout).fromNow()
@@ -105,16 +105,16 @@ Template.bidAuction.events({
 				if (err) {
 					sAlert.error(err.reason)
 				} else {
-					sAlert.success('Bid successfully placed.')
+					sAlert.success(TAPi18n.__('auctions.bid.bid_placed'))
 					let payload = {
-            			event: 'Planced a bid on an auction',
+            			event: 'Placed a bid on an auction',
        				}
 
         			segmentEvent(payload);
 				}
 			})
 		} else {
-			sAlert.error('Some fields are missing.')
+			sAlert.error(TAPi18n.__('auctions.bid.fields_missing'))
 		}
   },
   'click .js-cancel': function(event, templateInstance) {
@@ -122,7 +122,7 @@ Template.bidAuction.events({
 
     Meteor.call('cancelAuction', this._id, (err, data) => {
         if (!err) {
-            sAlert.success('Successfully cancelled.')
+            sAlert.success(TAPi18n.__('auctions.bid.cancelled'))
             FlowRouter.go('/auctions')
 
             let payload = {

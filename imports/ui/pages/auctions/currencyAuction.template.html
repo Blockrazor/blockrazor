@@ -7,18 +7,18 @@
     
         <form id="js-form">
             <div class="heading-wrapper text-center mt-2">
-                <h4 class="mb-4">Place a bid</h4>
+                <h4 class="mb-4">{{_ "auctions.currency.place"}}</h4>
             </div>
             <div class="justify-content-center mx-auto">
                 <div>
                     <div>
                         <div class="card bg-white required mx-auto" style="width:80% !important">
                             <div class="card-body">
-                                <h5 class="card-title">Cryptocurrency</h5>
+                                <h5 class="card-title">{{_ "auctions.currency.crypto"}}</h5>
                                 {{> typeahead typeaheadProps}}
                                  <div id="currencyError" class="invalid-feedback"></div>
                                 <hr>                                           
-                                <h5 class="card-title">Amount</h5>         
+                                <h5 class="card-title">{{_ "auctions.currency.amount"}}</h5>         
                                 <div class="input-group">
                                     <input type="number" step="any" min="0" id="js-amount" name="amount" placeholder="0"  class="form-control">
                                     <span style="padding: 20px;"><b style="color: green">{{fixed balance}}</b> KZR</span>
@@ -26,7 +26,7 @@
                                 <div id="amountError" class="invalid-feedback"></div>
                                 <hr>      
                                 <div class="submit-form">
-                                    <button type="submit" class="btn btn-primary" id="submit">Place a bid</button>
+                                    <button type="submit" class="btn btn-primary" id="submit">{{_ "auctions.currency.place"}}</button>
                                 </div>                  
                             </div>
                         </div>
@@ -37,13 +37,13 @@
         <br />
 
         <div class="heading-wrapper text-center mt-2">
-            <h4 class="mb-4">Top 3 currencies</h4>
+            <h4 class="mb-4">{{_ "auctions.currency.top_3"}}</h4>
         </div>
         <table class="table justify-content-center mx-auto" style="width:80% !important">
             <thead>
                 <tr>
-                    <th scope="col">Currency</th>
-                    <th scope="col">Remaining amount</th>
+                    <th scope="col">{{_ "auctions.currency.currency"}}</th>
+                    <th scope="col">{{_ "auctions.currency.remaining"}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -64,14 +64,14 @@
         <br />
 
         <div class="heading-wrapper text-center mt-2">
-            <h4 class="mb-4">My bids</h4>
+            <h4 class="mb-4">{{_ "auctions.currency.my_bids"}}</h4>
         </div>
         <table class="table justify-content-center mx-auto" style="width:80% !important">
             <thead>
                 <tr>
-                    <th scope="col">Currency</th>
-                    <th scope="col">Remaining amount</th>
-                    <th scope="col">Cancel?</th>
+                    <th scope="col">{{_ "auctions.currency.currency"}}</th>
+                    <th scope="col">{{_ "auctions.currency.remaining"}}</th>
+                    <th scope="col">{{_ "auctions.currency.cancel"}}?</th>
                 </tr>
             </thead>
             <tbody>
@@ -80,7 +80,7 @@
                         <tr>
                             <td>{{currency}}</td>
                             <td>{{amountBid}}</td>
-                            <td><a href="#" class="js-cancel">Cancel</a></td>
+                            <td><a href="#" class="js-cancel">{{_ "auctions.currency.cancel"}}</a></td>
                         </tr>
                     {{else}}
                         {{> empty}}
@@ -93,13 +93,13 @@
         <br />
 
         <div class="heading-wrapper text-center mt-2">
-            <h4 class="mb-4">Last 10 bids</h4>
+            <h4 class="mb-4">{{_ "auctions.currency.last_10"}}</h4>
         </div>
         <table class="table justify-content-center mx-auto" style="width:80% !important">
             <thead>
                 <tr>
-                    <th scope="col">Currency</th>
-                    <th scope="col">Remaining amount</th>
+                    <th scope="col">{{_ "auctions.currency.currency"}}</th>
+                    <th scope="col">{{_ "auctions.currency.remaining"}}</th>
                 </tr>
             </thead>
             <tbody>
