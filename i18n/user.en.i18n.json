@@ -1,5 +1,28 @@
 {
 	"user": {
+		"developers": {
+			"profile": "has submitted the following profiles:",
+			"approve": "APPROVE",
+			"reject": "REJECT",
+			"all_good": "All good. No developers to approve.",
+			"dev_only": "You have to be a developer in order to review other developers."
+		},
+		"suspended": {
+			"suspended": "You have been suspended!",
+			"done": "You have done the following:",
+			"pardon_apply": "If you want to apply for a pardon, please state your reason. Be descriptive.",
+			"submit": "Submit",
+			"denied": "Your application for pardon has been denied. You can't apply again!",
+			"processed": "Your application is currently being processed by moderators. Good luck!",
+			"help": "You can still access our <a href=\"/problems\">problems and questions page</a>, if you want to report something.",
+      "cheating_info": "Caught lazy answering rating questions",
+			"bad_coin_info": "Submitted an invalid cryptocurrency",
+			"bad_wallet_info": "Submitted an invalid wallet image",
+			"comment_info": "Submitted a comment that has been flagged and deleted",
+			"redflag_info": "Submitted a red flag that has been flagged and deleted",
+      "features_info": "Submitted a feature that has been flagged and deleted",
+			"duplicate_info": "You've created multiple accounts which is not allowed."
+    },
 		"edit": {
 			"edit": "Edit Profile",
 			"email": "Email",

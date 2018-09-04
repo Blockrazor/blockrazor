@@ -4,23 +4,23 @@
 			{{#each developers}}
 				<div class="row" style="display:{{display}};border:solid;">
 					<div class="col-12" style="display:block;">
-						{{username}} has submitted the following profiles: <br />
+						{{username}} {{_ "user.developers.profile"}} <br />
 						{{#each proofs}}
 						{{service}}: <a href="{{profile}}">{{profile}}</a><br />
 						{{/each}}
 						<br />
-						<button class="btn btn-success" id="approve">APPROVE <i class="fa fa-check" aria-hidden="true"></i></button>
-						<button class="btn btn-danger" id="reject">REJECT <i class="fa fa-times" aria-hidden="true"></i></button>
+						<button class="btn btn-success" id="approve">{{_ "user.developers.approve"}} <i class="fa fa-check" aria-hidden="true"></i></button>
+						<button class="btn btn-danger" id="reject">{{_ "user.developers.reject"}} <i class="fa fa-times" aria-hidden="true"></i></button>
 						<br />
 					</div>
 				</div>
 			{{else}}
-				All good. No developers to approve.
+				{{_ "user.developers.all_good"}}
 			{{/each}}
 		{{else}}
 			{{> loading}}
 		{{/if}}
 	{{else}}
-		You have to be a developer in order to review other developers.
+		{{_ "user.developers.dev_only"}}
 	{{/if}}
 </template>

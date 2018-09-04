@@ -45,7 +45,7 @@ Template.transactions.helpers({
 	},
 	transactions: () => Template.instance().transactions.get(),
 	from: function() {
-		return (this.from === 'System' || this.from === 'Blockrazor') ? 'Master wallet' : (Meteor.users.findOne({
+		return (this.from === 'System' || this.from === 'Blockrazor') ? TAPi18n.__('transactions.master') : (Meteor.users.findOne({
 			_id: this.from
 		}) || {}).username || ''
 	},

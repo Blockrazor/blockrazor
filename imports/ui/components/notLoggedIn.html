@@ -1,7 +1,7 @@
 <template name="notLoggedIn">
     {{#if $not currentUser}} 
     <div class="alert alert-danger" role="alert"> 
-      <h5 class="text-center">You're not logged in!</h5><div class="float-left" style="margin-top:-30px;">{{> loginButtons}}</div> 
+      <h5 class="text-center">{{_ "notLoggedIn.not"}}</h5><div class="float-left" style="margin-top:-30px;">{{> loginButtons}}</div> 
     </div> 
     {{/if}} 
 </template>

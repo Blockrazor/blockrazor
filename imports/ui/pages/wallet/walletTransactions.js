@@ -68,7 +68,7 @@ Template.walletTransactions.helpers({
       fields: [
         {
           key: 'message',
-          label: 'Message',
+          label: TAPi18n.__('kzrWallet.message'),
           fn: function(value, object, key) {
             // convert old 'ZZR' and 'ZRQ' labels to 'KZR' and return
             return value.replace("ZZR", "KZR").replace("ZRQ", "KZR");
@@ -76,11 +76,11 @@ Template.walletTransactions.helpers({
         },
                         {
           key: 'amount',
-          label: 'Amount'
+          label: TAPi18n.__('kzrWallet.amount')
         },
         {
           key: 'time',
-          label: 'Date / Time',
+          label: TAPi18n.__('kzrWallet.date'),
           sortByValue:true,
           sortOrder: 0,
           sortDirection: -1,
@@ -88,12 +88,12 @@ Template.walletTransactions.helpers({
         },
         {
           key: 'from',
-          label: 'From',
+          label: TAPi18n.__('kzrWallet.from'),
           fn: function(value, object, key) { return (Meteor.users.findOne(value) || {}).username || value; }
         },
         {
           key: 'rewardType',
-          label: 'Type',
+          label: TAPi18n.__('kzrWallet.type'),
           fn: function(value, object, key) { return transactionTypes(value); }
         },
       ]

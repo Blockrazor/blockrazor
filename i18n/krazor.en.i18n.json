@@ -1,0 +1,62 @@
+{
+	"distribution": {
+		"earnings": "Earnings",
+		"one_month": "1 month",
+		"six_months": "6 months",
+		"one_year": "1 year",
+		"spendings": "Spendings"
+	},
+	"exchanges": {
+		"remove": "Remove",
+		"proposed": "Exchange removal successfully proposed. Moderators will decide whether to actually delete it or not.",
+		"problem": "There is a problem with proposing exchange removal.",
+		"name": "Exchange Name",
+		"action": "Action"
+	},
+	"prices": {
+		"chart": "Price chart",
+		"krazor": "Krazor price",
+		"date": "Date",
+		"value": "Value (USD)"
+	},
+	"transactions": {
+		"total_kzr": "Total KZR moved from the main wallet:",
+		"filter": "Filter Transactions:",
+		"all": "All",
+		"top": "Top Comment",
+		"hash": "Hash Data",
+		"bounty": "Bounty Reward",
+		"problem": "Problem Reward",
+		"coin": "Created a Coin",
+		"cheating": "Cheating",
+		"questions": "Answered Question",
+		"from": "From",
+		"to": "To",
+		"amount": "Amount",
+		"date": "Date/ Time",
+		"type": "type",
+		"master": "Master wallet"
+	},
+	"kzrWallet": {
+		"deposit": "Deposit",
+		"krazor": "Krazor",
+		"transactions": "click to see transactions",
+		"total": "Total Balance:",
+		"usd": "US Dollar",
+		"eth": "Ethereum",
+		"xmr": "Monero",
+		"deposited": "Successfully deposited.",
+		"invalid_amount": "Please enter a valid amount.",
+		"transactions_with": "Transactions With",
+		"my": "My Wallet",
+		"deposit_currency": "Deposit %s by sending coins to the following address:",
+		"payment_id": "with the following payment id",
+		"message": "Message",
+		"amount": "Amount",
+		"date": "Date / Time",
+		"from": "From",
+		"type": "Type",
+		"auctions": "Auctions",
+		"deposits": "Deposits"
+	}
+}

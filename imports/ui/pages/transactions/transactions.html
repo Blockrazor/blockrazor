@@ -1,57 +1,57 @@
 <template name="transactions">
-    <h4>Total KZR moved from the main wallet: {{total}}</h4>
+    <h4>{{_ "transactions.total_kzr"}} {{total}}</h4>
 <br>
 <div class="form-check form-control" style="margin-bottom: 20px !important;">
   <div class="row">
     <span class="form-check-item filter-bounties-label col-sm-2">
-      <h5 style="margin-bottom: 0;margin-top: 3px;">Filter Transactions:</h5>
+      <h5 style="margin-bottom: 0;margin-top: 3px;">{{_ "transactions.filter"}}</h5>
     </span>
     <span class="form-check-item col-sm-1">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input form-check-input" id="all-txn" value="all" checked>
-        <label class="custom-control-label" for="all-txn">All</label>
+        <label class="custom-control-label" for="all-txn">{{_ "transactions.all"}}</label>
       </div>
     </span>
     <span class="form-check-item col-sm-1">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input form-check-input" id="top-comment-txn" value="topCommentReward">
-        <label class="custom-control-label" for="top-comment-txn">Top Comment</label>
+        <label class="custom-control-label" for="top-comment-txn">{{_ "transactions.top"}}</label>
       </div>
     </span>
     <span class="form-check-item col-sm-1">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input form-check-input" id="hash-data-txn" value="hashReward">
-        <label class="custom-control-label" for="hash-data-txn">Hash Data</label>
+        <label class="custom-control-label" for="hash-data-txn">{{_ "transactions.hash"}}</label>
       </div>
     </span>
     <span class="form-check-item col-sm-1">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input form-check-input" id="bounty-reward-txn" value="bountyReward">
-        <label class="custom-control-label" for="bounty-reward-txn">Bounty Reward</label>
+        <label class="custom-control-label" for="bounty-reward-txn">{{_ "transactions.bounty"}}</label>
       </div>
     </span>
     <span class="form-check-item col-sm-1">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input form-check-input" id="problem-reward-txn" value="problemReward">
-        <label class="custom-control-label" for="problem-reward-txn">Problem Reward</label>
+        <label class="custom-control-label" for="problem-reward-txn">{{_ "transactions.problem"}}</label>
       </div>
     </span>
     <span class="form-check-item col-sm-1">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input form-check-input" id="create-coin-txn" value="createCoinReward">
-        <label class="custom-control-label" for="create-coin-txn">Created a Coin</label>
+        <label class="custom-control-label" for="create-coin-txn">{{_ "transactions.coin"}}</label>
       </div>
     </span>
     <span class="form-check-item col-sm-1">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input form-check-input" id="cheating-txn" value="cheating">
-        <label class="custom-control-label" for="cheating-txn">Cheating</label>
+        <label class="custom-control-label" for="cheating-txn">{{_ "transactions.cheating"}}</label>
       </div>
     </span>
     <span class="form-check-item col-sm-1">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input form-check-input" id="answer-txn" value="anwserQuestion">
-        <label class="custom-control-label" for="answer-txn">Answered Question</label>
+        <label class="custom-control-label" for="answer-txn">{{_ "transactions.questions"}}</label>
       </div>
     </span>
   </div>
@@ -59,11 +59,11 @@
     <table class="table table-hover mt-2">
         <thead>
             <tr scope="row" class="table-light">
-                <th scope="col">From</th>
-                <th scope="col">To</th>
-                <th scope="col">Amount</th>
-				<th scope="col">Date/ Time</th>
-                <th scope="col">Type</th>
+                <th scope="col">{{_ "transactions.from"}}</th>
+                <th scope="col">{{_ "transactions.to"}}</th>
+                <th scope="col">{{_ "transactions.amount"}}</th>
+				<th scope="col">{{_ "transactions.date"}}</th>
+                <th scope="col">{{_ "transactions.type"}}</th>
             </tr>
         </thead>
         <tbody>

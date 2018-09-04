@@ -427,7 +427,7 @@ Template.compareCurrencies.helpers({
 			autoFocus: true,
 			quickEnter: true,
 			displayField: "currencyName", //field that appears in typeahead select menu
-            placeholder: "Select Currency",
+            placeholder: TAPi18n.__('currency.compare.select'),
 		}
 	},
 	colspan: () => Template.instance().compared.get().length + 2,

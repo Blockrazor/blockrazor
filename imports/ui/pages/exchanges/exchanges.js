@@ -14,9 +14,9 @@ Template.exchangeActions.events({
   'click .deleteExchange': function (event, templ) {
     Meteor.call("deleteExchange", $(event.target).data("id"), (err, res) => {
       if (!err) {
-        sAlert.success('Exchange removal successfully proposed. Moderators will decide whether to actually delete it or not.')
+        sAlert.success(TAPi18n.__('exchanges.proposed'))
       } else {
-        sAlert.error('There is a problem with proposing exchange removal.')
+        sAlert.error(TAPi18n.__('exchanges.problem'))
       }
     })
   }
@@ -34,11 +34,11 @@ Template.exchanges.helpers({
       fields: [
         {
           key: 'name',
-          label: 'Exchange Name',
+          label: TAPi18n.__('exchanges.name'),
         },
         {
           key: 'action',
-          label: 'Action',
+          label: TAPi18n.__('exchanges.action'),
           tmpl: Template.exchangeActions
         }
       ]
