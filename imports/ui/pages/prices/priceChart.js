@@ -35,7 +35,7 @@ Template.priceChart.onRendered(function() {
             	display: false,
         	},
 			title: {
-				text: 'Krazor price'
+				text: TAPi18n.__('prices.krazor')
 			},
 			scales: {
 				xAxes: [{
@@ -47,13 +47,13 @@ Template.priceChart.onRendered(function() {
 					},
 					scaleLabel: {
 						display: true,
-						labelString: 'Date'
+						labelString: TAPi18n.__('prices.date')
 					}
 				}],
 				yAxes: [{
 					scaleLabel: {
 						display: true,
-						labelString: 'Value (USD)'
+						labelString: TAPi18n.__('prices.value')
 					},
 					ticks: {
 		                beginAtZero: true
@@ -90,7 +90,7 @@ Template.priceChart.onRendered(function() {
 
 		if (dataset.length) {
 			this.chart.data.datasets = [{
-				label: 'KZR price',
+				label: TAPi18n.__('prices.krazor'),
 				backgroundColor: color('#00ff00').alpha(0.5).rgbString(),
 				borderColor: '#00ff00',
 				fill: false,

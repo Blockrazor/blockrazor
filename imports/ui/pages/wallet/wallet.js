@@ -74,11 +74,11 @@ Template.wallet.events({
         if (err) {
           sAlert.error(err.reason)
         } else {
-          sAlert.success('Successfully deposited.')
+          sAlert.success(TAPi18n.__('kzrWallet.deposited'))
         }
       })
     } else {
-      sAlert.error('Please enter a valid amount.')
+      sAlert.error(TAPi18n.__('kzrWallet.invalid_amount'))
     }
 
   },

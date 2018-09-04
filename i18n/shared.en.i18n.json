@@ -16,7 +16,8 @@
 		"profile": "Profile",
 		"logout": "Logout",
 		"notifications": "Your Notifications",
-		"signin": "SIGN IN"
+		"signin": "SIGN IN",
+		"filter": "Filter"
 	},
 	"sidebar": {
 		"home": "Home",
@@ -58,5 +59,18 @@
 	},
 	"loading": {
 		"loading": "Loading..."
+	},
+	"activity": {
+		"received": "Recieved %s from %s"
+	},
+	"notLoggedIn": {
+		"not": "You're not logged in!"
+	},
+	"radar": {
+		"data_quality": "Data Quality Rank",
+		"contribute": "Contribute data"
+	},
+	"upload": {
+		"upload": "UPLOAD"
 	}
 }

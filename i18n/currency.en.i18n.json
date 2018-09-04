@@ -165,6 +165,24 @@
 			"added": "Thanks! Summary has been added!",
 			"too_short": "That entry is too short, or too long.",
 			"markdown": "*Markdown* is supported"
+		},
+		"compare": {
+			"randomize": "Randomize colors",
+			"price": "Price",
+			"cpc": "Comparison Price (Circulation)",
+			"cpt": "Comparison Price (Total)",
+			"features": "Features",
+			"top_feat": "Top feature",
+			"redflags": "Red flags",
+			"top_redflag": "Top red flag",
+			"founder": "Founder",
+			"status": "Status",
+			"data": "Other data",
+			"hash_power": "Hash power",
+			"market": "Market cap",
+			"circulating": "Circulating coins",
+			"final": "Final value",
+			"select": "Select Currency"
 		}
 	}
 }

@@ -1,8 +1,8 @@
 <template name="suspended">
     <div style="text-align: center">
-        <h1>You have been suspended!</h1>
+        <h1>{{_ "user.suspended.suspended"}}</h1>
 
-        You have done the following:
+        {{_ "user.suspended.done"}}
         <div>
         {{#each badThings}}
             <span style="color: red">{{date}} - {{name}}</span><br />
@@ -11,19 +11,19 @@
 
         {{#unless didApply}}
         <form>
-            <label>If you want to apply for a pardon, please state your reason. Be descriptive.</label>
+            <label>{{_ "user.suspended.pardon_apply"}}</label>
             <textarea class="form-control" id="js-reason"></textarea>
 
-            <button class="btn" id="js-apply">Submit</button>
+            <button class="btn" id="js-apply">{{_ "user.suspended.submit"}}</button>
         </form>
         {{else}}
             {{#if isDenied}}
-            Your application for pardon has been denied. You can't apply again!
+            {{_ "user.suspended.denied"}}
             {{else}}
-            Your application is currently being processed by moderators. Good luck!
+            {{_ "user.suspended.processed"}}
             {{/if}}
         {{/unless}}
         <br /><br />
-        You can still access our <a href="/problems">problems and questions page</a>, if you want to report something.
+        {{{_ "user.suspended.help"}}}
     </div>
 </template>

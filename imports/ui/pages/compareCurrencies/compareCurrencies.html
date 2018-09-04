@@ -14,7 +14,7 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        <button class="btn pull-right" id="js-randomize">Randomize colors</button>
+        <button class="btn pull-right" id="js-randomize">{{_ "currency.compare.randomize"}}</button>
         <br/><br/>
       </div>
     </div>
@@ -42,77 +42,77 @@
               </thead>
               <tbody>
                 <tr>
-                  <td class="sub-heading">Price</td>
+                  <td class="sub-heading">{{_ "currency.compare.price"}}</td>
                   {{#each comparedCurrencies}}
                   <td style="color: {{color}};">{{price}}$</td>
                   {{/each}}
                 </tr>
                 <tr>
-                  <td class="sub-heading">Comparison Price (Circulation)</td>
+                  <td class="sub-heading">{{_ "currency.compare.cpc"}}</td>
                   {{#each comparedCurrencies}}
                   <td style="color: {{color}};">{{cpc}}$</td>
                   {{/each}}
                 </tr>
                 <tr>
-                  <td class="sub-heading">Comparison Price (Total)</td>
+                  <td class="sub-heading">{{_ "currency.compare.cpt"}}</td>
                   {{#each comparedCurrencies}}
                   <td style="color: {{color}};">{{cpt}}$</td>
                   {{/each}}
                 </tr>
                 <tr>
-                  <td style="text-align: center;background-color:#c6c6c6;color:#000" colspan="{{colspan}}">Features</td>
+                  <td style="text-align: center;background-color:#c6c6c6;color:#000" colspan="{{colspan}}">{{_ "currency.compare.features"}}</td>
                 </tr>
                 {{#each top3}}
                 <tr>
-                  <td class="sub-heading">Top feature {{this}}</td>
+                  <td class="sub-heading">{{_ "currency.compare.top_feat"}} {{this}}</td>
                   {{#each comparedCurrencies}}
                   <td style="color: {{color}};">{{topFeature ..}}</td>
                   {{/each}}
                 </tr>
                 {{/each}}
                 <tr>
-                  <td style="text-align: center;background-color:#c6c6c6;color:#000" colspan="{{colspan}}">Red flags</td>
+                  <td style="text-align: center;background-color:#c6c6c6;color:#000" colspan="{{colspan}}">{{_ "currency.compare.redflags"}}</td>
                 </tr>
                 {{#each top3}}
                 <tr>
-                  <td class="sub-heading">Top red flag {{this}}</td>
+                  <td class="sub-heading">{{_ "currency.compare.top_redflag"}} {{this}}</td>
                   {{#each comparedCurrencies}}
                   <td style="color: {{color}};">{{topFlag ..}}</td>
                   {{/each}}
                 </tr>
                 {{/each}}
                 <tr>
-                  <td style="text-align: center;background-color:#c6c6c6;color:#000" colspan="{{colspan}}">Founder</td>
+                  <td style="text-align: center;background-color:#c6c6c6;color:#000" colspan="{{colspan}}">{{_ "currency.compare.founder"}}</td>
                 </tr>
                 <tr>
-                  <td class="sub-heading">Status</td>
+                  <td class="sub-heading">{{_ "currency.compare.status"}}</td>
                   {{#each comparedCurrencies}}
                   <td style="color: {{color}};">{{founder}}</td>
                   {{/each}}
                 </tr>
                 <tr>
-                  <td style="text-align: center;background-color:#c6c6c6;color:#000" colspan="{{colspan}}">Other data</td>
+                  <td style="text-align: center;background-color:#c6c6c6;color:#000" colspan="{{colspan}}">{{_ "currency.compare.data"}}</td>
                 </tr>
                 <tr>
-                  <td class="sub-heading">Hash power</td>
+                  <td class="sub-heading">{{_ "currency.compare.hash_power"}}</td>
                   {{#each comparedCurrencies}}
                   <td style="color: {{color}};">{{hashpower}} W</td>
                   {{/each}}
                 </tr>
                 <tr>
-                  <td class="sub-heading">Market cap</td>
+                  <td class="sub-heading">{{_ "currency.compare.market"}}</td>
                   {{#each comparedCurrencies}}
                   <td style="color: {{color}};">{{marketCap}}$</td>
                   {{/each}}
                 </tr>
                 <tr>
-                  <td class="sub-heading">Circulating coins</td>
+                  <td class="sub-heading">{{_ "currency.compare.circulating"}}</td>
                   {{#each comparedCurrencies}}
                   <td style="color: {{color}};">{{circulating}}</td>
                   {{/each}}
                 </tr>
                 <tr>
-                  <td class="sub-heading">Final value</td>
+                  <td class="sub-heading">{{_ "currency.compare.final"}}</td>
                   {{#each comparedCurrencies}}
                   <td style="color: {{color}};">{{finalValue}}$</td>
                   {{/each}}
