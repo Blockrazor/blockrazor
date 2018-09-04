@@ -37,7 +37,7 @@ Template.editProfile.events({
                 //give the user a better UX and let them know its been saved!
                 swal({
                     icon: "success",
-                    text: 'Your profile has been updated',
+                    text: TAPi18n.__('user.edit.updated'),
                     confirmButtonClass: 'btn btn-primary'
                   });
 
@@ -99,12 +99,12 @@ Template.editProfile.events({
         let fileExtension = mime.extension(file.type)
 
         if (file.size > _profilePictureFileSizeLimit) {
-            sAlert.error('Image is too big.')
+            sAlert.error(TAPi18n.__('user.edit.too_big'))
             uploadError = true
         }
 
         if (!_supportedFileTypes.includes(file.type)) {
-            sAlert.error('File must be an image.')
+            sAlert.error(TAPi18n.__('user.edit.must_be_image'))
             uploadError = true
         }
 
@@ -112,7 +112,7 @@ Template.editProfile.events({
         $('#uploadLabel').removeClass('btn-success');
         $('#uploadLabel').addClass('btn-primary');
         $("button").attr("disabled", "disabled"); //disable all buttons
-        $(".uploadText").html("<i class='fa fa-circle-o-notch fa-spin'></i> Uploading"); //show upload progress
+        $(".uploadText").html(`<i class='fa fa-circle-o-notch fa-spin'></i> ${TAPi18n.__('user.edit.uploading')}`); //show upload progress
 
 
         //Only upload if above validation are true
@@ -127,12 +127,12 @@ Template.editProfile.events({
                         sAlert.error(error.message);
                         $('#uploadLabel').removeClass('btn-success');
                         $('#uploadLabel').addClass('btn-primary');
-                        $(".uploadText").html("Upload");
+                        $(".uploadText").html(TAPi18n.__('user.edit.upload'));
                     } else {                        
                     $('#js-image').val(`${md5}.${fileExtension}`)
                     $("button").attr("disabled", false); //enable all buttons
                     $('#uploadLabel').addClass('btn-success');
-                    $(".uploadText").html("Change"); //update button text now upload is complete
+                    $(".uploadText").html(TAPi18n.__('user.edit.change')); //update button text now upload is complete
                     $('#profilePicture').attr('src', `${_profilePictureUploadDirectoryPublic}${md5}_thumbnail.${fileExtension}`)
 
                     //send an event to segment

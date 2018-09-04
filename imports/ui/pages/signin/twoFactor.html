@@ -1,19 +1,19 @@
 <template name="twoFactor">
     {{> sAlert}}
     <div class="sign-in">
-        <div class="title">Two-factor authentication</div>
+        <div class="title">{{_ "user.signin.two_factor"}}</div>
         <div class="email-sign-in">
             <form id="signIn">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-key"></i></span>
                     </div>
-                    <input type="password" id="token" class="form-control" placeholder="2FA key">
+                    <input type="password" id="token" class="form-control" placeholder='{{_ "user.signin.two_factor_key"}}'>
                 </div>
-                <button type="submit" class="btn btn-primary">Continue</button>
+                <button type="submit" class="btn btn-primary">{{_ "user.signin.continue"}}</button>
             </form>
             <div class="sign-up-link text-center">
-                <a id="cancel-signin" style="cursor: pointer;">Cancel</a>
+                <a id="cancel-signin" style="cursor: pointer;">{{_ "user.singin.cancel"}}</a>
             </div>
         </div>
     </div>

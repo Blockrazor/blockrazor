@@ -5,17 +5,17 @@
             <div class="col-lg-8 order-lg-2">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">Profile</a>
+                        <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">{{_ "user.profile.profile"}}</a>
                     </li>
                     <li class="nav-item">
-                        <a href="" data-target="#addedCurrencies" data-toggle="tab" class="nav-link">Added Currencies</a>
+                        <a href="" data-target="#addedCurrencies" data-toggle="tab" class="nav-link">{{_ "user.profile.currencies"}}</a>
                     </li>
                     <li class="nav-item">
-                        <a href="" data-target="#hashRigs" data-toggle="tab" class="nav-link">Hash Rigs</a>
+                        <a href="" data-target="#hashRigs" data-toggle="tab" class="nav-link">{{_ "user.profile.rigs"}}</a>
                     </li>
                      {{#if isYourPage}}
                     <li class="nav-item">
-                        <a href="" data-target="#edit" data-toggle="tab" class="nav-link">Edit</a>
+                        <a href="" data-target="#edit" data-toggle="tab" class="nav-link">{{_ "user.profile.edit"}}</a>
                     </li>
                     {{/if}}
                 </ul>
@@ -23,32 +23,32 @@
                     <div class="tab-pane active" id="profile">
                         <div class="row">
                             <div class="col-md-12">
-                                <h6>Email</h6>
+                                <h6>{{_ "user.profile.email"}}</h6>
                                 <p>
                                     {{val user.email}}
                                 </p>
-                                <h6>Role</h6>
+                                <h6>{{_ "user.profile.role"}}</h6>
                                 <p>
                                     {{val roles}}
                                 </p>
-                                <h6>About Me</h6>
+                                <h6>{{_ "user.profile.about"}}</h6>
                                 <p>
                                     {{val user.bio}}
                                 </p>
                                 {{#if badThings.length}}
-                                <h6>Strikes</h6>
+                                <h6>{{_ "user.profile.strikes"}}</h6>
                                 <p>
                                     {{#each badThings}}
                                         <span style="color: red">{{name}} {{date}}.</span><br />
                                     {{/each}}
                                 </p>
                                 {{/if}}
-                                <h6>Input ranking</h6>
+                                <h6>{{_ "user.profile.ranking"}}</h6>
                                 <p>
                                     {{fixed userData.inputRanking}}
                                 </p>
                                 {{#unless userData.moderator}}
-                                <h6>Overall rating for possible moderators</h6>
+                                <h6>{{_ "user.profile.rating"}}</h6>
                                 <p>
                                     {{#with userData}}
                                     {{rating}}
@@ -58,14 +58,14 @@
                             </div>
     <div class="col-md-12">
                                 <div class="card border-secondary mb-3" style="max-width: 100%">
-                                    <div class="card-header">Recent Comments</div>
+                                    <div class="card-header">{{_ "user.profile.comments"}}</div>
                                     <div class="card-body">
                                         {{#if subsCacheReady}} {{#each comments}}
                                         <div class="bigCommentBox">
                                             <div class="commentBody">
                                                 <div class="commentText">
                                                     <small class="pull-right">{{relativeTime createdAt}}</small>
-                                                    <span class="badge badge-primary text-white" style="margin-right:10px;">Posted in <a class="text-white" href="/currency/{{commentMeta.currencySlug}}"> {{commentMeta.currency}} </a> </span><br />
+                                                    <span class="badge badge-primary text-white" style="margin-right:10px;">{{_ "user.profile.posted"}} <a class="text-white" href="/currency/{{commentMeta.currencySlug}}"> {{commentMeta.currency}} </a> </span><br />
 
                                                 <small>{{comment}}</small><br /><br />
                                                 </div>

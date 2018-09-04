@@ -1,31 +1,31 @@
 <template name="signup">
   {{> sAlert}}
   <div class="sign-in">
-    <div class="title">Create Account</div>
+    <div class="title">{{_ "user.signup.create"}}</div>
     <div class="email-sign-in">
       <form id="signUp">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-envelope"></i></span>
             </div>
-            <input type="text" id="js-email" class="form-control" placeholder="Email ID" required>
+            <input type="text" id="js-email" class="form-control" placeholder='{{_ "user.signup.email"}}' required>
         </div>
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-key"></i></span>
             </div>
-            <input type="password" id="js-password" class="form-control" placeholder="Password">
+            <input type="password" id="js-password" class="form-control" placeholder='{{_ "user.signup.password"}}'>
         </div>
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-key"></i></span>
             </div>
-            <input type="password" id="js-password-conf" class="form-control" placeholder="Password">
+            <input type="password" id="js-password-conf" class="form-control" placeholder='{{_ "user.signup.password"}}'>
         </div>
-        <button class="btn btn-primary" type="submit">Sign Up</button>
+        <button class="btn btn-primary" type="submit">{{_ "user.signup.signup"}}</button>
       </form>
       <div class="sign-up-link">
-        Aready have an account? <a href="/login">Sign In</a>.
+        {{_ "user.signup.have"}} <a href="/login">{{_ "user.signup.signin"}}</a>.
       </div>
     </div>
   </div>
