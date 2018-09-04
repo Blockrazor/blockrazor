@@ -6,12 +6,12 @@ import './userProfile.html'
 
 const getName = (type) => {
 	const o = {
-		'cheating': 'Caught lazy answering rating questions',
-		'bad-coin': 'Submitted an invalid cryptocurrency',
-		'bad-wallet': 'Submitted an invalid wallet image',
-		'comment': 'Submitted a comment that has been flagged and deleted',
-		'redflags': 'Submitted a red flag that has been flagged and deleted',
-		'features': 'Submitted a feature that has been flagged and deleted'
+		'cheating': TAPi18n.__('user.profile.cheating_info'),
+		'bad-coin': TAPi18n.__('user.profile.bad_coin_info'),
+		'bad-wallet': TAPi18n.__('user.profile.bad_wallet_info'),
+		'comment': TAPi18n.__('user.profile.comment_info'),
+		'redflags': TAPi18n.__('user.profile.redflag_info'),
+		'features': TAPi18n.__('user.profile.features_info')
 	}
 
 	return o[type]
