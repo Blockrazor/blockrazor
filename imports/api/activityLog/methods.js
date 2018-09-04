@@ -30,7 +30,7 @@ Meteor.methods({
 
 Meteor.methods({
     'markNotificationsAsRead': function() {
-        if (!Meteor.userId()) { throw new Meteor.Error('error', 'please log in') };
+        if (!Meteor.userId()) { throw new Meteor.Error('Error.', 'messages.login') };
 
         ActivityLog.update({
             owner: Meteor.userId(),
@@ -54,7 +54,7 @@ Meteor.methods({
 Meteor.methods({
   activityIPVote: function(ip, type) {
     if (!Meteor.userId()) {
-      throw new Meteor.Error('Error.', 'Please log in first')
+      throw new Meteor.Error('Error.', 'messages.login')
     }
 
     let mod = UserData.findOne({
@@ -89,7 +89,7 @@ Meteor.methods({
             _id: data
           }))
         } else {
-          throw new Meteor.Error('Error', 'An error has ocurred.')
+          throw new Meteor.Error('Error', 'messages.error')
         }
       })
     } else {
@@ -99,7 +99,7 @@ Meteor.methods({
     activityIP = fut.wait()
 
     if (activityIP.ignored && activityIP.time > (new Date() - 1000*60*60*24*30)) {
-      throw new Meteor.Error('Error', 'This IP is still on the ignore list.')
+      throw new Meteor.Error('Error', 'messages.activity.ip_ignored')
     }
 
     if (!(activityIP.votes || []).filter(i => i.userId === this.userId).length) { // user hasn't voted yet

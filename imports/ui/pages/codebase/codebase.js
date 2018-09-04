@@ -73,7 +73,7 @@ Template.codebase.events({
                 if (!err) {
                     sAlert.info(TAPi18n.__('codebase.thank_you'))
                 } else {
-                    sAlert.error(err.reason)
+                    sAlert.error(TAPi18n.__(err.reason))
                 }
             })
         } else {
@@ -96,7 +96,7 @@ Template.codebase.events({
             if (err) {
 				swal({
 					icon: "error",
-					text: err.reason,
+					text: TAPi18n.__(err.reason),
 					button: { text: TAPi18n.__('codebase.continue'), className: 'btn btn-primary' }
 				});
             } else {
@@ -207,7 +207,7 @@ Template.codebase.events({
 
                 setTimeout(() => $(`#links_${this._id}`).hide(), 1000)
             } else {
-                sAlert.error(err.reason)
+                sAlert.error(TAPi18n.__(err.reason))
             }
         })
     },

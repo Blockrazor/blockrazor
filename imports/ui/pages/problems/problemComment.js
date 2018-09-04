@@ -38,7 +38,7 @@ Template.problemComment.events({
     'click .fa-thumbs-down, click .fa-thumbs-up': (event, templateInstance) => {
         Meteor.call('problemCommentVote', Template.instance().data._id, $(event.currentTarget).hasClass('fa-thumbs-down') ? -1 : 1, (err, data) => {
             if (err) {
-                sAlert.error(err.reason)
+                sAlert.error(TAPi18n.__(err.reason))
             }
         })
     },
@@ -49,7 +49,7 @@ Template.problemComment.events({
             if (!err) {
                 sAlert.success(TAPi18n.__('problems.comment.accepted'))
             } else {
-                sAlert.error(err.reason)
+                sAlert.error(TAPi18n.__(err.reason))
             }
         })
     },

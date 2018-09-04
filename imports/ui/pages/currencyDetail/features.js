@@ -123,7 +123,7 @@ Template.features.events({
                         sAlert.error(i.message)
                     })
                 } else {
-                    sAlert.error(err.reason)
+                    sAlert.error(TAPi18n.__(err.reason))
                 }
             }
         })

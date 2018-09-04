@@ -107,7 +107,7 @@ Template.problemComments.events({
 
                     sAlert.success(TAPi18n.__('problems.comments.success'))
                 } else {
-                    sAlert.error(err.reason)
+                    sAlert.error(TAPi18n.__(err.reason))
                 }
             })
         }

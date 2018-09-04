@@ -18,7 +18,7 @@ Template.signup.events({
 					if (!err) {
 						FlowRouter.go(window.last || '/')
 					} else {
-						sAlert.error(err.reason)
+						sAlert.error(TAPi18n.__(err.reason))
 					}
 				})
 			} else {

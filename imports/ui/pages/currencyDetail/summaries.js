@@ -128,7 +128,7 @@ Template.summaries.events({
                     
                     sAlert.success(TAPi18n.__('currency.summaries.added'))
                 } else {
-                    sAlert.error(err.reason)
+                    sAlert.error(TAPi18n.__(err.reason))
                 }
             })
         }

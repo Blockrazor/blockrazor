@@ -21,7 +21,7 @@ Template.commentRender.events({
     if(!error){
       sAlert.success(TAPi18n.__('currenct.comment.thanks'));
     } else {
-      sAlert.error(error.reason);
+      sAlert.error(TAPi18n.__(error.reason));
     }
   });
 }

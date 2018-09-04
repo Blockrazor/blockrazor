@@ -29,7 +29,7 @@ Template.approveWalletImage.events({
                       if (!err) {
                           sAlert.success(TAPi18n.__('moderator.dash.rejected'))
                       } else {
-                          sAlert.error(err.reason)
+                          sAlert.error(TAPi18n.__(err.reason))
                       }
                   })
                   Session.set('lastApproval', 'approveWalletImage');

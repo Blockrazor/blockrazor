@@ -36,7 +36,7 @@ Template.approveCommunityImage.events({
                           sAlert.success(TAPi18n.__('moderator.dash.rejected'))
                           Session.set('lastApproval', 'approveCommunityImage');
                       } else {
-                          sAlert.error(err.reason)
+                          sAlert.error(TAPi18n.__(err.reason))
                           Session.set('lastApproval', 'approveCommunityImage');
                       }
                   })
@@ -51,7 +51,7 @@ Template.approveCommunityImage.events({
         sAlert.success(TAPi18n.__('moderator.dash.approved'))
         Session.set('lastApproval', 'approveCommunityImage');
       } else {
-        sAlert.error(err.reason)
+        sAlert.error(TAPi18n.__(err.reason))
         Session.set('lastApproval', 'approveCommunityImage');
       }
     })

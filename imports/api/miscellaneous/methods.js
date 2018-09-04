@@ -15,7 +15,7 @@ const checkCaptcha = (captcha, fut, ip) => {
         fut.return(true)
       } else {
         fut.return(false)
-        throw new Meteor.Error('Error.', 'Invalid captcha.')
+        throw new Meteor.Error('Error.', 'messages.misc.captcha')
       }
     })
   } else {
@@ -41,7 +41,7 @@ export { checkCaptcha }
     },
     flaggedVote: function(id, type, what) {
       if (!Meteor.userId()) {
-        throw new Meteor.Error('Error.', 'Please log in first')
+        throw new Meteor.Error('Error.', 'messages.login')
       }
 
       let mod = UserData.findOne({
@@ -67,7 +67,7 @@ export { checkCaptcha }
           _id: id
         }) ? Features : Redflags
       } else {
-        throw new Meteor.Error('Error.', 'Invalid type.')
+        throw new Meteor.Error('Error.', 'messages.misc.invalid_type')
       }
         
       let u = Type.findOne({
@@ -125,7 +125,7 @@ export { checkCaptcha }
             }
           })
         } else {
-          throw new Meteor.Error('Error.', 'Wrong id.')
+          throw new Meteor.Error('Error.', 'messages.misc.wrong_id')
         }
                 
         return 'not-ok'

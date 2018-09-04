@@ -47,7 +47,7 @@ Template.redflag.events({
         if(!error) {
           $(event.currentTarget).addClass('text-info');
   		$(event.currentTarget).parent().find('.fa-thumbs-up').removeClass('text-info');
-        } else {sAlert.error(error.reason)};
+        } else {sAlert.error(TAPi18n.__(error.reason))};
       });
     },
     'click .fa-thumbs-up': function(event) {
@@ -55,7 +55,7 @@ Template.redflag.events({
         if(!error) {
           $(event.currentTarget).addClass('text-info');
   		$(event.currentTarget).parent().find('.fa-thumbs-down').removeClass('text-info');
-        } else {sAlert.error(error.reason)};
+        } else {sAlert.error(TAPi18n.__(error.reason))};
       });
     },
   'mouseover .fa-thumbs-down': function() {
@@ -76,7 +76,7 @@ Template.redflag.events({
       if(!error){
         sAlert.success(TAPi18n.__('currency.feature.thanks'));
       } else {
-        sAlert.error(error.reason);
+        sAlert.error(TAPi18n.__(error.reason));
       }
     });
   },
@@ -100,7 +100,7 @@ Template.redflag.events({
         if(!error) {
           sAlert.success(TAPi18n.__('currency.feature.posted'));
         } else {
-          sAlert.error(error.reason);
+          sAlert.error(TAPi18n.__(error.reason));
           return;
         }
       });

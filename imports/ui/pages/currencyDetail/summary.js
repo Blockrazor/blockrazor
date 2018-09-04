@@ -34,7 +34,7 @@ Template.summary.events({
 					$(event.currentTarget).parent().find('.fa-thumbs-down').removeClass('text-info');
 				}
 
-			} else {sAlert.error(error.reason)};
+			} else {sAlert.error(TAPi18n.__(error.reason))};
 		});
     },
     'mouseover .fa-thumbs-down, mouseover .fa-thumbs-up': (event, templateInstance) => {

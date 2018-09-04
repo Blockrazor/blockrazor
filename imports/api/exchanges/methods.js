@@ -14,10 +14,10 @@ Meteor.methods({
     var exchange = Exchanges.findOne(eId)
     var currency = Currencies.findOne(cId)
     if (!exchange || !currency){
-      throw new Meteor.Error("exchange or currency doesn't exist")
+      throw new Meteor.Error('messages.exchanges.doesnt_exist')
     }
     if (currency.exchanges && currency.exchanges.filter(x=>{x._id == eId}).length != 0){
-      throw new Meteor.Error(`exchange already appended, under name ${exchange.name}`)
+      throw new Meteor.Error(`messages.exchanges.already_appended`)
     }
 
     Currencies.update(cId, {
@@ -38,12 +38,12 @@ Meteor.methods({
   },
   untagExchange(eId, cId){
     if (!Meteor.userId()){
-      throw new Meteor.Error("log in")
+      throw new Meteor.Error('messages.login')
     }
     let exchange = Exchanges.findOne(eId)
     let currency = Currencies.findOne(cId)
     if (!exchange || !currency){
-      throw new Meteor.Error("exchange or currency doesn't exist")
+      throw new Meteor.Error('messages.exchanges.doesnt_exist')
     }
     Currencies.update(cId, {
       $pull: {exchanges: {
@@ -63,7 +63,7 @@ Meteor.methods({
   },
     exchangeVote: function(eId, type) {
         if (!Meteor.userId()) {
-            throw new Meteor.Error('Error.', 'Please log in first')
+            throw new Meteor.Error('Error.', 'messages.login')
         }
 
         let mod = UserData.findOne({
@@ -159,7 +159,7 @@ Meteor.methods({
     },
     deleteExchange: (eId) => {
         if (!Meteor.userId()) {
-            throw new Meteor.Error('Please log in.')
+            throw new Meteor.Error('messages.login')
         }
 
         let exchange = Exchanges.findOne({
@@ -167,7 +167,7 @@ Meteor.methods({
         })
 
         if (!exchange) {
-            throw new Meteor.Error('Given exchange does not exist.')
+            throw new Meteor.Error('messages.exchanges.doesnt_exist')
         }
    
         Exchanges.update({
@@ -180,11 +180,11 @@ Meteor.methods({
   },
   addExchange(name){
     if (!Meteor.userId()){
-      throw new Meteor.Error("log in")
+      throw new Meteor.Error('messages.login')
     }
     
     if (Exchanges.findOne({name: name})) {
-      throw new Meteor.Error("exchange exists")
+      throw new Meteor.Error('messages.exchanges.exists')
     }
     
     return Exchanges.findOne(Exchanges.insert({

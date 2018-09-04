@@ -10,7 +10,7 @@ Meteor.methods({
             }) 
 
             if (_.include(summary.appealVoted, this.userId)) {
-                throw new Meteor.Error('Error', 'You can only vote once.')
+                throw new Meteor.Error('Error', 'messages.summaries.vote_once')
             }
 
             Summaries.update({
@@ -33,17 +33,17 @@ Meteor.methods({
                 }
             })
         } else {
-            throw new Meteor.Error('Error', 'You must be signed in to rate something')
+            throw new Meteor.Error('Error', 'messages.login')
         }
     },
     newSummary: function(coinId, summary, captcha) {
         if (this.userId) {
             if (typeof summary != 'string') {
-                throw new Meteor.Error('Error', 'Error')
+                throw new Meteor.Error('Error', 'messages.error')
             }
             
             if(summary.length > 500 || summary.length < 10) {
-                throw new Meteor.Error('Error', 'That name is too long or too short.')
+                throw new Meteor.Error('Error', 'messages.summaries.too_short')
             }
 
             let added = Summaries.find({
@@ -102,10 +102,10 @@ Meteor.methods({
                     })
                 }
             } else {
-                throw new Meteor.Error('Error.', 'You have to wait until you can post another summary.')
+                throw new Meteor.Error('Error.', 'messages.summaries.wait')
             }
         } else {
-            throw new Meteor.Error('Error', 'You must be signed in to add a new summary')
+            throw new Meteor.Error('Error', 'messages.login')
         }
     }
 })

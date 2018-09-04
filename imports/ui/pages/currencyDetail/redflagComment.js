@@ -26,7 +26,7 @@ Template.redflagComment.events({
       if(!error){
         sAlert.success(TAPi18n.__('currency.feature.thanks'));
       } else {
-        sAlert.error(error.reason);
+        sAlert.error(TAPi18n.__(error.reason));
       }
     });
   }

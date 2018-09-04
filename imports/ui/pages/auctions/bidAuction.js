@@ -103,7 +103,7 @@ Template.bidAuction.events({
 				currency: auction.options.acceptedCurrency
 			}, (err, data) => {
 				if (err) {
-					sAlert.error(err.reason)
+					sAlert.error(TAPi18n.__(err.reason))
 				} else {
 					sAlert.success(TAPi18n.__('auctions.bid.bid_placed'))
 					let payload = {
@@ -131,7 +131,7 @@ Template.bidAuction.events({
 
         	segmentEvent(payload);
         } else {
-            sAlert.error(err.reason)
+            sAlert.error(TAPi18n.__(err.reason))
         }
     })
 },

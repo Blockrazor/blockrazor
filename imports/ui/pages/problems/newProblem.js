@@ -159,7 +159,7 @@ Template.newProblem.events({
 
 			     	Meteor.call('uploadProblemImage', file.name, reader.result, md5, (err, result) => {
 			       		if (err) {
-			        		sAlert.error(err.reason)
+			        		sAlert.error(TAPi18n.__(err.reason))
 
 			        		$('#upload').html(TAPi18n.__('problems.new.upload'))
 			       		} else {

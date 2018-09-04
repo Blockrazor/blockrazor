@@ -49,7 +49,7 @@ methods.vote = function(collection, id, direction) {
 		var rating = doc.appeal / doc.appealNumber;
 		collections[collection].upsert(id, { $set: {rating: rating} });
 	} else {
-		throw new Meteor.Error('Error', 'You must be signed in to rate something');
+		throw new Meteor.Error('Error', 'messages.login');
 	}
 };
 

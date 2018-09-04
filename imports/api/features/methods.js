@@ -86,14 +86,14 @@ export const newFeature = new ValidatedMethod({
                             }
                         })
                     } else {
-                        throw new Meteor.Error('Error.', 'Invalid captcha.')
+                        throw new Meteor.Error('Error.', 'messages.features.captcha')
                     }
                 }
             } else {
-                throw new Meteor.Error('Error.', 'You have to wait until you can post another feature.')
+                throw new Meteor.Error('Error.', 'messages.features.wait')
             }
         } else {
-            throw new Meteor.Error('Error', 'You must be signed in to add a new feature')
+            throw new Meteor.Error('Error', 'messages.login')
         }
     }
 })
@@ -111,7 +111,7 @@ var hasUserVoted = (id, direction) => {
 Meteor.methods({
   flag: function(id) {
     if(this.userId) {
-      if(_.include(Features.findOne(id).flaggedBy, this.userId)) { throw new Meteor.Error('Error', 'You can only flag something once.') }
+      if(_.include(Features.findOne(id).flaggedBy, this.userId)) { throw new Meteor.Error('Error', 'messages.features.flag_once') }
       Features.upsert(id, {
         $addToSet: {flaggedBy: this.userId},
         $inc: {flags: 1}
@@ -121,7 +121,7 @@ Meteor.methods({
         $set: {flagRatio: flagRatio}
       });
     } else {
-      throw new Meteor.Error('Error', 'You must be signed in to flag something');
+      throw new Meteor.Error('Error', 'messages.login');
     }
   },
   portFeatures: () => {
@@ -143,10 +143,10 @@ newComment: function(parentId, comment, depth, captcha) {
     if(typeof comment != "string") { throw new Meteor.Error('Error', 'Error') }
     if(typeof depth != "number") { throw new Meteor.Error('Error', 'Error') }
     if(comment.length > 140 || comment.length < 6) {
-      throw new Meteor.Error('Error', 'That comment is too long or too short.')
+      throw new Meteor.Error('Error', 'messages.features.too_short')
     }
     if(_.include(Features.findOne(parentId).commenters, this.userId)) {
-      throw new Meteor.Error('Error', 'You are only allowed to comment once on any feature')
+      throw new Meteor.Error('Error', 'messages.features.comment_once')
     }
 
     const Future = require('fibers/future')
@@ -200,9 +200,9 @@ newComment: function(parentId, comment, depth, captcha) {
 
     sendMessage(feature.createdBy, `${user.username} has commented on your feature on ${currency.currencyName}.`, 'System', `/currency/${currency.slug}`)
   } else {
-        throw new Meteor.Error('Error.', 'Invalid captcha.')
+        throw new Meteor.Error('Error.', 'messages.features.captcha')
       }
 
-} else {throw new Meteor.Error('Error', 'You must be signed in to comment')}
+} else {throw new Meteor.Error('Error', 'messages.login')}
 }
 });

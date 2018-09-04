@@ -6,7 +6,7 @@ import { sendMessage } from '/imports/api/activityLog/methods'
 Meteor.methods({
   redFlagVote: function(id, direction) {
     if(this.userId) {
-      if(_.include(Redflags.findOne(id).appealVoted, this.userId)) { throw new Meteor.Error('Error', 'You can only vote once.') }
+      if(_.include(Redflags.findOne(id).appealVoted, this.userId)) { throw new Meteor.Error('Error', 'messages.redflags.vote_once') }
       var amount = direction == "down" ? -1 : 1;
       console.log(amount);
       Redflags.update(id, {
@@ -18,12 +18,12 @@ Meteor.methods({
         $set: {rating: rating}
       });
     } else {
-      throw new Meteor.Error('Error', 'You must be signed in to rate something');
+      throw new Meteor.Error('Error', 'messages.login');
     }
   },
   redflag: function(id) {
     if(this.userId) {
-      if(_.include(Redflags.findOne(id).flaggedBy, this.userId)) { throw new Meteor.Error('Error', 'You can only flag something once.') }
+      if(_.include(Redflags.findOne(id).flaggedBy, this.userId)) { throw new Meteor.Error('Error', 'messages.redflags.flag_once') }
       Redflags.upsert(id, {
         $addToSet: {flaggedBy: this.userId},
         $inc: {flags: 1}
@@ -33,14 +33,14 @@ Meteor.methods({
         $set: {flagRatio: flagRatio}
       });
     } else {
-      throw new Meteor.Error('Error', 'You must be signed in to flag something');
+      throw new Meteor.Error('Error', 'messages.login');
     }
   },
   newRedFlagMethod: function(coinId, data, captcha) {
     if(this.userId){
       if(typeof data != "string") { throw new Meteor.Error('Error', 'Error') }
       if(data.length > 140 || data.length < 6) {
-        throw new Meteor.Error('Error', 'That name is too long or too short.')
+        throw new Meteor.Error('Error', 'messages.redflags.too_short')
       }
 
       let added = Redflags.find({
@@ -97,13 +97,13 @@ Meteor.methods({
         }
       })
       } else {
-        throw new Meteor.Error('Error.', 'Invalid captcha.')
+        throw new Meteor.Error('Error.', 'messages.redflags.captcha')
       }
     } else {
-      throw new Meteor.Error('Error.', 'You have to wait until you can post another red flag.')
+      throw new Meteor.Error('Error.', 'messages.redflags.wait')
     }
 
-  } else {throw new Meteor.Error('Error', 'You must be signed in to add a new red flag')}
+  } else {throw new Meteor.Error('Error', 'messages.login')}
 },
 
 redFlagNewComment: function(parentId, comment, depth, captcha) {
@@ -112,10 +112,10 @@ redFlagNewComment: function(parentId, comment, depth, captcha) {
     if(typeof comment != "string") { throw new Meteor.Error('Error', 'Error') }
     if(typeof depth != "number") { throw new Meteor.Error('Error', 'Error') }
     if(comment.length > 140 || comment.length < 6) {
-      throw new Meteor.Error('Error', 'That comment is too long or too short.')
+      throw new Meteor.Error('Error', 'messages.redflags.too_short')
     }
     if(_.include(Redflags.findOne(parentId).commenters, this.userId)) {
-      throw new Meteor.Error('Error', 'You are only allowed to comment once on any red flag')
+      throw new Meteor.Error('Error', 'messages.redflags.only_once')
     }
     const Future = require('fibers/future')
       const fut = new Future()
@@ -168,9 +168,9 @@ redFlagNewComment: function(parentId, comment, depth, captcha) {
 
     sendMessage(redflag.createdBy, `${user.username} has commented on your red flag on ${currency.currencyName}.`, 'System', `/currency/${currency.slug}`)
   } else {
-        throw new Meteor.Error('Error.', 'Invalid captcha.')
+        throw new Meteor.Error('Error.', 'messages.redflags.captcha')
       }
 
-} else {throw new Meteor.Error('Error', 'You must be signed in to comment')}
+} else {throw new Meteor.Error('Error', 'messages.login')}
 }
 });

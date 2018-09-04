@@ -71,7 +71,7 @@ Template.newAuction.events({
 	            reserveMet: parseFloat($('#js-reserve').val()) === 0
 	        }, (err, data) => {
 	            if (err) {
-	                sAlert.error(err.reason)
+	                sAlert.error(TAPi18n.__(err.reason))
 	            } else {
 	            	
 	                FlowRouter.go('/auctions')

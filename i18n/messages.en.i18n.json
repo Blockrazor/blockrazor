@@ -1,0 +1,139 @@
+{
+	"messages": {
+		"login": "You have to be logged in.",
+		"error": "An error has ocurred.",
+		"server_only": "This method is server only.",
+		"activity": {
+			"ip_ignored": "This IP is still on the ignore list."
+		},
+		"auctions": {
+			"past": "Auction can't end in the past.",
+			"insufficient_funds": "Insufficient funds.",
+			"not_over": "Auction is still not over.",
+			"invalid_auction": "Invalid auction.",
+			"cancel_closed": "You can't cancel a closed auction",
+			"cancel_active": "You can't cancel an auction with active bids.",
+			"not_your": "Auction is not yours.",
+			"bid_closed": "You can't bid on a closed currency.",
+			"bid_own": "You can't bid on your own auction.",
+			"bid_smaller": "You can't bid a smaller amount than you already have commited.",
+			"bid_not_high": "Bid amount is not high enough.",
+			"unknown_currency": "Unknown currency.",
+			"bid_doesnt_exist": "Bid does not exist.",
+			"auction_doesnt_exist": "Auction does not exist."
+		},
+		"bounties": {
+			"already_working": "You are already working on this one.",
+			"invalid_bounty": "Invalid bounty.",
+			"approving_own": "Approving your own bounty is no fun!",
+			"cant_start": "Cannot start bounty"
+		},
+		"coins": {
+			"change_exists": "A change already exists for this field",
+			"approving_own": "Approving your own currency is no fun!",
+			"already_approved": "Currency already approved. Removed from approval queue.",
+			"invalid_vote": "Invalid vote type invoked",
+			"already_here": "Looks like currency is already listed or pending approval on Blockrazor!"
+		},
+		"communities": {
+			"invalid": "Invalid community url.",
+			"invalid_md5": "Failed to validate md5 hash.",
+			"invalid_file": "File type not supported, png, gif and jpeg supported",
+			"approve_own": "You can't approve your own item."
+		},
+		"developers": {
+			"not_dev": "You cannot review another developer if you're not a developer."
+		},
+		"exchanges": {
+			"doesnt_exist": "exchange or currency doesn't exist",
+			"already_appended": "exchange already appended",
+			"exists": "exchange exists"
+		},
+		"features": {
+			"captcha": "Invalid captcha.",
+			"wait": "You have to wait until you can post another feature.",
+			"flag_once": "You can only flag something once.",
+			"too_short": "That comment is too long or too short.",
+			"comment_once": "You are only allowed to comment once on any feature"
+		},
+		"hashing": {
+			"all_fields": "Please fill all fields.",
+			"wrong_id": "Wrong id.",
+			"xml_error": "Error while parsing XML.",
+			"api_error": "Error when requesting API data.",
+			"field_error": "Error while parsing field value.",
+			"unknown_algo": "Unknown algorithm.",
+			"unknown_currency": "Unknown currency name.",
+			"invalid_md5": "Failed to validate md5 hash.",
+			"invalid_file": "File type not supported, png, gif and jpeg supported",
+			"mining_rig_exists": "That image has already been used on Blockrazor. You must take your own original screenshot of your mining rig.",
+			"something_wrong": "Something is wrong, please contact help."
+		},
+		"launch": {
+			"email": "An email is required to register for launch"
+		},
+		"misc": {
+			"captcha": "Invalid captcha.",
+			"invalid_type": "Invalid type.",
+			"wrong_id": "Wrong id."
+		},
+		"problems": {
+			"insufficient_funds": "Insufficient funds.",
+			"git_invalid": "GitHub fork or issue URL is wrong.",
+			"already_working": "You are currently working on another problem. Please solve it first.",
+			"already_taken": "This problem is already taken.",
+			"invalid_take": "You can only take feature requests and bug reports.",
+			"invalid_problem": "Invalid problem.",
+			"no_fork": "No fork or issue URL.",
+			"cancel_own": "You can only cancel problems you've created.",
+			"cancel_solving": "You can't cancel a problem that someone is solving.",
+			"problem_closed": "This problem has been cancelled/solved/closed.",
+			"invalid_amount": "Invalid amount.",
+			"no_credit": "You don't have any credit on the given problem.",
+			"taken_credit": "You can only remove credit from a problem that nobody has taken yet.",
+			"invalid_solve": "You can't solve a problem you're not working on.",
+			"invalid_giveup": "You can't give up a problem you're not working on.",
+			"invalid_field": "Invalid field.",
+			"invalid_edit": "You can only edit problems you've created.",
+			"edit_solving": "You can't edit a problem that someone is solving.",
+			"invalid_md5": "Failed to validate md5 hash.",
+			"invalid_file": "File type not supported, png, gif and jpeg supported",
+			"image_exists": "That image has already been used on Blockrazor. Check previously reported problems.",
+			"something_wrong": "Something is wrong, please contact help.",
+			"vote_once": "You can only vote once.",
+			"invalid_comment": "Invalid comment.",
+			"invalid_accept": "You can only accept answers for problems you've created."
+		},
+		"redflags": {
+			"vote_once": "You can only vote once.",
+			"flag_once": "You can only flag something once.",
+			"too_short": "That name is too long or too short.",
+			"captcha": "Invalid captcha.",
+			"wait": "You have to wait until you can post another red flag.",
+			"only_once": "You are only allowed to comment once on any red flag"
+		},
+		"summaries": {
+			"vote_once": "You can only vote once.",
+			"too_short": "That name is too long or too short.",
+			"wait": "You have to wait until you can post another summary."
+		},
+		"users": {
+			"invalid": "Invalid user.",
+			"wrong_id": "Wrong id.",
+			"invalid_token": "Invalid token.",
+			"error_2fa": "2FA configuration failed, please try again.",
+			"invalid_md5": "Failed to validate md5 hash.",
+			"invalid_file": "File type not supported, png, gif and jpeg supported"
+		},
+		"wallet": {
+			"approve_own": "You can't approve your own item.",
+			"invalid_md5": "failed to validate md5 hash",
+			"invalid_file": "File type not supported, png, gif and jpeg supported",
+			"image_exists": "That image has already been used on Blockrazor. You must take your own original screenshot of the wallet.",
+			"something_wrong": "Something is wrong, please contact help."
+		},
+		"analytics": {
+			"error": "No event payload has been provided"
+		}
+	}
+}

@@ -192,7 +192,7 @@ Template.addHashpower.events({
 
 		    	Meteor.call('uploadHashPowerImage', file.name, reader.result, md5, (error, result) => {
 		       		if (error) {
-		    			sAlert.error(error.message);
+		    			sAlert.error(TAPi18n.__(error.message));
 		    			$('#uploadLabel').removeClass('btn-success');
   						$('#uploadLabel').addClass('btn-primary');
   						$(".uploadText").html(TAPi18n.__('hashpower.add.upload'));

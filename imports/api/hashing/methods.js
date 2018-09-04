@@ -115,10 +115,10 @@ Meteor.methods({
 					}
 				})
 			} else {
-				throw new Meteor.Error('Error.', 'Please fill all fields.')
+				throw new Meteor.Error('Error.', 'messages.hashing.all_fields')
 			}
 		} else {
-			throw new Meteor.Error('Error.', 'You have to log in first.')
+			throw new Meteor.Error('Error.', 'messages.login')
 		}
 	},
 	addHardware: (name) => {
@@ -128,10 +128,10 @@ Meteor.methods({
 					name: name
 				})
 			} else {
-				throw new Meteor.Error('Error.', 'Please fill all fields.')
+				throw new Meteor.Error('Error.', 'messages.hashing.all_fields')
 			}
 		} else {
-			throw new Meteor.Error('Error.', 'You have to log in first.')
+			throw new Meteor.Error('Error.', 'messages.login')
 		}
 	},
 	addAlgo: (name, type) => {
@@ -142,10 +142,10 @@ Meteor.methods({
 					type: type || 'pow'
 				})
 			} else {
-				throw new Meteor.Error('Error.', 'Please fill all fields.')
+				throw new Meteor.Error('Error.', 'messages.hashing.all_fields')
 			}
 		} else {
-			throw new Meteor.Error('Error.', 'You have to log in first.')
+			throw new Meteor.Error('Error.', 'messages.login')
 		}
 	},
 	addUnit: (name) => {
@@ -155,10 +155,10 @@ Meteor.methods({
 					name: name
 				})
 			} else {
-				throw new Meteor.Error('Error.', 'Please fill all fields.')
+				throw new Meteor.Error('Error.', 'messages.hashing.all_fields')
 			}
 		} else {
-			throw new Meteor.Error('Error.', 'You have to log in first.')
+			throw new Meteor.Error('Error.', 'messages.login')
 		}
 	},
 	flagHashpower: (id, reason) => {
@@ -180,15 +180,15 @@ Meteor.methods({
 					}
 				})
 			} else {
-				throw new Meteor.Error('Error.', 'Wrong id.')
+				throw new Meteor.Error('Error.', 'messages.hashing.wrong_id')
 			}
 		} else {
-			throw new Meteor.Error('Error.', 'You have to log in first.')
+			throw new Meteor.Error('Error.', 'messages.login')
 		}
 	},
 	hashPowerVote: function(hpId, type) {
         if (!Meteor.userId()) {
-        	throw new Meteor.Error('Error.', 'Please log in first')
+        	throw new Meteor.Error('Error.', 'messages.login')
         }
 
         let mod = UserData.findOne({
@@ -262,7 +262,7 @@ Meteor.methods({
 
 				removeUserCredit(hp.reward || 0, hp.createdBy, 'removing added hash power data.','hashDataDeleted') // remove the reward
 			} else {
-				throw new Meteor.Error('Error.', 'Wrong id.')
+				throw new Meteor.Error('Error.', 'messages.hashing.wrong_id')
 			}
                 
             return 'not-ok'
@@ -282,13 +282,13 @@ Meteor.methods({
 
 					removeUserCredit(hp.reward || 0, hp.createdBy, 'removing added hash power data.','hashDataDeleted') // remove the reward
 				} else {
-					throw new Meteor.Error('Error.', 'Error ocurred while deleting.')
+					throw new Meteor.Error('Error.', 'messages.error')
 				}
 			} else {
-				throw new Meteor.Error('Error.', 'Wrong id.')
+				throw new Meteor.Error('Error.', 'messages.hashing.wrong_id')
 			}
 		} else {
-			throw new Meteor.Error('Error.', 'You have to log in first.')
+			throw new Meteor.Error('Error.', 'messages.login')
 		}
 	},
 	updateAverages: () => {
@@ -347,7 +347,7 @@ Meteor.methods({
 									sendMessage(cur.hashpowerBy, `Error while parsing XML in your hash power API call (${apiUrl}). Please check it out.`, 'System')
 								}
 
-								throw new Meteor.Error('Error.', 'Error while parsing XML.')
+								throw new Meteor.Error('Error.', 'messages.hashing.xml_error')
 							}
 						})
 					} else {
@@ -357,7 +357,7 @@ Meteor.methods({
 					if (cur.hashpowerBy) {
 						sendMessage(cur.hashpowerBy, `Error while fetching data in your hash power API call (${apiUrl}). Please check it out.`, 'System')
 					}
-					throw new Meteor.Error('Error.', 'Error when requesting API data.')
+					throw new Meteor.Error('Error.', 'messages.hashing.api_error')
 				}
 			})
 
@@ -375,7 +375,7 @@ Meteor.methods({
 					sendMessage(cur.hashpowerBy, `Error while parsing field value in your hash power API call (${apiUrl}). Please check it out.`, 'System')
 				}
 
-				throw new Meteor.Error('Error.', 'Error while parsing field value.')
+				throw new Meteor.Error('Error.', 'messages.hashing.field_error')
 			}
 
 			let algo = HashAlgorithm.findOne({
@@ -422,20 +422,20 @@ Meteor.methods({
 					}
 				})
 			} else {
-				throw new Meteor.Error('Error.', 'Unknown algorithm.')
+				throw new Meteor.Error('Error.', 'messages.hashing.unknown_algo')
 			}
 		} else {
-			throw new Meteor.Error('Error.', 'Unknown currency name.')
+			throw new Meteor.Error('Error.', 'messages.hashing.unknown_currency')
 		}
 	},
 	uploadHashPowerImage: (fileName, binaryData, md5) => {
     	let md5validate = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(binaryData)).toString()
       	if (md5validate !== md5) {
-        	throw new Meteor.Error('Error.', 'Failed to validate md5 hash.')
+        	throw new Meteor.Error('Error.', 'messages.hashing.invalid_md5')
         	return false
       	}
         if (!Meteor.userId()) {
-          	throw new Meteor.Error('Error.', 'You must be logged in to do this.');
+          	throw new Meteor.Error('Error.', 'messages.login');
           	return false
         }
 
@@ -453,7 +453,7 @@ Meteor.methods({
         let insert = false
 
         if (!validFile) {
-            throw new Meteor.Error('Error.', 'File type not supported, png, gif and jpeg supported');
+            throw new Meteor.Error('Error.', 'messages.hashing.invalid_file');
             return false
         }
 
@@ -466,11 +466,11 @@ Meteor.methods({
           	})
         } catch(error) {
         	console.log(error)
-        	throw new Meteor.Error('Error.', 'That image has already been used on Blockrazor. You must take your own original screenshot of your mining rig.');
+        	throw new Meteor.Error('Error.', 'messages.hashing.mining_rig_exists');
         }
 
         if (insert !== md5) {
-        	throw new Meteor.Error('Error.', 'Something is wrong, please contact help.')
+        	throw new Meteor.Error('Error.', 'messages.hashing.something_wrong')
         }
 
         fs.writeFileSync(filename, binaryData, {

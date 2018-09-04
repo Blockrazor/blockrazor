@@ -22,7 +22,7 @@ Meteor.methods({
                 proofs: proof
             })
         } else {
-            throw new Meteor.Error('Error.', 'You have to be logged in.')
+            throw new Meteor.Error('Error.', 'messages.login')
         }
     },
     reviewDeveloper: (userId, status) => {
@@ -50,10 +50,10 @@ Meteor.methods({
                     multi: true
                 })
             } else {
-                throw new Meteor.Error('Error.', 'You cannot review another developer if you\'re not a developer.')
+                throw new Meteor.Error('Error.', 'messages.developers.not_dev')
             }
         } else {
-            throw new Meteor.Error('Error.', 'You have to be logged in.')
+            throw new Meteor.Error('Error.', 'messages.login')
         }
     },
     getCodebaseReward: (userId, rId) => {
@@ -303,7 +303,7 @@ Meteor.methods({
                 'createdBy': Meteor.userId()
             })
         } else {
-            throw new Meteor.Error('Error.', 'You have to be logged in.')
+            throw new Meteor.Error('Error.', 'messages.login')
         }
     }
 })
