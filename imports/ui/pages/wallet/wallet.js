@@ -72,7 +72,7 @@ Template.wallet.events({
     if ($('#js-amount').val() && (parseFloat($('#js-amount').val()) > 0)) {
       Meteor.call('addOthers', $('#js-cur').val(), parseFloat($('#js-amount').val()), (err, data) => {
         if (err) {
-          sAlert.error(err.reason)
+          sAlert.error(TAPi18n.__(err.reason))
         } else {
           sAlert.success(TAPi18n.__('kzrWallet.deposited'))
         }

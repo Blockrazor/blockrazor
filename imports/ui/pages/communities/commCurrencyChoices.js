@@ -85,7 +85,7 @@ Template.commCurrencyChoices.events({
     'click #populateRatings': (event, templateInstance) => {
         Meteor.call('populateCommunityRatings', (err, result) => {
             if (err) {
-                sAlert.error(err.reason)
+                sAlert.error(TAPi18n.__(err.reason))
             } else {
                 if (!Ratings.findOne({
                         $or: [{
@@ -132,7 +132,7 @@ Template.commCurrencyChoices.events({
                //ValidatedMethod errors will be returned here, display in console or return to user
                 console.log(err, "reason", err.reason)
 
-                sAlert.error(err.reason)
+                sAlert.error(TAPi18n.__(err.reason))
             }
         })
     },

@@ -78,7 +78,7 @@ Template.currencyChoices.events({
   'click #populateRatings': function() {
     Meteor.call('populateRatings', function(error, result) {
         if (error) {
-            console.log(error.reason);
+            console.log(TAPi18n.__(error.reason));
         } else {
 
             let walletsAdded = Ratings.find({

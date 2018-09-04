@@ -75,7 +75,7 @@ Meteor.methods({
 	addRatingQuestion: (question, catagory, negative, context, xors) => {
 		console.log("addRatingQuestion has been called");
 		if (!Meteor.userId()){
-			throw new Meteor.Error('Error.', 'You need to be logged.')
+			throw new Meteor.Error('Error.', 'messages.login')
 		}
 
 		let id = parseInt(`0x${CryptoJS.MD5(question).toString().slice(0,10)}`, 16).toString()

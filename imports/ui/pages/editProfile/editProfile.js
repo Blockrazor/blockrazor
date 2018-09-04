@@ -26,7 +26,7 @@ Template.editProfile.events({
         Meteor.call('editProfile', data, (err, data) => {
             if (err) {
                 console.log('error editing profile', err)
-                sAlert.error(err.reason) // this needs better error handling
+                sAlert.error(TAPi18n.__(err.reason)) // this needs better error handling
             } else {
                 //route to your profile page not the /profile page
                 // FlowRouter.go('/profile/'+Meteor.user().slug);

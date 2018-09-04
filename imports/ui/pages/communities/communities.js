@@ -62,7 +62,7 @@ Template.communities.events({
             if (err) {
 				swal({
                     icon: "error",
-                    text: err.reason,
+                    text: TAPi18n.__(err.reason),
                     confirmButtonClass: 'btn btn-primary'
                 });
             } else {

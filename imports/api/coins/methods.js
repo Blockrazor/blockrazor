@@ -263,7 +263,7 @@ export const editCoin = new ValidatedMethod({
         delete data.changed
 
         if (!Meteor.userId()) {
-            throw new Meteor.Error("Please log in first")
+            throw new Meteor.Error('messages.login')
         }
 
         //check to see if a coin change exists already, if so, thow an exception.
@@ -274,7 +274,7 @@ export const editCoin = new ValidatedMethod({
         }).count()
 
         if (coinChangeExist >= 1) {
-            throw new Meteor.Error("A change already exists for this field")
+            throw new Meteor.Error("messages.coins.change_exists")
         }
 
         if (data.field === 'currencyName') {
@@ -364,7 +364,7 @@ Meteor.methods({
         if(UserData.findOne({_id: this.userId}).moderator) {
             var original = PendingCurrencies.findOne({_id: currencyId});
             if (original.owner == this.userId) {
-              throw new Meteor.Error("Approving your own currency is no fun!")
+              throw new Meteor.Error('messages.coins.approving_own')
             }
     
             var insert = _.extend(original, {
@@ -376,7 +376,7 @@ Meteor.methods({
               // already approved
               // remove from approval queue
               PendingCurrencies.remove(currencyId);
-              throw new Meteor.Error("Currency already approved. Removed from approval queue.")
+              throw new Meteor.Error('messages.coins.already_approved')
             }else {
               var insertedId = Currencies.insert(insert)
               
@@ -400,7 +400,7 @@ Meteor.methods({
 
         //check if logged in
         if (!Meteor.userId()) {
-            throw new Meteor.Error("Please log in first")
+            throw new Meteor.Error('messages.login')
         };
 
         let clientAddress = "0.0.0.0";
@@ -433,7 +433,7 @@ Meteor.methods({
             var revertVoteType = 'upvote';
         } else {
 
-            throw new Meteor.Error("ERROR: Invalid vote type invoked")
+            throw new Meteor.Error('messages.coins.invalid_vote')
         }
         //Check if user has aleady voted
         let voteCasted = ChangedCurrencies.find({
@@ -573,7 +573,7 @@ Meteor.methods({
         })
     
         if (res.length) {
-          throw new Meteor.Error("Looks like " + name + " is already listed or pending approval on Blockrazor!");
+          throw new Meteor.Error('messages.coins.already_here');
         } else {return "OK"};
       }
       },

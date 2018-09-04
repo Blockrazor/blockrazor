@@ -55,7 +55,7 @@ Meteor.methods({
           pendingApproval: true
         })
       } else {
-        throw new Meteor.Error('You are already working on this one.')
+        throw new Meteor.Error('messages.bounties.already_working')
       }
     }
   },
@@ -78,7 +78,7 @@ Meteor.methods({
           }
         })
       } else {
-        throw new Meteor.Error('Invalid bounty.')
+        throw new Meteor.Error('messages.bounties.invalid_bounty')
       }
     }
   },
@@ -150,7 +150,7 @@ Meteor.methods({
     if(UserData.findOne({_id: this.userId}).moderator) {
       var original = Bounties.findOne({_id: bountyId});
       if (original.completedBy == this.userId) {
-        throw new Meteor.Error("Approving your own bounty is no fun!")
+        throw new Meteor.Error('messages.bounties.approving_own')
       }
       Bounties.upsert(bountyId, {
         $set: {
@@ -203,12 +203,12 @@ Meteor.methods({
           }
         }, false, function(error, result) {
           if(error) {
-            throw new Meteor.Error('Error submitting data', error)
+            throw new Meteor.Error('messages.error', error)
           }
         })
         fetchHashrate(apiData.bountyId);
-      } else { throw new Meteor.Error('Error submitting data')}
-    } else { throw new Meteor.Error('Error submitting data')}
+      } else { throw new Meteor.Error('messages.error')}
+    } else { throw new Meteor.Error('messages.error')}
   },
   cancelBounty: function(id) {
     if(Bounties.findOne({_id: id}).currentUsername == Meteor.user().username) {
@@ -241,6 +241,6 @@ Meteor.methods({
         workingOnBounty: true
       }
     })// End UserData upsert
-}} else {throw new Meteor.Error('startBounty method error', 'Cannot start bounty')}
+}} else {throw new Meteor.Error('startBounty method error', 'messages.bounties.cant_start')}
 } //end startBounty
 }); //end methods

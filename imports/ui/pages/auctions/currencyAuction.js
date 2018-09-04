@@ -140,7 +140,7 @@ Template.currencyAuction.events({
 
 		Meteor.call('cancelCurrencyBid', this._id, (err, data) => {
 			if (err) {
-				sAlert.error(err.reason)
+				sAlert.error(TAPi18n.__(err.reason))
 			} else {
 				sAlert.success(TAPi18n.__('auctions.currency.cancelled'))
 			}
@@ -162,10 +162,10 @@ Template.currencyAuction.events({
 			}, (err, data) => {
 				if (err) {
 					if (err.reason.toLowerCase().includes('currency')) {
-						$('#currencyError').text(err.reason)
+						$('#currencyError').text(TAPi18n.__(err.reason))
 						$('#currencyError').show()
 					} else {
-						$('#amountError').text(err.reason)
+						$('#amountError').text(TAPi18n.__(err.reason))
 						$('#amountError').show()
 					}
 				} else {

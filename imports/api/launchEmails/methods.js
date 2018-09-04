@@ -21,7 +21,7 @@ Meteor.methods({
 
             return true;
         } else {
-            throw new Meteor.Error("An email is required to register for launch");
+            throw new Meteor.Error('messages.launch.email');
         }
 
     }

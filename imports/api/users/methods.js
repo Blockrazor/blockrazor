@@ -160,10 +160,10 @@ Meteor.methods({
           })
         }
       } else {
-        throw new Meteor.Error('Error.', 'Invalid user.')
+        throw new Meteor.Error('Error.', 'messages.users.invalid')
       }
     } else {
-      throw new Meteor.Error('Error.', 'This method is server only.')
+      throw new Meteor.Error('Error.', 'messages.server_only')
     }
   },
   applyForPardon: (reason) => {
@@ -179,12 +179,12 @@ Meteor.methods({
         }
       })
     } else {
-      throw new Meteor.Error('Error.', 'You need to be logged in.')
+      throw new Meteor.Error('Error.', 'messages.login')
     }
   },
   pardonVote: function(userId, type) {
     if (!Meteor.userId()) {
-      throw new Meteor.Error('Error.', 'Please log in first')
+      throw new Meteor.Error('Error.', 'messages.login')
     }
 
     let mod = UserData.findOne({
@@ -267,7 +267,7 @@ Meteor.methods({
           }
         })
       } else {
-        throw new Meteor.Error('Error.', 'Wrong id.')
+        throw new Meteor.Error('Error.', 'messages.users.wrong_id')
       }
               
       return 'not-ok'
@@ -421,7 +421,7 @@ Meteor.methods({
             return true
           }
 
-          throw new Meteor.Error('Invalid token.')
+          throw new Meteor.Error('messages.users.invalid_token')
         }
       }
     }
@@ -447,7 +447,7 @@ Meteor.methods({
     })
   },
   'editProfile': function(data) {
-      if (!this.userId) { throw new Meteor.Error('error', 'please log in') };
+      if (!this.userId) { throw new Meteor.Error('error', 'messages.login') };
 
       //only update profile if data is true
       if (data) {
@@ -473,7 +473,7 @@ Meteor.methods({
             })
 
             if (!verified) {
-              throw new Meteor.Error('2FA configuration failed, please try again.')
+              throw new Meteor.Error('messages.users.error_2fa')
             }
           } else if (!data.status2fa && user.enabled2fa) {
             verified = speakeasy.totp.verify({
@@ -485,7 +485,7 @@ Meteor.methods({
             verified = verified || ~(user.backup2fa || []).indexOf(data.userToken)
 
             if (!verified) {
-              throw new Meteor.Error('2FA configuration failed, please try again.')
+              throw new Meteor.Error('messages.users.error_2fa')
             }
           }
 
@@ -514,11 +514,11 @@ Meteor.methods({
   uploadProfilePicture: (fileName, binaryData, md5) => {
       let md5validate = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(binaryData)).toString()
       if (md5validate !== md5) {
-          throw new Meteor.Error('Error.', 'Failed to validate md5 hash.')
+          throw new Meteor.Error('Error.', 'messages.users.invalid_md5')
           return false
       }
       if (!Meteor.userId()) {
-          throw new Meteor.Error('Error.', 'You must be logged in to do this.');
+          throw new Meteor.Error('Error.', 'messages.login');
           return false
       }
 
@@ -534,7 +534,7 @@ Meteor.methods({
       let insert = false
 
       if (!validFile) {
-          throw new Meteor.Error('Error.', 'File type not supported, png, gif and jpeg supported');
+          throw new Meteor.Error('Error.', 'messages.users.invalid_file');
           return false
       }
 
@@ -660,7 +660,7 @@ gm(filename)
   },
   modCandidateVote: function(id, type) {
     if (!Meteor.userId()) {
-      throw new Meteor.Error('Error.', 'Please log in first')
+      throw new Meteor.Error('Error.', 'messages.login')
     }
 
     let mod = UserData.findOne({

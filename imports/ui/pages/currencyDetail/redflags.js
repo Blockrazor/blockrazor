@@ -114,7 +114,7 @@ Template.redflags.events({
           templ.addingnewredflag.set(false);
           sAlert.success(TAPi18n.__('currency.redflags.added'))
         } else {
-          sAlert.error(err.reason)
+          sAlert.error(TAPi18n.__(err.reason))
         }
       })
     }

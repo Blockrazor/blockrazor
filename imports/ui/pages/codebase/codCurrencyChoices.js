@@ -69,7 +69,7 @@ Template.codCurrencyChoices.events({
     'click #populateRatings': (event, templateInstance) => {
         Meteor.call('populateCodebaseRatings', (err, result) => {
             if (err) {
-                sAlert.error(err.reason)
+                sAlert.error(TAPi18n.__(err.reason))
             } else {
                 if (!Ratings.findOne({
                     $or: [{
@@ -94,7 +94,7 @@ Template.codCurrencyChoices.events({
 
                 setTimeout(() => $(`#links_${this._id}`).hide(), 1000)
             } else {
-                sAlert.error(err.reason)
+                sAlert.error(TAPi18n.__(err.reason))
             }
         })
     }

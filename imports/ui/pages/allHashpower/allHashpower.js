@@ -67,7 +67,7 @@ Template.allHashpower.events({
 
 		Meteor.call('flagHashpower', this._id, $(`#js-flag-reason-${this._id}`).val(), (err, data) => {
 			if (err) {
-				sAlert.error(err.reason)
+				sAlert.error(TAPi18n.__(err.reason))
 			} else {
 				sAlert.success(TAPi18n.__('hashpower.all.success'))
 				//send an event to segment
@@ -89,7 +89,7 @@ Template.allHashpower.events({
 
 		Meteor.call('deleteHashpower', this._id, (err, data) => {
 			if (err) {
-				sAlert.error(err.reason)
+				sAlert.error(TAPi18n.__(err.reason))
 			}else{
 				//send an event to segment
         let payload = {

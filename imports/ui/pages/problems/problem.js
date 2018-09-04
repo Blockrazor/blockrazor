@@ -32,7 +32,7 @@ Template.problem.onRendered(function() {
 	    		if (!err) {
 	    			sAlert.success(TAPi18n.__('problems.problem.success'))
 	    		} else {
-	    			sAlert.error(err.reason)
+	    			sAlert.error(TAPi18n.__(err.reason))
 	    		}
 	    	})
 
@@ -133,7 +133,7 @@ Template.problem.events({
 
 		Meteor.call('addProblemCredit', FlowRouter.getParam('id'), Number($('#js-credit').val()), (err, data) => {
 			if (err) {
-				sAlert.error(err.reason)
+				sAlert.error(TAPi18n.__(err.reason))
 			} else {
 				sAlert.success(TAPi18n.__('problems.problem.credit_added'))
 			}
@@ -144,7 +144,7 @@ Template.problem.events({
 
 		Meteor.call('removeProblemCredit', FlowRouter.getParam('id'), (err, data) => {
 			if (err) {
-				sAlert.error(err.reason)
+				sAlert.error(TAPi18n.__(err.reason))
 			} else {
 				sAlert.success(TAPi18n.__('problems.problem.credit_removed'))
 			}
@@ -198,7 +198,7 @@ Template.problem.events({
 			if (!err) {
 				sAlert.success(TAPi18n.__('problems.problem.problem_taken'))
 			} else {
-				sAlert.error(err.reason)
+				sAlert.error(TAPi18n.__(err.reason))
 			}
 		})
 	}

@@ -27,7 +27,7 @@ export const newProblem = new ValidatedMethod({
 					})
 
 					if (user.balance < bounty) {
-						throw new Meteor.Error('Error.', 'Insufficient funds.')
+						throw new Meteor.Error('Error.', 'messages.problems.insufficient_funds')
 					}
 				}
 
@@ -88,7 +88,7 @@ export const newProblem = new ValidatedMethod({
 				    })
 				}
 			} else {
-				throw new Meteor.Error('Error.', 'You have to be logged in.')
+				throw new Meteor.Error('Error.', 'messages.login')
 			}
   }
 });
@@ -142,22 +142,22 @@ Meteor.methods({
 
 								sendMessage(problem.createdBy, `${user.username} has claimed your problem.`, 'System', `/problem/${problem._id}`, 'problem')
 							} else {
-								throw new Meteor.Error('Error.', 'GitHub fork or issue URL is wrong.')
+								throw new Meteor.Error('Error.', 'messages.problems.git_invalid')
 							}
 						} else {
-							throw new Meteor.Error('Error.', 'You are currently working on another problem. Please solve it first.')
+							throw new Meteor.Error('Error.', 'messages.problems.already_working')
 						}
 					} else {
-						throw new Meteor.Error('Error.', 'This problem is already taken.')
+						throw new Meteor.Error('Error.', 'messages.problems.already_taken')
 					}
 				} else {
-					throw new Meteor.Error('Error.', 'You can only take feature requests and bug reports.')
+					throw new Meteor.Error('Error.', 'messages.problems.invalid_take')
 				}
 			} else {
-				throw new Meteor.Error('Error.', 'You have to be logged in.')
+				throw new Meteor.Error('Error.', 'messages.login')
 			}
 		} else {
-			throw new Meteor.Error('Error.', 'Invalid problem.')
+			throw new Meteor.Error('Error.', 'messages.problems.invalid_problem')
 		}
 	},
 	checkProblemAdditionalInfo: (additional) => { // api validation for fork and issue URL
@@ -196,7 +196,7 @@ Meteor.methods({
 
 			return fut.wait()
 		} else {
-			throw new Meteor.Error('Error.', 'No fork or issue URL.')
+			throw new Meteor.Error('Error.', 'messages.problems.no_fork')
 		}
 	},
 	cancelProblem: (problemId) => {
@@ -240,13 +240,13 @@ Meteor.methods({
 					    })
 					})
 				} else {
-					throw new Meteor.Error('Error.', 'You can only cancel problems you\'ve created.')
+					throw new Meteor.Error('Error.', 'messages.problems.cancel_own')
 				}
 			} else {
-				throw new Meteor.Error('Error.', 'You can\'t cancel a problem that someone is solving.')
+				throw new Meteor.Error('Error.', 'messages.problems.cancel_solving')
 			}
 		} else {
-			throw new Meteor.Error('Error.', 'Invalid problem.')
+			throw new Meteor.Error('Error.', 'messages.problems.invalid_problem')
 		}
 	},
 	addProblemCredit: (problemId, amount) => {
@@ -258,7 +258,7 @@ Meteor.methods({
 		})
 
 		if (problem.cancelled || problem.solved || problem.closed) {
-			throw new Meteor.Error('Error.', 'This problem has been cancelled/solved/closed.')
+			throw new Meteor.Error('Error.', 'messages.problems.problem_closed')
 		} else {
 			if (problem) {
 				if (amount > 0) { // check if the user can finance the bounty
@@ -267,7 +267,7 @@ Meteor.methods({
 					})
 
 					if (user.balance < amount) {
-						throw new Meteor.Error('Error.', 'Insufficient funds.')
+						throw new Meteor.Error('Error.', 'messages.problems.insufficient_funds')
 					}
 
 					UserData.upsert({
@@ -300,10 +300,10 @@ Meteor.methods({
 				    	}
 				    })
 				} else {
-					throw new Meteor.Error('Error.', 'Invalid amount.')
+					throw new Meteor.Error('Error.', 'messages.problems.invalid_amount')
 				}
 			} else {
-				throw new Meteor.Error('Error.', 'Invalid problem.')
+				throw new Meteor.Error('Error.', 'messages.problems.invalid_problem')
 			}
 		}
 	},
@@ -348,13 +348,13 @@ Meteor.methods({
 					    })
 					})
 				} else {
-					throw new Meteor.Error('Error.', 'You don\'t have any credit on the given problem.')
+					throw new Meteor.Error('Error.', 'messages.problems.no_credit')
 				}
 			} else {
-				throw new Meteor.Error('Error.', 'You can only remove credit from a problem that nobody has taken yet.')
+				throw new Meteor.Error('Error.', 'messages.problems.taken_credit')
 			}
 		} else {
-			throw new Meteor.Error('Error.', 'Invalid problem.')
+			throw new Meteor.Error('Error.', 'messages.problems.invalid_problem')
 		}
 	},
 	solveProblem: (problemId) => {
@@ -374,10 +374,10 @@ Meteor.methods({
 					}
 				})
 			} else {
-				throw new Meteor.Error('Error.', 'You can\'t solve a problem you\'re not working on.')
+				throw new Meteor.Error('Error.', 'messages.problems.invalid_solve')
 			}
 		} else {
-			throw new Meteor.Error('Error.', 'Invalid problem.')
+			throw new Meteor.Error('Error.', 'messages.problems.invalid_problems')
 		}
 	},
 	giveUpProblem: (problemId) => {
@@ -398,15 +398,15 @@ Meteor.methods({
 					}
 				})
 			} else {
-				throw new Meteor.Error('Error.', 'You can\'t give up a problem you\'re not working on.')
+				throw new Meteor.Error('Error.', 'messages.problems.invalid_giveup')
 			}
 		} else {
-			throw new Meteor.Error('Error.', 'Invalid problem.')
+			throw new Meteor.Error('Error.', 'messages.problems.invalid_problem')
 		}
 	},
 	problemVote: (problemId, type) => {
         if (!Meteor.userId()) {
-        	throw new Meteor.Error('Error.', 'Please log in first')
+        	throw new Meteor.Error('Error.', 'messages.login')
         }
 
         let mod = UserData.findOne({
@@ -502,7 +502,7 @@ Meteor.methods({
 	            return 'not-ok'
 	        }
     	} else {
-			throw new Meteor.Error('Error.', 'Invalid problem.')
+			throw new Meteor.Error('Error.', 'messages.problems.invalid_problem')
 		}
     },
     editProblem: (problemId, field, value) => {
@@ -526,27 +526,27 @@ Meteor.methods({
 							}
 						})
 					} else {
-						throw new Meteor.Error('Error.', 'Invalid field.')
+						throw new Meteor.Error('Error.', 'messages.problems.invalid_field')
 					}
 				} else {
-					throw new Meteor.Error('Error.', 'You can only edit problems you\'ve created.')
+					throw new Meteor.Error('Error.', 'messages.problems.invalid_edit')
 				}
 			} else {
-				throw new Meteor.Error('Error.', 'You can\'t edit a problem that someone is solving.')
+				throw new Meteor.Error('Error.', 'messages.problems.edit_solving')
 			}
 		} else {
-			throw new Meteor.Error('Error.', 'Invalid problem.')
+			throw new Meteor.Error('Error.', 'messages.problems.invalid_problem')
 		}
 	},
 	uploadProblemImage: (fileName, binaryData, md5) => {
     	let md5validate = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(binaryData)).toString()
 
       	if (md5validate !== md5) {
-        	throw new Meteor.Error('Error.', 'Failed to validate md5 hash.')
+        	throw new Meteor.Error('Error.', 'messages.problems.invalid_md5')
         	return false
       	}
         if (!Meteor.userId()) {
-          	throw new Meteor.Error('Error.', 'You must be logged in to do this.');
+          	throw new Meteor.Error('Error.', 'messages.login');
           	return false
         }
 
@@ -562,7 +562,7 @@ Meteor.methods({
         let insert = false
 
         if (!validFile) {
-            throw new Meteor.Error('Error.', 'File type not supported, png, gif and jpeg supported');
+            throw new Meteor.Error('Error.', 'messages.problems.invalid_file');
             return false
         }
 
@@ -574,11 +574,11 @@ Meteor.methods({
             	extension: fileExtension
           	})
         } catch(error) {
-        	throw new Meteor.Error('Error.', 'That image has already been used on Blockrazor. Check previously reported problems.');
+        	throw new Meteor.Error('Error.', 'messages.problems.image_exists');
         }
 
         if (insert !== md5) {
-        	throw new Meteor.Error('Error.', 'Something is wrong, please contact help.')
+        	throw new Meteor.Error('Error.', 'messages.problems.something_wrong')
         }
 
         fs.writeFileSync(filename, binaryData, {
@@ -633,10 +633,10 @@ Meteor.methods({
 				    rating: 1
 				})
 			} else {
-				throw new Meteor.Error('Error.', 'You have to be logged in.')
+				throw new Meteor.Error('Error.', 'messages.login')
 			}
 		} else {
-			throw new Meteor.Error('Error.', 'Invalid problem.')
+			throw new Meteor.Error('Error.', 'messages.problems.invalid_problem')
 		}
 	},
 	problemCommentVote: (commentId, direction) => {
@@ -647,7 +647,7 @@ Meteor.methods({
 
             if (comment) {
 	            if (_.include(comment.appealVoted, Meteor.userId())) {
-	                throw new Meteor.Error('Error', 'You can only vote once.')
+	                throw new Meteor.Error('Error', 'messages.problems.vote_once')
 	            }
 
 	            ProblemComments.update({
@@ -670,10 +670,10 @@ Meteor.methods({
 	                }
 	            })
         	} else {
-        		throw new Meteor.Error('Error.', 'Invalid comment.')
+        		throw new Meteor.Error('Error.', 'messages.problems.invalid_comment')
         	}
         } else {
-            throw new Meteor.Error('Error', 'You must be signed in to rate something')
+            throw new Meteor.Error('Error', 'messages.login')
         }
     },
     acceptAnswer: (problemId, commentId) => {
@@ -711,13 +711,13 @@ Meteor.methods({
 						}
 					})
 				} else {
-					throw new Meteor.Error('Error.', 'Invalid comment.')
+					throw new Meteor.Error('Error.', 'messages.problems.invalid_comment')
 				}
 			} else {
-				throw new Meteor.Error('Error.', 'You can only accept answers for problems you\'ve created.')
+				throw new Meteor.Error('Error.', 'messages.problems.invalid_accept')
 			}
 		} else {
-        	throw new Meteor.Error('Error.', 'Invalid problem.')
+        	throw new Meteor.Error('Error.', 'messages.problems.invalid_problem')
         }
     },
     isWorkingOnAProblem: (userId) => {
