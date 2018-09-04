@@ -22,10 +22,10 @@ Template.signup.events({
 					}
 				})
 			} else {
-				sAlert.error('Passwords don\'t match!')
+				sAlert.error(TAPi18n.__('user.signup.passwords'))
 			}
 		} else {
-			sAlert.error('Fields can\'t be empty!')
+			sAlert.error(TAPi18n.__('user.signup.empty'))
 		}
 	}
 })

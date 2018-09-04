@@ -1,30 +1,30 @@
 <template name="editProfile">
-    <h3>Edit Profile</h3>
+    <h3>{{_ "user.edit.edit"}}</h3>
     <form id="editProfile">
         <div class="form-group">
-            <label for="email">Email</label>
+            <label for="email">{{_ "user.edit.email"}}</label>
             <input type="text" class="form-control" id="email" value="{{user.email}}">
         </div>
         <div class="form-group">
-            <label for="username">Username</label>
+            <label for="username">{{_ "user.edit.username"}}</label>
             <input type="text" class="form-control" id="username" value="{{user.username}}">
         </div>
         <div class="form-group">
-            <label for="bio">Bio</label>
+            <label for="bio">{{_ "user.edit.bio"}}</label>
             <input type="text" class="form-control" id="bio" value="{{user.bio}}">
         </div>
         <div class="form-group">
-            <label for="image">Change profile picture</label><br />
+            <label for="image">{{_ "user.edit.change_pic"}}</label><br />
                 <label id="uploadLabel" class="btn btn-primary" for="imageInput">
-        <input id="imageInput" name="imageInput" type="file" style="display:none;" onchange="$('#fileInfo').html(this.files[0].name)" class="required" accept="image/*"> <span class="uploadText">UPLOAD</span>
+        <input id="imageInput" name="imageInput" type="file" style="display:none;" onchange="$('#fileInfo').html(this.files[0].name)" class="required" accept="image/*"> <span class="uploadText">{{_ "user.edit.upload"}}</span>
     </label>
     <span class='label label-info fileInfo' id="fileInfo"></span>
     <input type='hidden' id='js-image'><br />
         </div>
         <div class="form-group">
-            <label for="2fa">Two-factor authentication</label>
-            {{#if user.enabled2fa}}<div style="width: 100%"><input type="checkbox" checked id="2fa"> Enable</div>{{else}}<div style="width: 100%"><input type="checkbox" id="2fa"> Enable</div>{{/if}}
-            {{#if user.enabled2fa}}<a href="#" id="js-backup2fa">Show backup 2FA tokens</a>{{/if}}
+            <label for="2fa">{{_ "user.edit.two_factor"}}</label>
+            {{#if user.enabled2fa}}<div style="width: 100%"><input type="checkbox" checked id="2fa"> {{_ "user.edit.enable"}}</div>{{else}}<div style="width: 100%"><input type="checkbox" id="2fa"> {{_ "user.edit.enable"}}</div>{{/if}}
+            {{#if user.enabled2fa}}<a href="#" id="js-backup2fa">{{_ "user.edit.show_2fa"}}</a>{{/if}}
         </div>
         {{#if show2fa}}
         <div id="show2fa" class="form-group">
@@ -32,24 +32,24 @@
             {{this}}<br />
             {{/each}}
             <br />
-            Compromised? <a href="#" id="js-regen">Regenerate 2FA backup tokens</a>.
+            {{_ "user.edit.compromised"}}? <a href="#" id="js-regen">{{_ "user.edit.regen_2fa"}}</a>.
         </div>
         {{/if}}
         {{#if enable2fa}}
         <div id="qr2fa" class="form-group">
-                1. Scan the QR code:<br />
+                {{_ "user.edit.scan_qr"}}<br />
                 <img src="{{qrcode}}" />
                 <br />
-                2. Enter the first code:
+                {{_ "user.edit.first_code"}}
                 <input type="text" class="form-control" id="2facode" />
         </div>
         {{/if}}
         {{#if disable2fa}}
         <div id="qr2fa" class="form-group">
-                1. Verify 2FA code:
+                {{_ "user.edit.verify_2fa"}}
                 <input type="text" class="form-control" id="2facode" />
         </div>
         {{/if}}
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="submit" class="btn btn-primary">{{_ "user.edit.save"}}</button>
     </form>
 </template>

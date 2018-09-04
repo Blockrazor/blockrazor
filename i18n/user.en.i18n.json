@@ -1,0 +1,83 @@
+{
+	"user": {
+		"edit": {
+			"edit": "Edit Profile",
+			"email": "Email",
+			"username": "Username",
+			"bio": "Bio",
+			"change_pic": "Change profile picture",
+			"upload": "UPLOAD",
+			"two_factor": "Two-factor authentication",
+			"enable": "Enable",
+			"show_2fa": "Show backup 2FA tokens",
+			"compromised": "Compromised",
+			"regen_2fa": "Regenerate 2FA backup tokens",
+			"scan_qr": "1. Scan the QR code:",
+			"first_code": "2. Enter the first code:",
+			"verify_2fa": "1. Verify 2FA code:",
+			"save": "Save",
+			"updated": "Your profile has been updated",
+			"too_big": "Image is too big.",
+			"must_be_image": "File must be an image.",
+			"uploading": "Uploading",
+			"change": "Change"
+		},
+		"signin": {
+			"login": "Login",
+			"email": "Email ID",
+			"password": "Password",
+			"or": "OR Login with",
+			"fb": "Facebook",
+			"git": "Github",
+			"dont_have": "Don't have an account?",
+			"create": "Create account",
+			"two_factor": "Two-factor authentication",
+			"two_factor_key": "2FA key",
+			"continue": "Continue",
+			"cancel": "Cancel"
+		},
+		"signup": {
+			"create": "Create Account",
+			"email": "Email ID",
+			"password": "Password",
+			"signup": "Sign Up",
+			"have": "Aready have an account?",
+			"signin": "Sign In",
+			"passwords": "Passwords don't match!",
+			"empty": "Fields can't be empty!"
+		},
+		"pending": {
+			"reward": "Reward",
+			"reason": "Reason this was not approved",
+			"moderator": "Moderator",
+			"hash_power": "Hash power API call for",
+			"bounty": "bounty",
+			"currencies": "Currencies",
+			"awaiting": "Awaiting Approval",
+			"rejected": "Rejected",
+			"no_currencies_rejected": "No currencies have been rejected. Great job!",
+			"bounties": "Bounties",
+			"no_bounties_rejected": "No bounties have been rejected. Great job!"
+		},
+		"profile": {
+			"profile": "Profile",
+			"currencies": "Added Currencies",
+			"rigs": "Hash Rigs",
+			"edit": "Edit",
+			"email": "Email",
+			"role": "Role",
+			"about": "About Me",
+			"strikes": "Strikes",
+			"ranking": "Input ranking",
+			"rating": "Overall rating for possible moderators",
+			"comments": "Recent Comments",
+			"posted": "Posted in",
+			"cheating_info": "Caught lazy answering rating questions",
+			"bad_coin_info": "Submitted an invalid cryptocurrency",
+			"bad_wallet_info": "Submitted an invalid wallet image",
+			"comment_info": "Submitted a comment that has been flagged and deleted",
+			"redflag_info": "Submitted a red flag that has been flagged and deleted",
+			"features_info": "Submitted a feature that has been flagged and deleted"
+		}
+	}
+}

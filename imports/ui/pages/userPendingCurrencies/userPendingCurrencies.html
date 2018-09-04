@@ -1,9 +1,9 @@
 <template name="userPendingCurrencies">
 <div class="card">
-  <div class="card-header">Currencies</div>
+  <div class="card-header">{{_ "user.pending.currencies"}}</div>
   <div class="card-body">
 
-    <h4 class="card-title">Awaiting Approval</h4>
+    <h4 class="card-title">{{_ "user.pending.awaiting"}}</h4>
     <p class="card-text">
 {{#if subsCacheReady}}
     {{#each pendingcurrencies}}
@@ -18,7 +18,7 @@
 {{/if}}
     </p>
 <hr>
-    <h4 class="card-title">Rejected</h4>
+    <h4 class="card-title">{{_ "user.pending.rejected"}}</h4>
     <p class="card-text">
 {{#if subsCacheReady}}
     {{#each rejectedcurrencies}}
@@ -26,7 +26,7 @@
         {{> userPendingCurrency}}
     </ul>
     {{else}}
-        <h6>No currencies have been rejected. Great job!</h6>
+        <h6>{{_ "user.pending.no_currencies_rejected"}}</h6>
     {{/each}}
 {{else}}
     {{> loading}}
@@ -39,9 +39,9 @@
 
 <br />
 <div class="card">
-  <div class="card-header">Bounties</div>
+  <div class="card-header">{{_ "user.pending.bounties"}}</div>
   <div class="card-body">
-    <h4 class="card-title">Awaiting Approval</h4>
+    <h4 class="card-title">{{_ "user.pending.awaiting"}}</h4>
     <p class="card-text">
 {{#if subsCacheReady}}
     {{#each pendingbounties}}
@@ -56,7 +56,7 @@
 {{/if}}
     </p>
 <hr>
-    <h4 class="card-title">Rejected</h4>
+    <h4 class="card-title">{{_ "user.pending.rejected"}}</h4>
     <p class="card-text">
 {{#if subsCacheReady}}
     {{#each rejectedbounties}}
@@ -64,7 +64,7 @@
         {{> userPendingBounty}}
     </ul>
     {{else}}
-         <h6>No bounties have been rejected. Great job!</h6>
+         <h6>{{_ "user.pending.no_bounties_rejected"}}</h6>
     {{/each}}
 {{else}}
     {{>loading}}

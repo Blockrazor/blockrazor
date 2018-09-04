@@ -1,30 +1,30 @@
 <template name="signin">
     {{> sAlert}}
     <div class="sign-in">
-        <div class="title">Login</div>
+        <div class="title">{{_ "user.signin.login"}}</div>
         <div class="email-sign-in">
             <form id="signIn">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                     </div>
-                    <input type="text" id="email" class="form-control" placeholder="Email ID" required>
+                    <input type="text" id="email" class="form-control" placeholder='{{_ "user.signin.email"}}' required>
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-key"></i></span>
                     </div>
-                    <input type="password" id="password" class="form-control" placeholder="Password">
+                    <input type="password" id="password" class="form-control" placeholder='{{_ "user.signin.password"}}'>
                 </div>
-                <button type="submit" class="btn btn-primary">Login</button>
+                <button type="submit" class="btn btn-primary">{{_ "user.signin.login"}}</button>
             </form>
-            <div class="section-title">OR Login with</div>
+            <div class="section-title">{{_ "user.signin.or"}}</div>
             <div class="alternate-options">
-                <a href="#" id="js-facebook"><i class="fab fa-facebook-f"></i><span>Facebook</span></a>
-                <a href="#" id="js-github"><i class="fab fa-github"></i><span>Github</span></a>
+                <a href="#" id="js-facebook"><i class="fab fa-facebook-f"></i><span>{{_ "user.signin.fb"}}</span></a>
+                <a href="#" id="js-github"><i class="fab fa-github"></i><span>{{_ "user.signin.git"}}</span></a>
             </div>
             <div class="sign-up-link">
-                Don't have an account? <a href="/signup">Create account</a>.
+                {{_ "user.signin.dont_have"}} <a href="/signup">{{_ "user.signin.create"}}</a>.
             </div>
         </div>
     </div>

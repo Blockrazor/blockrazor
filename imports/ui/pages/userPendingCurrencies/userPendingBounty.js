@@ -10,13 +10,13 @@ Template.userPendingBounty.helpers({
 			let curName = templ.type.replace('currency-', '')
 			curName = `${curName[0].toUpperCase()}${curName.substring(1)}`
 
-			return `Hash power API call for ${curName}`
+			return `${TAPi18n.__('user.pending.hash_power')} ${curName}`
 		}
 
 		let title = templ.type && templ.type.replace('new-', '') // new-codebase, new-wallet, new-community, new-currency
 		title = `${title[0].toUpperCase()}${title.substring(1)}`
 
-		return `${title} bounty`
+		return `${title} ${TAPi18n.__('user.pending.bounty')}`
 	},
 	fixed: val => val && parseFloat(val).toFixed(2)
 })
