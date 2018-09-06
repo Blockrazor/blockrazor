@@ -25,7 +25,8 @@ if (Meteor.isClient) { // only import them if this code is being executed on cli
 
 FlowRouter.triggers.enter([function(options) {
 
-    let breadcrumb = options.route.options.breadcrumb || "";
+    let breadcrumb = options.route.options.breadcrumb || {};
+    breadcrumb.urls = breadcrumb.urls || []
 
     //tried to do this in a parent reactiveVar but I couldn't get it to work
     Session.set('breadcrumbs', breadcrumb)
@@ -67,7 +68,10 @@ FlowRouter.subscriptions = function() {
 };
 
 FlowRouter.route('/profile/:slug', {
-  breadcrumb: 'Profile',
+  breadcrumb: {
+    text: 'home / profile',
+    urls: ['/']
+  },
   subscriptions: function (params) {
     this.register('approvedcurrencies', FastRenderer.subscribe('approvedcurrencies'))
     this.register('userdataSlug', FastRenderer.subscribe('userdataSlug', params.slug))
@@ -95,7 +99,10 @@ FlowRouter.route('/profile/:slug', {
 })
 
 FlowRouter.route('/faq', {
-  breadcrumb: 'Faq',
+  breadcrumb: {
+    text: 'home / faq',
+    urls: ['/']
+  },
   name: 'faq',
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/faq/faq')
@@ -109,7 +116,10 @@ FlowRouter.route('/faq', {
 })
 
 FlowRouter.route('/profile', {
-  breadcrumb: 'Home / Profile',
+  breadcrumb: {
+    text: 'home / profile',
+    urls: ['/']
+  },
   name: 'profile',
   action: async (params, queryParams) => {
     if (Meteor.userId()) {
@@ -124,7 +134,10 @@ FlowRouter.route('/profile', {
 })
 
 FlowRouter.route('/compareCurrencies/:currencies?', {
-  breadcrumb: 'Home / Compare Currencies',
+  breadcrumb: {
+    text: 'home / compare_currencies',
+    urls: ['/']
+  },
   name: 'compare-currencies',
   subscriptions: function (params) {
     this.register('approvedcurrencies', FastRenderer.subscribe('approvedcurrencies'))
@@ -143,7 +156,10 @@ FlowRouter.route('/compareCurrencies/:currencies?', {
 })
 
 FlowRouter.route('/currencyAuction', {
-  breadcrumb: 'Home / Auctions',
+  breadcrumb: {
+    text: 'home / auctions / currency',
+    urls: ['/', '/auctions']
+  },
   name: 'currency-auction',
   subscriptions: function (params) {
     this.register('approvedcurrencies', FastRenderer.subscribe('approvedcurrencies'))
@@ -162,7 +178,10 @@ FlowRouter.route('/currencyAuction', {
 })
 
 FlowRouter.route('/auctions', {
-  breadcrumb: 'Home / All Auctions',
+  breadcrumb: {
+    text: 'home / auctions',
+    urls: ['/']
+  },
   name: 'all-auctions',
   subscriptions: function (params) {
     this.register('auctions', FastRenderer.subscribe('auctions'))
@@ -182,7 +201,10 @@ FlowRouter.route('/auctions', {
 
 FlowRouter.route('/auction/:id', {
   name: 'bid-auction',
-  breadcrumb: 'Home / Auctions',
+  breadcrumb: {
+    text: 'home / auctions / auction',
+    urls: ['/', '/auctions']
+  },
   subscriptions: function (params) {
     this.register('users', FastRenderer.subscribe('users'))
     this.register('auction', FastRenderer.subscribe('auction', params.id))
@@ -203,7 +225,10 @@ FlowRouter.route('/auction/:id', {
 
 FlowRouter.route('/new-auction', {
   name: 'new-auction',
-  breadcrumb: 'Home / New Auction',
+  breadcrumb: {
+    text: 'home / auctions / new',
+    urls: ['/', '/auctions']
+  },
   subscriptions: function (params) {
     this.register('publicUserData', FastRenderer.subscribe('publicUserData'))
   },
@@ -220,7 +245,10 @@ FlowRouter.route('/new-auction', {
 
 FlowRouter.route('/suspended', {
   name: 'suspended',
-  breadcrumb: 'Home / Suspended',
+  breadcrumb: {
+    text: 'home / suspended',
+    urls: ['/']
+  },
   subscriptions: function(params) {
     this.register('myUserData', FastRenderer.subscribe('myUserData'))
   },
@@ -240,7 +268,10 @@ FlowRouter.route('/suspended', {
 
 FlowRouter.route('/problems', {
   name: 'problems',
-  breadcrumb: 'Home / Problems',
+  breadcrumb: {
+    text: 'home / problems',
+    urls: ['/']
+  },
   subscriptions: function (params) {
     this.register('users', FastRenderer.subscribe('users'))
     this.register('problems', FastRenderer.subscribe('problems'))
@@ -258,7 +289,10 @@ FlowRouter.route('/problems', {
 
 FlowRouter.route('/problem/:id', {
   name: 'problem',
-  breadcrumb: 'Home / View Problem',
+  breadcrumb: {
+    text: 'home / problems / problem',
+    urls: ['/', '/problems']
+  },
   subscriptions: function (params) {
     this.register('problem', FastRenderer.subscribe('problem', params.id))
     this.register('users', FastRenderer.subscribe('users'))
@@ -276,7 +310,10 @@ FlowRouter.route('/problem/:id', {
 
 FlowRouter.route('/new-problem', {
   name: 'new-problem',
-  breadcrumb: 'Home / New Problem',
+  breadcrumb: {
+    text: 'home / problems / new',
+    urls: ['/', '/problems']
+  },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/problems/newProblem')
     BlazeLayout.render('layout', {
@@ -290,7 +327,10 @@ FlowRouter.route('/new-problem', {
 
 FlowRouter.route('/transactions/:page?', {
   name: 'transactions',
-  breadcrumb: 'Krazor / Transactions',
+  breadcrumb: {
+    text: 'krazor / transactions',
+    urls: ['/']
+  },
   subscriptions: function (params) {
     this.register('users', FastRenderer.subscribe('users'))
   },
@@ -307,7 +347,10 @@ FlowRouter.route('/transactions/:page?', {
 
 FlowRouter.route('/', {
     name: 'home',
-    breadcrumb: 'Home',
+    breadcrumb: {
+      text: 'home',
+      urls: []
+    },
     subscriptions: function() {
         this.register('usersStats', FastRenderer.subscribe('usersStats'))
         this.register('dataQualityCurrencies', FastRenderer.subscribe('dataQualityCurrencies', 15));
@@ -343,7 +386,10 @@ FlowRouter.route('/', {
 
 FlowRouter.route('/distribution', {
   name: 'distribution',
-   breadcrumb: 'Krazor / Distribution',
+   breadcrumb: {
+    text: 'krazor / distribution',
+    urls: ['/']
+  },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/distribution/distribution')
     BlazeLayout.render('layout', {
@@ -357,7 +403,10 @@ FlowRouter.route('/distribution', {
 
 FlowRouter.route('/priceChart', {
   name: 'price-chart',
-  breadcrumb: 'Krazor / Trade',
+  breadcrumb: {
+    text: 'krazor / trade',
+    urls: ['/']
+  },
   subscriptions: function() {
     this.register('timeAuctions', FastRenderer.subscribe('timeAuctions', 9))
   },
@@ -374,7 +423,10 @@ FlowRouter.route('/priceChart', {
 
 FlowRouter.route('/exchanges', {
   name: 'exchanges',
-  breadcrumb: 'Home / Exchanges',
+  breadcrumb: {
+    text: 'home / exchanges',
+    urls: ['/']
+  },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/exchanges/exchanges')
     BlazeLayout.render('layout', {
@@ -388,7 +440,10 @@ FlowRouter.route('/exchanges', {
 
 FlowRouter.route('/ratings', {
   name: 'ratings',
-  breadcrumb: 'Home / Ratings',
+  breadcrumb: {
+    text: 'home / ratings',
+    urls: ['/']
+  },
   subscriptions: function () {
     this.register('approvedcurrencies', FastRenderer.subscribe('approvedcurrencies'));
     this.register('ratings', FastRenderer.subscribe('ratings'));
@@ -421,7 +476,10 @@ FlowRouter.route('/theme', {
 
 FlowRouter.route('/add-hashpower', {
   name: 'add-haspower',
-  breadcrumb: 'Home / Hashpower',
+  breadcrumb: {
+    text: 'home / hashpower / new',
+    urls: ['/', '/hashpower']
+  },
   subscriptions: function () {
     this.register('formdata', FastRenderer.subscribe('formdata'));
     this.register('hashhardware', FastRenderer.subscribe('hashhardware'));
@@ -442,7 +500,10 @@ FlowRouter.route('/add-hashpower', {
 
 FlowRouter.route('/avg-hashpower', {
   name: 'avg-haspower',
-  breadcrumb: 'Home / Hashpower',
+  breadcrumb: {
+    text: 'home / hashpower / average',
+    urls: ['/', '/hashpower']
+  },
   subscriptions: function () {
     this.register('hashaverage', FastRenderer.subscribe('hashaverage'));
     this.register('hashalgorithm', FastRenderer.subscribe('hashalgorithm'));
@@ -460,7 +521,10 @@ FlowRouter.route('/avg-hashpower', {
 
 FlowRouter.route('/hashpower', {
   name: 'haspower',
-  breadcrumb: 'Home / Hashpower',
+  breadcrumb: {
+    text: 'home / hashpower',
+    urls: ['/']
+  },
   subscriptions: function () {
     this.register('hashpower', FastRenderer.subscribe('hashpower'));
     this.register('hashhardware', FastRenderer.subscribe('hashhardware'));
@@ -480,7 +544,10 @@ FlowRouter.route('/hashpower', {
 
 FlowRouter.route('/communities', {
   name: 'communities',
-  breadcrumb: 'Home / Communities',
+  breadcrumb: {
+    text: 'home / communities',
+    urls: ['/']
+  },
   subscriptions: function () {
     this.register('approvedcurrencies', FastRenderer.subscribe('approvedcurrencies'));
     this.register('ratings', FastRenderer.subscribe('ratings'));
@@ -499,7 +566,10 @@ FlowRouter.route('/communities', {
 
 FlowRouter.route('/codebase', {
   name: 'codebase',
-  breadcrumb: 'Home / Codebase',
+  breadcrumb: {
+    text: 'home / codebase',
+    urls: ['/']
+  },
   subscriptions: function () {
     this.register('approvedcurrencies', FastRenderer.subscribe('approvedcurrencies'));
     this.register('ratings', FastRenderer.subscribe('ratings'));
@@ -518,7 +588,10 @@ FlowRouter.route('/codebase', {
 
 FlowRouter.route('/developers', {
   name: 'developers',
-  breadcrumb: 'Home / Developers',
+  breadcrumb: {
+    text: 'home / developers',
+    urls: ['/']
+  },
   subscriptions: function () {
     this.register('developers', FastRenderer.subscribe('developers'));
   },
@@ -535,7 +608,10 @@ FlowRouter.route('/developers', {
 
 FlowRouter.route('/bounties', {
   name: 'bounties',
-  breadcrumb: 'Home / Bounties',
+  breadcrumb: {
+    text: 'home / bounties',
+    urls: ['/']
+  },
   subscriptions: function () {
     this.register('visibleBounties', FastRenderer.subscribe('visibleBounties'))
     this.register('users', FastRenderer.subscribe('users'))
@@ -559,7 +635,10 @@ FlowRouter.route('/bounties', {
 
 FlowRouter.route('/bounties/:_id', {
   name: 'bounties-id',
-  breadcrumb: 'Home / View Bounty',
+  breadcrumb: {
+    text: 'home / bounties / bounty',
+    urls: ['/', '/bounties']
+  },
   subscriptions: function (params) {
     this.register('bounty', FastRenderer.subscribe('bounty', params._id));
   },
@@ -576,7 +655,10 @@ FlowRouter.route('/bounties/:_id', {
 
 FlowRouter.route('/addcoin', {
   name: 'addcoin',
-  breadcrumb: 'Home / Add Coin',
+  breadcrumb: {
+    text: 'home / add_coin',
+    urls: ['/']
+  },
   subscriptions: function () {
     this.register('currencyBounty', FastRenderer.subscribe('currencyBounty'));
     this.register('addCoinQuestions', FastRenderer.subscribe('addCoinQuestions'));
@@ -608,7 +690,10 @@ FlowRouter.route('/addcoin', {
 
 FlowRouter.route('/currency/:slug', {
   name: 'CurrencyDetail',
-  breadcrumb: 'Home / Currency',
+  breadcrumb: {
+    text: 'home / currency',
+    urls: ['/']
+  },
   subscriptions: function (param) {
     this.register('approvedcurrency', FastRenderer.subscribe('approvedcurrency', param.slug));
     this.register('hashalgorithm', FastRenderer.subscribe('hashalgorithm'));
@@ -632,7 +717,10 @@ FlowRouter.route('/currency/:slug', {
 
 FlowRouter.route('/mypending', {
   name: 'mypending',
-  breadcrumb: 'Home / Pending Currencies',
+  breadcrumb: {
+    text: 'home / pending_currencies',
+    urls: ['/']
+  },
   subscriptions: function () {
     this.register('bounties', FastRenderer.subscribe('bounties'));
     this.register('mypendingcurrencies', FastRenderer.subscribe('mypendingcurrencies'));
@@ -651,6 +739,10 @@ FlowRouter.route('/mypending', {
 
 FlowRouter.route('/notifications', {
   name: 'notifications',
+  breadcrumb: {
+    text: 'home / notifications',
+    urls: ['/']
+  },
   subscriptions: function () {
     this.register('activitylog', FastRenderer.subscribe('activitylog'));
   },
@@ -667,7 +759,10 @@ FlowRouter.route('/notifications', {
 
 FlowRouter.route('/wallet', {
   name: 'wallet',
-    breadcrumb: 'Home / My Wallet',
+  breadcrumb: {
+    text: 'home / my_wallet',
+    urls: ['/']
+  },
   subscriptions: function () {
     this.register('wallet', FastRenderer.subscribe('wallet'));
     this.register('users', FastRenderer.subscribe('users'));
@@ -685,7 +780,10 @@ FlowRouter.route('/wallet', {
 });
 
 FlowRouter.route('/wallet/:currency', {
-  breadcrumb: 'Home / My Wallet / Currency',
+  breadcrumb: {
+    text: 'home / my_wallet / currency',
+    urls: ['/', '/wallet']
+  },
   subscriptions: function () {
     this.register('wallet', FastRenderer.subscribe('wallet'));
     this.register('users', FastRenderer.subscribe('users'));
@@ -789,7 +887,10 @@ var adminRoutes = FlowRouter.group({
 
 adminRoutes.route('/', {
   name: 'moderator',
-  breadcrumb: 'Moderator / Pending Currencies',
+  breadcrumb: {
+    text: 'moderator / pending_currencies',
+    urls: ['/moderator']
+  },
   subscriptions: function () {
     this.register('pendingcurrencies', FastRenderer.subscribe('pendingcurrencies'));
     this.register('walletimages', FastRenderer.subscribe('walletimages'));
@@ -807,7 +908,10 @@ adminRoutes.route('/', {
 
 adminRoutes.route('/changedcurrencies', {
   name: 'changedCurrencies',
-  breadcrumb: 'Moderator / Changed Currencies',
+  breadcrumb: {
+    text: 'moderator / changed_currencies',
+    urls: ['/moderator']
+  },
   subscriptions: function () {
     this.register('changedCurrencies', FastRenderer.subscribe('changedCurrencies'))
     this.register('hashalgorithm', FastRenderer.subscribe('hashalgorithm'))
@@ -825,7 +929,10 @@ adminRoutes.route('/changedcurrencies', {
 
 adminRoutes.route('/changedcurrencies/:id', {
   name: 'changedCurrency',
-  breadcrumb: 'Moderator / Changed Currencies / Currency',
+  breadcrumb: {
+    text: 'moderator / changed_currencies / currency',
+    urls: ['/moderator', '/changedcurrencies']
+  },
   subscriptions: function () {
     this.register('changedCurrencies', FastRenderer.subscribe('changedCurrencies'))
     this.register('hashalgorithm', FastRenderer.subscribe('hashalgorithm'))
@@ -843,7 +950,10 @@ adminRoutes.route('/changedcurrencies/:id', {
 
 adminRoutes.route('/questions', {
   name: 'questions',
-  breadcrumb: 'Moderator / Questions',
+  breadcrumb: {
+    text: 'moderator / questions',
+    urls: ['/moderator']
+  },
   subscriptions: function () {
     this.register('ratings_templates', FastRenderer.subscribe('ratings_templates'));
   },
@@ -860,7 +970,10 @@ adminRoutes.route('/questions', {
 
 adminRoutes.route('/flagged-users', {
   name: 'flaggedUsers',
-  breadcrumb: 'Moderator / Flagged Users',
+  breadcrumb: {
+    text: 'moderator / flagged_users',
+    urls: ['/moderator']
+  },
   subscriptions: function () {
     this.register('userData', FastRenderer.subscribe('userData'));
     this.register('users', FastRenderer.subscribe('users'))
@@ -884,7 +997,10 @@ adminRoutes.route('/flagged-users', {
 
 adminRoutes.route('/candidates', {
   name: 'candidates',
-  breadcrumb: 'Moderator / Candidates',
+  breadcrumb: {
+    text: 'moderator / candidates',
+    urls: ['/moderator']
+  },
   subscriptions: function () {
     this.register('userData', FastRenderer.subscribe('userData'))
     this.register('users', FastRenderer.subscribe('users'))
@@ -907,7 +1023,10 @@ adminRoutes.route('/candidates', {
 
 adminRoutes.route('/exchanges', {
   name: 'exchanges-removal',
-  breadcrumb: 'Moderator / Remove Exchanges',
+  breadcrumb: {
+    text: 'moderator / exchanges',
+    urls: ['/moderator']
+  },
   subscriptions: function () {
     this.register('modExchanges', FastRenderer.subscribe('modExchanges'))
   },
@@ -929,7 +1048,10 @@ adminRoutes.route('/exchanges', {
 
 adminRoutes.route('/exchanges/:id', {
   name: 'exchange-removal',
-  breadcrumb: 'Moderator / Remove Exchanges / Currency',
+  breadcrumb: {
+    text: 'moderator / exchanges / currency',
+    urls: ['/moderator', '/exchanges']
+  },
   subscriptions: function () {
     this.register('modExchanges', FastRenderer.subscribe('modExchanges'))
   },
@@ -951,7 +1073,10 @@ adminRoutes.route('/exchanges/:id', {
 
 adminRoutes.route('/flagged-ip/:ip', {
   name: 'flaggedIP',
-  breadcrumb: 'Moderator / Flagged IP',
+  breadcrumb: {
+    text: 'moderator / flagged_ip',
+    urls: ['/moderator']
+  },
   subscriptions: function (params) {
     this.register('userData', FastRenderer.subscribe('userData'))
     this.register('users', FastRenderer.subscribe('users'))
@@ -979,7 +1104,10 @@ adminRoutes.route('/flagged-ip/:ip', {
 
 adminRoutes.route('/flagged-hashpower', {
   name: 'flagged-hashpower',
-  breadcrumb: 'Moderator / Flagged Hashpower',
+  breadcrumb: {
+    text: 'moderator / flagged_hashpower',
+    urls: ['/moderator']
+  },
   subscriptions: function () {
     this.register('flaggedhashpower', FastRenderer.subscribe('flaggedhashpower'));
     this.register('hashhardware', FastRenderer.subscribe('hashhardware'));
@@ -999,7 +1127,10 @@ adminRoutes.route('/flagged-hashpower', {
 
 adminRoutes.route('/pardon', {
   name: 'pardon',
-  breadcrumb: 'Moderator / Pardon User',
+  breadcrumb: {
+    text: 'moderator / pardon_user',
+    urls: ['/moderator']
+  },
   subscriptions: function () {
     this.register('users', FastRenderer.subscribe('users'))
     this.register('pardonUserData', FastRenderer.subscribe('pardonUserData'))
@@ -1017,7 +1148,10 @@ adminRoutes.route('/pardon', {
 
 adminRoutes.route('/pardon/:id', {
   name: 'pardonUser',
-  breadcrumb: 'Moderator / Pardon User / User',
+  breadcrumb: {
+    text: 'moderator / pardon_user / user',
+    urls: ['/moderator', '/pardon']
+  },
   subscriptions: function () {
     this.register('users', FastRenderer.subscribe('users'))
     this.register('pardonUserData', FastRenderer.subscribe('pardonUserData'))
@@ -1035,7 +1169,10 @@ adminRoutes.route('/pardon/:id', {
 
 adminRoutes.route('/flagged', {
   name: 'flagged',
-  breadcrumb: 'Moderator / Flagged',
+  breadcrumb: {
+    text: 'moderator / flagged',
+    urls: ['/moderator']
+  },
   subscriptions: function () {
     this.register('users', FastRenderer.subscribe('users'))
     this.register('features', FastRenderer.subscribe('features'))
@@ -1054,7 +1191,10 @@ adminRoutes.route('/flagged', {
 
 adminRoutes.route('/flagged/:collection/:id', {
   name: 'flaggedItem',
-  breadcrumb: 'Moderator / Flagged / Item',
+  breadcrumb: {
+    text: 'moderator / flagged / item',
+    urls: ['/moderator', '/flagged']
+  },
   subscriptions: function () {
     this.register('users', FastRenderer.subscribe('users'))
     this.register('features', FastRenderer.subscribe('features'))
@@ -1075,7 +1215,10 @@ adminRoutes.route('/flagged/:collection/:id', {
 
 adminRoutes.route('/applogs', {
   name: 'app-logs',
-  breadcrumb: 'Moderator / App Logs',
+  breadcrumb: {
+    text: 'moderator / app_logs',
+    urls: ['/moderator']
+  },
   subscriptions: function (params) {
     this.register('applogs', FastRenderer.subscribe('applogs', 1, 100))
     this.register('users', FastRenderer.subscribe('users'))
@@ -1093,8 +1236,10 @@ adminRoutes.route('/applogs', {
 
 adminRoutes.route('/solved-problems', {
   name: 'solved-problems',
-  breadcrumb: 'Moderator / Solved Problems',
-
+  breadcrumb: {
+    text: 'moderator / solved_problems',
+    urls: ['/moderator']
+  },
   subscriptions: function (params) {
     this.register('solvedProblems', FastRenderer.subscribe('solvedProblems'))
     this.register('users', FastRenderer.subscribe('users'))
@@ -1111,7 +1256,7 @@ adminRoutes.route('/solved-problems', {
 })
 
 
-
+// don't make changes to the old moderator pages
 
 // old moderator routes (for reference purposes only)
 var adminRoutesOld = FlowRouter.group({
