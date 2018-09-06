@@ -21,9 +21,20 @@ Template.wallet.helpers({
     let user = UserData.findOne({
       _id: Meteor.userId()
     })
-
     if (user) {
-      return user.others && user.others[cur] ? user.others[cur] : 0
+      let bal = user.others && user.others[cur]
+      switch(cur.toUpperCase()){
+        case 'USD' :
+          bal = bal ? (bal).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0
+          break
+        case 'ETH' :
+          bal = bal ? (bal).toFixed(18).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0
+          break
+        case 'XMR' :
+          bal = bal ? (bal).toFixed(12).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0
+          break  
+      }
+      return bal;
     }
   },
   balance () {
