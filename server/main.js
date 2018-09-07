@@ -26,8 +26,8 @@ Meteor.startup(() => {
 SyncedCron.start();
 Meteor.call('convertAlgorithm', (err, data) => {})
 
-// TODO : Add email smtp URL
-// process.env.MAIL_URL = `smtp://${ mailSettings.username }:${ mailSettings.password }@smtp.sendgrid.net:587`;
+// TODO : move this information to settings file
+process.env.MAIL_URL = `smtp://blockrazor:blockrazor123@smtp.sendgrid.net:587`;
 //jobs.print();
   // code to run on server at startup
 });
