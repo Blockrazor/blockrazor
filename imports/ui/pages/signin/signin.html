@@ -26,6 +26,35 @@
             <div class="sign-up-link">
                 {{_ "user.signin.dont_have"}} <a href="/signup">{{_ "user.signin.create"}}</a>.
             </div>
+            <div class="sign-up-link">
+              Forgot password ? <a href="/reset-password">request new one.</a>.
+          </div>
+        </div>
+    </div>
+</template>
+
+<template name="password_reset">
+  {{> sAlert}}
+    <div class="sign-in">
+        <div class="title">Reset Password</div>
+        <div class="email-sign-in">
+            <form id="password-reset">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                    </div>
+                    <input type="text" name="email" id="email" class="form-control" placeholder='{{_ "user.signin.email"}}' required>
+                </div>
+                <button type="submit" class="btn btn-primary">Request Password</button>
+            </form>
+            <div class="section-title">{{_ "user.signin.or"}}</div>
+            <div class="alternate-options">
+                <a href="#" id="js-facebook"><i class="fab fa-facebook-f"></i><span>{{_ "user.signin.fb"}}</span></a>
+                <a href="#" id="js-github"><i class="fab fa-github"></i><span>{{_ "user.signin.git"}}</span></a>
+            </div>
+            <div class="sign-up-link">
+                {{_ "user.signin.dont_have"}} <a href="/signup">{{_ "user.signin.create"}}</a>.
+            </div>
         </div>
     </div>
 </template>

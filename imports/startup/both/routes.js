@@ -868,6 +868,18 @@ FlowRouter.route('/signup', {
   }
 })
 
+FlowRouter.route('/reset-password', {
+  name: 'password-reset',
+  action: async (params, queryParams) => {
+    if (!Meteor.userId()) {
+      await import ('/imports/ui/pages/signin/signin')
+      BlazeLayout.render('password_reset')
+    } else {
+      FlowRouter.go('/')
+    }
+  }
+})
+
 // the App_notFound template is used for unknown routes and missing lists
 FlowRouter.route('*',{
   action: async (params, queryParams) => {
