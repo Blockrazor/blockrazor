@@ -25,6 +25,9 @@ Meteor.startup(() => {
 //jobs.initiate_later();
 SyncedCron.start();
 Meteor.call('convertAlgorithm', (err, data) => {})
+
+// TODO : move this information to settings file
+process.env.MAIL_URL = `smtp://blockrazor:blockrazor123@smtp.sendgrid.net:587`;
 //jobs.print();
   // code to run on server at startup
 });
