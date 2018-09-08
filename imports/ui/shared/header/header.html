@@ -8,26 +8,25 @@
             <a class="customized-brand brand-image text-white d-md-none" href="{{pathFor '/'}}"><img src="/images/logo_black.svg"></a>
             <ul class="nav navbar-nav mr-auto">
                 <li class="nav-item px-1">
-                  <!-- Bounties link hidden on mobile -->
-                  <!-- <a class="nav-link bounties-icon fa fa-plus-square d-md-none" href="/bounties"></a> -->
-                  <a class="nav-link d-none d-md-block" href="/bounties"><span class="separator"></span> {{_ "header.bounties"}}</a>
+                    <!-- Bounties link hidden on mobile -->
+                    <!-- <a class="nav-link bounties-icon fa fa-plus-square d-md-none" href="/bounties"></a> -->
+                    <a class="nav-link d-none d-md-block" href="/bounties"><span class="separator"></span> {{_ "header.bounties"}}</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav ml-auto">
-                          <form class="form-inline center">
-            <div class="input-group">
-                <input class="form-control mr-sm-2 mr-3" value="{{searchVal}}" type="search" id="searchFilterHeader" placeholder='{{_ "header.search"}}...' aria-label="Search" style="margin-right: 0 !important;width:15em">
-                <div class="input-group-append">
-                  <div class="input-group-text d-none d-sm-block">
-                    <i class="nav-icon icon-magnifier"></i>
-                  </div>
-                </div>
-            </div>
-
-            </form>
-              <!-- Hide FAQs on mobile -->
+                <form class="form-inline center">
+                    <div class="input-group">
+                        <input class="form-control mr-sm-2 mr-3 searchFilterHeader d-none d-md-block" value="{{searchVal}}" type="search" id="searchFilterHeader" placeholder='{{_ "header.search"}}...' aria-label="Search" style="margin-right: 0 !important;width:15em">
+                        <div class="input-group-append">
+                            <div class="input-group-text d-none d-sm-block">
+                                <i class="nav-icon icon-magnifier"></i>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- Hide FAQs on mobile -->
                 <li class="nav-item d-none d-md-block">
-                  <a href="/faq" title="BlockRazor FAQ" class="nav-link"><i class="icon-question"></i></a>
+                    <a href="/faq" title="BlockRazor FAQ" class="nav-link"><i class="icon-question"></i></a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
@@ -36,17 +35,12 @@
                         <div class="dropdown-header text-center">
                             <strong>{{_ "header.language_choice"}}</strong>
                         </div>
-                        {{#each languages}}
-                            {{#if selected}}
-                            <a class="dropdown-item js-change-lang" style="background: #c8ced3" href="#">{{name}}</a>
-                            {{else}}
-                            <a class="dropdown-item js-change-lang" href="#">{{name}}</a>
-                            {{/if}}
-                        {{/each}}
+                        {{#each languages}} {{#if selected}}
+                        <a class="dropdown-item js-change-lang" style="background: #c8ced3" href="#">{{name}}</a> {{else}}
+                        <a class="dropdown-item js-change-lang" href="#">{{name}}</a> {{/if}} {{/each}}
                     </div>
                 </li>
-                {{#if currentUser}}
-                {{#if hasBounties activeBounties }}
+                {{#if currentUser}} {{#if hasBounties activeBounties }}
                 <li class="nav-item">
                     <a href="{{bountyUrl activeBounties}}" title='{{_ "header.active_bounties"}}' class="nav-link">
                       <i class="icon-target"></i>
@@ -54,20 +48,12 @@
                     </a>
                 </li>
                 {{/if}}
-
                 <li class="nav-item">
-                        <a href="/wallet" id="navNotification" title='{{_ "header.open_wallet"}}' class="nav-link">
+                    <a href="/wallet" id="navNotification" title='{{_ "header.open_wallet"}}' class="nav-link">
                             <i class="icon-wallet"></i>
                             {{#if walletNotifications}}<span class="badge badge-pill badge-light">{{walletNotifications}}</span>{{/if}}
                         </a>
-                    </li>
-
-                    <!-- <li class="nav-item">
-                        <a href="/wallet" class="nav-link  text-muted ml-2 d-none d-sm-block mr-3">{{balance}} KZR
-                            {{#if walletNotifications}}<span class="badge badge-pill badge-light">{{walletNotifications}}</span>{{/if}}
-                            </a>
-                    </li> -->
-
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
 <strong class="d-none d-sm-block">{{currentUser.username}}<i class="ml-2 fa fa-caret-down"></i></strong>
@@ -92,22 +78,28 @@
                         {{#if activityNotifications}}<span class="badge badge-pill badge-danger">{{activityNotifications}}</span>{{/if}}
                         </a>
                 </li>
-                <!-- <li class="nav-item">
-                    <a href="/wallet" id="navNotification" title="Open your Wallet" class="nav-link d-sm-none"><i class="fa fa-university "></i>
-                        {{#if walletNotifications}}<span class="badge badge-pill badge-light">{{walletNotifications}}</span>{{/if}}
-                        </a>
-                </li> -->
-                <!-- <li class="nav-item">
-                    <a href="/wallet" class="nav-link  text-muted ml-2 d-none d-sm-block mr-5">{{ balance}} KZR
-                        {{#if walletNotifications}}<span class="badge badge-pill badge-light">{{walletNotifications}}</span>{{/if}}
-                        </a>
-                </li> -->
+                <li class="nav-item d-md-none">
+                    <i class="icon-magnifier searchMobileIcon"></i>
+                </li>
                 {{else}}
                 <li class="nav-item">
-                  <a class="btn btn-success" href="/login">{{_ "header.signin"}}</a>
+                    <a class="btn btn-success ml-4" href="/login">{{_ "header.signin"}}</a>
                 </li>
                 {{/if}}
             </ul>
         </div>
     </header>
+    <!-- Modal -->
+    <div class="modal fade searchModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <input class="form-control mr-sm-2 mr-3" value="{{searchVal}}" type="search" id="searchFilterModal" placeholder='{{_ "header.search"}}...' aria-label="Search" style="margin-right: 0 !important;">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">SEARCH</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
