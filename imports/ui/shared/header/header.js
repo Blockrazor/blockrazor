@@ -14,6 +14,35 @@ Template.header.onCreated(function() {
 })
 
 Template.header.events({
+            'keyup #searchFilterModal': function (event) {
+        event.preventDefault();
+        //close the sidebar if you start typing on a mobile
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            $('body').removeClass('sidebar-lg-show')
+        }
+
+        let query = $('#searchFilterModal').val();
+        let documentsIndex = $("div.documents-index")
+
+        if (documentsIndex.length === 0) {
+            let queryParam = { query: query }
+            let path = FlowRouter.path('/', {}, queryParam)
+            FlowRouter.go(path)
+        }
+
+        //clear filter if no value in search bar
+        if (query.length < 1) {
+            Blaze.getView($("div.currency-container")[0])._templateInstance.searchInputFilter.set('')
+
+            history.replaceState(null, '', `/`)
+        }
+
+        if (query) {
+            Blaze.getView($("div.currency-container")[0])._templateInstance.searchInputFilter.set(query)
+
+            history.replaceState(null, '', `?query=${query}`)
+        }
+    },
         'keyup #searchFilterHeader': function (event) {
         event.preventDefault();
         //close the sidebar if you start typing on a mobile
@@ -50,6 +79,10 @@ Template.header.events({
             $('body').toggleClass("sidebar-md-show")
         }
     },
+    
+    'click .searchMobileIcon': (event, templateInstance) => {
+    $('.searchModal').modal('show')
+  },
     'click #logout': (event, templateInstance) => {
     Meteor.logout()
   },
