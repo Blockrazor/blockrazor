@@ -9,8 +9,8 @@ const cookies = new Cookies()
 Template.header.onCreated(function() {
         this.searchInputFilter = new ReactiveVar(undefined);
         let searchInputFilter = Template.instance().searchInputFilter.get();
-
-    TAPi18n.setLanguage(cookies.get('language') || 'en')
+        this.defaultLanguage = 'en';
+        TAPi18n.setLanguage(cookies.get('language') || 'en');
 })
 
 
@@ -25,7 +25,7 @@ Template.header.onRendered( function () {
 
 
 Template.header.events({
-            'keyup #searchFilterModal': function (event) {
+        'keyup #searchFilterModal': function (event) {
         event.preventDefault();
         //close the sidebar if you start typing on a mobile
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -99,8 +99,14 @@ Template.header.events({
   },
   'click .js-change-lang': function(event, templateInstance) {
     TAPi18n.setLanguage(this.code)
-
+    
     cookies.set('language', this.code)
+    $('.languageModal').modal('hide');
+  },
+  'click .default-language': function(event, templateInstance) {
+    TAPi18n.setLanguage(templateInstance.defaultLanguage)
+    
+    cookies.set('language', templateInstance.defaultLanguage)
     $('.languageModal').modal('hide');
   }
 })
