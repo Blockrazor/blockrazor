@@ -29,6 +29,11 @@ Template.sidebar.helpers({
 });
 
 Template.sidebar.events({
+      'click .nav-item': function() {
+          if ($(window).width() < 400) {
+              $('body').removeClass("sidebar-lg-show")
+          }
+      },
       'click .share': (event, templateInstance) => {
       event.preventDefault()
       
