@@ -13,6 +13,17 @@ Template.header.onCreated(function() {
     TAPi18n.setLanguage(cookies.get('language') || 'en')
 })
 
+
+
+Template.header.onRendered( function () {
+    let language = window.navigator.userLanguage || window.navigator.language;
+
+    if(language != 'en-US' && !cookies.get('language')){
+        $('.languageModal').modal('show');
+    }
+});
+
+
 Template.header.events({
             'keyup #searchFilterModal': function (event) {
         event.preventDefault();
@@ -90,6 +101,7 @@ Template.header.events({
     TAPi18n.setLanguage(this.code)
 
     cookies.set('language', this.code)
+    $('.languageModal').modal('hide');
   }
 })
 
