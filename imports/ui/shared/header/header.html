@@ -28,18 +28,7 @@
                 <li class="nav-item d-none d-md-block">
                     <a href="/faq" title="BlockRazor FAQ" class="nav-link"><i class="icon-question"></i></a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
-                    <i class="fas fa-language"></i><i class="ml-2 fa fa-caret-down"></i></a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <div class="dropdown-header text-center">
-                            <strong>{{_ "header.language_choice"}}</strong>
-                        </div>
-                        {{#each languages}} {{#if selected}}
-                        <a class="dropdown-item js-change-lang" style="background: #c8ced3" href="#">{{name}}</a> {{else}}
-                        <a class="dropdown-item js-change-lang" href="#">{{name}}</a> {{/if}} {{/each}}
-                    </div>
-                </li>
+
                 {{#if currentUser}} {{#if hasBounties activeBounties }}
                 <li class="nav-item">
                     <a href="{{bountyUrl activeBounties}}" title='{{_ "header.active_bounties"}}' class="nav-link">
@@ -101,5 +90,27 @@
                 </div>
             </div>
         </div>
+    </div>
+
+<div class="modal fade languageModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content center">
+            <div class="modal-body">
+                <div class="dropdown show">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    {{_ "header.language_choice"}}
+  </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        {{#each languages}} {{#if selected}}
+                        <a class="dropdown-item js-change-lang" style="background: #c8ced3" href="#">{{name}}</a> {{else}}
+                        <a class="dropdown-item js-change-lang" href="#">{{name}}</a> {{/if}} {{/each}}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Keep current language</button>
+            </div>
+        </div>
+    </div>
     </div>
 </template>
