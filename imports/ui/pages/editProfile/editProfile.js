@@ -3,6 +3,7 @@ import { ProfileImages } from '/imports/api/indexDB.js'
 import('sweetalert2').then(swal => window.swal = swal.default)
 import('qrcode').then(qr => window.QRCode = qr.default)
 import('speakeasy').then(speakeasy => window.speakeasy = speakeasy.default)
+import { segmentEvent } from '/imports/api/analytics.js'
 
 import './editProfile.html'
 
