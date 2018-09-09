@@ -1,6 +1,6 @@
 <template name="commentRender">
 	<div class="post-comment padBottom commentParent-{{parentId}} pull-right rounded" style="display:none;">
-    <div class="card-body comment-content pull-right">
+    <div class="card-body comment-content pull-right mb-2">
       {{#hovercard template="userHover" direction="vertical" trigger="hover"}}
       <small>
         <a href="/profile/{{slugify author}}">
@@ -11,15 +11,14 @@
       </small>
       {{/hovercard}}
       <span class="text-custom">&nbsp;&nbsp;&nbsp;{{comment}}</span>
-			<br/>
-			<div class="pull-left card-link">
-				<div class="pull-left">
-					<i class="fa fa-thumbs-up {{#if hasUserVoted 'Features' _id 'up'}} text-info {{/if}}" aria-hidden="true"></i>
-					<i class="fa fa-thumbs-down fa-flip-horizontal {{#if hasUserVoted 'Features' _id 'down'}} text-info {{/if}}" aria-hidden="true"></i>
-				</div>
-				<small class="text-muted padLeft">&nbsp;&nbsp;{{relativeTime createdAt}}</small>
-			</div>
-			<div class="pull-right"><i class="fa fa-flag flag flagComment" aria-hidden="true"></i></div>
+
+			<div class="text-right">
+            <i class="fa fa-thumbs-up {{#if hasUserVoted 'Features' _id 'up'}} text-info {{/if}} ml-3" aria-hidden="true"></i>
+          <i class="fa fa-thumbs-down fa-flip-horizontal {{#if hasUserVoted 'Features' _id 'down'}} text-info {{/if}} ml-3" aria-hidden="true"></i>
+        <i class="fa fa-flag flag flagComment ml-3" aria-hidden="true"></i>
+        <small class="text-muted ml-2">&nbsp;&nbsp;{{relativeTime createdAt}}</small>
+
+      </div>
     </div>
     <div class="card-header comment-author">
       <a href="/profile/{{slugify author}}" class="img-container">
