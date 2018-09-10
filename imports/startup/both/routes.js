@@ -70,7 +70,7 @@ FlowRouter.subscriptions = function() {
 FlowRouter.route('/profile/:slug', {
   breadcrumb: {
     text: 'home / profile',
-    urls: ['/']
+    urls: ['/home']
   },
   subscriptions: function (params) {
     this.register('approvedcurrencies', FastRenderer.subscribe('approvedcurrencies'))
@@ -101,7 +101,7 @@ FlowRouter.route('/profile/:slug', {
 FlowRouter.route('/faq', {
   breadcrumb: {
     text: 'home / faq',
-    urls: ['/']
+    urls: ['/home']
   },
   name: 'faq',
   action: async (params, queryParams) => {
@@ -118,7 +118,7 @@ FlowRouter.route('/faq', {
 FlowRouter.route('/profile', {
   breadcrumb: {
     text: 'home / profile',
-    urls: ['/']
+    urls: ['/home']
   },
   name: 'profile',
   action: async (params, queryParams) => {
@@ -136,7 +136,7 @@ FlowRouter.route('/profile', {
 FlowRouter.route('/compareCurrencies/:currencies?', {
   breadcrumb: {
     text: 'home / compare_currencies',
-    urls: ['/']
+    urls: ['/home']
   },
   name: 'compare-currencies',
   subscriptions: function (params) {
@@ -158,7 +158,7 @@ FlowRouter.route('/compareCurrencies/:currencies?', {
 FlowRouter.route('/currencyAuction', {
   breadcrumb: {
     text: 'home / auctions / currency',
-    urls: ['/', '/auctions']
+    urls: ['/home', '/auctions']
   },
   name: 'currency-auction',
   subscriptions: function (params) {
@@ -180,7 +180,7 @@ FlowRouter.route('/currencyAuction', {
 FlowRouter.route('/auctions', {
   breadcrumb: {
     text: 'home / auctions',
-    urls: ['/']
+    urls: ['/home']
   },
   name: 'all-auctions',
   subscriptions: function (params) {
@@ -203,7 +203,7 @@ FlowRouter.route('/auction/:id', {
   name: 'bid-auction',
   breadcrumb: {
     text: 'home / auctions / auction',
-    urls: ['/', '/auctions']
+    urls: ['/home', '/auctions']
   },
   subscriptions: function (params) {
     this.register('users', FastRenderer.subscribe('users'))
@@ -227,7 +227,7 @@ FlowRouter.route('/new-auction', {
   name: 'new-auction',
   breadcrumb: {
     text: 'home / auctions / new',
-    urls: ['/', '/auctions']
+    urls: ['/home', '/auctions']
   },
   subscriptions: function (params) {
     this.register('publicUserData', FastRenderer.subscribe('publicUserData'))
@@ -247,7 +247,7 @@ FlowRouter.route('/suspended', {
   name: 'suspended',
   breadcrumb: {
     text: 'home / suspended',
-    urls: ['/']
+    urls: ['/home']
   },
   subscriptions: function(params) {
     this.register('myUserData', FastRenderer.subscribe('myUserData'))
@@ -261,7 +261,7 @@ FlowRouter.route('/suspended', {
       await import ('/imports/ui/pages/suspended/suspended')
       BlazeLayout.render('suspended')
     } else {
-      FlowRouter.go('/')
+      FlowRouter.go('/home')
     }
   }
 })
@@ -270,7 +270,7 @@ FlowRouter.route('/problems', {
   name: 'problems',
   breadcrumb: {
     text: 'home / problems',
-    urls: ['/']
+    urls: ['/home']
   },
   subscriptions: function (params) {
     this.register('users', FastRenderer.subscribe('users'))
@@ -291,7 +291,7 @@ FlowRouter.route('/problem/:id', {
   name: 'problem',
   breadcrumb: {
     text: 'home / problems / problem',
-    urls: ['/', '/problems']
+    urls: ['/home', '/problems']
   },
   subscriptions: function (params) {
     this.register('problem', FastRenderer.subscribe('problem', params.id))
@@ -312,7 +312,7 @@ FlowRouter.route('/new-problem', {
   name: 'new-problem',
   breadcrumb: {
     text: 'home / problems / new',
-    urls: ['/', '/problems']
+    urls: ['/home', '/problems']
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/problems/newProblem')
@@ -329,7 +329,7 @@ FlowRouter.route('/transactions/:page?', {
   name: 'transactions',
   breadcrumb: {
     text: 'krazor / transactions',
-    urls: ['/']
+    urls: ['/home']
   },
   subscriptions: function (params) {
     this.register('users', FastRenderer.subscribe('users'))
@@ -345,7 +345,7 @@ FlowRouter.route('/transactions/:page?', {
   }
 })
 
-FlowRouter.route('/', {
+FlowRouter.route('/home', {
     name: 'home',
     breadcrumb: {
       text: 'home',
@@ -358,37 +358,35 @@ FlowRouter.route('/', {
         this.register('redflagsHome', FastRenderer.subscribe('redflagsHome'))
     },
     action: async(params, queryParams) => {
-        if (Meteor.userId()) {
-            await
-            import ('/imports/ui/pages/returnedCurrencies/returnedCurrencies')
-            BlazeLayout.render("layout", {
-                header: "header",
-                sidebar: 'sidebar',
-                footer: "footer",
-                main: "returnedCurrencies"
-
-            })
-
-        } else {
-            await
-            import ('/imports/ui/pages/landingpage/landingpage')
-            BlazeLayout.render("layout", {
-                header: "header",
-                footer: "footer",
-                main: "landingpage"
-
-            })
-        }
+        await import ('/imports/ui/pages/returnedCurrencies/returnedCurrencies')
+        BlazeLayout.render("layout", {
+            header: "header",
+            sidebar: 'sidebar',
+            footer: "footer",
+            main: "returnedCurrencies"
+        })
     }
 })
 
+// landing page
+FlowRouter.route('/', {
+  name: 'landing',
+  action: async(params, queryParams) => {
+      await import ('/imports/ui/pages/landingpage/landingpage')
+      BlazeLayout.render("layout", {
+          header: "header",
+          footer: "footer",
+          main: "landingpage"
 
+      })
+    }
+})
 
 FlowRouter.route('/distribution', {
   name: 'distribution',
    breadcrumb: {
     text: 'krazor / distribution',
-    urls: ['/']
+    urls: ['/home']
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/distribution/distribution')
@@ -405,7 +403,7 @@ FlowRouter.route('/priceChart', {
   name: 'price-chart',
   breadcrumb: {
     text: 'krazor / trade',
-    urls: ['/']
+    urls: ['/home']
   },
   subscriptions: function() {
     this.register('timeAuctions', FastRenderer.subscribe('timeAuctions', 9))
@@ -425,7 +423,7 @@ FlowRouter.route('/exchanges', {
   name: 'exchanges',
   breadcrumb: {
     text: 'home / exchanges',
-    urls: ['/']
+    urls: ['/home']
   },
   action: async (params, queryParams) => {
     await import ('/imports/ui/pages/exchanges/exchanges')
@@ -442,7 +440,7 @@ FlowRouter.route('/ratings', {
   name: 'ratings',
   breadcrumb: {
     text: 'home / ratings',
-    urls: ['/']
+    urls: ['/home']
   },
   subscriptions: function () {
     this.register('approvedcurrencies', FastRenderer.subscribe('approvedcurrencies'));
@@ -478,7 +476,7 @@ FlowRouter.route('/add-hashpower', {
   name: 'add-haspower',
   breadcrumb: {
     text: 'home / hashpower / new',
-    urls: ['/', '/hashpower']
+    urls: ['/home', '/hashpower']
   },
   subscriptions: function () {
     this.register('formdata', FastRenderer.subscribe('formdata'));
@@ -502,7 +500,7 @@ FlowRouter.route('/avg-hashpower', {
   name: 'avg-haspower',
   breadcrumb: {
     text: 'home / hashpower / average',
-    urls: ['/', '/hashpower']
+    urls: ['/home', '/hashpower']
   },
   subscriptions: function () {
     this.register('hashaverage', FastRenderer.subscribe('hashaverage'));
@@ -523,7 +521,7 @@ FlowRouter.route('/hashpower', {
   name: 'haspower',
   breadcrumb: {
     text: 'home / hashpower',
-    urls: ['/']
+    urls: ['/home']
   },
   subscriptions: function () {
     this.register('hashpower', FastRenderer.subscribe('hashpower'));
@@ -546,7 +544,7 @@ FlowRouter.route('/communities', {
   name: 'communities',
   breadcrumb: {
     text: 'home / communities',
-    urls: ['/']
+    urls: ['/home']
   },
   subscriptions: function () {
     this.register('approvedcurrencies', FastRenderer.subscribe('approvedcurrencies'));
@@ -568,7 +566,7 @@ FlowRouter.route('/codebase', {
   name: 'codebase',
   breadcrumb: {
     text: 'home / codebase',
-    urls: ['/']
+    urls: ['/home']
   },
   subscriptions: function () {
     this.register('approvedcurrencies', FastRenderer.subscribe('approvedcurrencies'));
@@ -590,7 +588,7 @@ FlowRouter.route('/developers', {
   name: 'developers',
   breadcrumb: {
     text: 'home / developers',
-    urls: ['/']
+    urls: ['/home']
   },
   subscriptions: function () {
     this.register('developers', FastRenderer.subscribe('developers'));
@@ -610,7 +608,7 @@ FlowRouter.route('/bounties', {
   name: 'bounties',
   breadcrumb: {
     text: 'home / bounties',
-    urls: ['/']
+    urls: ['/home']
   },
   subscriptions: function () {
     this.register('visibleBounties', FastRenderer.subscribe('visibleBounties'))
@@ -637,7 +635,7 @@ FlowRouter.route('/bounties/:_id', {
   name: 'bounties-id',
   breadcrumb: {
     text: 'home / bounties / bounty',
-    urls: ['/', '/bounties']
+    urls: ['/home', '/bounties']
   },
   subscriptions: function (params) {
     this.register('bounty', FastRenderer.subscribe('bounty', params._id));
@@ -657,7 +655,7 @@ FlowRouter.route('/addcoin', {
   name: 'addcoin',
   breadcrumb: {
     text: 'home / add_coin',
-    urls: ['/']
+    urls: ['/home']
   },
   subscriptions: function () {
     this.register('currencyBounty', FastRenderer.subscribe('currencyBounty'));
@@ -692,7 +690,7 @@ FlowRouter.route('/currency/:slug', {
   name: 'CurrencyDetail',
   breadcrumb: {
     text: 'home / currency',
-    urls: ['/']
+    urls: ['/home']
   },
   subscriptions: function (param) {
     this.register('approvedcurrency', FastRenderer.subscribe('approvedcurrency', param.slug));
@@ -719,7 +717,7 @@ FlowRouter.route('/mypending', {
   name: 'mypending',
   breadcrumb: {
     text: 'home / pending_currencies',
-    urls: ['/']
+    urls: ['/home']
   },
   subscriptions: function () {
     this.register('bounties', FastRenderer.subscribe('bounties'));
@@ -741,7 +739,7 @@ FlowRouter.route('/notifications', {
   name: 'notifications',
   breadcrumb: {
     text: 'home / notifications',
-    urls: ['/']
+    urls: ['/home']
   },
   subscriptions: function () {
     this.register('activitylog', FastRenderer.subscribe('activitylog'));
@@ -761,7 +759,7 @@ FlowRouter.route('/wallet', {
   name: 'wallet',
   breadcrumb: {
     text: 'home / my_wallet',
-    urls: ['/']
+    urls: ['/home']
   },
   subscriptions: function () {
     this.register('wallet', FastRenderer.subscribe('wallet'));
@@ -782,7 +780,7 @@ FlowRouter.route('/wallet', {
 FlowRouter.route('/wallet/:currency', {
   breadcrumb: {
     text: 'home / my_wallet / currency',
-    urls: ['/', '/wallet']
+    urls: ['/home', '/wallet']
   },
   subscriptions: function () {
     this.register('wallet', FastRenderer.subscribe('wallet'));
@@ -829,7 +827,7 @@ FlowRouter.route('/login', {
       if (user.enabled2fa) {
         FlowRouter.go('/2fa')
       } else {
-        FlowRouter.go('/')
+        FlowRouter.go('/home')
       }
     }
   }
@@ -850,7 +848,7 @@ FlowRouter.route('/2fa', {
 
         BlazeLayout.render('twoFactor')
       } else {
-        FlowRouter.go('/')
+        FlowRouter.go('/home')
       }
     }
   }
@@ -863,7 +861,7 @@ FlowRouter.route('/signup', {
       await import ('/imports/ui/pages/signup/signup')
       BlazeLayout.render('signup')
     } else {
-      FlowRouter.go('/')
+      FlowRouter.go('/home')
     }
   }
 })
@@ -875,7 +873,7 @@ FlowRouter.route('/reset-password', {
       await import ('/imports/ui/pages/signin/signin')
       BlazeLayout.render('password_reset')
     } else {
-      FlowRouter.go('/')
+      FlowRouter.go('/home')
     }
   }
 })
