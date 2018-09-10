@@ -15,14 +15,14 @@
 			"denied": "Your application for pardon has been denied. You can't apply again!",
 			"processed": "Your application is currently being processed by moderators. Good luck!",
 			"help": "You can still access our <a href=\"/problems\">problems and questions page</a>, if you want to report something.",
-      "cheating_info": "Caught lazy answering rating questions",
+      		"cheating_info": "Caught lazy answering rating questions",
 			"bad_coin_info": "Submitted an invalid cryptocurrency",
 			"bad_wallet_info": "Submitted an invalid wallet image",
 			"comment_info": "Submitted a comment that has been flagged and deleted",
 			"redflag_info": "Submitted a red flag that has been flagged and deleted",
-      "features_info": "Submitted a feature that has been flagged and deleted",
+		    "features_info": "Submitted a feature that has been flagged and deleted",
 			"duplicate_info": "You've created multiple accounts which is not allowed."
-    },
+    	},
 		"edit": {
 			"edit": "Edit Profile",
 			"email": "Email",
@@ -57,7 +57,9 @@
 			"two_factor": "Two-factor authentication",
 			"two_factor_key": "2FA key",
 			"continue": "Continue",
-			"cancel": "Cancel"
+			"cancel": "Cancel",
+			"forgot": "Forgot password?",
+			"request_new": "Request a new one"
 		},
 		"signup": {
 			"create": "Create Account",
@@ -101,6 +103,13 @@
 			"comment_info": "Submitted a comment that has been flagged and deleted",
 			"redflag_info": "Submitted a red flag that has been flagged and deleted",
 			"features_info": "Submitted a feature that has been flagged and deleted"
+		},
+		"forgot": {
+			"reset": "Reset Password",
+			"request": "Request Password",
+			"sent": "Email Sent. Check your mailbox.",
+			"sorry": "We are sorry but something went wrong.",
+			"not_found": "User not found."
 		}
 	}
 }

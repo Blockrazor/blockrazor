@@ -53,12 +53,12 @@ Template.password_reset.events({
       Accounts.forgotPassword({ email: email }, function (err) {
         if (err) {
           if (err.message === 'User not found [403]') {
-            sAlert.error(err.message);
+            sAlert.error(TAPi18n.__('user.forgot.not_found'));
           } else {
-            sAlert.error('We are sorry but something went wrong.');
+            sAlert.error(TAPi18n.__('user.forgot.sorry'))
           }
         } else {
-          sAlert.success('Email Sent. Check your mailbox.');
+          sAlert.success(TAPi18n.__('user.forgot.sent'))
         }
       });
     }
