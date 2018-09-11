@@ -1,4 +1,26 @@
-extends: standard
+root: true
+
+env:
+  es6: true
+  browser: true
+  node: true
+  meteor: true
+
+parserOptions:
+  ecmaVersion: 6
+  sourceType: module
+  ecmaFeatures:
+    jsx: true
+
 plugins:
   - standard
   - promise
+  - meteor
+
+extends:
+  - standard
+  - plugin:meteor/recommended
+
+globals:
+  # Collections
+  MyCollection: true
