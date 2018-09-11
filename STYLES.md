@@ -4,9 +4,12 @@ The intention of this coding style guide is to provide a **minimum** number of r
 
 You may add to these guidelines by following the C4 protocol as usual. If there's a problem that frequently occurs and the simplest solution is to add a new style to these guidelines, then do it.
 
-### INDENTATION
-- Indentation is always done using spaces, tabs are never used.
-- One level of indentation is 4 characters long.
+### STYLEGUIDES
+- [JavaScript](/docs/STYLES.md)
+- [Production](/docs/PRODUCTION.md)
+- [Testing](/docs/TESTING.md)
+- [Translations](/docs/TRANSLATIONS.md)
+- [Helpers](/docs/helpers.md)
 
 ### COMMENTS
 - Code should be broken to small pieces (couple of lines each), every piece doing one simple task.
