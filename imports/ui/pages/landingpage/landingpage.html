@@ -15,7 +15,11 @@
             </p>
           </div>
           <div class="col-md-4">
-            {{> signup}}
+            {{# if loggedIn}}
+              {{> welcomeUser}}
+            {{else}}
+              {{> signup}}
+            {{/if}}
           </div>
         </div>
       </div>
@@ -85,5 +89,29 @@
         </div>
       </div>
     </section>
+  </div>
+</template>
+
+<template name="welcomeUser">
+  <div class="welcome-card">
+    <div class="title">Welcome back {{currentUser.username}}</div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        <a href="/profile">My Profile</a>
+      </li>
+      <li class="list-group-item">
+        <a href="/wallet">My Wallet</a>
+      </li>
+      <li class="list-group-item">
+        <a href="/notifications">Notifications</a>
+      </li>
+      <li class="list-group-item">
+        <a href="/bounties">Bounties</a>
+      </li>
+      <li class="list-group-item">
+        <a href="/addcoin">Add New Currency</a>
+      </li>
+    </ul>
+    <a href="/home" class="btn btn-primary">Go to Home</a>
   </div>
 </template>

@@ -16,5 +16,11 @@ Template.landingpage.helpers({
     } else {
       return '/login'
     }
+  },
+  loggedIn () {
+    if (Meteor.user()) {
+      return true
+    }
+    return false
   }
 })

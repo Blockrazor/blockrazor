@@ -1,3 +1,5 @@
+@import '../signin/signin';
+
 .landing-page{
   position: relative;
   .logo{
@@ -46,5 +48,14 @@
   
   .features-icons-item:hover .features-icons-icon i {
     transform: scale(1.2);
+  }
+}
+
+// Welcome user card
+
+.welcome-card{
+  @extend .sign-in;
+  a{
+    display: block;
   }
 }
