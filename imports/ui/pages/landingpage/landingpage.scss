@@ -1,0 +1,61 @@
+@import '../signin/signin';
+
+.landing-page{
+  position: relative;
+  .logo{
+    font-size: 40px;
+    font-weight: 600;
+  }
+  .first-part {
+    position: relative;
+    text-align: left;
+    font-size: 1.5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  // sign up page in landing
+  .sign-in{
+    padding: 30px;
+    .title{
+      font-size: 24px;
+    }
+  }
+}
+
+// Feature Section
+
+.feature-section{
+  padding: 1rem 0;
+
+  .section-title{
+    padding-bottom: 1rem;
+  }
+
+  .features-icons-item {
+    max-width: 20rem;
+  }
+
+  .features-icons-item .features-icons-icon {
+    height: 7rem;
+  }
+
+  .features-icons-item .features-icons-icon i {
+    font-size: 4.5rem;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .features-icons-item:hover .features-icons-icon i {
+    transform: scale(1.2);
+  }
+}
+
+// Welcome user card
+
+.welcome-card{
+  @extend .sign-in;
+  a{
+    display: block;
+  }
+}

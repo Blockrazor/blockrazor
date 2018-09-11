@@ -1,24 +1,55 @@
 <template name="landingpage">
-      <!-- Masthead -->
-    <header class="masthead text-white text-center">
-      <div class="overlay"></div>
+  <div class="landing-page">
+    <!-- Masthead -->
+    <header class="main-banner">
       <div class="container">
         <div class="row">
-          <div class="col-xl-9 mx-auto">
-            <h2 class="landingHeader">{{{_ "landing.info"}}}</h2>
+          <div class="col-md-6 col-md-offset-1 first-part">
+            <div class="logo">BLOCKRAZOR</div>
+            <h1>Every information about every blockchain project,<br> for everyone.</h1>
+            <p>
+              Our mission is to provide every bit of information on every blockchain projects to everyone.
+            </p>
+            <p>
+              <a href={{startUrl}} class="btn btn-primary" style="padding:15px;background: black;border:none">{{_ "landing.get_started"}}</a>
+            </p>
           </div>
-          <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-                  <a href={{startUrl}} class="btn btn-primary" style="padding:15px;background: black;border:none">{{_ "landing.get_started"}}</a>
-
+          <div class="col-md-4">
+            {{# if loggedIn}}
+              {{> welcomeUser}}
+            {{else}}
+              {{> signup}}
+            {{/if}}
           </div>
         </div>
       </div>
     </header>
 
     <!-- Icons Grid -->
-    <section class="features-icons bg-light text-center">
+    <section class="feature-section bg-light text-center">
       <div class="container">
         <div class="row">
+          <div class="col-sm-12 feature-title">
+            <h1 class="section-title">Features</h1>
+          </div>
+          <div class="col-lg-4">
+            <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+              <div class="features-icons-icon d-flex">
+                <i class="icon-social-github m-auto text-black"></i>
+              </div>
+              <h3>Open Source</h3>
+              <p class="lead mb-0">Built by community for community</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+              <div class="features-icons-icon d-flex">
+                <i class="icon-bell m-auto text-black"></i>
+              </div>
+              <h3>Instant Updates</h3>
+              <p class="lead mb-0">Get instant notifications for every transactions you make.</p>
+            </div>
+          </div>
           <div class="col-lg-4">
             <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
               <div class="features-icons-icon d-flex">
@@ -46,8 +77,41 @@
               <p class="lead mb-0">{{_ "landing.easy_info"}}!</p>
             </div>
           </div>
+          <div class="col-lg-4">
+            <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+              <div class="features-icons-icon d-flex">
+                <i class="icon-globe m-auto text-black"></i>
+              </div>
+              <h3>Multi Language</h3>
+              <p class="lead mb-0">Use on your own language.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
+  </div>
+</template>
 
-  </template>
+<template name="welcomeUser">
+  <div class="welcome-card">
+    <div class="title">Welcome back {{currentUser.username}}</div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        <a href="/profile">My Profile</a>
+      </li>
+      <li class="list-group-item">
+        <a href="/wallet">My Wallet</a>
+      </li>
+      <li class="list-group-item">
+        <a href="/notifications">Notifications</a>
+      </li>
+      <li class="list-group-item">
+        <a href="/bounties">Bounties</a>
+      </li>
+      <li class="list-group-item">
+        <a href="/addcoin">Add New Currency</a>
+      </li>
+    </ul>
+    <a href="/home" class="btn btn-primary">Go to Home</a>
+  </div>
+</template>
