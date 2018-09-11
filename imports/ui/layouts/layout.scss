@@ -76,33 +76,3 @@ header.masthead h1 {
   }
 }
 
-.landingHeader{
-    font-size: 30px;
-    font-weight: 600;
-    line-height: 66px;
-}
-
-.features-icons {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-}
-
-.features-icons .features-icons-item {
-  max-width: 20rem;
-}
-
-.features-icons .features-icons-item .features-icons-icon {
-  height: 7rem;
-}
-
-.features-icons .features-icons-item .features-icons-icon i {
-  font-size: 4.5rem;
-  //Adding transition for smooth animations
-  transition: all 0.2s ease-in-out;
-}
-
-.features-icons .features-icons-item:hover .features-icons-icon i {
-  // font-size: 5rem;
-  transform: scale(1.2);
-}
-
