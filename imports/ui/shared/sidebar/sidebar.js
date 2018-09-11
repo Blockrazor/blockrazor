@@ -29,8 +29,11 @@ Template.sidebar.helpers({
 });
 
 Template.sidebar.events({
-      'click .nav-item': function() {
-          if ($(window).width() < 400) {
+      'click .nav-item': function(event) {
+        let className = event.currentTarget.className;
+
+          //close the side menu non mobile, but not when the menu item is a parent to a drop down
+          if ($(window).width() < 400 && className !='nav-item nav-dropdown') { 
               $('body').removeClass("sidebar-lg-show")
           }
       },
