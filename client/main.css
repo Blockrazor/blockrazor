@@ -114,3 +114,9 @@ cursor: not-allowed;
           top: 5px !important;
           right: 5px !important;
 }
+
+/*requireed to ensure the sAlert box is not hidden under the header*/
+
+.s-alert-box {
+    margin-top: 30px !important;
+}
