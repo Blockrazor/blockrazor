@@ -37,10 +37,9 @@ Template.header.events({
 
         if (documentsIndex.length === 0) {
             let queryParam = { query: query }
-            let path = FlowRouter.path('/', {}, queryParam)
+            let path = FlowRouter.path('/home', {}, queryParam)
             FlowRouter.go(path)
         }
-
         //clear filter if no value in search bar
         if (query.length < 1) {
             Blaze.getView($("div.currency-container")[0])._templateInstance.searchInputFilter.set('')
@@ -56,6 +55,7 @@ Template.header.events({
     },
         'keyup #searchFilterHeader': function (event) {
         event.preventDefault();
+        FlowRouter.go('/home')
         //close the sidebar if you start typing on a mobile
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             $('body').removeClass('sidebar-lg-show')
@@ -66,7 +66,8 @@ Template.header.events({
 
         if (documentsIndex.length === 0) {
             let queryParam = { query: query }
-            let path = FlowRouter.path('/', {}, queryParam)
+            let path = FlowRouter.path('/home', {}, queryParam)
+            console.log(path)
             FlowRouter.go(path)
         }
 
@@ -74,13 +75,13 @@ Template.header.events({
         if (query.length < 1) {
             Blaze.getView($("div.currency-container")[0])._templateInstance.searchInputFilter.set('')
 
-            history.replaceState(null, '', `/`)
+            history.replaceState(null, '', `/home`)
         }
 
         if (query) {
             Blaze.getView($("div.currency-container")[0])._templateInstance.searchInputFilter.set(query)
 
-            history.replaceState(null, '', `?query=${query}`)
+            history.replaceState(null, '', `/home/?query=${query}`)
         }
     },
     'click .sidebar-toggler': function() {
