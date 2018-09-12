@@ -51,7 +51,9 @@ Template.codebase.onRendered(function() {
 Template.codebase.events({
     'error img': function(e) {
         // fires when a particular image doesn't exist in given path
-        $(e.target).attr('src','/images/noimage.png'); 
+        if ($(e.target).attr('src') !== '/images/noimage.png') {
+            $(e.target).attr('src', '/images/noimage.png')
+        }
     },
     'click #js-add': (event, templateInstance) => {
         let proofs = templateInstance.proofs.get()
