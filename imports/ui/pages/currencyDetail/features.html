@@ -57,9 +57,9 @@
   <div class="col-sm-12 currency-features">
     <div class="header" >{{_ "currency.features.features"}}</div>
     <div>
-      <div class="currencyDetailBox">
+      <div class="currencyDetailBox ">
         {{#unless reactiveVar 'showflagged'}}
-		    <div class="row commentThread">
+		    <div class="row commentThread frame">
           {{#if subsCacheReady}}
             {{#each features}}
               <div class="col-sm-12">{{> feature}}</div>

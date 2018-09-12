@@ -58,7 +58,7 @@
 		<div class="header">{{_ "currency.redflags.red_flags"}}</div>
 
 	  <div class="currencyDetailBox">
-      <div class="row commentThread">
+      <div class="row commentThread frame">
         {{#unless reactiveVar 'showredflagged'}} 
           {{#if subsCacheReady}}
             {{#each redflags}}
@@ -78,7 +78,7 @@
           {{/if}}
         {{/unless}}
       </div>
-      <div class="row commentThread">
+      <div class="row commentThread frame">
         {{#if reactiveVar 'showredflagged'}}
           {{#if subsCacheReady}}
             {{#each flaggedfeatures}}
