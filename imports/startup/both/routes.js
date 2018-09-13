@@ -371,6 +371,10 @@ FlowRouter.route('/home', {
 // landing page
 FlowRouter.route('/', {
   name: 'landing',
+  breadcrumb: {
+    text: '',
+    urls: ['']
+  },
   action: async(params, queryParams) => {
       await import ('/imports/ui/pages/landingpage/landingpage')
       BlazeLayout.render("layout", {

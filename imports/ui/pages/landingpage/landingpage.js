@@ -8,6 +8,9 @@ Template.landingpage.onRendered(function () {
   // hide breadcrumb
   $('.breadcrumb').hide()
 })
+Template.landingpage.onDestroyed(function () {
+  $('.breadcrumb').show()
+})
 
 Template.landingpage.helpers({
   startUrl () {
