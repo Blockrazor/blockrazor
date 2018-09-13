@@ -28,13 +28,13 @@
                   <th>
                     {{>typeahead typeAheadProps}}
                   </th>
-                    {{#each comparedCurrencies}}
+                  {{#each comparedCurrencies}}
                   <th scope="col">
                     <h5 style="color: {{color}}; ">
                       <a href="/currency/{{slug}}">
                         <i class="fa fa-external-link"></i>
                       </a>
-                      {{currencyName}}<sup><a href="#" class="js-delete">X</a></sup>
+                      <a href="/currency/{{slug}}" tagart="_blank">{{currencyName}}</a><sup><a href="#" class="js-delete">X</a></sup>
                     </h5>
                   </th>
                     {{/each}}
