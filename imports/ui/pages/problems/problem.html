@@ -71,7 +71,7 @@
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">{{#if problem.solved}}{{_ "problems.problem.solved"}} {{user}}{{else if isTaken}}{{_ "problems.problem.taken"}} {{user}}{{else}}{{_ "problems.problem.not_taken"}}{{/if}}</h4> {{#if isTaken}} {{#with problem}}
-            <div>{{_ "problems.problem.fork"}}: </div>
+            <div>{{_ "problems.problem.fork"}}: <a href="{{taken.additional.fork}}">{{taken.additional.fork}}</a></div>
             <div>{{_ "problems.problem.issue"}}: <a href="{{taken.additional.issue}}">{{taken.additional.issue}}</a></div>
             {{#unless solved}}
             <div>{{_ "problems.problem.time"}}: {{timeLeft}}</div>
