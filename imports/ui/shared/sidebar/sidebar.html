@@ -65,6 +65,15 @@
             <span class="badge badge-success ">{{walletNotifications}}</span>{{/if}}
           </a>
         </li>
+        {{#if isDeveloper}}
+        <li class="{{activeClass 'developers'}} nav-item ">
+          <a class="nav-link " href="/developers">{{_ "sidebar.developers"}} 
+            {{#if walletNotifications}}
+              <span class="badge badge-success ">{{pendingDevelopers}}</span>
+            {{/if}}
+          </a>
+        </li>
+        {{/if}}
         {{/if}} {{#if isModerator}}
         <li class="nav-item nav-dropdown ">
           <a href="# " class="nav-link nav-dropdown-toggle ">{{_ "sidebar.moderator.moderator"}}</a>
