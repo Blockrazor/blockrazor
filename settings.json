@@ -1,0 +1,9 @@
+{
+  // TODO : This is a sample email settings, change with actual one for testing and deployement
+  //! THIS EMAIL SETTINGS IS NOT WORKING
+  "email": {
+    "url" : "smtp.sendgrid.net:587",
+    "username": "blockrazor",
+    "password": "blockrazor123"
+  }
+}
