@@ -97,6 +97,7 @@ ostrio:cookies@2.3.0
 ostrio:flow-router-extra@3.5.0
 ostrio:logger@2.0.6
 ostrio:loggermongo@2.0.3
+pauldowman:dotenv@1.0.1
 percolate:synced-cron@1.3.2
 practicalmeteor:chai@2.1.0_1
 practicalmeteor:loglevel@1.2.0_2

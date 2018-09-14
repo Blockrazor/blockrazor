@@ -5,6 +5,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# ENV Variables
+*.env
+
 # Runtime data
 pids
 *.pid
