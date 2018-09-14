@@ -1,26 +1,40 @@
 <template name="allHashaverage">
-    <h3>{{_ "hashpower.allAvg.avg"}}</h3>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">{{_ "hashpower.allAvg.algo"}}</th>
-                <th scope="col">{{_ "hashpower.allAvg.power"}}</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#if subsCacheReady}}
-                {{#each hashaverage}}
-                    <tr>
-                        <td>{{hashAlgorithm}}</td>
-                        <td>{{average}}</td>
-                    </tr>
-                {{else}}
-                    {{> empty}}
-                {{/each}}
-            {{else}}
-                {{> loading}}
-            {{/if}}
-        </tbody>
-    </table>
-    <button class="btn btn-danger" id="js-update">{{_ "hashpower.allAvg.update"}}</button>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        {{_ "hashpower.allAvg.avg"}}
+                    </div>
+                    <div class="card-body">
+                            <table class="table table-responsive-sm table-hover table-outline mb-0 bg-white">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th scope="col">{{_ "hashpower.allAvg.algo"}}</th>
+                                            <th scope="col">{{_ "hashpower.allAvg.power"}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#if subsCacheReady}}
+                                            {{#each hashaverage}}
+                                                <tr>
+                                                    <td><strong>{{hashAlgorithm}}</strong></td>
+                                                    <td>{{average}}</td>
+                                                </tr>
+                                            {{else}}
+                                                {{> empty}}
+                                            {{/each}}
+                                        {{else}}
+                                            {{> loading}}
+                                        {{/if}}
+                                    </tbody>
+                                </table>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-danger" id="js-update">{{_ "hashpower.allAvg.update"}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
