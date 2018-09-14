@@ -21,7 +21,7 @@
 	},
 	"transactions": {
 		"total_kzr": "Total KZR moved from the main wallet:",
-		"filter": "Filter Transactions:",
+		"filter": "Filter Transactions",
 		"all": "All",
 		"top": "Top Comment",
 		"hash": "Hash Data",

@@ -2,59 +2,60 @@
     <h4>{{_ "transactions.total_kzr"}} {{total}}</h4>
 <br>
 <div class="form-check form-control" style="margin-bottom: 20px !important;">
+<h6 class="mt-2 mb-2">{{_ "transactions.filter"}}</h6>
   <div class="row">
-    <span class="form-check-item filter-bounties-label col-sm-2">
-      <h5 style="margin-bottom: 0;margin-top: 3px;">{{_ "transactions.filter"}}</h5>
-    </span>
-    <span class="form-check-item col-sm-1">
+    <span class="form-check-item col-sm-2">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input form-check-input" id="all-txn" value="all" checked>
         <label class="custom-control-label" for="all-txn">{{_ "transactions.all"}}</label>
       </div>
     </span>
-    <span class="form-check-item col-sm-1">
+    <span class="form-check-item col-sm-2">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input form-check-input" id="top-comment-txn" value="topCommentReward">
         <label class="custom-control-label" for="top-comment-txn">{{_ "transactions.top"}}</label>
       </div>
     </span>
-    <span class="form-check-item col-sm-1">
+    <span class="form-check-item col-sm-2">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input form-check-input" id="hash-data-txn" value="hashReward">
         <label class="custom-control-label" for="hash-data-txn">{{_ "transactions.hash"}}</label>
       </div>
     </span>
-    <span class="form-check-item col-sm-1">
+      </div>
+      <div class="row">
+    <span class="form-check-item col-sm-2">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input form-check-input" id="bounty-reward-txn" value="bountyReward">
         <label class="custom-control-label" for="bounty-reward-txn">{{_ "transactions.bounty"}}</label>
       </div>
     </span>
-    <span class="form-check-item col-sm-1">
+    <span class="form-check-item col-sm-2">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input form-check-input" id="problem-reward-txn" value="problemReward">
         <label class="custom-control-label" for="problem-reward-txn">{{_ "transactions.problem"}}</label>
       </div>
     </span>
-    <span class="form-check-item col-sm-1">
+    <span class="form-check-item col-sm-2">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input form-check-input" id="create-coin-txn" value="createCoinReward">
         <label class="custom-control-label" for="create-coin-txn">{{_ "transactions.coin"}}</label>
       </div>
     </span>
-    <span class="form-check-item col-sm-1">
-      <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input form-check-input" id="cheating-txn" value="cheating">
-        <label class="custom-control-label" for="cheating-txn">{{_ "transactions.cheating"}}</label>
-      </div>
-    </span>
-    <span class="form-check-item col-sm-1">
+
+    <span class="form-check-item col-sm-3">
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input form-check-input" id="answer-txn" value="anwserQuestion">
         <label class="custom-control-label" for="answer-txn">{{_ "transactions.questions"}}</label>
       </div>
     </span>
-  </div>
+        <span class="form-check-item col-sm-2">
+      <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input form-check-input" id="cheating-txn" value="cheating">
+        <label class="custom-control-label" for="cheating-txn">{{_ "transactions.cheating"}}</label>
+      </div>
+    </span>
+</div>
 </div>
     <table class="table table-hover mt-2">
         <thead>
