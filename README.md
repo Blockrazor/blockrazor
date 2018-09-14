@@ -43,13 +43,9 @@ If Meteor starts but you get a white screen:
 meteor npm install --save core-js
 ```
 
-#### Run meteor with settings
+#### Environment Variables
 
-```
-meteor --settings --settings.json
-```
-
-Change `settings.json` data with your own data for development and production
+Create `.env` file on home directory and add your variables
 
 #### Insert the database if running locally (never for production)
 While meteor is running, in a new shell from *outside* of the Blockrazor directory run:

@@ -21,14 +21,10 @@ SyncedCron.add({
 // SubsCache.subscribe('approvedcurrencies');
 // });
 
-let email = Meteor.settings.email
 Meteor.startup(() => {
 //jobs.initiate_later();
 SyncedCron.start();
 Meteor.call('convertAlgorithm', (err, data) => {})
-
-// TODO : move this information to settings file
-process.env.MAIL_URL = `smtp://${email.username}:${email.password}@${email.url}`;
 //jobs.print();
   // code to run on server at startup
 });
