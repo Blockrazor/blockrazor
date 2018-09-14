@@ -26,8 +26,10 @@
         <h4 class="modal-title" id="exampleModalLabel">{{_ "problems.comments.make"}}</h4>
         <textarea name="comment" id="comment" placeholder='{{_ "problems.comments.make"}}!' cols="10" rows="5"></textarea>
         <small class="pull-left mt-1" id="charNum"></small>
-        <button class="btn btn-primary pull-right submitNewComment">{{_ "problems.comments.submit"}}</button>
-        <h4>&nbsp;&nbsp;<i class="fa fa-question-circle help" aria-hidden="true"></i></h4>
+        <div class="submit-comment">
+          <button class="btn btn-primary pull-right submitNewComment">{{_ "problems.comments.submit"}}</button>
+          &nbsp;&nbsp;<i class="fa fa-question-circle help" aria-hidden="true"></i>
+        </div>
         <div class="hiddenRules mt-2" style="display:none">
           {{{_ "problems.comments.rules"}}}
         </div>

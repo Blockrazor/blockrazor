@@ -5,4 +5,11 @@
   #charNum{
     min-height: 20px;
   }
+  .submit-comment{
+    display: flex;
+    align-items: center;
+    i{
+      font-size: 20px;
+    }
+  }
 }
