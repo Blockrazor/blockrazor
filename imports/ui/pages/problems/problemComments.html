@@ -1,52 +1,50 @@
 <template name="problemComments">
-    <div class="modal fade" id="addCommentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{_ "problems.comments.new_comment"}}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    {{_ "problems.comments.new_for"}} {{header}}.
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">{{_ "problems.comments.dont_show"}}</button>
-                </div>
-            </div>
+  <div class="modal fade" id="addCommentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">{{_ "problems.comments.new_comment"}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
+        <div class="modal-body">
+          {{_ "problems.comments.new_for"}} {{header}}.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">{{_
+            "problems.comments.dont_show"}}</button>
+        </div>
+      </div>
     </div>
+  </div>
 
-
-    <div class="col-sm-12 problem-comments">
-<div class="card my-3 sticky" style="width:100%">
-    <div class="card card-body">
+  <div class="col-sm-12 problem-comments">
+    <div class="card my-3 sticky" style="width:100%">
+      <div class="card card-body comment-box">
         <h4 class="modal-title" id="exampleModalLabel">{{_ "problems.comments.make"}}</h4>
-        <div class="input-group">
-            <input id="comment" style="width:60%;" placeholder='{{_ "problems.comments.make"}}!' maxlength="500" minlength="10" class="form-control">
-            <button class="btn btn-primary pull-right submitNewComment">{{_ "problems.comments.submit"}}</button>
-            <h4>&nbsp;&nbsp;<i class="fa fa-question-circle help" aria-hidden="true"></i></h4>
-        </div>
+        <textarea name="comment" id="comment" placeholder='{{_ "problems.comments.make"}}!' cols="10" rows="5"></textarea>
         <small class="pull-left mt-1" id="charNum"></small>
+        <div class="submit-comment">
+          <button class="btn btn-primary pull-right submitNewComment">{{_ "problems.comments.submit"}}</button>
+          &nbsp;&nbsp;<i class="fa fa-question-circle help" aria-hidden="true"></i>
+        </div>
         <div class="hiddenRules mt-2" style="display:none">
-            {{{_ "problems.comments.rules"}}}
+          {{{_ "problems.comments.rules"}}}
         </div>
+      </div>
     </div>
-</div>
-        <div class="row">
-
-            <div class="col-sm-12">
-                
-                {{#if subsCacheReady}}
-                    {{#each problemComments}}
-                    {{> problemComment}}
-                    {{/each}}
-                {{else}}
-                    {{> loading}}
-                {{/if}}
-                
-            </div>
-        </div>
+    <div class="row">
+      <div class="col-sm-12">
+        {{#if subsCacheReady}}
+        {{#each problemComments}}
+        {{> problemComment}}
+        {{/each}}
+        {{else}}
+        {{> loading}}
+        {{/if}}
+      </div>
     </div>
+  </div>
 </template>

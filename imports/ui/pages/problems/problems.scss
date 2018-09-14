@@ -1,0 +1,15 @@
+.comment-box{
+  .btn{
+    max-width: 200px;
+  }
+  #charNum{
+    min-height: 20px;
+  }
+  .submit-comment{
+    display: flex;
+    align-items: center;
+    i{
+      font-size: 20px;
+    }
+  }
+}

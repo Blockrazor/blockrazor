@@ -4,9 +4,9 @@ import { Problems } from '/imports/api/indexDB'
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra'
 import Cookies from 'js-cookie'
 
-
 import './problemComments.html'
 import './problemComment'
+import './problems.scss'
 
 Template.problemComments.onCreated(function() {
     this.autorun(() => {
