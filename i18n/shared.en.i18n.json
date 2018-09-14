@@ -24,7 +24,8 @@
 		"compare_currencies": "Compare currencies",
 		"add_new_coin_ico": "Add New Coin or ICO",
 		"bounties": "Bounties",
-		"help": "Get Help",
+    "help": "Get Help",
+    "faq" : "FAQs",
 		"krazor": {
 			"home": "Krazor Home",
 			"trade": "Trade Krazor",

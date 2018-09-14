@@ -23,7 +23,8 @@
 		"compare_currencies": "Uporedi kriptovalute",
 		"add_new_coin_ico": "Dodaj novu kriptovalutu ili ICO",
 		"bounties": "Nagrade",
-		"help": "Pomoć",
+    "help": "Pomoć",
+    "faq" : "Pitanja",
 		"krazor": {
 			"home": "Krazor početna",
 			"trade": "Menjaj Krazor",
