@@ -16,6 +16,7 @@ Template.sidebar.helpers({
     walletNotifications() {
         return Wallet.find({ owner: Meteor.userId(), type: "transaction", read: { $ne: true } }).count()
     },
+    pendingDevelopers: () => Developers.find({ processed: false }).count(),
     balance() {
         let balance = UserData.findOne({}, { fields: { balance: 1 } }).balance
         if (typeof(balance) === 'string') { return balance }
