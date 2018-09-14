@@ -1,40 +1,64 @@
 <template name="allHashpower">
-    <h3>{{_ "hashpower.all.data"}}</h3>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">{{_ "hashpower.all.image"}}</th>
-                <th scope="col">{{_ "hashpower.all.user"}}</th>
-                <th scope="col">{{_ "hashpower.all.hw_category"}}</th>
-                <th scope="col">{{_ "hashpower.all.hw_device"}}</th>
-                <th scope="col">{{_ "hashpower.all.algo"}}</th>
-                <th scope="col">{{_ "hashpower.all.rate"}}</th>
-                <th scope="col">{{_ "hashpower.all.power"}}</th>
-                <th scope="col">{{_ "hashpower.all.flag"}}</th>
-                <th scope="col">{{_ "hashpower.all.delete"}}?</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#if subsCacheReady}}
-                {{#each hashpower}}
-                    <tr>
-                        <td><img src="{{image}}" style="height: 40px;" /></td>
-                        <td>{{createdByUsername}}</td>
-                        <td>{{hashCategory}}</td>
-                        <td>{{hashDevice}}</td>
-                        <td>{{hashAlgorithm}}</td>
-                        <td>{{hashRate}} {{unit}}</td>
-                        <td>{{powerConsumption}} W</td>
-                        <td>{{#if canFlag}}<a href="#" class="js-flag">+</a>{{else}}-{{/if}}<span style="display: {{showFlagReason}}"><input type="text" id="js-flag-reason-{{_id}}" placeholder='{{_ "hashpower.all.reason"}}' /><button class="js-flag-cont">{{_ "hashpower.all.submit"}}</button></span></td>
-                        <td>{{#if canDelete}}<a href="#" class="js-delete">X</a>{{else}}-{{/if}}</td>
-                    </tr>
-                {{else}}
-                    {{> empty}}
-                {{/each}}
-            {{else}}
-                {{> loading}}
-            {{/if}}
-        </tbody>
-    </table>
-    <a href="/add-hashpower">{{_ "hashpower.all.add_new"}}</a> <a href="/avg-hashpower">{{_ "hashpower.all.avg"}}</a> {{#if isModerator}}<a href="moderator/flagged-hashpower">{{_ "hashpower.all.flagged"}}</a>{{/if}}
+    <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    <div class="pull-right">
+                            <a href="/add-hashpower" class="btn btn-outline-dark">{{_ "hashpower.all.add_new"}}</a> 
+                            <a href="/avg-hashpower" class="btn btn-outline-dark">{{_ "hashpower.all.avg"}}</a> 
+                            {{#if isModerator}}
+                                <a href="moderator/flagged-hashpower" class="btn btn-outline-dark">{{_ "hashpower.all.flagged"}}</a>
+                            {{/if}}
+                    </div>        
+                </div>
+            </div>
+            <br>
+            
+            <table class="table table-responsive-sm table-hover table-outline mb-0 bg-white">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">{{_ "hashpower.all.image"}}</th>
+                            <th scope="col">{{_ "hashpower.all.user"}}</th>
+                            <th scope="col">{{_ "hashpower.all.hw_category"}}</th>
+                            <th scope="col">{{_ "hashpower.all.hw_device"}}</th>
+                            <th scope="col">{{_ "hashpower.all.algo"}}</th>
+                            <th scope="col">{{_ "hashpower.all.rate"}}</th>
+                            <th scope="col">{{_ "hashpower.all.power"}}</th>
+                            <th scope="col">{{_ "hashpower.all.flag"}}</th>
+                            <th scope="col">{{_ "hashpower.all.delete"}}?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#if subsCacheReady}}
+                            {{#each hashpower}}
+                                <tr>
+                                    <td><img src="{{image}}" style="height: 40px;" /></td>
+                                    <td>{{createdByUsername}}</td>
+                                    <td>{{hashCategory}}</td>
+                                    <td>{{hashDevice}}</td>
+                                    <td>{{hashAlgorithm}}</td>
+                                    <td>{{hashRate}} {{unit}}</td>
+                                    <td>{{powerConsumption}} W</td>
+                                    <td>
+                                        {{#if canFlag}}
+                                            <a href="#" class="js-flag"><i class="icon-flag text-warning"></i></a>
+                                        {{else}}
+                                            -
+                                        {{/if}}
+
+                                        <span style="display: {{showFlagReason}}">
+                                            <input type="text" id="js-flag-reason-{{_id}}" placeholder='{{_ "hashpower.all.reason"}}' class="form-control"/>
+                                            <button class=" btn-primary js-flag-contbtn">{{_ "hashpower.all.submit"}}</button>
+                                        </span>
+                                    </td>
+                                    <td>{{#if canDelete}}<a href="#" class="js-delete"><i class="icon-trash text-danger"></i></a>{{else}}-{{/if}}</td>
+                                </tr>
+                            {{else}}
+                                {{> empty}}
+                            {{/each}}
+                        {{else}}
+                            {{> loading}}
+                        {{/if}}
+                    </tbody>
+                </table>
+    </div>
 </template>
