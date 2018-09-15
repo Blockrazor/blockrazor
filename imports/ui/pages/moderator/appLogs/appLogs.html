@@ -1,93 +1,97 @@
 <template name="appLogs">
-    {{#if isModerator}}
-    <br>
-    <div class="form-check form-control" style="margin-bottom: 20px !important;">
-        <div class="row">
-            <span class="form-check-item filter-bounties-label col-sm-2">
-                <h5 style="margin-bottom: 0;margin-top: 3px;">{{_ "moderator.appLogs.filter"}}</h5>
-            </span>
-            
-            <span class="form-check-item col-sm-2">
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input form-check-input" id="all-logs" value="ALL">
-                    <label class="custom-control-label" for="all-logs">{{_ "moderator.appLogs.all"}}</label>
-                </div>
-            </span>
-            
-            <span class="form-check-item col-sm-2">
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input form-check-input" id="info-logs" value="INFO">
-                    <label class="custom-control-label" for="info-logs">{{_ "moderator.appLogs.info"}}</label>
-                </div>
-            </span>
-            
-            <span class="form-check-item col-sm-2">
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input form-check-input" id="warn-logs" value="WARN">
-                    <label class="custom-control-label" for="warn-logs">{{_ "moderator.appLogs.warn"}}</label>
-                </div>
-            </span>
-            
-            <span class="form-check-item col-sm-2">
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input form-check-input" id="error-logs" value="ERROR">
-                    <label class="custom-control-label" for="error-logs">{{_ "moderator.appLogs.error"}}</label>
-                </div>
-            </span>
-        </div>
-    </div>
-
-    <div id="logsFilterContainer" class="container">
-        <form id="logsFilter" name="logsFilter">
-            <div class="row form-items">
-                <div class="col-12 form-group" style="padding: 0">
-                    <div class="input-group mb-3">
-                        <input id="js-search" name="searchInput" type="text" class="form-control" placeholder='{{_ "moderator.appLogs.search"}}' aria-label="" aria-describedby="basic-addon1">
+    <div class="container-fluid">
+            {{#if isModerator}}
+            <div class="bg-white" style="margin-bottom: 20px !important; padding: 0.3rem; border-radius: 0.2rem;">
+                    <div class="row">
+                        <span class="form-check-item filter-bounties-label col-sm-2">
+                            <h5 style="margin-bottom: 0;margin-top: 3px;">{{_ "moderator.appLogs.filter"}}</h5>
+                        </span>
+                        
+                        <span class="form-check-item col-sm-2">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input form-check-input" id="all-logs" value="ALL">
+                                <label class="custom-control-label" for="all-logs">{{_ "moderator.appLogs.all"}}</label>
+                            </div>
+                        </span>
+                        
+                        <span class="form-check-item col-sm-2">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input form-check-input" id="info-logs" value="INFO">
+                                <label class="custom-control-label" for="info-logs">{{_ "moderator.appLogs.info"}}</label>
+                            </div>
+                        </span>
+                        
+                        <span class="form-check-item col-sm-2">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input form-check-input" id="warn-logs" value="WARN">
+                                <label class="custom-control-label" for="warn-logs">{{_ "moderator.appLogs.warn"}}</label>
+                            </div>
+                        </span>
+                        
+                        <span class="form-check-item col-sm-2">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input form-check-input" id="error-logs" value="ERROR">
+                                <label class="custom-control-label" for="error-logs">{{_ "moderator.appLogs.error"}}</label>
+                            </div>
+                        </span>
                     </div>
                 </div>
-                <div class="found-result">
-                    {{#if filterCount}} {{_ "moderator.appLogs.found_results" filterCount}} {{/if}}
+                
+                <div class="row">
+                    <div class="col-sm-12">
+                            <div id="logsFilterContainer">
+                                    <form id="logsFilter" name="logsFilter">
+                                        <div class="form-items">
+                                            <div class="col-12 form-group" style="padding: 0">
+                                                <div>
+                                                    <input id="js-search" name="searchInput" type="text" class="form-control" placeholder='{{_ "moderator.appLogs.search"}}' aria-label="" aria-describedby="basic-addon1">
+                                                </div>
+                                            </div>
+                                            <div class="found-result">
+                                                {{#if filterCount}} {{_ "moderator.appLogs.found_results" filterCount}} {{/if}}
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                    </div>
                 </div>
-            </div>
-        </form>
+                
+                
+                <div class="row">
+                    <div class="col-sm-12">
+                                <table class="table table-responsive-sm table-hover table-outline mb-0 bg-white">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th scope="col">{{_ "moderator.appLogs.level"}}</th>
+                                            <th scope="col">{{_ "moderator.appLogs.date"}}</th>
+                                            <th scope="col">{{_ "moderator.appLogs.user"}}</th>
+                                            <th scope="col">{{_ "moderator.appLogs.message"}}</th>
+                                            <th scope="col">{{_ "moderator.appLogs.additional"}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each applogs}}
+                                        <tr>
+                                            <td style="color: {{levelColor}}">{{level}}</td>
+                                            <td>{{date}}</td>
+                                            <td>{{user}}</td>
+                                            <td>{{message}}</td>
+                                            <td>{{additionalInfo}}</td>
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                                {{#if loadMore applogs}}
+                                    <button id="js-more" class="btn btn-action" style="width: 100%">{{_ "moderator.appLogs.more"}}?</button>
+                                {{ else }}
+                                    {{_ "moderator.appLogs.no_results"}}
+                                {{/if}}
+                            
+                    </div>
+                </div>
+                {{else}}
+                <h1>{{_ "moderator.mod_only"}}</h1>
+                {{/if}}
     </div>
     
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="card">
-                <div class="card-body" style="padding: 0 1rem;">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">{{_ "moderator.appLogs.level"}}</th>
-                                <th scope="col">{{_ "moderator.appLogs.date"}}</th>
-                                <th scope="col">{{_ "moderator.appLogs.user"}}</th>
-                                <th scope="col">{{_ "moderator.appLogs.message"}}</th>
-                                <th scope="col">{{_ "moderator.appLogs.additional"}}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{#each applogs}}
-                            <tr>
-                                <td style="color: {{levelColor}}">{{level}}</td>
-                                <td>{{date}}</td>
-                                <td>{{user}}</td>
-                                <td>{{message}}</td>
-                                <td>{{additionalInfo}}</td>
-                            </tr>
-                            {{/each}}
-                        </tbody>
-                    </table>
-                    {{#if loadMore applogs}}
-                        <button id="js-more" class="btn btn-action" style="width: 100%">{{_ "moderator.appLogs.more"}}?</button>
-                    {{ else }}
-                        {{_ "moderator.appLogs.no_results"}}
-                    {{/if}}
-                </div>
-            </div>
-        </div>
-    </div>
-    {{else}}
-    <h1>{{_ "moderator.mod_only"}}</h1>
-    {{/if}}
 </template>
