@@ -1,64 +1,69 @@
 <template name="transactions">
-    <h4>{{_ "transactions.total_kzr"}} {{total}}</h4>
-<br>
-<div class="form-check form-control" style="margin-bottom: 20px !important;">
-<h6 class="mt-2 mb-2">{{_ "transactions.filter"}}</h6>
-  <div class="row">
-    <span class="form-check-item col-sm-2">
-      <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input form-check-input" id="all-txn" value="all" checked>
-        <label class="custom-control-label" for="all-txn">{{_ "transactions.all"}}</label>
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header">{{_ "transactions.total_kzr"}} {{total}}</div>
+      <div class="card-body">
+          <div>
+              <h6 class="mt-2 mb-2">{{_ "transactions.filter"}}</h6>
+                <div class="row">
+                  <span class="form-check-item col-sm-2">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input form-check-input" id="all-txn" value="all" checked>
+                      <label class="custom-control-label" for="all-txn">{{_ "transactions.all"}}</label>
+                    </div>
+                  </span>
+                  <span class="form-check-item col-sm-2">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input form-check-input" id="top-comment-txn" value="topCommentReward">
+                      <label class="custom-control-label" for="top-comment-txn">{{_ "transactions.top"}}</label>
+                    </div>
+                  </span>
+                  <span class="form-check-item col-sm-2">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input form-check-input" id="hash-data-txn" value="hashReward">
+                      <label class="custom-control-label" for="hash-data-txn">{{_ "transactions.hash"}}</label>
+                    </div>
+                  </span>
+                    </div>
+                    <div class="row">
+                  <span class="form-check-item col-sm-2">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input form-check-input" id="bounty-reward-txn" value="bountyReward">
+                      <label class="custom-control-label" for="bounty-reward-txn">{{_ "transactions.bounty"}}</label>
+                    </div>
+                  </span>
+                  <span class="form-check-item col-sm-2">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input form-check-input" id="problem-reward-txn" value="problemReward">
+                      <label class="custom-control-label" for="problem-reward-txn">{{_ "transactions.problem"}}</label>
+                    </div>
+                  </span>
+                  <span class="form-check-item col-sm-2">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input form-check-input" id="create-coin-txn" value="createCoinReward">
+                      <label class="custom-control-label" for="create-coin-txn">{{_ "transactions.coin"}}</label>
+                    </div>
+                  </span>
+              
+                  <span class="form-check-item col-sm-3">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input form-check-input" id="answer-txn" value="anwserQuestion">
+                      <label class="custom-control-label" for="answer-txn">{{_ "transactions.questions"}}</label>
+                    </div>
+                  </span>
+                      <span class="form-check-item col-sm-2">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input form-check-input" id="cheating-txn" value="cheating">
+                      <label class="custom-control-label" for="cheating-txn">{{_ "transactions.cheating"}}</label>
+                    </div>
+                  </span>
+              </div>
+              </div>
       </div>
-    </span>
-    <span class="form-check-item col-sm-2">
-      <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input form-check-input" id="top-comment-txn" value="topCommentReward">
-        <label class="custom-control-label" for="top-comment-txn">{{_ "transactions.top"}}</label>
-      </div>
-    </span>
-    <span class="form-check-item col-sm-2">
-      <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input form-check-input" id="hash-data-txn" value="hashReward">
-        <label class="custom-control-label" for="hash-data-txn">{{_ "transactions.hash"}}</label>
-      </div>
-    </span>
-      </div>
-      <div class="row">
-    <span class="form-check-item col-sm-2">
-      <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input form-check-input" id="bounty-reward-txn" value="bountyReward">
-        <label class="custom-control-label" for="bounty-reward-txn">{{_ "transactions.bounty"}}</label>
-      </div>
-    </span>
-    <span class="form-check-item col-sm-2">
-      <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input form-check-input" id="problem-reward-txn" value="problemReward">
-        <label class="custom-control-label" for="problem-reward-txn">{{_ "transactions.problem"}}</label>
-      </div>
-    </span>
-    <span class="form-check-item col-sm-2">
-      <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input form-check-input" id="create-coin-txn" value="createCoinReward">
-        <label class="custom-control-label" for="create-coin-txn">{{_ "transactions.coin"}}</label>
-      </div>
-    </span>
+    </div>
 
-    <span class="form-check-item col-sm-3">
-      <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input form-check-input" id="answer-txn" value="anwserQuestion">
-        <label class="custom-control-label" for="answer-txn">{{_ "transactions.questions"}}</label>
-      </div>
-    </span>
-        <span class="form-check-item col-sm-2">
-      <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input form-check-input" id="cheating-txn" value="cheating">
-        <label class="custom-control-label" for="cheating-txn">{{_ "transactions.cheating"}}</label>
-      </div>
-    </span>
-</div>
-</div>
-    <table class="table table-hover mt-2">
-        <thead>
+    <table class="table table-responsive-sm table-hover table-outline mb-0 bg-white">
+        <thead class="thead-light">
             <tr scope="row" class="table-light">
                 <th scope="col">{{_ "transactions.from"}}</th>
                 <th scope="col">{{_ "transactions.to"}}</th>
@@ -85,11 +90,31 @@
             {{/if}}
         </tbody>
     </table>
-    <span style="display: flex; align-items: center;justify-content: center;"><a class="btn" href="/transactions/1">|&lt;</a>
-    <a class="btn" href="/transactions/{{prevPage}}">&lt;&lt;</a>
-    {{#each pages}}
-        <a href="/transactions/{{this}}" class="btn {{pageClass}}">{{this}}</a>
-    {{/each}}
-    <a class="btn" href="/transactions/{{nextPage}}">&gt;&gt;</a>
-    <a class="btn" href="/transactions/{{lastPage}}">&gt;|</a></span><br />
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="mt-3" style="display: flex; align-items: center;justify-content: center;">
+          <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link" href="/transactions/1">|&lt;</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="/transactions/{{prevPage}}">Prev</a>
+            </li>
+            {{#each pages}}
+            <li class="page-item {{activePage this}}">
+              <a class="page-link" href="/transactions/{{this}}">{{this}}</a>
+            </li>
+            {{/each}}
+            <li class="page-item">
+              <a class="page-link" href="/transactions/{{nextPage}}">Next</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="/transactions/{{lastPage}}">&gt;|</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
