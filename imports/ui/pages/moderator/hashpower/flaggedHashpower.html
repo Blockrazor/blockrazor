@@ -1,41 +1,81 @@
 <template name="flaggedHashpower">
     {{#if isModerator}}
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">{{_ "moderator.hashpower.image"}}</th>
-                <th scope="col">{{_ "moderator.hashpower.category"}}</th>
-                <th scope="col">{{_ "moderator.hashpower.device"}}</th>
-                <th scope="col">{{_ "moderator.hashpower.algorithm"}}</th>
-                <th scope="col">{{_ "moderator.hashpower.rate"}}</th>
-                <th scope="col">{{_ "moderator.hashpower.power"}}</th>
-                <th scope="col"># {{_ "moderator.hashpower.flags"}}</th>
-                <th scope="col">{{_ "moderator.hashpower.reason"}}</th>
-                <th scope="col">{{_ "moderator.hashpower.upvotes"}}</th>
-                <th scope="col">{{_ "moderator.hashpower.downvotes"}}</th>
-                <th scope="col">{{_ "moderator.hashpower.vote"}}</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each hashpower}}
-            <tr>
-                <td><img src="{{image}}" style="height: 40px;" /></td>
-                <td>{{hashCategory}}</td>
-                <td>{{hashDevice}}</td>
-                <td>{{hashAlgorithm}}</td>
-                <td>{{hashRate}} {{unit}}</td>
-                <td>{{powerConsumption}} W</td>
-                <td>{{flags.length}}</td>
-                <td>{{#each flags}}{{reason}}<br />{{/each}}</td>
-                <td>{{upvotes}}</td>
-                <td>{{downvotes}}</td>
-                <td>{{#if voted}}-{{else}}<button class="js-vote btn btn-default notVoted" data-vote="voteUp"><i class="fa fa-arrow-up"></i></button> <button class="js-vote btn btn-default notVoted" data-vote="voteDown"><i class="fa fa-arrow-down"></i></button>{{/if}}</td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="pull-right">
+                    <a href="/hashpower" class="btn btn-outline-primary">{{_ "moderator.hashpower.back"}}</a>
+                </div>
+                <br><br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                {{#with flaggedHashpower}}
+                <div class="card">
+                    <div class="card-header">
+                        <a id="skipChange" href class="pull-right text-warning">{{_ "moderator.changedCurrencies.skip"}} <i class="fa fa-step-forward"></i></a>
+                        Flagged Hashpower
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <img src="{{image}}" style="height: 40px;" />
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col">
+                                        <dl>
+                                            <dt>{{_ "moderator.hashpower.category"}}</dt>
+                                            <dd>{{hashCategory}}</dd>
+                                            <dt>{{_ "moderator.hashpower.device"}}</dt>
+                                            <dd>{{hashDevice}}</dd>
+                                            <dt>{{_ "moderator.hashpower.algorithm"}}</dt>
+                                            <dd>{{hashAlgorithm}}</dd>
+                                            
+                                        </dl>
+                                    </div>
+                                    <div class="col">
+                                        <dl>
+                                            <dt>{{_ "moderator.hashpower.rate"}}</dt>
+                                            <dd>{{hashRate}} {{unit}}</dd>
+                                            <dt>{{_ "moderator.hashpower.power"}}</dt>
+                                            <dd>{{powerConsumption}} W</dd>
+                                            <dt>{{_ "moderator.hashpower.flags"}}</dt>
+                                            <dd>{{flags.length}}</dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col">
+                                        <dl>
+                                            <dt>{{_ "moderator.hashpower.reason"}}</dt>
+                                            <dd>
+                                                <ul>
+                                                    {{#each flags}} <li>{{reason}}</li> {{/each}}
+                                                </ul>
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="pull-right">
+                            {{upvotes}} <button class="js-vote btn btn-primary notVoted" data-vote="voteUp" disabled="{{voted}}"><i class="fa fa-arrow-up"></i></button> 
+                            &nbsp;&nbsp;
+                            {{downvotes}} <button class="js-vote btn btn-primary notVoted" data-vote="voteDown" disabled="{{voted}}"><i class="fa fa-arrow-down"></i></button>
+                        </div>
+                    </div>
+                </div>
+                {{/with}}
+            </div>
+        </div>
+    </div>
     {{else}}
     <h1>{{_ "moderator.mod_only"}}</h1>
     {{/if}}
-    <a href="/hashpower">{{_ "moderator.hashpower.back"}}</a>
+    
 </template>
