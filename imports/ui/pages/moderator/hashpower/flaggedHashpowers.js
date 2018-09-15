@@ -2,28 +2,9 @@ import { Template } from 'meteor/templating';
 import { HashHardware, HashPower, HashAlgorithm, HashUnits } from '/imports/api/indexDB.js'
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 
-import './flaggedHashpower.html'
+import './flaggedHashpowers.html'
 
-var nextFlaggedHashpower = function () {
-    var currentId = FlowRouter.getParam('id');
-    var sample = _.sample(HashPower.find({ 
-		'_id' : { $ne : currentId }, 
-		'flags.0': { $exists: true },
-		"createdBy" : { $ne : Meteor.userId() },
-		
-    }).fetch());
-
-    setTimeout(function () {
-        if (sample === undefined) {
-            FlowRouter.go('/moderator/flagged-hashpower');    
-        } else {
-            FlowRouter.go('/moderator/flagged-hashpower/' + sample._id);    
-        }
-        
-    }, 300);
-};
-
-Template.flaggedHashpower.onCreated(function() {
+Template.flaggedHashpowers.onCreated(function() {
 	this.autorun(() => {
 		SubsCache.subscribe('flaggedhashpower')
 		SubsCache.subscribe('hashhardware')
@@ -34,9 +15,16 @@ Template.flaggedHashpower.onCreated(function() {
 	this.flags = new ReactiveVar([])
 })
 
-Template.flaggedHashpower.helpers({
-	flaggedHashpower() {
-        return HashPower.findOne({ _id: FlowRouter.getParam('id') });
+Template.flaggedHashpowers.helpers({
+    nextFlaggedHashpower (flagged) {
+        FlowRouter.go('/moderator/flagged-hashpower/' + flagged._id);
+    },
+    flagged () {
+        return _.sample(HashPower.find({
+            'flags.0': { // if array has more than 0 elements
+                 $exists: true
+             }
+        }).fetch());
     },
 	hashpower: () => HashPower.find({
 		'flags.0': { // if array has more than 0 elements
@@ -76,7 +64,7 @@ Template.flaggedHashpower.helpers({
 	}
 })
 
-Template.flaggedHashpower.events({
+Template.flaggedHashpowers.events({
 	'click .js-vote': function(event, templateInstance) {
         let type = $(event.currentTarget).data('vote')
 
@@ -91,8 +79,5 @@ Template.flaggedHashpower.events({
             	sAlert.success(TAPi18n.__('moderator.hashpower.deleted'))
             }
         })
-	},
-	'click #skipChange': function (e) {
-        nextFlaggedHashpower();
     }
 })

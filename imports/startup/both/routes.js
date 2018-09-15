@@ -1116,10 +1116,56 @@ adminRoutes.route('/flagged-ip/:ip', {
   }
 })
 
+// adminRoutes.route('/flagged-hashpower', {
+//   name: 'flagged-hashpower',
+//   breadcrumb: {
+//     text: 'moderator / flagged_hashpower',
+//     urls: ['/moderator']
+//   },
+//   subscriptions: function () {
+//     this.register('flaggedhashpower', FastRenderer.subscribe('flaggedhashpower'));
+//     this.register('hashhardware', FastRenderer.subscribe('hashhardware'));
+//     this.register('hashalgorithm', FastRenderer.subscribe('hashalgorithm'));
+//     this.register('hashunits', FastRenderer.subscribe('hashunits'));
+//   },
+//   action: async (params, queryParams) => {
+//     await import ('/imports/ui/pages/moderator/hashpower/flaggedHashpower')
+//     BlazeLayout.render('layout', {
+//       main: 'flaggedHashpower',
+//       header: "header",
+//       sidebar: 'sidebar',
+//       footer: "footer",
+//     })
+//   }
+// })
+
 adminRoutes.route('/flagged-hashpower', {
   name: 'flagged-hashpower',
   breadcrumb: {
     text: 'moderator / flagged_hashpower',
+    urls: ['/moderator']
+  },
+  subscriptions: function () {
+    this.register('flaggedhashpower', FastRenderer.subscribe('flaggedhashpower'));
+    this.register('hashhardware', FastRenderer.subscribe('hashhardware'));
+    this.register('hashalgorithm', FastRenderer.subscribe('hashalgorithm'));
+    this.register('hashunits', FastRenderer.subscribe('hashunits'));
+  },
+  action: async (params, queryParams) => {
+    await import ('/imports/ui/pages/moderator/hashpower/flaggedHashpowers')
+    BlazeLayout.render('layout', {
+      main: 'flaggedHashpowers',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
+    })
+  }
+})
+
+adminRoutes.route('/flagged-hashpower/:id', {
+  name: 'flagged-hashpower-item',
+  breadcrumb: {
+    text: 'moderator / flagged_hashpower / flagged',
     urls: ['/moderator']
   },
   subscriptions: function () {
