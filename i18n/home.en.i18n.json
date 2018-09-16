@@ -13,11 +13,12 @@
 		"apply_filter": "Apply Filter",
 		"found_results": "Found %s results",
 		"loading_results": "Loading count of results",
-		"users_online": "Users online: %s/%s",
-		"new_users": "New users in the last month: %s",
+		"users_online": "Users Online",
+		"new_users": "New users in the last month",
 		"ico_or_coin": "Put your ICO or coin here",
 		"top_bid": "top bid",
-		"end_results": "End of results"
+		"end_results": "End of results",
+		"total_currencies": "Total Currencies"
 	},
 	"landing": {
 		"info": "Absolutely <strong>all</strong> information about <strong>every</strong> blockchain project in a comparison tool that <strong>anyone</strong> can understand.",

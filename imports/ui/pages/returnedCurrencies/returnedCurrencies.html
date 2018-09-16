@@ -71,17 +71,46 @@
     </div>
   </div>
 </div>
-  <div class="search-bar">
+<!--   
+TO DO: Should only really display this when a search has been made
+<div class="search-bar">
     <div class="found-result">
       {{#if reactiveVar 'countReady'}}
         {{_ "home.found_results" (reactiveVar 'count')}};
       {{else}}
         {{_ "home.loading_results"}};
       {{/if}}
-       {{_ "home.users_online" onlineUsers createdUsers}};
-       {{_ "home.new_users" signedUp}}
     </div>
-  </div>
+  </div> -->
+
+    <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-4">
+                <div class="callout callout-info">
+                    <small class="text-muted">{{_ "home.total_currencies" }}</small>
+                    <br>
+                    <strong class="h4">{{createdUsers}}</strong>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="callout callout-info">
+                    <small class="text-muted">{{_ "home.users_online" }}</small>
+                    <br>
+                    <strong class="h4">{{onlineUsers}}</strong>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="callout callout-danger">
+                    <small class="text-muted">{{_ "home.new_users"}}</small>
+                    <br>
+                    <strong class="h4">{{signedUp}}</strong>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
   <div class="currency-container">
     <div class="match-results">
       {{#if noFeatured}}
