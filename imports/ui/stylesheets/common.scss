@@ -29,3 +29,11 @@ body {
     }
   }
 }
+
+.breadcrumb {
+  li.breadcrumb-item {
+    a {
+      text-transform: capitalize;
+    }
+  }
+}
