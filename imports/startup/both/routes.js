@@ -698,8 +698,9 @@ FlowRouter.route('/addcoin', {
 FlowRouter.route('/currency/:slug', {
   name: 'CurrencyDetail',
   breadcrumb: {
-    text: 'home / currency',
-    urls: ['/home']
+    text: 'home / currency / slug',
+    urls: ['/home'],
+    param: 'slug'
   },
   subscriptions: function (param) {
     this.register('approvedcurrency', FastRenderer.subscribe('approvedcurrency', param.slug));
@@ -789,7 +790,8 @@ FlowRouter.route('/wallet', {
 FlowRouter.route('/wallet/:currency', {
   breadcrumb: {
     text: 'home / my_wallet / currency',
-    urls: ['/home', '/wallet']
+    urls: ['/home', '/wallet'],
+    param: 'currency'
   },
   subscriptions: function () {
     this.register('wallet', FastRenderer.subscribe('wallet'));
