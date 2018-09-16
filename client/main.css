@@ -48,6 +48,7 @@
 
 html,
 body {
+  overflow-y: scroll; 
     font-family: "Whitney SSm", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
