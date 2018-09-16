@@ -325,6 +325,7 @@ Template.returnedCurrencies.helpers({
     let connectionUsers = ((UsersStats.findOne("connected") || {}).userIds || []).length;
     return connectionUsers ? connectionUsers : 0;
   },
+  totalUsers: () => Meteor.users.find({}).count() || 0,
   createdUsers() {
     return Currencies.findLocal({}).count();
   },
