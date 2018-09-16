@@ -1,30 +1,34 @@
 <template name="flaggedUsers">
-    {{#if isModerator}}
-    <table class="table table-hover mt-2">
-        <thead>
-            <tr scope="row" class="table-light">
-                <th scope="col">{{_ "moderator.flaggedUsers.ip"}}</th>
-                <th scope="col">{{_ "moderator.flaggedUsers.count"}}</th>
-                <th scope="col">{{_ "moderator.flaggedUsers.last_access"}}</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#if subsCacheReady}}
-                {{#each ipAddresses}}
-                    <tr scope="row" class="table-light">
-                        <td><a href="/moderator/flagged-ip/{{ip}}">{{ip}}</a></td>
-                        <td>{{users}}</td>
-                        <td>{{lastAccess}}</td>
-                    </tr>
+    
+    <div class="container-fluid">
+            {{#if isModerator}}
+            <table class="table table-responsive-sm table-hover table-outline mb-0 bg-white">
+                    <thead class="thead-light">
+                        <tr scope="row" class="table-light">
+                            <th scope="col">{{_ "moderator.flaggedUsers.ip"}}</th>
+                            <th scope="col">{{_ "moderator.flaggedUsers.count"}}</th>
+                            <th scope="col">{{_ "moderator.flaggedUsers.last_access"}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#if subsCacheReady}}
+                            {{#each ipAddresses}}
+                                <tr scope="row" class="table-light">
+                                    <td><a href="/moderator/flagged-ip/{{ip}}">{{ip}}</a></td>
+                                    <td>{{users}}</td>
+                                    <td>{{lastAccess}}</td>
+                                </tr>
+                            {{else}}
+                                {{> empty}}
+                            {{/each}}
+                        {{else}}
+                            {{> loading}}
+                        {{/if}}
+                    </tbody>
+                </table>
                 {{else}}
-                    {{> empty}}
-                {{/each}}
-            {{else}}
-                {{> loading}}
-            {{/if}}
-        </tbody>
-    </table>
-    {{else}}
-    <h5>{{_ "moderator.mod_only"}}</h5>
-    {{/if}}
+                <h5>{{_ "moderator.mod_only"}}</h5>
+                {{/if}}
+    </div>
+    
 </template>

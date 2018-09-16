@@ -1,52 +1,83 @@
 <template name="flaggedIP">
     {{#if isModerator}}
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">{{_ "moderator.flaggedUsers.name"}}</th>
-                <th scope="col">{{_ "moderator.flaggedUsers.moderator"}}</th>
-                <th scope="col">{{_ "moderator.flaggedUsers.comments"}}</th>
-                <th scope="col">{{_ "moderator.flaggedUsers.features"}}</th>
-                <th scope="col">{{_ "moderator.flaggedUsers.red_flags"}}</th>
-                <th scope="col">{{_ "moderator.flaggedUsers.added"}}</th>
-                <th scope="col">{{_ "moderator.flaggedUsers.earnings"}}</th>
-                <th scope="col">{{_ "moderator.flaggedUsers.last_access"}}</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#if subsCacheReady}}
-                {{#each users}}
-                    <tr>
-                        <td>{{username}}</td>
-                        <td>{{#if info.moderator}}Yes{{else}}No{{/if}}</td>
-                        <td>{{#each comments}}{{comment}} on <a href="/currency/{{currencyComment.slug}}">{{currencyComment.currencyName}}</a><br />{{else}}-{{/each}}</td>
-                        <td>{{#each features}}{{featureName}} on <a href="/currency/{{currency.slug}}">{{currency.currencyName}}</a><br />{{else}}-{{/each}}</td>
-                        <td>{{#each redflags}}{{name}} on <a href="/currency/{{currency.slug}}">{{currency.currencyName}}</a><br />{{else}}-{{/each}}</td>
-                        <td>{{#each currencies}}<a href="/currency/{{slug}}">{{currencyName}}</a><br />{{else}}-{{/each}}</td>
-                        <td>{{totalEarnings}} KZR</td>
-                        <td>{{lastAccess}}</td>
-                    </tr>
-                {{else}}
-                    {{> empty}}
-                {{/each}}
-            {{else}}
-                {{> loading}}
-            {{/if}}
-        </tbody>
-    </table>
-    
-    {{#if users.length}}
-    {{#with votes}}
-    <h4>{{_ "moderator.flaggedUsers.upvotes"}}: {{upvotes}}</h4>
-    <h4>{{_ "moderator.flaggedUsers.downvotes"}}: {{downvotes}}</h4>
-
-    {{#unless voted}}
-    <button class="btn btn-default js-vote" data-vote="voteUp"><i class="fa fa-arrow-up"></i> {{_ "moderator.flaggedUsers.ignore"}}</button>
-    <button class="btn btn-default js-vote" data-vote="voteDown"><i class="fa fa-arrow-down"></i> {{_ "moderator.flaggedUsers.ban"}}</button>
-    {{/unless}}
-    {{/with}}
-    {{/if}}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="pull-right">
+                    <a href="/moderator/flagged-users" class="btn btn-outline-primary">{{_ "moderator.hashpower.back"}}</a>
+                </div>
+                <br><br>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        {{#if users.length}}
+                            {{#with votes}}
+                                <h5 class="card-title mb-0">
+                                    {{_ "moderator.flaggedUsers.upvotes"}}: {{upvotes}} &nbsp;&nbsp;
+                                    {{_ "moderator.flaggedUsers.downvotes"}}: {{downvotes}}
+                                </h5>
+                                <div class="small text-muted">
+                                    Vote to either ban or ignore user
+                                </div>
+                                <br>
+                            {{/with}}
+                        {{/if}}
+                    </div>
+                </div>
+                <table class="table table-responsive-sm table-hover table-outline mb-0 bg-white">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">{{_ "moderator.flaggedUsers.name"}}</th>
+                            <th scope="col">{{_ "moderator.flaggedUsers.moderator"}}</th>
+                            <th scope="col">{{_ "moderator.flaggedUsers.comments"}}</th>
+                            <th scope="col">{{_ "moderator.flaggedUsers.features"}}</th>
+                            <th scope="col">{{_ "moderator.flaggedUsers.red_flags"}}</th>
+                            <th scope="col">{{_ "moderator.flaggedUsers.added"}}</th>
+                            <th scope="col">{{_ "moderator.flaggedUsers.earnings"}}</th>
+                            <th scope="col">{{_ "moderator.flaggedUsers.last_access"}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#if subsCacheReady}}
+                            {{#each users}}
+                                <tr>
+                                    <td>{{username}}</td>
+                                    <td>{{#if info.moderator}}Yes{{else}}No{{/if}}</td>
+                                    <td>{{#each comments}}{{comment}} on <a href="/currency/{{currencyComment.slug}}">{{currencyComment.currencyName}}</a><br />{{else}}-{{/each}}</td>
+                                    <td>{{#each features}}{{featureName}} on <a href="/currency/{{currency.slug}}">{{currency.currencyName}}</a><br />{{else}}-{{/each}}</td>
+                                    <td>{{#each redflags}}{{name}} on <a href="/currency/{{currency.slug}}">{{currency.currencyName}}</a><br />{{else}}-{{/each}}</td>
+                                    <td>{{#each currencies}}<a href="/currency/{{slug}}">{{currencyName}}</a><br />{{else}}-{{/each}}</td>
+                                    <td>{{totalEarnings}} KZR</td>
+                                    <td>{{lastAccess}}</td>
+                                </tr>
+                            {{else}}
+                                {{> empty}}
+                            {{/each}}
+                        {{else}}
+                            {{> loading}}
+                        {{/if}}
+                    </tbody>
+                </table>
+            </div>
+            
+            
+                {{#if users.length}}
+                    {{#with votes}}
+                        {{#unless voted}}
+                        <div class="card-footer">
+                            <button class="btn btn-primary js-vote" data-vote="voteUp"><i class="fa fa-arrow-up"></i> {{_ "moderator.flaggedUsers.ignore"}}</button>
+                            <button class="btn btn-primary js-vote" data-vote="voteDown"><i class="fa fa-arrow-down"></i> {{_ "moderator.flaggedUsers.ban"}}</button>
+                        </div>
+                        {{/unless}}
+                    {{/with}}
+                {{/if}}
+            
+        </div>
+    </div>
     {{else}}
-    <h5>{{_ "moderator.mod_only"}}</h5>
+        <h5>{{_ "moderator.mod_only"}}</h5>
     {{/if}}
 </template>
