@@ -207,6 +207,9 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
 
 Template.returnedCurrencies.onRendered(function () {
 
+  //show the menu if its hidden, sometimes it doesn't show when logging in so let's force it
+  $('body').addClass('sidebar-md-show')
+
   // init controller
   this.controller = new scrollmagic.Controller();
   var templ = Template.instance()
