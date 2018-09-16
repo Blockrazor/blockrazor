@@ -1,13 +1,13 @@
 <template name="addHashpower">
-	<div class="form-group my-5">
-		<form class="js-add-haspower">
-			<div class="heading-wrapper text-center mt-2">
-                <h4 class="mb-4">{{_ "hashpower.add.add_data"}}</h4>
-            </div>
-			<div class="justify-content-center mx-auto">
-				<div class="card bg-white required mx-auto" style="width:80% !important">
-					<div class="card-body">
-						<h5 class="card-title">{{_ "hashpower.add.hw_category"}}</h5>
+	<div class="container-fluid">
+		<div class="card">
+			<div class="card-header">
+				{{_ "hashpower.add.add_data"}}
+			</div>
+			<div class="card-body">
+				<form class="js-add-haspower">
+					<div class="justify-content-center mx-auto">
+						<h6 class="card-title">{{_ "hashpower.add.hw_category"}}</h6>
 						<div class="input-group">
 							<select id="js-hw-cat" class="form-control" style="width:40%">
 								<option value="ASIC">{{_ "hashpower.add.asic"}}</option>
@@ -17,90 +17,93 @@
 						</div>
 						<hr>
 						{{#if hwDevices.length}}
-							<h5 class="card-title">{{_ "hashpower.add.hw_device"}}</h5>
-							<div class="input-group">
-								<select id="js-hw-dev" class="form-control" style="width:40%">
-									{{#each hwDevices}}
-									<option value="{{_id}}">{{name}}</option>
-									{{/each}}
-								</select>
-							</div>
-							<small>{{_ "hashpower.add.add_device"}} <a href="#" id="js-add-hw">{{_ "hashpower.add.add_it"}}</a></small>
-							<hr>
-							<div style="display: {{addHw}}">
-								<h5 class="card-title">{{_ "hashpower.add.device_name"}}</h5>
-								<div class="input-group">
-									<input type="text" id="js-hw-new" class="form-control" />
-								</div>
-								<hr>
-							</div>
-						{{else}}
-							<h5 class="card-title">{{_ "hashpower.add.hw_device"}}</h5>
+						<h6 class="card-title">{{_ "hashpower.add.hw_device"}}</h6>
+						<div class="input-group">
+							<select id="js-hw-dev" class="form-control" style="width:40%">
+								{{#each hwDevices}}
+								<option value="{{_id}}">{{name}}</option>
+								{{/each}}
+							</select>
+						</div>
+						<small>{{_ "hashpower.add.add_device"}} <a href="#" id="js-add-hw">{{_ "hashpower.add.add_it"}}</a></small>
+						<hr>
+						<div style="display: {{addHw}}">
+							<h6 class="card-title">{{_ "hashpower.add.device_name"}}</h6>
 							<div class="input-group">
 								<input type="text" id="js-hw-new" class="form-control" />
 							</div>
 							<hr>
-						{{/if}}
-
-						{{#if hwAlgo.length}}
-							<h5 class="card-title">{{_ "hashpower.add.algo"}}</h5>
-							<div class="input-group">
-								<select id="js-algo" class="form-control" style="width:40%">
-									{{#each hwAlgo}}
-									<option value="{{_id}}">{{name}}</option>
-									{{/each}}
-								</select>
-							</div>
-							<small>{{_ "hashpower.add.add_algo"}} <a href="#" id="js-add-algo">{{_ "hashpower.add.add_it"}}</a>.</small>
-							<hr>
-							<div style="display: {{addAlgo}}">
-								<h5 class="card-title">{{_ "hashpower.add.algo_name"}}</h5>
-								<div class="input-group">
-									<input type="text" id="js-algo-new" class="form-control" style="width:40%"/>
-								</div>
-								<hr>
-							</div>
+						</div>
 						{{else}}
-							<h5 class="form-control">{{_ "hashpower.add.algo"}}</h5>
+						<h6 class="card-title">{{_ "hashpower.add.hw_device"}}</h6>
+						<div class="input-group">
+							<input type="text" id="js-hw-new" class="form-control" />
+						</div>
+						<hr>
+						{{/if}}
+						{{#if hwAlgo.length}}
+						<h6 class="card-title">{{_ "hashpower.add.algo"}}</h6>
+						<div class="input-group">
+							<select id="js-algo" class="form-control" style="width:40%">
+								{{#each hwAlgo}}
+								<option value="{{_id}}">{{name}}</option>
+								{{/each}}
+							</select>
+						</div>
+						<small>{{_ "hashpower.add.add_algo"}} <a href="#" id="js-add-algo">{{_ "hashpower.add.add_it"}}</a>.</small>
+						<hr>
+						<div style="display: {{addAlgo}}">
+							<h6 class="card-title">{{_ "hashpower.add.algo_name"}}</h6>
 							<div class="input-group">
 								<input type="text" id="js-algo-new" class="form-control" style="width:40%"/>
 							</div>
 							<hr>
-						{{/if}}
-
-						{{#if units.length}}
-							<h5 class="card-title">{{_ "hashpower.add.rate"}} *</h5>
-							<div class="input-group">
-								<input type="number" min="0" id="js-hr" class="form-control" required/>
-								<select id="js-unit" class="form-control" style="width:10px">
-									{{#each units}}
-										<option value="{{_id}}">{{name}}</option>
-									{{/each}}
-								</select>
-							</div>
-							<small>{{_ "hashpower.add.add_unit"}} <a href="#" id="js-add-unit">{{_ "hashpower.add.add_it"}}</a>.</small>
-							<hr>
-							<div style="display: {{addUnit}}">
-								<h5 class="card-title">{{_ "hashpower.add.unit_name"}}</h5>
-								<div class="input-group">
-									<input type="text" style="width: 40%" id="js-unit-new" class="form-control"/>
-								</div>
-								<hr>
-							</div>
+						</div>
 						{{else}}
-							<h5 class="card-title">{{_ "hashpower.add.unit_name"}}</h5>
+						<h6 class="form-control">{{_ "hashpower.add.algo"}}</h6>
+						<div class="input-group">
+							<input type="text" id="js-algo-new" class="form-control" style="width:40%"/>
+						</div>
+						<hr>
+						{{/if}}
+						{{#if units.length}}
+						<h6 class="card-title">{{_ "hashpower.add.rate"}} *</h6>
+						<div class="input-group">
+							<div class="row" style="width: 100%">
+								<div class="col">
+									<input type="number" min="0" id="js-hr" class="form-control" required/>
+								</div>
+								<div class="col">
+									<select id="js-unit" class="form-control">
+										{{#each units}}
+										<option value="{{_id}}">{{name}}</option>
+										{{/each}}
+									</select>
+								</div>
+							</div>
+						</div>
+						<small>{{_ "hashpower.add.add_unit"}} <a href="#" id="js-add-unit">{{_ "hashpower.add.add_it"}}</a>.</small>
+						<hr>
+						<div style="display: {{addUnit}}">
+							<h6 class="card-title">{{_ "hashpower.add.unit_name"}}</h6>
 							<div class="input-group">
-								<input type="text" id="js-unit-new" style="width: 40%" class="form-control"/>
+								<input type="text" style="width: 40%" id="js-unit-new" class="form-control"/>
 							</div>
 							<hr>
+						</div>
+						{{else}}
+						<h6 class="card-title">{{_ "hashpower.add.unit_name"}}</h6>
+						<div class="input-group">
+							<input type="text" id="js-unit-new" style="width: 40%" class="form-control"/>
+						</div>
+						<hr>
 						{{/if}}
-
-						<h5 class="card-title">{{_ "hashpower.add.power"}}</h5>
+						<h6 class="card-title">{{_ "hashpower.add.power"}}</h6>
 						<div class="input-group">
 							<input type="number" min="0" id="js-pc" name="js-pc" class="form-control" style="width:40%" placeholder='{{_ "hashpower.add.metric"}}' required/>
 						</div>
 						<hr>
-
+						
 						<label id="uploadLabel" class="btn btn-primary" for="imageInput">
 							<input id="imageInput" name="imageInput" type="file" style="display:none;" onchange="$('#fileInfo').html(this.files[0].name)" class="required" accept="image/*">
 							<span class="uploadText">{{_ "hashpower.add.upload"}}</span>
@@ -116,8 +119,8 @@
 							<button id="js-cancel" class="btn btn-secondary">{{_ "hashpower.add.cancel"}}</button>
 						</div>
 					</div>
-				</div>
+				</form>
 			</div>
-		</form>
+		</div>
 	</div>
 </template>
