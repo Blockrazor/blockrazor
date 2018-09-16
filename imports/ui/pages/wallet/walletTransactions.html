@@ -1,13 +1,17 @@
 <template name="walletTransactions">
-  <div class="wallet-outer">
-    <h4><a href="/wallet">{{_ "kzrWallet.my"}}</a> &nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp; {{_ "kzrWallet.transactions_with"}} {{currencyType}} </h4><br/>
     {{> notLoggedIn}}
+  <div class="container-fluid">
+    <div class="card">
+  <div class="card-header">
+    <a href="/wallet">{{_ "kzrWallet.my"}}</a> &nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp; {{_ "kzrWallet.transactions_with"}} {{currencyType}}
   </div>
-  <div class="wallet-body">
+  <div class="card-body">
     {{#if canDeposit}}
-    {{_ "kzrWallet.deposit_currency" currencyType}} <b>{{depositAddress}}</b> {{#if hasPaymentId}}{{_ "kzrWallet.payment_id"}} <b>{{paymentId}}</b>{{/if}}. <br>
+    <div class="alert alert-info">
+        {{_ "kzrWallet.deposit_currency" currencyType}} <b>{{depositAddress}}</b> {{#if hasPaymentId}}{{_ "kzrWallet.payment_id"}} <b>{{paymentId}}</b>{{/if}}. <br>
+    </div>
     {{/if}}
-    <div class="form-check form-control" style="margin-bottom: 20px !important;">
+    <div class="mb-5 mt-3">
       <div class="row">
         <span class="form-check-item filter-bounties-label col-sm-2">
           <h5 style="margin-bottom: 0;margin-top: 3px;">{{_ "transactions.filter"}}</h5>
@@ -75,7 +79,9 @@
       </div>
     </div>
     <div class="wallet-table-wrapper">
-      {{> reactiveTable collection=entry settings=walletTable class="table table-bordered table-hover"}}
+      {{> reactiveTable collection=entry settings=walletTable class="table table-responsive-sm table-hover table-outline mb-0 bg-white"}}
     </div>
   </div>
+</div>
+</div>
 </template>
