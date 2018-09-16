@@ -323,6 +323,9 @@ Template.returnedCurrencies.helpers({
     return connectionUsers ? connectionUsers : 0;
   },
   createdUsers() {
+    return Currencies.findLocal({}).count();
+  },
+  totalCurrencies() {
     return (UsersStats.findOne("created") || {}).created || 0
   },
   signedUp: () => (UsersStats.findOne({
