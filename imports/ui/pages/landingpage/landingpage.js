@@ -27,3 +27,9 @@ Template.landingpage.helpers({
     return false
   }
 })
+
+
+Template.landingpage.onDestroyed(function() {
+    //when you leave the landing page, ensure the sidemenu is opened
+    $('body').addClass('sidebar-md-show')
+})
