@@ -29,17 +29,21 @@ Template.walletTransactions.onCreated(function bodyOnCreated() {
 function currencyValue (currency) {
   let bal = currency.amount
   let name = currency.currency
-  switch(name.toUpperCase()){
-    case 'USD' :
-      bal = bal ? (bal).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0
-      break
-    case 'ETH' :
-      bal = bal ? (bal).toFixed(18).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0
-      break
-    case 'XMR' :
-      bal = bal ? (bal).toFixed(12).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0
-      break  
+
+  if (name && name !== undefined) {
+    switch(name.toUpperCase()){
+      case 'USD' :
+        bal = bal ? (bal).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0
+        break
+      case 'ETH' :
+        bal = bal ? (bal).toFixed(18).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0
+        break
+      case 'XMR' :
+        bal = bal ? (bal).toFixed(12).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0
+        break  
+    }
   }
+  
   return bal
 }
 

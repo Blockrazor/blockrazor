@@ -12,15 +12,17 @@ Template.layout.helpers({
             if (bc.param !== undefined && i.trim() === bc.param)
                 i = FlowRouter.getParam(bc.param)
 
-            let text = TAPi18n.__(`breadcrumbs.${i.trim()}`)
-            
-            if (text.split('.')[0] === 'breadcrumbs')
-                text = text.split('.')[text.split('.').length - 1]
+            if (i !== undefined) {
+                let text = TAPi18n.__(`breadcrumbs.${i.trim()}`)
+                
+                if (text.split('.')[0] === 'breadcrumbs')
+                    text = text.split('.')[text.split('.').length - 1]
 
-            return {
-                text: text,
-                url: bc.urls[ind],
-                notLast: ind !== crumbs.length - 1
+                return {
+                    text: text,
+                    url: bc.urls[ind],
+                    notLast: ind !== crumbs.length - 1
+                }
             }
         })
     }
