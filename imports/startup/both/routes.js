@@ -370,6 +370,11 @@ FlowRouter.route('/home', {
 
 // landing page
 FlowRouter.route('/', {
+   triggersEnter: [function(context, redirect) {
+    if (Meteor.userId()) {
+      redirect('/home');
+    }
+  }],
   name: 'landing',
   breadcrumb: {
     text: '',
