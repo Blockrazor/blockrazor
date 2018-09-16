@@ -6,9 +6,9 @@
         <div class="row">
           <div class="col-md-6 col-md-offset-1 first-part">
             <div class="logo">BLOCKRAZOR</div>
-            <h1>Every information about every blockchain project,<br> for everyone.</h1>
+            <h1>{{{_ "landing.info"}}}</h1>
             <p>
-              Our mission is to provide every bit of information on every blockchain projects to everyone.
+              {{_ "landing.mission"}}
             </p>
             <p>
               <a href={{startUrl}} class="btn btn-primary" style="padding:15px;background: black;border:none">{{_ "landing.get_started"}}</a>
@@ -30,15 +30,15 @@
       <div class="container">
         <div class="row">
           <div class="col-sm-12 feature-title">
-            <h1 class="section-title">Features</h1>
+            <h1 class="section-title">{{_ "landing.features"}}</h1>
           </div>
           <div class="col-lg-4">
             <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
               <div class="features-icons-icon d-flex">
                 <i class="icon-social-github m-auto text-black"></i>
               </div>
-              <h3>Open Source</h3>
-              <p class="lead mb-0">Built by community for community</p>
+              <h3>{{_ "landing.os"}}</h3>
+              <p class="lead mb-0">{{_ "landing.os_info"}}</p>
             </div>
           </div>
           <div class="col-lg-4">
@@ -46,8 +46,8 @@
               <div class="features-icons-icon d-flex">
                 <i class="icon-bell m-auto text-black"></i>
               </div>
-              <h3>Instant Updates</h3>
-              <p class="lead mb-0">Get instant notifications for every transactions you make.</p>
+              <h3>{{_ "landing.updates"}}</h3>
+              <p class="lead mb-0">{{_ "landing.updates_info"}}</p>
             </div>
           </div>
           <div class="col-lg-4">
@@ -82,8 +82,8 @@
               <div class="features-icons-icon d-flex">
                 <i class="icon-globe m-auto text-black"></i>
               </div>
-              <h3>Multi Language</h3>
-              <p class="lead mb-0">Use on your own language.</p>
+              <h3>{{_ "landing.multi"}}</h3>
+              <p class="lead mb-0">{{_ "landing.multi_info"}}</p>
             </div>
           </div>
         </div>
@@ -94,24 +94,24 @@
 
 <template name="welcomeUser">
   <div class="welcome-card">
-    <div class="title">Welcome back {{currentUser.username}}</div>
+    <div class="title">{{_ "landing.welcome"}} {{currentUser.username}}</div>
     <ul class="list-group list-group-flush">
       <li class="list-group-item">
-        <a href="/profile">My Profile</a>
+        <a href="/profile">{{_ "landing.nav.profile"}}</a>
       </li>
       <li class="list-group-item">
-        <a href="/wallet">My Wallet</a>
+        <a href="/wallet">{{_ "landing.nav.wallet"}}</a>
       </li>
       <li class="list-group-item">
-        <a href="/notifications">Notifications</a>
+        <a href="/notifications">{{_ "landing.nav.notifications"}}</a>
       </li>
       <li class="list-group-item">
-        <a href="/bounties">Bounties</a>
+        <a href="/bounties">{{_ "landing.nav.bounties"}}</a>
       </li>
       <li class="list-group-item">
-        <a href="/addcoin">Add New Currency</a>
+        <a href="/addcoin">{{_ "landing.nav.add_new"}}</a>
       </li>
     </ul>
-    <a href="/home" class="btn btn-primary">Go to Home</a>
+    <a href="/home" class="btn btn-primary">{{_ "landing.go_home"}}</a>
   </div>
 </template>

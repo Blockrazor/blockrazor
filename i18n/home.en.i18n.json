@@ -21,13 +21,30 @@
 		"total_currencies": "Total Currencies"
 	},
 	"landing": {
-		"info": "Absolutely <strong>all</strong> information about <strong>every</strong> blockchain project in a comparison tool that <strong>anyone</strong> can understand.",
+		"mission": "Our mission is to provide every bit of information on every blockchain projects to everyone.",
+		"info": "Every information about every blockchain project,<br> for everyone.",
 		"get_started": "Get Started... It's Free",
+		"features": "Features",
+		"os": "Open Source",
+		"os_info": "Built by community for community",
+		"updates": "Instant Updates",
+		"updates_info": "Get instant notifications for every transactions you make.",
 		"join": "Join in",
 		"solve": "Solve bounties and earn Krazor!",
 		"compare_currencies": "Compare Currencies",
 		"compare_info": "Compare currencies and become insanely rich",
 		"easy": "Easy to Use",
-		"easy_info": "Easy to use"
+		"easy_info": "Easy to use",
+		"multi": "Multilingual",
+		"multi_info": "Use on your own language.",
+		"welcome": "Welcome back",
+		"nav": {
+			"profile": "My Profile",
+			"wallet": "My Wallet",
+			"notifications": "Notifications",
+			"bounties": "Bounties",
+			"add_new": "Add New Currency"
+		},
+		"go_home": "Go to Home"
 	}
 }
