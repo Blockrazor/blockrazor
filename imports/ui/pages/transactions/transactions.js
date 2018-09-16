@@ -40,6 +40,9 @@ Template.transactions.onCreated(function() {
 })
 
 Template.transactions.helpers({
+	activePage(page) {
+		if (page === parseInt(FlowRouter.getParam('page'))) return 'active'
+	},
 	currency: function() {
 		return this.currency || 'KZR'
 	},
