@@ -327,7 +327,7 @@ Template.returnedCurrencies.helpers({
   },
   totalUsers: () => Meteor.users.find({}).count() || 0,
   createdUsers() {
-    return Currencies.findLocal({}).count();
+    return (UsersStats.findOne("created") || {}).created || 0
   },
   totalCurrencies() {
     return (UsersStats.findOne("created") || {}).created || 0
