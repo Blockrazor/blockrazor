@@ -10,7 +10,9 @@ Template.commentRender.helpers({
 Template.commentRender.events({
 'error .comment-author img': function(e) {
   // fires when a particular image doesn't exist in given path
-  $(e.target).attr('src','/images/noprofile.png'); 
+  if ($(e.target).attr('src') !== '/images/noprofile.png') {
+    $(e.target).attr('src', '/images/noprofile.png')
+  }
 },
 'click .flag': function() {
   $('#flagModal-' + this._id).modal('show');

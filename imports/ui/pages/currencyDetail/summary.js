@@ -22,7 +22,9 @@ Template.summary.helpers({
 Template.summary.events({
   'error .summary-author img': function(e) {
     // fires when a particular image doesn't exist in given path
-    $(e.target).attr('src','/images/noprofile.png'); 
+    if ($(e.target).attr('src') !== '/images/noprofile.png') {
+        $(e.target).attr('src', '/images/noprofile.png')
+    }
   },
     'click .fa-thumbs-down, click .fa-thumbs-up': (event, templateInstance) => {
 		Meteor.call('vote', 'Summaries', Template.instance().data._id, $(event.currentTarget).hasClass('fa-thumbs-down') ? 'down' : 'up', (error, data) => {

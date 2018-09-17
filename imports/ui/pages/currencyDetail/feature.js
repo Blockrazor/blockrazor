@@ -38,7 +38,9 @@ Template.feature.helpers({
 Template.feature.events({
   'error .post-author img': function(e) {
     // fires when a particular image doesn't exist in given path
-    $(e.target).attr('src','/images/noprofile.png'); 
+    if ($(e.target).attr('src') !== '/images/noprofile.png') {
+      $(e.target).attr('src', '/images/noprofile.png')
+    }
   },
   'click .fa-thumbs-down': function(event) {
     Meteor.call('vote', 'Features', this._id, "down", function(error,result) {
