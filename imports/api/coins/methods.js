@@ -319,6 +319,7 @@ if (Meteor.isDevelopment) {
 }
 
 Meteor.methods({
+    getTotalCurrencies: () => Currencies.find({}).count(),
       getCurrentReward: (userId, currencyName) => {
         let bounty = Bounties.findOne({
           userId: userId,

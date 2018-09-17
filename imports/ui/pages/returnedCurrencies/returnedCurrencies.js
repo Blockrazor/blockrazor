@@ -30,6 +30,10 @@ Template.returnedCurrencies.onCreated(function bodyOnCreated() {
   this.filter = new ReactiveVar({})
   this.searchInputFilter = new ReactiveVar(FlowRouter.current().queryParams.query || '')
 
+  this.totalCurrencies = new ReactiveVar(0)
+
+  Meteor.call('getTotalCurrencies', (err, data) => this.totalCurrencies.set(data))
+
 
   this.increment = 15
   this.limit = new ReactiveVar(this.increment)
@@ -329,9 +333,7 @@ Template.returnedCurrencies.helpers({
   createdUsers() {
     return (UsersStats.findOne("created") || {}).created || 0
   },
-  totalCurrencies() {
-    return (UsersStats.findOne("created") || {}).created || 0
-  },
+  totalCurrencies: () => Template.instance().totalCurrencies.get(),
   signedUp: () => (UsersStats.findOne({
     _id: 'lastMonth'
   }) || {}).created || 0,
