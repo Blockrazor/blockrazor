@@ -29,6 +29,34 @@
     <section class="feature-section bg-light text-center">
       <div class="container">
         <div class="row">
+          <div class="col-lg-4">
+            <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+              <div class="features-icons-icon d-flex">
+                <i class="icon-people m-auto text-black"></i>
+              </div>
+              <h3>{{{_ "landing.user_count" onlineUsers createdUsers count=createdUsers}}}</h3>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+              <div class="features-icons-icon d-flex">
+                <i class="icon-user-following m-auto text-black"></i>
+              </div>
+              <h3><b>{{signedUp}}</b> {{_ "landing.signup_count" count=signedUp}}</h3>
+              <p class="lead mb-0"></p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+              <div class="features-icons-icon d-flex">
+                <i class="icon-speech m-auto text-black"></i>
+              </div>
+              <h3><b>{{comments}}</b> {{_ "landing.comment_count" count=comments}}</h3>
+            </div>
+          </div>
+        </div>
+        <br />
+        <div class="row">
           <div class="col-sm-12 feature-title">
             <h1 class="section-title">{{_ "landing.features"}}</h1>
           </div>

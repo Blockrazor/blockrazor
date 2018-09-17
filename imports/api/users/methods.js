@@ -9,6 +9,15 @@ Meteor.methods({
   signedUpLastMonth: () => {
   	return Meteor.users.find({}).fetch().filter(i => new Date(i.createdAt) > (new Date().getTime() - 1000*60*60*24*30) /* 30 days */).length
   },
+    commentsLastMonth: () => {
+        // includes all added features (and feature comments), redflags (and redflag comments), summaries and problem comments
+        let features = Features.find({}).fetch().filter(i => new Date(i.createdAt) > (new Date().getTime() - 1000*60*60*24*30))
+        let redflags = Redflags.find({}).fetch().filter(i => new Date(i.createdAt) > (new Date().getTime() - 1000*60*60*24*30))
+        let summaries = Summaries.find({}).fetch().filter(i => new Date(i.createdAt) > (new Date().getTime() - 1000*60*60*24*30))
+        let problemComments = ProblemComments.find({}).fetch().filter(i => new Date(i.date) > (new Date().getTime() - 1000*60*60*24*30))
+        
+        return features.length + redflags.length + summaries.length + problemComments.length
+    },
   sidebarPreference: function(value, valueOnRecord) {
     //ignore request if valueOnRecord provided from beforeUnload hook that will not care if operations that decide if method should be called actually finish
     if (valueOnRecord && valueOnRecord == value){
