@@ -2,30 +2,40 @@ import './landingpage.html'
 import './landingpage.scss'
 import '../signup/signup'
 
-Template.landingpage.onRendered(function () {
-  // hide the menu when the landing page is open
-  $('body').removeClass('sidebar-md-show')
-  // hide breadcrumb
-  $('.breadcrumb').hide()
+import { Currencies, UsersStats } from '/imports/api/indexDB.js'
+
+Template.landingpage.onCreated(function() {
+    this.autorun(() => {
+        SubsCache.subscribe('usersStats')
+    })
 })
+
+Template.landingpage.onRendered(function () {
+    // hide the menu when the landing page is open
+    $('body').removeClass('sidebar-md-show')
+    // hide breadcrumb
+    $('.breadcrumb').hide()
+})
+
 Template.landingpage.onDestroyed(function () {
-  $('.breadcrumb').show()
+    $('.breadcrumb').show()
 })
 
 Template.landingpage.helpers({
-  startUrl () {
-    if (Meteor.userId()) {
-      return '/home'
-    } else {
-      return '/login'
-    }
-  },
-  loggedIn () {
-    if (Meteor.user()) {
-      return true
-    }
-    return false
-  }
+    startUrl: () => Meteor.userId() ? '/home' : '/login',
+    loggedIn: () => !!Meteor.userid(),
+    onlineUsers() {
+        return ((UsersStats.findOne('connected') || {}).userIds || []).length || 0
+    },
+    createdUsers() {
+        return (UsersStats.findOne('created') || {}).created || 0
+    },
+    signedUp: () => (UsersStats.findOne({
+        _id: 'lastMonth'
+    }) || {}).created || 0,
+    comments: () => (UsersStats.findOne({
+        _id: 'lastMonthComments'
+    }) || {}).created || 0,
 })
 
 

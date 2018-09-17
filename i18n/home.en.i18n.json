@@ -45,6 +45,12 @@
 			"bounties": "Bounties",
 			"add_new": "Add New Project"
 		},
-		"go_home": "Let's go!"
+		"go_home": "Let's go!",
+		"user_count": "<b>%s</b> active / <b>%s</b> total user",
+		"user_count_plural": "<b>%s</b> active / <b>%s</b> total users",
+		"signup_count": "signup this month",
+		"signup_count_plural": "signups this month",
+		"comment_count": "comment this month",
+		"comment_count_plural": "comments this month"
 	}
 }
