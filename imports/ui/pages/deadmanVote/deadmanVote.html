@@ -1,0 +1,58 @@
+<template name="deadmanVote">
+    <div class="container-fluid">
+        {{#if deadmanActive}}
+            <div class="row">
+                <div class="col" style="text-align: center">
+                    <h3>{{_ "deadman.title"}}</h3>
+                    {{#if canVote}}<h5>{{_ "deadman.please_vote"}}</h5>{{else}}
+                    <h5>{{_ "deadman.dont_vote"}}</h5>
+                    {{/if}}
+                </div>
+            </div>
+            <br>
+            
+            <table class="table table-responsive-sm table-hover table-outline mb-0 bg-white">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">{{_ "deadman.username"}}</th>
+                            <th scope="col">{{_ "deadman.moderator"}}</th>
+                            <th scope="col">{{_ "deadman.overall"}}</th>
+                            <th scope="col">{{_ "deadman.balance"}}</th>
+                            <th scope="col">{{_ "deadman.score"}}</th>
+                            <th scope="col">{{_ "deadman.vote"}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#if subsCacheReady}}
+                            {{#each users}}
+                                <tr>
+                                    <td><a href="/profile/{{user.slug}}">{{user.username}}</a></td>
+                                    <td>{{#if info.moderator}}{{_ "deadman.yes"}}{{else}}{{_ "deadman.no"}}{{/if}}</td>
+                                    <td>{{fixed info.inputRanking}}</td>
+                                    <td>{{fixed info.balance}} KZR</td>
+                                    <td>{{score}}</td>
+                                    <td>{{#if canVote}}{{#unless voted}}
+                                        <button class="btn btn-default js-vote" data-vote="voteUp"><i class="fa fa-arrow-up"></i></button>
+                                        {{else}}
+                                        -
+                                        {{/unless}}
+                                        {{else}}-{{/if}}
+                                    </td>
+                                </tr>
+                            {{else}}
+                                {{> empty}}
+                            {{/each}}
+                        {{else}}
+                            {{> loading}}
+                        {{/if}}
+                    </tbody>
+                </table>
+        {{else}}
+            <div class="row">
+                <div class="col" style="text-align: center">
+                    <h3>{{_ "deadman.not_active"}}</h3>
+                </div>
+            </div>
+        {{/if}}
+    </div>
+</template>

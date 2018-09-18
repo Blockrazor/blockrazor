@@ -1,5 +1,5 @@
 import {FlowRouter} from 'meteor/ostrio:flow-router-extra';
-
+import { Encryption } from '/imports/api/indexDB.js'
 
 import './header.html'
 
@@ -11,6 +11,8 @@ Template.header.onCreated(function() {
         let searchInputFilter = Template.instance().searchInputFilter.get();
         this.defaultLanguage = 'en';
         TAPi18n.setLanguage(cookies.get('language') || 'en');
+
+    this.autorun(() => SubsCache.subscribe('encryption'))
 })
 
 
@@ -113,6 +115,7 @@ Template.header.events({
 })
 
 Template.header.helpers({
+    deadmanActive: () => Encryption.findOne({ finished: false }),
     shareUrl: () => `${window.location.href}#${(Meteor.users.findOne({_id: Meteor.userId()}) || {}).inviteCode}`,
     activityNotifications() {
         return ActivityLog.find({ owner: Meteor.userId(), type: "message", read: { $ne: true } }).count()

@@ -12,6 +12,11 @@
                     <!-- <a class="nav-link bounties-icon fa fa-plus-square d-md-none" href="/bounties"></a> -->
                     <a class="nav-link d-none d-md-block" href="/bounties"><span class="separator"></span> {{_ "header.bounties"}}</a>
                 </li>
+                <li class="nav-item">
+                    {{#if deadmanActive}}
+                    <a style="color: red;" class="nav-link d-none d-md-block" href="/deadman-vote"><span class="separator"></span>{{_ "header.deadman"}}</a>
+                    {{/if}}
+                </li>
             </ul>
             <ul class="nav navbar-nav ml-auto">
                 <form class="form-inline center">

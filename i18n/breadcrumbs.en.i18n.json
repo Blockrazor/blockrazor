@@ -41,6 +41,7 @@
 		"flagged": "Flagged",
 		"item": "Item",
 		"app_logs": "App Logs",
-		"solved_problems": "Solved Problems"
+		"solved_problems": "Solved Problems",
+		"deadman": "Deadman vote"
 	}
 }
