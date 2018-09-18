@@ -57,6 +57,7 @@ FlowRouter.subscriptions = function() {
   let sub = Meteor.isClient? SubsCache: Meteor
   this.register('publicUserData', sub.subscribe('publicUserData'));
   this.register('graphdata', sub.subscribe('graphdata'));
+  this.register('encryption', sub.subscribe('encryption'))
 
   // subscribe to bounties so user's can keep track of active bounties
   this.register('bounties', sub.subscribe('bounties'));
@@ -786,6 +787,32 @@ FlowRouter.route('/wallet', {
     })
   }
 });
+
+FlowRouter.route('/deadman-vote', {
+  name: 'deadman-vote',
+  breadcrumb: {
+    text: 'home / deadman',
+    urls: ['/']
+  },
+  subscriptions: function () {
+    this.register('userdata', FastRenderer.subscribe('userdata'))
+    this.register('users', FastRenderer.subscribe('users'))
+  },
+  action: async (params, queryParams) => {
+    if (Meteor.userId()) {
+      await import ('/imports/ui/pages/deadmanVote/deadmanVote')
+      BlazeLayout.render('layout', {
+        main: 'deadmanVote',
+        header: 'header',
+        sidebar: 'sidebar',
+        footer: "footer",
+      })
+    } else {
+      window.last = window.location.pathname
+      FlowRouter.go('/login')
+    }
+  }
+})
 
 FlowRouter.route('/wallet/:currency', {
   breadcrumb: {

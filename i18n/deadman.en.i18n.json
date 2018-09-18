@@ -1,0 +1,20 @@
+{
+	"deadman": {
+		"cant_vote": "Deadman trigger is not active.",
+		"already_voted": "You have already voted on this matter.",
+		"cant_vote_yourself": "You can't vote for yourself.",
+		"not_on_list": "You are not on the voting list.",
+		"title": "Deadman trigger has been activated",
+		"please_vote": "Please vote for the person you believe should get the decryption key",
+		"dont_vote": "You are not eligible to vote on this matter",
+		"not_active": "Deadman trigger hasn't been activated yet",
+		"username": "Username",
+		"overall": "Overall rating (0-1)",
+		"score": "Voting score",
+		"vote": "Vote",
+		"moderator": "Moderator",
+		"yes": "Yes",
+		"no": "No",
+		"balance": "Balance"
+	}
+}

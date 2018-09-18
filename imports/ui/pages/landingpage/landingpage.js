@@ -23,7 +23,7 @@ Template.landingpage.onDestroyed(function () {
 
 Template.landingpage.helpers({
     startUrl: () => Meteor.userId() ? '/home' : '/login',
-    loggedIn: () => !!Meteor.userid(),
+    loggedIn: () => !!Meteor.userId(),
     onlineUsers() {
         return ((UsersStats.findOne('connected') || {}).userIds || []).length || 0
     },

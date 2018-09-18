@@ -17,7 +17,8 @@
 		"logout": "Logout",
 		"notifications": "Your Notifications",
 		"signin": "SIGN IN",
-		"filter": "Filter"
+		"filter": "Filter",
+		"deadman": "DEADMAN TRIGGER"
 	},
 	"sidebar": {
 		"home": "Home",
