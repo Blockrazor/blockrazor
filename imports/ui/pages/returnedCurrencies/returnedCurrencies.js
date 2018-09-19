@@ -269,6 +269,13 @@ Template.returnedCurrencies.onRendered(function () {
 });
 
 Template.returnedCurrencies.helpers({
+  searchActive () {
+    let templ = Template.instance()
+    if (templ.searchInputFilter.get()) {
+      return true
+    }
+    return false
+  },
   noFeatured: () => Template.instance().noFeatured.get(),
   currencies() {
     var templ = Template.instance()
@@ -371,7 +378,6 @@ Template.returnedCurrencies.events({
   'keyup #searchInput': function (event) {
     event.preventDefault();
     let query = $('#searchInput').val();
-
     //clear filter if no value in search bar
     if (query.length < 1) {
       Template.instance().searchInputFilter.set(undefined);
