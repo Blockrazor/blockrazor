@@ -71,18 +71,18 @@
     </div>
   </div>
 </div>
-<!--   
-TO DO: Should only really display this when a search has been made
-<div class="search-bar">
+
+{{#if searchActive}}
+  <div class="search-bar">
     <div class="found-result">
       {{#if reactiveVar 'countReady'}}
-        {{_ "home.found_results" (reactiveVar 'count')}};
+        {{_ "home.found_results" (reactiveVar 'count')}}
       {{else}}
-        {{_ "home.loading_results"}};
+        {{_ "home.loading_results"}}
       {{/if}}
     </div>
-  </div> -->
-
+  </div>
+{{/if}}
     <div class="card">
         <div class="card-body">
           <div class="row">
