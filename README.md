@@ -47,6 +47,16 @@ meteor npm install --save core-js
 
 Create `.env` file on home directory and add your variables
 
+#### Email Setup
+
+Add `MAIL_URL` to `.env` file.
+
+Example : For sendgrid email
+
+```
+MAIL_URL=smtp://username:password@smtp.sendgrid.net:587
+```
+
 #### Insert the database if running locally (never for production)
 While meteor is running, in a new shell from *outside* of the Blockrazor directory run:
 ```
