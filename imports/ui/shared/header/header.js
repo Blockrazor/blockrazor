@@ -86,7 +86,8 @@ Template.header.events({
             history.replaceState(null, '', `/home/?query=${query}`)
         }
     },
-    'click .sidebar-toggler': function() {
+    'click .sidebar-toggler': function(event) {
+        event.stopPropagation();
         if ($(window).width() < 768) {
             $('body').toggleClass("sidebar-lg-show")
         } else {

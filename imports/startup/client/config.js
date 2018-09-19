@@ -12,3 +12,13 @@ $(window).resize(function(evt) {
         $('body').addClass("sidebar-md-show")
     }
 });
+
+if ($(window).width() <= 768) {
+    $('body,html').click(function(event) {
+        event.preventDefault()
+
+        if ($('body').hasClass('sidebar-lg-show')) {
+            $('body').toggleClass("sidebar-lg-show")
+        }
+    });
+}
