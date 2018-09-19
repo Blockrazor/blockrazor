@@ -73,7 +73,15 @@
 			"exchange_already_appended": "This exchange already appended to ",
 			"exchange_new": "New exchange succesfully added and appended to the ",
 			"exchange_exists": "This exchange already exist.",
-			"typeahead": "@{value} doesn't exist, create and add it to @{parent.currency.currencyName}"
+			"typeahead": "@{value} doesn't exist, create and add it to @{parent.currency.currencyName}",
+			"related_repos": "Related repos",
+			"stargazers": "Stargazers",
+			"watchers": "Watchers",
+			"language": "Language",
+			"fork_count": "Fork count",
+			"last_update": "Last update",
+			"show_more": "Show more repos",
+			"no_related_repos": "No related GitHub repos found."
 		},
 		"discussion": {
 			"discussion": "Discussion",

@@ -9,6 +9,7 @@ import {
 import { rewardCurrencyCreator } from '/imports/api/utilities.js';
 import { quality } from '/imports/api/utilities'
 import SimpleSchema from 'simpl-schema';
+import { Promise } from 'meteor/promise'
 
 
 //can't extend custom/autoValue fields therefore some of the form related parsers/validators may reside on original schema
@@ -318,7 +319,56 @@ if (Meteor.isDevelopment) {
     })
 }
 
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+
 Meteor.methods({
+    fetchRelatedGithubRepos: () => {
+        let allCurrencies = Currencies.find({}).fetch()
+        
+        let count = 0
+        allCurrencies.forEach(el => {
+            ++count
+            HTTP.get(`https://api.github.com/search/repositories?q=${el.currencyName}&sort=stars&order=desc`, {
+                headers: {
+                    'User-Agent': 'Blockrazor/bot'
+                }
+            }, (err, data) => {
+                if (!err) {
+                    let items = data.data.items
+
+                    items = items.map(i => ({
+                        id: i.id,
+                        name: i.full_name,
+                        html_url: i.html_url,
+                        fork: i.fork,
+                        created_at: i.created_at,
+                        updated_at: i.updated_at,
+                        stargazers_count: i.stargazers_count,
+                        watchers_count: i.watchers_count,
+                        language: i.language,
+                        forks_count: i.forks_count,
+                        score: i.score
+                    }))
+
+                    Currencies.update({
+                        _id: el._id
+                    }, {
+                        $set: {
+                            relatedRepos: items
+                        }
+                    })
+                }
+            })
+
+            Promise.await(sleep(500))
+
+            if (count >= 60) {
+                count = 0
+
+                Promise.await(sleep(1000*60*60)) // wait for an hour to prevent github rate limiting, in non-blocking manner
+            }
+        })
+    },
     getTotalCurrencies: () => Currencies.find({}).count(),
       getCurrentReward: (userId, currencyName) => {
         let bounty = Bounties.findOne({
