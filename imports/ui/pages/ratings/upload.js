@@ -88,7 +88,7 @@ Template.upload.events({
                               Meteor.call('uploadWalletImage', file.name, uploadType, instance._id, reader.result, md5, function(error, result) {
                                   if (error) {
                                       console.log(error)
-                                      Session.set('walletImageError', error.message);
+                                      Session.set('walletImageError', TAPi18n.__(error.reason));
                                       $(".file_" + sel).html(TAPi18n.__('wallet.upload'));
                                   } else {
 

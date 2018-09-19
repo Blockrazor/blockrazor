@@ -56,7 +56,7 @@ Template.registerHelper('doesCoinImageExist', function(img) {
       let thumbnail_filename = img.split('.')[0] + '_thumbnail.' + img.split('.')[1];
     	return _coinUpoadDirectoryPublic + thumbnail_filename;
     }else{
-    	return '/images/noimage.png'
+    	return '/codebase_images/noimage.png'
     }
 })
 
@@ -139,7 +139,7 @@ console.log(profilePicture)
 
 return _profilePictureUploadDirectoryPublic + profilePicture.profilePicture.small;
 }else{
-    return '/images/noprofile.png'
+    return '/codebase_images/noprofile.png'
 }
 
 });
@@ -151,10 +151,10 @@ Template.registerHelper('profilePictureBySlug', (slug) => {
       slug: slug
     },{fields:{profilePicture:1}})
   
-    return user.profilePicture != undefined ? _profilePictureUploadDirectoryPublic + user.profilePicture.small : '/images/noprofile.png';
+    return user.profilePicture != undefined ? _profilePictureUploadDirectoryPublic + user.profilePicture.small : '/codebase_images/noprofile.png';
   
   }else{
-      return '/images/noprofile.png'
+      return '/codebase_images/noprofile.png'
   }
   
 });
@@ -164,7 +164,7 @@ Template.registerHelper('profilePicture', (pic) => {
     if (pic) {
         return _profilePictureUploadDirectoryPublic + pic
     } else {
-        return '/images/noprofile.png'
+        return '/codebase_images/noprofile.png'
     }
 });
 

@@ -50,7 +50,7 @@ Template.flaggedHashpowers.helpers({
 	    if (this.image) {
 	        return `${_hashPowerUploadDirectoryPublic}${this.image}`
 	    } else {
-	        return '/images/noimage.png'
+	        return '/codebase_images/noimage.png'
 	    }
 	},
 	voted: function() {
