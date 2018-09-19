@@ -33,6 +33,7 @@ import '/imports/api/auctions/server/startup'
 import '/imports/api/rewards/server/startup'
 import '/imports/api/problems/server/startup'
 import '/imports/api/encryption/server/startup'
+import '/imports/api/coins/server/startup'
 
 // collection configs
 import '/imports/api/users/users.js'

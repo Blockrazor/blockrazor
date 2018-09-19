@@ -35,6 +35,8 @@ Template.currencyInfo.onCreated(function () {
       }))
     }
   })
+
+    this.reposShow = new ReactiveVar(9)
 })
 
 Template.currencyInfo.onRendered(function () {
@@ -357,10 +359,24 @@ Template.currencyInfo.events({
         sAlert.error(TAPi18n.__('currency.info.exchange_problem') + templ.currency.currencyName)
       }
     })
-  }
+  },
+    'click #js-show-more': (event, templateInstance) => {
+        event.preventDefault()
+
+        templateInstance.reposShow.set(templateInstance.reposShow.get() + 9)
+    }
 });
 
 Template.currencyInfo.helpers({
+    relatedRepos: () => {
+        let repos = Template.instance().data.relatedRepos || []
+
+        return repos.sort((i1, i2) => Number(i2.score) - Number(i1.score)).slice(0, Template.instance().reposShow.get())
+    },
+    formatDate: (val) => {
+        return moment(new Date(val)).format(_globalDateFormat)
+    },
+    reposHasMore: () => Template.instance().reposShow.get() <= Template.instance().data.relatedRepos.length,
   newAlgo: () => Template.instance().newAlgo.get() ? 'block' : 'none',
   showText: () => Template.instance().showText.get() ? 'block' : 'none',
   previousNames: () => {

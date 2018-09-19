@@ -289,6 +289,46 @@ Currencies.schema = new SimpleSchema({
   'exchanges.$._id': {
     type: Id
   },
+  relatedRepos: {
+    type: Array,
+    optional: true
+  },
+  'relatedRepos.$': {
+    type: Object
+  },
+  'relatedRepos.$.id': {
+    type: String
+  },
+  'relatedRepos.$.name': {
+    type: String
+  },
+  'relatedRepos.$.html_url': {
+    type: String
+  },
+  'relatedRepos.$.fork': {
+    type: String
+  },
+  'relatedRepos.$.created_at': {
+    type: String
+  },
+  'relatedRepos.$.updated_at': {
+    type: String
+  },
+  'relatedRepos.$.stargazers_count': {
+    type: String
+  },
+  'relatedRepos.$.watchers_count': {
+    type: String
+  },
+  'relatedRepos.$.language': {
+    type: String
+  },
+  'relatedRepos.$.forks_count': {
+    type: String
+  },
+  'relatedRepos.$.score': {
+    type: Number
+  },
   launchTags: {
     type: Array,
     minCount: 1,

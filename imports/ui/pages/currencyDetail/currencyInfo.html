@@ -38,6 +38,9 @@
                   <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#exchangestab">{{_ "currency.info.exchanges"}}</a>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#repostab">{{_ "currency.info.related_repos"}}</a>
+                  </li>
                 </ul>
                 <div id="currencyTabContent" class="tab-content">
                   <div class="tab-pane fade show active" id="compendiumtab">
@@ -193,6 +196,30 @@
             {{_ "currency.info.no_exchanges"}}
           {{/if}}
 
+                    </div>
+                  </div>
+                  <div class="tab-pane fade show active" id="repostab">
+                    <br/>
+                    <div class="row">
+                      {{#if relatedRepos.length}}
+                        {{#each relatedRepos}}
+                        <div class="col-md-4">
+                          <div class="card card-header">
+                            <div class="title"><a target="_blank" href="{{html_url}}">{{name}}</a>{{#if fork}}<i class="fa fa-code-fork" aria-hidden="true"></i>{{/if}}</div>
+                            <div class="value">
+                              {{_ "currency.info.stargazers"}}: <b>{{isNullReadOnly stargazers_count}}</b><br />
+                              {{_ "currency.info.watchers"}}: <b>{{isNullReadOnly watchers_count}}</b><br />
+                              {{_ "currency.info.language"}}: <b>{{isNullReadOnly language}}</b><br />
+                              {{_ "currency.info.fork_count"}}: <b>{{isNullReadOnly forks_count}}</b><br />
+                              {{_ "currency.info.last_update"}}: <b>{{formatDate updated_at}}</b>
+                            </div>
+                          </div>
+                        </div>
+                        {{/each}}
+                        {{#if reposHasMore}}<a class="btn btn-secondary pull-right" id="js-show-more">{{_ "currency.info.show_more"}}</a>{{/if}}
+                      {{else}}
+                        <h4>{{_ "currency.info.no_related_repos"}}</h4>
+                      {{/if}}
                     </div>
                   </div>
                 </div>
