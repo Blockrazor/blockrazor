@@ -2,15 +2,15 @@ import { chai, assert } from 'meteor/practicalmeteor:chai'
 import { Meteor } from 'meteor/meteor'
 import { callWithPromise } from '/imports/api/utilities'
 
-var test_walletUpoadDirectory = '/var/www/static/images/wallets/';
-var test_walletUpoadDirectoryPublic = '/static/images/wallets/';
-var test_coinUpoadDirectory = '/var/www/static/images/coin/';
-var test_coinUpoadDirectoryPublic = '/static/images/coin/';
-var test_hashPowerUploadDirectory = '/var/www/static/images/hashpower/'
-var test_hashPowerUploadDirectoryPublic = '/static/images/hashpower/'
-var test_profilePictureUploadDirectory = '/var/www/static/images/profile/'
-var test_profilePictureUploadDirectoryPublic = '/static/images/profile/'
-var test_watermarkLocation = '/var/www/static/images/watermark.png'
+var test_walletUpoadDirectory = '/home/gareth/blockrazor_assets/static/images/wallets/';
+var test_walletUpoadDirectoryPublic = '/images/wallets/';
+var test_coinUpoadDirectory = '/home/gareth/blockrazor_assets/static/images/coin/';
+var test_coinUpoadDirectoryPublic = '/images/coin/';
+var test_hashPowerUploadDirectory = '/home/gareth/blockrazor_assets/static/images/hashpower/'
+var test_hashPowerUploadDirectoryPublic = '/images/hashpower/'
+var test_profilePictureUploadDirectory = '/home/gareth/blockrazor_assets/static/images/profile/'
+var test_profilePictureUploadDirectoryPublic = '/images/profile/'
+var test_watermarkLocation = '/home/gareth/blockrazor_assets/static/images/watermark.png'
 
 
 var fs = require('fs');

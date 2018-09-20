@@ -58,8 +58,8 @@ Template.commQuestions.helpers({
 Template.commQuestions.events({
     'error img': function(e) {
         // fires when a particular image doesn't exist in given path
-        if ($(e.target).attr('src') !== '/images/noimage.png') {
-            $(e.target).attr('src', '/images/noimage.png')
+        if ($(e.target).attr('src') !== '/codebase_images/noimage.png') {
+            $(e.target).attr('src', '/codebase_images/noimage.png')
         }
     },
     'mouseover .choice': (event, templateInstance) => {

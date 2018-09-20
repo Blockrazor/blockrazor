@@ -76,8 +76,8 @@ Template.wallet.helpers({
 Template.wallet.events({
   'error img': function(e) {
     // fires when a particular image doesn't exist in given path
-    if ($(e.target).attr('src') !== '/images/noimage.png') {
-      $(e.target).attr('src', '/images/noimage.png')
+    if ($(e.target).attr('src') !== '/codebase_images/noimage.png') {
+      $(e.target).attr('src', '/codebase_images/noimage.png')
     }
   },
   'click #js-add': (event, templateInstance) => {
