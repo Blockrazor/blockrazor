@@ -75,14 +75,17 @@ Template.flaggedUsers.helpers({
 			console.log(us)
 
 			if (us.length > 1) {
+				const lastAccess = us.map(i => i.info.sessionData[i.info.sessionData.length - 1].time).sort((i1, i2) => i2 - i1)[0]
+
 				return {
 					ip: i,
-					lastAccess: moment(us.map(i => i.info.sessionData[i.info.sessionData.length - 1].time).sort((i1, i2) => i2 - i1)[0]).fromNow(),
-					users: us.length
+					lastAccess: moment(lastAccess).fromNow(),
+					users: us.length,
+					lastAccessSort: lastAccess
 				}
 			} else {
 				return false
 			}
-		}).filter(i => !!i)
+		}).filter(i => !!i).sort((i1, i2) => i2.lastAccessSort - i1.lastAccessSort)
 	}
 })
