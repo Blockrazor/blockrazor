@@ -139,6 +139,4 @@ if (FormData.find().count() === 0) {
       },].forEach(doc => {FormData.insert(doc)})
 };
 
-
-
-
+Meteor.call('activityIPFixture', (err, data) => {})

@@ -52,6 +52,28 @@ Meteor.methods({
 })
 
 Meteor.methods({
+  activityIPFixture: () => {
+    let ip = ActivityIPs.findOne({
+      ip: '127.0.0.1'
+    })
+
+    if (!ip) {
+      ActivityIPs.insert({
+        ip: '127.0.0.1',
+        ignored: true,
+        whitelist: true
+      })
+    } else if (ip && (!ip.whitelist || !ip.ignored)) {
+      ActivityIPs.update({
+        _id: ip._id,
+      }, {
+        $set: {
+          ignored: true,
+          whitelist: true
+        }
+      })
+    }
+  },
   activityIPVote: function(ip, type) {
     if (!Meteor.userId()) {
       throw new Meteor.Error('Error.', 'messages.login')
