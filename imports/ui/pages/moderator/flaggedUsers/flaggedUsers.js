@@ -58,9 +58,13 @@ Template.flaggedUsers.helpers({
 		let ips = _.uniq(_.flatten(users.map(i => ((i.info.sessionData || []).map(j => j.loggedIP))))) // return all flagged ip addresses
 		let ignored = ActivityIPs.find({
 			ignored: true,
-			time: {
-				$gt: new Date() - 1000*60*60*24*30
-			}
+			$or: [{
+				time: {
+					$gt: new Date() - 1000*60*60*24*30
+				}
+			}, {
+				whitelist: true
+			}]
 		}).fetch().map(i => i.ip)
 
 		ips = ips.filter(i => !~ignored.indexOf(i)) // filter out ignored ips
