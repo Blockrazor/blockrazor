@@ -1,5 +1,19 @@
 <template name="footer">
     <footer class="app-footer footer">
-      {{{_ "footer.text"}}}
+      <div class="copyright">
+        {{{_ "footer.text"}}}
+      </div>
+      <div class="change-language">
+        Language :
+        <select name="selectLanguage" id="selectLanguage">
+          {{#each languages}}
+            {{#if selected}}
+              <option value={{code}} selected>{{name}}</option>
+            {{else}}
+              <option value={{code}}>{{name}}</option>
+            {{/if}}
+          {{/each}}
+        </select>
+      </div>
     </footer>
 </template>
