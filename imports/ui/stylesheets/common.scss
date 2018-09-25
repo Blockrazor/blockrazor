@@ -16,8 +16,7 @@ body {
 // Footer Fix
 .app-body .main{
   position: relative;
-  min-height: calc(100vh - 60px);
-  overflow-y: scroll;
+  min-height: calc(100vh - 60px - 5em);
 }
 
 .reactive-table {

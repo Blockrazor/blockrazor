@@ -1,23 +1,28 @@
 <template name="layout">
-    <div class="layout">
-        {{> Template.dynamic template=header}}
-        <div class="app-body">
-            {{> Template.dynamic template="sidebar"}}
-            <main class="main">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">{{#each breadcrumbs}}<a href="{{url}}">{{text}}</a>{{#if notLast}} / {{/if}}{{/each}}</li>
-                    <li class="breadcrumb-menu d-md-down-none filterComponent" style="display:none">
-                        <div class="btn-group" role="group" aria-label="Button group">
-                            <a class="btn" href="#">
-<i class="fa fa-filter" aria-hidden="true"></i> &nbsp;{{_ "header.filter"}}</a>
-                        </div>
-                    </li>
-                </ol>
-                <div class="container-fluid" style="margin-top: 30px; margin-bottom: 100px;">
-                    {{> Template.dynamic template=main}}
-                </div>
-                {{> Template.dynamic template=footer}}
-            </main>
+  <div class="layout">
+    {{> Template.dynamic template=header}}
+    <div class="app-body">
+      {{> Template.dynamic template="sidebar"}}
+      <main class="main">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            {{#each breadcrumbs}}
+              <a href="{{url}}">{{text}}</a>
+              {{#if notLast}} / {{/if}}
+            {{/each}}
+          </li>
+          <li class="breadcrumb-menu d-md-down-none filterComponent" style="display:none">
+            <div class="btn-group" role="group" aria-label="Button group">
+              <a class="btn" href="#">
+                <i class="fa fa-filter" aria-hidden="true"></i> &nbsp;{{_ "header.filter"}}</a>
+            </div>
+          </li>
+        </ol>
+        <div class="container-fluid">
+          {{> Template.dynamic template=main}}
         </div>
+      </main>
+      {{> Template.dynamic template=footer}}
     </div>
+  </div>
 </template>

@@ -6,8 +6,11 @@
   position: absolute;
   bottom: 0;
   width: 100%;
-  height:10vh;
+  height: 5em;
   background-color: #eceeef;
+  a{
+    display: inline;
+  }
 }
 
 .app-footer.footer{
