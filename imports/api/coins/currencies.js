@@ -329,6 +329,28 @@ Currencies.schema = new SimpleSchema({
   'relatedRepos.$.score': {
     type: Number
   },
+  gitStats: {
+    type: Object,
+    optional: true
+  },
+  'gitStats.related': {
+    type: Number
+  },
+  'gitStats.watchers': {
+    type: Number
+  },
+  'gitStats.likes': {
+    type: Number
+  },
+  'gitStats.avgWatchers': {
+    type: Number
+  },
+  'gitStats.topLanguages': {
+    type: Array
+  },
+  'gitStats.topLanguages.$': {
+    type: String
+  },
   launchTags: {
     type: Array,
     minCount: 1,

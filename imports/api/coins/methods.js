@@ -350,11 +350,22 @@ Meteor.methods({
                         score: i.score
                     }))
 
+                    let languages = {}
+
+                    items.forEach(j => languages[j.language] = (languages[j.language] || 0) + 1)
+
                     Currencies.update({
                         _id: el._id
                     }, {
                         $set: {
-                            relatedRepos: items
+                            relatedRepos: items,
+                            gitStats: {
+                                related: data.data.total_count,
+                                watchers: items.reduce((i1, i2) => i1 + Number(i2.watchers_count), 0),
+                                likes: items.reduce((i1, i2) => i1 + Number(i2.stargazers_count), 0),
+                                avgWatchers: Math.round(items.reduce((i1, i2) => i1 + Number(i2.watchers_count), 0) / (items.length || 1)),
+                                topLanguages: Object.keys(languages).sort((i1, i2) => languages[i2] - languages[i1]).slice(0, 5)
+                            }
                         }
                     })
                 }

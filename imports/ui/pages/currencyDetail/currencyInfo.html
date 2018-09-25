@@ -198,9 +198,23 @@
 
                     </div>
                   </div>
-                  <div class="tab-pane fade show active" id="repostab">
+                  <div class="tab-pane fade" id="repostab">
                     <br/>
                     <div class="row">
+                      {{#if gitStats}}
+                        <div class="col-md-12">
+                          <div class="card card-header">
+                            <div class="title">Git stats</div>
+                            <div class="value">
+                              {{_ "currency.info.related"}}: <b>{{isNullReadOnly gitStats.related}}</b><br />
+                              {{_ "currency.info.watchers_all"}}: <b>{{isNullReadOnly gitStats.watchers}}</b><br />
+                              {{_ "currency.info.likes"}}: <b>{{isNullReadOnly gitStats.likes}}</b><br />
+                              {{_ "currency.info.watchers_avg"}}: <b>{{isNullReadOnly gitStats.avgWatchers}}</b><br />
+                              {{_ "currency.info.top_langs"}}: <b>{{topLangs}}</b>
+                            </div>
+                          </div>
+                        </div>
+                      {{/if}}
                       {{#if relatedRepos.length}}
                         {{#each relatedRepos}}
                         <div class="col-md-4">

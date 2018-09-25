@@ -81,7 +81,12 @@
 			"fork_count": "Fork count",
 			"last_update": "Last update",
 			"show_more": "Show more repos",
-			"no_related_repos": "No related GitHub repos found."
+			"no_related_repos": "No related GitHub repos found.",
+			"related": "Related projects on Github",
+			"watchers_all": "Watchers on all projects",
+			"likes": "Likes on all projects",
+			"watchers_avg": "Watchers per project",
+			"top_langs": "Top 5 languages"
 		},
 		"discussion": {
 			"discussion": "Discussion",
