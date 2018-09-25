@@ -28,6 +28,7 @@ Template.signin.events({
 				sAlert.error(err.message)
 			}
 		})
+		
 	},
 	'submit #signIn': (event, templateInstance) => {
 		event.preventDefault()
