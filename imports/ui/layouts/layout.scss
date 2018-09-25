@@ -2,27 +2,33 @@
 -------------------------------------------------- */
 
 .layout {
-    .app-body {
-        margin-top: 0 !important;
-    }
+  .app-body {
+    margin-top: 0 !important;
+  }
 
-    .sidebar, .main {
-   margin-top: 55px; 
-    }
+  .sidebar,
+  .main {
+    margin-top: 55px;
+  }
 
-    .app-header {
-         .nav-item{
-            min-width: 35px !important;
-         }
-    }
+  // Space for footer
+  main.main{
+    margin-bottom: 5em;
+  }
 
-    .navbar-dark .navbar-nav .nav-link {
-        color: #fff;
-
-        &:hover {
-            color: #fff;
-        }
+  .app-header {
+    .nav-item {
+      min-width: 35px !important;
     }
+  }
+
+  .navbar-dark .navbar-nav .nav-link {
+    color: #fff;
+
+    &:hover {
+      color: #fff;
+    }
+  }
 }
 
 header.masthead {
@@ -75,4 +81,3 @@ header.masthead h1 {
     padding: 7rem;
   }
 }
-
