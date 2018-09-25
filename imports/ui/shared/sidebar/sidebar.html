@@ -13,7 +13,7 @@
           <a class="nav-link" href="/addcoin">{{_ "sidebar.add_new_coin_ico"}}</a>
         </li>
         <li class="{{activeClass 'bounties'}} nav-item">
-          <a class="nav-link" href="/bounties">{{_ "sidebar.bounties"}} {{#if hasBounties activeBounties }}
+          <a class="nav-link" href="{{bountyUrl activeBounties}}">{{_ "sidebar.bounties"}} {{#if hasBounties activeBounties }}
             <span class="badge badge-danger">{{ activeBounties.length }}</span>
             {{/if}}
           </a>

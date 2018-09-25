@@ -1,4 +1,10 @@
 <template name="addCoin">
+    {{#if activeBounty}}
+        <div class="alert alert-danger text-center" role="alert">
+            <h5 class="text-center">{{timeRemaining}}</h5>    
+            <button class="btn btn-danger" id="cancel">{{_ "currency.detail.cancel"}}</button>
+        </div>
+    {{/if}}
     <form action="#" id="myForm" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
         <div id="smartwizard">
             <ul>

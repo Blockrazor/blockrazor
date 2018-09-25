@@ -21,7 +21,7 @@
                     <a href="/compareCurrencies"><i class="fas fa-balance-scale"></i>Compare currencies</a>
                 </li>
                 <li class="{{activeClass 'addcoin'}}"><a href="/addcoin"><i class="fas fa-plus-square"></i>Add New Coin or ICO</a></li>
-                <li class="{{activeClass 'bounties'}}"><a href="/bounties"><i class="fas fa-bullseye"></i>Bounties
+                <li class="{{activeClass 'bounties'}}"><a href="{{bountyUrl activeBounties}}"><i class="fas fa-bullseye"></i>Bounties
                   {{#if hasBounties activeBounties }}
                     <span class="badge badge-danger">{{ activeBounties.length }}</span>
                   {{/if}}
