@@ -46,7 +46,7 @@ Template.registerHelper('bountyUrl', (bountyArr) => {
 	// call getBountyUrl on it
 	if (bountyArr.length !== 0) { return getBountyUrl(bountyArr[0].type); }
 	// otherwise return an empty string
-	return '';
+	return '/bounties';
 });
 
 Template.registerHelper('hasBounties', (bountyArr) => {
