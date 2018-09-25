@@ -83,33 +83,44 @@
     </div>
   </div>
 {{/if}}
-    <div class="card">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-sm-4">
-                <div class="callout callout-info">
-                    <small class="text-muted">{{_ "home.total_currencies" }}</small>
-                    <br>
-                    <strong class="h4">{{totalCurrencies}}</strong>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="callout callout-info">
-                    <small class="text-muted">{{_ "home.users_online" }}</small>
-                    <br>
-                    <strong class="h4">{{onlineUsers}}/{{createdUsers}}</strong>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="callout callout-danger">
-                    <small class="text-muted">{{_ "home.new_users"}}</small>
-                    <br>
-                    <strong class="h4">{{signedUp}}</strong>
-                </div>
-            </div>
-        </div>
-        </div>
+  <div class="row">
+      <div class="col-sm-4">
+        <div class="card text-white bg-primary">
+          <div class="card-body">
+          <div class="h1 text-muted text-right mb-4">
+          <i class="icon-diamond"></i>
+          </div>
+          <div class="text-value">{{totalCurrencies}}</div>
+          <small class="text-muted text-uppercase font-weight-bold">{{_ "home.total_currencies" }}</small>
+          </div>
+          </div>
+      </div>
+
+      <div class="col-sm-4">
+        <div class="card text-white bg-success">
+          <div class="card-body">
+          <div class="h1 text-muted text-right mb-4">
+          <i class="icon-people"></i>
+          </div>
+          <div class="text-value">{{onlineUsers}}/{{createdUsers}}</div>
+          <small class="text-muted text-uppercase font-weight-bold">{{_ "home.users_online" }}</small>
+          </div>
+          </div>
+      </div>
+
+      <div class="col-sm-4">
+        <div class="card text-white bg-info">
+          <div class="card-body">
+          <div class="h1 text-muted text-right mb-4">
+          <i class="icon-user-follow"></i>
+          </div>
+          <div class="text-value">{{signedUp}}</div>
+          <small class="text-muted text-uppercase font-weight-bold">{{_ "home.new_users"}}</small>
+          </div>
+          </div>
+      </div>
     </div>
+    
 
   <div class="currency-container">
     <div class="match-results">
