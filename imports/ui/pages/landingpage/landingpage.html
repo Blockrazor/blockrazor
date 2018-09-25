@@ -6,19 +6,16 @@
         <div class="row">
           <div class="col-md-6 col-md-offset-1 first-part">
             <div class="logo">BLOCKRAZOR</div>
-            <h1>{{{_ "landing.info"}}}</h1>
-            <p>
+            <h1 class="first-part-content">{{{_ "landing.info"}}}</h1>
+            <p class="first-part-content">
               {{_ "landing.mission"}}
             </p>
-            <p>
-              <a href={{startUrl}} class="btn btn-primary" style="padding:15px;background: black;border:none">{{_ "landing.get_started"}}</a>
-            </p>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-5">
             {{# if loggedIn}}
               {{> welcomeUser}}
             {{else}}
-              {{> signup}}
+              {{> signin}}
             {{/if}}
           </div>
         </div>

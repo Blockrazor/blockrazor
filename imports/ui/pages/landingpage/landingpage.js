@@ -1,6 +1,6 @@
 import './landingpage.html'
 import './landingpage.scss'
-import '../signup/signup'
+import '../signin/signin'
 
 import { Currencies, UsersStats } from '/imports/api/indexDB.js'
 
