@@ -2,12 +2,21 @@
     
     <div class="container-fluid">
             {{#if isModerator}}
+            <span class="float-right">
+                <select id="js-sort" class="form-control">
+                    <option value="user-desc">▼ {{_ "moderator.flaggedUsers.last_access"}}</option>
+                    <option value="user-asc">▲ {{_ "moderator.flaggedUsers.last_access"}}</option>
+                    <option value="ip-desc">▼ {{_ "moderator.flaggedUsers.last_access_ip"}}</option>
+                    <option value="ip-asc">▲ {{_ "moderator.flaggedUsers.last_access_ip"}}</option>
+                </select>
+            </span>
             <table class="table table-responsive-sm table-hover table-outline mb-0 bg-white">
                     <thead class="thead-light">
                         <tr scope="row" class="table-light">
                             <th scope="col">{{_ "moderator.flaggedUsers.ip"}}</th>
                             <th scope="col">{{_ "moderator.flaggedUsers.count"}}</th>
                             <th scope="col">{{_ "moderator.flaggedUsers.last_access"}}</th>
+                            <th scope="col">{{_ "moderator.flaggedUsers.last_access_ip"}}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -17,6 +26,7 @@
                                     <td><a href="/moderator/flagged-ip/{{ip}}">{{ip}}</a></td>
                                     <td>{{users}}</td>
                                     <td>{{lastAccess}}</td>
+                                    <td>{{lastAccessIP}}</td>
                                 </tr>
                             {{else}}
                                 {{> empty}}
