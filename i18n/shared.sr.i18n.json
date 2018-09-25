@@ -4,7 +4,8 @@
 		"not_found": "Nije pronađeno"
 	},
 	"footer": {
-		"text": "Sadržaj ove stranice je vlasništvo &nbsp;<a href=\"https://blockrazor.org\">Blockrazor</a>-a i saradnika. Licencirano je pod Creative Commons Attribution-ShareAlike 3.0 licencom."
+    "copyright": "Sadržaj ove stranice je vlasništvo &nbsp;<a href=\"https://blockrazor.org\">Blockrazor</a>-a i saradnika. Licencirano je pod Creative Commons Attribution-ShareAlike 3.0 licencom.",
+    "language" : "Jezik"
 	},
 	"header": {
 		"bounties": "NAGRADE",
