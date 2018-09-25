@@ -1,10 +1,10 @@
 <template name="footer">
     <footer class="app-footer footer">
       <div class="copyright">
-        {{{_ "footer.text"}}}
+        {{{_ "footer.copyright"}}}
       </div>
       <div class="change-language">
-        Language :
+        {{{_ "footer.language"}}} :
         <select name="selectLanguage" id="selectLanguage">
           {{#each languages}}
             {{#if selected}}

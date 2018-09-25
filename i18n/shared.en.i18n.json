@@ -4,7 +4,8 @@
 		"not_found": "Not found"
 	},
 	"footer": {
-		"text": "The content of this page is owned by&nbsp;<a href=\"https://blockrazor.org\">Blockrazor</a>&nbsp;and Contributors. It is licensed under Creative Commons Attribution-ShareAlike 3.0 License."
+    "copyright": "The content of this page is owned by&nbsp;<a href=\"https://blockrazor.org\">Blockrazor</a>&nbsp;and Contributors. It is licensed under Creative Commons Attribution-ShareAlike 3.0 License.",
+    "language" : "Language"
 	},
 	"header": {
 		"bounties": "BOUNTIES",
