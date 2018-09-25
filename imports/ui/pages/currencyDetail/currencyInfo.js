@@ -368,6 +368,9 @@ Template.currencyInfo.events({
 });
 
 Template.currencyInfo.helpers({
+    topLangs: function() {
+        return this.gitStats.topLanguages.toString().replace(/,/g, ', ')
+    },
     relatedRepos: () => {
         let repos = Template.instance().data.relatedRepos || []
 
