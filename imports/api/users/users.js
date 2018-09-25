@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { UserData} from '/imports/api/indexDB.js';
+import { UserData, ActivityIPs } from '/imports/api/indexDB.js';
 import Analytics from 'analytics-node'
 var analytics = new Analytics('auAfRv1y0adOiVyz1TZB9nl18LI9UT98')
 
@@ -86,7 +86,29 @@ Accounts.validateLoginAttempt(function(result){
                         }
                       })
                     }
-  
+
+                    const acIP = ActivityIPs.findOne({
+                      ip: ipAddress
+                    })
+
+                    if (!acIP) {
+                      ActivityIPs.insert({
+                        ip: ipAddress,
+                        votes: [],
+                        score: 0,
+                        upvotes: 0,
+                        downvotes: 0,
+                        lastAccess: new Date().getTime()
+                      })  
+                    } else {
+                      ActivityIPs.update({
+                        _id: acIP._id
+                      }, {
+                        $set: {
+                          lastAccess: new Date().getTime()
+                        }
+                      })
+                    }
               }
           }
       );

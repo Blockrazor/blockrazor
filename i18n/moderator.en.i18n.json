@@ -82,7 +82,8 @@
 			"suspended": "All users suspended.",
 			"ip": "Flagged IP",
 			"count": "Users count",
-			"last_access": "Last access"
+			"last_access": "Last access (user)",
+			"last_access_ip": "Last access (ip)"
 		},
 		"hashpower": {
 			"image": "Image",
