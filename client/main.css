@@ -1,107 +1,107 @@
 .hidden {
-    display: none;
+  display: none;
 }
 
 .noselect {
-    -webkit-touch-callout: none;
-    /* iOS Safari */
-    -webkit-user-select: none;
-    /* Safari */
-    -khtml-user-select: none;
-    /* Konqueror HTML */
-    -moz-user-select: none;
-    /* Firefox */
-    -ms-user-select: none;
-    /* Internet Explorer/Edge */
-    user-select: none;
-    /* Non-prefixed version, currently
-                                  supported by Chrome and Opera */
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently supported by Chrome and Opera */
 }
 
 .frame::-webkit-scrollbar {
-    -webkit-appearance: none;
+  -webkit-appearance: none;
 }
 
 .frame::-webkit-scrollbar:vertical {
-    width: 11px;
+  width: 11px;
 }
 
 .frame::-webkit-scrollbar:horizontal {
-    height: 11px;
+  height: 11px;
 }
 
 .frame::-webkit-scrollbar-thumb {
-    border-radius: 8px;
-    border: 2px solid white; /* should match background, can't be transparent */
-    background-color: rgba(0, 0, 0, .5);
+  border-radius: 8px;
+  border: 2px solid white; /* should match background, can't be transparent */
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
-.frame::-webkit-scrollbar-track { 
-    background-color: #fff; 
-    border-radius: 8px; 
-} 
-  
+.frame::-webkit-scrollbar-track {
+  background-color: #fff;
+  border-radius: 8px;
+}
 
 @font-face {
-    font-family: "Whitney SSm", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Whitney SSm", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 html,
 body {
-  overflow-y: scroll; 
-    font-family: "Whitney SSm", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Whitney SSm", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 buttons,
 input,
 textarea,
 select {
-    font-family: monospace;
+  font-family: monospace;
 }
 
 .pointer {
-    cursor: pointer !important;
+  cursor: pointer !important;
 }
-.not-allowed { 
-cursor: not-allowed;
+.not-allowed {
+  cursor: not-allowed;
 }
 
 .greyHover:hover {
-    background-color: #f5f5f5;
+  background-color: #f5f5f5;
 }
 
-.card, .list-group, .modal-dialog, .form-check-item {
+.card,
+.list-group,
+.modal-dialog,
+.form-check-item {
   text-align: left;
 }
 
 .bootstrapFileInput {
-    position: absolute;
-    z-index: 2;
-    top: 0;
-    left: 0;
-    filter: alpha(opacity=0);
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-    opacity: 0;
-    background-color: transparent;
-    color: transparent;
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  filter: alpha(opacity=0);
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  opacity: 0;
+  background-color: transparent;
+  color: transparent;
 }
 
-._50x50{
-    width:50px;
-    height:50px;
+._50x50 {
+  width: 50px;
+  height: 50px;
 }
 
-.padLeft{
-    margin-left:8px !important;
+.padLeft {
+  margin-left: 8px !important;
 }
-.padRight{
-    margin-right:8px !important;
+.padRight {
+  margin-right: 8px !important;
 }
-.padTop{
-    margin-top:8px !important;
+.padTop {
+  margin-top: 8px !important;
 }
-.padBottom{
-    margin-bottom:8px !important;
+.padBottom {
+  margin-bottom: 8px !important;
 }
 
 .rounded {
@@ -109,15 +109,15 @@ cursor: not-allowed;
 }
 
 .error {
-    color:red;
+  color: red;
 }
 
 .modal-lg {
-    max-width: 90% !important;
+  max-width: 90% !important;
 }
 
-.upper{
-   text-transform:uppercase !important
+.upper {
+  text-transform: uppercase !important;
 }
 
 .container {
@@ -126,22 +126,22 @@ cursor: not-allowed;
 }
 
 .arrow-down {
-  width: 0; 
-  height: 0; 
+  width: 0;
+  height: 0;
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
-  
+
   border-top: 20px solid #f00;
 }
 
-.bubble{
-              position: absolute !important;
-          top: 5px !important;
-          right: 5px !important;
+.bubble {
+  position: absolute !important;
+  top: 5px !important;
+  right: 5px !important;
 }
 
 /*requireed to ensure the sAlert box is not hidden under the header*/
 
 .s-alert-box {
-    margin-top: 30px !important;
+  margin-top: 30px !important;
 }
