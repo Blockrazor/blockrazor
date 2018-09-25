@@ -8,7 +8,12 @@ var nextChangedCurrency = function () {
     var currentId = FlowRouter.getParam('id');
     var sample = _.sample(ChangedCurrencies.find({ 
         '_id' : { $ne : currentId }, 
-        "createdBy" : { $ne : Meteor.userId() }
+        "createdBy" : { $ne : Meteor.userId() },
+        "voteMetrics" : { 
+            "$not" : { 
+                "$elemMatch" : { "userId" : Meteor.userId()  } 
+            } 
+        }
     }).fetch());
 
     setTimeout(function () {
