@@ -330,7 +330,8 @@ Meteor.methods({
             ++count
             HTTP.get(`https://api.github.com/search/repositories?q=${el.currencyName}&sort=stars&order=desc`, {
                 headers: {
-                    'User-Agent': 'Blockrazor/bot'
+                    'User-Agent': 'Blockrazor/bot',
+                    'Accept': 'application/vnd.github.mercy-preview+json'
                 }
             }, (err, data) => {
                 if (!err) {
@@ -344,7 +345,7 @@ Meteor.methods({
                         created_at: i.created_at,
                         updated_at: i.updated_at,
                         stargazers_count: i.stargazers_count,
-                        watchers_count: i.watchers_count,
+                        watchers_count: i.watchers,
                         language: i.language,
                         forks_count: i.forks_count,
                         score: i.score
@@ -364,7 +365,7 @@ Meteor.methods({
                                 watchers: items.reduce((i1, i2) => i1 + Number(i2.watchers_count), 0),
                                 likes: items.reduce((i1, i2) => i1 + Number(i2.stargazers_count), 0),
                                 avgWatchers: Math.round(items.reduce((i1, i2) => i1 + Number(i2.watchers_count), 0) / (items.length || 1)),
-                                topLanguages: Object.keys(languages).sort((i1, i2) => languages[i2] - languages[i1]).slice(0, 5)
+                                topLanguages: Object.keys(languages).sort((i1, i2) => languages[i2] - languages[i1]).filter(i => i && i !== 'null').slice(0, 5)
                             }
                         }
                     })
