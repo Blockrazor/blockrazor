@@ -34,6 +34,7 @@ import '/imports/api/ratings/methods'
 import '/imports/api/distribution/methods'
 import '/imports/api/launchEmails/methods' //delete me after launch
 import '/imports/api/encryption/methods'
+import '/imports/api/translations/methods'
 
 import './routes.js'
 

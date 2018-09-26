@@ -1,0 +1,10 @@
+{
+	"translations": {
+		"scope": "Choose a scope to translate",
+		"language": "Choose a language",
+		"english": "English",
+		"save_data": "Save data",
+		"notice": "When translating, please keep the string in original format (e.g. don't modify html tags, %s modifiers, etc)",
+		"translations.data_doesn't_exist": "Language data doesn't exist."
+	}
+}

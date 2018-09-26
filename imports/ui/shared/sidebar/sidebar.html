@@ -52,6 +52,10 @@
           </ul>
         </li>
         {{#if currentUser}}
+        <li class="{{activeClass 'translations'}} nav-item">
+          <a class="nav-link" href="/translations">{{_ "sidebar.translations"}}
+          </a>
+        </li>
         <li class="{{activeClass 'mypending'}} nav-item ">
           <a class="nav-link " href="/mypending ">{{_ "sidebar.pending_items"}}</a>
         </li>
