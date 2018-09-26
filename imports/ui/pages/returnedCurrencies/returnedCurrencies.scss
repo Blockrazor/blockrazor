@@ -49,6 +49,33 @@
       display: inline-block;
     }
   }
+  &.auction{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    font-size: 1.75em;
+    text-decoration: none;
+    .header{
+      padding: 1em 0;
+      font-size: 3em;
+      i{
+        font-size: 2em;
+      }
+    }
+    .graph{
+      text-align: center;
+    }
+    .footer{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      a{
+        display: block;
+        width: 100%;
+      }
+    }
+  }
 }
 
 .top-bid-currency {

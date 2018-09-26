@@ -125,13 +125,16 @@
   <div class="currency-container">
     <div class="match-results">
       {{#if noFeatured}}
-        <a href="/currencyAuction">
-          <div class="currency-card top-bid-currency" style="height: 70px;text-decoration: none;">
-              <div class="header">
-                  <div><i style="padding-right: 10px; padding-left: 10px;" class="fa fa-gavel"></i> 
-                    {{_ "home.ico_or_coin"}} <div style="font-size: 12px; display: inline-block">({{_ "home.top_bid"}})</div>
-                  </div>
-              </div>
+        <a class="currency-card auction" href="/currencyAuction">
+          <div class="header">
+            <i style="padding-right: 10px; padding-left: 10px;" class="fa fa-gavel"></i> 
+          </div>
+          <div class="graph">
+            {{_ "home.ico_or_coin"}}
+            <div>({{_ "home.top_bid"}})</div>
+          </div>
+          <div class="footer text-center">
+            <a href="/currencyAuction">Learn more about aution.</a>
           </div>
         </a>
       {{/if}}
