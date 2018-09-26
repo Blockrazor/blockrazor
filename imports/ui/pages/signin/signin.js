@@ -37,7 +37,7 @@ Template.signin.events({
 			username: $('#email').val()
 		}, $('#password').val(), (err) => {
 			if (!err) {
-				FlowRouter.go(window.last || '/')
+				FlowRouter.go(window.last || '/home')
 			} else {
 				sAlert.error(TAPi18n.__(err.reason))
 			}
