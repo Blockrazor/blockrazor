@@ -91,10 +91,10 @@ Template.flaggedUsers.helpers({
 				return {
 					ip: i,
 					lastAccess: moment(lastAccess).fromNow(),
-					lastAccessIP: moment(ip.lastAccess).fromNow(),
+					lastAccessIP: ip.lastAccess ? moment(ip.lastAccess).fromNow() : '-',
 					users: us.length,
 					lastAccessSort: lastAccess,
-					lastAccessIPSort: ip.lastAccess
+					lastAccessIPSort: ip.lastAccess || 0
 				}
 			} else {
 				return false
