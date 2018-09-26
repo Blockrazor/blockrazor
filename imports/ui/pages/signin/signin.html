@@ -1,60 +1,61 @@
 <template name="signin">
-    {{> sAlert}}
-    <div class="sign-in">
-        <div class="title">{{_ "user.signin.login"}}</div>
-        <div class="email-sign-in">
-            <form id="signIn">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                    </div>
-                    <input type="text" id="email" class="form-control" placeholder='{{_ "user.signin.email"}}' required>
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-key"></i></span>
-                    </div>
-                    <input type="password" id="password" class="form-control" placeholder='{{_ "user.signin.password"}}'>
-                </div>
-                <button type="submit" class="btn btn-primary">{{_ "user.signin.login"}}</button>
-            </form>
-            <div class="section-title">{{_ "user.signin.or"}}</div>
-            <div class="alternate-options">
-                <a href="#" id="js-facebook"><i class="fab fa-facebook-f"></i><span>{{_ "user.signin.fb"}}</span></a>
-                <a href="#" id="js-github"><i class="fab fa-github"></i><span>{{_ "user.signin.git"}}</span></a>
+  {{> sAlert}}
+  <div class="sign-in">
+    <div class="title">{{_ "user.signin.login"}}</div>
+    <div class="email-sign-in">
+      <div class="login-options">
+        <a href="#" id="js-facebook"><i class="fab fa-facebook-f"></i><span>{{_ "user.signin.fb"}}</span></a>
+        <a href="#" id="js-github"><i class="fab fa-github"></i><span>{{_ "user.signin.git"}}</span></a>
+        <a href="#" id="js-email"><i class="fas fa-envelope"></i><span>{{_ "user.signin.withemail"}}</span></a>
+        <form class="d-none" id="signIn">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-envelope"></i></span>
             </div>
-            <div class="sign-up-link">
-                {{_ "user.signin.dont_have"}} <a href="/signup">{{_ "user.signin.create"}}</a>.
-            </div>
-            <div class="sign-up-link">
-              {{_ "user.signin.forgot"}}<a href="/reset-password">{{_ "user.signin.request_new"}}</a>.
+            <input type="text" id="email" class="form-control" placeholder='{{_ "user.signin.email"}}' required>
           </div>
-        </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-key"></i></span>
+            </div>
+            <input type="password" id="password" class="form-control" placeholder='{{_ "user.signin.password"}}'>
+          </div>
+          <button type="submit" class="btn btn-primary">{{_ "user.signin.login"}}</button>
+        </form>
+      </div>
+      <div class="sign-up-link">
+        {{_ "user.signin.dont_have"}} <a href="/signup">{{_ "user.signin.create"}}</a>.
+      </div>
+      <div class="sign-up-link">
+        {{_ "user.signin.forgot"}}<a href="/reset-password">{{_ "user.signin.request_new"}}</a>.
+      </div>
     </div>
+  </div>
 </template>
 
 <template name="password_reset">
   {{> sAlert}}
-    <div class="sign-in">
-        <div class="title">{{_ "user.forgot.reset"}}</div>
-        <div class="email-sign-in">
-            <form id="password-reset">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                    </div>
-                    <input type="text" name="email" id="email" class="form-control" placeholder='{{_ "user.signin.email"}}' required>
-                </div>
-                <button type="submit" class="btn btn-primary">{{_ "user.forgot.request"}}</button>
-            </form>
-            <div class="section-title">{{_ "user.signin.or"}}</div>
-            <div class="alternate-options">
-                <a href="#" id="js-facebook"><i class="fab fa-facebook-f"></i><span>{{_ "user.signin.fb"}}</span></a>
-                <a href="#" id="js-github"><i class="fab fa-github"></i><span>{{_ "user.signin.git"}}</span></a>
-            </div>
-            <div class="sign-up-link">
-                {{_ "user.signin.dont_have"}} <a href="/signup">{{_ "user.signin.create"}}</a>.
-            </div>
+  <div class="sign-in">
+    <div class="title">{{_ "user.forgot.reset"}}</div>
+    <div class="email-sign-in">
+      <form id="password-reset">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+          </div>
+          <input type="text" name="email" id="email" class="form-control" placeholder='{{_ "user.signin.email"}}'
+            required>
         </div>
+        <button type="submit" class="btn btn-primary">{{_ "user.forgot.request"}}</button>
+      </form>
+      <div class="section-title">{{_ "user.signin.or"}}</div>
+      <div class="alternate-options">
+        <a href="#" id="js-facebook"><i class="fab fa-facebook-f"></i><span>{{_ "user.signin.fb"}}</span></a>
+        <a href="#" id="js-github"><i class="fab fa-github"></i><span>{{_ "user.signin.git"}}</span></a>
+      </div>
+      <div class="sign-up-link">
+        {{_ "user.signin.dont_have"}} <a href="/signup">{{_ "user.signin.create"}}</a>.
+      </div>
     </div>
+  </div>
 </template>

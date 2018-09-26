@@ -29,7 +29,12 @@ Template.signin.events({
 			}
 		})
 		
-	},
+  },
+
+  'click #js-email' : (event) => {
+    event.preventDefault()
+    $('#signIn').toggleClass('d-none');
+  },
 	'submit #signIn': (event, templateInstance) => {
 		event.preventDefault()
 
