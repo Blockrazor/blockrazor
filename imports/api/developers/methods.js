@@ -13,6 +13,12 @@ Meteor.methods({
                 _id: Meteor.userId()
             })
 
+            let pending = Developers.find({ userId: Meteor.userId(), processed: false }).count()
+
+            if (pending > 0) {
+                throw new Meteor.Error('Error.', 'You have already applied to be a developer.')
+            }
+
             let username = user.username || user._id 
 
             Developers.insert({
