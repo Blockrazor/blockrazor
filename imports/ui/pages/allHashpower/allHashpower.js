@@ -16,7 +16,11 @@ Template.allHashpower.onCreated(function() {
 })
 
 Template.allHashpower.helpers({
-	hashpower: () => HashPower.find({}).fetch(),
+	hashpower: () => HashPower.find({}, {
+		sort: {
+			'createdAt': -1
+		}
+	}).fetch(),
 	hashDevice: function() {
 		return (HashHardware.findOne({
 			_id: this.device
