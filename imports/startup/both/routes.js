@@ -1193,6 +1193,46 @@ adminRoutes.route('/flagged-ip/:ip', {
 //   }
 // })
 
+adminRoutes.route('/translations', {
+  name: 'modTranslations',
+  breadcrumb: {
+    text: 'moderator / translations',
+    urls: ['/moderator']
+  },
+  subscriptions: function () {
+    this.register('translations', FastRenderer.subscribe('translations'))
+  },
+  action: async (params, queryParams) => {
+    await import ('/imports/ui/pages/moderator/translations/translations')
+    BlazeLayout.render('layout', {
+      main: 'modTranslations',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
+    })
+  }
+})
+
+adminRoutes.route('/translations/:id', {
+  name: 'modTranslation',
+  breadcrumb: {
+    text: 'moderator / translations / translation',
+    urls: ['/moderator', '/moderator/translations']
+  },
+  subscriptions: function () {
+    this.register('translations', FastRenderer.subscribe('translations'))
+  },
+  action: async (params, queryParams) => {
+    await import ('/imports/ui/pages/moderator/translations/translation')
+    BlazeLayout.render('layout', {
+      main: 'modTranslation',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
+    })
+  }
+})
+
 adminRoutes.route('/flagged-hashpower', {
   name: 'flagged-hashpower',
   breadcrumb: {

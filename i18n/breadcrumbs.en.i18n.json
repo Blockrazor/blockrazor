@@ -43,6 +43,7 @@
 		"app_logs": "App Logs",
 		"solved_problems": "Solved Problems",
 		"deadman": "Deadman vote",
-		"translations": "Translations"
+		"translations": "Translations",
+		"translation": "Translation"
 	}
 }

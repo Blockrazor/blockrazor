@@ -20,6 +20,7 @@ const flatten = (source, flattened = {}, keySoFar = '') => {
   	return flattened
 }
 
+export { flatten }
 
 Template.translations.onCreated(function() {
 	this.scopes = new ReactiveVar([])
@@ -134,7 +135,7 @@ Template.translations.events({
 			}
 		})
 
-		Meteor.call('saveLanguageData', templateInstance.currentData.get().scope, templateInstance.currentLanguage.get().key, data, (err, data) => {
+		Meteor.call('saveLanguageData', templateInstance.currentData.get().scope, templateInstance.currentLanguage.get().key, templateInstance.currentLanguage.get().name, data, (err, data) => {
 			if (!err) {
 				swal('Successfully saved.')
 

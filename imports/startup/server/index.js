@@ -18,6 +18,7 @@ import '/imports/api/summaries/server/publications'
 import '/imports/api/problems/server/publications'
 import '/imports/api/exchanges/server/publications'
 import '/imports/api/encryption/server/publications'
+import '/imports/api/translations/server/publications'
 
 
 //server methods- don't make these, they get bundled with client and are callable from client anyhow, only detracts optimistc UI
@@ -34,6 +35,7 @@ import '/imports/api/rewards/server/startup'
 import '/imports/api/problems/server/startup'
 import '/imports/api/encryption/server/startup'
 import '/imports/api/coins/server/startup'
+import '/imports/api/translations/server/startup'
 
 // collection configs
 import '/imports/api/users/users.js'
