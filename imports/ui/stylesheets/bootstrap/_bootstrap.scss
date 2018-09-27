@@ -1,7 +1,8 @@
 @import "{}/node_modules/bootstrap/scss/functions";
+@import "{}/node_modules/bootstrap/scss/variables";
 
 // Bootstrap theme (needs to come in this order)
-@import "{}/imports/ui/stylesheets/bootstrap/bootstrap_variables.scss";
+// @import "{}/imports/ui/stylesheets/bootstrap/bootstrap_variables.scss";
 
 @import "{}/node_modules/bootstrap/scss/mixins";
 @import "{}/node_modules/bootstrap/scss/root";
