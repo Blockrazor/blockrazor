@@ -1,0 +1,8 @@
+{
+    "auctions": {
+        "all": {
+            "closed": "GESCHLOSSEN",
+            "open": " ÖFFNEN"
+        }
+    }
+}
