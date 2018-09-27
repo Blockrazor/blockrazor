@@ -1,4 +1,4 @@
-<template name="returnedCurrencies">
+<template name="returnedCurrencies" class="home-currencies">
 
 <!--- Currency Filter -->
 <div class="modal currencyFilterModal" tabindex="-1" role="dialog">
@@ -86,11 +86,11 @@
   <div class="row">
       <div class="col-sm-4">
         <div class="card text-white bg-primary">
-          <div class="card-body">
-          <div class="h1 text-muted text-right mb-4">
+          <div class="card-body" style="padding: 0.5rem">
+          <div class="h5 text-muted text-right mb-0">
           <i class="icon-diamond"></i>
           </div>
-          <div class="text-value">{{totalCurrencies}}</div>
+          <div class="home-text-value">{{totalCurrencies}}</div>
           <small class="text-muted text-uppercase font-weight-bold">{{_ "home.total_currencies" }}</small>
           </div>
           </div>
@@ -98,11 +98,11 @@
 
       <div class="col-sm-4">
         <div class="card text-white bg-success">
-          <div class="card-body">
-          <div class="h1 text-muted text-right mb-4">
+          <div class="card-body" style="padding: 0.5rem">
+          <div class="h5 text-muted text-right mb-0">
           <i class="icon-people"></i>
           </div>
-          <div class="text-value">{{onlineUsers}}/{{createdUsers}}</div>
+          <div class="home-text-value">{{onlineUsers}}/{{createdUsers}}</div>
           <small class="text-muted text-uppercase font-weight-bold">{{_ "home.users_online" }}</small>
           </div>
           </div>
@@ -110,11 +110,11 @@
 
       <div class="col-sm-4">
         <div class="card text-white bg-info">
-          <div class="card-body">
-          <div class="h1 text-muted text-right mb-4">
+          <div class="card-body" style="padding: 0.5rem">
+          <div class="h5 text-muted text-right mb-0">
           <i class="icon-user-follow"></i>
           </div>
-          <div class="text-value">{{signedUp}}</div>
+          <div class="home-text-value">{{signedUp}}</div>
           <small class="text-muted text-uppercase font-weight-bold">{{_ "home.new_users"}}</small>
           </div>
           </div>
