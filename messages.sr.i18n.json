@@ -1,0 +1,13 @@
+{
+    "messages": {
+        "login": "Morate biti prijavljeni.",
+        "error": "Došlo je do greške.",
+        "server_only": "Ovaj metod se može pozivati samo sa servera.",
+        "activity": {
+            "ip_ignored": "Ova IP adresa je još uvek na ignore listi."
+        },
+        "auctions": {
+            "past": "Aukcije ne može da se završava u prošlosti."
+        }
+    }
+}
