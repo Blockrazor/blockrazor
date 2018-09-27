@@ -288,6 +288,26 @@ FlowRouter.route('/problems', {
   }
 })
 
+FlowRouter.route('/translations', {
+  name: 'translations',
+  breadcrumb: {
+    text: 'home / translations',
+    urls: ['/home']
+  },
+  subscriptions: function (params) {
+    this.register('users', FastRenderer.subscribe('users'))
+  },
+  action: async (params, queryParams) => {
+    await import ('/imports/ui/pages/translations/translations')
+    BlazeLayout.render('layout', {
+      main: 'translations',
+      header: "header",
+      sidebar: 'sidebar',
+      footer: "footer",
+    })
+  }
+})
+
 FlowRouter.route('/problem/:id', {
   name: 'problem',
   breadcrumb: {

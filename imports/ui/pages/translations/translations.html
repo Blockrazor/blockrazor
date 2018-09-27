@@ -1,0 +1,32 @@
+<template name="translations">
+    <div class="row">
+        <select class="form-control view-scope"><option value="-">{{_ "translations.scope"}}</option>{{#each scopes}}<option value="{{this}}">{{this}}</option>{{/each}}</select>
+    </div>
+    <div class="row">
+        <select class="form-control language"><option value="-">{{_ "translations.language"}}</option>{{#each langs}}<option value="{{code}}">{{name}}</option>{{/each}}</select>
+    </div>
+    {{#if translations.length}}
+    <form action="#" id="myForm" role="form" data-toggle="validator" method="post" accept-charset="utf-8">
+        <span><i>* {{_ "translations.notice"}}</i></span>
+        <table class="table table-responsive-sm table-hover table-outline mb-0 bg-white">
+            <thead class="thead-light">
+                <tr scope="row" class="table-light">
+                    <th scope="col">{{_ "translations.english"}}</th>
+                    <th scope="col" style="width: 60%;">{{language}}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {{#each translations}}
+            <tr>
+                <td>{{english}}</td>
+                <td>
+                    <input type="text" id="{{key}}" name="{{key}}" class="form-control" value="{{translated}}" required>
+                </td>
+            </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </form>
+    <a href="#" class="btn btn-success pull-right save-data">{{_ "translations.save_data"}}</a>
+    {{/if}}
+</template>

@@ -34,6 +34,7 @@
 			"distribution": "Distribution",
 			"transactions": "All Transactions"
 		},
+		"translations": "Translations",
 		"pending_items": "My Pending Items",
 		"notifications": "Notifications",
 		"my_wallet": "My Wallet",
