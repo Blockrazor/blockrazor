@@ -1,3 +1,4 @@
+$primary:       #29363d !default;
 // Import CoreUI default colors
 @import "{}/node_modules/@coreui/coreui/scss/variables/colors";
 
@@ -6,7 +7,7 @@
 
 // Import Bootstrap variables after customization for use below
 @import "{}/node_modules/bootstrap/scss/functions";
-@import "{}/node_modules/bootstrap/scss/variables";
+@import "{}/imports/ui/stylesheets/bootstrap/bootstrap_variables.scss";
 
 // CoreUI Variables
 
