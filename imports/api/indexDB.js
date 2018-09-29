@@ -56,6 +56,7 @@ import { ProblemComments } from '/imports/api/problems/problemComments'
 
 import { Exchanges } from '/imports/api/exchanges/exchanges'
 import { Encryption } from '/imports/api/encryption/encryption'
+import { Translations } from '/imports/api/translations/translations'
 
 import { developmentValidationEnabledFalse } from '/imports/startup/both/developmentValidationEnabledFalse'
 
@@ -123,5 +124,6 @@ export {
 
   Payments,
 
-  Encryption
+  Encryption,
+  Translations
 }
