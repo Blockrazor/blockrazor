@@ -2,6 +2,8 @@
 -------------------------------------------------- */
 
 header {
+    border: none !important;
+    
     .sidebar-toggler {
         border-color: #bbb !important;
 
@@ -28,6 +30,7 @@ header {
     .customized-brand {
         max-height: 24px;
         margin-left: 1rem;
+        color: #374760 !important;
 
         @media (max-width: 991.98px) {
             position: relative !important;

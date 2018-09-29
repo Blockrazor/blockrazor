@@ -120,10 +120,9 @@ select {
   text-transform: uppercase !important;
 }
 
-.container {
-  margin: 100px auto;
-  text-align: center;
-}
+/* .container {
+  margin: 30px auto;
+} */
 
 .arrow-down {
   width: 0;

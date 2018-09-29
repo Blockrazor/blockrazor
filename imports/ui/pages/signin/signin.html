@@ -1,35 +1,51 @@
 <template name="signin">
   {{> sAlert}}
-  <div class="sign-in">
-    <div class="title">{{_ "user.signin.login"}}</div>
-    <div class="email-sign-in">
-      <div class="login-options">
-        <a href="#" id="js-facebook"><i class="fab fa-facebook-f"></i><span>{{_ "user.signin.fb"}}</span></a>
-        <a href="#" id="js-github"><i class="fab fa-github"></i><span>{{_ "user.signin.git"}}</span></a>
-        <a href="#" id="js-email"><i class="fas fa-envelope"></i><span>{{_ "user.signin.withemail"}}</span></a>
-        <form class="d-none" id="signIn">
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+  <div class="card text-center" style="border: none;">
+    <div class="card-body">
+        <h4 class="card-title">{{_ "user.signin.login"}}</h4>
+        <br>
+        <div class="row">
+            <div class="col-md-6">
+                <button class="btn btn-brand btn-facebook btn-block btn-lg" id="js-facebook" type="button">
+                    <i class="fab fa-facebook-f"></i><span>{{_ "user.signin.fb"}}</span>
+                  </button>
             </div>
-            <input type="text" id="email" class="form-control" placeholder='{{_ "user.signin.email"}}' required>
-          </div>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text"><i class="fas fa-key"></i></span>
+            <div class="col-md-6">
+                <button class="btn btn-brand btn-dark btn-block btn-lg" id="js-github" type="button">
+                    <i class="fab fa-github"></i> <span>{{_ "user.signin.git"}}</span>
+                  </button>
             </div>
-            <input type="password" id="password" class="form-control" placeholder='{{_ "user.signin.password"}}'>
+        </div>
+
+        <hr>
+
+        <div class="row">
+          <div class="col-md-12">
+              <form id="signIn">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                    </div>
+                    <input type="text" id="email" class="form-control form-control-lg" placeholder='{{_ "user.signin.email"}}' required>
+                  </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fas fa-key"></i></span>
+                    </div>
+                    <input type="password" id="password" class="form-control form-control-lg" placeholder='{{_ "user.signin.password"}}'>
+                  </div>
+                  <button type="submit" class="btn btn-success btn-block btn-lg">{{_ "user.signin.login"}}</button>
+                </form>
           </div>
-          <button type="submit" class="btn btn-primary">{{_ "user.signin.login"}}</button>
-        </form>
-      </div>
-      <div class="sign-up-link">
-        {{_ "user.signin.dont_have"}} <a href="/signup">{{_ "user.signin.create"}}</a>.
-      </div>
-      <div class="sign-up-link">
-        {{_ "user.signin.forgot"}}<a href="/reset-password">{{_ "user.signin.request_new"}}</a>.
-      </div>
+        </div>
+        <br>
+        <div class="email-sign-in">
+          <div class="sign-up-link pull-right">
+            <a href="/reset-password" class="text-dark">{{_ "user.signin.forgot"}}</a>
+          </div>
+        </div>
     </div>
+    
   </div>
 </template>
 
@@ -46,7 +62,7 @@
           <input type="text" name="email" id="email" class="form-control" placeholder='{{_ "user.signin.email"}}'
             required>
         </div>
-        <button type="submit" class="btn btn-primary">{{_ "user.forgot.request"}}</button>
+        <button type="submit" class="btn btn-success">{{_ "user.forgot.request"}}</button>
       </form>
       <div class="section-title">{{_ "user.signin.or"}}</div>
       <div class="alternate-options">

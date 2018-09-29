@@ -30,9 +30,15 @@ body {
 }
 
 .breadcrumb {
+  border-top: 1px solid #c8ced3 !important;
+
   li.breadcrumb-item {
     a {
       text-transform: capitalize;
     }
   }
+}
+
+.bg-dark {
+  color: #ffffff;
 }

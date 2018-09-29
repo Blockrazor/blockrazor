@@ -1,17 +1,22 @@
 <template name="landingpage">
   <div class="landing-page">
     <!-- Masthead -->
-    <header class="main-banner">
+    <header class="jumbotron">
       <div class="container">
         <div class="row">
-          <div class="col-md-6 col-md-offset-1 first-part">
-            <div class="logo">BLOCKRAZOR</div>
-            <h1 class="first-part-content">{{{_ "landing.info"}}}</h1>
-            <p class="first-part-content">
+          <div class="col-md-6">
+            <!-- <h1 class="display-5">BLOCKRAZOR</h1> -->
+            <h1 class="display-6" style="font-weight: 200; font-size: 2.2rem">{{{_ "landing.info"}}}</h1>
+            <br>
+            <p class="first-part-content" style="font-weight: 600; font-size: 1rem; color: #4d4d4d;">
               {{_ "landing.mission"}}
             </p>
+            <br>
+            <p>
+              <a href="/signup" class="btn btn-success btn-lg">Get Started</a>
+            </p>
           </div>
-          <div class="col-md-5">
+          <div class="col-md-4 offset-md-2">
             {{# if loggedIn}}
               {{> welcomeUser}}
             {{else}}
@@ -23,7 +28,7 @@
     </header>
 
     <!-- Icons Grid -->
-    <section class="feature-section bg-light text-center">
+    <section class="feature-section bg-dark text-center">
       <div class="container">
         <div class="row">
           <div class="col-lg-4">
@@ -52,10 +57,14 @@
             </div>
           </div>
         </div>
-        <br />
+      </div>
+      </section>
+      <section class="feature-section bg-white text-center">
+        <div class="container">
         <div class="row">
           <div class="col-sm-12 feature-title">
             <h1 class="section-title">{{_ "landing.features"}}</h1>
+            <div class="border"></div>
           </div>
           <div class="col-lg-4">
             <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
@@ -67,14 +76,14 @@
             </div>
           </div>
           <div class="col-lg-4">
-            <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-              <div class="features-icons-icon d-flex">
-                <i class="icon-bell m-auto text-black"></i>
+              <div class="features-icons-item mx-auto mb-0 mb-lg-3">
+                <div class="features-icons-icon d-flex">
+                  <i class="icon-check m-auto text-black"></i>
+                </div>
+                <h3>{{_ "landing.easy"}}</h3>
+                <p class="lead mb-0">{{_ "landing.easy_info"}}!</p>
               </div>
-              <h3>{{_ "landing.updates"}}</h3>
-              <p class="lead mb-0">{{_ "landing.updates_info"}}</p>
             </div>
-          </div>
           <div class="col-lg-4">
             <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
               <div class="features-icons-icon d-flex">
@@ -94,14 +103,14 @@
             </div>
           </div>
           <div class="col-lg-4">
-            <div class="features-icons-item mx-auto mb-0 mb-lg-3">
-              <div class="features-icons-icon d-flex">
-                <i class="icon-check m-auto text-black"></i>
+              <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                <div class="features-icons-icon d-flex">
+                  <i class="icon-bell m-auto text-black"></i>
+                </div>
+                <h3>{{_ "landing.updates"}}</h3>
+                <p class="lead mb-0">{{_ "landing.updates_info"}}</p>
               </div>
-              <h3>{{_ "landing.easy"}}</h3>
-              <p class="lead mb-0">{{_ "landing.easy_info"}}!</p>
             </div>
-          </div>
           <div class="col-lg-4">
             <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
               <div class="features-icons-icon d-flex">

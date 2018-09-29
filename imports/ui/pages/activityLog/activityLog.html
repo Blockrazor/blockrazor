@@ -1,15 +1,17 @@
 <template name="activityLog">
-    {{> notLoggedIn }}
-    {{#if subsCacheReady}}
-    <div class="list-group">
-    {{#each message}}
-    {{> messageitem}}
-
+  <div class="container-fluid">
+      {{> notLoggedIn }}
+      {{#if subsCacheReady}}
+      <div class="list-group">
+      {{#each message}}
+      {{> messageitem}}
+  
+      {{else}}
+        {{> empty}}
+      {{/each}}
+        </div>
     {{else}}
-      {{> empty}}
-    {{/each}}
-      </div>
-  {{else}}
-    {{> loading}}
-  {{/if}}
+      {{> loading}}
+    {{/if}}
+  </div>
 </template>
