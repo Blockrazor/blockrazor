@@ -876,8 +876,8 @@ FlowRouter.route('/login', {
   name: 'login',
   action: async (params, queryParams) => {
     if (!Meteor.userId()) {
-      await import ('/imports/ui/pages/signin/signin')
-      BlazeLayout.render('signin')
+      await import ('/imports/ui/pages/signin/login')
+      BlazeLayout.render('login')
     } else {
       let user = Meteor.users.findOne({
         _id: Meteor.userId()
