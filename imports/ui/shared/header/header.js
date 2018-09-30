@@ -112,7 +112,10 @@ Template.header.events({
     
     cookies.set('language', templateInstance.defaultLanguage)
     $('.languageModal').modal('hide');
-  }
+  },
+  'click #headerSignIn': (event, templateInstance) => {
+    FlowRouter.go('/login')
+  },
 })
 
 Template.header.helpers({

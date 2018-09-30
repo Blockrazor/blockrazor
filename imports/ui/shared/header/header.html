@@ -17,64 +17,76 @@
                     <a style="color: red;" class="nav-link d-none d-md-block" href="/deadman-vote"><span class="separator"></span>{{_ "header.deadman"}}</a>
                     {{/if}}
                 </li>
-            </ul>
-            <ul class="nav navbar-nav ml-auto">
                 <form class="form-inline center">
                     <div class="input-group">
-                        <input class="form-control mr-sm-2 mr-3 searchFilterHeader d-none d-md-block" value="{{searchVal}}" type="search" id="searchFilterHeader" placeholder='{{_ "header.search"}}...' aria-label="Search" style="margin-right: 0 !important;width:15em">
-                        <div class="input-group-append">
-                            <div class="input-group-text d-none d-sm-block">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text d-none d-sm-block" style="border: none; background: #e4e7ea">
                                 <i class="nav-icon icon-magnifier"></i>
                             </div>
                         </div>
+                        <input class="form-control mr-sm-2 mr-3 searchFilterHeader d-none d-md-block" value="{{searchVal}}" type="search" id="searchFilterHeader" placeholder='{{_ "header.search"}}...' aria-label="Search">
+                        
                     </div>
                 </form>
+            </ul>
+            <ul class="nav navbar-nav ml-auto mr-3">
                 <!-- Hide FAQs on mobile -->
                 <li class="nav-item d-none d-md-block">
                     <a href="/faq" title="BlockRazor FAQ" class="nav-link"><i class="icon-question"></i></a>
                 </li>
 
-                {{#if currentUser}} {{#if hasBounties activeBounties }}
-                <li class="nav-item">
-                    <a href="{{bountyUrl activeBounties}}" title='{{_ "header.active_bounties"}}' class="nav-link">
-                      <i class="icon-target"></i>
-                      <span class="badge badge-pill badge-danger">{{ activeBounties.length }}</span>
-                    </a>
-                </li>
-                {{/if}}
-                <li class="nav-item">
-                    <a href="/wallet" id="navNotification" title='{{_ "header.open_wallet"}}' class="nav-link">
-                            <i class="icon-wallet"></i>
-                            {{#if walletNotifications}}<span class="badge badge-pill badge-danger">{{walletNotifications}}</span>{{/if}}
+                {{#if currentUser}} 
+                    {{#if hasBounties activeBounties }}
+                        <li class="nav-item">
+                            <a href="{{bountyUrl activeBounties}}" title='{{_ "header.active_bounties"}}' class="nav-link">
+                            <i class="icon-target"></i>
+                            <span class="badge badge-pill badge-danger">{{ activeBounties.length }}</span>
+                            </a>
+                        </li>
+                    {{/if}}
+
+                    <li class="nav-item">
+                        <a href="/notifications" class="nav-link" title='{{_ "header.notifications"}}'>
+                            <i class="icon-bell"></i>
+                            {{#if activityNotifications}}
+                                <span class="badge badge-pill badge-danger">{{activityNotifications}}</span>
+                            {{/if}}
                         </a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
-<strong class="d-none d-sm-block">{{currentUser.username}}<i class="ml-2 fa fa-caret-down"></i></strong>
-                        <!-- d-sm-none will display when on mobile -->
-                        <strong class="d-sm-none"><i class="fa fa-user"></i></strong>
-</a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <div class="dropdown-header text-center">
-                            <strong>{{_ "header.account"}}</strong>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="/wallet" id="navNotification" title='{{_ "header.open_wallet"}}' class="nav-link">
+                                <i class="icon-wallet"></i>
+                                {{#if walletNotifications}}<span class="badge badge-pill badge-danger">{{walletNotifications}}</span>{{/if}}
+                            </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+                            <strong class="d-none d-sm-block">{{currentUser.username}}<i class="ml-2 fa fa-caret-down"></i></strong>
+                            <!-- d-sm-none will display when on mobile -->
+                            <strong class="d-sm-none"><i class="fa fa-user"></i></strong>
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <div class="dropdown-header text-center">
+                                <strong>{{_ "header.account"}}</strong>
+                            </div>
+                            <a class="dropdown-item" href="/profile">
+                            <i class="fa fa-user"></i> {{_ "header.profile"}}
+                            </a>
+                            <div class="divider"></div>
+                            <a class="dropdown-item" href="#" id="logout">
+                            <i class="fa fa-lock"></i> {{_ "header.logout"}}
+                            </a>
                         </div>
-                        <a class="dropdown-item" href="/profile">
-                        <i class="fa fa-user"></i> {{_ "header.profile"}}
-                        </a>
-                        <div class="divider"></div>
-                        <a class="dropdown-item" href="#" id="logout">
-                          <i class="fa fa-lock"></i> {{_ "header.logout"}}
-                        </a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a href="/notifications" class="nav-link" title='{{_ "header.notifications"}}'><i class="icon-bell"></i>
-                        {{#if activityNotifications}}<span class="badge badge-pill badge-danger">{{activityNotifications}}</span>{{/if}}
-                        </a>
-                </li>
-                <li class="nav-item d-md-none">
-                    <i class="icon-magnifier searchMobileIcon"></i>
-                </li>
+                    </li>
+                    <li class="nav-item d-md-none">
+                        <i class="icon-magnifier searchMobileIcon"></i>
+                    </li>
+                {{else}}
+                    <form class="form-inline">
+                        <button class="btn btn-success" type="button" id="headerSignIn">Sign In</button>
+                    </form>
                 {{/if}}
             </ul>
         </div>

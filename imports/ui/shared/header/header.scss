@@ -45,3 +45,21 @@ header {
         }
     }
 }
+
+input.searchFilterHeader {
+    margin-right: 0 !important; 
+    width:35em !important;
+    // background-color: #B7E4F0 !important;
+    background-color: #e4e7ea !important;
+    border: none !important;
+    color: #000 !important;
+
+    &:focus {
+        border: none !important;
+        outline: none !important;
+        outline-width: 0 !important;
+        box-shadow: none;
+        -moz-box-shadow: none;
+        -webkit-box-shadow: none;;
+    }
+}
