@@ -23,7 +23,12 @@ Template.flaggedHashpowers.helpers({
         return _.sample(HashPower.find({
             'flags.0': { // if array has more than 0 elements
                  $exists: true
-             }
+			},
+			"votes" : { 
+				"$not" : { 
+					"$elemMatch" : { "userId" : Meteor.userId()  } 
+				} 
+			}
         }).fetch());
     },
 	hashpower: () => HashPower.find({

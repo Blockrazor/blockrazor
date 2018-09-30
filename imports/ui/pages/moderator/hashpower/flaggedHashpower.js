@@ -9,8 +9,12 @@ var nextFlaggedHashpower = function () {
     var sample = _.sample(HashPower.find({ 
 		'_id' : { $ne : currentId }, 
 		'flags.0': { $exists: true },
-		"createdBy" : { $ne : Meteor.userId() },
-		
+		"votes" : { 
+			"$not" : { 
+				"$elemMatch" : { "userId" : Meteor.userId()  } 
+			} 
+		},
+		"createdBy" : { $ne : Meteor.userId() }
     }).fetch());
 
     setTimeout(function () {
