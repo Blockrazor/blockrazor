@@ -42,25 +42,25 @@
 /** styles for fundementalMatrics.html **/
 
 .matrics-main-container {
-  display: -webkit-flex;
   display: flex;
   flex-direction: row;
-  align-items: stretch;
-
-  .currency-container {
-    border-radius: 0;
-    padding-bottom: 0;
-
-    .currency-card {
-      box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
-      border-radius: 0;
-    }
-
-    .currency-card:hover {
-      box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
-    }
+  align-items: center;
+  justify-content: center;
+  .header {
+    font-size: 1.5em;
+    padding: 1em 0;
+    text-align: center;
   }
-
+  canvas{
+    margin: 0 auto;
+  }
+  .data-quality-rank {
+    position: relative;
+    margin-top: 1em;
+  }
+  .currency-container{
+    min-height: 480px;
+  }
 }
 
 @media only screen and (max-width : 767px) {

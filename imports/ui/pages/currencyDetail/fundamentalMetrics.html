@@ -1,18 +1,12 @@
 <template name="fundamentalMetrics">
-	<div class="row matrics-main-container">
-		<div class="col-sm currency-container">
-      <div class="currency-card card" style="width: 100%; margin: 0 !important">
-        <div class="header">{{_ "currency.fundamental.metrics"}}</div>
-        {{> radarGraph width=400 height=300 options=options}}
-      </div>
-	  </div>
-	  <div class="col-sm currency-container">
-      <div class="currency-card card" style="width: 100%; margin: 0 !important">
-        <div class="header">{{_ "currency.fundamental.distribution"}}</div>
-        <br>
-        <canvas id="distribution"></canvas>
-        <br>
-      </div>
+	<div class="matrics-main-container card">
+		<div class="col-sm-6 col-xs-12 currency-container">
+      <div class="header">{{_ "currency.fundamental.metrics"}}</div>
+      {{> radarGraph width=400 height=300 options=options}}
+    </div>
+	  <div class="col-sm-6 col-xs-12 currency-container">
+      <div class="header">{{_ "currency.fundamental.distribution"}}</div>
+      <canvas id="distribution"></canvas>
 	  </div>
 	</div>
 </template>
