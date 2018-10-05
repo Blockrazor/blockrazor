@@ -14,14 +14,6 @@
             <input type="text" class="form-control" id="bio" value="{{user.bio}}">
         </div>
         <div class="form-group">
-            <label for="image">{{_ "user.edit.change_pic"}}</label><br />
-                <label id="uploadLabel" class="btn btn-primary" for="imageInput">
-        <input id="imageInput" name="imageInput" type="file" style="display:none;" onchange="$('#fileInfo').html(this.files[0].name)" class="required" accept="image/*"> <span class="uploadText">{{_ "user.edit.upload"}}</span>
-    </label>
-    <span class='label label-info fileInfo' id="fileInfo"></span>
-    <input type='hidden' id='js-image'><br />
-        </div>
-        <div class="form-group">
             <label for="2fa">{{_ "user.edit.two_factor"}}</label>
             {{#if user.enabled2fa}}<div style="width: 100%"><input type="checkbox" checked id="2fa"> {{_ "user.edit.enable"}}</div>{{else}}<div style="width: 100%"><input type="checkbox" id="2fa"> {{_ "user.edit.enable"}}</div>{{/if}}
             {{#if user.enabled2fa}}<a href="#" id="js-backup2fa">{{_ "user.edit.show_2fa"}}</a>{{/if}}

@@ -102,8 +102,14 @@
                     <div class="card-header">{{profileExistuser.username}}</div>
                     <div class="card-body">
                         <img src="{{profilePicture user.profilePicture.small}}" class="mx-auto img-fluid img-circle d-block" alt="your avatar profile" style="width: 200px;" id="profilePicture" /><br />
+                        {{#if isYourPage}}
+                            <label id="uploadLabel" class="mb-0" for="imageInput">
+                                <input id="imageInput" name="imageInput" type="file" style="display:none;" onchange="$('#fileInfo').html(this.files[0].name)" class="required" accept="image/*"> <span class="btn btn-primary btn-success mb-0 uploadText">{{_ "user.edit.change_pic"}}</span>
+                            </label>    
+                            <span class='label label-info fileInfo' id="fileInfo"></span>
+                            <input type='hidden' id='js-image'>
+                        {{/if}}
                         <a href="/wallet" class="btn btn-secondary">{{balance}} KZR</a>
-
                     </div>
                 </div>
             </div>

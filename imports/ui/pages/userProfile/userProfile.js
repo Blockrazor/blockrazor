@@ -37,18 +37,71 @@ Template.userProfile.onCreated(function() {
 })
 
 Template.userProfile.events({
-    'click .hashRigImage': function(event) {
+    'click .hashRigImage': function(event, templateInstance) {
+        $('.imageModal').modal('show')
 
-    	//open modal
-        $('.imageModal').modal('show');
+	    let largeImage = event.target.src.replace('_thumbnail', '')
+	    $('.imageModalSrc').attr('src', largeImage)
+    },
+    'click #profilePicture': (event, templateInstance) => {
+        event.preventDefault()
 
-        //get large image filename
-	    let largeImage = event.target.src.replace('_thumbnail','');
-	    $(".imageModalSrc").attr("src",largeImage);
+        $('#imageInput').click()
+    },
+    'change #imageInput': (event, templateInstance) => {
+        let file = event.target.files[0]
+        let uploadError = false
+        let mimetype = mime.lookup(file)
+        let fileExtension = mime.extension(file.type)
 
+        if (file.size > _profilePictureFileSizeLimit) {
+            sAlert.error(TAPi18n.__('user.edit.too_big'))
+            uploadError = true
+        }
+
+        if (!_supportedFileTypes.includes(file.type)) {
+            sAlert.error(TAPi18n.__('user.edit.must_be_image'))
+            uploadError = true
+        }
+
+        if (file){
+        	$('#uploadLabel').removeClass('btn-success')
+        	$('#uploadLabel').addClass('btn-primary')
+        	$('button').attr('disabled', 'disabled')
+        	$('.uploadText').html(`<i class='fa fa-circle-o-notch fa-spin'></i> ${TAPi18n.__('user.edit.uploading')}`)
+
+
+        	// Only upload if above validation are true
+        	if (!uploadError) {
+            	let reader = new FileReader()
+            
+            	reader.onload = fEvent => {
+                	let binary = reader.result
+                	let md5 = CryptoJS.MD5(CryptoJS.enc.Latin1.parse(binary)).toString()
+                
+                	Meteor.call('uploadProfilePicture', file.name, reader.result, md5, (error, result) => {
+                        if (error) {
+                        	sAlert.error(error.message);
+                        
+                        	$('#uploadLabel').removeClass('btn-success')
+                        	$('#uploadLabel').addClass('btn-primary')
+                        	$(".uploadText").html(TAPi18n.__('user.edit.upload'))
+                    	} else {                        
+                    		$('#js-image').val(`${md5}.${fileExtension}`)
+                    		
+                    		$('button').attr('disabled', false)
+                    		$('#uploadLabel').addClass('btn-success')
+                    		$('.uploadText').html(TAPi18n.__('user.edit.change'))
+                    		$('#profilePicture').attr('src', `${_profilePictureUploadDirectoryPublic}${md5}_thumbnail.${fileExtension}`)
+                    	}
+                	})
+           		}
+
+           		reader.readAsBinaryString(file)
+        	}
+    	}
     }
-
-});
+})
 
 Template.userProfile.helpers({
 		isYourPage() {
