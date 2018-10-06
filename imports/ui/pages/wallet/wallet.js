@@ -17,6 +17,13 @@ Template.wallet.onCreated(function bodyOnCreated() {
 });
 
 Template.wallet.helpers({
+  newWallet: () => {
+    let welcome = Wallet.findOne({owner: Meteor.userId(), read: false, type: "welcome"})
+    if (welcome) {
+      return true
+    }
+    return false
+  },
   otherBalance: (cur) => {
     let user = UserData.findOne({
       _id: Meteor.userId()
@@ -97,5 +104,13 @@ Template.wallet.events({
   },
   'click .currency-card .card-content': function(event) {
     FlowRouter.go('/wallet/'+event.currentTarget.getAttribute('data-value'))
+  },
+  'click #js-welcome-msg': function (event) {
+    event.preventDefault()
+    Meteor.call('hideWelcomeMsg', Meteor.userId(), (error, result) => {
+      if (error) {
+        console.error(error)
+      }
+    })
   }
-});
+})

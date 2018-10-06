@@ -3,6 +3,15 @@
     {{> notLoggedIn}}
   </div>
   <div class="wallet-outer">
+    {{#if newWallet}}
+    <div class="alert alert-success alert-dismissible fade show" role="alert"> 
+      <h5 class="text-center">Welcome to Blockrazor!</h5>
+      <p class="text-center mb-0">Your wallet has been created. Why not head over to the <a href="/bounties">Bounty list</a> and earn your first Rozar!</p> 
+      <button type="button" class="close" id="js-welcome-msg" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {{/if}}
     <div class="input-group">
       <input type="number" step="any" min="0" id="js-amount" name="amount" placeholder="0"  class="form-control">
       <select id="js-cur">

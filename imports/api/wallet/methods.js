@@ -10,7 +10,8 @@ Meteor.methods({
 			Wallet.insert({
 				time: new Date().getTime(),
 				owner: this.userId,
-				type: "transaction",
+        type: "welcome",
+        read: false,
 				from: "System",
 				message: "Welcome to Blockrazor! Your wallet has been created. Why not head over to the Bounty list and earn your first Rozar!",
 				amount: 0
@@ -215,6 +216,16 @@ Meteor.methods({
         removeUserCredit(reward, Meteor.userId(), 'cheating on wallet questions','cheating')
 
         Meteor.call('userStrike', Meteor.userId(), 'cheating', 's3rv3r-only', (err, data) => {}) // user earns 1 strike here
+    },
+    hideWelcomeMsg : function(userId){
+      if (!Meteor.userId()) { throw new Meteor.Error('error', 'messages.login') }
+      Wallet.update(
+        { owner: userId, type: "welcome"},
+        { $set: { read: true } },
+        function(error){
+          log.error('Error in mark welcome Notification as read', error)
+					throw new Meteor.Error(500, error.message);
+        })
     },
     markAsRead: function(currency) {
 		if (!Meteor.userId()) { throw new Meteor.Error('error', 'messages.login') };

@@ -14,7 +14,7 @@ Template.sidebar.helpers({
         return ActivityLog.find({ owner: Meteor.userId(), type: "message", read: { $ne: true } }).count()
     },
     walletNotifications() {
-        return Wallet.find({ owner: Meteor.userId(), type: "transaction", read: { $ne: true } }).count()
+        return Wallet.find({ owner: Meteor.userId(), type: { $in: [ "transaction", "welcome" ] }, read: { $ne: true } }).count()
     },
     pendingDevelopers: () => Developers.find({ processed: false }).count(),
     balance() {
