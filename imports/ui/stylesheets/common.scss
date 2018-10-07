@@ -19,6 +19,15 @@ body {
   min-height: calc(100vh - 60px - 5em);
 }
 
+.border {
+  height: 4px;
+  width: 60px;
+  border-radius: 5px;
+  margin: 0px auto 30px auto;
+  border: none !important;
+  background-color: #4dbd74;
+}
+
 .reactive-table {
   thead {
     th {

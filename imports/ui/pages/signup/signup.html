@@ -1,32 +1,55 @@
 <template name="signup">
-  {{> sAlert}}
-  <div class="sign-in">
-    <div class="title">{{_ "user.signup.create"}}</div>
-    <div class="email-sign-in">
-      <form id="signUp">
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+    <div class="container-fluid">
+        <div class="row mt-5 d-flex justify-content-center">
+            <div class="col-md-3">
+                {{> sAlert}}
+                <div class="card text-center shadow-sm rounded" style="border: none;">
+                    <div class="card-body">
+                        <h4 class="card-title">{{_ "user.signup.create"}}</h4>
+                        <div class="border"></div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form id="signUp">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                        </div>
+                                        <input type="email" id="js-email" class="form-control form-control-lg" placeholder='{{_ "user.signup.email"}}' required>
+                                    </div>
+                                    
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                        </div>
+                                        
+                                        <input type="password" id="js-password" class="form-control form-control-lg" placeholder='{{_ "user.signup.password"}}' pattern=".{6}" title="You password must be at least 6 characters long">
+                                    </div>
+                                    
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                        </div>
+                                        <input type="password" id="js-password-conf" class="form-control form-control-lg" placeholder='{{_ "user.signup.password"}}' pattern=".{6}" title="You password must be at least 6 characters long">
+                                    </div>
+                                    
+                                    <button class="btn btn-success btn-lg btn-block" type="submit">{{_ "user.signup.signup"}}</button>
+                                </form>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="email-sign-in">
+                                    <div class="sign-up-link">
+                                        <a href="/login" class="text-dark float-right">{{_ "user.signup.have"}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                </div>
             </div>
-            <input type="email" id="js-email" class="form-control" placeholder='{{_ "user.signup.email"}}' required>
         </div>
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-key"></i></span>
-            </div>
-            <input type="password" id="js-password" class="form-control" placeholder='{{_ "user.signup.password"}}' pattern=".{6}" title="You password must be at least 6 characters long">
-        </div>
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-key"></i></span>
-            </div>
-            <input type="password" id="js-password-conf" class="form-control" placeholder='{{_ "user.signup.password"}}' pattern=".{6}" title="You password must be at least 6 characters long">
-        </div>
-        <button class="btn btn-primary" type="submit">{{_ "user.signup.signup"}}</button>
-      </form>
-      <div class="sign-up-link">
-        {{_ "user.signup.have"}} <a href="/login">{{_ "user.signup.signin"}}</a>.
-      </div>
     </div>
-  </div>
 </template>
