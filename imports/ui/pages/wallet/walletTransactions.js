@@ -97,7 +97,10 @@ Template.walletTransactions.helpers({
         },
         {
           key: 'amount',
-          label: TAPi18n.__('kzrWallet.amount')
+          label: TAPi18n.__('kzrWallet.amount'),
+          fn: function(value, object, key) {
+            return currencyValue(object)
+          }
         },
         {
           key: 'time',
@@ -105,9 +108,9 @@ Template.walletTransactions.helpers({
           sortByValue: true,
           sortOrder: 0,
           sortDirection: -1,
-          fn: function (value, object, key) { 
-            return currencyValue(object) }
-            // return new Date(value).toLocaleString([], { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) }
+          fn: function (value, object, key) {
+            return new Date(value).toLocaleString([], { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+          }
         },
         {
           key: 'from',
