@@ -5,13 +5,12 @@
 }
 
 .wallet-table-wrapper{
-	width: 100%;
-	overflow-x: scroll;
-
+  width: 100%;
 	.reactive-table-navigation {
     position: relative;
     display: flex;
     justify-content: flex-end;
+    padding-top: 1em;
     > div{
       clear: both;
     }
@@ -28,6 +27,9 @@
       padding: 10px;
       margin: 0 5px;
     }
+  }
+  span.page-number-count {
+    padding-left: 0.5em;
   }
 }
 
@@ -98,4 +100,18 @@
   margin: 0 15px 0 15px;
   padding: 15px;
   background: white;
+}
+
+// Filter Transactions
+.filter-options{
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 1em 0;
+  h5{
+    width: 100%;
+  }
+  .custom-control{
+    padding-right: 1rem;
+  }
 }

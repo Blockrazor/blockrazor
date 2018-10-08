@@ -1,87 +1,84 @@
 <template name="walletTransactions">
-    {{> notLoggedIn}}
+  {{> notLoggedIn}}
   <div class="container-fluid">
     <div class="card">
-  <div class="card-header">
-    <a href="/wallet">{{_ "kzrWallet.my"}}</a> &nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp; {{_ "kzrWallet.transactions_with"}} {{currencyType}}
-  </div>
-  <div class="card-body">
-    {{#if canDeposit}}
-    <div class="alert alert-info">
-        {{_ "kzrWallet.deposit_currency" currencyType}} <b>{{depositAddress}}</b> {{#if hasPaymentId}}{{_ "kzrWallet.payment_id"}} <b>{{paymentId}}</b>{{/if}}. <br>
-    </div>
-    {{/if}}
-    <div class="mb-5 mt-3">
-      <div class="row">
-        <span class="form-check-item filter-bounties-label col-sm-2">
-          <h5 style="margin-bottom: 0;margin-top: 3px;">{{_ "transactions.filter"}}</h5>
-        </span>
-        <span class="form-check-item col-sm-1">
-          <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input form-check-input" id="all-txn" value="all" checked>
-            <label class="custom-control-label" for="all-txn">{{_ "transactions.all"}}</label>
-          </div>
-        </span>
-        <span class="form-check-item col-sm-1">
-          <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input form-check-input" id="top-comment-txn" value="topCommentReward">
-            <label class="custom-control-label" for="top-comment-txn">{{_ "transactions.top"}}</label>
-          </div>
-        </span>
-        <span class="form-check-item col-sm-1">
-          <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input form-check-input" id="hash-data-txn" value="hashReward">
-            <label class="custom-control-label" for="hash-data-txn">{{_ "transactions.hash"}}</label>
-          </div>
-        </span>
-        <span class="form-check-item col-sm-1">
-          <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input form-check-input" id="bounty-reward-txn" value="bountyReward">
-            <label class="custom-control-label" for="bounty-reward-txn">{{_ "transactions.bounty"}}</label>
-          </div>
-        </span>
-        <span class="form-check-item col-sm-1">
-          <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input form-check-input" id="problem-reward-txn" value="problemReward">
-            <label class="custom-control-label" for="problem-reward-txn">{{_ "transactions.problem"}}</label>
-          </div>
-        </span>
-        <span class="form-check-item col-sm-1">
-          <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input form-check-input" id="create-coin-txn" value="createCoinReward">
-            <label class="custom-control-label" for="create-coin-txn">{{_ "transactions.coin"}}</label>
-          </div>
-        </span>
-        <span class="form-check-item col-sm-1">
-          <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input form-check-input" id="cheating-txn" value="cheating">
-            <label class="custom-control-label" for="cheating-txn">{{_ "transactions.cheating"}}</label>
-          </div>
-        </span>
-        <span class="form-check-item col-sm-1">
-          <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input form-check-input" id="answer-txn" value="anwserQuestion">
-            <label class="custom-control-label" for="answer-txn">{{_ "transactions.questions"}}</label>
-          </div>
-        </span>
-        <span class="form-check-item col-sm-1">
-          <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input form-check-input" id="auction-txn" value="auctions">
-            <label class="custom-control-label" for="auction-txn">{{_ "kzrWallet.auctions"}}</label>
-          </div>
-        </span>
-        <span class="form-check-item col-sm-1">
-          <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input form-check-input" id="deposit-txn" value="deposit">
-            <label class="custom-control-label" for="deposit-txn">{{_ "kzrWallet.deposits"}}</label>
-          </div>
-        </span>
+      <div class="card-header">
+        {{_ "kzrWallet.transactions_with"}} {{currencyType}}
+      </div>
+      <div class="card-body">
+        {{#if canDeposit}}
+        <div class="alert alert-info">
+          {{_ "kzrWallet.deposit_currency" currencyType}} <b>{{depositAddress}}</b> {{#if hasPaymentId}}{{_
+          "kzrWallet.payment_id"}} <b>{{paymentId}}</b>{{/if}}. <br>
+        </div>
+        {{/if}}
+        <div class="filter-options">
+          <h5>{{_ "transactions.filter"}}</h5>
+          <span class="form-check-item">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input form-check-input" id="all-txn" value="all" checked>
+              <label class="custom-control-label" for="all-txn">{{_ "transactions.all"}}</label>
+            </div>
+          </span>
+          <span class="form-check-item">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input form-check-input" id="top-comment-txn" value="topCommentReward">
+              <label class="custom-control-label" for="top-comment-txn">{{_ "transactions.top"}}</label>
+            </div>
+          </span>
+          <span class="form-check-item">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input form-check-input" id="hash-data-txn" value="hashReward">
+              <label class="custom-control-label" for="hash-data-txn">{{_ "transactions.hash"}}</label>
+            </div>
+          </span>
+          <span class="form-check-item">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input form-check-input" id="bounty-reward-txn" value="bountyReward">
+              <label class="custom-control-label" for="bounty-reward-txn">{{_ "transactions.bounty"}}</label>
+            </div>
+          </span>
+          <span class="form-check-item">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input form-check-input" id="problem-reward-txn" value="problemReward">
+              <label class="custom-control-label" for="problem-reward-txn">{{_ "transactions.problem"}}</label>
+            </div>
+          </span>
+          <span class="form-check-item">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input form-check-input" id="create-coin-txn" value="createCoinReward">
+              <label class="custom-control-label" for="create-coin-txn">{{_ "transactions.coin"}}</label>
+            </div>
+          </span>
+          <span class="form-check-item">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input form-check-input" id="cheating-txn" value="cheating">
+              <label class="custom-control-label" for="cheating-txn">{{_ "transactions.cheating"}}</label>
+            </div>
+          </span>
+          <span class="form-check-item">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input form-check-input" id="answer-txn" value="anwserQuestion">
+              <label class="custom-control-label" for="answer-txn">{{_ "transactions.questions"}}</label>
+            </div>
+          </span>
+          <span class="form-check-item">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input form-check-input" id="auction-txn" value="auctions">
+              <label class="custom-control-label" for="auction-txn">{{_ "kzrWallet.auctions"}}</label>
+            </div>
+          </span>
+          <span class="form-check-item">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input form-check-input" id="deposit-txn" value="deposit">
+              <label class="custom-control-label" for="deposit-txn">{{_ "kzrWallet.deposits"}}</label>
+            </div>
+          </span>
+        </div>
+        <div class="wallet-table-wrapper">
+          {{> reactiveTable collection=entry settings=walletTable class="table table-responsive-sm table-hover table-outline mb-0 bg-white" }}
+        </div>
       </div>
     </div>
-    <div class="wallet-table-wrapper">
-      {{> reactiveTable collection=entry settings=walletTable class="table table-responsive-sm table-hover table-outline mb-0 bg-white"}}
-    </div>
   </div>
-</div>
-</div>
 </template>
