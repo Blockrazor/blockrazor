@@ -1,9 +1,7 @@
 .form-check {
+  display: flex;
+  flex-wrap: wrap;
   width: 100%;
-  display: inline-block;
-  padding: 15px 20px 0px 20px;
-  //border: 0;
-  //background: white;
 
   .filter-label, .share-label {
     display:inline-block;
@@ -11,8 +9,7 @@
     margin-bottom: 10px;
   }
   .form-check-item {
-    display: inline-block;
-
+    padding-right: 1em;
     .custom-checkbox {
       .form-check-input {
         margin-left: 0px;
@@ -20,14 +17,6 @@
       .form-check-label {
         margin-left: 10px;
       }
-    }
-  }
-  .filter-bounties-label {
-    font-weight: bolder;
-    padding-top: 3px;
-    margin: 0;
-    @media only screen and (min-device-width: 768px){
-      margin-bottom: 10px;
     }
   }
 }
