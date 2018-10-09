@@ -23,12 +23,8 @@
 
 #js-shareUrl {
   float: right;
-  padding: 3px 10px 3px 10px;
-  margin-top: -20px !important;
-  margin-bottom: 15px;
-  height: 27px;
-
-  .share-label {
-    vertical-align: top;
-  }
+  padding: 0.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
