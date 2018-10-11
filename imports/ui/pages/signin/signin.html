@@ -3,9 +3,9 @@
   <div class="card text-center shadow-sm rounded" style="border: none;">
     <div class="card-body">
         <h4 class="card-title">{{_ "user.signin.login"}}</h4>
-        <br>
+        <div class="border"></div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 pr-md-0 mb-2 mb-sm-0">
                 <button class="btn btn-brand btn-facebook btn-block btn-lg" id="js-facebook" type="button">
                     <i class="fab fa-facebook-f"></i><span>{{_ "user.signin.fb"}}</span>
                   </button>
@@ -51,6 +51,9 @@
 </template>
 
 <template name="password_reset">
+    <div class="d-block text-center my-4">
+        <a class="h3 p-2 text-uppercase text-underline-none" href="/">BlockRazor</a>
+    </div>
   {{> sAlert}}
   <div class="sign-in">
     <div class="title">{{_ "user.forgot.reset"}}</div>
