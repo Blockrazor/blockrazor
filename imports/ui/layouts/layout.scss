@@ -57,6 +57,10 @@ header.masthead h1 {
   font-size: 2rem;
 }
 
+.text-underline-none {
+  text-decoration: none !important;
+}
+
 @media (min-width: 768px) {
   header.masthead {
     padding-top: 6rem;
