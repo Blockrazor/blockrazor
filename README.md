@@ -96,16 +96,16 @@ The project style guide is [here](/STYLES.md).
   <summary>Step-by-step guide to sending a pull request</summary>
 <p>
 
-0. Read the [contribution protocol](/CONTRIBUTING.MD) and the [line by line explanation](/DESCRIPTIVE_C4.MD) of the protocol.    
-1. Fork this github repository under your own github account.    
-2. Clone _your_ fork locally on your development machine.   
+0. Read the [contribution protocol](/CONTRIBUTING.MD) and the [line by line explanation](/DESCRIPTIVE_C4.MD) of the protocol.
+1. Fork this github repository under your own github account.
+2. Clone _your_ fork locally on your development machine.
 3. Choose _one_ problem to solve. If you aren't solving a problem that's already in the issue tracker you should describe the problem there (and your idea of the solution) first to see if anyone else has something to say about it (maybe someone is already working on a solution, or maybe you're doing somthing wrong).
 
-**It is important to claim the issue you want to work on so that others don't work on the same thing. Make a comment in the issue: `@emurgobot claim` before you start working on the issue.**    
+**It is important to claim the issue you want to work on so that others don't work on the same thing. Make a comment in the issue: `@emurgobot claim` before you start working on the issue.**
 
 If at some point you want to abandon the issue and let someone else have a go, comment: @emurgobot abandon.
 
-4. Add the Blockrazor repository as an upstream source and pull any changes:    
+4. Add the Blockrazor repository as an upstream source and pull any changes:
 ```
 @: git remote add upstream git://github.com/blockrazor/blockrazor //only needs to be done once
 @: git checkout master //just to make sure you're on the correct branch
@@ -143,11 +143,17 @@ And then commit your changes:
 ```    
 8. Go to your fork on Github and select the branch you just worked on. Click "pull request" to send a pull request back to the Blockrazor repository.
 9. Send the pull request, be sure to mention the issue number with a # symbol at the front (e.g. #1014).  
-10. Go back to the issue, and make a comment: `@emurgobot label "done"`. This will label this issue as complete, and everyone can test your solution and close the issue if it solves the problem.
+10. Go back to the issue, and make a comment:
+  ```
+    Done in #(PR_NUMBER)
+    @emurgobot done
+  ```
+  
+  This will label this issue as complete, and everyone can test your solution and close the issue if it solves the problem.
 
 #### What happens after I send a pull request?    
-If your pull request contains a correct patch (read the C4) a maintainer will merge it.    
-If you want to work on another problem while you are waiting for it to merge simply repeat the above steps starting at:    
+If your pull request contains a correct patch (read the C4) a maintainer will merge it.
+If you want to work on another problem while you are waiting for it to merge simply repeat the above steps starting at:
 ```
 @: git checkout master
 ```
