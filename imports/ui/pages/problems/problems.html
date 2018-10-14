@@ -1,41 +1,39 @@
 <template name="problems">
   <div class="container-fluid">
-      <div class="form-check form-control" style="margin-bottom: 20px !important;">
-          <div class="row">
-            <span class="form-check-item filter-bounties-label col-sm-2">
-              <h5 style="margin-bottom: 0;margin-top: 3px;">{{_ "problems.problems.filter"}}</h5>
-            </span>
-            <span class="form-check-item col-sm-2">
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input form-check-input" id="all-problems" value="ALL">
-                <label class="custom-control-label" for="all-problems">{{_ "problems.problems.all"}}</label>
-              </div>
-            </span>
-            <span class="form-check-item col-sm-2">
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input form-check-input" id="open-problems" value="OPEN">
-                <label class="custom-control-label" for="open-problems">{{_ "problems.problems.open"}}</label>
-              </div>
-            </span>
-            <span class="form-check-item col-sm-2">
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input form-check-input" id="in-progress-problems" value="IN PROGRESS">
-                <label class="custom-control-label" for="in-progress-problems">{{_ "problems.problems.in_progress"}}</label>
-              </div>
-            </span>
-            <span class="form-check-item col-sm-2">
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input form-check-input" id="solved-problems" value="SOLVED">
-                <label class="custom-control-label" for="solved-problems">{{_ "problems.problems.solved"}}</label>
-              </div>
-            </span>
-            <span class="form-check-item col-sm-2">
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input form-check-input" id="closed-problems" value="CLOSED">
-                <label class="custom-control-label" for="closed-problems">{{_ "problems.problems.closed"}}</label>
-              </div>
-            </span>
-          </div>
+      <div class="form-check">
+          <span class="form-check-item filter-bounties-label">
+            <h5>{{_ "problems.problems.filter"}}</h5>
+          </span>
+          <span class="form-check-item">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input form-check-input" id="all-problems" value="ALL">
+              <label class="custom-control-label" for="all-problems">{{_ "problems.problems.all"}}</label>
+            </div>
+          </span>
+          <span class="form-check-item">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input form-check-input" id="open-problems" value="OPEN">
+              <label class="custom-control-label" for="open-problems">{{_ "problems.problems.open"}}</label>
+            </div>
+          </span>
+          <span class="form-check-item">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input form-check-input" id="in-progress-problems" value="IN PROGRESS">
+              <label class="custom-control-label" for="in-progress-problems">{{_ "problems.problems.in_progress"}}</label>
+            </div>
+          </span>
+          <span class="form-check-item">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input form-check-input" id="solved-problems" value="SOLVED">
+              <label class="custom-control-label" for="solved-problems">{{_ "problems.problems.solved"}}</label>
+            </div>
+          </span>
+          <span class="form-check-item">
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input form-check-input" id="closed-problems" value="CLOSED">
+              <label class="custom-control-label" for="closed-problems">{{_ "problems.problems.closed"}}</label>
+            </div>
+          </span>
         </div>
         <div id="problemsFilterContainer" class="container" style="margin: 0">
             <form id="problemsFilter" name="problemsFilter">

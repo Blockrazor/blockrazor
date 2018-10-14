@@ -3,6 +3,7 @@ import { Problems } from '/imports/api/indexDB'
 import { FlowRouter } from 'meteor/ostrio:flow-router-extra'
 
 import './problems.html'
+import './problems.scss'
 
 window.Problems = Problems
 
