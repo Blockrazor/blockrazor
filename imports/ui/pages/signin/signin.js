@@ -12,7 +12,7 @@ Template.signin.events({
 		event.preventDefault()
 		Meteor.loginWithFacebook({}, (err) => {
 			if (!err) {
-				FlowRouter.go(window.last || '/')
+				FlowRouter.go(window.last || '/home')
 			} else {
 				sAlert.error(err.message)
 			}
@@ -23,18 +23,16 @@ Template.signin.events({
 
 		Meteor.loginWithGithub({}, (err) => {
 			if (!err) {
-				FlowRouter.go(window.last || '/')
+				FlowRouter.go(window.last || '/home')
 			} else {
 				sAlert.error(err.message)
 			}
 		})
-		
-  },
-
-  'click #js-email' : (event) => {
-    event.preventDefault()
-    $('#signIn').toggleClass('d-none');
-  },
+  	},
+  	'click #js-email' : (event) => {
+    	event.preventDefault()
+    	$('#signIn').toggleClass('d-none');
+  	},
 	'submit #signIn': (event, templateInstance) => {
 		event.preventDefault()
 
