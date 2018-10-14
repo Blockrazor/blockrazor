@@ -13,3 +13,25 @@
     }
   }
 }
+
+.form-check {
+  display: flex;
+  flex-wrap: wrap;
+
+  margin-bottom: 1em;
+
+  .form-check-item + .form-check-item{
+    margin-right: 1em;
+  }
+
+  .form-check-item {
+    .custom-checkbox {
+      .form-check-input {
+        margin-left: 0px;
+      }
+      .form-check-label {
+        margin-left: 10px;
+      }
+    }
+  }
+}
