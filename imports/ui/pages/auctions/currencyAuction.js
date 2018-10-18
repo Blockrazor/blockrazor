@@ -23,6 +23,17 @@ Template.currencyAuction.onCreated(function() {
 	Meteor.setInterval(() => this.now.set(Date.now()), 250) // update the timer every 250ms for smooth drainage
 })
 
+
+
+Template.currencyAuction.onRendered(function(){
+	const instance=Template.instance();
+     Meteor.setTimeout(()=>{
+		instance.$("#js-amount").on("input",function(){
+			this.value=this.value.slice(0,this.maxLength);
+		});
+	},10)
+})
+
 Template.currencyAuction.helpers({
 	currencies: () => {
 		let bids = Bids.find({
