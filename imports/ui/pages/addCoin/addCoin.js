@@ -52,12 +52,21 @@ export { initDatePicker, formatICODate }
 
 Template.addCoin.onRendered(function() {
   let self = this
+  const instance = Template.instance();
   //extra finish button not available out the box.
   var btnFinish = $('<button id="btnFinish"></button>').text('Finish')
-  .addClass('btn btn-primary d-none')
-  .on('click', function(event) {
-    // event.preventDefault()
-  });
+    .addClass('btn btn-primary d-none')
+    .on('click', function (event) {
+      // event.preventDefault()
+    });
+
+  Meteor.setTimeout(() => {
+    instance.$("#premine,#maxCoins").on("input", function () {
+      this.value = this.value.slice(0, this.maxLength);
+    });
+  }, 0);
+
+
 
 
   // Smart Wizard Init.. fairly OOTB except the finish button I added.
@@ -117,6 +126,9 @@ Template.addCoin.onRendered(function() {
       $("#exampleFormControlSelect1")[0].value = "7be44dviDMiuoShan"
     }, 1000)
   }
+
+
+
 });
 
 //Functions to help with client side validation and data manipulation

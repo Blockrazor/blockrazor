@@ -14,6 +14,17 @@ Template.bidAuction.onCreated(function() {
 	})
 })
 
+
+Template.bidAuction.onRendered(function () {
+	const instance = Template.instance();
+	Meteor.setTimeout(() => {
+		instance.$("#js-amount").on("input", function () {
+			this.value = this.value.slice(0, this.maxLength);
+		});
+	}, 0);
+
+})
+
 Template.bidAuction.helpers({
   author: function() {
     return this.createdBy === Meteor.userId() && !this.closed

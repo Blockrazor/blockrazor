@@ -28,7 +28,8 @@
                                 <hr>                            
                                 <h5 class="card-title">{{_ "auctions.bid.amount"}}</h5>         
                                 <div class="input-group">
-                                    <input type="number" step="any" min="0" id="js-amount" name="amount" placeholder="0"  class="form-control">
+                                    <input type="number" step="any" maxlength="10" min="0" 
+                                    id="js-amount" name="amount" placeholder="0"  class="form-control">
                                     <span style="padding: 20px;"><b style="color: green">{{fixed balance}}</b> {{options.acceptedCurrency}}</span>
                                 </div>
                                 <hr>      

@@ -141,14 +141,20 @@
                         </select>
                         <div class="invalid-feedback"></div>
                         <br />
-                        <input type="number" class="form-control" min="478500" max="600000" name="forkHeight" id="forkHeight" placeholder='{{_ "coin.fork_height"}}' data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'forkHeight'}}">
+                        <input type="number" class="form-control" 
+                        min="478500" max="600000" name="forkHeight"
+                         id="forkHeight" placeholder='{{_ "coin.fork_height"}}' data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'forkHeight'}}">
                         <div class="invalid-feedback"> </div>
                         {{ /if }}
                         <br />
                         <div class="input-group">
-                            <input type="number" min="0" name="premine" id="premine" placeholder='{{_ "coin.premine"}}' class="form-control" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'premine'}}">
+                            <input type="number" min="0" name="premine" 
+                            id="premine" maxlength="10" placeholder='{{_ "coin.premine"}}' 
+                            class="form-control" data-toggle="popover"
+                             data-placement="top" 
+                             data-content="{{getPopoverContent 'premine'}}">
                             <div class="invalid-feedback">{{_ "coin.premine_error"}}</div>
-                            <input type="number" name="maxCoins" id="maxCoins" placeholder='{{_ "coin.max_coins"}}' class="form-control" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'maxCoins'}}">
+                            <input type="number" maxlength="10" name="maxCoins" id="maxCoins" placeholder='{{_ "coin.max_coins"}}' class="form-control" data-toggle="popover" data-placement="top" data-content="{{getPopoverContent 'maxCoins'}}">
                             <div class="invalid-feedback">{{_ "coin.max_coins_error"}}</div>
                         </div>
                         <br />

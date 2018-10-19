@@ -16,6 +16,25 @@ Template.wallet.onCreated(function bodyOnCreated() {
   })
 });
 
+
+Template.wallet.onRendered(function () {
+  const instance = Template.instance();
+
+  Meteor.setTimeout(() => {
+    instance.$("#js-amount").on("input", function () {
+      this.value = this.value.slice(0, this.maxLength);
+    });
+  }, 0);
+
+});
+
+
+
+
+
+
+
+
 Template.wallet.helpers({
   newWallet: () => {
     let welcome = Wallet.findOne({owner: Meteor.userId(), read: false, type: "welcome"})
