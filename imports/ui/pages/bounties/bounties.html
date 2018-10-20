@@ -1,49 +1,48 @@
 <template name="bounties">
   <div class="container-fluid">
-      <a href="#" title="Share BlockRazor with Friends"  class="text-white btn btn-success" id="js-shareUrl"><i class="fa fa-share-alt text-white" style="font-size: 19px"></i><span class="share-label">&nbsp;&nbsp;&nbsp;{{_ "bounties.share"}}</span></a>
-      <div class="form-check">
-        <span class="form-check-item">
-          <h5>{{_ "bounties.filter"}}</h5>
-        </span>
-        <span class="form-check-item">
-          <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input form-check-input" id="coding-skills-required" value="coding">
-            <label class="custom-control-label" for="coding-skills-required">{{_ "bounties.coding_skills"}}</label>
-          </div>
-        </span>
-        <span class="form-check-item">
-          <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input form-check-input" id="adding-new-data" value="data">
-            <label class="custom-control-label" for="adding-new-data">{{_ "bounties.new_data"}}</label>
-          </div>
-        </span>
-        <span class="form-check-item">
-          <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input form-check-input" id="answering-questions" value="questions">
-            <label class="custom-control-label" for="answering-questions">{{_ "bounties.questions"}}</label>
-          </div>
-        </span>
-      </div>
-      {{#if hasBounties activeBounties}}
-        {{#each currentActiveBounties}}
-        {{> bountyRender}}
-        {{/each}}
-      {{/if}}
-    
-      {{#if subsCacheReady}}
-        {{#each bounties}}
-          {{> bountyRender}}
-        {{else}}
-          {{> empty}}
-        {{/each}}
-      {{else}}
-        {{> loading}}
-      {{/if}}
-      <!-- {{/unless}}
-    
-      {{#if reactiveVar 'workingBounty'}}
-      {{#each activebounty}}{{> activeBounty}}{{/each}}
-      {{/if}} -->
-  </div>
+    <a href="#" title="Share BlockRazor with Friends" class="btn btn-success" id="js-shareUrl"><i class="fa fa-share-alt"></i> {{_ "bounties.share"}}</a>
+    <div class="form-check">
+      <span class="form-check-item">
+        <h5>{{_ "bounties.filter"}}</h5>
+      </span>
+      <span class="form-check-item">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input form-check-input" id="coding-skills-required" value="coding">
+          <label class="custom-control-label" for="coding-skills-required">{{_ "bounties.coding_skills"}}</label>
+        </div>
+      </span>
+      <span class="form-check-item">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input form-check-input" id="adding-new-data" value="data">
+          <label class="custom-control-label" for="adding-new-data">{{_ "bounties.new_data"}}</label>
+        </div>
+      </span>
+      <span class="form-check-item">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input form-check-input" id="answering-questions" value="questions">
+          <label class="custom-control-label" for="answering-questions">{{_ "bounties.questions"}}</label>
+        </div>
+      </span>
+    </div>
+    {{#if hasBounties activeBounties}}
+      {{#each currentActiveBounties}}
+      {{> bountyRender}}
+      {{/each}}
+    {{/if}}
   
+    {{#if subsCacheReady}}
+      {{#each bounties}}
+        {{> bountyRender}}
+      {{else}}
+        {{> empty}}
+      {{/each}}
+    {{else}}
+      {{> loading}}
+    {{/if}}
+    <!-- {{/unless}}
+  
+    {{#if reactiveVar 'workingBounty'}}
+    {{#each activebounty}}{{> activeBounty}}{{/each}}
+    {{/if}} -->
+  </div>
 </template>
