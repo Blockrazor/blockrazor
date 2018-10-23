@@ -1,6 +1,6 @@
+import {Meteor} from 'meteor/meteor';
 import {FlowRouter} from 'meteor/ostrio:flow-router-extra';
 import { Encryption } from '/imports/api/indexDB.js'
-
 import './header.html'
 
 import { Cookies } from 'meteor/ostrio:cookies'
@@ -99,7 +99,11 @@ Template.header.events({
     $('.searchModal').modal('show')
   },
     'click #logout': (event, templateInstance) => {
+
     Meteor.logout()
+    FlowRouter.go('/login')
+
+
   },
   'click .js-change-lang': function(event, templateInstance) {
     TAPi18n.setLanguage(this.code)
@@ -127,9 +131,7 @@ Template.header.helpers({
     walletNotifications() {
         return Wallet.find({ owner: Meteor.userId(), type: "transaction", read: { $ne: true } }).count()
     },
-    slug: () => Meteor.users.findOne({
-        _id: Meteor.userId()
-    }).slug,
+    slug: () => Meteor.user().slug,
     balance() {
         let balance = UserData.findOne({}, { fields: { balance: 1 } }).balance
         if (typeof(balance) === 'string') { return balance }
