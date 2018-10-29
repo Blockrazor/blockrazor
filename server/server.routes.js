@@ -1,65 +1,111 @@
-import { WebApp } from 'meteor/webapp';
-import { Currencies } from '/imports/api/coins/currencies.js'
+import { Mongo } from 'meteor/mongo'
 
-const serverRendering = (req, res, next) => {
-    try {
+const puppeteer = require('puppeteer')
 
-        const ua = req.headers['user-agent'];
-        const pathName = req._parsedUrl.pathname;
-      if (/bot|WhatsApp|facebook|twitter|pinterest|google|baidu|bing|msn|duckduckgo|teoma|slurp|yandex/i.test(ua)) {
+const seoContent = new Mongo.Collection('seoContent')
 
-            // Send any non matches forward
-            if (!pathName.includes('/currency')) {
-                next();
-            }
+if (Picker) { // compatibility with iron router
+    const SeoRouter = Picker.filter((request, response) => {
+        // from prerender.io
+        let botAgents = [
+            /googlebot/i,
+            /yahoo/i,
+            /bingbot/i,
+            /baiduspider/i,
+            /facebookexternalhit/i,
+            /twitterbot/i,
+            /rogerbot/i,
+            /linkedinbot/i,
+            /embedly/i,
+            /quora link preview/i,
+            /showyoubot/i,
+            /outbrain/i,
+            /pinterest\/0./i,
+            /developers.google.com\/+\/web\/snippet/i,
+            /slackbot/i,
+            /vkShare/i,
+            /W3C_Validator/i,
+            /redditbot/i,
+            /Applebot/i,
+            /WhatsApp/i,
+            /flipboard/i,
+            /tumblr/i,
+            /bitlybot/i,
+            /SkypeUriPreview/i,
+            /nuzzel/i,
+            /Discordbot/i,
+            /Google Page Speed/i,
+            /Qwantify/i,
+            /pinterestbot/
+        ]
 
-            var parts = req.url.split("/")
+        return /escaped_fragment/.test(request.url) || botAgents.some(i => i.test(request.headers['user-agent']))
+    })
 
-            let currency = Currencies.findOne({
-                slug: parts[2]
+    const handler = async (params, request, response) => {
+        request.url = request.url.substr(1)
+
+        let content = seoContent.findOne({
+            env: Meteor.isProduction ? 'prod' : 'dev',
+            name: `${request.url.replace(/\//ig, '-').split('?')[0]}`
+        })
+
+        let html = ''
+        
+        let t = new Date()
+        t.setDate(t.getDate() - 7) // 7 days old
+
+        if (!content || !content.date || new Date(content.date) < t || !content.html) {
+            html = await fetcher(request.url.split('?')[0])
+
+            seoContent.upsert({
+                name: `${request.url.replace(/\//ig, '-').split('?')[0]}`,
+                env: Meteor.isProduction ? 'prod' : 'dev'
+            }, {
+                $set: {
+                    html: html,
+                    date: new Date().getTime()
+                }
             })
-
-            let count = Currencies.find({
-                slug: parts[2]
-            }).count();
-
-            let meteorURL = 'https://blockrazor.org/' + parts[2]
-
-            if(count){
-
-            // Fetch the data you need to build your tags (and htmlContent)
-            const html = `
-            <!DOCTYPE html>
-        <!html>
-        <head>
-          <title>BlockRazor</title>
-          <meta name="description" content="Absolutely all information about every blockchain project, presented in a way that anyone can understand." />
-          <meta property="og:type" content="website"/>
-          <meta property="og:title" content="BlockRazor - ${currency.currencyName}"/>
-          <meta property="og:description" content="Absolutely all information about every blockchain project, presented in a way that anyone can understand."/>
-          <meta property="og:site_name" content="Saven"/>
-          <meta property="og:url" content="${meteorURL}"/>
-        </head>
-        <body>
-          Hello Bot, plz index us!
-        </body>
-        </html>
-      `;
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'text/html');
-            res.end(html);
-        }else{
-            console.log('can not get any content for some unknown reason, plz investigate : ( ')
-        }
-
         } else {
-
-            next();
+            html = content.html
         }
-    } catch (err) {
-        console.log(err);
-    }
-}
 
-// attach the handler to webapp
-WebApp.connectHandlers.use(serverRendering);
+        response.setHeader('Content-Type', 'text/html;charset=utf-8');
+        response.end(html)
+    }
+
+    const fetcher = (async (url, waitElem) => {
+        const browser = await puppeteer.launch({ args: [ '--no-sandbox', '--disable-setuid-sandbox' ] })
+
+        const page = await browser.newPage()
+        await page.goto(Meteor.absoluteUrl(url), {
+            waitUntil: 'load'
+        })
+
+        await page.waitFor(waitElem || 'footer')
+        html = await page.evaluate(() => document.documentElement.outerHTML)
+
+        await browser.close()
+
+        return html
+    })
+
+    // Add SEO critical routes here
+    // currency page
+    SeoRouter.route('/currency/:slug', handler)
+
+    // home route
+    SeoRouter.route('/', handler)
+    SeoRouter.route('/home', handler)
+
+    // compare currencies
+    SeoRouter.route('/compareCurrencies', handler)
+
+    // problems page
+    SeoRouter.route('/problems', handler)
+    SeoRouter.route('/problem/:slug', handler)
+
+    // bounties
+    SeoRouter.route('/bounties', handler)
+}
