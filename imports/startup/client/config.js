@@ -13,12 +13,12 @@ $(window).resize(function(evt) {
     }
 });
 
-if ($(window).width() <= 768) {
-    $('body,html').click(function(event) {
-        event.preventDefault()
+// if ($(window).width() <= 768) {
+//     $('body,html').click(function(event) {
+//         event.preventDefault()
 
-        if ($('body').hasClass('sidebar-lg-show')) {
-            $('body').toggleClass("sidebar-lg-show")
-        }
-    });
-}
+//         if ($('body').hasClass('sidebar-lg-show')) {
+//             $('body').toggleClass("sidebar-lg-show")
+//         }
+//     });
+// }
