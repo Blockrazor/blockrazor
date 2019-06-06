@@ -1,15 +1,16 @@
 import { Meteor } from 'meteor/meteor'
-import { UserData, Currencies, PendingCurrencies, RejectedCurrencies, ChangedCurrencies, REWARDCOEFFICIENT } from '/imports/api/indexDB.js'
+import { UserData, Currencies, PendingCurrencies, RejectedCurrencies, ChangedCurrencies, REWARDCOEFFICIENT, CoinPerf } from '/imports/api/indexDB.js'
 
 Meteor.publish('approvedcurrencies', function currenciesPublication() {
+  //console.log(Currencies.findOne());
   return Currencies.find();
 })
 
 import { quality } from '/imports/api/utilities'
 
-Meteor.publish('dataQualityCurrencies', function(limit) {
+Meteor.publish('dataQualityCurrencies', function (limit) {
   let query
-  if (limit){
+  if (limit) {
     query = Currencies.find({}, {
       sort: {
         featured: -1,
@@ -52,7 +53,7 @@ const calculateReward = (currency) => { // domain specific calculateReward from 
   return (((new Date().getTime() - currency.createdAt) / REWARDCOEFFICIENT) * 0.9)
 }
 
-Meteor.publish('bountyCurrencies', function(limit, skip) {
+Meteor.publish('bountyCurrencies', function (limit, skip) {
   limit = limit || 0
   skip = skip || 0
 
@@ -62,26 +63,26 @@ Meteor.publish('bountyCurrencies', function(limit, skip) {
     },
     consensusSecurity: 'Proof of Work' // skip all currencies that don't need to show on the bounty page
   }, {
-    limit: limit,
-    skip: skip,
-    sort: {
-      createdAt: 1 // equal to sorting by reward
-    }
-  }).observeChanges({ // using observer changes, we can transform the data before it's published
-    added: (id, fields) => {
-      this.added('currencies', id, _.extend(fields, {
-        reward: calculateReward(fields) // add reward field
-      }))
-    },
-    changed: (id, fields) => {
-      this.changed('currencies', id, _.extend(fields, {
-        reward: calculateReward(fields)
-      }))
-    },
-    removed: id => {
-      this.removed('currencies', id)
-    }
-  })
+      limit: limit,
+      skip: skip,
+      sort: {
+        createdAt: 1 // equal to sorting by reward
+      }
+    }).observeChanges({ // using observer changes, we can transform the data before it's published
+      added: (id, fields) => {
+        this.added('currencies', id, _.extend(fields, {
+          reward: calculateReward(fields) // add reward field
+        }))
+      },
+      changed: (id, fields) => {
+        this.changed('currencies', id, _.extend(fields, {
+          reward: calculateReward(fields)
+        }))
+      },
+      removed: id => {
+        this.removed('currencies', id)
+      }
+    })
 
   this.ready()
 
@@ -110,31 +111,31 @@ Meteor.publish('approvedcurrency', slug => Currencies.find({
 }))
 
 Meteor.publish('mypendingcurrencies', function pending() {
-  return PendingCurrencies.find({owner: this.userId});
+  return PendingCurrencies.find({ owner: this.userId });
 });
 
-  Meteor.publish('changedCurrencies', function changed() {
-      if ((UserData.findOne({ _id: this.userId }) || {}).moderator) {
-          return ChangedCurrencies.find({status: { $nin: ['merged','deleted']}});
-      }
-      
-      return null
-  });
+Meteor.publish('changedCurrencies', function changed() {
+  if ((UserData.findOne({ _id: this.userId }) || {}).moderator) {
+    return ChangedCurrencies.find({ status: { $nin: ['merged', 'deleted'] } });
+  }
+
+  return null
+});
 
 Meteor.publish('myrejectedcurrencies', function rejected() {
-  return RejectedCurrencies.find({owner: this.userId});
+  return RejectedCurrencies.find({ owner: this.userId });
 });
 
 Meteor.publish('pendingcurrencies', function pending() {
-  if((UserData.findOne({_id: this.userId}) || {}).moderator) {
-      return PendingCurrencies.find({});
+  if ((UserData.findOne({ _id: this.userId }) || {}).moderator) {
+    return PendingCurrencies.find({});
   }
   return null
 })
 
 Meteor.publish('rejectedcurrencies', function rejected() {
-  if((UserData.findOne({_id: this.userId}) || {}).moderator) {
-      return RejectedCurrencies.find();
+  if ((UserData.findOne({ _id: this.userId }) || {}).moderator) {
+    return RejectedCurrencies.find();
   }
   return null
 })
@@ -149,7 +150,7 @@ Meteor.publish('bountyLastCurrency', () => {
       createdAt: 1
     }
   })
-    
+
   if (!pending.count()) { // in case there's no pending currencies, use the last added currency
     pending = Currencies.find({}, {
       sort: {
@@ -164,3 +165,10 @@ Meteor.publish('bountyLastCurrency', () => {
 
   return pending
 })
+
+
+Meteor.publish('coinPerf', () => {
+  return CoinPerf.find({
+  })
+}
+)
