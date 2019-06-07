@@ -3,8 +3,8 @@ import {
 } from 'meteor/meteor';
 import {
     ActivityLog, Bounties, REWARDCOEFFICIENT, UserData,
-  Currencies, PendingCurrencies, RejectedCurrencies, ChangedCurrencies,
-  HashAlgorithm, developmentValidationEnabledFalse
+    Currencies, PendingCurrencies, RejectedCurrencies, ChangedCurrencies,
+    HashAlgorithm, developmentValidationEnabledFalse, CoinPerf
 } from '/imports/api/indexDB.js';
 import { rewardCurrencyCreator } from '/imports/api/utilities.js';
 import { quality } from '/imports/api/utilities'
@@ -14,58 +14,59 @@ import { Promise } from 'meteor/promise'
 
 //can't extend custom/autoValue fields therefore some of the form related parsers/validators may reside on original schema
 Currencies.newCoinSchema = new SimpleSchema(Currencies.schema.pick(
-    'currencyName', 'currencySymbol', 'premine', 'maxCoins', 'consensusSecurity', 'gitRepo', 
-'officialSite', 'reddit', 'blockExplorer', 'currencyLogoFilename', 'confirmations', 'previousNames', 'exchanges', 
-'launchTags', 'blockTime', 'forkHeight', 'forkParent', 'hashAlgorithm', 'ICOfundsRaised', 'genesisTimestamp', 'proposal', 'altcoin', 
-'ico', 'ICOcoinsProduced', 'ICOcoinsIntended',  'ICOnextRound', 'icoDateEnd', 'btcfork', 'approvalNotes', 'smartContractURL', 'smartContract','icocurrency',
-'replayProtection'
+    'currencyName', 'currencySymbol', 'premine', 'maxCoins', 'consensusSecurity', 'gitRepo',
+    'officialSite', 'reddit', 'blockExplorer', 'currencyLogoFilename', 'confirmations', 'previousNames', 'exchanges',
+    'launchTags', 'blockTime', 'forkHeight', 'forkParent', 'hashAlgorithm', 'ICOfundsRaised', 'genesisTimestamp', 'proposal', 'altcoin',
+    'ico', 'ICOcoinsProduced', 'ICOcoinsIntended', 'ICOnextRound', 'icoDateEnd', 'btcfork', 'approvalNotes', 'smartContractURL', 'smartContract', 'icocurrency',
+    'replayProtection'
 )
-.extend({
-    proposal: { 
-        autoValue() {
-            return Currencies.schemaFuncs.launchTagsAuto.call(this)
-        }
-    },
-    altcoin: { 
-        autoValue() {
-            return Currencies.schemaFuncs.launchTagsAuto.call(this)
-        }
-    },
-    ico: { 
-        autoValue() {
-            return Currencies.schemaFuncs.launchTagsAuto.call(this)
-        }
-    },
-    btcfork: { 
-        autoValue() {
-            return Currencies.schemaFuncs.launchTagsAuto.call(this)
-        }
-    },
-    smartContract: { 
-        autoValue() {
-            return Currencies.schemaFuncs.launchTagsAuto.call(this)
-        }
-    },
-    consensusSecurity: {
-        custom() {
-            return Currencies.schemaFuncs.checkForDropdown.call(this, "--Select One--")
+    .extend({
+        proposal: {
+            autoValue() {
+                return Currencies.schemaFuncs.launchTagsAuto.call(this)
+            }
         },
-    },
-    hashAlgorithm: {
-        custom(){
-            return Currencies.schemaFuncs.checkForDropdown.call(this, "--Select One--")
+        altcoin: {
+            autoValue() {
+                return Currencies.schemaFuncs.launchTagsAuto.call(this)
+            }
         },
-    },
-    genesisTimestamp: {
-        autoValue() {
-            if (!this.field("genesisYear").isSet) return;
-            return Date.parse(this.field("genesisYear").value)
+        ico: {
+            autoValue() {
+                return Currencies.schemaFuncs.launchTagsAuto.call(this)
+            }
         },
-    },
+        btcfork: {
+            autoValue() {
+                return Currencies.schemaFuncs.launchTagsAuto.call(this)
+            }
+        },
+        smartContract: {
+            autoValue() {
+                return Currencies.schemaFuncs.launchTagsAuto.call(this)
+            }
+        },
+        consensusSecurity: {
+            custom() {
+                return Currencies.schemaFuncs.checkForDropdown.call(this, "--Select One--")
+            },
+        },
+        hashAlgorithm: {
+            custom() {
+                return Currencies.schemaFuncs.checkForDropdown.call(this, "--Select One--")
+            },
+        },
+        genesisTimestamp: {
+            autoValue() {
+                if (!this.field("genesisYear").isSet) return;
+                return Date.parse(this.field("genesisYear").value)
+            },
+        },
 
-})
-,{requiredByDefault: developmentValidationEnabledFalse,
-})
+    })
+    , {
+        requiredByDefault: developmentValidationEnabledFalse,
+    })
 Currencies.newCoinSchema.messageBox.messages({
     en: {
         "Premine lower then produced": "Premine lower then produced.",
@@ -75,22 +76,24 @@ Currencies.newCoinSchema.messageBox.messages({
 
 export const addCoin = new ValidatedMethod({
     name: 'addCoin',
-    validate: Currencies.newCoinSchema.validator({clean: true}),
-    run({currencyName, currencySymbol, premine, maxCoins, consensusSecurity, gitRepo, 
-        officialSite, reddit, blockExplorer, currencyLogoFilename, confirmations, previousNames, exchanges, 
-        launchTags, blcokTime, forkHeight, forkParent, hashAlgorithm, ICOfundsRaised, genesisTimestamp, proposal, altcoin, 
-        ico, ICOcoinsProduced, ICOcoinsIntended,  ICOnextRound, icoDateEnd, btcfork, approvalNotes,smartContractURL,smartContract, icocurrency,
-replayProtection}) {
-            //data should be used since some of items may be undefined
-            var data = {currencyName, currencySymbol, premine, maxCoins, consensusSecurity, gitRepo, 
-                officialSite, reddit, blockExplorer, currencyLogoFilename, confirmations, previousNames, exchanges, 
-                launchTags, blcokTime, forkHeight, forkParent, hashAlgorithm, ICOfundsRaised, genesisTimestamp, proposal, altcoin, 
-                ico, ICOcoinsProduced, ICOcoinsIntended,  ICOnextRound, icoDateEnd, btcfork, approvalNotes,smartContractURL,smartContract, icocurrency,
-replayProtection}
-            if (Meteor.isServer){
-        var Future = require('fibers/future')
-        var fut = new Future()
-            }
+    validate: Currencies.newCoinSchema.validator({ clean: true }),
+    run({ currencyName, currencySymbol, premine, maxCoins, consensusSecurity, gitRepo,
+        officialSite, reddit, blockExplorer, currencyLogoFilename, confirmations, previousNames, exchanges,
+        launchTags, blcokTime, forkHeight, forkParent, hashAlgorithm, ICOfundsRaised, genesisTimestamp, proposal, altcoin,
+        ico, ICOcoinsProduced, ICOcoinsIntended, ICOnextRound, icoDateEnd, btcfork, approvalNotes, smartContractURL, smartContract, icocurrency,
+        replayProtection }) {
+        //data should be used since some of items may be undefined
+        var data = {
+            currencyName, currencySymbol, premine, maxCoins, consensusSecurity, gitRepo,
+            officialSite, reddit, blockExplorer, currencyLogoFilename, confirmations, previousNames, exchanges,
+            launchTags, blcokTime, forkHeight, forkParent, hashAlgorithm, ICOfundsRaised, genesisTimestamp, proposal, altcoin,
+            ico, ICOcoinsProduced, ICOcoinsIntended, ICOnextRound, icoDateEnd, btcfork, approvalNotes, smartContractURL, smartContract, icocurrency,
+            replayProtection
+        }
+        if (Meteor.isServer) {
+            var Future = require('fibers/future')
+            var fut = new Future()
+        }
         //Check that user is logged in
         if (!Meteor.userId()) {
             throw new Meteor.Error("Please log in first")
@@ -122,53 +125,53 @@ replayProtection}
             })
         }
 
-            //so long as validation is enabled in dev environment
-            if (developmentValidationEnabledFalse) {
-                //add the algorithm if it doesn't exist, 
-                // if (Meteor.isServer){
-                if (!HashAlgorithm.findOne({
-                        _id: data.hashAlgorithm
-                    })) {
-                    Meteor.call('addAlgo', data.hashAlgorithm, data.consensusSecurity.toLowerCase().split(' ').reduce((i1, i2) => i1 + i2[0], ''), (err, data) => { // 'Proof of Work' -> 'pow'
-                        if (!err) {
-                             if (Meteor.isServer) fut.return(data)
-                        } else {
-                            throw new Meteor.Error('Error.', err.reason)
-                        }
-                    })
-                } else {
-                    if (Meteor.isServer) fut.return(data.hashAlgorithm)
-                }
-
-                if (Meteor.isServer) data.hashAlgorithm = fut.wait()
+        //so long as validation is enabled in dev environment
+        if (developmentValidationEnabledFalse) {
+            //add the algorithm if it doesn't exist, 
+            // if (Meteor.isServer){
+            if (!HashAlgorithm.findOne({
+                _id: data.hashAlgorithm
+            })) {
+                Meteor.call('addAlgo', data.hashAlgorithm, data.consensusSecurity.toLowerCase().split(' ').reduce((i1, i2) => i1 + i2[0], ''), (err, data) => { // 'Proof of Work' -> 'pow'
+                    if (!err) {
+                        if (Meteor.isServer) fut.return(data)
+                    } else {
+                        throw new Meteor.Error('Error.', err.reason)
+                    }
+                })
+            } else {
+                if (Meteor.isServer) fut.return(data.hashAlgorithm)
             }
 
-            console.log("----inserting------");
-            var insert = _.extend(data, {
-                createdAt: new Date().getTime(),
-                owner: Meteor.userId(),
-                proposal: proposal,
-                altcon: altcoin,
-                ico: ico,
-                btcfork: btcfork,
-                smartContract: smartContract,
-                bountiesCreated: false
-            })
-            PendingCurrencies.insert(insert, function (error, result) {
-                if (!result) {
-                    console.log(error, error.reason);
-                    //return error;
-                    throw new Meteor.Error('Invalid', error);
-                } else {
-                    //console.log(error);
-                    console.log(result)
-                    return "OK";
-                }
-            });
+            if (Meteor.isServer) data.hashAlgorithm = fut.wait()
+        }
+
+        console.log("----inserting------");
+        var insert = _.extend(data, {
+            createdAt: new Date().getTime(),
+            owner: Meteor.userId(),
+            proposal: proposal,
+            altcon: altcoin,
+            ico: ico,
+            btcfork: btcfork,
+            smartContract: smartContract,
+            bountiesCreated: false
+        })
+        PendingCurrencies.insert(insert, function (error, result) {
+            if (!result) {
+                console.log(error, error.reason);
+                //return error;
+                throw new Meteor.Error('Invalid', error);
+            } else {
+                //console.log(error);
+                console.log(result)
+                return "OK";
+            }
+        });
     }
 })
 
-let editCoinChangedFieldSchema = new SimpleSchema(Currencies.schema.pick('currencyName', 'currencySymbol', 'gitRepo', 'officialSite','smartContractURL', 'genesisTimestamp', 'hashAlgorithm', 'premine', 'maxCoins', 'consensusSecurity', 'currencyLogoFilename')
+let editCoinChangedFieldSchema = new SimpleSchema(Currencies.schema.pick('currencyName', 'currencySymbol', 'gitRepo', 'officialSite', 'smartContractURL', 'genesisTimestamp', 'hashAlgorithm', 'premine', 'maxCoins', 'consensusSecurity', 'currencyLogoFilename')
     .extend({
         consensusSecurity: {
             custom() {
@@ -176,7 +179,7 @@ let editCoinChangedFieldSchema = new SimpleSchema(Currencies.schema.pick('curren
             },
         },
         hashAlgorithm: {
-            custom(){
+            custom() {
                 return Currencies.schemaFuncs.checkForDropdown.call(this, "--Select One--")
             },
         },
@@ -191,14 +194,14 @@ let editCoinChangedFieldSchema = new SimpleSchema(Currencies.schema.pick('curren
     })
 
 const {
-  Integer,
-  RegEx,
-  oneOf
+    Integer,
+    RegEx,
+    oneOf
 } = SimpleSchema
 
 const {
-  Id,
-  Domain
+    Id,
+    Domain
 } = RegEx
 
 editCoinChangedFieldSchema._firstLevelSchemaKeys.forEach(i => {
@@ -216,7 +219,7 @@ editCoinChangedFieldSchema.extend({
     }
 })
 
-const editCoinFormSchema =  new SimpleSchema({
+const editCoinFormSchema = new SimpleSchema({
     coin_id: {
         type: Id
     },
@@ -229,8 +232,8 @@ const editCoinFormSchema =  new SimpleSchema({
     old: SimpleSchema.oneOf({
         type: String
     }, {
-        type: Number
-    }),
+            type: Number
+        }),
     changedDate: {
         type: Number
     },
@@ -247,15 +250,15 @@ const editCoinFormSchema =  new SimpleSchema({
         type: String
     }
 }, {
-    requiredByDefault: developmentValidationEnabledFalse
-})
+        requiredByDefault: developmentValidationEnabledFalse
+    })
 
 export const editCoin = new ValidatedMethod({
     name: 'editCoin',
     validate: editCoinFormSchema.validator({}),
-    run({coin_id, coinName, changed, old, changedDate, createdBy, score, status, notes}) {
+    run({ coin_id, coinName, changed, old, changedDate, createdBy, score, status, notes }) {
         //data should be used since some of items may be undefined
-        const data = {coin_id, coinName, old, changed, changedDate, createdBy, score, status, notes}
+        const data = { coin_id, coinName, old, changed, changedDate, createdBy, score, status, notes }
 
         // convert new input data to the old system (adapter)
         data.field = Object.keys(changed)[0]
@@ -285,7 +288,7 @@ export const editCoin = new ValidatedMethod({
         ChangedCurrencies.insert(data, (error, result) => {
             if (!result) {
                 console.log(error)
-                
+
                 throw new Meteor.Error('Invalid', error)
             } else {
                 return 'ok'
@@ -298,7 +301,7 @@ if (Meteor.isDevelopment) {
     Meteor.methods({
         generateTestCurrencies: () => {
             Currencies.remove({}) // delete all previous ones as this may cause problems
-            
+
             for (let i = 0; i < 10; i++) {
                 Currencies.insert({
                     currencyName: `Test ${i}`,
@@ -324,7 +327,7 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 Meteor.methods({
     fetchRelatedGithubRepos: () => {
         let allCurrencies = Currencies.find({}).fetch()
-        
+
         let count = 0
         allCurrencies.forEach(el => {
             ++count
@@ -358,17 +361,17 @@ Meteor.methods({
                     Currencies.update({
                         _id: el._id
                     }, {
-                        $set: {
-                            relatedRepos: items,
-                            gitStats: {
-                                related: data.data.total_count,
-                                watchers: items.reduce((i1, i2) => i1 + Number(i2.watchers_count), 0),
-                                likes: items.reduce((i1, i2) => i1 + Number(i2.stargazers_count), 0),
-                                avgWatchers: Math.round(items.reduce((i1, i2) => i1 + Number(i2.watchers_count), 0) / (items.length || 1)),
-                                topLanguages: Object.keys(languages).sort((i1, i2) => languages[i2] - languages[i1]).filter(i => i && i !== 'null').slice(0, 5)
+                            $set: {
+                                relatedRepos: items,
+                                gitStats: {
+                                    related: data.data.total_count,
+                                    watchers: items.reduce((i1, i2) => i1 + Number(i2.watchers_count), 0),
+                                    likes: items.reduce((i1, i2) => i1 + Number(i2.stargazers_count), 0),
+                                    avgWatchers: Math.round(items.reduce((i1, i2) => i1 + Number(i2.watchers_count), 0) / (items.length || 1)),
+                                    topLanguages: Object.keys(languages).sort((i1, i2) => languages[i2] - languages[i1]).filter(i => i && i !== 'null').slice(0, 5)
+                                }
                             }
-                        }
-                    })
+                        })
                 }
             })
 
@@ -377,88 +380,88 @@ Meteor.methods({
             if (count >= 60) {
                 count = 0
 
-                Promise.await(sleep(1000*60*60)) // wait for an hour to prevent github rate limiting, in non-blocking manner
+                Promise.await(sleep(1000 * 60 * 60)) // wait for an hour to prevent github rate limiting, in non-blocking manner
             }
         })
     },
     getTotalCurrencies: () => Currencies.find({}).count(),
-      getCurrentReward: (userId, currencyName) => {
+    getCurrentReward: (userId, currencyName) => {
         let bounty = Bounties.findOne({
-          userId: userId,
-          type: 'new-currency',
-          completed: true,
-          id: currencyName
+            userId: userId,
+            type: 'new-currency',
+            completed: true,
+            id: currencyName
         })
-    
+
         let lastCurrency = PendingCurrencies.find({}, {
-          sort: {
-            createdAt: -1
-          }
-        }).fetch()[0]
-    
-        if (!lastCurrency) { // in case there's no pending currencies, use the last added currency
-          lastCurrency = Currencies.find({}, {
             sort: {
-              createdAt: -1
+                createdAt: -1
             }
-          }).fetch()[0]
+        }).fetch()[0]
+
+        if (!lastCurrency) { // in case there's no pending currencies, use the last added currency
+            lastCurrency = Currencies.find({}, {
+                sort: {
+                    createdAt: -1
+                }
+            }).fetch()[0]
         }
-    
+
         let currency = Currencies.findOne({
-          currencyName: currencyName
+            currencyName: currencyName
         }) || {}
-    
+
         if (bounty) {
-          Meteor.call('deleteNewBounty', bounty._id, 's3rver-only', (err, data) => {})
-    
-          if (bounty.expiresAt < currency.createdAt) {
-            console.log('already expired')
-            return ((Date.now() - lastCurrency.createdAt) / REWARDCOEFFICIENT) * 1.8
-          } else {
-            console.log('actual bounty')
-            return Number(bounty.currentReward)
-          }
-        } else {
-          console.log('no bounty')
-          return ((Date.now() - lastCurrency.createdAt) / REWARDCOEFFICIENT) * 1.8
-        }
-      },
-      approveCurrency: function(currencyId) {
-        if(UserData.findOne({_id: this.userId}).moderator) {
-            var original = PendingCurrencies.findOne({_id: currencyId});
-            if (original.owner == this.userId) {
-              throw new Meteor.Error('messages.coins.approving_own')
+            Meteor.call('deleteNewBounty', bounty._id, 's3rver-only', (err, data) => { })
+
+            if (bounty.expiresAt < currency.createdAt) {
+                console.log('already expired')
+                return ((Date.now() - lastCurrency.createdAt) / REWARDCOEFFICIENT) * 1.8
+            } else {
+                console.log('actual bounty')
+                return Number(bounty.currentReward)
             }
-    
+        } else {
+            console.log('no bounty')
+            return ((Date.now() - lastCurrency.createdAt) / REWARDCOEFFICIENT) * 1.8
+        }
+    },
+    approveCurrency: function (currencyId) {
+        if (UserData.findOne({ _id: this.userId }).moderator) {
+            var original = PendingCurrencies.findOne({ _id: currencyId });
+            if (original.owner == this.userId) {
+                throw new Meteor.Error('messages.coins.approving_own')
+            }
+
             var insert = _.extend(original, {
-              approvedBy: this.userId,
-              approvedTime: new Date().getTime()
+                approvedBy: this.userId,
+                approvedTime: new Date().getTime()
             });
 
-            if(Currencies.findOne({_id: currencyId})) {
-              // already approved
-              // remove from approval queue
-              PendingCurrencies.remove(currencyId);
-              throw new Meteor.Error('messages.coins.already_approved')
-            }else {
-              var insertedId = Currencies.insert(insert)
-              
-              if (insertedId) {
-                ActivityLog.insert({
-                  owner: original.owner,
-                  content: "I have approved " + original.currencyName + " and it's now listed!",
-                  time: new Date().getTime(),
-                  from: Meteor.user().username,
-                  type: "message"
-                });
-                if(rewardCurrencyCreator(original.launchTags, original.owner, original.currencyName)) {//(creditUserWith(rewardFor(getRewardTypeOf(original.launchTags, "currency"), false)), original.owner) {
-                  PendingCurrencies.remove(currencyId);
+            if (Currencies.findOne({ _id: currencyId })) {
+                // already approved
+                // remove from approval queue
+                PendingCurrencies.remove(currencyId);
+                throw new Meteor.Error('messages.coins.already_approved')
+            } else {
+                var insertedId = Currencies.insert(insert)
+
+                if (insertedId) {
+                    ActivityLog.insert({
+                        owner: original.owner,
+                        content: "I have approved " + original.currencyName + " and it's now listed!",
+                        time: new Date().getTime(),
+                        from: Meteor.user().username,
+                        type: "message"
+                    });
+                    if (rewardCurrencyCreator(original.launchTags, original.owner, original.currencyName)) {//(creditUserWith(rewardFor(getRewardTypeOf(original.launchTags, "currency"), false)), original.owner) {
+                        PendingCurrencies.remove(currencyId);
+                    }
                 }
-              }
             }
         }
-    
-      },
+
+    },
     voteOnCurrencyChange(voteType, data) {
 
         //check if logged in
@@ -468,18 +471,18 @@ Meteor.methods({
 
         let clientAddress = "0.0.0.0";
         let httpHeaders = ""
-        if ( Meteor.isServer ){
-          clientAddress = this.connection.clientAddress
-          httpHeaders = this.connection.httpHeaders
+        if (Meteor.isServer) {
+            clientAddress = this.connection.clientAddress
+            httpHeaders = this.connection.httpHeaders
         }
 
         let isModerator = UserData.findOne({
             _id: this.userId
         }, {
-            fields: {
-                moderator: true
-            }
-        });
+                fields: {
+                    moderator: true
+                }
+            });
 
         if (!isModerator.moderator) {
             throw new Meteor.Error("moderatorOnlyAction")
@@ -520,67 +523,67 @@ Meteor.methods({
                 _id: data._id,
                 'voteMetrics.userId': this.userId
             }, {
-                $inc: {
-                    score: voteComputation
-                },
-                $pull: {
-                    voteMetrics: {
-                        userId: this.userId
+                    $inc: {
+                        score: voteComputation
+                    },
+                    $pull: {
+                        voteMetrics: {
+                            userId: this.userId
+                        }
                     }
-                }
 
-            })
+                })
 
             ChangedCurrencies.update({
                 _id: data._id,
                 'voteMetrics.userId': this.userId
             }, {
-                $inc: {
-                    [voteType]: 1,
-                    [revertVoteType]: -1,
-                },
-                $push: {
-                    voteMetrics: {
-                        voteType: voteType,
-                        userId: this.userId,
-                        status: 'active',
-                        loggedIP: clientAddress,
-                        headerData: httpHeaders, // this could be a problem in the future, it's quite a big object
-                        time: new Date().getTime()
+                    $inc: {
+                        [voteType]: 1,
+                        [revertVoteType]: -1,
+                    },
+                    $push: {
+                        voteMetrics: {
+                            voteType: voteType,
+                            userId: this.userId,
+                            status: 'active',
+                            loggedIP: clientAddress,
+                            headerData: httpHeaders, // this could be a problem in the future, it's quite a big object
+                            time: new Date().getTime()
+                        }
                     }
-                }
-            })
+                })
         } else {
             ChangedCurrencies.update({
                 _id: data._id
             }, {
-                $inc: {
-                    [voteType]: 1,
-                    score: voteComputation
-                },
-                $push: {
-                    voteMetrics: {
-                        voteType: voteType,
-                        userId: this.userId,
-                        status: 'active',
-                        loggedIP: clientAddress,
-                        headerData: httpHeaders, // this could be a problem in the future, it's quite a big object
-                        time: new Date().getTime()
+                    $inc: {
+                        [voteType]: 1,
+                        score: voteComputation
+                    },
+                    $push: {
+                        voteMetrics: {
+                            voteType: voteType,
+                            userId: this.userId,
+                            status: 'active',
+                            loggedIP: clientAddress,
+                            headerData: httpHeaders, // this could be a problem in the future, it's quite a big object
+                            time: new Date().getTime()
+                        }
                     }
-                }
-            })
+                })
         }
 
         //Calculate if the vote should merge the proposedcoin change
         let approveChange = ChangedCurrencies.findOne({
             _id: data._id
         }, {
-            fields: {
-                score: 1,
-                upvote: 1,
-                downvote: 1
-            }
-        });
+                fields: {
+                    score: 1,
+                    upvote: 1,
+                    downvote: 1
+                }
+            });
 
         let totalVotes = approveChange.upvote + approveChange.downvote;
         let mergeScore = approveChange.downvote / totalVotes;
@@ -591,10 +594,10 @@ Meteor.methods({
             ChangedCurrencies.update({
                 _id: data._id
             }, {
-                $set: {
-                    status: 'merged'
-                }
-            })
+                    $set: {
+                        status: 'merged'
+                    }
+                })
 
             if (data.field === 'previousNames') {
                 data.new = data.new.split(',').map(i => ({ // comma separated values
@@ -606,10 +609,10 @@ Meteor.methods({
             Currencies.update({
                 _id: data.coin_id
             }, {
-                $set: {
-                    [data.field]: data.new
-                }
-            })
+                    $set: {
+                        [data.field]: data.new
+                    }
+                })
             return 'merged';
         }
 
@@ -618,10 +621,10 @@ Meteor.methods({
             ChangedCurrencies.update({
                 _id: data._id
             }, {
-                $set: {
-                    status: 'deleted'
-                }
-            })
+                    $set: {
+                        status: 'deleted'
+                    }
+                })
             return 'deleted';
         }
 
@@ -629,65 +632,129 @@ Meteor.methods({
     isCurrencyNameUnique(name) {
 
         //only execute method if currenyName is supplied, null was causing issues in validating otherh fields
-        if(name){
-        name = name.toLowerCase()
-        var res = PendingCurrencies.find({}, {fields: {currencyName: 1, id: 1}}).fetch().concat(Currencies.find({}, {fields: {currencyName: 1, id: 1}}).fetch()).filter(x => {
-          return x.currencyName.toLowerCase() == name
-        })
-    
-        if (res.length) {
-          throw new Meteor.Error('messages.coins.already_here');
-        } else {return "OK"};
-      }
-      },
-    rejectCurrency(name, id, owner, message, moderator) {
-        if(UserData.findOne({_id: this.userId}).moderator) {
-        var original = PendingCurrencies.findOne({_id: id});
-        var insert = _.extend(original, {
-          rejectedReason: message,
-          rejectedBy: Meteor.user().username
-        });
-        RejectedCurrencies.insert(insert, function(error, result) {
-          if(!error) {
-            ActivityLog.insert({
-              owner: owner,
-              content: name + " was incomplete or incorrect and has not been approved. Please see your moderated list for more information.",
-              time: new Date().getTime(),
-              from: Meteor.user().username,
-              type: "message"
-            });
-            PendingCurrencies.remove({_id: id})
-    
-            Meteor.call('userStrike', owner, 'bad-coin', 's3rv3r-only', (err, data) => {}) // user earns 1 strike here
-          }
-        })
-      }},
-    setRejected(id, status) {
-        if(UserData.findOne({_id: this.userId}).moderator) {
-        PendingCurrencies.upsert({_id: id}, {
-          $set: {rejected: status}
-        })
-      }},
-      convertAlgorithm: () => {
-        Currencies.find({}).fetch().forEach(i => {
-          let algo = HashAlgorithm.findOne({
-            name: new RegExp(i.hashAlgorithm, 'i')
-          })
-    
-          if (algo) { // ensure idempotence
-            Currencies.update({
-              _id: i._id
-            }, {
-              $set: {
-                hashAlgorithm: algo._id
-              }
+        if (name) {
+            name = name.toLowerCase()
+            var res = PendingCurrencies.find({}, { fields: { currencyName: 1, id: 1 } }).fetch().concat(Currencies.find({}, { fields: { currencyName: 1, id: 1 } }).fetch()).filter(x => {
+                return x.currencyName.toLowerCase() == name
             })
-          }
+
+            if (res.length) {
+                throw new Meteor.Error('messages.coins.already_here');
+            } else { return "OK" };
+        }
+    },
+    rejectCurrency(name, id, owner, message, moderator) {
+        if (UserData.findOne({ _id: this.userId }).moderator) {
+            var original = PendingCurrencies.findOne({ _id: id });
+            var insert = _.extend(original, {
+                rejectedReason: message,
+                rejectedBy: Meteor.user().username
+            });
+            RejectedCurrencies.insert(insert, function (error, result) {
+                if (!error) {
+                    ActivityLog.insert({
+                        owner: owner,
+                        content: name + " was incomplete or incorrect and has not been approved. Please see your moderated list for more information.",
+                        time: new Date().getTime(),
+                        from: Meteor.user().username,
+                        type: "message"
+                    });
+                    PendingCurrencies.remove({ _id: id })
+
+                    Meteor.call('userStrike', owner, 'bad-coin', 's3rv3r-only', (err, data) => { }) // user earns 1 strike here
+                }
+            })
+        }
+    },
+    setRejected(id, status) {
+        if (UserData.findOne({ _id: this.userId }).moderator) {
+            PendingCurrencies.upsert({ _id: id }, {
+                $set: { rejected: status }
+            })
+        }
+    },
+    convertAlgorithm: () => {
+        Currencies.find({}).fetch().forEach(i => {
+            let algo = HashAlgorithm.findOne({
+                name: new RegExp(i.hashAlgorithm, 'i')
+            })
+
+            if (algo) { // ensure idempotence
+                Currencies.update({
+                    _id: i._id
+                }, {
+                        $set: {
+                            hashAlgorithm: algo._id
+                        }
+                    })
+            }
         })
-      },
-    fetchCurrencies(){
-        return Currencies.find({}, {fields: {hashAlgorithm: 0, gitAPI: 0}}).fetch().map(i => _.extend(i, {
-          quality: quality(i)
+    },
+    fetchCurrencies() {
+        return Currencies.find({}, { fields: { hashAlgorithm: 0, gitAPI: 0 } }).fetch().map(i => _.extend(i, {
+            quality: quality(i)
         }))
     },
+    VoteCoinPerf(coinId, direction) {
+        //start to vote
+        doc = CoinPerf.findOne({ "_id": coinId });
+        var voted = false;
+        if (doc == undefined) {
+            voted = false;
+            //no file, create a new one,
+        }
+        else {
+            if (direction === 'up' && doc.appealVoted != undefined) {
+                voted = _.include(doc.appealVoted, this.userId);
+                // user already voted with same direction up
+            }
+            else if (direction === 'down' && doc.downVoted != undefined) {
+                voted = _.include(doc.downVoted, this.userId);
+                // user already voted with same direction down
+            }
+        }
+        if (voted) {
+            // voted with same direction; 
+            return;
+        }
+
+
+        switch (direction) {
+            case 'up':
+                if (doc != undefined) {
+                    if (doc.downVoted != undefined) {
+                        if (_.include(doc.downVoted, this.userId)) {
+                            CoinPerf.update({ "_id": coinId }, { $pull: { downVoted: this.userId } })
+                            //remove opposite vote
+                        }
+                    }
+                }
+                CoinPerf.upsert({ "_id": coinId }, {
+                    $addToSet: { appealVoted: this.userId },
+                    $inc: { appeal: 1, appealNumber: 1 }
+                });
+                // voting up
+                break;
+            case 'down':
+                if (doc != undefined) {
+                    if (doc.appealVoted != undefined) {
+                        if (_.include(doc.appealVoted, this.userId)) {
+                            CoinPerf.update({ "_id": coinId }, { $pull: { appealVoted: this.userId } })
+                            //remove opposite vote
+                        }
+                    }
+                }
+                CoinPerf.upsert({ _id: coinId }, {
+                    $addToSet: { downVoted: this.userId },
+                    $inc: { appeal: -1, appealNumber: 1 }
+                });
+                // voting down
+                break;
+            default:
+                console.log("Nothing happens here");
+        }
+        //vote end
+        return;
+    },
+
 });

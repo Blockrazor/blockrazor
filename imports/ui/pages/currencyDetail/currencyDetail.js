@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating'
-import { HashAlgorithm, FormData, Currencies, Bounties } from '/imports/api/indexDB.js'
+import { HashAlgorithm, FormData, Currencies, Bounties, CoinPerf } from '/imports/api/indexDB.js'
 import {FlowRouter} from 'meteor/ostrio:flow-router-extra';
 import Cookies from 'js-cookie'
 

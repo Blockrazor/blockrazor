@@ -37,6 +37,7 @@ import { Currencies } from '/imports/api/coins/currencies.js'
 import { PendingCurrencies } from '/imports/api/coins/pendingCurrencies.js'
 import { RejectedCurrencies } from '/imports/api/coins/rejectedCurrencies.js'
 import { ChangedCurrencies } from '/imports/api/coins/changedCurrencies.js'
+import { CoinPerf } from '/imports/api/coins/coinPerf'
 
 import { Redflags } from '/imports/api/redflags/redflags.js'
 
@@ -74,6 +75,7 @@ export {
   PendingCurrencies,
   RejectedCurrencies,
   ChangedCurrencies,
+  CoinPerf,
 
   FormData,
   GraphData,
