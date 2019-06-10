@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import { UserData, ProfileImages, UsersStats } from '/imports/api/indexDB.js'
+import { UserData, ProfileImages, UsersStats, UserPerf } from '/imports/api/indexDB.js'
 
   Meteor.publish('profileimages', () => ProfileImages.find({}))
 
@@ -170,3 +170,10 @@ import { UserData, ProfileImages, UsersStats } from '/imports/api/indexDB.js'
   Meteor.publish("usersStats", ()=>{
     return UsersStats.find({}, {fields: {userIds: 1, created: 1}})
   })
+
+
+  Meteor.publish('userPerf', () => {
+    return UserPerf.find({
+    })
+  }
+  )

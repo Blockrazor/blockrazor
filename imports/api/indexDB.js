@@ -14,6 +14,7 @@ import { AppLogs } from './miscellaneous/appLogs'
 import { UserData } from './users/userData.js'
 import { ProfileImages } from './users/profileImages'
 import { UsersStats } from './users/usersStats'
+import { UserPerf } from './users/userLikedCoin'
 
 import { Bounties } from './bounties/bounties.js'
 import { BountyTypes } from './bounties/bountyTypes.js'
@@ -91,6 +92,7 @@ export {
   UserData,
   UsersStats,
   ProfileImages,
+  UserPerf,
 
   Ratings,
   RatingsTemplates,
