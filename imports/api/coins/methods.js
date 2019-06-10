@@ -4,7 +4,7 @@ import {
 import {
     ActivityLog, Bounties, REWARDCOEFFICIENT, UserData,
     Currencies, PendingCurrencies, RejectedCurrencies, ChangedCurrencies,
-    HashAlgorithm, developmentValidationEnabledFalse, CoinPerf
+    HashAlgorithm, developmentValidationEnabledFalse, CoinPerf, UserPerf
 } from '/imports/api/indexDB.js';
 import { rewardCurrencyCreator } from '/imports/api/utilities.js';
 import { quality } from '/imports/api/utilities'
@@ -724,7 +724,8 @@ Meteor.methods({
                 if (doc != undefined) {
                     if (doc.downVoted != undefined) {
                         if (_.include(doc.downVoted, this.userId)) {
-                            CoinPerf.update({ "_id": coinId }, { $pull: { downVoted: this.userId } })
+                            CoinPerf.update({ "_id": coinId }, { $pull: { downVoted: this.userId } });
+                            UserPerf.update({ "_id": this.userId}, { $pull: { dislikedCoin: coinId } });
                             //remove opposite vote
                         }
                     }
@@ -733,6 +734,9 @@ Meteor.methods({
                     $addToSet: { appealVoted: this.userId },
                     $inc: { appeal: 1, appealNumber: 1 }
                 });
+                UserPerf.upsert({ "_id": this.userId }, {
+                    $addToSet: { likedCoin: coinId }
+                });
                 // voting up
                 break;
             case 'down':
@@ -740,13 +744,17 @@ Meteor.methods({
                     if (doc.appealVoted != undefined) {
                         if (_.include(doc.appealVoted, this.userId)) {
                             CoinPerf.update({ "_id": coinId }, { $pull: { appealVoted: this.userId } })
+                            UserPerf.update({ "_id": this.userId}, { $pull: { likedCoin: coinId } })
                             //remove opposite vote
                         }
                     }
                 }
-                CoinPerf.upsert({ _id: coinId }, {
+                CoinPerf.upsert({ "_id": coinId }, {
                     $addToSet: { downVoted: this.userId },
                     $inc: { appeal: -1, appealNumber: 1 }
+                });
+                UserPerf.upsert({ "_id": this.userId }, {
+                    $addToSet: { dislikedCoin: coinId }
                 });
                 // voting down
                 break;
