@@ -204,5 +204,27 @@ newComment: function(parentId, comment, depth, captcha) {
       }
 
 } else {throw new Meteor.Error('Error', 'messages.login')}
+},
+  addNewFeatureMobile: (Id, Name, capt)=>{
+
+    if(Meteor.user()){
+      //error doesnt work, so we have to check input manually 
+      if(typeof Name != "string") { throw new Meteor.Error('Error', 'Error') }
+      if(Name.length > 140 || Name.length < 6) {
+        throw new Meteor.Error('Error', 'features must be at least 6 character')
+      }
+    newFeature.call({
+      coinId: Id,
+      featureName: Name, 
+      captcha: capt
+  }, (err, data) => {
+      if (!err) {
+      } else {
+        console.log(err.reason); 
+        //throwing error doesnt work, so we have to check input manually, to be fixed
+      }
+  })
+  }else {throw new Meteor.Error('Error', 'user is not logged in')}
 }
+
 });
