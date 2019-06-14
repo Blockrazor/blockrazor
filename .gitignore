@@ -71,3 +71,5 @@ dist/
 \.vs/
 
 \.jsbeautifyrc
+
+.DS_Store
