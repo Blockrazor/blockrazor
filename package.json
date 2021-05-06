@@ -50,7 +50,7 @@
     "smartwizard": "^4.3.1",
     "speakeasy": "^2.0.0",
     "sweetalert2": "^7.19.3",
-    "underscore": "^1.8.3",
+    "underscore": "^1.12.1",
     "wdio-mocha-framework": "^0.5.13",
     "webdriverio": "4.13.2",
     "xml2js": "^0.4.19",
