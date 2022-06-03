@@ -31,7 +31,7 @@
     "disposable-email": "^0.2.3",
     "fibers": "^2.0.0",
     "git-commit-push-via-github-api": "^1.0.1",
-    "jquery-validation": "^1.17.0",
+    "jquery-validation": "^1.19.4",
     "js-cookie": "^2.2.0",
     "later": "^1.2.0",
     "lodash.get": "^4.4.2",
